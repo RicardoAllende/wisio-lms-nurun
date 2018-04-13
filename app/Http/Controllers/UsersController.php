@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsersController extends Controller
 {
@@ -41,8 +42,10 @@ class UsersController extends Controller
         $input = $request->input();
 
         $path = $input['photo'];
-        $userId = User::create($input)->id;
-
+        $user = User::create($input);
+        $user->password = bcrypt($user->password);
+        $user->save();
+        $userId = $user->id;
         $this->uploadImageUser($userId,$path);
 
         return redirect('/users');
@@ -80,8 +83,9 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        $user->firstname = $request->firstname;
+        $user->username = $request->username;
+        $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = $request->password;
         $user->birth_day = $request->birth_day;
@@ -118,14 +122,79 @@ class UsersController extends Controller
 
     public function uploadImageUser($userId,$path){
         //Storage::makeDirectory($courseId);
-        $arrPath = explode('/', $path);
-        $newPath = 'public/users/'.$arrPath[1];
-        Storage::move($path,$newPath);
-
+        //$arrPath = explode('/', $path);
+        $newPath = 'users/'.$userId."/".substr($path, strrpos($path, "/") + 1);
+        Storage::move($path,"public/".$newPath);
+        Storage::delete($path);
         $user= User::find($userId);
-        $user->photo= 'storage/users/'.$arrPath[1];
+        $user->photo= 'storage/'.$newPath;
         $user->save();
-
         return redirect('/users');
+    }
+
+    public function downloadCSV(){
+        $data = User::all()->makeVisible('password')->toArray();
+		return Excel::create('users', function($excel) use ($data) {
+			$excel->sheet('mySheet', function($sheet) use ($data)
+	        {
+				$sheet->fromArray($data);
+	        });
+		})->download("csv");
+    }
+
+    public function uploadCSV(Request $request){
+        $userCount = User::count();
+        $imagePath = request()->file('file')->store('public/csv/');
+        $newPath = substr( $imagePath,0, -4);
+        $newPath = $newPath.".csv";
+        Storage::move($imagePath, $newPath);
+        $file = $newPath;
+        $newPath = "storage/csv/".substr($newPath, strrpos($newPath, "/") + 1);
+        Excel::load($newPath, function($reader) {
+            foreach ($reader->get() as $usuario) {
+                $exits = false;
+                $hasContent = true;
+                if(User::where('email',$usuario->email)->count() > 0){
+                    $exits = true;
+                }
+                if(User::where('username',$usuario->username)->count() > 0){
+                    $exits = true;
+                }
+                if(User::where('id',$usuario->id)->count() > 0){
+                    $exits = true;
+                }
+
+                $hasContent = ($usuario->email == '') ? false : $hasContent;
+                $hasContent = ($usuario->username == '') ? false : $hasContent;
+                if(strlen($usuario->password) != 60){ // The password is not encrypted
+                    $pass = bcrypt($usuario->password);
+                }else{
+                    $pass = $usuario->password;
+                }
+
+                if((!$exits) && $hasContent ){
+                    User::Create([
+                        'email' => $usuario->email,
+                        'id' => $usuario->id,
+                        'username' => $usuario->username,
+                        'password' => $pass,
+                        'firstname' => $usuario->firstname,
+                        'lastname' => $usuario->lastname,
+                        'birth_day' => $usuario->brith_day,
+                        'sex' => $usuario->sex,
+                        'type' => $usuario->type,
+                        'source' => $usuario->source,
+                        'source_token' => $usuario->source_token,
+                        'lastaccess' => $usuario->lastaccess,
+                        'enable' => $usuario->enable,
+                        'created_at' => $usuario->created_ad,
+                        'updated_at' => $usuario->updated_at,
+                        'photo' => $usuario->photo
+                    ]);
+                }
+            }
+        });
+        Storage::delete($file);
+        echo "Se agregaron ".(User::count() - $userCount)." registros exitosamente.";
     }
 }

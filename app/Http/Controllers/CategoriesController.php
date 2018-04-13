@@ -45,6 +45,7 @@ class CategoriesController extends Controller
         $categoryId = Category::create($input)->id;
 
         $this->uploadImageCategory($categoryId,$path);
+        return redirect()->action('CategoriesController@index');
     }
 
     /**
@@ -82,7 +83,7 @@ class CategoriesController extends Controller
         $category->description = $request->description;
         $category->featured_image = $request->featured_image;
         $category->save();
-
+        $this->uploadImageCategory($category->id,$request->featured_image);
         return redirect('/categories');
     }
 
@@ -108,14 +109,13 @@ class CategoriesController extends Controller
 
     public function uploadImageCategory($categoryId,$path){
 
-        $arrPath = explode('.', $path);
-        $newPath = 'public/categories/'.$categoryId.'/image.'.$arrPath[1];
-        Storage::move($path,$newPath);
-
+        //$arrPath = explode('.', $path);
+        $newPath = 'categories/'.$categoryId.'/'.substr($path, strrpos($path, "/") + 1);
+        Storage::move($path,"public/".$newPath);
+        Storage::delete($path);
         $category= Category::find($categoryId);
-        $category->featured_image = 'storage/categories/'.$categoryId.'/image.'.$arrPath[1];;
+        $category->featured_image = 'storage/'.$newPath;
         $category->save();
 
-        return redirect('/courses');
     }
 }

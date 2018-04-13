@@ -21,7 +21,7 @@
             <div class="col-sm-4">
                 <div class="text-center">
                     <img alt="image" class="m-t-xs img-responsive" src="/{{ $category->featured_image }}">
-                    <div class="m-t-xs font-bold">Usuario</div>
+                    <!--<div class="m-t-xs font-bold">Usuario</div>-->
                 </div>
             </div>
             <div class="col-sm-8">

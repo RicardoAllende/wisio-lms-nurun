@@ -64,12 +64,12 @@ class CoursesController extends Controller
                 break;
         }
     
-        
+
         $path = $input['featured_image'];
         $courseId = Course::create($input)->id;
 
         $this->uploadImageCourse($courseId,$path);
-
+        return redirect('/courses');
         //dd($course);
     }
 
@@ -133,14 +133,14 @@ class CoursesController extends Controller
         $course->description = $request->description;
         $course->date_start = $request->date_start;
         $course->date_end = $request->date_end;
-        $course->featured_image = $request->featured_image;
+        //$course->featured_image = $request->featured_image;
         $course->featured = $request->featured;
         $course->weight = $request->weight;
         $course->category_id = $request->category_id;
         $course->difficulty = $request->difficulty;
         $course->length = $length;
         $course->save();
-
+        $this->uploadImageCourse($course->id,$request->featured_image);
         return redirect('/courses');
     }
 
@@ -166,15 +166,14 @@ class CoursesController extends Controller
 
     public function uploadImageCourse($courseId,$path){
         //Storage::makeDirectory($courseId);
-        $arrPath = explode('.', $path);
-        $newPath = 'public/'.$courseId.'/image.'.$arrPath[1];
+        //$arrPath = explode('.', $path);
+        $newPath = 'courses/'.$courseId.'/'.substr($path, strrpos($path, "/") + 1);
         //dd($path.'   '.$newPath);
-        Storage::move($path,$newPath);
-
+        Storage::move($path,"public/".$newPath);
+        Storage::delete($path);
         $course = Course::find($courseId);
-        $course->featured_image = 'storage/'.$courseId.'/image.'.$arrPath[1];;
+        //$course->featured_image = 'storage/'.$courseId.'/'.$newPath;
+        $course->featured_image = 'storage/'.$newPath;
         $course->save();
-
-        return redirect('/courses');
     }
 }

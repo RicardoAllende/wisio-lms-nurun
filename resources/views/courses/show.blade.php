@@ -21,7 +21,7 @@
             <div class="col-sm-4">
                 <div class="text-center">
                     <img alt="image" class="m-t-xs img-responsive" src="/{{ $course->featured_image }}">
-                    <div class="m-t-xs font-bold">Curso</div>
+                    <!--<div class="m-t-xs font-bold">Curso</div>-->
                 </div>
             </div>
             <div class="col-sm-8">

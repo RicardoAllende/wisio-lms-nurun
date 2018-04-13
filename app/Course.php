@@ -8,7 +8,18 @@ class Course extends Model
 {
     protected $table = "courses";
 
-    protected $fillable = ['name','description','date_start','date_end','featured_image','featured','weight','category_id','difficulty','length'];
+    protected $fillable = [
+        'name',
+        'description',
+        'date_start',
+        'date_end',
+        'featured_image',
+        'featured',
+        'weight',
+        'category_id',
+        'difficulty',
+        'length'
+    ];
 
     public function likes(){
 

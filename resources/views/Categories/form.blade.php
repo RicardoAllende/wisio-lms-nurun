@@ -15,21 +15,21 @@
                     <div class="ibox-content">
                       <div class="row ">
 
-                          @if(!isset($category))
+                        @if(!isset($category))
                           {!! Form::open(['url' => '/categories','class'=>'form-horizontal','method' => 'post']) !!}
-                          @else
+                        @else
                           {!! Form::model($category,['url' => '/categories/'.$category->id,'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
                             <div class="form-group">
                               {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre']) !!}
+                               {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group">
                               {!! Form::label('descripcion_label', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                                {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción']) !!}
+                                {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required' => '']) !!}
                               </div>
                             </div>
                             <!-- <div class="form-group">

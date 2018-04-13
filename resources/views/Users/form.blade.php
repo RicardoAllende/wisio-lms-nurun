@@ -20,15 +20,21 @@
                           {!! Form::model($user,['url' => '/users/'.$user->id,'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
                             <div class="form-group">
+                              {!! Form::label('username', 'Username:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                               {!! Form::text('username',null,['class'=>'form-control','placeholder'=>'Username']) !!}
+                              </div>
+                            </div>
+                            <div class="form-group">
                               {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::text('first_name',null,['class'=>'form-control','placeholder'=>'Nombre']) !!}
+                               {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Nombre']) !!}
                               </div>
                             </div>
                             <div class="form-group">
                               {!! Form::label('apellidos', 'Apellidos:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                                {!! Form::text('last_name',null,['class'=>'form-control','placeholder'=>'Apellidos']) !!}
+                                {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Apellidos']) !!}
                               </div>
                             </div>
                             <div class="form-group">

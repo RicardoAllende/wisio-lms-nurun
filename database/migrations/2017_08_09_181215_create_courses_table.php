@@ -23,6 +23,8 @@ class CreateCoursesTable extends Migration
             $table->boolean('featured');
             $table->integer('weight');
             $table->integer('category_id')->unsigned();
+            $table->enum('difficulty',['básico','intermedio','avanzado','experto']);
+            $table->integer('length');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
