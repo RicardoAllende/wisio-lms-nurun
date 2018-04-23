@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuizzesTable extends Migration
+class CreateModuleResourceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateQuizzesTable extends Migration
      */
     public function up()
     {
-        Schema::create('quizzes', function (Blueprint $table) {
+        Schema::create('module_resource', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('quiz');
-            $table->string('type');
+            $table->integer('module_id')->unsigned();
+            $table->integer('resource_id')->unsigned();
+            $table->foreign('module_id')->references('id')->on('modules');
+            $table->foreign('resource_id')->references('id')->on('resources');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateQuizzesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quizzes');
+        Schema::dropIfExists('module_resource');
     }
 }

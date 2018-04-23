@@ -20,12 +20,6 @@
                           {!! Form::model($user,['url' => '/users/'.$user->id,'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
                             <div class="form-group">
-                              {!! Form::label('username', 'Username:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10">
-                               {!! Form::text('username',null,['class'=>'form-control','placeholder'=>'Username']) !!}
-                              </div>
-                            </div>
-                            <div class="form-group">
                               {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
                                {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Nombre']) !!}
@@ -56,9 +50,9 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              {!! Form::label('sex', 'Sexo',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('gender', 'Sexo',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                               {!! Form::select('sex',[''=>'Seleccione una opcion','male'=>'Masculino','female'=>'Femenino'],null,['class'=>'form-control']) !!}
+                               {!! Form::select('gender',[''=>'Seleccione una opcion','M'=>'Masculino','F'=>'Femenino'],null,['class'=>'form-control']) !!}
                               </div>
                             </div>
                             <div class="form-group">

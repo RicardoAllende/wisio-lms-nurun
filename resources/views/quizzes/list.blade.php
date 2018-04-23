@@ -29,7 +29,7 @@
                         <tbody>
                             @foreach($quizzes as $quiz)
                               <tr>
-                              <td><a href="/quizzes/{{ $quiz->id }}/">{{ $quiz->quiz }}</a></td>
+                              <td><a href="/quizzes/{{ $quiz->id }}/">{{ $quiz->name }}</a></td>
                               <td>{{ $quiz->type }}</td>
                               <td>{{ $quiz->created_at }}</td>
                               <td>

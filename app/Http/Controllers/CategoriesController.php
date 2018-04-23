@@ -102,20 +102,16 @@ class CategoriesController extends Controller
     public function uploadImage(Request $request){
         $imagePath = request()->file('file')->store('temps');
         echo $imagePath;
-        
     }
 
     
 
     public function uploadImageCategory($categoryId,$path){
-
-        //$arrPath = explode('.', $path);
         $newPath = 'categories/'.$categoryId.'/'.substr($path, strrpos($path, "/") + 1);
         Storage::move($path,"public/".$newPath);
         Storage::delete($path);
         $category= Category::find($categoryId);
         $category->featured_image = 'storage/'.$newPath;
         $category->save();
-
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Quiz;
 use App\Question;
 use App\Answer;
 use Illuminate\Support\Facades\Storage;
@@ -16,8 +17,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        //$categories = Category::all();
-        return view('questions/uploadquestions');
+        return view('questions/list', ['questions' => Question::all()]);
     }
 
     /**
@@ -27,7 +27,14 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        //
+        // return view('questions/form', ['quiz'=>  Quiz::first()]);
+        return view('questions/form');
+    }
+
+    public function createQuestionForQuiz($quiz_id){
+        $quiz = Quiz::findOrFail($quiz_id);
+        //return "Creando preguntas para el quiz número: ".$quiz_id;
+        return view('questions/form', ['quiz' => $quiz]);
     }
 
     /**
@@ -49,6 +56,8 @@ class QuestionsController extends Controller
      */
     public function show($id)
     {
+        $question = Question::findOrFail($id);
+        return view("questions/show", ['question' => $question]);
         //
     }
 
@@ -83,7 +92,15 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = Question::findOrFail($id);
+        $quiz_id = $question->quiz->id;
+        $question->delete();
+        return redirect()->action('QuizzesController@show', $quiz_id);
+        // return "Se eliminará el registro {$id}";
+    }
+
+    public function formGift(){
+        return view('questions/uploadquestions');
     }
 
     public function uploadQuestions(Request $request){
@@ -124,7 +141,9 @@ class QuestionsController extends Controller
                 $options = $this->multiexplode(array("~","="),$options);
                 $options = $this->dropEmpties($options);
                 $question = Question::create([
-                    'question' => trim($question, " \t\n\r") ,
+                    'name' => trim($question, " \t\n\r"),
+                    'content' => trim($question, " \t\n\r"),
+                    'quiz_id' => 1,
                     'type' => $tipo,
                     'correct' => $this->indexOfCorrect($options, $correct )
                 ]);
@@ -133,7 +152,7 @@ class QuestionsController extends Controller
                 foreach ($options as $option) {
                     Answer::firstOrCreate([
                         'question_id' => $question,
-                        'answer' => $option,
+                        'content' => $option,
                         'position' => $contador
                     ]);
                     $contador++;
@@ -142,13 +161,17 @@ class QuestionsController extends Controller
                 $options = substr($questionContent , strpos($questionContent, "{") + 1);
                 if(stripos($options, 'T') === false){
                     $question = Question::create([
-                        'question' => trim($question, " \t\n\r") ,
+                        'quiz_id' => 1,
+                        'name' => trim($question, " \t\n\r"),
+                        'content' => trim($question, " \t\n\r") ,
                         'type' => $tipo,
                         'correct' => 0
                     ]);
                 }else{
                     $question = Question::create([
-                        'question' => trim($question, " \t\n\r") ,
+                        'quiz_id' => 1,
+                        'name' => trim($question, " \t\n\r"),
+                        'content' => trim($question, " \t\n\r"),
                         'type' => $tipo,
                         'correct' => 1
                     ]);

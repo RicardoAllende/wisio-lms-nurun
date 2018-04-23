@@ -23,6 +23,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>Correo electrónico</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
                             <th>Username</th>
@@ -33,7 +34,8 @@
                         <tbody>
                             @foreach($users as $user)
                               <tr>
-                              <td><a href="/users/{{ $user->id }}/">{{ $user->firstname }}</a></td>
+                              <td><a href="/users/{{ $user->id }}/">{{$user->email}}</a></td>
+                              <td>{{ $user->firstname }}</td>
                               <td>{{ $user->lastname }}</td>
                               <td>{{ $user->username }}</td>
                               <td>{{ $user->created_at }}</td>

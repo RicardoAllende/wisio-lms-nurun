@@ -28,7 +28,7 @@
                 <h3><strong>{{ $user->firstname }} {{ $user->lastname }}</strong></h3>
                 <h3>{{ $user->username }}</h3>
                 <p><i class="fa fa-envelope"></i> {{ $user->email }}</p>
-                <p><i class="fa fa-{{ $user->sex }}"></i> {{ $user->sex }}</p>
+                <p><i class="fa fa-{{ $user->gender }}"></i> {{ $user->gender }}</p>
                 <p><i class="fa fa-birthday-cake"></i> {{ $user->birth_day }}</p>
                 
                 

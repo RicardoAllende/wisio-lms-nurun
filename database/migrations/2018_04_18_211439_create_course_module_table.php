@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateResourceProgressTable extends Migration
+class CreateCourseModuleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateResourceProgressTable extends Migration
      */
     public function up()
     {
-        Schema::create('resource_progress', function (Blueprint $table) {
+        Schema::create('course_module', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('status',['unattempted','attempted','finished','expired']);
-            $table->integer('resource_id')->unsigned();
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->integer('course_id')->unsigned();
+            $table->integer('module_id')->unsigned();
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('module_id')->references('id')->on('modules');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateResourceProgressTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resource_progress');
+        Schema::dropIfExists('course_module');
     }
 }

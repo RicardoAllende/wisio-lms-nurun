@@ -74,7 +74,7 @@ class QuizzesController extends Controller
     public function update(Request $request, $id)
     {
         $quiz = Quiz::find($id);
-        $quiz->quiz = $request->quiz;
+        $quiz->name = $request->name;
         $quiz->type = $request->type;
         $quiz->save();
         return redirect()->route("quizzes.show", $id);

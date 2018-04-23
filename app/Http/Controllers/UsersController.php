@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Attachment;
 
 class UsersController extends Controller
 {
@@ -89,13 +90,13 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->password = $request->password;
         $user->birth_day = $request->birth_day;
-        $user->sex = $request->sex;
+        $user->gender = $request->gender;
         $user->type = $request->type;
         $user->enable = $request->enable;
-        $path = $request->photo;
+        // $path = $request->photo;
         $user->save();
 
-        $this->uploadImageUser($user->id,$path);
+        // $this->uploadImageUser($user->id,$path);
 
         return redirect('/users');
     }
@@ -113,9 +114,11 @@ class UsersController extends Controller
     }
 
     public function uploadImage(Request $request){
-        $imagePath = request()->file('file')->store('temps');
-        echo $imagePath;
-        
+        $imagePath = request()->file('file')->store('users');
+        $name = request()->file('file')->getClientOriginalName();
+        $attachment = Attachment::create(['name'=>$name, 'type'=>'image', 'url' =>$imagePath]);
+        $attachment = $attachment->id;
+        echo $attachment;
     }
 
     
@@ -181,7 +184,7 @@ class UsersController extends Controller
                         'firstname' => $usuario->firstname,
                         'lastname' => $usuario->lastname,
                         'birth_day' => $usuario->brith_day,
-                        'sex' => $usuario->sex,
+                        'gender' => $usuario->gender,
                         'type' => $usuario->type,
                         'source' => $usuario->source,
                         'source_token' => $usuario->source_token,

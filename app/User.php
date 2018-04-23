@@ -20,7 +20,7 @@ class User extends Authenticatable
         'email', 
         'password',
         'birth_day',
-        'sex',
+        'gender',
         'type',
         'source',
         'source_token',
@@ -39,10 +39,77 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function enrrollments(){
+    // public function enrrollments(){
+    //     return $this->hasMany('App\Enrrollment');
+    // }
 
-        return $this->hasMany('App\Enrrollment');
+    public function enrrollments(){
+        return $this->belongsToMany('App\Course');
     }
 
+    public function custom_fields()
+    {
+        return $this->belongsToMany('App\CustomField');
+    }
+
+    public function ascriptions()
+    {
+        return $this->belongsToMany('App\Ascription');
+    }
+
+    public function photo_user()
+    {
+        return $this->hasOne('App\Attachment');
+    }
+
+    public function attachment()
+    {
+        return $this->belongsTo('App\Attachment');
+    }
+
+    /**
+     * Return answers for the questions the user has answered
+     */
+
+    public function questions(){
+        return $this->belongsToMany('App\Question');
+    }
+
+    public function question_users(){
+        return $this->hasMany('App\QuestionUser');
+    }
+
+    public function roles(){
+        return $this->belongsToMany("App\Role");
+    }
+
+    public function authorizeRoles($roles){
+        if ($this->hasAnyRole($roles)) {
+            return true;
+        }
+        abort(401, "Acción no autorizada");
+    }
+
+    public function hasAnyRole($roles){
+        if(is_array($roles)){
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
+                    return true;
+                }
+            }
+        }else{
+            if($this->hasRole($roles)){
+                return true;
+            }
+        }
+        return false;
+    }
     
+    public function hasRole($role){
+        if($this->roles()->where('name', $role)->first()){
+            return true;
+        }
+        return false;
+    }
+
 }

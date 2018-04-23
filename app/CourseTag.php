@@ -4,9 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Course_tag extends Model
+class CourseTag extends Model
 {
     protected $table = "course_tag";
+
+    protected $fillable = [
+        'tag_id',
+        'course_id'
+    ];
 
     public function course(){
 

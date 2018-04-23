@@ -10,5 +10,8 @@ class Tag extends Model
 
     protected $fillable = ['tag'];
 
+    public function courses(){
+    	return $this->belongsToMany('App\Course');
+    }
     
 }

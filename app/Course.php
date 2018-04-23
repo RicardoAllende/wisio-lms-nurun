@@ -22,28 +22,27 @@ class Course extends Model
     ];
 
     public function likes(){
-
     	return $this->hasMany('App\Course_featured');
     }
 
     public function tags(){
-
-    	return $this->hasMany('App\Course_tag');
+    	return $this->belongsToMany('App\Tag');
     }
 
-    public function enrrollments(){
-
-    	return $this->hasMany('App\Enrrollment');
+    public function users(){
+        return $this->belongsToMany('App\User');
     }
 
     public function resources(){
-
     	return $this->hasMany('App\Resource');
     }
 
-    public function category(){
+    public function categories(){
+    	return $this->belongsToMany('App\Category');
+    }
 
-    	return $this->belongsTo('App\Course');
+    public function modules(){
+    	return $this->belongsToMany('App\Module');
     }
 
     public function getLengthAmmountAttribute(){

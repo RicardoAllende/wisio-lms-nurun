@@ -27,7 +27,7 @@
                             </div>
                             <div class="form-group"> 
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    {!! Form::submit('Login',['class'=>'btn btn-primary disabled','id'=>'guardar']) !!}
+                                    {!! Form::submit('Login',['class'=>'btn btn-primary','id'=>'guardar']) !!}
                                 </div>
                             </div>
                         {!! Form::close() !!}

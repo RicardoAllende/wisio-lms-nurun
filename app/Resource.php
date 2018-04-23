@@ -8,16 +8,18 @@ class Resource extends Model
 {
     protected $table = "resources";
 
-    protected $fillable = ['name','type','url','featured_image'];
+    protected $fillable = ['attahcment_id'];
 
-    public function progress(){
-
-    	return $this->hasOne('App\Resource_Progress');
+    public function modules(){
+    	return $this->belongsToMany('App\Module');
     }
 
-    public function course(){
+    // public function progress(){
+    // 	return $this->hasOne('App\Resource_Progress');
+    // }
 
-    	return $this->belongsTo('App\Course');
-    }
+    // public function course(){
+    // 	return $this->belongsTo('App\Course');
+    // }
 
 }

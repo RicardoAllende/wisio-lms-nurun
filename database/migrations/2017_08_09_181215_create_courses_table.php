@@ -16,16 +16,21 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
-            $table->dateTime('date_start');
-            $table->dateTime('date_end');
-            $table->string('featured_image');
-            $table->boolean('featured');
-            $table->integer('weight');
-            $table->integer('category_id')->unsigned();
-            $table->enum('difficulty',['básico','intermedio','avanzado','experto']);
-            $table->integer('length');
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->string('description')->nullable();
+            $table->dateTime('date_start')->nullable();
+            $table->dateTime('date_end')->nullable();
+            // $table->string('featured_image')->nullable();
+            $table->string('icon')->nullable();
+            $table->boolean('featured')->nullable();
+            $table->integer('weight')->nullable();
+            // $table->integer('category_id')->unsigned()->nullable();;
+            // $table->enum('difficulty',['básico','intermedio','avanzado','experto']);
+            $table->string('difficulty')->nullable();;
+            $table->boolean('has_constancy')->default(false);
+            $table->integer('length')->nullable();;
+            $table->integer('attachment_id')->unsigned()->nullable();
+            $table->foreign('attachment_id')->references('id')->on('attachments');
+            // $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });
     }

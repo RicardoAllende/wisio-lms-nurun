@@ -22,13 +22,13 @@
                             <div class="form-group">
                               {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::text('quiz',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
+                               {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group">
-                              {!! Form::label('type_label', 'Destacado:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('type_label', 'Tipo:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                              {!! Form::select('type',[''=>'Seleccione una opcion','final'=>'Prueba final','initial'=>'Prueba inicial'],null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::select('type',[''=>'Seleccione una opcion','exam'=>'Examen','evaluation'=>'Evaluación', 'test' => 'Test'],null,['class'=>'form-control', 'required'=>'']) !!}
                               </div>
                             </div>
                              <div class="form-group"> 

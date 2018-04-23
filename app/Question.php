@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     protected $fillable = [
-        'quiz_id',
-        'question',
+        'evaluation_id',
+        'name',
+        'content',
         'type',
-        'correct'
+        'is_true'
     ];
-    public function answers(){
-    	return $this->hasMany('App\Answer');
+    public function options(){
+    	return $this->hasMany('App\Option');
     }
 
-    public function quiz(){
-    	return $this->belongsTo('App\Quiz');
+    public function evaluation(){
+    	return $this->belongsTo('App\Evaluation');
     }
 }

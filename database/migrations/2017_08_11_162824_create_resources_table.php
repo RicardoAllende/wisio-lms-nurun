@@ -15,12 +15,9 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('type');
-            $table->string('url');
-            $table->string('featured_image');
-            $table->integer('course_id')->unsigned();
-            $table->foreign('course_id')->references('id')->on('courses');
+            // $table->integer('sort'); // Resource Elements, pending
+            $table->integer('attachment_id')->unsigned()->nullable();
+            $table->foreign('attachment_id')->references('id')->on('attachments');
             $table->timestamps();
         });
     }
