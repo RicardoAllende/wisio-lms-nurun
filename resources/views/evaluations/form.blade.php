@@ -28,7 +28,7 @@
                             <div class="form-group">
                               {!! Form::label('type_label', 'Tipo:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                              {!! Form::select('type',[''=>'Seleccione una opcion','exam'=>'Examen','evaluation'=>'Evaluación', 'test' => 'Test'],null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::select('type',[''=>'Seleccione una opcion','m'=>'Examen','d'=>'Diagnóstico'],null,['class'=>'form-control', 'required'=>'']) !!}
                               </div>
                             </div>
                              <div class="form-group"> 

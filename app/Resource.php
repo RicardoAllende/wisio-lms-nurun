@@ -8,7 +8,7 @@ class Resource extends Model
 {
     protected $table = "resources";
 
-    protected $fillable = ['attahcment_id'];
+    protected $fillable = ['attahcment_id', 'type', 'previous'];
 
     public function modules(){
     	return $this->belongsToMany('App\Module');

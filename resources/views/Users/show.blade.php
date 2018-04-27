@@ -18,19 +18,28 @@
 
 		<div class="contact-box">
             
-            <div class="col-sm-4">
+            <!--<div class="col-sm-4">
                 <div class="text-center">
                     <img alt="image" class="img-circle m-t-xs img-responsive" src="/{{ $user->photo }}">
-                    <!--<div class="m-t-xs font-bold">Usuario</div>-->
+                    <div class="m-t-xs font-bold">Usuario</div>
                 </div>
-            </div>
+            </div>-->
             <div class="col-sm-8">
                 <h3><strong>{{ $user->firstname }} {{ $user->lastname }}</strong></h3>
-                <h3>{{ $user->username }}</h3>
+                <h3>Dirección de correo electrónico{{ $user->email }}</h3>
                 <p><i class="fa fa-envelope"></i> {{ $user->email }}</p>
                 <p><i class="fa fa-{{ $user->gender }}"></i> {{ $user->gender }}</p>
                 <p><i class="fa fa-birthday-cake"></i> {{ $user->birth_day }}</p>
-                
+                <p>{{ $user->mobile_phone }}</p>
+                <p>{{ $user->postal_code }}</p>
+                <p>{{ $user->city }}</p>
+                <p>{{ $user->state }}</p>
+                <p>{{ $user->state }}</p>
+                <p>{{ $user->address }}</p>
+                <p>{{ $user->cedula }}</p>
+                <p>{{ $user->specialty }}</p>
+                <p>{{ $user->consultation_type }}</p>
+                <p>{{ $user->mobile_phone }}</p>
                 
             </div>
             <div class="clearfix"></div>

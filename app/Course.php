@@ -11,18 +11,18 @@ class Course extends Model
     protected $fillable = [
         'name',
         'description',
-        'date_start',
-        'date_end',
-        'featured_image',
-        'featured',
-        'weight',
-        'category_id',
-        'difficulty',
-        'length'
+        'start_date',
+        'end_date',
+        'status',
+        'has_constancy'
     ];
 
-    public function likes(){
-    	return $this->hasMany('App\Course_featured');
+    // public function likes(){
+    // 	return $this->hasMany('App\Course_featured');
+    // }
+
+    public function ascriptions(){
+        return $this->belongsToMany('App\Ascription');
     }
 
     public function tags(){
@@ -45,16 +45,8 @@ class Course extends Model
     	return $this->belongsToMany('App\Module');
     }
 
-    public function getLengthAmmountAttribute(){
-        $ammount = $this->length;
-        if($ammount % 1440 == 0){
-            return ($ammount/1440).' days';
-        } else if ($ammount % 60 == 0){
-            return ($ammount/60).' hours';
-        } else{
-            return $ammount.' minutes';
-        }
+    public function attachments(){
+        return $this->belongsToMany('App\Attachment');
     }
-
 
 }

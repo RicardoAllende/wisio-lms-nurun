@@ -29,8 +29,8 @@
                         <tbody>
                             @foreach($evaluations as $evaluation)
                               <tr>
-                              <td><a href="/evaluations/{{ $evaluation->id }}/">{{ $evaluation->name }}</a></td>
-                              <td>{{ $evaluation->type }}</td>
+                              <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
+                              <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
                               <td>{{ $evaluation->created_at }}</td>
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['evaluations.destroy',$evaluation->id],'style'=>'display:inline;']) !!}
@@ -40,7 +40,6 @@
                               </td>
                               </tr>
                             @endforeach
-                            
                         </tbody>
                       </table>
                       </div>

@@ -22,21 +22,21 @@
                           <tr>
                             <th>Curso</th>
                             <th>Descripción</th>
-                            <th>Fecha de creación</th>
+                            <th>Fecha de inicio</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
                             @foreach($courses as $course)
                               <tr>
-                              <td><a href="/courses/{{ $course->id }}/">{{ $course->name }}</a></td>
-                              <td>{{ $course->description }}</td>
-                              <td>{{ $course->created_at }}</td>
-                              <td>
-                                  {!! Form::open(['method'=>'DELETE','route'=>['courses.destroy',$course->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                     <a href="#" class="btn btn-danger btn_delete">Eliminar</a>
-                                  {!! Form::close() !!}
-                              </td>
+                                <td><a href="/courses/{{ $course->id }}/">{{ $course->name }}</a></td>
+                                <td>{{ $course->description }}</td>
+                                <td>{{ $course->created_at }}</td>
+                                <td>
+                                    {!! Form::open(['method'=>'DELETE','route'=>['courses.destroy',$course->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
+                                      <a href="#" class="btn btn-danger btn_delete">Eliminar</a>
+                                    {!! Form::close() !!}
+                                </td>
                               </tr>
                             @endforeach
                           

@@ -16,10 +16,9 @@ class CreateModulesTable extends Migration
         Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
             $table->timestamps();
         });
     }

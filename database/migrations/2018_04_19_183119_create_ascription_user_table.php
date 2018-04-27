@@ -17,6 +17,7 @@ class CreateAscriptionUserTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('ascription_id')->unsigned();
+            $table->string('status')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('ascription_id')->references('id')->on('ascriptions');
             $table->timestamps();

@@ -8,7 +8,11 @@ class Module extends Model
 {
     protected $fillable = [
         'name',
-        'featured_image'
+        'description',
+        'start_date',
+        'end_date',
+        'next',
+        'previous'
     ];
 
     public function courses(){
@@ -24,6 +28,7 @@ class Module extends Model
     }
 
     public function experts(){
-    	return $this->hasMany('App\Experts');
+    	return $this->hasMany('App\Expert');
     }
+
 }

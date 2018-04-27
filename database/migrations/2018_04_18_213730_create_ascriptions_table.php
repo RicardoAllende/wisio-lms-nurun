@@ -18,10 +18,10 @@ class CreateAscriptionsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description');
-            $table->string('code')->unique()->nullable(); 
+            // $table->string('code')->unique()->nullable();
+            $table->boolean('has_diploma')->default(false);
+            $table->integer('maximum_attemps')->nullable();
             $table->boolean('status')->default(true);
-            $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
             $table->timestamps();
         });
     }

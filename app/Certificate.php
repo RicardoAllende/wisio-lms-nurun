@@ -8,7 +8,7 @@ class Certificate extends Model
 {
      protected $table = "certificates";
 
-     protected $fillable = ['hash'];
+     protected $fillable = ['hash', 'course_id', 'user_id'];
 
     
 }

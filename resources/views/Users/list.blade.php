@@ -20,7 +20,8 @@
                     </div>
                     <div class="ibox-content">
                       <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables">
+                        <!--<table class="table table-striped table-bordered table-hover dataTables">-->
+                        <table class="table table-striped table-bordered table-hover">
                         <thead>
                           <tr>
                             <th>Correo electrónico</th>
@@ -34,7 +35,7 @@
                         <tbody>
                             @foreach($users as $user)
                               <tr>
-                              <td><a href="/users/{{ $user->id }}/">{{$user->email}}</a></td>
+                              <td><a href="{{ action('UsersController@show' , $user->id) }}">{{$user->email}}</a></td>
                               <td>{{ $user->firstname }}</td>
                               <td>{{ $user->lastname }}</td>
                               <td>{{ $user->username }}</td>
@@ -53,7 +54,7 @@
                       
                     </div>
                     <div class="ibox-footer">
-                      
+                      {{ $users->links() }}
                     </div>
                 </div>
               </div>

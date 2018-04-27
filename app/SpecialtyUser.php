@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserCustomField extends Model
+class SpecialtyUser extends Model
 {
-    
+    //
 }

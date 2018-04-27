@@ -18,7 +18,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(10);
         return view('Users/list',compact('users'));
     }
 
@@ -199,5 +199,20 @@ class UsersController extends Controller
         });
         Storage::delete($file);
         echo "Se agregaron ".(User::count() - $userCount)." registros exitosamente.";
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user->firstname = $request->firstname;
+        $user->username = $request->username;
+        $user->lastname = $request->lastname;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->birth_day = $request->birth_day;
+        $user->gender = $request->gender;
+        $user->type = $request->type;
+        $user->enable = $request->enable;
+        $user->save();
+        return redirect()->route('user.profile.form');
     }
 }

@@ -43,9 +43,9 @@ class User extends Authenticatable
     //     return $this->hasMany('App\Enrrollment');
     // }
 
-    public function enrrollments(){
-        return $this->belongsToMany('App\Course');
-    }
+    // public function enrrollments(){
+    //     return $this->belongsToMany('App\Course');
+    // }
 
     public function custom_fields()
     {
@@ -57,14 +57,14 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Ascription');
     }
 
-    public function photo_user()
-    {
-        return $this->hasOne('App\Attachment');
-    }
+    // public function photo_user()
+    // {
+    //     return $this->hasOne('App\Attachment');
+    // }
 
-    public function attachment()
+    public function attachments()
     {
-        return $this->belongsTo('App\Attachment');
+        return $this->belongsToMany('App\Attachment');
     }
 
     /**
@@ -104,7 +104,7 @@ class User extends Authenticatable
         }
         return false;
     }
-    
+
     public function hasRole($role){
         if($this->roles()->where('name', $role)->first()){
             return true;
@@ -112,4 +112,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isStudent(){
+        return $this->hasRole('student');
+    }
+
+    public function isAdmin(){
+        return $this->hasRole('admin');
+    }
 }

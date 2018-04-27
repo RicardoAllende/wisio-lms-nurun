@@ -8,7 +8,7 @@ class Category extends Model
 {
     protected $table = "categories";
 
-    protected $fillable = ['name','description','featured_image'];
+    protected $fillable = ['name','description'];
 
     public function courses()
     {

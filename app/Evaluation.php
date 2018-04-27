@@ -6,7 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evaluation extends Model
 {
-    protected $fillable = ['module_id', 'name', 'type'];
+    protected $fillable = ['module_id', 
+        'name', 
+        'type', 
+        'description',
+        'minimum_score',
+        'maximum_attemps',
+        'start_date',
+        'end_date',
+        'status'
+    ];
     public function module(){
     	return $this->belongsTo('App\Module');
     }

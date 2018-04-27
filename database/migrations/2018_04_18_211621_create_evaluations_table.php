@@ -21,12 +21,10 @@ class CreateEvaluationsTable extends Migration
             $table->string('description')->nullable();
             $table->string('minimum_score')->default(6);
             $table->integer('maximum_attemps')->nullable();
-            $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->string('status')->default('NOT ATTEMPED');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('status');
+            $table->foreign('module_id')->references('id')->on('modules');
             $table->timestamps();
         });
     }
