@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Ascription;
 
 class Course extends Model
 {
@@ -20,6 +21,24 @@ class Course extends Model
     // public function likes(){
     // 	return $this->hasMany('App\Course_featured');
     // }
+
+    public  function belongsToAscription($id){
+        $ascription = Ascription::find($id);
+        if($ascription == null){ // The ascription doesn't exist
+            return false;
+        }
+        if($this->ascriptions->count() > 0 ){
+            $ascriptionsThisCourseBelongsTo = $this->ascriptions->pluck('id');
+            if($ascriptionsThisCourseBelongsTo->search($id) === false){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return false;
+        }
+        
+    }
 
     public function ascriptions(){
         return $this->belongsToMany('App\Ascription');

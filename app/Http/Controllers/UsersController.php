@@ -41,15 +41,17 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
+        try{
+            $user = User::create($input);
+            // $user->password = bcrypt($user->password);
+            $user->save();
+            $userId = $user->id;
+            return redirect()->route('users.show',$userId);
+        }catch(Exception $e){
+            return "Existió un error al ingresar usuario";
+        }
 
-        $path = $input['photo'];
-        $user = User::create($input);
-        $user->password = bcrypt($user->password);
-        $user->save();
-        $userId = $user->id;
-        $this->uploadImageUser($userId,$path);
-
-        return redirect('/users');
+        
     }
 
     /**
@@ -89,16 +91,14 @@ class UsersController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = $request->password;
-        $user->birth_day = $request->birth_day;
+        $user->birthday = $request->birthday;
         $user->gender = $request->gender;
         $user->type = $request->type;
         $user->enable = $request->enable;
         // $path = $request->photo;
         $user->save();
-
         // $this->uploadImageUser($user->id,$path);
-
-        return redirect('/users');
+        return redirect()->route('users.show', $user->id);
     }
 
     /**
@@ -183,7 +183,7 @@ class UsersController extends Controller
                         'password' => $pass,
                         'firstname' => $usuario->firstname,
                         'lastname' => $usuario->lastname,
-                        'birth_day' => $usuario->brith_day,
+                        'birthday' => $usuario->brith_day,
                         'gender' => $usuario->gender,
                         'type' => $usuario->type,
                         'source' => $usuario->source,
@@ -208,7 +208,7 @@ class UsersController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->password = $request->password;
-        $user->birth_day = $request->birth_day;
+        $user->birthday = $request->birthday;
         $user->gender = $request->gender;
         $user->type = $request->type;
         $user->enable = $request->enable;

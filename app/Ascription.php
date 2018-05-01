@@ -10,7 +10,7 @@ class Ascription extends Model
         'name',
         'slug',
         'description',
-        'has_diploma',
+        'has_constancy',
         'maximum_attemps',
         'status'
     ];

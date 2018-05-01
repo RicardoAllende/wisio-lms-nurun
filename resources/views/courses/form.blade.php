@@ -15,86 +15,63 @@
                     <div class="ibox-content">
                       <div class="row ">
                       @if(!isset($course))
-                        {!! Form::open(['url' => '/courses','class'=>'form-horizontal','method' => 'post','enctype'=>'multipart/form-data']) !!}
+                        {!! Form::open(['route' => 'courses.store','class'=>'form-horizontal','method' => 'post','enctype'=>'multipart/form-data']) !!}
                       @else
                         {!! Form::model($course,['url' => '/courses/'.$course->id,'class'=>'form-horizontal','method' => 'put']) !!}
                       @endif
                           <div class="form-group">
-                            {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10">
                              {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required'=>'']) !!}
                             </div>
                           </div>
                           <div class="form-group">
-                            {!! Form::label('descripcion_label', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('descripcion', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required'=>'']) !!}
+                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción del curso', 'required'=>'']) !!}
                             </div>
                           </div>
                           <div class="form-group">
-                            {!! Form::label('datestart_label', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('start_date', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::date('date_start',null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::date('start_date',null,['class'=>'form-control', 'required'=>'']) !!}
                             </div>
                           </div>
                           <div class="form-group">
-                            {!! Form::label('dateend_label', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('end_date', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::date('date_end',null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
                             </div>
                           </div>
                           <div class="form-group">
-                            {!! Form::label('length_label', 'Duración:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-5"> 
-                              {!! Form::text('amount',null,['class'=>'form-control','placeholder'=>'', 'required'=>'']) !!}
-                            </div>
-                            <div class="col-sm-5"> 
-                              {!! Form::select('unit',[''=>'Seleccione una opcion','minutes'=>'Minutos','hours'=>'Horas','days'=>'Días'],null,['class'=>'form-control','placeholder'=>'', 'required'=>'']) !!}
+                            {!! Form::label('has_constancy', '¿Emitirá constancia?',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10">
+                              {!! Form::checkbox('has_constancy', '1', true)  !!}
                             </div>
                           </div>
-                          <div class="form-group">
-                            {!! Form::label('featured_label', 'Destacado:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                             {!! Form::select('featured',[''=>'Seleccione una opcion','0'=>'No','1'=>'Si'],null,['class'=>'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            {!! Form::label('weight_label', 'Prioridad:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                             {!! Form::select('weight',[''=>'Seleccione una opcion','1'=>'1','2'=>'2','3'=>'3'],null,['class'=>'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            {!! Form::label('difficulty_label', 'Dificultad',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                             {!! Form::select('difficulty',[''=>'Seleccione una opcion','básico'=>'básico','intermedio'=>'intermedio','avanzado'=>'avanzado','experto'=>'experto'],null,['class'=>'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            {!! Form::label('category_label', 'Categoría:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                             {!! Form::select('category_id',[''=>'Seleccione una opción']+App\Category::pluck('name','id')->toArray(),null,['class'=>'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
+
+                          
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="/courses" class="btn btn-default">Cancelar</a>
-                            {!! Form::hidden('featured_image',null,['class'=>'form-control','placeholder'=>'','id'=>'featured_image']) !!}
-                             {!! Form::submit('Guardar',['class'=>'btn btn-primary disabled','id'=>'guardar']) !!}
+                              {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
+                              {!! Form::submit('Guardar',['class'=>'btn btn-primary','id'=>'guardar']) !!}
                             </div>
                           </div>
                         {!! Form::close() !!}
                     </div>
                     <div class="form-group">
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
-                      {!! Form::open([ 'url' => [ '/courses/uploadImage' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
+                      {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                       <div class="dz-message" style="height:200px;">
-                          Arrastre su imagen aquí...
+                        Arrastre la imagen del curso aquí...
                       </div>
+                      <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="courses" name="path">
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                       {!! Form::close() !!}
-                  </div>
+                    </div>
                       
                     </div>
                     <div class="ibox-footer">
@@ -129,9 +106,9 @@
                   this.on("success", function(file, response) {                    
                     console.log(response);                    
                     this.removeFile(file);
-                    $('#featured_image').attr('value',response);    
+                    $('#attachment').attr('value',response);    
                     $('#image-upload').hide();   
-                    $('#guardar').removeClass('disabled');
+                    //$('#guardar').removeClass('disabled');
 
                   });            
                 }        

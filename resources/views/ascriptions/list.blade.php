@@ -2,7 +2,7 @@
 
 @section('title','Adscripciones')
 @section('cta')
-  <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Evaluación</a>
+  <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a>
 @endsection
 
 @section('content')
@@ -12,10 +12,11 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Evaluaciones</h5>
+                        <h5>Adscripciones</h5>
                         
                     </div>
                     <div class="ibox-content">
+                    @if($ascriptions->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -38,8 +39,8 @@
                               <td>{{ $ascription->courses->count() }}</td>
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
-                                    {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                    <!--<a href="{{route('ascriptions.destroy',$ascription->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
+                                    
+                                    <a class='btn btn-danger btn_delete'>Eliminar</a>
                                   {!! Form::close() !!}
                               </td>
                               </tr>
@@ -48,6 +49,14 @@
                         </tbody>
                       </table>
                       </div>
+                    @else
+                    <center>
+                      <h3>Aún no existen adscripciones</h3><br>
+                      <a href="{{route('ascriptions.create')}}" class="btn btn-primary ">
+                        <i class='fa fa-plus'></i> Crear Adscripción
+                      </a>
+                    </center>
+                    @endif
                     </div>
                     <div class="ibox-footer">
                       
@@ -64,12 +73,12 @@
 
 @section('scripts')
 
-<script src="js/sweetalert2.min.js"></script>
-<script src="js/method_delete_f.js"></script>
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
 
 @endsection
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection
      

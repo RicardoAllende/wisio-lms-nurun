@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Attachment;
 
 class CategoriesController extends Controller
 {
@@ -100,6 +101,13 @@ class CategoriesController extends Controller
     }
 
     public function uploadImage(Request $request){
+        $imagePath = request()->file('file')->store('users');
+        $name = request()->file('file')->getClientOriginalName();
+        $attachment = Attachment::create(['name'=>$name, 'type'=>'image', 'url' =>$imagePath]);
+        $attachment = $attachment->id;
+        echo $attachment;
+        
+        Attachment::create([]);
         $imagePath = request()->file('file')->store('temps');
         echo $imagePath;
     }

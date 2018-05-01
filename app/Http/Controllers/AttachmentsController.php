@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Ascription;
+use App\Attachment;
 
-class AscriptionsController extends Controller
+class AttachmentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,7 @@ class AscriptionsController extends Controller
      */
     public function index()
     {
-        $ascriptions = Ascription::all();
-        return view('ascriptions/list', ['ascriptions'=>$ascriptions]);
+        //
     }
 
     /**
@@ -25,7 +24,7 @@ class AscriptionsController extends Controller
      */
     public function create()
     {
-        return view('ascriptions/form');
+        //
     }
 
     /**
@@ -36,13 +35,7 @@ class AscriptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->input();
-        $ascription = Ascription::Create($input);
-        $slug = str_slug($request->input('name'));
-        $ascription->slug = $slug;
-        $ascription->save();
-        $ascriptionId = $ascription->id;
-        return redirect()->action('AscriptionsController@show', $ascriptionId);
+        //
     }
 
     /**
@@ -53,14 +46,7 @@ class AscriptionsController extends Controller
      */
     public function show($id)
     {
-        $ascription = Ascription::find($id);
-        if($ascription != null){
-            return view('ascriptions/show', ['ascription' => $ascription]);
-            // return "Mostrando la adscripción número {$id}";
-        }else{
-            return "Esta adscripción ha sido eliminada o no existe";
-        }
-        
+        //
     }
 
     /**
@@ -94,11 +80,25 @@ class AscriptionsController extends Controller
      */
     public function destroy($id)
     {
-        $ascription = Ascription::find($id);
-        if($ascription != null){
-            $ascription->delete();
-            return redirect()->route('ascriptions.index');
-        }
+        //
     }
 
+    public function uploadFile(Request $request){
+        $type = request()->input('type');
+        $type = "img";
+        $path = "attachments";
+        if($request->filled('type')){
+            $type = $request->input('type');
+        }
+        if($request->filled('path')){
+            $path = $request->input('path');
+        }
+        $filePath = request()->file('file')->store('public/'.$type);
+        $filePath = str_replace('public', 'storage', $filePath);
+        $name = request()->file('file')->getClientOriginalName();
+        $mimeType = request()->file('file')->getMimeType();
+        $attachment = Attachment::create(['name'=>$name, 'type'=>$type, 'url' =>$filePath, 'mimetype' => $mimeType]);
+        $attachment = $attachment->id;
+        echo $attachment;
+    }
 }

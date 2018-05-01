@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
-                      {!! Form::open([ 'url' => [ '/categories/uploadImage' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
+                      {!! Form::open([ 'action' => 'CategoriesController@uploadImage', 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                       <div class="dz-message" style="height:200px;">
                           Arrastre su imagen aquí...
                       </div>

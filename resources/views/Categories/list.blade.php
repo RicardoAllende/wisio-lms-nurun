@@ -2,7 +2,7 @@
 
 @section('title','Categorías')
 @section('cta')
-  <a href="/categories/create" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Categoría</a>
+  <a href="{{route('categories.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Categoría</a>
 @endsection
 
 @section('content')
@@ -29,7 +29,7 @@
                         <tbody>
                             @foreach($categories as $category)
                               <tr>
-                              <td><a href="/categories/{{ $category->id }}/">{{ $category->name }}</a></td>
+                              <td><a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a></td>
                               <td>{{ $category->description }}</td>
                               <td>{{ $category->created_at }}</td>
                               <td>

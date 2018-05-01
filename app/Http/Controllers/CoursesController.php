@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Course;
 use App\Category;
+use App\Ascription;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\AttachmentCourse;
 
 class CoursesController extends Controller
 {
@@ -45,31 +47,13 @@ class CoursesController extends Controller
     {
         
         $input = $request->input();
-
-        $amount = $input['amount'];
-        $unit = $input['unit'];
-
-        switch ($unit) {
-            case 'minutes':
-                    $input['length'] = $amount;
-                break;
-            case 'hours':
-                    $input['length'] = $amount * 60;
-                break;
-            case 'days':
-                    $input['length'] = $amount * 1440;
-                break;
-            default:
-                
-                break;
-        }
-    
-
-        $path = $input['featured_image'];
+        // $attach_id = $request->input('attachment');
         $courseId = Course::create($input)->id;
-
-        $this->uploadImageCourse($courseId,$path);
-        return redirect('/courses');
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $courseId]);
+        }
+        return redirect()->route('courses.show', $courseId);
         //dd($course);
     }
 
@@ -176,4 +160,21 @@ class CoursesController extends Controller
         $course->featured_image = 'storage/'.$newPath;
         $course->save();
     }
+
+
+    public function addToAscription($ascription_id){
+        // $ascription = Ascription::findOrFail($ascription_id);
+        $courses = Course::all();
+        return view('courses/add-to-ascription', compact('courses', 'ascription_id'));
+        // if($ascription->courses->count() > 0 ){
+        //     return "Esta ascripción tiene más de 1 elemento";
+        // }else{
+        //     $courses = Course::all();
+        //     return view('courses/add-to-ascription',compact('courses', 'ascription'));
+        //     return "Se envian todos los cursos para poder agregarlos";
+        // }
+        // return view('courses/add-to-ascription');
+        // return "Se agregarán cursos a la adscripción ".$ascription->name;
+    }
+
 }

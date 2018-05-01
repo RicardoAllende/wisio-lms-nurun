@@ -10,9 +10,14 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-Route::get('/', function(){ //Home page
-	return view('dashboard/dashboard');
+Route::get('/', function(){
+	return view('dashboard/welcome');
 })->name("welcome");
+
+Route::get('/d', function(){ // Intento de descarga de archivo no público
+	$pathToFile = storage_path().'\app\resources\FvFG5Un7TFpHUoAaKPRDtulUMlI5K88Ht73LyKre.pdf';
+	return response()->download($pathToFile);
+});
 Route::get('/denied', function(){
 	return view('errors.denied');
 })->name('permission.denied');
@@ -25,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/logout','LoginController@userLogout')->name("logout");
 	Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 	Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
+		Route::post('/attachments/uploadFile', 'AttachmentsController@uploadFile')->name('attachments.file.upload');
 		Route::post('/users/uploadCSV','UsersController@uploadCSV')->name("uploaduserscsv");
 		Route::get('/users/downloadCSV','UsersController@downloadCSV')->name("downloadcsv");
 		Route::get('/users/import',function(){	return view("Users.massiveimport");	})->name("formmassiveimport");
@@ -33,10 +39,12 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/evaluations', 'EvaluationsController');
 		Route::resource('/ascriptions', 'AscriptionsController');
 		Route::resource('/modules', 'ModulesController');
+		Route::get('/courses/add-to-ascription/{ascription_id}', 'coursesController@addToAscription')->name('add.courses.to.ascription');
 		Route::resource('/courses','CoursesController');
 		Route::resource('/categories','CategoriesController');
 		Route::resource('/users','UsersController');
 		Route::resource('/answers','AnswersController');
+		Route::resource('/attachments', 'AttachmentsController');
 		Route::get('/options/createfor/{id}', 'OptionsController@createFor')->name('options.createfor');
 		Route::resource('/options','OptionsController');
 		Route::resource('/evaluations','EvaluationsController');

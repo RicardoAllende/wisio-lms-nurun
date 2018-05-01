@@ -3,7 +3,7 @@
 @section('title','Usuarios')
 @section('cta')
 <div style="display=inline;">
-  <a href="/users/create" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
+  <a href="{{route('users.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
 </div>
 @endsection
 
@@ -42,7 +42,7 @@
                               <td>{{ $user->created_at }}</td>
                               <td>
                                   {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                     <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
+                                    <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
                                   {!! Form::close() !!}
                               </td>
                               </tr>

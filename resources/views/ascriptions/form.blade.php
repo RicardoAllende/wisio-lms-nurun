@@ -8,33 +8,37 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar evaluación</h5>
-                        
+                      @if(isset($evaluation))
+                        <h5>Editar adscripción</h5>
+                      @else
+                        <h5>Crear adscripción</h5>
+                      @endif
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
 
                         @if(!isset($evaluation))
-                          {!! Form::open(['url' => '/evaluations','class'=>'form-horizontal','method' => 'post']) !!}
+                          {!! Form::open(['route' => 'ascriptions.store','class'=>'form-horizontal','method' => 'post']) !!}
                         @else
-                          {!! Form::model($evaluation,['url' => '/evaluations/'.$evaluation->id,'class'=>'form-horizontal','method' => 'put']) !!}
+                          {!! Form::model($ascription,['route' => ['ascriptions.update'],'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
                             <div class="form-group">
-                              {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
+                                {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
+                                {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre de la ascripción o farmacia', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group">
-                              {!! Form::label('type_label', 'Tipo:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                              {!! Form::select('type',[''=>'Seleccione una opcion','exam'=>'Examen','evaluation'=>'Evaluación', 'test' => 'Test'],null,['class'=>'form-control', 'required'=>'']) !!}
+                                {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required' => '']) !!}
                               </div>
                             </div>
-                             <div class="form-group"> 
-                            <div class="col-sm-offset-2 col-sm-10">
-                            <a href="/evaluations" class="btn btn-default">Cancelar</a>
-                             {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
+
+                            <div class="form-group"> 
+                              <div class="col-sm-offset-2 col-sm-10">
+                              <a href="{{route('ascriptions.index')}}" class="btn btn-default">Cancelar</a>
+                              {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
                             </div>
                           </div>
                         {!! Form::close() !!}

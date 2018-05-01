@@ -2,7 +2,7 @@
 
 @section('title','Usuarios')
 @section('cta')
-  <a href="/users/{{ $user->id }}/edit" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Usuario</a>
+  <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Usuario</a>
 @endsection
 
 @section('content')
@@ -17,7 +17,6 @@
             </div>
 
 		<div class="contact-box">
-            
             <!--<div class="col-sm-4">
                 <div class="text-center">
                     <img alt="image" class="img-circle m-t-xs img-responsive" src="/{{ $user->photo }}">
@@ -29,7 +28,7 @@
                 <h3>Dirección de correo electrónico{{ $user->email }}</h3>
                 <p><i class="fa fa-envelope"></i> {{ $user->email }}</p>
                 <p><i class="fa fa-{{ $user->gender }}"></i> {{ $user->gender }}</p>
-                <p><i class="fa fa-birthday-cake"></i> {{ $user->birth_day }}</p>
+                <p><i class="fa fa-birthday-cake"></i> {{ $user->birthday }}</p>
                 <p>{{ $user->mobile_phone }}</p>
                 <p>{{ $user->postal_code }}</p>
                 <p>{{ $user->city }}</p>

@@ -19,15 +19,17 @@ class User extends Authenticatable
         'lastname', 
         'email', 
         'password',
-        'birth_day',
+        'birthday',
         'gender',
-        'type',
-        'source',
-        'source_token',
+        'mobile_phone',
+        'postal_code',
+        'city',
+        'state',
+        'address',
+        'cedula',
+        'consultation_type',
         'lastaccess',
-        'enable',
-        'photo',
-        'username'
+        'enable'
     ];
 
     /**
@@ -118,5 +120,9 @@ class User extends Authenticatable
 
     public function isAdmin(){
         return $this->hasRole('admin');
+    }
+
+    public function specialties(){
+        return $this->belongsToMany('App\Specialty');
     }
 }

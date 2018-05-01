@@ -16,10 +16,10 @@ class CreateAscriptionsTable extends Migration
         Schema::create('ascriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->nullable();
             $table->string('description');
             // $table->string('code')->unique()->nullable();
-            $table->boolean('has_diploma')->default(false);
+            $table->boolean('has_constancy')->default(false);
             $table->integer('maximum_attemps')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();

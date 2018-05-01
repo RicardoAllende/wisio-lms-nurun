@@ -2,7 +2,7 @@
 
 @section('title','Cursos')
 @section('cta')
-  <a href="{{route('courses.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Curso</a>
+  <a href="{{route('ascriptions.show', $ascription_id)}}" class="btn btn-primary "><i class='fa fa-plus'></i> Ver adscripción</a>
 @endsection
 
 @section('content')
@@ -33,9 +33,11 @@
                                 <td>{{ $course->description }}</td>
                                 <td>{{ $course->created_at }}</td>
                                 <td>
-                                    {!! Form::open(['method'=>'DELETE','route'=>['courses.destroy',$course->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                      <a href="#" class="btn btn-danger btn_delete">Eliminar</a>
-                                    {!! Form::close() !!}
+                                    @if($course->belongsToAscription($ascription_id))
+                                        <button>Pertenece</button>
+                                    @else
+                                        <button>No pertenece</button>
+                                    @endif
                                 </td>
                               </tr>
                             @endforeach
@@ -57,15 +59,3 @@
 
 
 @endsection
-
-@section('scripts')
-
-<script src="js/sweetalert2.min.js"></script>
-<script src="js/method_delete_f.js"></script>
-
-@endsection
-
-@section('styles')
-<link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
-@endsection
-     
