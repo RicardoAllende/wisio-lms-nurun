@@ -59,7 +59,7 @@
             @else
                 <h3><strong>Esta adscripción aún no tiene cursos asignados, ¿desea agregar alguno?</strong></h3><br>
                 <a href="{{route('add.courses.to.ascription', $ascription->id)}}" class="btn btn-info">Asignar curso ya existente</a>&nbsp;
-                <a href="{{ route('courses.create') }}" class="btn btn-info">Crear curso</a>
+                <a href="{{ route('create.course.for.ascription', $ascription->id) }}" class="btn btn-info">Crear curso</a>
             @endif
             </div>
         </div>

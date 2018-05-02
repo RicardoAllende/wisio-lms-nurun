@@ -49,7 +49,9 @@
                               {!! Form::checkbox('has_constancy', '1', true)  !!}
                             </div>
                           </div>
-
+                          @if(isset($ascription_id))
+                            <input type="hidden" value="{{$ascription_id}}" name="ascription_id">
+                          @endif
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">

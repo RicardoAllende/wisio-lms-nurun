@@ -27,7 +27,7 @@
                             <th>Correo electrónico</th>
                             <th>Nombre</th>
                             <th>Apellidos</th>
-                            <th>Username</th>
+                            <th>Activo</th>
                             <th>Fecha de inscripción</th>
                             <th>Acciones</th>
                           </tr>
@@ -38,7 +38,7 @@
                               <td><a href="{{ action('UsersController@show' , $user->id) }}">{{$user->email}}</a></td>
                               <td>{{ $user->firstname }}</td>
                               <td>{{ $user->lastname }}</td>
-                              <td>{{ $user->username }}</td>
+                              <td>{{ ($user->enable == 1) ? 'Activo' : 'Inactivo' }}</td>
                               <td>{{ $user->created_at }}</td>
                               <td>
                                   {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}

@@ -9,6 +9,7 @@ use App\Ascription;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\AttachmentCourse;
+use App\AscriptionCourse;
 
 class CoursesController extends Controller
 {
@@ -45,15 +46,19 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        
         $input = $request->input();
-        // $attach_id = $request->input('attachment');
-        $courseId = Course::create($input)->id;
+        $course_id = Course::create($input)->id;
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
-            AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $courseId]);
+            AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
-        return redirect()->route('courses.show', $courseId);
+        if ($request->filled('ascription_id')) {
+            $ascription_id = $request->input('ascription_id');
+            if (Ascription::find($ascription_id) != null){
+                AscriptionCourse::Create(['ascription_id' => $ascription_id, 'course_id' => $course_id]);
+            }
+        }
+        return redirect()->route('courses.show', $course_id);
         //dd($course);
     }
 
@@ -148,15 +153,15 @@ class CoursesController extends Controller
 
     
 
-    public function uploadImageCourse($courseId,$path){
-        //Storage::makeDirectory($courseId);
+    public function uploadImageCourse($course_id,$path){
+        //Storage::makeDirectory($course_id);
         //$arrPath = explode('.', $path);
-        $newPath = 'courses/'.$courseId.'/'.substr($path, strrpos($path, "/") + 1);
+        $newPath = 'courses/'.$course_id.'/'.substr($path, strrpos($path, "/") + 1);
         //dd($path.'   '.$newPath);
         Storage::move($path,"public/".$newPath);
         Storage::delete($path);
-        $course = Course::find($courseId);
-        //$course->featured_image = 'storage/'.$courseId.'/'.$newPath;
+        $course = Course::find($course_id);
+        //$course->featured_image = 'storage/'.$course_id.'/'.$newPath;
         $course->featured_image = 'storage/'.$newPath;
         $course->save();
     }
@@ -175,6 +180,13 @@ class CoursesController extends Controller
         // }
         // return view('courses/add-to-ascription');
         // return "Se agregarán cursos a la adscripción ".$ascription->name;
+    }
+
+    public function createForAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if ($ascription != null) {
+            return view('courses/form', compact('ascription_id'));
+        }
     }
 
 }

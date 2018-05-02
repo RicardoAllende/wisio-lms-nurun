@@ -18,7 +18,7 @@ use App\Question;
 use App\Option;
 use App\RoleUser;
 
-class TablesSeeder extends Illuminate\Database\Seeder
+class TablesSeeder extends Seeder
 {
     /**
      * Run the database seeds.

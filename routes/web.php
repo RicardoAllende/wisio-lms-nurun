@@ -20,7 +20,7 @@ Route::get('/d', function(){ // Intento de descarga de archivo no público
 });
 Route::get('/denied', function(){
 	return view('errors.denied');
-})->name('permission.denied');
+})->middleware('auth')->name('permission.denied');
 Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/upload-resource', 'ResourcesController@uploadResource')->name('upload.resource');
@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/ascriptions', 'AscriptionsController');
 		Route::resource('/modules', 'ModulesController');
 		Route::get('/courses/add-to-ascription/{ascription_id}', 'coursesController@addToAscription')->name('add.courses.to.ascription');
+		Route::get('/courses/create-for-ascription/{ascription_id}', 'coursesController@createForAscription')->name('create.course.for.ascription');
 		Route::resource('/courses','CoursesController');
 		Route::resource('/categories','CategoriesController');
 		Route::resource('/users','UsersController');
