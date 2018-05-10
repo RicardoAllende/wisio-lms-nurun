@@ -22,41 +22,42 @@
                     </a> / 
                 </div>
             <div class="contact-box">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <h3>Nombre de la pregunta: {{ $question->name }}</h3>
-                    @if($question->type == '1')
-                        <h3><strong> {{$question->content}} Opción correcta: @if ($question->correct == '0') Falso @else Verdadero @endif </strong></h3>
-                    @endif
-                    @if($question->type == '2')
-                        <h3><strong> Respuestas a: {{ $question->content }} </strong></h3>
+                    <h3><strong> Contenido de la pregunta: {{ $question->content }} </strong></h3>
+                </div>
+                <div class="col-sm-6">
+                    @if($question->hasOptions())
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover dataTables">
-                                <thead>
+                        <table class="table table-striped table-bordered table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Respuesta</th>
+                                    <th>Valor</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php $i=1; @endphp
+                                @foreach($question->options as $option) 
                                     <tr>
-                                        <th>#</th>
-                                        <th>Respuesta</th>
-                                        <th>Valor</th>
-                                        <th>Acciones</th>
+                                        <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $i }}</a></td>
+                                        <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
+                                        <td>{{ ($option->score == 1) ? 'Correcto' : 'Incorrecto' }}</td>
+                                        <td>
+                                            {!! Form::open(['method'=>'DELETE','route'=>['options.destroy',$option->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
+                                                <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
+                                            {!! Form::close() !!}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @php $i=1; @endphp
-                                    @foreach($question->options as $option) 
-                                        <tr>
-                                            <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $i }}</a></td>
-                                            <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
-                                            <td>{{ ($option->score == 1) ? 'Correcto' : 'Incorrecto' }}</td>
-                                            <td>
-                                                {!! Form::open(['method'=>'DELETE','route'=>['options.destroy',$option->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                                    <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
-                                                {!! Form::close() !!}
-                                            </td>
-                                        </tr>
-                                        @php $i++; @endphp
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                    @php $i++; @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @else
+                        Esta pregunta aún no tiene opciones
                     @endif
                 </div>
                 <div class="clearfix"></div>

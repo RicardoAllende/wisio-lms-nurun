@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\AttachmentCourse;
 use App\AscriptionCourse;
+use App\CategoryCourse;
+use App\CourseUser;
 
 class CoursesController extends Controller
 {
@@ -23,7 +25,11 @@ class CoursesController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('courses/list',compact('courses'));
+        if($courses->count()>0){
+            return view('courses/list',compact('courses'));
+        }else{
+            return redirect()->route('courses.create');
+        }
     }
 
     /**
@@ -34,7 +40,6 @@ class CoursesController extends Controller
     public function create()
     {
         $categories = Category::all();
-
         return view('courses/form',compact('categories'));
     }
 
@@ -58,6 +63,12 @@ class CoursesController extends Controller
                 AscriptionCourse::Create(['ascription_id' => $ascription_id, 'course_id' => $course_id]);
             }
         }
+        if ($request->filled('category_id')) {
+            $category_id = $request->input('category_id');
+            if (Category::find($category_id) != null){
+                CategoryCourse::Create(['category_id' => $category_id, 'course_id' => $course_id]);
+            }
+        }
         return redirect()->route('courses.show', $course_id);
         //dd($course);
     }
@@ -68,10 +79,12 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
-    {   
-        
-        return view('courses/show',compact('course'));
+    public function show($id)
+    {
+        $course = Course::find($id);
+        if($course == null){ return redirect()->route('courses.index'); }
+        $approved = CourseUser::where('course_id', $course->id)->where('status', 'visto')->count();
+        return view('courses/show',compact('course', 'approved'));
     }
 
     /**
@@ -80,14 +93,14 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit($course_id)
     {
-        $ammount = $course->length_ammount;
-        $arrLength = explode(' ',$ammount);
-        $course['amount'] = $arrLength[0];
-        $course['unit'] = $arrLength[1];
-
-        return view('courses/form',compact('course'));
+        $course = Course::find($course_id);
+        if($course == null){
+            return redirect()->route('courses.index');
+        }
+        $categories = Category::all();
+        return view('courses/form',compact('course', 'categories'));
     }
 
     /**
@@ -97,40 +110,24 @@ class CoursesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, $course_id)
     {
-
-        $amount = $request->amount;
-        $unit = $request->unit;
-
-        switch ($unit) {
-            case 'minutes':
-                    $length = $amount;
-                break;
-            case 'hours':
-                    $length= $amount * 60;
-                break;
-            case 'days':
-                    $length = $amount * 1440;
-                break;
-            default:
-                
-                break;
+        $course = Course::find($course_id);
+        if($course == null){
+            return redirect()->route('courses.index');
         }
-
         $course->name = $request->name;
         $course->description = $request->description;
-        $course->date_start = $request->date_start;
-        $course->date_end = $request->date_end;
-        //$course->featured_image = $request->featured_image;
-        $course->featured = $request->featured;
-        $course->weight = $request->weight;
-        $course->category_id = $request->category_id;
-        $course->difficulty = $request->difficulty;
-        $course->length = $length;
+        $course->start_date = $request->start_date;
+        $course->end_date = $request->end_date;
+        if($request->filled('has_constancy')){
+            $has_constancy = 1;
+        }else{
+            $has_constancy = 0;
+        }
+        $course->has_constancy = $has_constancy;
         $course->save();
-        $this->uploadImageCourse($course->id,$request->featured_image);
-        return redirect('/courses');
+        return redirect()->route('courses.show', $course_id);
     }
 
     /**
@@ -141,51 +138,53 @@ class CoursesController extends Controller
      */
     public function destroy(Course $course)
     {
-        $course->delete();
-        return redirect('/courses');
+        //return "Eliminando el curso {$course->id}";
+        try{
+            $course->delete();
+        }catch(\Illuminate\Database\QueryException $e){
+            return "Error al intentar eliminar el curso, pertenece a alguna adscripción";
+        }
+        return redirect()->route('courses.index'); 
     }
 
-    public function uploadImage(Request $request){
-        $imagePath = request()->file('file')->store('temps');
-        echo $imagePath;
-        
-    }
-
-    
-
-    public function uploadImageCourse($course_id,$path){
-        //Storage::makeDirectory($course_id);
-        //$arrPath = explode('.', $path);
-        $newPath = 'courses/'.$course_id.'/'.substr($path, strrpos($path, "/") + 1);
-        //dd($path.'   '.$newPath);
-        Storage::move($path,"public/".$newPath);
-        Storage::delete($path);
-        $course = Course::find($course_id);
-        //$course->featured_image = 'storage/'.$course_id.'/'.$newPath;
-        $course->featured_image = 'storage/'.$newPath;
-        $course->save();
-    }
-
-
-    public function addToAscription($ascription_id){
-        // $ascription = Ascription::findOrFail($ascription_id);
+    public function listForAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription==null){    return redirect()->route('ascriptions.index');    }
         $courses = Course::all();
-        return view('courses/add-to-ascription', compact('courses', 'ascription_id'));
-        // if($ascription->courses->count() > 0 ){
-        //     return "Esta ascripción tiene más de 1 elemento";
-        // }else{
-        //     $courses = Course::all();
-        //     return view('courses/add-to-ascription',compact('courses', 'ascription'));
-        //     return "Se envian todos los cursos para poder agregarlos";
-        // }
-        // return view('courses/add-to-ascription');
-        // return "Se agregarán cursos a la adscripción ".$ascription->name;
+        return view('courses/add-to-ascription', compact('courses', 'ascription'));
     }
 
     public function createForAscription($ascription_id){
         $ascription = Ascription::find($ascription_id);
+        $categories = Category::all();
         if ($ascription != null) {
-            return view('courses/form', compact('ascription_id'));
+            return view('courses/form', compact('ascription_id', 'categories'));
+        }
+    }
+
+    public function relateToAscription($course_id, $ascription_id){
+        AscriptionCourse::create(['course_id' => $course_id, 'ascription_id'=>$ascription_id]);
+        return back();
+        return redirect()->route('list.courses.for.ascription', $ascription_id);
+    }
+
+    public function addToAscription(){
+
+    }
+
+    public function dissociateOfAscription($course_id, $ascription_id){
+        $pivots = AscriptionCourse::where('ascription_id', $ascription_id)->where('course_id', $course_id)->get();
+        foreach($pivots as $pivot){
+            $pivot->delete();
+        }
+        return back();
+        return redirect()->route('list.courses.for.ascription', $ascription_id);
+    }
+
+    public function dropImgAttachments($course){
+        $images = $course->attachments->where('type', 'main_img');
+        foreach($images as $image){
+            $image->delete();
         }
     }
 

@@ -15,13 +15,9 @@ class CreateExpertsTable extends Migration
     {
         Schema::create('experts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('institute');
-            $table->string('studies');
-            $table->string('experiences');
-            $table->text('description');
-            $table->integer('module_id')->unsigned();
-            $table->foreign('module_id')->references('id')->on('modules');
+            $table->string('name');
+            $table->string('specialties');
+            $table->string('summary');
             $table->timestamps();
         });
     }

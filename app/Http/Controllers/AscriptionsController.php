@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ascription;
+use App\AscriptionAttachment;
 
 class AscriptionsController extends Controller
 {
@@ -15,6 +16,9 @@ class AscriptionsController extends Controller
     public function index()
     {
         $ascriptions = Ascription::all();
+        if($ascriptions->count() < 1){
+            return redirect()->route('ascriptions.create');
+        }
         return view('ascriptions/list', ['ascriptions'=>$ascriptions]);
     }
 
@@ -36,13 +40,20 @@ class AscriptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->input();
-        $ascription = Ascription::Create($input);
+        $input = $request->only(['name', 'description']);
+        $ascription = Ascription::firstOrCreate($input);
         $slug = str_slug($request->input('name'));
+        while (Ascription::where('slug', $slug)->count() > 0) {
+            $slug .= '-';
+        }
         $ascription->slug = $slug;
         $ascription->save();
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
+        }
         $ascriptionId = $ascription->id;
-        return redirect()->action('AscriptionsController@show', $ascriptionId);
+        return redirect()->action('AscriptionsController@show', $ascriptionId); 
     }
 
     /**
@@ -58,7 +69,7 @@ class AscriptionsController extends Controller
             return view('ascriptions/show', ['ascription' => $ascription]);
             // return "Mostrando la adscripción número {$id}";
         }else{
-            return "Esta adscripción ha sido eliminada o no existe";
+            return redirect()->route('ascriptions.index');
         }
         
     }
@@ -71,7 +82,12 @@ class AscriptionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $ascription = Ascription::find($id);
+        if($ascription != null){
+            return view('ascriptions/form', compact('ascription'));
+        }else{
+            return redirect()->route('ascriptions.index');
+        }
     }
 
     /**
@@ -83,7 +99,28 @@ class AscriptionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $ascription = Ascription::find($id);
+        if($ascription != null){
+            if ($ascription->name != $request->input('name')) {
+                $ascription->name = $request->input('name');
+                $slug = str_slug($request->input('name'));
+                while (Ascription::where('slug', $slug)->count() > 0) {
+                    $slug .= '-';
+                }
+                $ascription->slug = $slug;
+            }
+            $ascription->description = $request->input('description');
+            $ascription->save();
+            if($request->filled('attachment')){
+                $attach_id = $request->input('attachment');
+                $this->dropImgAttachments($ascription);
+                AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
+            }
+            $ascription = Ascription::find($ascription->id);
+            return view('ascriptions/show', compact('ascription'));
+        }else{
+            return redirect()->route('ascriptions.index');
+        }
     }
 
     /**
@@ -97,7 +134,14 @@ class AscriptionsController extends Controller
         $ascription = Ascription::find($id);
         if($ascription != null){
             $ascription->delete();
-            return redirect()->route('ascriptions.index');
+        }
+        return redirect()->route('ascriptions.index');
+    }
+
+    public function dropImgAttachments($ascription){
+        $images = $ascription->attachments->where('type', 'main_img');
+        foreach($images as $image){
+            $image->delete();
         }
     }
 

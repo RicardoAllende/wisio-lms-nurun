@@ -16,42 +16,38 @@
                       <div class="row ">
 
                         @if(!isset($category))
-                          {!! Form::open(['url' => '/categories','class'=>'form-horizontal','method' => 'post']) !!}
+                          {!! Form::open(['route' => 'categories.store','class'=>'form-horizontal','method' => 'post']) !!}
                         @else
-                          {!! Form::model($category,['url' => '/categories/'.$category->id,'class'=>'form-horizontal','method' => 'put']) !!}
+                          {!! Form::model($category,['route' => ['categories.update', $category->id],'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
                             <div class="form-group">
-                              {!! Form::label('nombre', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
                                {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group">
-                              {!! Form::label('descripcion_label', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
                                 {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required' => '']) !!}
                               </div>
                             </div>
-                            <!-- <div class="form-group">
-                              {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10"> 
-                                {!! Form::file('featured_image',null,['class'=>'form-control','placeholder'=>'']) !!}
-                              </div>
-                            </div> -->
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
-                            <a href="/categories" class="btn btn-default">Cancelar</a>
-                             {!! Form::hidden('featured_image',null,['class'=>'form-control','placeholder'=>'','id'=>'featured_image']) !!}
-                             {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
+                            <a href="{{route('categories.index')}}" class="btn btn-default">Cancelar</a>
+                             {!! Form::hidden('attachment',null,['class'=>'form-control','placeholder'=>'','id'=>'featured_image']) !!}
+                             {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
                             </div>
                           </div>
                         {!! Form::close() !!}
                     </div>
                     <div class="form-group">
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
-                      {!! Form::open([ 'action' => 'CategoriesController@uploadImage', 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
+                      {!! Form::open([ 'route' => 'attachments.file.upload', 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
+                      <input type="hidden" value="main_img" name="type">
+                        <input type="hidden" value="categories" name="path">
                       <div class="dz-message" style="height:200px;">
-                          Arrastre su imagen aquí...
+                          Arrastre la imagen de la categoría aquí
                       </div>
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
@@ -90,8 +86,7 @@
                     this.removeFile(file);
                     $('#featured_image').attr('value',response);    
                     $('#image-upload').hide();   
-                    $('#guardar').removeClass('disabled');
-
+                    $('#btnSave').prop('disabled', false);
                   });            
                 }        
               };

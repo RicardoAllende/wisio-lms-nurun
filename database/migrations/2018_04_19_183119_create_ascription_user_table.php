@@ -18,8 +18,8 @@ class CreateAscriptionUserTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('ascription_id')->unsigned();
             $table->string('status')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('ascription_id')->references('id')->on('ascriptions');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ascription_id')->references('id')->on('ascriptions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

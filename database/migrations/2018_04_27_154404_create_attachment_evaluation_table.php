@@ -17,8 +17,8 @@ class CreateAttachmentEvaluationTable extends Migration
             $table->increments('id');
             $table->integer('evaluation_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('evaluation_id')->references('id')->on('evaluations');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

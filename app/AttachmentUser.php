@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class AttachmentUser extends Model
 {
     protected $table = 'attachment_user';
-    protected $fillable = ['attachemnt_id', 'user_id'];
+    protected $fillable = ['attachment_id', 'user_id'];
 }

@@ -7,7 +7,7 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">{{ Auth::User()->firstname }}</strong>
+                                <strong class="font-bold">{{ Auth::User()->firstname }} {{ Auth::User()->lastname }}</strong>
                             </span> <span class="text-muted text-xs block">Menú<b class="caret"></b></span>
                         </span>
                     </a>
@@ -31,13 +31,22 @@
                         <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Adscripciones</span></a>
                     </li>
                     <li class="">
-                        <a href="{{ route('categories.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Categorías</span></a>
+                        <a href="{{ route('categories.index') }}"><i class="fa fa-folder"></i> <span class="nav-label">Categorías</span></a>
                     </li>
                     <li class="">
                         <a href="{{ route('courses.index') }}"><i class="fa fa-table"></i> <span class="nav-label">Cursos</span></a>
                     </li>
                     <li class="">
-                        <a href="{{ route('evaluations.index') }}"><i class="fa fa-list-ul"></i> <span class="nav-label">Evaluaciones</span></a>
+                        <a href="{{ route('modules.index') }}"><i class="fa fa-sitemap"></i> <span class="nav-label">Módulos</span></a>
+                    </li>
+                    <li class="">
+                        <a href="{{ route('evaluations.index') }}"><i class="fa fa-edit"></i> <span class="nav-label">Evaluaciones</span></a>
+                    </li>
+                    <li class="">
+                        <a href="{{ route('attachments.index') }}"><i class="fa fa-list-ul"></i> <span class="nav-label">Archivos adjuntos</span></a>
+                    </li>
+                    <li class="">
+                        <a href="{{ route('specialties.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Especialidades</span></a>
                     </li>
                 @endif
                 @if (Auth::user()->isStudent())
@@ -59,7 +68,7 @@
                 </li>
             @else
                 <li class="">
-                    <a href="{{ url('/login') }}"><i class="fa fa-users"></i> <span class="nav-label">Iniciar sesión</span></a>
+                    <a href="{{ url('/login') }}"><i class="fa fa-sign-in"></i> <span class="nav-label">Iniciar sesión</span></a>
                 </li>
             @endif
         </ul>

@@ -17,8 +17,8 @@ class CreateCategoryCourseTable extends Migration
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->integer('course_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

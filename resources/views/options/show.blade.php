@@ -1,31 +1,41 @@
 @extends('layouts.app')
 
-@section('title','Respuestas')
+@section('title','Opciones a '.$option->question->name)
 @section('cta')
-  <a href="/options/{{ $option->id }}/edit" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Respuesta</a>
+  <a href="{{route('options.edit', $option->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Respuesta</a>
 @endsection
 
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5>Datos de Respuesta</h5>
-            </div>
-		<div class="contact-box">
-            <div class="col-sm-12">
-                <h3><strong>{{ $option->content }}</strong></h3>
-                <p> Pregunta: {{ $option->question->name }}</p>
-
-            </div>
-            <div class="clearfix">
-                <a href="{{ route('questions.show', $option->question->id) }}" class='btn btn-info'>{{ $option->question->name }}</a>
-            </div>
-                
-        </div>
-
+        <div class="col-lg-5">
+            @if($option->isCorrect())
+                <div class="widget navy-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <i class="fas fa-check fa-4x"></i>
+                        <h1 class="m-xs">456</h1>
+                        <h3 class="font-bold no-margins">
+                            Pregunta: {{ $option->question->content }}
+                        </h3>
+                        <h3>
+                            Opción: {{ $option->content }}
+                        </h3>
+                        <small>Esta opción es una solución válida</small>
+                    </div>
+                </div>
+            @else
+                <div class="widget red-bg p-lg text-center">
+                    <div class="m-b-md">
+                        <i class="fas fa-times fa-4x"></i>
+                        <h1 class="m-xs">47</h1>
+                        <h3 class="font-bold no-margins">
+                            Opción: {{ $option->content }}
+                        </h3>
+                        <small>Esta respuesta está marcada como incorrecta.</small>
+                    </div>
+                </div>
+            @endif
         </div>
       </div>
 	</div>

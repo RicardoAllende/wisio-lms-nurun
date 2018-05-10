@@ -7,6 +7,7 @@ use App\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Attachment;
+use App\AttachmentCategory;
 
 class CategoriesController extends Controller
 {
@@ -18,7 +19,11 @@ class CategoriesController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('Categories/list',compact('categories'));
+        if ($categories->count() > 0) {
+            return view('Categories/list',compact('categories'));
+        }else{
+            return redirect()->route('categories.create');
+        }
     }
 
     /**
@@ -40,13 +45,13 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-
-        $path = $input['featured_image'];
-
         $categoryId = Category::create($input)->id;
-
-        $this->uploadImageCategory($categoryId,$path);
-        return redirect()->action('CategoriesController@index');
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            AttachmentCategory::create(['attachment_id' => $attach_id, 'category_id' => $categoryId]);
+            dropImgAttachments($category);
+        }
+        return redirect()->route('categories.show', $categoryId);
     }
 
     /**
@@ -82,10 +87,13 @@ class CategoriesController extends Controller
     {
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->featured_image = $request->featured_image;
         $category->save();
-        $this->uploadImageCategory($category->id,$request->featured_image);
-        return redirect('/categories');
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            $this->dropImgAttachments($category);
+            AttachmentCategory::create(['attachment_id' => $attach_id, 'category_id' => $category->id]);
+        }
+        return redirect()->route('categories.show', $category->id);
     }
 
     /**
@@ -97,29 +105,14 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect('/categories');
+        return redirect('categories.index');
     }
 
-    public function uploadImage(Request $request){
-        $imagePath = request()->file('file')->store('users');
-        $name = request()->file('file')->getClientOriginalName();
-        $attachment = Attachment::create(['name'=>$name, 'type'=>'image', 'url' =>$imagePath]);
-        $attachment = $attachment->id;
-        echo $attachment;
-        
-        Attachment::create([]);
-        $imagePath = request()->file('file')->store('temps');
-        echo $imagePath;
+    public function dropImgAttachments($category){
+        $images = $category->attachments->where('type', 'main_img');
+        foreach($images as $image){
+            $image->delete();
+        }
     }
 
-    
-
-    public function uploadImageCategory($categoryId,$path){
-        $newPath = 'categories/'.$categoryId.'/'.substr($path, strrpos($path, "/") + 1);
-        Storage::move($path,"public/".$newPath);
-        Storage::delete($path);
-        $category= Category::find($categoryId);
-        $category->featured_image = 'storage/'.$newPath;
-        $category->save();
-    }
 }

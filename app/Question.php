@@ -20,4 +20,13 @@ class Question extends Model
     public function evaluation(){
     	return $this->belongsTo('App\Evaluation');
     }
+
+    public function hasOptions(){
+        if ($this->options->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 }

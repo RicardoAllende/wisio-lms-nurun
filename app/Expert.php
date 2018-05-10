@@ -9,10 +9,8 @@ class Expert extends Model
     protected $fillable = [
         'title',
         'institute',
-        'studies',
-        'experiences',
-        'description',
-        'module_id'
+        'pecialties',
+        'summary'
     ];
 
     public function module(){

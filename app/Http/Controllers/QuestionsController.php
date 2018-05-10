@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Quiz;
+use App\Evaluation;
 use App\Question;
-use App\Answer;
-use Illuminate\Support\Facades\Storage;
+
 
 class QuestionsController extends Controller
 {
@@ -27,8 +26,14 @@ class QuestionsController extends Controller
      */
     public function create()
     {
-        // return view('questions/form', ['quiz'=>  Quiz::first()]);
-        return view('questions/form');
+        if (isset($_GET['evaluation_id'])) {
+            $evaluation_id = $_GET['evaluation_id'];
+            $evaluation = Evaluation::find($evaluation_id);
+            if($evaluation != null){
+                return view('questions/form', compact('evaluation'));
+            }
+        }
+        return view('questions/form', ['evaluations' => Evaluation::all()]);
     }
 
     public function createQuestionForQuiz($quiz_id){
@@ -45,7 +50,9 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->input();
+        $question = Question::create($input);
+        return redirect()->route('questions.show', $question->id);
     }
 
     /**
@@ -69,7 +76,9 @@ class QuestionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $question = Question::find($id);
+        if($question == null){ return redirect()->route('questions.index'); }
+        return view('questions/form', compact('question'));
     }
 
     /**

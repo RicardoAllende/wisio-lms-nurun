@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title','Quizzes')
+@section('title','Preguntas')
 @section('cta')
-  <a href="{{route('quizzes.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Pregunta</a>
+  <a href="{{route('questions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Pregunta</a>
 @endsection
 
 @section('content')
@@ -12,30 +12,35 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Quizzes</h5>
+                        <h5>Listado de preguntas</h5>
                         
                     </div>
                     <div class="ibox-content">
+                    @if ($questions->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
-                            <th>Quiz</th>
-                            <th>Tipo</th>
-                            <th>Fecha de creación</th>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th>Contenido</th>
+                            <th>Asignada</th>
+                            <th># Opciones</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
-                            @foreach($quizzes as $quiz)
+                          @php $i = 0; @endphp
+                            @foreach($questions as $question)
                               <tr>
-                              <td><a href="/quizzes/{{ $quiz->id }}/">{{ $quiz->name }}</a></td>
-                              <td>{{ $quiz->type }}</td>
-                              <td>{{ $quiz->created_at }}</td>
+                              <td><a href="{{route('questions.show', $question->id)}}">{{ $i }}</a></td>
+                              <td><a href="{{route('questions.show', $question->id)}}">{{ $question->name }}</a></td>
+                              <td>{{ $question->content }}</td>
+                              <td>{{ ($question->evaluation_id == null) ? 'No' : 'Asignar'  }}</td>
+                              <td>{{ $question->options->count() }}</td>
                               <td>
-                                  {!! Form::open(['method'=>'delete','route'=>['quizzes.destroy',$quiz->id],'style'=>'display:inline;']) !!}
+                                  {!! Form::open(['method'=>'delete','route'=>['questions.destroy',$question->id],'style'=>'display:inline;']) !!}
                                     {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                    <!--<a href="{{route('quizzes.destroy',$quiz->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
                                   {!! Form::close() !!}
                               </td>
                               </tr>
@@ -44,6 +49,9 @@
                         </tbody>
                       </table>
                       </div>
+                    @else
+                    <button>Aún no existen preguntas</button>
+                    @endif
                     </div>
                     <div class="ibox-footer">
                       

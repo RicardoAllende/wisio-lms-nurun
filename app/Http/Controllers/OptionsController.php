@@ -25,14 +25,20 @@ class OptionsController extends Controller
      */
     public function create()
     {
+        if (isset($_GET['question_id'])) {
+            $question_id = $_GET['question_id'];
+            $question = Question::find($question_id);
+            if( $question != null){
+                return view('questions/form', compact('question'));
+            }
+        }
         return view("options/form", ["questions" => Question::all()]);
-        //
     }
 
 
     public function createFor($id){
-        $question = Question::findOrFail($id);
-        // return "Se agregará opción a la pregunta ".$id;
+        $question = Question::find($id);
+        if($question == null){ return redirect()->route('options.create'); }
         return view('options/form', ['question' => $question, 'questions' => Question::all()]);
     }
 
@@ -45,8 +51,8 @@ class OptionsController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        return redirect()->route("options.show", Option::create($input)->id);
-        // Para encontrar el último position de la pregunta: ->options->sortByDesc('position') // no permitir eliminar la correcta
+        $option = Option::create($input);
+        return redirect()->route("questions.show", $option->question->id);
     }
 
     /**
@@ -81,9 +87,19 @@ class OptionsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //dd($request->input());
         $option = Option::findOrFail($id);
-        $option->name = $request->name;
-        $option->type = $request->type;
+        if($option == null){
+            return redirect()->route('options.index');
+        }
+        $option->content = $request->content;
+        $option->feedback = $request->feedback;
+        if($request->filled('score')){
+            $option->score = $request->score;
+        }else{
+            $option->score = 0;
+        }
+        //$option->type = $request->type;
         $option->save();
         return redirect()->route("options.show", $id);
     }

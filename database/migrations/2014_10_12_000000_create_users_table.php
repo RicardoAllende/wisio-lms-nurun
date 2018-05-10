@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('state')->nullable();
             $table->string('address')->nullable();
             $table->string('cedula')->nullable();
+            $table->string('code')->unique()->nullable();
             $table->string('consultation_type')->nullable();
             $table->timestamp('lastaccess')->nullable();
             $table->boolean('enable')->default(true);

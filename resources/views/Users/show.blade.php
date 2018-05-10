@@ -23,23 +23,52 @@
                     <div class="m-t-xs font-bold">Usuario</div>
                 </div>
             </div>-->
-            <div class="col-sm-8">
-                <h3><strong>{{ $user->firstname }} {{ $user->lastname }}</strong></h3>
-                <h3>Dirección de correo electrónico{{ $user->email }}</h3>
-                <p><i class="fa fa-envelope"></i> {{ $user->email }}</p>
-                <p><i class="fa fa-{{ $user->gender }}"></i> {{ $user->gender }}</p>
-                <p><i class="fa fa-birthday-cake"></i> {{ $user->birthday }}</p>
-                <p>{{ $user->mobile_phone }}</p>
-                <p>{{ $user->postal_code }}</p>
-                <p>{{ $user->city }}</p>
-                <p>{{ $user->state }}</p>
-                <p>{{ $user->state }}</p>
-                <p>{{ $user->address }}</p>
-                <p>{{ $user->cedula }}</p>
-                <p>{{ $user->specialty }}</p>
-                <p>{{ $user->consultation_type }}</p>
-                <p>{{ $user->mobile_phone }}</p>
-                
+            <div class="col-sm-12">
+                <div class="widget-head-color-box navy-bg p-lg">
+                    <h2>
+                        @if($user->gender != null)<span class="{{ ($user->gender == 'M') ? 'fa fa-male' : 'fa fa-female' }}"></span>@endif
+                        {{ $user->firstname }} {{ $user->lastname }}
+                    </h2>
+                    <ul class="list-unstyled m-t-md">
+                        @if($user->hasAscriptions())
+                        <li>
+                            <span class="fa fa-th-large m-r-xs"></span>
+                            <label>Adscripción:</label>
+                            {{ $user->ascriptions->first()->name }}
+                        </li>
+                        @endif
+                        <li>
+                            <span class="fa fa-envelope m-r-xs"></span>
+                            <label>Email:</label>
+                            {{ $user->email }}
+                        </li>
+                        <li>
+                            <span class="fa fa-home m-r-xs"></span>
+                            <label>Dirección:</label>
+                            {{ $user->city }}, {{ $user->state }}, {{ $user->postal_code }}, {{ $user->address }}
+                        </li>
+                        <li>
+                            <span class="fa fa-mobile-phone m-r-xs"></span>
+                            <label>Teléfono móvil:</label>
+                            {{ $user->mobile_phone }}
+                        </li>
+                        <li>
+                            <span class="fa fa-address-card-o m-r-xs"></span>
+                            <label>Cédula profesional:</label>
+                            {{ $user->cedula }}
+                        </li>
+                        <li>
+                            <span class="fa fa-plus-circle m-r-xs"></span>
+                            <label>Tipo de consulta</label>
+                            {{ $user->consultation_type }}
+                        </li>
+                        <li>
+                            <span class="fa fa-book m-r-xs"></span>
+                            <label>Especialidad</label>
+                            {{ $user->specialty }}
+                        </li>
+                    </ul>
+                </div> 
             </div>
             <div class="clearfix"></div>
                 

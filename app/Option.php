@@ -15,4 +15,12 @@ class Option extends Model
     public function question(){
         return $this->belongsTo('App\Question');
     }
+
+    public function isCorrect(){
+        if ($this->score == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

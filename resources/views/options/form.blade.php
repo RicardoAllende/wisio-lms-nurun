@@ -13,20 +13,34 @@
                         
                     </div>
                     <div class="ibox-content">
-                      <div class="row ">
+                      <div class="row">
+                        @php $isCorrect = false; @endphp
                         @if(!isset($option))
                           {!! Form::open(['route' => 'options.store','class'=>'form-horizontal','method' => 'post']) !!}
+                          @if(isset($question))
+                            @php $questionsExists = true;  @endphp
+                            <h4>Nombre de la pregunta: {{ $question->name }} </h4>
+                            <h4>Pregunta: {{ $question->content }} </h4>
+                            {!! Form::hidden('question_id', $question->id,['class'=>'form-control']) !!}
+                          @else
+                            @php $questionsExists = false;  @endphp
+                            <div class="form-group">
+                              {!! Form::label('nombre', 'Pregunta:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                <select name='question_id' required>
+                                  @foreach ($questions as $question)
+                                    <option value="{{$question->id}}">{{ $question->content }}</option>
+                                  @endforeach
+                                </select>
+                              
+                              <!--{!! Form::text('question_id',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}-->
+                              </div>
+                            </div>
+                          @endif
                         @else
+                          @php $isCorrect = ($option->score == 1) ? true : false @endphp
                           {!! Form::model($option,['route' => array('options.update', $option->id),'class'=>'form-horizontal','method' => 'put']) !!}
                         @endif
-                            @if(isset($question))
-                              @php $questionsExists = true;  @endphp
-                              <h4>Nombre de la pregunta: {{ $question->name }} </h4>
-                              <h4>Pregunta: {{ $question->content }} </h4>
-                              {!! Form::hidden('question_id', $question->id,['class'=>'form-control']) !!}
-                            @else
-                              @php $questionsExists = false;  @endphp
-                            @endif
                             <div class="form-group">
                               {!! Form::label('content', 'Opción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
@@ -44,23 +58,9 @@
                             <div class="form-group">
                               {!! Form::label('score', '¿Es correcta?:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                                <label>{!! Form::checkbox('score', 1, false, ['class' => '']) !!}  Opción correcta</label>
+                                <label>{!! Form::checkbox('score', 1, $isCorrect, ['class' => '']) !!}  Opción correcta</label>
                               </div>
                             </div>
-                            @if(!isset($question))
-                              <div class="form-group">
-                                {!! Form::label('nombre', 'Pregunta:',['class'=>'control-label col-sm-2']); !!}
-                                <div class="col-sm-10">
-                                  <select name='question_id' required>
-                                    @foreach ($questions as $question)
-                                      <option value="{{$question->id}}">{{ $question->content }}</option>
-                                    @endforeach
-                                  </select>
-                                
-                                <!--{!! Form::text('question_id',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}-->
-                                </div>
-                              </div>
-                            @endif
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="/questions" class="btn btn-default">Cancelar</a>

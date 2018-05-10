@@ -17,7 +17,7 @@ class CreateReferencesTable extends Migration
             $table->increments('id');
             $table->integer('modules_id')->unsigned();
             $table->text('content');
-            $table->foreign('modules_id')->references('id')->on('modules');
+            $table->foreign('modules_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

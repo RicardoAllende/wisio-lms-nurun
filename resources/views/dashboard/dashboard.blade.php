@@ -12,6 +12,7 @@
                     </h1>
                     <small>
                         It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects.
+                        <a href="{{ route('subdomain', ['farmacias-del-ahorro', '24']) }}">Subdominio</a> 
                     </small>
                 </div>
             </div>

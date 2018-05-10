@@ -11,7 +11,9 @@ class Ascription extends Model
         'slug',
         'description',
         'has_constancy',
+        'is_pharmacy',
         'maximum_attemps',
+        'minimum_score',
         'status'
     ];
 
@@ -21,5 +23,32 @@ class Ascription extends Model
 
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
+    }
+
+    public function users(){
+        return $this->belongsToMany('App\User');
+    }
+
+    public function hasCourses(){
+        if ($this->courses->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getMainImgUrl(){
+        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        if($img == null){ return ''; }
+        return "/".$img->url;
+    }
+
+    public function hasMainImg(){
+        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+            return true;
+        }else{
+            return false;
+        }
+           
     }
 }

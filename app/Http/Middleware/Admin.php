@@ -17,7 +17,7 @@ class Admin
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if($user->hasRole('admin')){
+        if($user->hasRole(config('constants.roles.admin'))){
             return $next($request);
         }else{
             return redirect()->route('permission.denied');

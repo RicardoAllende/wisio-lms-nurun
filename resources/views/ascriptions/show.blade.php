@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title','Adscripción '.$ascription->name)
+@section('title','Adscripción: '.$ascription->name)
 @section('cta')
-  <a href="{{ action('AscriptionsController@edit', $ascription->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar adscripción</a>
+<a href="{{ route('ascriptions.edit', $ascription->id) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Editar adscripción</a>
 @endsection
 
 @section('content')
@@ -16,12 +16,22 @@
             </div>
             <div class="ibox-content">
                 <div class="contact-box">
+                    <div class="col-sm-4">
+                        <div class="text-center">
+                            <img alt="image" class="m-t-xs img-responsive" src="{{ $ascription->getMainImgUrl() }}">
+                            <!--<div class="m-t-xs font-bold">Usuario</div>-->
+                        </div>
+                    </div>
                     <div class="col-sm-8">
                         <h3><strong>Nombre: {{ $ascription->name }} </strong></h3>
                         <p>Descripción: {{ $ascription->description }} </p>
+                        <p>Estado: {{ ($ascription->status == 1)? 'disponible' : 'no disponible' }}</p> 
+                        <p><a href="{{ route('list.users.for.ascriptions', $ascription->id) }}" class="btn btn-primary">Administrar usuarios</a></p>
+                        <!--{!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
+                            <a class='btn btn-danger btn_delete'>Eliminar</a>
+                        {!! Form::close() !!}-->
                     </div>
                     <div class="clearfix">
-                        Estado: {{ ($ascription->status == 1)? 'disponible' : 'no disponible' }}
                     </div>
                 </div>
 
@@ -46,9 +56,9 @@
                                 <td>{{$course->start_date}}</td>
                                 <td>{{$course->end_date}}</td>
                                 <td>
-                                    {!! Form::open(['method'=>'DELETE','route'=>['ascriptions.destroy',$course->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                        <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
-                                    {!! Form::close() !!}
+                                    <a href="{{ route('dissociate.course.of.ascription', [$course->id, $ascription->id]) }}" class="btn btn-danger btn-round">
+                                        Quitar
+                                    </a>
                                 </td>
                                 </tr>
                                 @php $i++; @endphp
@@ -58,9 +68,10 @@
                 </div>
             @else
                 <h3><strong>Esta adscripción aún no tiene cursos asignados, ¿desea agregar alguno?</strong></h3><br>
-                <a href="{{route('add.courses.to.ascription', $ascription->id)}}" class="btn btn-info">Asignar curso ya existente</a>&nbsp;
-                <a href="{{ route('create.course.for.ascription', $ascription->id) }}" class="btn btn-info">Crear curso</a>
             @endif
+                <a href="{{ route('list.courses.for.ascription', $ascription->id) }}" class="btn btn-info">Agregar cursos ya existentes</a>&nbsp;
+                <a href="{{ route('course.form.for.ascription', $ascription->id) }}" class="btn btn-info">Crear curso</a>
+                
             </div>
         </div>
       </div>

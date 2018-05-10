@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Cursos')
+@section('title','Crear/Actualizar curso')
 
 @section('content')
 
@@ -17,7 +17,7 @@
                       @if(!isset($course))
                         {!! Form::open(['route' => 'courses.store','class'=>'form-horizontal','method' => 'post','enctype'=>'multipart/form-data']) !!}
                       @else
-                        {!! Form::model($course,['url' => '/courses/'.$course->id,'class'=>'form-horizontal','method' => 'put']) !!}
+                        {!! Form::model($course,['route' => ['courses.update',$course->id],'class'=>'form-horizontal','method' => 'put']) !!}
                       @endif
                           <div class="form-group">
                             {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
@@ -49,15 +49,44 @@
                               {!! Form::checkbox('has_constancy', '1', true)  !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('category_id', 'Categoría:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              <select name="category_id" id="category_id" required>
+                              @if(isset($categories))
+                                @forelse($categories as $category)
+                                  <option value="{{$category->id}}" >{{ $category->name }}</option>
+                                @empty
+                                  <option value="_">Aún no existen categorías</option>
+                                @endforelse
+                              @else
+                                <option value="_">Aún no existen categorías</option>
+                              @endif
+                              </select>
+
+                            </div>
+                          </div>
+                          
                           @if(isset($ascription_id))
                             <input type="hidden" value="{{$ascription_id}}" name="ascription_id">
                           @endif
+
+
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="/courses" class="btn btn-default">Cancelar</a>
                               {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
-                              {!! Form::submit('Guardar',['class'=>'btn btn-primary','id'=>'guardar']) !!}
+                              @if(isset($course))
+                                @if($course->attachments->where('type', 'main_img')->count() > 0)
+                                  {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
+                                @else
+                                  {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
+                                @endif
+                              @else
+                                {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
+                              @endif
                             </div>
                           </div>
                         {!! Form::close() !!}
@@ -83,45 +112,32 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
-
-
 @section('scripts')
-
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
 <script type="text/javascript">
-
-      Dropzone.options.imageUpload  = {            
-                paramName: "file", 
-                // The name that will be used to transfer the file            
-                maxFilesize: 2,            
-                acceptedFiles: 'image/*',            
-                maxFiles: 1,            
-                dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            
-                //previewTemplate: '  ',            
-                init: function() {                
-                  this.on("success", function(file, response) {                    
-                    console.log(response);                    
-                    this.removeFile(file);
-                    $('#attachment').attr('value',response);    
-                    $('#image-upload').hide();   
-                    //$('#guardar').removeClass('disabled');
-
-                  });            
-                }        
-              };
-    </script>
-
+  Dropzone.options.imageUpload  = {            
+            paramName: "file", 
+            // The name that will be used to transfer the file            
+            maxFilesize: 2,            
+            acceptedFiles: 'image/*',            
+            maxFiles: 1,            
+            dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            
+            //previewTemplate: '  ',            
+            init: function() {                
+              this.on("success", function(file, response) {                    
+                console.log(response);                    
+                this.removeFile(file);
+                $('#attachment').attr('value',response);    
+                $('#image-upload').hide();   
+                $('#btnSave').prop('disabled', false);
+              });            
+            }        
+  };
+</script>
 @endsection
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="/css/plugins/dropzone/basic.css">
-
 @endsection
-     

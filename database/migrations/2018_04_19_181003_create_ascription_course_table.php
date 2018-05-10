@@ -17,8 +17,8 @@ class CreateAscriptionCourseTable extends Migration
             $table->increments('id');
             $table->integer('ascription_id')->unsigned();
             $table->integer('course_id')->unsigned();
-            $table->foreign('ascription_id')->references('id')->on('ascriptions');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('ascription_id')->references('id')->on('ascriptions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

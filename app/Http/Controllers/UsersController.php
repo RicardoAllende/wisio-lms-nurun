@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Attachment;
+use App\Ascription;
+use App\AscriptionUser;
 
 class UsersController extends Controller
 {
@@ -16,9 +19,12 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public $elementsPerPage = 15;
+
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::paginate($this->elementsPerPage);
         return view('Users/list',compact('users'));
     }
 
@@ -29,7 +35,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('Users/form');
+        $ascriptions = Ascription::All();
+        return view('Users/form', compact('ascriptions'));
     }
 
     /**
@@ -43,15 +50,19 @@ class UsersController extends Controller
         $input = $request->input();
         try{
             $user = User::create($input);
-            // $user->password = bcrypt($user->password);
             $user->save();
             $userId = $user->id;
+            if($request->filled('ascription_id')){
+                $ascription_id = $request->ascription_id;
+                if($user->hasAscriptions()){
+                    $user->dissociateAllAscriptions();
+                }
+                AscriptionUser::create(['ascription_id' =>$ascription_id, 'user_id' => $user->id]);
+            }
             return redirect()->route('users.show',$userId);
         }catch(Exception $e){
             return "Existió un error al ingresar usuario";
         }
-
-        
     }
 
     /**
@@ -74,7 +85,8 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         //$user = User::find($id);
-        return view('Users/form',compact('user'));
+        $ascriptions = Ascription::All();
+        return view('Users/form',compact('user', 'ascriptions'));
     }
 
     /**
@@ -86,18 +98,24 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // dd($request);
+        // if(User::where('email', $request->email)->count() > 0){ // Email duplicate
+        //     return redirect()->route('users.show', $user->id);
+        // }
         $user->firstname = $request->firstname;
-        $user->username = $request->username;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
-        $user->password = $request->password;
         $user->birthday = $request->birthday;
-        $user->gender = $request->gender;
-        $user->type = $request->type;
-        $user->enable = $request->enable;
-        // $path = $request->photo;
+        // return $request->mobile_phone;
+        $user->mobile_phone = $request->mobile_phone;
         $user->save();
-        // $this->uploadImageUser($user->id,$path);
+        if($request->filled('ascription_id')){
+            $ascription_id = $request->ascription_id;
+            if($user->hasAscriptions()){
+                $user->dissociateAllAscriptions();
+            }
+            AscriptionUser::create(['ascription_id' =>$ascription_id, 'user_id' => $user->id]);
+        }
         return redirect()->route('users.show', $user->id);
     }
 
@@ -110,109 +128,73 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect('/users');
+        return redirect()->route('users.index');
     }
 
-    public function uploadImage(Request $request){
-        $imagePath = request()->file('file')->store('users');
-        $name = request()->file('file')->getClientOriginalName();
-        $attachment = Attachment::create(['name'=>$name, 'type'=>'image', 'url' =>$imagePath]);
-        $attachment = $attachment->id;
-        echo $attachment;
+    public function listForAscription($ascription_id){
+        $users = User::paginate($this->elementsPerPage);
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){
+            return redirect()->route('users.index');
+        }
+        return view('Users/list-for-ascription', compact('users', 'ascription'));
     }
 
-    
-
-    public function uploadImageUser($userId,$path){
-        //Storage::makeDirectory($courseId);
-        //$arrPath = explode('/', $path);
-        $newPath = 'users/'.$userId."/".substr($path, strrpos($path, "/") + 1);
-        Storage::move($path,"public/".$newPath);
-        Storage::delete($path);
-        $user= User::find($userId);
-        $user->photo= 'storage/'.$newPath;
-        $user->save();
-        return redirect('/users');
+    public function searchUsersByEmail($email){
+        $users = User::where('email', 'like', '%'.$email.'%')->paginate($this->elementsPerPage);
+        return view('Users/list',compact('users'));
     }
 
-    public function downloadCSV(){
-        $data = User::all()->makeVisible('password')->toArray();
-		return Excel::create('users', function($excel) use ($data) {
-			$excel->sheet('mySheet', function($sheet) use ($data)
-	        {
-				$sheet->fromArray($data);
-	        });
-		})->download("csv");
+    public function searchUsersByName($name){
+        $users = User::where(DB::raw('concat(firstname," ",lastname)') , 'LIKE' , '%'.$name.'%')->paginate($this->elementsPerPage);
+        return view('Users/list',compact('users'));
     }
 
-    public function uploadCSV(Request $request){
-        $userCount = User::count();
-        $imagePath = request()->file('file')->store('public/csv/');
-        $newPath = substr( $imagePath,0, -4);
-        $newPath = $newPath.".csv";
-        Storage::move($imagePath, $newPath);
-        $file = $newPath;
-        $newPath = "storage/csv/".substr($newPath, strrpos($newPath, "/") + 1);
-        Excel::load($newPath, function($reader) {
-            foreach ($reader->get() as $usuario) {
-                $exits = false;
-                $hasContent = true;
-                if(User::where('email',$usuario->email)->count() > 0){
-                    $exits = true;
-                }
-                if(User::where('username',$usuario->username)->count() > 0){
-                    $exits = true;
-                }
-                if(User::where('id',$usuario->id)->count() > 0){
-                    $exits = true;
-                }
-
-                $hasContent = ($usuario->email == '') ? false : $hasContent;
-                $hasContent = ($usuario->username == '') ? false : $hasContent;
-                if(strlen($usuario->password) != 60){ // The password is not encrypted
-                    $pass = bcrypt($usuario->password);
-                }else{
-                    $pass = $usuario->password;
-                }
-
-                if((!$exits) && $hasContent ){
-                    User::Create([
-                        'email' => $usuario->email,
-                        'id' => $usuario->id,
-                        'username' => $usuario->username,
-                        'password' => $pass,
-                        'firstname' => $usuario->firstname,
-                        'lastname' => $usuario->lastname,
-                        'birthday' => $usuario->brith_day,
-                        'gender' => $usuario->gender,
-                        'type' => $usuario->type,
-                        'source' => $usuario->source,
-                        'source_token' => $usuario->source_token,
-                        'lastaccess' => $usuario->lastaccess,
-                        'enable' => $usuario->enable,
-                        'created_at' => $usuario->created_ad,
-                        'updated_at' => $usuario->updated_at,
-                        'photo' => $usuario->photo
-                    ]);
-                }
-            }
-        });
-        Storage::delete($file);
-        echo "Se agregaron ".(User::count() - $userCount)." registros exitosamente.";
+    public function lisetForAscriptionSearchByEmail($ascription_id, $email){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){
+            return redirect()->route('users.index');
+        }
+        $users = User::where('email', 'like', '%'.$email.'%')->paginate($this->elementsPerPage);
+        return view('Users/list-for-ascription',compact('users', 'ascription'));
     }
 
-    public function updateProfile(Request $request)
-    {
-        $user->firstname = $request->firstname;
-        $user->username = $request->username;
-        $user->lastname = $request->lastname;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->birthday = $request->birthday;
-        $user->gender = $request->gender;
-        $user->type = $request->type;
-        $user->enable = $request->enable;
-        $user->save();
-        return redirect()->route('user.profile.form');
+    public function lisetForAscriptionSearchByName($ascription_id, $name){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){
+            return redirect()->route('users.index');
+        }
+        $users = User::where(DB::raw('concat(firstname," ",lastname)') , 'LIKE' , '%'.$name.'%')->paginate($this->elementsPerPage);
+        return view('Users/list-for-ascription',compact('users', 'ascription'));
     }
+
+    public function enrollToAscription($user_id, $ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if ($ascription == null) {
+            return redirect()->route('ascriptions.index');
+        }
+        $user = User::find($user_id);
+        if ($user == null) {
+            return redirect()->route('list.users.for.ascriptions', $ascription_id);
+        }
+        $relation = AscriptionUser::firstOrCreate(['ascription_id' => $ascription_id, 'user_id' => $user_id]);
+        return back();
+    }
+
+    public function dissociateForAscription($user_id, $ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if ($ascription == null) {
+            return redirect()->route('ascriptions.index');
+        }
+        $user = User::find($user_id);
+        if ($user == null) {
+            return redirect()->route('list.users.for.ascriptions', $ascription_id);
+        }
+        $relations = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $user_id)->get();
+        foreach($relations as $relation){
+            $relation->delete();
+        }
+        return back();
+    }
+
 }

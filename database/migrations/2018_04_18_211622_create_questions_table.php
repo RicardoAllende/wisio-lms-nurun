@@ -18,11 +18,10 @@ class CreateQuestionsTable extends Migration
             $table->integer('evaluation_id')->unsigned()->nullable();
             $table->text('name')->nullable();
             $table->string('content')->nullable();
-            $table->string('type');
-            $table->boolean('is_true')->nullable();
-            $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
-            $table->foreign('evaluation_id')->references('id')->on('evaluations');
+            // $table->string('type');
+            // $table->boolean('is_true')->nullable();
+            $table->foreign('evaluation_id')->references('id')
+                ->on('evaluations')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

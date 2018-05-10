@@ -17,8 +17,8 @@ class CreateAttachmentModuleTable extends Migration
             $table->increments('id');
             $table->integer('module_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('module_id')->references('id')->on('modules');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -59,5 +59,12 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'student' => \App\Http\Middleware\Student::class,
+        'editor' => \App\Http\Middleware\Editor::class,
+        'pharmacy.doctor' => \App\Http\Middleware\PharmacyDoctor::class,
+        'private.doctor' => \App\Http\Middleware\PrivateDoctor::class,
+        'public.doctor' => \App\Http\Middleware\PublicDoctor::class,
+        'reporter' => \App\Http\Middleware\Reporter::class,
+        'teacher' => \App\Http\Middleware\Teacher::class,
+        'tester' => \App\Http\Middleware\Tester::class,
     ];
 }

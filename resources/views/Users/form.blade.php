@@ -20,11 +20,33 @@
             @endif
             <div class="form-group">
               {!! Form::label('email', 'Email:',['class'=>'control-label col-sm-2']); !!}
-              <div class="col-sm-10"> 
+              <div class="col-sm-10">
                 {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Email']) !!}
-                ¿Enviar notificación a correo electrónico? {!! Form::checkbox('send', '1', true)  !!}
               </div>
             </div>
+
+            
+            <div class="form-group">
+              {!! Form::label('ascription_id', 'Email:',['class'=>'control-label col-sm-2']); !!}
+              <div class="col-sm-10">
+              <select name="ascription_id" id="ascription_id" class="form-control" required>
+                @if(isset($user))
+                  @if($user->hasAscriptions())
+                    <option value="{{$user->ascription()->id}}">{{ $user->ascription()->name }} (actual)</option>
+                  @else
+                    <option value="">Seleccionar adscripción</option>
+                  @endif
+                @else
+                  <option value="">Seleccionar adscripción</option>
+                @endif
+
+                @foreach($ascriptions as $ascription)
+                  <option value="{{$ascription->id}}">{{ $ascription->name }}</option>
+                @endforeach
+              </select>
+              </div>
+            </div>
+            
 
             <div class="form-group">
               {!! Form::label('firstname', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
@@ -43,7 +65,12 @@
             <div class="form-group">
               {!! Form::label('birthday', 'Fecha de nacimiento:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10"> 
-                {!! Form::date('birthday',null,['class'=>'form-control','placeholder'=>'']) !!}
+                
+                @if(isset($user))
+                  {!! Form::date('birthday',$user->birthday,['class'=>'form-control','placeholder'=>'']) !!}
+                @else
+                  {!! Form::date('birthday',null,['class'=>'form-control','placeholder'=>'']) !!}
+                @endif
               </div>
             </div>
 

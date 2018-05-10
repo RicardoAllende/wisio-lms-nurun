@@ -17,8 +17,8 @@ class CreateAttachmentExpertTable extends Migration
             $table->increments('id');
             $table->integer('expert_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('expert_id')->references('id')->on('experts');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('expert_id')->references('id')->on('experts')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

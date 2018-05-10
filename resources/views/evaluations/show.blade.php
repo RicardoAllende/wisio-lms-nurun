@@ -2,7 +2,7 @@
 
 @section('title','Evaluación '.$evaluation->name)
 @section('cta')
-  <a href="/evaluations/{{ $evaluation->id }}/edit" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+  <a href="{{ route('evaluations.edit', $evaluation->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
 @endsection
 
 @section('content')
@@ -10,28 +10,42 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <!--<h5>Datos del Evaluación</h5>-->
-                <a href="{{action('ModulesController@show', $evaluation->id)}}">
-                    {{ (strlen($evaluation->name) > 15) ? substr($evaluation->name, 0, 15).'...' : $evaluation->name }}
-                </a> / 
-            </div>
-            <div class="ibox-content">
-                <div class="contact-box">
-                    <div class="col-sm-8">
-                        <h3><strong>Nombre: {{ $evaluation->name }} </strong></h3>
-                        <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} </p>
-                        <p>Descripción: {{ $evaluation->description }} </p>
-                    </div>
-                    <div class="clearfix">
-                        Intentos permitidos: {{ $evaluation->maximum_attemps }}
-                        Calificación mínima: {{ $evaluation->minimum_score }}
-                    </div>
-                        
-                </div>
 
-            @if ($evaluation->questions->count() > 0)
+        <div class="widget-head-color-box navy-bg p-lg text-center">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="m-b-md">
+                    <h2 class="font-bold no-margins">
+                        {{$evaluation->name}}
+                    </h2>
+                        <small>Nombre de la evaluación</small>
+                    </div>
+                    <img src="{{$evaluation->img_url()}}" width="32%" height="18%" class="img-circle m-b-md" alt="Imagen del módulo">
+                </div>
+                <div class="col-sm-8" style="bottom: 50%;">
+                <br><br><br>
+                    <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} Intentos permitidos: {{ $evaluation->maximum_attemps }}</p>
+                    <p>Calificación mínima: {{ $evaluation->minimum_score }}</p>
+                    <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
+                    <span>Contiene {{ $evaluation->questions->count() }} preguntas</span> |
+                    <span>{{ $approved }} Veces aprobado</span>
+                </div>
+                
+            </div>
+            
+                
+        </div>
+        <div class="widget-text-box">
+            <h4 class="media-heading">Descripción de la evaluación</h4>
+            <p>{{$evaluation->description}}. Fecha de inicio: {{ $evaluation->start_date }}, Fecha de término: {{ $evaluation->end_date }}</p>
+        </div>
+
+
+        <div class="ibox float-e-margins">
+            
+            <div class="ibox-content">
+                
+                @if ($evaluation->questions->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -66,11 +80,11 @@
                         </tbody>
                     </table>
                 </div>
-            @else
+                @else
                 <h3><strong>Esta evaluación aún no tiene preguntas, desea agregar alguna?</strong></h3><br>
-                <a href="{{ route('form.upload.questions') }}" class="btn btn-info">Agregar masivamente en formato GIFT</a>&nbsp;
-                <a href=" {{ action('QuestionsController@create') }}" class="btn btn-info">Agregar pregunta</a>
-            @endif
+                <!--<a href="{{ route('form.upload.questions') }}" class="btn btn-info">Agregar masivamente en formato GIFT</a>&nbsp;-->
+                <a href=" {{ route('questions.create') }}?evaluation_id={{$evaluation->id}}" class="btn btn-info">Agregar pregunta</a>
+                @endif
             </div>
         </div>
       </div>

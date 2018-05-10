@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Quiz;
 
-class QuizzesController extends Controller
+class SpecialtiesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class QuizzesController extends Controller
      */
     public function index()
     {
-        $quizzes = Quiz::all();
-        return view('quizzes/list', compact('quizzes'));
+        //
     }
 
     /**
@@ -25,7 +23,7 @@ class QuizzesController extends Controller
      */
     public function create()
     {
-        return view('quizzes/form');
+        //
     }
 
     /**
@@ -36,8 +34,7 @@ class QuizzesController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->input();
-        return redirect()->route("quizzes.show", Quiz::create($input)->id);
+        //
     }
 
     /**
@@ -48,8 +45,7 @@ class QuizzesController extends Controller
      */
     public function show($id)
     {
-        $quiz = Quiz::find($id);
-        return view('quizzes/show',compact('quiz'));
+        //
     }
 
     /**
@@ -60,8 +56,7 @@ class QuizzesController extends Controller
      */
     public function edit($id)
     {
-        $quiz = Quiz::find($id);
-        return view('quizzes/form',compact('quiz'));
+        //
     }
 
     /**
@@ -73,11 +68,7 @@ class QuizzesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $quiz = Quiz::find($id);
-        $quiz->name = $request->name;
-        $quiz->type = $request->type;
-        $quiz->save();
-        return redirect()->route("quizzes.show", $id);
+        //
     }
 
     /**
@@ -88,8 +79,6 @@ class QuizzesController extends Controller
      */
     public function destroy($id)
     {
-        $quiz = Quiz::find($id);
-        $quiz->delete();
-        return redirect()->route('quizzes.index');
+        //
     }
 }

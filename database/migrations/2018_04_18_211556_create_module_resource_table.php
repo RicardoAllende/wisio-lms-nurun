@@ -17,8 +17,8 @@ class CreateModuleResourceTable extends Migration
             $table->increments('id');
             $table->integer('module_id')->unsigned();
             $table->integer('resource_id')->unsigned();
-            $table->foreign('module_id')->references('id')->on('modules');
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

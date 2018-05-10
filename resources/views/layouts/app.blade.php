@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
     <link rel="stylesheet" type="text/css" href="/css/plugins/dataTables/datatables.min.css">
-
+    <link rel="shortcut icon" href="/favicon.ico" />
     @section('styles')
     @show
 

@@ -17,8 +17,8 @@ class CreateAttachmentUserTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

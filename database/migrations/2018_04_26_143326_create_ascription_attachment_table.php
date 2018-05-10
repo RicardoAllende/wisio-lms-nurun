@@ -17,8 +17,8 @@ class CreateAscriptionAttachmentTable extends Migration
             $table->increments('id');
             $table->integer('ascription_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('ascription_id')->references('id')->on('ascriptions');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('ascription_id')->references('id')->on('ascriptions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

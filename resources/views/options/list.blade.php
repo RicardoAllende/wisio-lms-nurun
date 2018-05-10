@@ -2,7 +2,7 @@
 
 @section('title','Opciones')
 @section('cta')
-  <a href="/options/create" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Opción</a>
+  <a href="{{ route('options.create') }}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Opción</a>
 @endsection
 
 @section('content')
@@ -19,18 +19,18 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
-                            <th>Respuesta</th>
-                            <th>Quiz</th>
                             <th>Pregunta</th>
+                            <th>Respuesta</th>
+                            <th>Valor</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
                         @foreach($options as $option)
                           <tr>
-                            <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
-                            <td><a href=""> </a></td>
                             <td><a href="{{ action('QuestionsController@show', $option->question->id) }}">{{ $option->question->content }}</a></td>
+                            <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
+                            <td>{{ ($option->score == 1) ? 'Correcta' : 'Incorrecta' }}</td>
                             <td>
                                 {!! Form::open(['method'=>'delete','route'=>['options.destroy',$option->id],'style'=>'display:inline;']) !!}
                                   <a href="#" class="btn btn-danger btn_delete">Eliminar</a>

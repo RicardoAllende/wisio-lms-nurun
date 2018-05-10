@@ -32,7 +32,7 @@
                         <tbody>
                             @foreach($ascriptions as $ascription)
                               <tr>
-                              <td><a href="{{ action('AscriptionsController@show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
+                              <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
                               <td>{{ $ascription->description }}</td>
                               <td>{{ ($ascription->status == 1)? 'Disponible' : 'No disponible' }}</td>

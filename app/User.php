@@ -41,13 +41,75 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // public function enrrollments(){
-    //     return $this->hasMany('App\Enrrollment');
-    // }
+    public function courses(){
+        return $this->belongsToMany('App\Course')->withPivot('id', 'status');
+    }
 
-    // public function enrrollments(){
-    //     return $this->belongsToMany('App\Course');
-    // }
+    public function modules(){
+        return $this->belongsToMany('App\Module')->withPivot('status');
+    }
+
+    public function progressInModule($module_id){
+        if (Module::find($module_id) != null) {
+            $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+            if($pivot == null){
+                return false;
+            }
+            return $pivot->status;
+        }else{
+            return false;
+        }
+    }
+
+    public function dissociateAllAscriptions(){
+        $relations = AscriptionUser::where('user_id', $this->id)->get();
+        foreach($relations as $relation){
+            $relation->delete();
+        }
+    }
+
+    public function enrollToAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null) { return false; }
+        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $this->id]);
+    }
+
+    public function belongsToAscription($ascription_id){
+        $rows = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $this->id)->count();
+        if($rows > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function stateInCourse($course_id){
+        if (Course::find($course_id) != null) {
+            $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
+            if($pivot == null){
+                return false;
+            }
+            return $pivot->status;
+        }else{
+            return false;
+        }
+    }
+
+    public function dissociateFromAllAscriptions(){
+        $relations = AscriptionUser::where('user_id', $this->id);
+        foreach($relations as $relation){
+            try{
+
+            }catch(\Illuminate\Database\QueryException $e){
+                
+            }
+            $relation->delete();
+        }
+    }
+
+    public function evaluations(){
+        return $this->belongsToMany('App\Evaluation')->withPivot('status');
+    }
 
     public function custom_fields()
     {
@@ -59,10 +121,21 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Ascription');
     }
 
-    // public function photo_user()
-    // {
-    //     return $this->hasOne('App\Attachment');
-    // }
+    public function hasAscriptions(){
+        if ($this->ascriptions->where('has_constancy', 0)->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function ascription(){
+        if($this->hasAscriptions()){
+            return $this->ascriptions->where('has_constancy', 0)->first();
+        }else{
+            return null;
+        }
+    }
 
     public function attachments()
     {
@@ -73,46 +146,55 @@ class User extends Authenticatable
      * Return answers for the questions the user has answered
      */
 
-    public function questions(){
+    public function answers(){
         return $this->belongsToMany('App\Question');
     }
 
-    public function question_users(){
-        return $this->hasMany('App\QuestionUser');
-    }
-
-    public function roles(){
-        return $this->belongsToMany("App\Role");
-    }
-
-    public function authorizeRoles($roles){
-        if ($this->hasAnyRole($roles)) {
-            return true;
-        }
-        abort(401, "Acción no autorizada");
-    }
-
-    public function hasAnyRole($roles){
-        if(is_array($roles)){
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
-                    return true;
-                }
-            }
-        }else{
-            if($this->hasRole($roles)){
-                return true;
-            }
-        }
-        return false;
+    public function role(){
+        return $this->belongsTo('App\Role');
     }
 
     public function hasRole($role){
-        if($this->roles()->where('name', $role)->first()){
+        if($this->role->where('name', $role)->first()){
             return true;
         }
         return false;
     }
+
+    // public function roles(){
+    //     return $this->belongsToMany("App\Role");
+    // }
+
+    // public function authorizeRoles($roles){
+    //     if ($this->hasAnyRole($roles)) {
+    //         return true;
+    //     }
+    //     return redirect()->route('permission.denied');
+    // }
+
+    // public function hasAnyRole($roles){
+    //     if(is_array($roles)){
+    //         foreach ($roles as $role) {
+    //             if ($this->hasRole($role)) {
+    //                 return true;
+    //             }
+    //         }
+    //     }else{
+    //         if($this->hasRole($roles)){
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    // public function hasRole($role){
+    //     if($this->roles()->where('name', $role)->first()){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
+    
 
     public function isStudent(){
         return $this->hasRole('student');

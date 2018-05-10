@@ -85,15 +85,15 @@ class AttachmentsController extends Controller
 
     public function uploadFile(Request $request){
         $type = request()->input('type');
-        $type = "img";
-        $path = "attachments";
+        $type = "img"; // by default
+        $path = "attachments"; // by default
         if($request->filled('type')){
             $type = $request->input('type');
         }
         if($request->filled('path')){
             $path = $request->input('path');
         }
-        $filePath = request()->file('file')->store('public/'.$type);
+        $filePath = request()->file('file')->store('public/'.$path);
         $filePath = str_replace('public', 'storage', $filePath);
         $name = request()->file('file')->getClientOriginalName();
         $mimeType = request()->file('file')->getMimeType();

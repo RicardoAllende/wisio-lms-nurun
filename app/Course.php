@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Ascription;
+use App\RecommendedCourse;
+use App\AscriptionCourse;
 
 class Course extends Model
 {
@@ -22,22 +24,46 @@ class Course extends Model
     // 	return $this->hasMany('App\Course_featured');
     // }
 
-    public  function belongsToAscription($id){
+    public function specialties(){
+        return $this->belongsToMany('App\Specialty');
+    }
+
+    public function hasModules(){
+        if($this->modules->count() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function likes(){
+        RecommendedCourse::where('course_id', $this->id)->count();
+    }
+
+    public function belongsToAscription($id){
         $ascription = Ascription::find($id);
         if($ascription == null){ // The ascription doesn't exist
             return false;
         }
-        if($this->ascriptions->count() > 0 ){
-            $ascriptionsThisCourseBelongsTo = $this->ascriptions->pluck('id');
-            if($ascriptionsThisCourseBelongsTo->search($id) === false){
-                return false;
-            }else{
-                return true;
-            }
+        $rows = AscriptionCourse::where('ascription_id', $id)->where('course_id', $this->id)->count();
+        if($rows > 0){
+            return true;
         }else{
             return false;
         }
-        
+    }
+
+    public function hasRelations(){
+        if($this->ascriptions->count() > 0){
+            return true;
+        }
+        if($this->modules->count() > 0){
+            return true;
+        }
+        if($this->attachments->count() > 0){
+            return true;
+        }
+        return false;
     }
 
     public function ascriptions(){
@@ -49,7 +75,7 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withPivot('status');
     }
 
     public function resources(){
@@ -68,4 +94,11 @@ class Course extends Model
         return $this->belongsToMany('App\Attachment');
     }
 
+    public function img_url(){
+        $image = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        if($image == null){
+            return ""; // Default image
+        }
+        return "/".$image->url;
+    }
 }

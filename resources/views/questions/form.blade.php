@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Preguntas')
+@section('title', (isset($question)) ? 'Crear pregunta' : 'Editar pregunta' )
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -8,22 +8,39 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Agregar pregunta</h5>
+                        <h5>{{ (isset($question)) ? 'Crear pregunta' : 'Editar pregunta' }}</h5>
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
-                          {!! Form::open(['url' => '/questions','class'=>'form-horizontal','method' => 'post']) !!}
-                        @if(isset($quiz))
+                        @if(!isset($question))
+                          {!! Form::open(['route' => 'questions.store','class'=>'form-horizontal','method' => 'post']) !!}
+                        @else
+                          {!! Form::model($question,['route' => ['questions.update', $question->id],'class'=>'form-horizontal','method' => 'put']) !!}
+                        @endif
+                          @if(isset($evaluation))
                             <div class="form-group">
-                              {!! Form::label('quiz', 'Quiz:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('evaluation', 'Evaluación:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                              {!! Form::text('quiz_name',$quiz->name,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '', 'disabled' => 'disabled']) !!}
-                              {!! Form::hidden('quiz_id', $quiz->id,['class'=>'form-control','placeholder'=>'','id'=>'featured_image']) !!}
+                               {!! Form::text('evaluation',$evaluation->name,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '', 'disabled'=>'']) !!}
+                               <input type="hidden" name="evaluation_id" value="{{$evaluation->id}}">
                               </div>
                             </div>
-                        @endif
+                          @else
                             <div class="form-group">
-                              {!! Form::label('nombre_', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('evaluation_id', 'Evaluación a la que pertenece la pregunta:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                <select name="evaluation_id" id="evaluation_id" required class="form-control">
+                                <option value="">Selecciona una evaluación</option>
+                                  @foreach($evaluations as $evaluation)
+                                    <option value="{{$evaluation->id}}">{{$evaluation->name}}</option>
+                                  @endforeach
+                               </select>
+                               <input type="hidden" name="evaluation_id" value="{{$evaluation->id}}">
+                              </div>
+                            </div>
+                          @endif
+                            <div class="form-group">
+                              {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
                                {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
                               </div>
@@ -31,13 +48,7 @@
                             <div class="form-group">
                               {!! Form::label('content', 'Contenido de la pregunta:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::text('content',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              {!! Form::label('type_label', 'Tipo de pregunta:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10"> 
-                              {!! Form::select('type',[''=>'Seleccione una opcion','1'=>'Verdadero/falso','2'=>'Opción múltiple'],null,['id'=>'type', 'class'=>'form-control', 'required'=>'']) !!}
+                               {!! Form::text('content',null,['class'=>'form-control','placeholder'=>'Contenido de la pregunta', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group" id="typeTF">
@@ -53,7 +64,7 @@
 
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
-                            <a href="/quizzes" class="btn btn-default">Cancelar</a>
+                            <a href="/questionzes" class="btn btn-default">Cancelar</a>
                              {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
                             </div>
                           </div>

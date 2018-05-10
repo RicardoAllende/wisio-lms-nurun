@@ -17,8 +17,8 @@ class CreateAttachmentCourseTable extends Migration
             $table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('course_id')->references('id')->on('courses');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

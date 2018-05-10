@@ -17,8 +17,8 @@ class CreateAttachmentQuestionTable extends Migration
             $table->increments('id');
             $table->integer('question_id')->unsigned();
             $table->integer('attachment_id')->unsigned();
-            $table->foreign('question_id')->references('id')->on('questions');
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

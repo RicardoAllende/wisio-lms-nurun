@@ -2,7 +2,7 @@
 
 @section('title','Curso '.$course->name)
 @section('cta')
-  <a href="/courses/{{ $course->id }}/edit" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Curso</a>
+  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Curso</a>
 @endsection
 
 @section('content')
@@ -10,27 +10,29 @@
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
+            <div class="widget-head-color-box navy-bg p-lg text-center">
+                <div class="m-b-md">
+                <h2 class="font-bold no-margins">
+                    {{$course->name}}
+                </h2>
+                    <small>Nombre del curso</small>
+                </div>
+                <img src="{{$course->img_url()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
+                <div>
+                    <span>{{ $course->users->count() }} inscritos</span> |
+                    <span>{{ $approved }} terminaron el curso</span> |
+                    <span>{{ $course->modules->count() }} módulos</span>
+                </div>
+            </div>
+            <div class="widget-text-box">
+                <h4 class="media-heading">Descripción del curso</h4>
+                <p>{{$course->description}}. Fecha de inicio: {{ $course->start_date }}, Fecha de término: {{ $course->end_date }}</p>
+            </div>
+
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>Datos de Curso</h5>
-                </div>
-                <div class="contact-box">
-                    <!--<div class="col-sm-4">
-                        <div class="text-center">
-                            <img alt="image" class="m-t-xs img-responsive" src="">
-                        </div>
-                    </div>-->
-                    <div class="col-sm-8">
-                        <h3><strong>Nombre: {{ $course->name }}</strong></h3>
-                        <p> {{ $course->description }}</p>
-                    </div>
-                    <div class="clearfix">
-                        Fecha de inicio: {{$course->date_start}} <br>
-                        Fecha de fin: {{$course->date_end}}
-                    </div>
-                </div>
                 
-                @if ($course->modules->count() > 0)
+                <h3>Información de los módulos</h3>
+                @if ($course->hasModules())
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -63,9 +65,9 @@
                 </div>
                 @else
                     <h3><strong>Este curso aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
-                    <a href="" class="btn btn-info">Asignar módulo ya existente</a>&nbsp;
-                    <a href="{{ action('ModulesController@create') }}" class="btn btn-info">Crear módulo</a>
                 @endif
+                    <a href="{{ route('list.modules.for.course', $course->id) }}" class="btn btn-info btn-round">Asignar módulo ya existente</a>&nbsp;
+                    <a href="{{ route('module.form.for.course', $course->id) }}" class="btn btn-info btn-round">Crear módulo</a>
 
             </div>
         </div>

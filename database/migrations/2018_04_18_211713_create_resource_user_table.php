@@ -22,8 +22,8 @@ class CreateResourceUserTable extends Migration
             $table->float('score');
             $table->integer('resource_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->foreign('resource_id')->references('id')->on('resources');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

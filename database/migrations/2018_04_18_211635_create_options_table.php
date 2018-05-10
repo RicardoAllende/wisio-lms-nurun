@@ -16,11 +16,11 @@ class CreateOptionsTable extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('question_id')->unsigned();
-            // $table->integer('position')->nullable();
             $table->string('content');
             $table->string('feedback')->nullable();
             $table->integer('score')->default(0); // default false
-            $table->foreign('question_id')->references('id')->on('questions');
+            $table->foreign('question_id')->references('id')->on('questions')
+                ->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

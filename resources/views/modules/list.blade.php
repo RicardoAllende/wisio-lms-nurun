@@ -2,7 +2,7 @@
 
 @section('title','Módulos')
 @section('cta')
-  <a href="{{route('modules.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Evaluación</a>
+  <a href="{{route('modules.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Módulo nuevo</a>
 @endsection
 
 @section('content')
@@ -21,7 +21,8 @@
                         <thead>
                           <tr>
                             <th>Módulo</th>
-                            <th>Pertenece a</th>
+                            <th>Descripción</th>
+                            <th>Evaluaciones</th>
                             <th>Fecha de inicio</th>
                             <th>Fecha de fin</th>
                             <th>Acciones</th>
@@ -31,13 +32,14 @@
                             @foreach($modules as $module)
                               <tr>
                               <td><a href="{{ action('ModulesController@show' , $module->id) }}">{{ $module->name }}</a></td>
-                              <td>{{ $module->courses->first()->name }}</td>
                               <td>{{ $module->description }}</td>
-                              <td>{{ $module->courses->count() }}</td>
+                              <td>{{ $module->evaluations->count() }}</td>
+                              <td>{{ $module->start_date }}</td>
+                              <td>{{ $module->end_date }}</td>
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['modules.destroy',$module->id],'style'=>'display:inline;']) !!}
-                                    {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                    <!--<a href="{{route('modules.destroy',$module->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
+                                    <!--{!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}-->
+                                    <a href="{{route('modules.destroy',$module->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>
                                   {!! Form::close() !!}
                               </td>
                               </tr>
