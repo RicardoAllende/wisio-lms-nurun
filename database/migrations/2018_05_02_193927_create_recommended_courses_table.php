@@ -15,7 +15,7 @@ class CreateRecommendedCoursesTable extends Migration
     {
         Schema::create('recommended_courses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('likes')->unsigned();
+            $table->boolean('like')->default(true);
             $table->integer('course_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

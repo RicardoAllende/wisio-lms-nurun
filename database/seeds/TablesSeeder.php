@@ -18,11 +18,13 @@ use App\Question;
 use App\Option;
 use App\RoleUser;
 use App\Ascription;
+use App\AscriptionUser;
 use App\Category;
 use App\CategoryCourse;
 use App\AscriptionCourse;
 use App\EvaluationUser;
 use App\CourseUser;
+use App\RecommendedCourse;
 
 class TablesSeeder extends Seeder
 {
@@ -48,11 +50,11 @@ class TablesSeeder extends Seeder
         $category2 = Category::firstOrCreate(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
         $category3 = Category::firstOrCreate(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
         $course = Course::firstOrCreate(['name' => 'Insomnio', 'description' => 'Ejemplo de texto de descripción', 
-            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
+            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
         $course2 = Course::firstOrCreate(['name' => 'Diabetes', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
         $course3 = Course::firstOrCreate(['name' => 'Hipertensión', 'description' => 'Ejemplo de texto de descripción', 
-            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
+            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
         CategoryCourse::firstOrCreate(['category_id' => $category->id, 'course_id' => $course->id]);
         CategoryCourse::firstOrCreate(['category_id' => $category2->id, 'course_id' => $course2->id]);
         CategoryCourse::firstOrCreate(['category_id' => $category3->id, 'course_id' => $course3->id]);
@@ -61,12 +63,15 @@ class TablesSeeder extends Seeder
         AscriptionCourse::firstOrCreate(['ascription_id' => $ascription->id, 'course_id' => $course3->id]);
         AscriptionCourse::firstOrCreate(['ascription_id' => $ascription2->id, 'course_id' => $course2->id]);
         AscriptionCourse::firstOrCreate(['ascription_id' => $ascription2->id, 'course_id' => $course3->id]);
-        $user1 = User::firstOrCreate(['email'=>'juan.huerta@subitus.com', 'password'=>bcrypt('secret'), 'ascription_id' => $ascription->id,
+        $user1 = User::firstOrCreate(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Juan', 'lastname'=>'Huerta', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
-        $user2 = User::firstOrCreate(['email'=>'miguel.villegas@subitus.com', 'password'=>bcrypt('secret'), 'ascription_id' => $ascription->id,
+        $user2 = User::firstOrCreate(['email'=>'miguel.villegas@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
-        $user3 = User::firstOrCreate(['email'=>'ricardo.allende@subitus.com', 'password'=>bcrypt('secret'), 'ascription_id' => $ascription->id,
+        $user3 = User::firstOrCreate(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Ricardo', 'lastname'=>'Allende', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
+        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
+        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
+        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
         $tag1 = Tag::firstOrCreate(['tag'=>'Sueño']);
         $tag2 = Tag::firstOrCreate(['tag'=>'Glándulas']);
         $tag3 = Tag::firstOrCreate(['tag'=>'Corazón']);
@@ -83,11 +88,11 @@ class TablesSeeder extends Seeder
         CourseModule::firstOrCreate(['course_id' => $course2->id, 'module_id' => $module3->id]);
         CourseModule::firstOrCreate(['course_id' => $course2->id, 'module_id' => $module4->id]);
         $evaluation1 = Evaluation::firstOrCreate(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'd']);
-        $evaluation2 = Evaluation::firstOrCreate(['module_id' => $module2->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
-        $evaluation3 = Evaluation::firstOrCreate(['module_id' => $module3->id, 'name'=>'Arsenal terapéutico', 'type' => 'd']);
-        $evaluation4 = Evaluation::firstOrCreate(['module_id' => $module4->id, 'name'=>'Cómo favorecer el tratamiento de insulina', 'type' => 'd']);
-        $evaluation5 = Evaluation::firstOrCreate(['module_id' => $module1->id, 'name'=>'Hipoglucemia', 'type' => 'd']);
-        $evaluation6 = Evaluation::firstOrCreate(['module_id' => $module1->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
+        $evaluation2 = Evaluation::firstOrCreate(['module_id' => $course->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
+        $evaluation3 = Evaluation::firstOrCreate(['module_id' => $ascription->id, 'name'=>'Arsenal terapéutico', 'type' => 'd']);
+        $evaluation4 = Evaluation::firstOrCreate(['module_id' => $module2->id, 'name'=>'Cómo favorecer el tratamiento de insulina', 'type' => 'd']);
+        $evaluation5 = Evaluation::firstOrCreate(['module_id' => $course2->id, 'name'=>'Hipoglucemia', 'type' => 'd']);
+        $evaluation6 = Evaluation::firstOrCreate(['module_id' => $module2->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
         $question1 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 1', 'content'=>'No siempre se programó en computadoras.']);
         $question2 =  Question::firstOrCreate(['evaluation_id' => 2, 'name'=>'Pregunta 2', 'content'=>'Windows está disponible sólo en 32 bits']);
         $question3 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 3', 'content' => '¿Cuántas horas tiene un día?']);
@@ -121,25 +126,29 @@ class TablesSeeder extends Seeder
         Option::firstOrCreate(['question_id' => $question8->id, 'content' => 'Algo incorrecto', 'score' => 0]);
         Option::firstOrCreate(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
 
-        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course->id, 'status' => config('constants.advance.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course2->id, 'status' => config('constants.advance.failed')]);
-        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course->id, 'status' => config('constants.advance.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course2->id, 'status' => config('constants.advance.failed')]);
-        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course->id, 'status' => config('constants.advance.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course2->id, 'status' => config('constants.advance.failed')]);
+        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
 
-        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.advance.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.advance.passed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.advance.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.advance.passed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.advance.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.advance.passed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
+        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
+
+        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user1->id]);
+        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user2->id]);
+        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user3->id]);
         
-        // $attachment = Attachment::firstOrCreate(['name' => 'Archivo adjunto', 'type' => config('constants.attachments.manual')])->id;
-        // $resource = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')])->id;
-        // $resource = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')])->id;
-        // $resource = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')])->id;
-        // $resource = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')])->id;
+        // $attachment = Attachment::firstOrCreate(['name' => 'Archivo adjunto', 'type' => config('constants.attachments.manual')]);
+        // $resource1 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource2 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource3 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource4 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
 
         
 

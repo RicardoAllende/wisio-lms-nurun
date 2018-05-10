@@ -49,6 +49,13 @@ class Ascription extends Model
         }else{
             return false;
         }
-           
+    }
+
+    public function isPharmacy(){
+        if ($this->is_pharmacy == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

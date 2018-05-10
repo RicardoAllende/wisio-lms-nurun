@@ -11,8 +11,18 @@ return [
         'profile_img' => 'profile_img'
     ],
 
+    'evaluations' => [
+        'diagnostic' => 'd',
+        'final' => 'f'
+    ],
+
+    'default_password' => '$2y$10$qQpVjcmcO5I1XffeZduhPuyAe55ZtEb5yxMUGhDXKI84r4PSKARoS', //secret
+
     'resources' => [
-        'manual' => 'manual'
+        'manual' => 'manual', // Manual of a course
+        'video_lesson' => 'video_lesson',
+        'image_lesson' => 'image_lesson',
+        'evaluation' => 'evaluation'
     ],
 
     /**
@@ -27,8 +37,11 @@ return [
         'browsed' => 'Visto',
         'not_attemped' => 'Pendiente'
     ],
+
     'url_medico_consentido' => 'http://www.sanofi.com.mx',
+
     'main_domain' => 'localhost',
+
     'roles' => [
         'admin' => 'admin',
         'reporter' => 'reporter',

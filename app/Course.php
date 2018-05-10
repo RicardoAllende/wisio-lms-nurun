@@ -20,9 +20,13 @@ class Course extends Model
         'has_constancy'
     ];
 
-    // public function likes(){
-    // 	return $this->hasMany('App\Course_featured');
-    // }
+    public function likes(){
+        return RecommendedCourse::where('course_id', $this->id)->count();
+    }
+
+    public function recommended(){
+        return $this->hasMany('App\RecommendedCourse');
+    }
 
     public function specialties(){
         return $this->belongsToMany('App\Specialty');
@@ -36,8 +40,16 @@ class Course extends Model
         }
     }
 
-    public function likes(){
-        RecommendedCourse::where('course_id', $this->id)->count();
+    public function evaluations(){
+        return $this->hasMany('App\Evaluation');
+    }
+
+    public function hasEvaluations(){
+        if ($this->evaluations->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function belongsToAscription($id){
