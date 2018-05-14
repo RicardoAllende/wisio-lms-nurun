@@ -16,4 +16,8 @@ class Specialty extends Model
         return $this->belongsToMany('App\Course');
     }
 
+    public function experts(){
+        return $this->belongsToMany('App\Expert');
+    }
+
 }

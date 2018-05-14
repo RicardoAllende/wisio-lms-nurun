@@ -27,7 +27,7 @@ class Module extends Model
     }
 
     public function experts(){
-    	return $this->hasMany('App\Expert');
+    	return $this->belongsToMany('App\Expert');
     }
 
     public function hasEvaluations(){
@@ -63,12 +63,10 @@ class Module extends Model
         return $this->belongsToMany('App\User')->withPivot('status');
     }
 
-    public function img_url(){
-        $image = $this->attachments->where('type', 'main_img')->first();
-        if($image == null){
-            return ""; // Default image
-        }
-        return "/".$image->url;
+    public function getMainImgUrl(){
+        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        if($img == null){ return ''; }
+        return "/".$img->url;
     }
 
     public function hasCourses(){
@@ -78,6 +76,18 @@ class Module extends Model
             return false;
         }
         
+    }
+
+    public function attachExpert($expert_id){
+        if(Expert::find($expert_id) == null ){ return false; }
+        if( ! $this->experts->contains($expert_id)){
+            $this->experts()->attach($expert_id);
+        }
+        return false;
+    }
+
+    public function detachSpecialty($expert_id){
+        return $this->experts()->detach($expert_id);
     }
 
 }

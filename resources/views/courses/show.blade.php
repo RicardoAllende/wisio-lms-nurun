@@ -17,7 +17,7 @@
                 </h2>
                     <small>Nombre del curso</small>
                 </div>
-                <img src="{{$course->img_url()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
+                <img src="{{$course->getMainImgUrl()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
                 <div>
                     <span>{{ $course->users->count() }} inscritos</span> |
                     <span>{{ $approved }} terminaron el curso</span> |

@@ -122,7 +122,7 @@ class User extends Authenticatable
     }
 
     public function hasAscriptions(){
-        if ($this->ascriptions->where('has_constancy', 0)->count() > 0) {
+        if ($this->ascriptions->count() > 0) {
             return true;
         } else {
             return false;
@@ -131,7 +131,7 @@ class User extends Authenticatable
 
     public function ascription(){
         if($this->hasAscriptions()){
-            return $this->ascriptions->where('has_constancy', 0)->first();
+            return $this->ascriptions->first();
         }else{
             return null;
         }
@@ -150,9 +150,6 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Question');
     }
 
-    public function role(){
-        return $this->belongsTo('App\Role');
-    }
 
     public function hasRole($role){
         if($this->role->where('name', $role)->first()){
@@ -161,9 +158,17 @@ class User extends Authenticatable
         return false;
     }
 
-    // public function roles(){
-    //     return $this->belongsToMany("App\Role");
-    // }
+    public function hasAscription(){
+        if ($this->ascriptions->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function role(){
+        return $this->belongsTo("App\Role");
+    }
 
     // public function authorizeRoles($roles){
     //     if ($this->hasAnyRole($roles)) {

@@ -47,6 +47,10 @@
                           @if(isset($course))
                             <input type="hidden" name="course_id" value="{{$course->id}}">
                           @endif
+
+                          @if(isset($expert_id))
+                            <input type="hidden" name="expert_id" value="{{$expert_id}}">
+                          @endif
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">

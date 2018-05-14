@@ -48,7 +48,7 @@
                                 <td>{{ $user->firstname }}</td>
                                 <td>{{ $user->lastname }}</td>
                                 <td>{{ ($user->enable == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                <td>@if($user->hasAscription()){{ $user->ascription->name }}
+                                <td>@if($user->hasAscription()){{ $user->ascription()->name }}
                                   @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
                                 </td>
                                 <td>{{ $user->created_at }}</td>

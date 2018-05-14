@@ -17,6 +17,8 @@ class CreateCourseModuleTable extends Migration
             $table->increments('id');
             $table->integer('course_id')->unsigned();
             $table->integer('module_id')->unsigned();
+            $table->float('score', 10,5)->nullable();
+            $table->string('status')->default(config('constants.status.not_attemped'));
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

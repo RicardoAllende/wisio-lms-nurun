@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Ascription;
 use App\RecommendedCourse;
 use App\AscriptionCourse;
+use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
@@ -106,11 +107,40 @@ class Course extends Model
         return $this->belongsToMany('App\Attachment');
     }
 
-    public function img_url(){
-        $image = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($image == null){
-            return ""; // Default image
+    public function getMainImgUrl(){
+        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        if($img == null){ return ''; }
+        return "/".$img->url;
+    }
+
+    public function hasMainImg(){
+        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+            return true;
+        }else{
+            return false;
         }
-        return "/".$image->url;
+    }
+
+    public function finalEvaluationsFromModules(){
+        $modules = $this->modules;
+        $result = collect();
+        foreach($modules as $module){
+            $result = $result->concat($module->evaluations->where('type', config('constants.evaluations.final')));
+        }
+        return $result;
+    }
+
+    public function diagnosticEvaluationsFromModules(){
+        $modules = $this->modules;
+        $result = collect();
+        foreach($modules as $module){
+            $result = $result->concat($module->evaluations->where('type', config('constants.evaluations.diagnostic')));
+        }
+        return $result;
+    }
+
+    public function calculateAvgFromModuleEvaluations($user_id){
+        $evaluations = $this->finalEvaluationsFromModules()->pluck('id');
+        return DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
     }
 }

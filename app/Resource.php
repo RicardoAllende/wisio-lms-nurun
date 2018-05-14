@@ -18,4 +18,8 @@ class Resource extends Model
         return $this->belongsToMany('App\User');
     }
 
+    public function evaluations(){
+        return $this->hasMany('App\Evaluation');
+    }
+
 }

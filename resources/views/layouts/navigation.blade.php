@@ -48,6 +48,9 @@
                     <li class="">
                         <a href="{{ route('specialties.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Especialidades</span></a>
                     </li>
+                    <li class="">
+                        <a href="{{ route('experts.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Expertos</span></a>
+                    </li>
                 @endif
                 @if (Auth::user()->isStudent())
                     <li class="">

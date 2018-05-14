@@ -14,7 +14,7 @@ class Ascription extends Model
         'is_pharmacy',
         'maximum_attemps',
         'minimum_score',
-        'status'
+        'enabled'
     ];
 
     public function courses(){

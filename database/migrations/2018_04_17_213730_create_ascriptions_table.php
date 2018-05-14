@@ -18,11 +18,11 @@ class CreateAscriptionsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique()->nullable();
             $table->string('description');
-            $table->boolean('has_constancy')->default(false); // If it's a diplomat
+            $table->boolean('has_constancy')->default(false); // If it's a 'diplomado'
             $table->boolean('is_pharmacy')->default(false); // For special actions
             $table->integer('maximum_attemps')->default(2)->unsigned(); // 0 means there's no restriction, it's for a diplomat
             $table->integer('minimum_score')->unsigned()->default(8);
-            $table->boolean('status')->default(true);
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
     }

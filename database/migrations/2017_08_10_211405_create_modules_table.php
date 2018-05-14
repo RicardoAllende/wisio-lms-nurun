@@ -19,6 +19,7 @@ class CreateModulesTable extends Migration
             $table->text('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->boolean('enable')->default(true);
             $table->timestamps();
         });
     }

@@ -29,10 +29,15 @@ class Category extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){
-            return "";
+        if($img == null){ return ''; }
+        return "/".$img->url;
+    }
+
+    public function hasMainImg(){
+        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+            return true;
         }else{
-            return "/".$img->url;
+            return false;
         }
     }
 

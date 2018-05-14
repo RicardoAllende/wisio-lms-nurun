@@ -14,29 +14,6 @@ Route::get('/', function(){
 	return view('dashboard/welcome');
 })->name("welcome");
 
-Route::get('/config', 'HomeController@prueba');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Route::domain('{slug}.'.config('constants.main_domain'))->group(function () {
     Route::get('student/{id}', function ($slug, $id) {
 		return "Buscando la farmacia con el slug: {$slug},<br> información que se obtendrá del usuario: {$id}";
@@ -44,30 +21,8 @@ Route::domain('{slug}.'.config('constants.main_domain'))->group(function () {
 });
 
 
+Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Route::get('/denied', function(){
-	return view('errors.denied');
-})->middleware('auth')->name('permission.denied');
 Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 
@@ -78,6 +33,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
 		Route::post('/attachments/uploadFile', 'AttachmentsController@uploadFile')->name('attachments.file.upload');
+		Route::get('/modules/{id}/manage-experts/', function($id){ return "Se ingresó ".$id; })->name('module');
+		Route::get('/experts/{id}/list-specialties', 'ExpertsController@listSpecialties')->name('list.specialties.for.expert');
+		Route::get('/experts/{id}/list-modules', 'ExpertsController@listModules')->name('list.modules.for.expert');
+		Route::get('/experts/{expert_id}/attach-specialty/{module_id}', 'ExpertsController@attachSpecialty')->name('attach.specialty.to.expert');
+		Route::get('/experts/{expert_id}/detach-specialty/{module_id}', 'ExpertsController@detachSpecialty')->name('detach.specialty.to.expert');
+		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'ExpertsController@attachModule')->name('attach.module.to.expert');
+		Route::get('/experts/{expert_id}/detach-module/{module_id}', 'ExpertsController@detachModule')->name('detach.module.to.expert');
 		Route::get('users/search-by-email/{email}', 'UsersController@searchUsersByEmail')
 			->name('search.users.by.email');
 		Route::get('users/search-by-name/{name}', 'UsersController@searchUsersByName')
@@ -95,6 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('resources', 'ResourcesController');
 		Route::post('/uploadQuestions','QuestionsController@uploadQuestions')->name("uploadquestions");
 		Route::resource('/evaluations', 'EvaluationsController');
+		Route::resource('/experts', 'ExpertsController');
 		Route::resource('/ascriptions', 'AscriptionsController');
 		Route::resource('/modules', 'ModulesController');
 		Route::resource('/specialties', 'SpecialtiesController');

@@ -27,6 +27,5 @@ class Question extends Model
         } else {
             return false;
         }
-        
     }
 }

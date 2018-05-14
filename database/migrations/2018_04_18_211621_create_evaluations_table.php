@@ -18,8 +18,9 @@ class CreateEvaluationsTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('description')->nullable();
-            // $table->string('minimum_score')->default(6);
-            // $table->integer('maximum_attemps')->default(0);
+            $table->float('minimum_score', 10, 5)->default(8);
+            $table->float('maximum_score', 10, 5)->default(10);
+            $table->integer('maximum_attemps')->default(2);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             /**

@@ -8,6 +8,7 @@ use App\CourseModule;
 use App\Course;
 use App\AttachmentModule;
 use App\ModuleUser;
+use App\Expert;
 
 class ModulesController extends Controller
 {
@@ -29,6 +30,10 @@ class ModulesController extends Controller
      */
     public function create()
     {
+        if(isset($_GET['expert_id'])){
+            $expert_id = $_GET['expert_id'];
+            return view('modules/form', compact('expert_id'));
+        }
         return view('modules/form');
     }
 
@@ -55,6 +60,15 @@ class ModulesController extends Controller
             if(Course::find($course_id) != null){
                 CourseModule::create(['course_id' => $course_id, 'module_id' => $module->id]);
                 return redirect()->route('courses.show', $course_id);
+            }
+        }
+
+        if($request->filled('expert_id')){
+            $expert_id = $request->expert_id;
+            $expert = Expert::find($expert_id);
+            if( $expert != null){
+                $module->attachExpert($expert_id);
+                return back();
             }
         }
 
@@ -163,7 +177,6 @@ class ModulesController extends Controller
         foreach($pivots as $pivot){
             $pivot->delete();
         }
-        // return back();
         return redirect()->route('list.modules.for.course', $course_id);
     }
 
@@ -173,5 +186,7 @@ class ModulesController extends Controller
             $image->delete();
         }
     }
+
+    
 
 }

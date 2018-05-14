@@ -25,6 +25,10 @@ use App\AscriptionCourse;
 use App\EvaluationUser;
 use App\CourseUser;
 use App\RecommendedCourse;
+use App\Expert;
+use App\Specialty;
+use App\ExpertSpecialty;
+use App\ExpertModule;
 
 class TablesSeeder extends Seeder
 {
@@ -36,121 +40,162 @@ class TablesSeeder extends Seeder
     public function run()
     {
         // https://lion.app.box.com/s/h9eoa8837p01c8uenq66wgfrmg930lk3/file/285174501391
-        $privateDoctor = Role::firstOrCreate(['name' => config('constants.roles.private_doctor'), 'description' => config('constants.roles.private_doctor')]);
-        $publicDoctor = Role::firstOrCreate(['name' => config('constants.roles.public_doctor'), 'description' => config('constants.roles.public_doctor')]);
-        $pharmacyDoctor = Role::firstOrCreate(['name' => config('constants.roles.pharmacy_doctor'), 'description' => config('constants.roles.pharmacy_doctor')]);
-        $reporter = Role::firstOrCreate(['name' => config('constants.roles.reporter'), 'description' => config('constants.roles.reporter')]);
-        $admin = Role::firstOrCreate(['name' => config('constants.roles.admin'), 'description' => config('constants.roles.admin')]);
-        $tester = Role::firstOrCreate(['name' => config('constants.roles.tester'), 'description' => config('constants.roles.tester')]);
-        $teacher = Role::firstOrCreate(['name' => config('constants.roles.teacher'), 'description' => config('constants.roles.teacher')]);
+        $privateDoctor = Role::create(['name' => config('constants.roles.private_doctor'), 'description' => config('constants.roles.private_doctor')]);
+        $publicDoctor = Role::create(['name' => config('constants.roles.public_doctor'), 'description' => config('constants.roles.public_doctor')]);
+        $pharmacyDoctor = Role::create(['name' => config('constants.roles.pharmacy_doctor'), 'description' => config('constants.roles.pharmacy_doctor')]);
+        $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => config('constants.roles.reporter')]);
+        $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => config('constants.roles.admin')]);
+        $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => config('constants.roles.tester')]);
+        $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => config('constants.roles.teacher')]);
 
-        $ascription = Ascription::firstOrCreate(['name' => 'Paec México', 'slug' => 'paec-mexico', 'description' => 'Sección principal']);
-        $ascription2 = Ascription::firstOrCreate(['name' => 'Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $category = Category::firstOrCreate(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
-        $category2 = Category::firstOrCreate(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
-        $category3 = Category::firstOrCreate(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
-        $course = Course::firstOrCreate(['name' => 'Insomnio', 'description' => 'Ejemplo de texto de descripción', 
+        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'paec-mexico', 'description' => 'Sección principal']);
+        $ascription2 = Ascription::create(['name' => 'Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $category = Category::create(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
+        $category2 = Category::create(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
+        $category3 = Category::create(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
+        $specialty1 = Specialty::create(['name' => 'Alergólogo']);
+        $specialty2 = Specialty::create(['name' => 'Cardiólogo']);
+        $specialty3 = Specialty::create(['name' => 'Cirujano plástico']);
+        $course = Course::create(['name' => 'Insomnio', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
-        $course2 = Course::firstOrCreate(['name' => 'Diabetes', 'description' => 'Ejemplo de texto de descripción', 
+        $course2 = Course::create(['name' => 'Diabetes', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
-        $course3 = Course::firstOrCreate(['name' => 'Hipertensión', 'description' => 'Ejemplo de texto de descripción', 
+        $course3 = Course::create(['name' => 'Hipertensión', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
-        CategoryCourse::firstOrCreate(['category_id' => $category->id, 'course_id' => $course->id]);
-        CategoryCourse::firstOrCreate(['category_id' => $category2->id, 'course_id' => $course2->id]);
-        CategoryCourse::firstOrCreate(['category_id' => $category3->id, 'course_id' => $course3->id]);
-        AscriptionCourse::firstOrCreate(['ascription_id' => $ascription->id, 'course_id' => $course->id]);
-        AscriptionCourse::firstOrCreate(['ascription_id' => $ascription->id, 'course_id' => $course2->id]);
-        AscriptionCourse::firstOrCreate(['ascription_id' => $ascription->id, 'course_id' => $course3->id]);
-        AscriptionCourse::firstOrCreate(['ascription_id' => $ascription2->id, 'course_id' => $course2->id]);
-        AscriptionCourse::firstOrCreate(['ascription_id' => $ascription2->id, 'course_id' => $course3->id]);
-        $user1 = User::firstOrCreate(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
+        CategoryCourse::create(['category_id' => $category->id, 'course_id' => $course->id]);
+        CategoryCourse::create(['category_id' => $category2->id, 'course_id' => $course2->id]);
+        CategoryCourse::create(['category_id' => $category3->id, 'course_id' => $course3->id]);
+        AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course->id]);
+        AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course2->id]);
+        AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course3->id]);
+        AscriptionCourse::create(['ascription_id' => $ascription2->id, 'course_id' => $course2->id]);
+        AscriptionCourse::create(['ascription_id' => $ascription2->id, 'course_id' => $course3->id]);
+        $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Juan', 'lastname'=>'Huerta', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
-        $user2 = User::firstOrCreate(['email'=>'miguel.villegas@subitus.com', 'password'=>config('constants.default_password'),
+        $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
-        $user3 = User::firstOrCreate(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
+        $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Ricardo', 'lastname'=>'Allende', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
-        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
-        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
-        AscriptionUser::firstOrCreate(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
-        $tag1 = Tag::firstOrCreate(['tag'=>'Sueño']);
-        $tag2 = Tag::firstOrCreate(['tag'=>'Glándulas']);
-        $tag3 = Tag::firstOrCreate(['tag'=>'Corazón']);
-        CourseTag::firstOrCreate(['tag_id'=> $tag1->id, 'course_id'=>$course->id]);
-        CourseTag::firstOrCreate(['tag_id'=> $tag2->id, 'course_id'=>$course2->id]);
-        CourseTag::firstOrCreate(['tag_id'=> $tag3->id, 'course_id'=>$course3->id]);
-        $module1 = Module::firstOrCreate(['name' => 'Introducción', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module2 = Module::firstOrCreate(['name' => 'Lección 1', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module3 = Module::firstOrCreate(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module4 = Module::firstOrCreate(['name' => 'Lección final', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        CourseModule::firstOrCreate(['course_id' => $course->id, 'module_id' => $module1->id]);
-        CourseModule::firstOrCreate(['course_id' => $course->id, 'module_id' => $module3->id]);
-        CourseModule::firstOrCreate(['course_id' => $course->id, 'module_id' => $module4->id]);
-        CourseModule::firstOrCreate(['course_id' => $course2->id, 'module_id' => $module3->id]);
-        CourseModule::firstOrCreate(['course_id' => $course2->id, 'module_id' => $module4->id]);
-        $evaluation1 = Evaluation::firstOrCreate(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'd']);
-        $evaluation2 = Evaluation::firstOrCreate(['module_id' => $course->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
-        $evaluation3 = Evaluation::firstOrCreate(['module_id' => $ascription->id, 'name'=>'Arsenal terapéutico', 'type' => 'd']);
-        $evaluation4 = Evaluation::firstOrCreate(['module_id' => $module2->id, 'name'=>'Cómo favorecer el tratamiento de insulina', 'type' => 'd']);
-        $evaluation5 = Evaluation::firstOrCreate(['module_id' => $course2->id, 'name'=>'Hipoglucemia', 'type' => 'd']);
-        $evaluation6 = Evaluation::firstOrCreate(['module_id' => $module2->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'd']);
-        $question1 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 1', 'content'=>'No siempre se programó en computadoras.']);
-        $question2 =  Question::firstOrCreate(['evaluation_id' => 2, 'name'=>'Pregunta 2', 'content'=>'Windows está disponible sólo en 32 bits']);
-        $question3 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 3', 'content' => '¿Cuántas horas tiene un día?']);
-        $question4 =  Question::firstOrCreate(['evaluation_id' => 2, 'name'=>'Pregunta 4', 'content' => '¿Qué significa RGB?']);
-        $question5 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 5', 'content'=>'No siempre se programó en computadoras.']);
-        $question6 =  Question::firstOrCreate(['evaluation_id' => 2, 'name'=>'Pregunta 6', 'content'=>'Windows está disponible sólo en 32 bits']);
-        $question7 =  Question::firstOrCreate(['evaluation_id' => 1, 'name'=>'Pregunta 7', 'content' => '¿Cuántas horas tiene un día?']);
-        $question8 =  Question::firstOrCreate(['evaluation_id' => 2, 'name'=>'Pregunta 8', 'content' => '¿Qué significa RGB?']);
-        Option::firstOrCreate(['question_id' => $question1->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question1->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question1->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question2->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question2->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question2->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question3->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question3->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question3->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question4->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question4->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question4->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question5->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question5->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question5->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question6->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question6->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question6->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question7->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question7->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question7->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question8->id, 'content' => 'Una opción adecuada', 'score' => 1]);
-        Option::firstOrCreate(['question_id' => $question8->id, 'content' => 'Algo incorrecto', 'score' => 0]);
-        Option::firstOrCreate(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-
-        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user1->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
-        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user2->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
-        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::firstOrCreate(['user_id' => $user3->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
-
-        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 'status' => config('constants.status.failed')]);
-        EvaluationUser::firstOrCreate(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 'status' => config('constants.status.passed')]);
-
-        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user1->id]);
-        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user2->id]);
-        RecommendedCourse::firstOrCreate(['course_id'=>$course->id, 'user_id'=>$user3->id]);
+        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
+        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
+        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
+        $tag1 = Tag::create(['tag'=>'Sueño']);
+        $tag2 = Tag::create(['tag'=>'Glándulas']);
+        $tag3 = Tag::create(['tag'=>'Corazón']);
         
-        // $attachment = Attachment::firstOrCreate(['name' => 'Archivo adjunto', 'type' => config('constants.attachments.manual')]);
-        // $resource1 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
-        // $resource2 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
-        // $resource3 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
-        // $resource4 = Resource::firstOrCreate(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        $module1 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
+        $module2 = Module::create(['name' => 'Lección 1', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
+        $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
+        $module4 = Module::create(['name' => 'Lección final', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
+        
+        // Relations
+            CourseTag::create(['tag_id'=> $tag1->id, 'course_id'=>$course->id]);
+            CourseTag::create(['tag_id'=> $tag2->id, 'course_id'=>$course2->id]);
+            CourseTag::create(['tag_id'=> $tag3->id, 'course_id'=>$course3->id]);
+            CourseModule::create(['course_id' => $course->id, 'module_id' => $module1->id]);
+            CourseModule::create(['course_id' => $course->id, 'module_id' => $module3->id]);
+            CourseModule::create(['course_id' => $course->id, 'module_id' => $module4->id]);
+            CourseModule::create(['course_id' => $course2->id, 'module_id' => $module3->id]);
+            CourseModule::create(['course_id' => $course2->id, 'module_id' => $module4->id]);
+        
+        // Evaluations
+            $evaluation1 = Evaluation::create(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
+            $evaluation2 = Evaluation::create(['module_id' => $course->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
+            $evaluation3 = Evaluation::create(['module_id' => $ascription->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
+            $evaluation4 = Evaluation::create(['module_id' => $module2->id, 'name'=>'Cómo favorecer el tratamiento de insulina', 'type' => 'f']);
+            $evaluation5 = Evaluation::create(['module_id' => $course2->id, 'name'=>'Hipoglucemia', 'type' => 'f']);
+            $evaluation6 = Evaluation::create(['module_id' => $module2->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
+            $question1 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 1', 'content'=>'No siempre se programó en computadoras.']);
+            $question2 =  Question::create(['evaluation_id' => 2, 'name'=>'Pregunta 2', 'content'=>'Windows está disponible sólo en 32 bits']);
+            $question3 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 3', 'content' => '¿Cuántas horas tiene un día?']);
+            $question4 =  Question::create(['evaluation_id' => 2, 'name'=>'Pregunta 4', 'content' => '¿Qué significa RGB?']);
+            $question5 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 5', 'content'=>'El español proviene de México']);
+            $question6 =  Question::create(['evaluation_id' => 2, 'name'=>'Pregunta 6', 'content'=>'Linux está disponible sólo en 32 bits']);
+            $question7 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 7', 'content' => '¿Cuántas días tiene un año?']);
+            $question8 =  Question::create(['evaluation_id' => 2, 'name'=>'Pregunta 8', 'content' => '¿Qué significa SMTP?']);
+            Option::create(['question_id' => $question1->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question1->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question1->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question2->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question2->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question2->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question3->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question3->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question3->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question4->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question4->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question4->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question5->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question5->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question5->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question6->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question6->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question6->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question7->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question7->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question7->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+            Option::create(['question_id' => $question8->id, 'content' => 'Una opción adecuada', 'score' => 1]);
+            Option::create(['question_id' => $question8->id, 'content' => 'Algo incorrecto', 'score' => 0]);
+            Option::create(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
+
 
         
+        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
+        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+
+        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 
+            'status' => config('constants.status.failed'), 'score' => 7.6]);
+        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 
+            'status' => config('constants.status.passed'), 'score' => 8.1]);
+        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation3->id, 
+            'status' => config('constants.status.failed'), 'score' => 5.9]);
+        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation4->id, 
+            'status' => config('constants.status.passed'), 'score' => 10]);
+        
+        EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 
+            'status' => config('constants.status.failed'), 'score' => 6.5]);
+        EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 
+            'status' => config('constants.status.passed'), 'score' => 9]);
+        EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 
+            'status' => config('constants.status.failed'), 'score' => 7.95]);
+        EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 
+            'status' => config('constants.status.passed'), 'score' => 8]);
+
+        RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user1->id]);
+        RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user2->id]);
+        RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user3->id]);
+        $summary = "is a doctor with it all: he's successful, he's rich, extremely self centred and he has no problems.... until he is diagnosed with throat cancer. Now that he has seen medicine, hospitals, and doctors from a patient's perspective, he realises tha";
+        $expert1 = Expert::create(['name' => 'Dr Ricardo Allende', 'summary' => $summary]);
+        $expert2 = Expert::create(['name' => 'Dr Juan Huerta', 'summary' => $summary]);
+        $expert3 = Expert::create(['name' => 'Dr Miguel Villegas', 'summary' => $summary]);
+        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty1->id]);
+        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty2->id]);
+        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty3->id]);
+
+        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module1->id]);
+        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
+        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
+        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
+
+        // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 1]);
+        // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 2]);
+        // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 3]);
+        
+        
+        // $attachment = Attachment::create(['name' => 'Archivo adjunto', 'type' => config('constants.attachments.manual')]);
+        // $resource1 = Resource::create(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource2 = Resource::create(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource3 = Resource::create(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // $resource4 = Resource::create(['attachment_id'=>$attachment, 'type' => config('constants.resources.manual')]);
+        // use Illuminate\Support\Facades\DB;
+        // $q3 = $q2->concat($q1)
+        // DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', 1)->groupBy('evaluation_id')->get()->avg('score')
+        // select avg(score) from (select max(score) as score from evaluation_user where user_id = 1 group by evaluation_id) as t1;
+        // select avg(score) from (select max(score) as score from evaluation_user where user_id = 1 AND evaluation_id IN (1,3,4) group by evaluation_id) as t1;
 
     }
 }

@@ -20,7 +20,7 @@
                     </h2>
                         <small>Nombre de la evaluación</small>
                     </div>
-                    <img src="{{$evaluation->img_url()}}" width="32%" height="18%" class="img-circle m-b-md" alt="Imagen del módulo">
+                    <img src="{{$evaluation->getMainImgUrl()}}" width="32%" height="18%" class="img-circle m-b-md" alt="Imagen del módulo">
                 </div>
                 <div class="col-sm-8" style="bottom: 50%;">
                 <br><br><br>
