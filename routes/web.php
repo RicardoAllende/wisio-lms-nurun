@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::post('/modules/add-to-course', 'modulesController@addToCourse')->name('add.module.to.course');
 		Route::get('/modules/relate-to-course/{module_id}/{course_id}', 'modulesController@relateToCourse')->name('relate.module.to.course');
 		Route::get('/modules/dissociate-of-course/{module_id}/{course_id}', 'modulesController@dissociateOfCourse')->name('dissociate.module.of.course');
-		
+
 		Route::get('/courses/add-to-ascription/{ascription_id}', 'coursesController@listForAscription')->name('list.courses.for.ascription');
 		Route::get('/courses/create-for-ascription/{ascription_id}', 'coursesController@createForAscription')->name('course.form.for.ascription');
 		Route::post('/courses/add-to-ascription', 'coursesController@addToAscription')->name('add.course.to.ascription');
@@ -103,6 +103,10 @@ Route::group(['middleware' => ['auth']], function () {
 	// })->middleware('pharmacy.doctor');
 
 	Route::group(['prefix' => '/student' , 'middleware' => ['student']], function () {
-		
+		Route::get('/login', function () {
+			return view('users_pages/login.login');
+		});
+
+
 	});
 });

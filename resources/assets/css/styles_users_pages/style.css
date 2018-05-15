@@ -1,0 +1,630 @@
+/**********************/
+/*
+Color principal #4a62ae
+Color secundario #6281e1
+Color fondo #4b63ad
+Color footer #0b1f5b
+*/
+/**********************/
+
+
+/* Importar fuentes */
+
+
+
+/* General */
+body{
+    font-family: "Lato";
+    background-color: #f9f9f9;
+    overflow-x: hidden !important;
+    letter-spacing: 1px;
+}
+
+h1{
+    letter-spacing: 4px;
+    font-weight: 600;
+    font-size: 3em;
+    text-transform: uppercase;
+}
+
+p {
+    
+}
+
+
+/* colores */
+.cp{
+    color: #4a62ae !important;
+}
+
+.cf{
+    background-color: #727FA8 !important;
+    padding-top: 2rem;
+}
+
+.fp{
+    background-color: #fff !important;
+}
+
+
+
+/* navbar-desktop */
+.navbar-desktop{
+    position: fixed;
+    height: 100%;
+    background-color: #fff;
+    width: 200px;
+}
+
+.img-navbar-desktop{
+    width: 150px;
+    position: absolute;
+    top: 20px;
+    left: 25px;
+}
+
+
+.menu-desktop{
+    margin-top:250px;
+}
+
+.menu-desktop ul li{
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    padding-left: 40px;
+}
+
+.menu-desktop ul li a{
+    color: #4a62ae;
+    font-size: 0.9em !important;
+    
+}
+
+
+.activo{
+    color: #69b8d7 !important;
+    text-decoration: underline;
+    text-decoration-color: #69b8d7;
+}
+
+.line{
+    border: 0.5px solid #2157A1;
+}
+
+.line2{
+    margin-top: 1rem;
+    border: 0.5px solid #fff;
+}
+
+.line3{
+    margin-top: 1rem;
+    border: 0.5px solid #8F6EAA;
+    width: 25%;
+    display: inline-block
+}
+
+.line4{
+    margin-top: 1rem;
+    border: 0.5px solid #fff;
+    width: 25%;
+    display: inline-block
+}
+
+.sizefont{
+    background: #fff;
+    border-bottom: 1px solid #bcbcbc;
+    margin: 0px;
+    font-size: .8rem;
+    text-align: right;
+}
+
+.sesion{
+    margin-top: 30%;
+}
+
+.pad-left1{
+    padding-left: 1rem;
+}
+.pad-left2{
+    padding-left: 2rem;
+}
+.pad-left3{
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.pad-right2{
+    padding-right: 2rem;
+}
+
+/* nav mobile */
+nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
+
+    font-size: 44px;
+
+}
+
+
+nav .button-collapse {
+    float: left;
+
+}
+
+
+nav {
+    background-color: #fff;
+    width: 100%;
+    height: 75px;
+}
+
+.img-mobile{
+    width: 100%;
+}
+
+nav a {
+    color: #4a62ae;
+}
+
+
+/* row contenido */
+.contenido{
+    position: absolute;
+    left: 200px;
+    width: calc(100% - 200px);
+    padding-top: 2rem;
+}
+
+/*****************/
+/* seccion inicio */
+.img-principal{
+    width: 100%;
+   
+}
+/*****************/
+
+
+.lineh {
+    border-left:1px solid #fff;
+}
+
+.copyright {
+    color: #2157A1;
+    font-size: .8rem;
+}
+
+/*****************/
+
+/*Seccion cursos*/
+
+.cursos a{
+    color: #fff;
+    text-transform: uppercase;
+    
+}
+
+.recientes{
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: left;
+    color: #2157A1 !important;
+    text-transform: uppercase;
+    margin-top: 0 !important;
+}
+.cursos {
+    padding-bottom: 1rem !important;
+}
+
+.iconcourse {
+    position: absolute;
+    font-size: 2rem;
+    top:10px;
+    right: 5%;
+    width: 10%;
+    padding-right: 5%;
+    display: inline-block;
+    
+}
+
+.iconmodule {
+    font-size: 1.5rem;
+    display: inline-block;
+}
+
+.iconbtn {
+    position: relative;
+    top:-10px;
+    font-size: 2rem;
+    padding-left: 3%;
+    
+}
+
+.user{
+    color: #2157A1 !important;
+    text-transform: uppercase;
+    margin-left: 1rem;
+}
+.cursoview {
+    color: #2157A1 !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    padding-right: 10px;
+}
+#mobile-demo {
+    margin-top: 98px;
+}
+/*******************/
+
+
+
+
+
+
+/******************/
+/* seccion academia */
+.card-academia{
+    height: auto;
+    background-color: #fafafa !important;
+}
+
+.categoria-academia{
+    position: absolute;
+    top:10px;
+    left: 30%;
+    width: 50%;
+    text-transform: uppercase;
+    text-align:right;
+    color:#596066;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.categoria-modulos {
+    color:#596066;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.titulo-academia{
+    font-weight: 700;
+    position: absolute;
+    top:50px;
+    left: 20px;
+    text-transform: uppercase;
+    color:#2157A1;
+    font-size: 1.1em;
+    padding-top: 40px;
+}
+
+.titulo-academia2{
+    font-weight: 700;
+    left: 20px;
+    text-transform: uppercase;
+    color:inherit;
+    font-size: 1.1em;
+    padding-top: 20px;
+    
+}
+
+.modulos{
+    padding: 3% 0 3% 0;
+    color: #000;
+}
+
+/******************/
+
+
+
+/*******************/
+
+/* btn aprender mas */
+.aprender-mas{
+    padding: 5px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    
+    
+}
+
+.aprender-mas a{
+    color: #8F6EAA !important;
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+.leer-mas{
+    padding-top: 170px;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    margin-left: -3px;
+    width: 75%;
+    color: #8F6EAA;
+
+}
+
+.leer-mas a{
+    color: #8F6EAA;
+    width: 70%;
+}
+
+
+.ver-mas{
+    background-color: red;
+    position: relative;
+    float: right;
+    top: 100%;
+}
+
+/* subtitulo */
+.subtitulo{
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: left;
+    color: #6281e1 !important;
+    text-transform: uppercase;
+    margin-top: 0 !important;
+    
+}
+
+.submenu {
+    margin-left: 10px;
+    font-size: .8rem;
+    line-height: 2px;
+    
+}
+
+.mods {
+    height: 400px;
+}
+
+.cursoscard {
+    height: 250px;
+}
+
+
+.moduloslista {
+    padding: 5px 0 5px 0;
+    height: 200px
+}
+
+.leer-masmodulos {
+    position: absolute;
+    bottom: 20px;
+    width: 50%;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    color: #8F6EAA;
+}
+
+.leer-masmodulos_50 {
+    position: absolute;
+    bottom: 50px;
+    width: 50%;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    color: #8F6EAA;
+}
+
+.leer-masmodulos a{
+    color: #8F6EAA;
+}
+
+.leer-masmodulos_50 a{
+    color: #8F6EAA;
+}
+
+/* Expertos  */
+
+.expertostitulo {
+    font-weight: 700;
+    text-transform: uppercase;
+    color:#2157A1;
+    font-size: 1rem;
+}
+
+.expertosparticipacion{
+    padding: 3% 0 3% 0;
+    color: #000;
+    font-size: 0.8rem;
+}
+
+.upper{
+    text-transform: uppercase;
+}
+
+.expertoscard {
+    height: 450px;
+}
+
+/* footer */
+.ff{
+    background-color: #0b1f5b !important;
+    font-size: .8rem;
+    
+}
+
+.ff a{
+    color: #fff;
+    text-decoration: underline;
+}
+
+/*aux*/
+.txt-blanco{
+    color:#fff !important;
+}
+
+.verde{
+    color:#68b4d8 !important;
+}
+
+.negro{
+    color: #000 !important;
+}
+
+.collapsiblemod {
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    color: #8F6EAA;
+}
+
+.active, .collapsiblemod:hover {
+    background-color: #8F6EAA;
+    color: #fff;
+}
+
+.active .titulo-academia2{
+    color: #fff;
+}
+
+
+.card .active {
+    margin: 2rem 0 -1rem 0 !important;
+    transition: margin 0.2s ease-out;
+}
+
+.card .collapsiblemod{
+    transition: margin 0.2s ease-out;
+}
+
+.content {
+    padding-left: 2rem !important;
+    max-height:0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #fff;
+    border: 1px solid #8F6EAA;
+    display: none;
+    margin-left: .8rem !important;
+    
+    
+}
+
+.cerrar{
+    float: right;
+    background-color: #8F6EAA;
+    padding: 5px;
+    position: relative;
+}
+
+
+.slider .indicators .indicator-item {
+  background-color: #666666;
+  border: 3px solid #ffffff;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+.slider .indicators .indicator-item.active {
+  background-color: #ffffff;
+}
+.slider {
+  width: 900px;
+  margin: 0 auto;
+}
+.slider .indicators {
+  bottom: 60px;
+  z-index: 100;
+  /* text-align: left; */
+}
+
+
+/* media query */
+@media only screen and (max-width: 992px) {
+    .contenido{
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    }
+    
+    
+    nav .brand-logo {
+    width: 50%;
+
+    }
+    
+    .img-principal{
+        width: 100%;
+        max-width: none !important;
+        min-width: none !important;
+    }
+}
+
+
+
+
+@media only screen and (min-width: 1200px) {
+    
+    .aux-padding{
+        padding-top: 30px !important;
+    }
+    
+    
+    
+}
+
+@media only screen and (max-width: 992px) {
+    .aprender-mas{
+        text-align: center;
+    
+    }
+    
+    .sesion{
+        margin-top: 5%;
+    }
+    
+    
+.lineh {
+    border-left:0px;
+    padding-top:15px !important;
+}
+}
+
+@media only screen and (max-width: 600px) {
+    
+    
+    .card-noticias{
+    height: 160px !important;
+}
+
+.img-noticia{
+    width: 120px;
+    left: 30px;
+    top: 20px;
+}
+
+
+.categoria-noticia{
+    top: 25px;
+    left: 170px;
+}
+
+.titulo-noticia{
+    top: 60px;
+    left: 170px;
+}
+
+.fecha-noticia{
+    top: 10px !important;
+    left: 10px !important;
+}
+    
+.aprender-mas{
+    text-align: center;
+    }
+    
+    
+    
+    
+}
+
