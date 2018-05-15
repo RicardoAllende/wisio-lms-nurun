@@ -36,7 +36,7 @@
                               <th>Nombre</th>
                               <th>Apellidos</th>
                               <th>Activo</th>
-                              <th>Pertenece a</th><!-- De momento considerando una adscripción por usuario, pero en bd se permiten varias-->
+                              <th>Adscripción</th><!-- De momento considerando una adscripción por usuario, pero en bd se permiten varias-->
                               <th>Fecha de inscripción</th>
                               <th>Acciones</th>
                             </tr>
@@ -48,7 +48,7 @@
                                 <td>{{ $user->firstname }}</td>
                                 <td>{{ $user->lastname }}</td>
                                 <td>{{ ($user->enable == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                <td>@if($user->hasAscription()){{ $user->ascription()->name }}
+                                <td>@if($user->hasAscriptions()){{ $user->ascriptions->first()->name }}
                                   @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
                                 </td>
                                 <td>{{ $user->created_at }}</td>

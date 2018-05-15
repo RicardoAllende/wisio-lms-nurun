@@ -9,6 +9,7 @@ use App\Course;
 use App\AttachmentModule;
 use App\ModuleUser;
 use App\Expert;
+use App\Resource;
 
 class ModulesController extends Controller
 {
@@ -85,6 +86,7 @@ class ModulesController extends Controller
     {
         $module = Module::find($id);
         if($module != null){
+            $resources = $module->resources;
             $timesPassed = ModuleUser::where('module_id', $id)->where('status', config('constants.status.passed'))->count();
             return view('modules/show', ['module'=>$module, 'timesPassed' => $timesPassed]);
         }else{
@@ -187,6 +189,12 @@ class ModulesController extends Controller
         }
     }
 
+    public function listExperts($module_id){
+        $module = Module::find($module_id);
+        if($module == null){ return false; }
+        $experts = Expert::all();
+        return view('modules/list-experts', compact('experts', 'module'));
+    }
     
 
 }

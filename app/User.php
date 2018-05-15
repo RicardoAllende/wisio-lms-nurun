@@ -61,6 +61,14 @@ class User extends Authenticatable
         }
     }
 
+    public function enrolUser($user_id){
+        $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+    }
+
+    public function attachCourse($user_id, $avg, $status){
+
+    }
+
     public function dissociateAllAscriptions(){
         $relations = AscriptionUser::where('user_id', $this->id)->get();
         foreach($relations as $relation){

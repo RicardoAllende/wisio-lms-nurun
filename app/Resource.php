@@ -8,10 +8,10 @@ class Resource extends Model
 {
     protected $table = "resources";
 
-    protected $fillable = ['attachment_id', 'type', 'previous'];
+    protected $fillable = ['attachment_id', 'type', 'previous', 'weight', 'module_id'];
 
     public function modules(){
-    	return $this->belongsToMany('App\Module');
+    	return $this->belongsTo('App\Module');
     }
 
     public function users(){
@@ -20,6 +20,10 @@ class Resource extends Model
 
     public function evaluations(){
         return $this->hasMany('App\Evaluation');
+    }
+
+    public function attachment(){
+        return $this->belongsTo('App\Attachment');
     }
 
 }

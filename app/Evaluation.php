@@ -26,6 +26,10 @@ class Evaluation extends Model
     	return $this->belongsTo('App\Module');
     }
 
+    public function users(){
+        return $this->belongsToMany('App\User')->withPivot('score', 'status');
+    }
+
     public function questions(){
     	return $this->hasMany('App\Question');
     }
@@ -40,7 +44,7 @@ class Evaluation extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return ''; }
+        if($img == null){ return 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png'; }
         return "/".$img->url;
     }
 
@@ -54,6 +58,18 @@ class Evaluation extends Model
 
     public function approvedUsers(){
 
+    }
+
+    public function attachUser($user_id, $score, $status){
+        if(User::find($user_id) != null){
+            $this->users()->attach($user_id, ['score' => $score, 'status' => $status]);
+        }
+    }
+
+    public function enrollUser($user_id){
+        if( ! $this->users->contains($user_id)){
+            $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+        }
     }
 
 }

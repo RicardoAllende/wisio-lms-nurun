@@ -9,7 +9,7 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-12">
             @if($option->isCorrect())
                 <div class="widget navy-bg p-lg text-center">
                     <div class="m-b-md">

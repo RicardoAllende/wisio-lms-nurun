@@ -14,12 +14,12 @@ class Module extends Model
         'previous'
     ];
 
-    public function courses(){
-    	return $this->belongsToMany('App\Course');
+    public function course(){
+    	return $this->belongsTo('App\Course');
     }
 
     public function resources(){
-    	return $this->belongsToMany('App\Resource');
+    	return $this->hasMany('App\Resource')->orderBy('weight');
     }
 
     public function evaluations(){
@@ -38,13 +38,19 @@ class Module extends Model
         }
     }
 
-    public function belongsToCourse($course_id){
-        $rows = CourseModule::where('course_id', $course_id)->where('module_id', $this->id)->count();
-        if ($rows > 0) {
+    public function hasResources(){
+        if ($this->resources->count() > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
+    }
+
+    public function belongsToExpert($expert_id){
+        if( $this->experts->contains($expert_id) ){
+            return true;
+        }
+        return false;
     }
 
     public function attachments(){
@@ -60,17 +66,17 @@ class Module extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status');
+        return $this->belongsToMany('App\User')->withPivot('status', 'score');
     }
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return ''; }
+        if($img == null){ return 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png'; }
         return "/".$img->url;
     }
 
-    public function hasCourses(){
-        if ($this->courses->count() > 0) {
+    public function hasCourse(){
+        if ($this->course != null) {
             return true;
         } else {
             return false;
@@ -86,8 +92,23 @@ class Module extends Model
         return false;
     }
 
-    public function detachSpecialty($expert_id){
+    public function detachExpert($expert_id){
         return $this->experts()->detach($expert_id);
+    }
+
+    public function attachUser($user_id, $avg, $status){
+        if(User::find($user_id) == null ){ return false; }
+        $this->users()->attach($user_id, ['score' => $avg, 'status' => $status]);
+    }
+
+    public function enrolUser($user_id){
+        if( ! $this->users->contains($user_id)){
+            $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+        }
+        $evaluations = $this->evaluations;
+        foreach($evaluations as $evaluation){
+            $evaluation->enrollUser($user_id);
+        }
     }
 
 }

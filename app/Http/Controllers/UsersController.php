@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Attachment;
 use App\Ascription;
 use App\AscriptionUser;
+use App\Role;
 
 class UsersController extends Controller
 {
@@ -22,9 +23,11 @@ class UsersController extends Controller
 
     public $elementsPerPage = 15;
 
-    public function index()
-    {
-        $users = User::paginate($this->elementsPerPage);
+    public function index(){
+        $doctorRoles = Role::where('name', config('constants.roles.private_doctor'))
+            ->orWhere('name', config('constants.roles.public_doctor'))
+            ->orWhere('name', config('constants.roles.pharmacy_doctor'))->pluck('id');
+        $users = User::whereIn('role_id', $doctorRoles)->paginate($this->elementsPerPage);
         return view('Users/list',compact('users'));
     }
 
@@ -98,16 +101,9 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // dd($request);
-        // if(User::where('email', $request->email)->count() > 0){ // Email duplicate
-        //     return redirect()->route('users.show', $user->id);
-        // }
+        $user->email = $request->email;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->email = $request->email;
-        $user->birthday = $request->birthday;
-        // return $request->mobile_phone;
-        $user->mobile_phone = $request->mobile_phone;
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;

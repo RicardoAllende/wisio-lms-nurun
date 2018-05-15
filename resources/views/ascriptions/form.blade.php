@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Crear/Editar adscripción')
+@section('title', (isset($ascription)) ? 'Editar adscripción' : 'Crear adscripción')
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -8,7 +8,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                      @if(isset($asciption))
+                      @if(isset($ascription))
                         <h5>Editar adscripción</h5>
                       @else
                         <h5>Crear adscripción</h5>
@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                                {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre de la ascripción o farmacia', 'required' => '']) !!}
+                                {!! Form::text('name',null,['class'=>'form-control','placeholder'=>'Nombre de la adscripción o farmacia', 'required' => '']) !!}
                               </div>
                             </div>
                             <div class="form-group">
@@ -57,7 +57,15 @@
                         {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                         {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                         <div class="dz-message" style="height:200px;">
-                          Arrastre la imagen de la farmacia aquí...
+                          @if(isset($ascription))
+                            @if($ascription->hasMainImg())
+                              {{ 'Arrastre aquí una imagen para actualizarla' }}
+                            @else
+                              {{ 'Arrastre aquí la imagen de la adscripción/farmacia (requerida)' }}
+                            @endif
+                          @else
+                            {{ 'Arrastre aquí la imagen de la adscripción/farmacia (requerida)' }}
+                          @endif
                         </div>
                         <input type="hidden" value="main_img" name="type">
                         <input type="hidden" value="ascriptions" name="path">

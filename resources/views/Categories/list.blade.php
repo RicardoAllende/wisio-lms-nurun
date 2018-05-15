@@ -20,15 +20,17 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>
                             <th>Categoria </th>
                             <th>Descripción</th>
                             <th>Fecha de creación</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody>@php $i=1; @endphp
                             @foreach($categories as $category)
                               <tr>
+                              <td><a href="{{ route('categories.show', $category->id) }}">{{ $i }}</a></td> @php $i++; @endphp
                               <td><a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a></td>
                               <td>{{ $category->description }}</td>
                               <td>{{ $category->created_at }}</td>

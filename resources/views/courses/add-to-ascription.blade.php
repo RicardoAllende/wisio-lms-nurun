@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Cursos')
+@section('title','Agregar cursos a adscripción: '.$ascription->name)
 @section('cta')
   <a href="{{route('course.form.for.ascription', $ascription->id)}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Curso</a>
 @endsection
@@ -21,6 +21,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>@php $i=1; @endphp
                             <th>Curso</th>
                             <th>Descripción</th>
                             <th>Fecha de inicio</th>
@@ -30,14 +31,15 @@
                         <tbody>
                             @foreach($courses as $course)
                               <tr>
+                                <td>{{ $i }}</td> @php $i++; @endphp
                                 <td><a href="{{route('courses.show', $course->id)}}">{{ $course->name }}</a></td>
                                 <td>{{ $course->description }}</td>
                                 <td>{{ $course->created_at }}</td>
                                 <td>
                                     @if($course->belongsToAscription($ascription->id))
-                                      <a href="{{ route('dissociate.course.of.ascription', [$course->id, $ascription->id]) }}" class="btn btn-danger btn-rounded">Quitar</a>
+                                      <a href="{{ route('dissociate.course.of.ascription', [$course->id, $ascription->id]) }}" class="btn btn-danger btn-rounded">Quitar de la adscripción</a>
                                     @else
-                                      <a href="{{ route('relate.course.to.ascription', [$course->id, $ascription->id]) }}" class="btn btn-success btn-rounded">Agregar</a>
+                                      <a href="{{ route('relate.course.to.ascription', [$course->id, $ascription->id]) }}" class="btn btn-success btn-rounded">Agregar a la adscripción</a>
                                     @endif
                                 </td>
                               </tr>
@@ -55,8 +57,4 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection

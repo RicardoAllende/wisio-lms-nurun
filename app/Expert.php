@@ -54,7 +54,7 @@ class Expert extends Model
     }
 
     public function belongsToModule($module_id){
-        if ($this->modules->where('id', $module_id)->count() > 0 ) {
+        if ( $this->modules->contains($module_id) ) {
             return true;
         } else {
             return false;

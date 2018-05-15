@@ -19,6 +19,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>
                             <th>Curso</th>
                             <th>Descripción</th>
                             <th>Fecha de inicio</th>
@@ -27,9 +28,10 @@
                             <th>Acciones</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody>@php $i=1; @endphp
                             @foreach($courses as $course)
                               <tr>
+                                <td><a href="{{route('courses.show', $course->id)}}">{{ $i }}</a></td>@php $i++; @endphp
                                 <td><a href="{{route('courses.show', $course->id)}}">{{ $course->name }}</a></td>
                                 <td>{{ $course->description }}</td>
                                 <td>{{ $course->start_date }}</td>

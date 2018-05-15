@@ -18,10 +18,13 @@ class CreateCoursesTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('maximum_attemps')->unsigned()->default(2); // For special courses
+            $table->float('minimum_score', 10, 5)->default(8);
             $table->boolean('has_constancy')->default(false);
             $table->boolean('enabled')->default(true);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->integer('manual')->unsigned()->nullable();
+            $table->foreign('manual');
             $table->timestamps();
         });
     }

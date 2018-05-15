@@ -39,7 +39,7 @@ class Ascription extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return ''; }
+        if($img == null){ return 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png'; }
         return "/".$img->url;
     }
 

@@ -33,9 +33,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
 		Route::post('/attachments/uploadFile', 'AttachmentsController@uploadFile')->name('attachments.file.upload');
-		Route::get('/modules/{id}/manage-experts/', function($id){ return "Se ingresó ".$id; })->name('module');
+		// Route::get('/resource/upload-attachment', '')
+		Route::get('/modules/{id}/manage-experts/', 'ModulesController@listExperts')->name('list.experts.for.module');
 		Route::get('/experts/{id}/list-specialties', 'ExpertsController@listSpecialties')->name('list.specialties.for.expert');
 		Route::get('/experts/{id}/list-modules', 'ExpertsController@listModules')->name('list.modules.for.expert');
+		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'ExpertsController@attachModule')->name('attach.module.to.expert');
+		Route::get('/experts/{expert_id}/detach-module/{module_id}', 'ExpertsController@detachModule')->name('detach.module.to.expert');
 		Route::get('/experts/{expert_id}/attach-specialty/{module_id}', 'ExpertsController@attachSpecialty')->name('attach.specialty.to.expert');
 		Route::get('/experts/{expert_id}/detach-specialty/{module_id}', 'ExpertsController@detachSpecialty')->name('detach.specialty.to.expert');
 		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'ExpertsController@attachModule')->name('attach.module.to.expert');
@@ -51,11 +54,13 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/users/list-for-ascription/{ascription_id}', 'UsersController@listForAscription')->name('list.users.for.ascriptions');
 		Route::get('/users/{user_id}/enroll-to-ascription/{ascription_id}', 'UsersController@enrollToAscription')->name('enroll.user.to.ascription');
 		Route::get('/users/{user_id}/dissociate-of-ascription/{ascription_id}', 'UsersController@dissociateForAscription')->name('dissociate.user.for.ascription');
-		Route::get('/users/import',function(){	return view("Users.massiveimport");	})->name("formmassiveimport");
+		// Route::get('/config/', 'UsersController@index')->name('.user.for.ascription');
+		// Route::get('/users/import',function(){	return view("Users.massiveimport");	})->name("formmassiveimport");
 		Route::get('/uploadQuestions','QuestionsController@formGift')->name("form.upload.questions");
 		Route::post('/upload-resource', 'ResourcesController@uploadResource')->name('upload.resource');
 		Route::resource('resources', 'ResourcesController');
 		Route::post('/uploadQuestions','QuestionsController@uploadQuestions')->name("uploadquestions");
+		Route::resource('/references', 'ReferencesController');
 		Route::resource('/evaluations', 'EvaluationsController');
 		Route::resource('/experts', 'ExpertsController');
 		Route::resource('/ascriptions', 'AscriptionsController');

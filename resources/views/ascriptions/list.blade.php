@@ -21,6 +21,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>
                             <th>Adscripción</th>
                             <th>Slug</th>
                             <th>Descripción</th>
@@ -29,9 +30,10 @@
                             <th>Acciones</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody>@php $i=1; @endphp
                             @foreach($ascriptions as $ascription)
                               <tr>
+                              <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $i }}</a></td>@php $i++; @endphp
                               <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
                               <td>{{ $ascription->description }}</td>

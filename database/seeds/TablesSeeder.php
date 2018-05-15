@@ -9,7 +9,6 @@ use App\CustomFieldUser;
 use App\Tag;
 use App\CourseTag;
 use App\Module;
-use App\CourseModule;
 use App\Attachment;
 use App\Resource;
 use App\ModuleResource;
@@ -49,7 +48,12 @@ class TablesSeeder extends Seeder
         $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => config('constants.roles.teacher')]);
 
         $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'paec-mexico', 'description' => 'Sección principal']);
-        $ascription2 = Ascription::create(['name' => 'Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription3 = Ascription::create(['name' => 'Farmacia del ahorro', 'slug' => 'del-ahorro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription4 = Ascription::create(['name' => 'Farmacia Femsa', 'slug' => 'femsa', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription5 = Ascription::create(['name' => 'Farmacia San pablo', 'slug' => 'san-pablo', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription6 = Ascription::create(['name' => 'Súper Farmacias', 'slug' => 'guadalajara', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription7 = Ascription::create(['name' => 'Farmacia Nadro', 'slug' => 'nadro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $category = Category::create(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
         $category2 = Category::create(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
         $category3 = Category::create(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
@@ -83,20 +87,17 @@ class TablesSeeder extends Seeder
         $tag2 = Tag::create(['tag'=>'Glándulas']);
         $tag3 = Tag::create(['tag'=>'Corazón']);
         
-        $module1 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module2 = Module::create(['name' => 'Lección 1', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
-        $module4 = Module::create(['name' => 'Lección final', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01']);
+        $module1 = Module::create(['name' => 'Ajustando las necesidades del cliente', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course->id]);
+        $module2 = Module::create(['name' => 'Estadísticas y necesidades de los pacientes', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course->id]);
+        $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course2->id]);
+        $module4 = Module::create(['name' => 'Lección final', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course2->id]);
+        $module5 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course3->id]);
+        $module6 = Module::create(['name' => 'Hipoglucemia en contexto', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course3->id]);
         
         // Relations
             CourseTag::create(['tag_id'=> $tag1->id, 'course_id'=>$course->id]);
             CourseTag::create(['tag_id'=> $tag2->id, 'course_id'=>$course2->id]);
             CourseTag::create(['tag_id'=> $tag3->id, 'course_id'=>$course3->id]);
-            CourseModule::create(['course_id' => $course->id, 'module_id' => $module1->id]);
-            CourseModule::create(['course_id' => $course->id, 'module_id' => $module3->id]);
-            CourseModule::create(['course_id' => $course->id, 'module_id' => $module4->id]);
-            CourseModule::create(['course_id' => $course2->id, 'module_id' => $module3->id]);
-            CourseModule::create(['course_id' => $course2->id, 'module_id' => $module4->id]);
         
         // Evaluations
             $evaluation1 = Evaluation::create(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
@@ -139,13 +140,15 @@ class TablesSeeder extends Seeder
             Option::create(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
 
 
-        
-        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
-        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id, 'status' => config('constants.status.passed')]);
-        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id, 'status' => config('constants.status.failed')]);
+        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id]);
+        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id]);
+        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course3->id]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
+        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id]);
+        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id]);
+        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
 
         EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 
             'status' => config('constants.status.failed'), 'score' => 7.6]);
@@ -180,6 +183,26 @@ class TablesSeeder extends Seeder
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
+
+        $course->saveAdvanceForAllUsers();
+        $course2->saveAdvanceForAllUsers();
+        $course3->saveAdvanceForAllUsers();
+
+
+        factory(User::class, 30)->create()->each(function ($u){
+            $u->ascriptions()->attach(rand(1, 7));
+            Course::find(1)->enrolUser($u->id);
+        });
+
+        factory(User::class, 30)->create()->each(function ($u){
+            $u->ascriptions()->attach(rand(1, 7));
+            Course::find(2)->enrolUser($u->id);
+        });
+
+        factory(User::class, 30)->create()->each(function ($u){
+            $u->ascriptions()->attach(rand(1, 7));
+            Course::find(3)->enrolUser($u->id);
+        });
 
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 1]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 2]);

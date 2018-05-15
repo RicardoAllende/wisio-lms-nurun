@@ -27,6 +27,15 @@
                     <li class="isActiveRoute('main')">
                         <a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
                     </li>
+                    <li>
+                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="">Médicos de farmacia</a></li>
+                            <li><a href="dashboard_2.html">Médicos Públicos</a></li>
+                            <li><a href="index.html">Médicos Privados</a></li>
+                            <li><a href="dashboard_2.html">Administración del sistema</a></li>
+                        </ul>
+                    </li>
                     <li class="">
                         <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Adscripciones</span></a>
                     </li>
@@ -71,7 +80,7 @@
                 </li>
             @else
                 <li class="">
-                    <a href="{{ url('/login') }}"><i class="fa fa-sign-in"></i> <span class="nav-label">Iniciar sesión</span></a>
+                    <a href="{{ route('form.login') }}"><i class="fa fa-sign-in"></i> <span class="nav-label">Iniciar sesión</span></a>
                 </li>
             @endif
         </ul>

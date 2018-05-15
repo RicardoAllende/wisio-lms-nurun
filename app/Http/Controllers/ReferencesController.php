@@ -3,14 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Attachment;
-use App\Resource;
 
-/**
- * This
- */
-
-class ResourcesController extends Controller
+class ReferencesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +13,7 @@ class ResourcesController extends Controller
      */
     public function index()
     {
-        return config('constants');
-        return Attachment::all();
+        //
     }
 
     /**
@@ -30,7 +23,7 @@ class ResourcesController extends Controller
      */
     public function create()
     {
-        return view('resources/form');
+        //
     }
 
     /**
@@ -52,11 +45,7 @@ class ResourcesController extends Controller
      */
     public function show($id)
     {
-        $resource = Resource::find($id);
-        $attachment = $resource->attachment;
-        $mimetype = substr($attachment->mimetype, 0, strpos($attachment->mimetype, '/'));
-        return view('resources/show', compact('resource', 'attachment', 'mimetype'));
-        return $attachment;
+        //
     }
 
     /**
@@ -92,16 +81,4 @@ class ResourcesController extends Controller
     {
         //
     }
-
-    public function uploadResource(Request $request){
-        $name = request()->file('file')->getClientOriginalName();
-        $type = request()->file('file')->getMimeType();
-        $path = request()->file('file')->store('public/resources');
-        $path = str_replace('public', 'storage', $path);
-        $attach = Attachment::create(['name'=>$name , 'type'=> $type,'url'=>$path]);
-        // return redirect()->action('ResourcesController@show', $attach->id);
-        // return "El archivo se guardó en: ".$path;
-        echo $attach->id;
-    }
-
 }

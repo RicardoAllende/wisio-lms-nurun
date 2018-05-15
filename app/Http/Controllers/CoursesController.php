@@ -57,16 +57,17 @@ class CoursesController extends Controller
             $attach_id = $request->input('attachment');
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
-        if ($request->filled('ascription_id')) {
-            $ascription_id = $request->input('ascription_id');
-            if (Ascription::find($ascription_id) != null){
-                AscriptionCourse::Create(['ascription_id' => $ascription_id, 'course_id' => $course_id]);
-            }
-        }
         if ($request->filled('category_id')) {
             $category_id = $request->input('category_id');
             if (Category::find($category_id) != null){
                 CategoryCourse::Create(['category_id' => $category_id, 'course_id' => $course_id]);
+            }
+        }
+        if ($request->filled('ascription_id')) {
+            $ascription_id = $request->input('ascription_id');
+            if (Ascription::find($ascription_id) != null){
+                AscriptionCourse::Create(['ascription_id' => $ascription_id, 'course_id' => $course_id]);
+                return back();
             }
         }
         return redirect()->route('courses.show', $course_id);
@@ -124,6 +125,10 @@ class CoursesController extends Controller
             $has_constancy = 1;
         }else{
             $has_constancy = 0;
+        }
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
         $course->has_constancy = $has_constancy;
         $course->save();

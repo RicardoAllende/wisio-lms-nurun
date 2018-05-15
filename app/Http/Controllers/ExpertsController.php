@@ -161,4 +161,12 @@ class ExpertsController extends Controller
         return back();
     }
 
+    // public function attachModule($expert_id, $module_id){
+
+    // }
+
+    // public function detachModule($expert_id, $module_id){
+
+    // }
+
 }

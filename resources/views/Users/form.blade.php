@@ -21,32 +21,9 @@
             <div class="form-group">
               {!! Form::label('email', 'Email:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10">
-                {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Email']) !!}
+                {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Email', 'required' => '']) !!}
               </div>
             </div>
-
-            
-            <div class="form-group">
-              {!! Form::label('ascription_id', 'Email:',['class'=>'control-label col-sm-2']); !!}
-              <div class="col-sm-10">
-              <select name="ascription_id" id="ascription_id" class="form-control" required>
-                @if(isset($user))
-                  @if($user->hasAscriptions())
-                    <option value="{{$user->ascription()->id}}">{{ $user->ascription()->name }} (actual)</option>
-                  @else
-                    <option value="">Seleccionar adscripción</option>
-                  @endif
-                @else
-                  <option value="">Seleccionar adscripción</option>
-                @endif
-
-                @foreach($ascriptions as $ascription)
-                  <option value="{{$ascription->id}}">{{ $ascription->name }}</option>
-                @endforeach
-              </select>
-              </div>
-            </div>
-            
 
             <div class="form-group">
               {!! Form::label('firstname', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
@@ -63,21 +40,23 @@
             </div>
 
             <div class="form-group">
-              {!! Form::label('birthday', 'Fecha de nacimiento:',['class'=>'control-label col-sm-2']); !!}
-              <div class="col-sm-10"> 
-                
+              {!! Form::label('ascription_id', 'Adscripción o farmacia a la que pertenece:',['class'=>'control-label col-sm-2']); !!}
+              <div class="col-sm-10">
+              <select name="ascription_id" id="ascription_id" class="form-control" required>
                 @if(isset($user))
-                  {!! Form::date('birthday',$user->birthday,['class'=>'form-control','placeholder'=>'']) !!}
+                  @if($user->hasAscriptions())
+                    <option value="{{$user->ascription()->id}}">{{ $user->ascription()->name }} (actual)</option>
+                  @else
+                    <option value="">Seleccionar</option>
+                  @endif
                 @else
-                  {!! Form::date('birthday',null,['class'=>'form-control','placeholder'=>'']) !!}
+                  <option value="">Seleccionar</option>
                 @endif
-              </div>
-            </div>
 
-            <div class="form-group">
-              {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-              <div class="col-sm-10"> 
-                {!! Form::number('mobile_phone',null,['class'=>'form-control','placeholder'=>'']) !!}
+                @foreach($ascriptions as $ascription)
+                  <option value="{{$ascription->id}}">{{ $ascription->name }}</option>
+                @endforeach
+              </select>
               </div>
             </div>
 

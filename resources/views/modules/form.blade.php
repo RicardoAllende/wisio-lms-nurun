@@ -73,7 +73,15 @@
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                       {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                       <div class="dz-message" style="height:200px;">
-                          Arrastre la imagen de la farmacia aquí...
+                          @if(isset($evaluation))
+                            @if($evaluation->hasMainImg())
+                              {{ 'Arrastre aquí una imagen para actualizarla' }}
+                            @else
+                              {{ 'Arrastre aquí la imagen del módulo (requerida)' }}
+                            @endif
+                          @else
+                            {{ 'Arrastre aquí la imagen del módulo (requerida)' }}
+                          @endif
                       </div>
                         <input type="hidden" value="main_img" name="type">
                         <input type="hidden" value="modules" name="path">

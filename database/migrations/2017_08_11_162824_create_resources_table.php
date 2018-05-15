@@ -16,8 +16,11 @@ class CreateResourcesTable extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');
+            $table->integer('weight')->nullable();
+            $table->integer('module_id')->unsigned()->nullable();
             $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('attachment_id')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

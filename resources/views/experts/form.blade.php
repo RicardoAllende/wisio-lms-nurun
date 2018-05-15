@@ -64,7 +64,15 @@
                       <input type="hidden" value="main_img" name="type">
                         <input type="hidden" value="experts" name="path">
                       <div class="dz-message" style="height:200px;">
-                          Arrastre la imagen del experto aquí
+                          @if(isset($expert))
+                            @if($evaluation->hasMainImg())
+                              {{ 'Arrastre aquí una imagen para actualizarla' }}
+                            @else
+                              {{ 'Arrastre aquí la imagen del experto (requerida)' }}
+                            @endif
+                          @else
+                            {{ 'Arrastre aquí la imagen del experto (requerida)' }}
+                          @endif
                       </div>
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->

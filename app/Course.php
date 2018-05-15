@@ -88,7 +88,11 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status');
+        return $this->belongsToMany('App\User')->withPivot('status', 'score');
+    }
+
+    public function enrolledUsers(){
+        return $this->belongsToMany('App\User')->wherePivot('status', config('constants.status.not_attemped'))->withPivot('status', 'score');
     }
 
     public function resources(){
@@ -100,7 +104,7 @@ class Course extends Model
     }
 
     public function modules(){
-    	return $this->belongsToMany('App\Module');
+    	return $this->hasMany('App\Module');
     }
 
     public function attachments(){
@@ -109,12 +113,12 @@ class Course extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return ''; }
+        if($img == null){ return 'https://www.capacityacademy.com/uploads/6/4/8/3/6483237/_________667043846.png'; } // Default Image
         return "/".$img->url;
     }
 
     public function hasMainImg(){
-        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+        if($this->attachments->where('type', config())->count() > 0){ 
             return true;
         }else{
             return false;
@@ -139,8 +143,51 @@ class Course extends Model
         return $result;
     }
 
-    public function calculateAvgFromModuleEvaluations($user_id){
+    public function attachUser($user_id, $avg, $status){
+        if(User::find($user_id)){ return false; }
+        if($this->users->contains($user_id)){
+            $this->users()->detach($user_id);
+        }
+        $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
+    }
+
+    public function makeAttempt($user_id){
+        if(User::find($user_id)){ return false; }
+        $pivots = CourseUser::where('course_id', $this->id)->where('status', config('constants.status.not_attemped'))->get();
+        foreach($pivots as $pivot){
+            $pivot->delete();
+        }
+        // attachUser()
+    }
+
+    
+    public function enrolUser($user_id){
+        $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+        $modules = $this->modules;
+        foreach($modules as $module){
+            $module->enrolUser($user_id);
+        }
+    }
+
+    public function calculateAvgForUser($user_id){
         $evaluations = $this->finalEvaluationsFromModules()->pluck('id');
-        return DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
+        $user = User::find($user_id);
+        if($user == null){ return false; }
+        $avg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
+            ->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
+        if ($avg >= $this->minimum_score) {
+            $status = config('constants.status.passed');
+        } else {
+            $status = config('constants.status.passed');
+        }
+        $this->attachUser($user_id, $avg, $status); //  ->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
+        return true;
+    }
+
+    public function saveAdvanceForAllUsers(){
+        $users = $this->enrolledUsers;
+        foreach ($users as $user) {
+            $this->calculateAvgForUser($user->id);
+        }
     }
 }

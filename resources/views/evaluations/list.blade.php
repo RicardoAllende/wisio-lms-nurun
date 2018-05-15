@@ -20,6 +20,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>@php $i=1; @endphp
                             <th>Evaluación</th>
                             <th>Tipo</th>
                             <th>Fecha de creación</th>
@@ -29,6 +30,7 @@
                         <tbody>
                             @foreach($evaluations as $evaluation)
                               <tr>
+                              <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $i }}</a></td> @php $i++; @endphp
                               <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
                               <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
                               <td>{{ $evaluation->created_at }}</td>

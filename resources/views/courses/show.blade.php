@@ -2,7 +2,8 @@
 
 @section('title','Curso '.$course->name)
 @section('cta')
-  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Curso</a>
+  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Curso</a>
+  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>
 @endsection
 
 @section('content')
@@ -11,22 +12,28 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="widget-head-color-box navy-bg p-lg text-center">
-                <div class="m-b-md">
-                <h2 class="font-bold no-margins">
-                    {{$course->name}}
-                </h2>
-                    <small>Nombre del curso</small>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="m-b-md">
+                            <h2 class="font-bold no-margins">
+                                {{$course->name}}
+                            </h2>
+                            <small>Nombre del curso</small>
+                        </div>
+                        <img src="{{$course->getMainImgUrl()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
+                    </div>
+                    <div class="col-lg-6"><br><br>
+                        <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
+                        <p>{{ $approved }} terminaron el curso</p>
+                        <p>{{ $course->modules->count() }} módulos</p>
+                        <p>Evaluaciones finales: {{ $course->finalEvaluationsFromModules()->count() }}</p>
+                        <h4 class="media-heading">Descripción del curso</h4>
+                        <p>{{$course->description}}.</p>
+                        <p>Fecha de inicio: {{ $course->start_date }}</p>
+                        <p> Fecha de término: {{ $course->end_date }}</p>
+                    </div>
                 </div>
-                <img src="{{$course->getMainImgUrl()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
-                <div>
-                    <span>{{ $course->users->count() }} inscritos</span> |
-                    <span>{{ $approved }} terminaron el curso</span> |
-                    <span>{{ $course->modules->count() }} módulos</span>
-                </div>
-            </div>
-            <div class="widget-text-box">
-                <h4 class="media-heading">Descripción del curso</h4>
-                <p>{{$course->description}}. Fecha de inicio: {{ $course->start_date }}, Fecha de término: {{ $course->end_date }}</p>
+                        
             </div>
 
             <div class="ibox float-e-margins">

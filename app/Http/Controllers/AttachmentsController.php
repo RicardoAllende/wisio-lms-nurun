@@ -24,7 +24,7 @@ class AttachmentsController extends Controller
      */
     public function create()
     {
-        //
+        return view('resources/form');
     }
 
     /**

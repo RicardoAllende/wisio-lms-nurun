@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Categorías')
+@section('title', (isset($category)) ? 'Editar categoría' : 'Crear categoría')
 
 @section('content')
 
@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar categoria</h5>
+                        <h5>{{ (isset($category)) ? 'Editar categoría' : 'Crear categoría' }}</h5>
                         
                     </div>
                     <div class="ibox-content">
@@ -47,7 +47,15 @@
                       <input type="hidden" value="main_img" name="type">
                         <input type="hidden" value="categories" name="path">
                       <div class="dz-message" style="height:200px;">
-                          Arrastre la imagen de la categoría aquí
+                        @if(isset($category))
+                          @if($category->hasMainImg())
+                            {{ 'Arrastre aquí una imagen para actualizarla' }}
+                          @else
+                            {{ 'Arrastre aquí la imagen de la categoría (requerida)' }}
+                          @endif
+                        @else
+                          {{ 'Arrastre aquí la imagen de la categoría (requerida)' }}
+                        @endif
                       </div>
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->

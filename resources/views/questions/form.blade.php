@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', (isset($question)) ? 'Crear pregunta' : 'Editar pregunta' )
+@section('title', (isset($question)) ? 'Editar pregunta' : 'Crear pregunta' )
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -8,7 +8,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>{{ (isset($question)) ? 'Crear pregunta' : 'Editar pregunta' }}</h5>
+                        <h5>{{ (isset($question)) ? 'Editar pregunta' : 'Crear pregunta' }}</h5>
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
@@ -51,23 +51,13 @@
                                {!! Form::text('content',null,['class'=>'form-control','placeholder'=>'Contenido de la pregunta', 'required' => '']) !!}
                               </div>
                             </div>
-                            <div class="form-group" id="typeTF">
-                              {!! Form::label('type_label', 'Correcta:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10"> 
-                                <select name="correct" id="correct">
-                                  <option value="">Seleccionar opción</option>
-                                  <option value="1">Verdadero</option>
-                                  <option value="0">Falso</option>
-                                </select>
+
+                            <div class="form-group"> 
+                              <div class="col-sm-offset-2 col-sm-10">
+                              <a href="{{ URL::previous() }}" class="btn btn-default">Cancelar</a>
+                              {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
                               </div>
                             </div>
-
-                             <div class="form-group"> 
-                            <div class="col-sm-offset-2 col-sm-10">
-                            <a href="/questionzes" class="btn btn-default">Cancelar</a>
-                             {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
-                            </div>
-                          </div>
                         {!! Form::close() !!}
                     </div>
                     </div>
@@ -78,19 +68,4 @@
               </div>
       </div>
 </div>
-@endsection
-
-@section('scripts')
-
-<script type="text/javascript">
-  $('#typeTF').hide();
-  $('#type').on("change", function(){
-    if($('#type').val() == 1 ){
-      $('#typeTF').show();
-    }else{
-      $('#typeTF').hide();
-      $('#correct').val('');
-    }
-  });
-</script>
 @endsection

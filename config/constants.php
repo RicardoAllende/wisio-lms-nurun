@@ -8,7 +8,10 @@ return [
         'img' => 'img',
         'pdf' => 'pdf',
         'video' => 'video',
-        'profile_img' => 'profile_img'
+        'profile_img' => 'profile_img', 
+        'manual' => 'manual',
+        'calendar' => 'calendar',
+        'resource' => 'resource'
     ],
 
     'evaluations' => [
@@ -19,10 +22,15 @@ return [
     'default_password' => '$2y$10$qQpVjcmcO5I1XffeZduhPuyAe55ZtEb5yxMUGhDXKI84r4PSKARoS', //secret
 
     'resources' => [
-        'manual' => 'manual', // Manual of a course
-        'video_lesson' => 'video_lesson',
-        'image_lesson' => 'image_lesson',
-        'evaluation' => 'evaluation'
+        'pdf' => 'pdf',
+        'image' => 'image',
+        'video' => 'video'
+    ],
+
+    'resource_types' => [
+        'pdf' => 'pdf',
+        'image' => 'image',
+        'video' => 'video'
     ],
 
     /**

@@ -95,7 +95,15 @@
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                       {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                       <div class="dz-message" style="height:200px;">
-                        Arrastre la imagen del curso aquí...
+                          @if(isset($course))
+                            @if($course->hasMainImg())
+                              {{ 'Arrastre aquí una imagen para actualizarla' }}
+                            @else
+                              {{ 'Arrastre aquí la imagen del curso (requerida)' }}
+                            @endif
+                          @else
+                            {{ 'Arrastre aquí la imagen del curso (requerida)' }}
+                          @endif
                       </div>
                       <input type="hidden" value="main_img" name="type">
                       <input type="hidden" value="courses" name="path">

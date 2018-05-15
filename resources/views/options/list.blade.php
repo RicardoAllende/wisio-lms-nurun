@@ -19,6 +19,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
+                            <th>#</th>@php $i=1; @endphp
                             <th>Pregunta</th>
                             <th>Respuesta</th>
                             <th>Valor</th>
@@ -28,6 +29,7 @@
                         <tbody>
                         @foreach($options as $option)
                           <tr>
+                            <td>{{$i}}</td> @php $i++; @endphp
                             <td><a href="{{ action('QuestionsController@show', $option->question->id) }}">{{ $option->question->content }}</a></td>
                             <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
                             <td>{{ ($option->score == 1) ? 'Correcta' : 'Incorrecta' }}</td>
