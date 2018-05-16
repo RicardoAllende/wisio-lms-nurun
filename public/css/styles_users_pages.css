@@ -219,10 +219,9 @@ nav a {
 .iconcourse {
     position: absolute;
     font-size: 2rem;
-    top:10px;
+    top:0px;
     right: 5%;
     width: 10%;
-    padding-right: 5%;
     display: inline-block;
 
 }
@@ -272,8 +271,8 @@ nav a {
 .categoria-academia{
     position: absolute;
     top:10px;
-    left: 30%;
-    width: 50%;
+    left: 20%;
+    width: 60%;
     text-transform: uppercase;
     text-align:right;
     color:#596066;
