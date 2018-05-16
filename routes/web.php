@@ -23,6 +23,15 @@ Route::domain('{slug}.'.config('constants.main_domain'))->group(function () {
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
+Route::get('/student-login', function () {
+	return view('users_pages/login/login');
+});
+
+Route::get('/student-courses','Users_Pages\CoursesController@index');
+Route::get('/student-courses/{id}','Users_Pages\CoursesController@show');
+Route::get('/student-experts','Users_Pages\ExpertsController@index');
+Route::get('/student-experts/{id}','Users_Pages\ExpertsController@show');
+
 Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 
@@ -98,9 +107,7 @@ Route::group(['middleware' => ['auth']], function () {
 	// })->middleware('pharmacy.doctor');
 
 	Route::group(['prefix' => '/student' , 'middleware' => ['student']], function () {
-		Route::get('/login', function () {
-			return view('users_pages/login.login');
-		});
+
 
 
 	});
