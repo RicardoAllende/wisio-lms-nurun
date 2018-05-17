@@ -509,6 +509,11 @@ nav a {
 
 }
 
+.resumen{
+    padding: 5px;
+    font-style: italic;
+}
+
 .cerrar{
     float: right;
     background-color: #8F6EAA;

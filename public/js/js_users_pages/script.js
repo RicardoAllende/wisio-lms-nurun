@@ -1,6 +1,6 @@
  $(document).ready(function(){
     $('.slider').slider();
-    
+    $('.modal').modal();
     var coll = document.getElementsByClassName("collapsiblemod");
     var i;
     console.log(coll);
@@ -14,8 +14,8 @@
             setTimeout(function(){ content.style.display = 'none'; }, 200);
         } else {
           content.style.maxHeight = content.scrollHeight + "px";
-        } 
+        }
       });
     }
-     
+
 });

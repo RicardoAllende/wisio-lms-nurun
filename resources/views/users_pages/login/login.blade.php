@@ -12,7 +12,8 @@ Login
 
                 <div class="row sesion">
                     <div class="col s12 l6 aprender-mas">
-                  <a href="#!">INICIE SESIÓN <span class="icon-sesion iconbtn"></span></a>
+                  <a href="#modal1" class="modal-trigger"
+                  >INICIE SESIÓN <span class="icon-sesion iconbtn"></span></a>
                </div>
                 <div class="col s12 l6 aprender-mas">
                   <a href="#!">REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
@@ -37,6 +38,6 @@ Login
 
 
          </div>
-
+         @include('users_pages.login.modal')
          @include('users_pages.courses.newest')
 @stop

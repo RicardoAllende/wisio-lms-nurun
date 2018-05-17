@@ -16,4 +16,11 @@ class ExpertsController extends Controller
       $experts = Expert::all();
       return view('Users_Pages/experts.list', compact('experts'));
   }
+
+  public function listModules($expert_id){
+      $expert = Expert::find($expert_id);
+      if($expert == null){ return redirect()->route('experts.index'); }
+      $modules = Module::all();
+      return view('experts/list-modules', compact('expert', 'modules'));
+  }
 }

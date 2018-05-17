@@ -16,9 +16,9 @@ Expertos
                       <div class="expertosparticipacion">
                         <p class="upper">Participa en:</p>
                         <ul class="browser-default">
-                            <li>Introduccion</li>
-                            <li>Creación de plan estratégico para hipertensión</li>
-                            <li>Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa</li>
+                            @foreach($expert->modules as $module)
+                            <li>{{ $module->name }}</li>
+                            @endforeach
                         </ul>
                       </div>
 
