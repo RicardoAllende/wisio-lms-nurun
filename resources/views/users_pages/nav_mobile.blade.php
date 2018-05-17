@@ -7,7 +7,7 @@
                 Este sitio es exclusivo para profesionales de la salud en México
             </div>
             <div class="col s2 l1">
-                 <img src="img/LOGO.png" class="responsive-img">
+                 <img src="{{ asset('img/LOGO.png')}}" class="responsive-img">
             </div>
 
        </div>
@@ -15,7 +15,7 @@
          <div class="nav-wrapper">
 
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-             <a href="#!" class="brand-logo"><img src="img/logo-navbar.png" class="responsive-img"></a>
+             <a href="#!" class="brand-logo"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
             <ul class="side-nav" id="mobile-demo">
                <li><a href="#!">Inicio</a></li>
                <li><a href="#!">¿Qué es un médico con sentido?</a></li>

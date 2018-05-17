@@ -8,17 +8,17 @@
       <title>Academia Sanofi | @yield('title')</title>
 
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="css/style.css" />
-      <link type="text/css" rel="stylesheet" href="css/iconsAcademia.css" />
+      <link type="text/css" rel="stylesheet" href="/css/styles_users_pages/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="/css/styles_users_pages.css" />
+      <link type="text/css" rel="stylesheet" href="/css/styles_users_pages/iconsAcademia.css" />
 
       @yield('extracss')
 
    </head>
    <body>
 
-     @include('nav_mobile')
-     @include('nav_desktop')
+     @include('users_pages.nav_mobile')
+     @include('users_pages.nav_desktop')
 
      <!-- Contenido -->
       <div class="row contenido">
@@ -28,19 +28,21 @@
                 <hr class="line"/>
               </div>
               <div class="col s6 l2">
-                <img src="img/logo_Academia.png" class="responsive-img">
+                <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
-              <p class="user">Dr. {{  }}</p>
+              @if(Auth::user()->name != null)
+              <p class="user">Dr. {{ Auth::user()->name }}</p>
+              @endif
           </div>
 
           @yield('body')
 
-          @include('footer')
+          @include('users_pages.footer')
 
       </div>
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="js/materialize.min.js"></script>
-      <script type="text/javascript" src="js/script.js"></script>
+      <script type="text/javascript" src="/js/js_users_pages/materialize.min.js"></script>
+      <script type="text/javascript" src="/js/js_users_pages/script.js"></script>
 
       @yield('extrajs')
 

@@ -1,7 +1,7 @@
 <!-- navbar desktop -->
 
      <div class="navbar-desktop hide-on-med-and-down">
-        <img class="img-navbar-desktop" src="img/logo-navbar.png">
+        <img class="img-navbar-desktop" src="{{ asset('img/logo-navbar.png')}}">
         <div class="menu-desktop">
            <ul>
               <li><a href="#!" class="activo">Inicio</a></li>
@@ -29,7 +29,7 @@
                Este sitio es exclusivo para profesionales de la salud en México
            </div>
            <div class="col s2 l1">
-                <img src="img/LOGO.png" class="responsive-img">
+                <img src="{{ asset('img/LOGO.png')}}" class="responsive-img">
            </div>
 
       </div>

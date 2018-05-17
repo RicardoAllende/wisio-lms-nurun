@@ -1,7 +1,7 @@
 @section('title')
 Login
 @stop
-@extends('master')
+@extends('users_pages.master')
 @section('body')
 <!-- Home sin login -->
          <div class="row pad-left3">
@@ -37,4 +37,6 @@ Login
 
 
          </div>
+
+         @include('users_pages.courses.newest')
 @stop

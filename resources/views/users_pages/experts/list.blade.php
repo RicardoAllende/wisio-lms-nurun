@@ -1,0 +1,35 @@
+@section('title')
+Expertos
+@stop
+@extends('users_pages.master')
+@section('body')
+  <div class="row pad-left3">
+    <h2 class="recientes">Expertos</h2>
+    @foreach($experts as $expert)
+    <div class="col s12 l3 ">
+               <div class="card z-depth-0 white ">
+                  <div class="card-content expertoscard">
+                     <div class="expertostitulo">{{ $expert->name }}</div>
+                      <div class="col s12">
+                          <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        </div>
+                      <div class="expertosparticipacion">
+                        <p class="upper">Participa en:</p>
+                        <ul class="browser-default">
+                            <li>Introduccion</li>
+                            <li>Creación de plan estratégico para hipertensión</li>
+                            <li>Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa</li>
+                        </ul>
+                      </div>
+
+                    <div class="leer-masmodulos">
+                        <a href="student-experts/{{ $expert->id }}">Ver más</a>
+                         <hr class="line3"/>
+                     </div>
+                  </div>
+               </div>
+            </div>
+        @endforeach
+
+  </div>
+@stop

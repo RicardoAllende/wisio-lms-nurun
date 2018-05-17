@@ -152,7 +152,7 @@ class CoursesController extends Controller
         }catch(\Illuminate\Database\QueryException $e){
             return "Error al intentar eliminar el curso, pertenece a alguna adscripción";
         }
-        return redirect()->route('courses.index'); 
+        return redirect()->route('courses.index');
     }
 
     public function listForAscription($ascription_id){
@@ -194,6 +194,11 @@ class CoursesController extends Controller
         foreach($images as $image){
             $image->delete();
         }
+    }
+
+    public function newestCourses(){
+      $courses = Course::orderBy('created_at','desc')->limit(5)->get();
+      return $courses;
     }
 
 }
