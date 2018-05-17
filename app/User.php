@@ -42,23 +42,32 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('id', 'status');
+        return $this->belongsToMany('App\Course')->withPivot('score', 'status');
     }
 
     public function modules(){
-        return $this->belongsToMany('App\Module')->withPivot('status');
+        return $this->belongsToMany('App\Module')->withPivot('status', 'score');
     }
 
     public function progressInModule($module_id){
         if (Module::find($module_id) != null) {
             $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
             if($pivot == null){
-                return false;
+                return "No inscrito";
             }
             return $pivot->status;
         }else{
-            return false;
+            return "No inscrito";
         }
+    }
+
+    public function availableCourses(){
+        $ascription = $this->ascriptions->first();
+        if($ascription == null){
+            $empty = collect();
+            return $empty;
+        }
+        return $ascription->courses;
     }
 
     public function enrolUser($user_id){
@@ -153,17 +162,17 @@ class User extends Authenticatable
     /**
      * Return answers for the questions the user has answered
      */
-
     public function answers(){
         return $this->belongsToMany('App\Question');
     }
 
 
     public function hasRole($role){
-        if($this->role->where('name', $role)->first()){
+        if($this->role->name == $role){
             return true;
+        }else{
+            return false;
         }
-        return false;
     }
 
     public function hasAscription(){
@@ -176,41 +185,20 @@ class User extends Authenticatable
 
     public function role(){
         return $this->belongsTo("App\Role");
-    }
-
-    // public function authorizeRoles($roles){
-    //     if ($this->hasAnyRole($roles)) {
-    //         return true;
-    //     }
-    //     return redirect()->route('permission.denied');
-    // }
-
-    // public function hasAnyRole($roles){
-    //     if(is_array($roles)){
-    //         foreach ($roles as $role) {
-    //             if ($this->hasRole($role)) {
-    //                 return true;
-    //             }
-    //         }
-    //     }else{
-    //         if($this->hasRole($roles)){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
-    // public function hasRole($role){
-    //     if($this->roles()->where('name', $role)->first()){
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    
+    } 
 
     public function isStudent(){
-        return $this->hasRole('student');
+        $thisUserIsStudent = false;
+        if ($this->hasRole(config('constants.roles.private_doctor'))) {
+            $thisUserIsStudent = true;
+        }
+        if ($this->hasRole(config('constants.roles.public_doctor'))) {
+            $thisUserIsStudent = true;
+        }
+        if ($this->hasRole(config('constants.roles.pharmacy_doctor'))) {
+            $thisUserIsStudent = true;
+        }
+        return $thisUserIsStudent;
     }
 
     public function isAdmin(){

@@ -35,6 +35,7 @@ class ModulesController extends Controller
             $expert_id = $_GET['expert_id'];
             return view('modules/form', compact('expert_id'));
         }
+        
         return view('modules/form');
     }
 
@@ -48,7 +49,8 @@ class ModulesController extends Controller
     {
         $module = Module::create([
             'name' => $request->name, 'description' => $request->description,
-            'start_date' => $request->start_date, 'end_date' => $request->end_date
+            'start_date' => $request->start_date, 'end_date' => $request->end_date,
+            'course_id' => Module::first()->id
         ]);
 
         if($request->filled('attachment')){
@@ -195,6 +197,11 @@ class ModulesController extends Controller
         $experts = Expert::all();
         return view('modules/list-experts', compact('experts', 'module'));
     }
-    
+
+    public function orderResources($module_id){
+        $module = Module::find($module_id);
+        $resources = $module->resources;
+        return view('modules/order-resources', compact('module', 'resources'));
+    }
 
 }

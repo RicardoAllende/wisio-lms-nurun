@@ -17,7 +17,7 @@ class Student
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        if($user->hasRole('student')){
+        if($user->isStudent()){
             return $next($request);
         }else{
             return redirect()->route('permission.denied');

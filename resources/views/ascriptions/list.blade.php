@@ -5,6 +5,14 @@
   <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          Adscripciones
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -27,6 +35,7 @@
                             <th>Descripción</th>
                             <th>Estado</th>
                             <th>Cantidad de cursos</th>
+                            <th>Usuarios</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
@@ -37,8 +46,9 @@
                               <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
                               <td>{{ $ascription->description }}</td>
-                              <td>{{ ($ascription->status == 1)? 'Disponible' : 'No disponible' }}</td>
+                              <td>{{ ($ascription->enabled == 1)? 'Disponible' : 'No disponible' }}</td>
                               <td>{{ $ascription->courses->count() }}</td>
+                              <td>{{ $ascription->users->count() }}</td>
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
                                     

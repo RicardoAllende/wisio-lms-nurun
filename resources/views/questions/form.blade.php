@@ -2,6 +2,20 @@
 
 @section('title', (isset($question)) ? 'Editar pregunta' : 'Crear pregunta' )
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('modules.index') }}">Módulos</a>
+        </li>
+        <li>
+            <a href="{{ route('questions.show') }}">Preguntas</a>
+        </li>
+        <li>
+            {{ (isset($question)) ? 'Editar pregunta' : 'Crear pregunta' }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">

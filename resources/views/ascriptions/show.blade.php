@@ -5,6 +5,17 @@
 <a href="{{ route('ascriptions.edit', $ascription->id) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Editar adscripción</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('ascriptions.index') }}"> Adscripciones</a>
+        </li>
+        <li class="active" >
+            {{ $ascription->name }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -16,17 +27,18 @@
             </div>
             <div class="ibox-content">
                 <div class="contact-box">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="text-center">
                             <img alt="image" class="m-t-xs img-responsive" src="{{ $ascription->getMainImgUrl() }}">
                             <!--<div class="m-t-xs font-bold">Usuario</div>-->
                         </div>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-9">
                         <h3><strong>Nombre: {{ $ascription->name }} </strong></h3>
                         <p>Descripción: {{ $ascription->description }} </p>
-                        <p>Estado: {{ ($ascription->status == 1)? 'disponible' : 'no disponible' }}</p> 
-                        <p><a href="{{ route('list.users.for.ascriptions', $ascription->id) }}" class="btn btn-primary">Administrar usuarios</a></p>
+                        <p>Estado: {{ ($ascription->enabled == 1)? 'disponible' : 'no disponible' }}</p>
+                        <p>Slug: {{ $ascription->slug }}</p><br>
+                        <p><a href="{{ route('list.users.for.ascriptions', $ascription->id) }}" class="btn btn-primary">Listado de usuarios</a></p>
                         <!--{!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
                             <a class='btn btn-danger btn_delete'>Eliminar</a>
                         {!! Form::close() !!}-->

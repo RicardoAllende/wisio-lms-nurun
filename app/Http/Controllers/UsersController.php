@@ -24,11 +24,15 @@ class UsersController extends Controller
     public $elementsPerPage = 15;
 
     public function index(){
-        $doctorRoles = Role::where('name', config('constants.roles.private_doctor'))
-            ->orWhere('name', config('constants.roles.public_doctor'))
-            ->orWhere('name', config('constants.roles.pharmacy_doctor'))->pluck('id');
-        $users = User::whereIn('role_id', $doctorRoles)->paginate($this->elementsPerPage);
-        return view('Users/list',compact('users'));
+        if (isset($_GET['type'])) {
+            $type = $_GET['type'];
+            $types = config('constants.roles');
+            $role = Role::where('name', $type)->pluck('id');
+            $users = User::whereIn('role_id', $role)->get();
+        }else{
+            $users = User::all();
+        }
+        return view('Users/list', compact('users'));
     }
 
     /**
@@ -128,12 +132,12 @@ class UsersController extends Controller
     }
 
     public function listForAscription($ascription_id){
-        $users = User::paginate($this->elementsPerPage);
         $ascription = Ascription::find($ascription_id);
         if($ascription == null){
             return redirect()->route('users.index');
         }
-        return view('Users/list-for-ascription', compact('users', 'ascription'));
+        $users = $ascription->users;
+        return view('Users/list', compact('users', 'ascription'));
     }
 
     public function searchUsersByEmail($email){

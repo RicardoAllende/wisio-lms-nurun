@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
-@section('title','Usuarios')
+@section('title', (isset($user)) ? 'Editar usuario' : 'Crear usuario')
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('users.index') }}">Usuarios</a>
+        </li>
+        <li class="active" >
+            {{ (isset($user)) ? 'Editar usuario' : 'Crear usuario' }}
+        </li>
+    </ol>
+@endsection
 
 @section('content')
 
@@ -9,7 +20,7 @@
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
         <div class="ibox-title">
-          <h5>Formulario para crear/editar usuario</h5>
+          <h5>Formulario para {{(isset($user)) ? 'editar usuario' : 'crear usuario'}}</h5>
         </div>
         <div class="ibox-content">
           <div class="row ">
@@ -63,7 +74,8 @@
             <div class="form-group"> 
               <div class="col-sm-offset-2 col-sm-10">
                 <a href="{{route('users.index')}}" class="btn btn-default">Cancelar</a>
-                {!! Form::submit('Guardar',['class'=>'btn btn-primary']) !!}
+                {!! Form::submit('Guardar',['class'=>'btn btn-primary  btn-round']) !!} <br>
+                <button class="btn btn-default btn-round">Restaurar contraseña por defecto (secret)</button>
               </div>
             </div>
             {!! Form::close() !!}

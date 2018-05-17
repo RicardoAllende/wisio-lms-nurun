@@ -5,6 +5,14 @@
   <a href="{{route('experts.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear experto</a>
 @endsection
 
+@section('subtitle')
+  <ol class="breadcrumb">
+    <li>
+      Expertos
+    </li>
+  </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

@@ -52,9 +52,11 @@ class CoursesController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        $course_id = Course::create($input)->id;
+        $course = Course::create($input);
+        $course_id = $course->id;
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
+            $this->dropImgAttachments($course);
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
         if ($request->filled('category_id')) {
@@ -128,6 +130,7 @@ class CoursesController extends Controller
         }
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
+            $this->dropImgAttachments($course);
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
         $course->has_constancy = $has_constancy;
@@ -187,7 +190,7 @@ class CoursesController extends Controller
     }
 
     public function dropImgAttachments($course){
-        $images = $course->attachments->where('type', 'main_img');
+        $images = $course->attachments->where('type', config('constants.attachments.main_img'));
         foreach($images as $image){
             $image->delete();
         }

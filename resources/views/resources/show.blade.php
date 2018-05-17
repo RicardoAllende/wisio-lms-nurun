@@ -1,28 +1,37 @@
 @extends('layouts.app')
 
-@section('title','Recurso')
+@section('title','Recurso: '.$resource->name)
 @section('cta')
-<a href="{{ route('resources.destroy', $resource->id) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Eliminar recurso</a>
+<a href="{{ route('resources.destroy', [$module->id, $resource->id]) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Eliminar recurso</a>
+@endsection
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+        </li>
+        <li class="active">
+            <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}<strong></a>
+        </li>
+    </ol>
 @endsection
 
 @section('content')
-
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>Datos de la adscripción</h5>
+                <h5>Recurso {{ $resource->name }}</h5>
             </div>
             <div class="ibox-content">
                 <div class="contact-box">
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                         <div class="text-center">
-                        @switch($mimetype)
+                        @switch($type)
                             @case('image')
                                 <img alt="image" class="m-t-xs img-responsive" src="/{{ $attachment->url }}">
                                 @break
-
                             @case('video')
                                 <video width="320" height="240" controls>
                                     <source src="/{{ $attachment->url }}" type="video/mp4">
@@ -30,15 +39,11 @@
                                 </video>
                                 @break
 
-                            @case('document')
+                            @case('pdf')
+                            <embed src="/{{ $attachment->url }}" height="600px" width="100%" type="application/pdf">
                                 <a href="/{{ $attachment->url }}">Documento</a>
                                 @break
-                            @default
-                                <h1>Default clause</h1>
                         @endswitch
-                        
-                            
-                            <!--<div class="m-t-xs font-bold">Usuario</div>-->
                         </div>
                     </div>
                     <div class="clearfix">

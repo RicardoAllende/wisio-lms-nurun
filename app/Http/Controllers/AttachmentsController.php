@@ -84,12 +84,8 @@ class AttachmentsController extends Controller
     }
 
     public function uploadFile(Request $request){
-        $type = request()->input('type');
         $type = "img"; // by default
         $path = "attachments"; // by default
-        if($request->filled('type')){
-            $type = $request->input('type');
-        }
         if($request->filled('path')){
             $path = $request->input('path');
         }
@@ -97,6 +93,11 @@ class AttachmentsController extends Controller
         $filePath = str_replace('public', 'storage', $filePath);
         $name = request()->file('file')->getClientOriginalName();
         $mimeType = request()->file('file')->getMimeType();
+        $type = substr($mimeType, 0, strpos($mimeType, '/'));
+        if($request->filled('type')){
+            $type = $request->input('type');
+        }
+        if($mimeType == 'application/pdf') $type = 'pdf';
         $attachment = Attachment::create(['name'=>$name, 'type'=>$type, 'url' =>$filePath, 'mimetype' => $mimeType]);
         $attachment = $attachment->id;
         echo $attachment;

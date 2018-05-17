@@ -144,20 +144,28 @@ class Course extends Model
     }
 
     public function attachUser($user_id, $avg, $status){
-        if(User::find($user_id)){ return false; }
-        if($this->users->contains($user_id)){
-            $this->users()->detach($user_id);
-        }
+        if(User::find($user_id) == null){ return false; }
+        // if($this->users->contains($user_id)){
+        //     $this->users()->detach($user_id);
+        // }
         $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
     }
 
     public function makeAttempt($user_id){
+        $this->dropPendientAdvances($user_id);
         if(User::find($user_id)){ return false; }
         $pivots = CourseUser::where('course_id', $this->id)->where('status', config('constants.status.not_attemped'))->get();
         foreach($pivots as $pivot){
             $pivot->delete();
         }
-        // attachUser()
+    }
+
+    public function dropPendientAdvances($user_id){
+        $relations = CourseUser::where('course_id', $this->id)->where('user_id', $user_id)
+            ->where('status', config('constants.status.not_attemped'))->get();
+        foreach($relations as $relation){
+            $relation->delete();
+        }
     }
 
     
@@ -166,6 +174,9 @@ class Course extends Model
         $modules = $this->modules;
         foreach($modules as $module){
             $module->enrolUser($user_id);
+        }
+        if( ! $this->users->contains($user_id)){
+            $this->attachUser($user_id, 0, 'confi');
         }
     }
 

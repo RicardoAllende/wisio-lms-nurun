@@ -13,25 +13,16 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>A continuación aparecen todos los usuarios que se encuentran en el sistema</h5><br>
+                        <h5>Usuarios @isset($ascription) inscritos en {{$ascription->name}} @endif </h5><br>
                     </div>
                     <div class="ibox-content">
-                      <div class="input-group">
-                          <input type="text" class="form-control" name="search" id="search" placeholder="Buscar por email">
-                          <span class="input-group-btn"><button id="btnSearch" type="button" class="btn btn-primary">Buscar</button></span>
-                      </div>
-                      <div class="text-right">
-                      Buscar por: 
-                          <label> <input type="radio" checked value="email" id="optionsRadios1" class="optionsRadio" name="optionsRadios"> Email </label>
-                          <label> <input type="radio" value="name" id="optionsRadios1" class="optionsRadio" name="optionsRadios"> Nombre </label>&nbsp;
-                      </div>
                       <br>
-                      
-                        <div class="table-responsive">
-                          <!--<table class="table table-striped table-bordered table-hover dataTables">-->
-                          <table class="table table-striped table-bordered table-hover">
+                        <center id="loading"><img src="/css/loading.gif"alt=""></center>
+                        <div class="table-responsive" id="userList" style="display:none;">
+                          <table class="table table-striped table-bordered table-hover dataTables">
                           <thead>
                             <tr>
+                              <th>#</th> @php $i = 1; @endphp
                               <th>Correo electrónico</th>
                               <th>Nombre</th>
                               <th>Apellidos</th>
@@ -44,6 +35,7 @@
                           <tbody>
                               @foreach($users as $user)
                                 <tr>
+                                <td>{{$i}}</td>@php $i++; @endphp
                                 <td><a href="{{ action('UsersController@show' , $user->id) }}">{{$user->email}}</a></td>
                                 <td>{{ $user->firstname }}</td>
                                 <td>{{ $user->lastname }}</td>
@@ -54,7 +46,7 @@
                                 <td>{{ $user->created_at }}</td>
                                 <td>
                                     {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                      <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
+                                      <a href="#" class="btn btn-danger btn_delete" >Desactivar</a>
                                     {!! Form::close() !!}
                                 </td>
                                 </tr>
@@ -67,7 +59,7 @@
                       
                     </div>
                     <div class="ibox-footer">
-                      {{ $users->links() }}
+                       <!--$users->links()-->
                     </div>
                 </div>
               </div>
@@ -83,29 +75,10 @@
   <script src="/js/sweetalert2.min.js"></script>
   <script src="/js/method_delete_f.js"></script>
   <script>
-    var email = "{{route('search.users.by.email', '')}}";
-    var name = "{{route('search.users.by.name', '')}}";
-    $('#btnSearch').click(function(e){
-      var search = $('#search').val();
-      if(search != ''){
-        var type = $('input:radio[name=optionsRadios]:checked').val();
-        var redirectTo = "";
-        if( type == 'email'){
-          redirectTo = email + "/" + search;
-        }else{
-          redirectTo = name + "/" + search;
-        }
-        window.location.href = redirectTo;
-      }
-    });
-    $('.optionsRadio').click(function (){
-      var type = $(this).val();
-      if( type == 'email'){
-        $('#search').attr('placeholder', 'Buscar por email');
-      }else{
-        $('#search').attr('placeholder', 'Buscar por nombre');
-      }
-    });
+  $( document ).ready(function() {
+    $('#userList').show();
+    $('#loading').hide();
+  });
   </script>
 @endsection
 

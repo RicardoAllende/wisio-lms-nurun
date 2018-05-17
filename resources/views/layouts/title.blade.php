@@ -1,14 +1,7 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-6">
         <h2>@yield('title')</h2>
-        <!-- <ol class="breadcrumb">
-            <li>
-                <a href="index.html">Home</a>
-            </li>
-            <li class="active">
-                <strong>Layouts</strong>
-            </li>
-        </ol> -->
+        @yield('subtitle')
     </div>
     <div class="col-lg-6">
         <div class="title-action">

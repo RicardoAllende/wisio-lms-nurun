@@ -24,7 +24,7 @@ class CreateCoursesTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->integer('manual')->unsigned()->nullable();
-            $table->foreign('manual');
+            $table->foreign('manual')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

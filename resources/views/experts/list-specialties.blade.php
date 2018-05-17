@@ -5,6 +5,17 @@
   <a href="{{route('specialties.create')}}?expert_id={{$expert->id}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Módulo</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('experts.index') }}"> Expertos </a>
+        </li>
+        <li class="active" >
+            {{ $expert->name }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

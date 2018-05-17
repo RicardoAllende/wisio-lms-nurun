@@ -1,15 +1,25 @@
 @extends('layouts.app')
 
-@section('title','crear editar módulo')
+@section('title',(isset($module)) ? 'Editar módulo' : 'Crear módulo')
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          <a href="{{ route('modules.index') }}"> Módulos</a>
+        </li>
+        <li class="active" >
+            {{(isset($module)) ? 'Editar módulo' : 'Crear módulo'}}
+        </li>
+    </ol>
+@endsection
 
 @section('content')
-
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar módulo</h5>
+                        <h5>{{ (isset($module)) ? 'Editar módulo' : 'Crear módulo' }}</h5>
                         
                     </div>
                     <div class="ibox-content">
@@ -83,7 +93,7 @@
                             {{ 'Arrastre aquí la imagen del módulo (requerida)' }}
                           @endif
                       </div>
-                        <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="modules" name="path">
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->

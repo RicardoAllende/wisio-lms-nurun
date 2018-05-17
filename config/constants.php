@@ -59,5 +59,16 @@ return [
         'private_doctor' => 'private_doctor',
         'public_doctor' => 'public_doctor',
         'pharmacy_doctor' => 'pharmacy_doctor'
+    ],
+    
+    'user_types' => [
+        'admin' => 'Administrador',
+        'reporter' => 'Reportero',
+        'editor' => 'Editor',
+        'tester' => 'Tester',
+        'teacher' => 'Profesor',
+        'private_doctor' => 'Médicos privados',
+        'public_doctor' => 'Médicos públicos',
+        'pharmacy_doctor' => 'Médicos de farmacia'
     ]
 ];

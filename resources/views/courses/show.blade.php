@@ -3,7 +3,18 @@
 @section('title','Curso '.$course->name)
 @section('cta')
   <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Curso</a>
-  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>
+  <a href="" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>
+@endsection
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.index') }}"> Cursos</a>
+        </li>
+        <li class="active" >
+            {{ $course->name }}
+        </li>
+    </ol>
 @endsection
 
 @section('content')
@@ -20,7 +31,7 @@
                             </h2>
                             <small>Nombre del curso</small>
                         </div>
-                        <img src="{{$course->getMainImgUrl()}}" width="50%" height="50%" class="m-b-md" alt="Imagen del curso">
+                        <img src="{{$course->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
                     </div>
                     <div class="col-lg-6"><br><br>
                         <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
@@ -73,8 +84,8 @@
                 @else
                     <h3><strong>Este curso aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
                 @endif
-                    <a href="{{ route('list.modules.for.course', $course->id) }}" class="btn btn-info btn-round">Asignar módulo ya existente</a>&nbsp;
-                    <a href="{{ route('module.form.for.course', $course->id) }}" class="btn btn-info btn-round">Crear módulo</a>
+                    <!--<a href="{{ route('list.modules.for.course', $course->id) }}" class="btn btn-info btn-round">Asignar módulo ya existente</a>&nbsp;
+                    <a href="{{ route('module.form.for.course', $course->id) }}" class="btn btn-info btn-round">Crear módulo</a>-->
 
             </div>
         </div>

@@ -5,6 +5,14 @@
   <a href="{{route('courses.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Curso</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          Cursos
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

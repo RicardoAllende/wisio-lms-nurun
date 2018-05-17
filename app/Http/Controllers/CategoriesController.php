@@ -45,13 +45,13 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        $categoryId = Category::create($input)->id;
+        $category = Category::create($input);
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
-            AttachmentCategory::create(['attachment_id' => $attach_id, 'category_id' => $categoryId]);
-            dropImgAttachments($category);
+            AttachmentCategory::create(['attachment_id' => $attach_id, 'category_id' => $category->id]);
+            $this->dropImgAttachments($category);
         }
-        return redirect()->route('categories.show', $categoryId);
+        return redirect()->route('categories.show', $category->id);
     }
 
     /**
@@ -105,7 +105,7 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect('categories.index');
+        return redirect()->route('categories.index');
     }
 
     public function dropImgAttachments($category){

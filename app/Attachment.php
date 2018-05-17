@@ -17,4 +17,9 @@ class Attachment extends Model
     public function getStoragePath(){
         return str_replace('storage', 'public', $this->url);
     }
+
+    public function name(){
+        return substr($this->name, 0, strpos($this->name, '.'));
+    }
+
 }

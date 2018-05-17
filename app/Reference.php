@@ -9,4 +9,9 @@ class Reference extends Model
     protected $fillable = [
         'modules_id', 'content'
     ];
+
+    public function module(){
+        return $this->belongsTo('App\Module');
+    }
+
 }

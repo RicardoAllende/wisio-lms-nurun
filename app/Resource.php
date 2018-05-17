@@ -8,7 +8,7 @@ class Resource extends Model
 {
     protected $table = "resources";
 
-    protected $fillable = ['attachment_id', 'type', 'previous', 'weight', 'module_id'];
+    protected $fillable = ['attachment_id', 'type', 'previous', 'weight', 'module_id', 'name'];
 
     public function modules(){
     	return $this->belongsTo('App\Module');

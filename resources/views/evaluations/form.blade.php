@@ -1,6 +1,20 @@
 @extends('layouts.app')
 
-@section('title','Evaluation')
+@section('title', (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación'))
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          <a href="{{ route('courses.show', $evaluation->module->course->id) }}"> Curso: {{ $evaluation->module->course->name }}</a>
+        </li>
+        <li>
+          <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{$evaluation->module->name}} </a>
+        </li>
+        <li class="active" >
+            {{ (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación') }}
+        </li>
+    </ol>
+@endsection
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -8,7 +22,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar evaluación</h5>
+                        <h5>(isset($evaluation))? 'Editar evaluación' : 'Crear evaluación')</h5>
                         
                     </div>
                     <div class="ibox-content">
@@ -118,7 +132,7 @@
                             {{ 'Arrastre aquí la imagen de la evaluación (requerida)' }}
                           @endif
                       </div>
-                        <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="evaluations" name="path">
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->

@@ -5,8 +5,15 @@
   <a href="{{route('evaluations.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Evaluación</a>
 @endsection
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          <a href="{{ route('evaluations.index') }}"> Evaluaciones</a>
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">

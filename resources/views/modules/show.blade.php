@@ -1,9 +1,24 @@
 @extends('layouts.app')
 
-@section('title','Módulo '.$module->name)
+@section('title','Módulo: '.$module->name)
 @section('cta')
   <a href="{{action('ModulesController@edit', $module->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Módulo</a>
   <a href="{{ route('list.experts.for.module', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
+  <a href="{{ route('references.index', $module->id) }}" class="btn btn-primary" >Administrar referencias</a>
+@endsection
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.index') }}">Cursos</a>
+        </li>
+        <li>
+            <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+        </li>
+        <li>
+            {{ $module->name }}
+        </li>
+    </ol>
 @endsection
 
 @section('content')
@@ -42,6 +57,13 @@
                 <h4 class="media-heading">Descripción del Módulo</h4><br>
                 @if($module->hasCourse())<h3><a href="{{ route('courses.show', $module->course->id) }}" >Curso: {{ $module->course->name }}</a></h3>@endif
                 <p>{{$module->description}}. <br>Fecha de inicio: {{ $module->start_date }} || Fecha de término: {{ $module->end_date }}</p>
+                @php $i=1; @endphp
+                @if ($module->hasReferences())
+                    <h5>Referencias</h5>
+                    @foreach($module->references as $reference)
+                        <p> {{$i}} {{ $reference->content }}</p>@php $i++; @endphp
+                    @endforeach
+                @endif
             </div>
 
             <div class="ibox float-e-margins"><br>
@@ -85,15 +107,15 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Recurso</th>
-                                            <th>Tipo</th>
+                                            <th>j</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php $i=1; @endphp
                                         @foreach($module->resources as $resource) 
                                             <tr>
-                                            <td><a href="{{ action('ResourcesController@show', $resource->id) }}">{{ $i }}</a></td>
-                                            <td><a href="{{ action('ResourcesController@show', $resource->id) }}">{{ $resource->type }}</a></td>
+                                            <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $i }}</a></td>
+                                            <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $resource->name }}</a></td>
                                             <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
                                             </tr>
                                             @php $i++; @endphp
@@ -102,9 +124,10 @@
                                 </table>
                             </div>
                         @else
-
+                            <br><br>
                         @endif
-                        <a href="" class="btn btn-info btn-round" >Agregar recursos</a>
+                        <a href="{{ route('resources.create', $module->id) }}" class="btn btn-info btn-round" >Agregar recursos</a>
+                        <a href="{{ route('order.module.resources', $module->id) }}" class="btn btn-info btn-round" >Ordenar recursos</a>
                     </div>
                 </div>
             </div>

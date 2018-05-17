@@ -5,6 +5,14 @@
   <a href="{{route('categories.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Categoría</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          Categorías
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -61,12 +69,12 @@
 
 @section('scripts')
 
-<script src="js/sweetalert2.min.js"></script>
-<script src="js/method_delete_f.js"></script>
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
 
 @endsection
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection
      

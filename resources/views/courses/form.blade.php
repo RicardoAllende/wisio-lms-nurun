@@ -1,16 +1,25 @@
 @extends('layouts.app')
 
-@section('title','Crear/Actualizar curso')
+@section('title', (isset($course)) ? 'Editar curso' : 'Crear curso')
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.index') }}"> Cursos</a>
+        </li>
+        <li class="active" >
+            {{ (isset($course)) ? 'Editar curso' : 'Crear curso' }}
+        </li>
+    </ol>
+@endsection
 
 @section('content')
-
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar curso</h5>
-                        
+                        <h5>{{(isset($course)) ? 'Editar curso' : 'Crear curso'}}</h5>
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
@@ -105,7 +114,7 @@
                             {{ 'Arrastre aquí la imagen del curso (requerida)' }}
                           @endif
                       </div>
-                      <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                       <input type="hidden" value="courses" name="path">
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
@@ -131,7 +140,7 @@
             maxFilesize: 2,            
             acceptedFiles: 'image/*',            
             maxFiles: 1,            
-            dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            
+            dictDefaultMessage: 'Arrastra aquí la imagen del curso',            
             //previewTemplate: '  ',            
             init: function() {                
               this.on("success", function(file, response) {                    

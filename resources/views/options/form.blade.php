@@ -1,15 +1,28 @@
 @extends('layouts.app')
 
-@section('title','Añadir opción')
+@section('title',(isset($option)) ? 'Editar opción' : 'Crear opción'))
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('questions.index') }}">Preguntas</a>
+        </li>
+        <li>
+            <a href="{{ route('options.show') }}">Opciones</a>
+        </li>
+        <li>
+            {{ (isset($option)) ? 'Editar opción' : 'Crear opción') }}
+        </li>
+    </ol>
+@endsection
 
 @section('content')
-
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Formulario para crear/editar categoria</h5>
+                        <h5>(isset($option)) ? 'Editar opción' : 'Crear opción')</h5>
                         
                     </div>
                     <div class="ibox-content">

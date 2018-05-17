@@ -5,6 +5,17 @@
   <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Categoría</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('categories.index') }}"> Categorías </strong></a>
+        </li>
+        <li class="active" >
+            {{ $category->name }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

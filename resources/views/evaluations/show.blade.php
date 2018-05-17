@@ -5,6 +5,20 @@
   <a href="{{ route('evaluations.edit', $evaluation->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.show', $evaluation->module->course->name) }}">Curso: {{ $evaluation->module->course->name }} </strong></a>
+        </li>
+        <li>
+            <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{ $evaluation->module->name }} </strong></a>
+        </li>
+        <li class="active" >
+            {{ $evaluation->name }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

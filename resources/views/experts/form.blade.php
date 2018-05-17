@@ -61,7 +61,7 @@
                     <div class="form-group">
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                       {!! Form::open([ 'route' => 'attachments.file.upload', 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
-                      <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="experts" name="path">
                       <div class="dz-message" style="height:200px;">
                           @if(isset($expert))
@@ -86,20 +86,18 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
+
 @section('scripts')
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
 <script type="text/javascript">
-
+      CKEDITOR.replace( 'summary' );
       Dropzone.options.imageUpload  = {            
                 paramName: "file", 
                 // The name that will be used to transfer the file            
-                maxFilesize: 2,            
+                maxFilesize: 10,            
                 acceptedFiles: 'image/*',            
                 maxFiles: 1,            
                 dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            
@@ -115,12 +113,9 @@
                 }        
               };
     </script>
-
 @endsection
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="/css/plugins/dropzone/basic.css">
-
 @endsection
      

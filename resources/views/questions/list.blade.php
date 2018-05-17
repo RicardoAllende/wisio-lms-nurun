@@ -5,6 +5,14 @@
   <a href="{{route('questions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Pregunta</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('modules.index') }}">Módulos</a>
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

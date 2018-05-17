@@ -2,6 +2,17 @@
 
 @section('title', (isset($ascription)) ? 'Editar adscripción' : 'Crear adscripción')
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('ascriptions.index') }}"> Adscripciones</a>
+        </li>
+        <li class="active" >
+            {{(isset($ascription)) ? 'Editar adscripción' : 'Crear adscripción'}}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
@@ -67,7 +78,7 @@
                             {{ 'Arrastre aquí la imagen de la adscripción/farmacia (requerida)' }}
                           @endif
                         </div>
-                        <input type="hidden" value="main_img" name="type">
+                        <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="ascriptions" name="path">
                         <div class="dropzone-previews"></div>
                         <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->

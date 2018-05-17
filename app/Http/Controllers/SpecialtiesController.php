@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Specialty;
 
 class SpecialtiesController extends Controller
 {
@@ -13,7 +14,8 @@ class SpecialtiesController extends Controller
      */
     public function index()
     {
-        //
+        $specialties = Specialty::all();
+        return view('specialties/list', compact('specialties'));
     }
 
     /**
@@ -23,7 +25,7 @@ class SpecialtiesController extends Controller
      */
     public function create()
     {
-        //
+        return view('specialties/form');
     }
 
     /**
@@ -32,9 +34,11 @@ class SpecialtiesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+        $input = $request->input();
+        $specialty = Specialty::create($input);
+        $id = $specialty->id;
+        return redirect()->route('specialties.show', compact('id'));
     }
 
     /**
@@ -45,7 +49,9 @@ class SpecialtiesController extends Controller
      */
     public function show($id)
     {
-        //
+        $specialty = Specialty::find($id);
+        if($specialty == null){ return redirect()->route('specialties.index'); }
+        return view('specialties/show', compact('specialty'));
     }
 
     /**
@@ -56,7 +62,9 @@ class SpecialtiesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $specialty = Specialty::find($id);
+        if($specialty == null){ return redirect()->route('specialties.index'); }
+        return view('specialties/form', compact('specialty'));
     }
 
     /**
@@ -68,7 +76,11 @@ class SpecialtiesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $specialty = Specialty::find($id);
+        if($specialty == null){ return redirect()->route('specialties.index'); }
+        $specialty->name = $request->name;
+        $specialty->save();
+        return redirect()->route('specialties.show', $specialty->id);
     }
 
     /**
@@ -79,6 +91,9 @@ class SpecialtiesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $specialty = Specialty::find($id);
+        if($specialty == null){ return redirect()->route('specialties.index'); }
+        $specialty->delete();
+        return redirect()->route('specialties.index');
     }
 }

@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
 @section('title', $expert->name)
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('experts.index') }}">Expertos</a>
+        </li>
+        <li>
+            {{ $expert->name }}
+        </li>
+    </ol>
+@endsection
+
 @section('cta')
     <a href="{{ route('experts.edit', $expert->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Experto</a>
     <a href="{{route('list.specialties.for.expert', $expert->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i>Administrar especialidades</a>
@@ -22,7 +34,7 @@
                                 <small>Experto</small>
                             </div>
                             <img src="{{ $expert->getMainImgUrl() }}" style="width:20%; height:20%;" class="img-circle circle-border m-b-md" alt="profile">
-                            <div>
+                            <div class="text-left">
                                 <span>Ha participado en {{ $expert->modules->count() }} módulos</span>
                                 @if($expert->hasSpecialties())
                                     <ul class="list-unstyled m-t-md">
@@ -36,7 +48,7 @@
                                 @else
                                     Sin especialidades
                                 @endif
-                                <p>Resumen: {{ $expert->summary }}</p>
+                                <p>Resumen: {!! $expert->summary !!}</p>
                             </div>
                         </div>
                         <div class="col-lg-6">

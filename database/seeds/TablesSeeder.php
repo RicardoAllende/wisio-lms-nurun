@@ -28,6 +28,7 @@ use App\Expert;
 use App\Specialty;
 use App\ExpertSpecialty;
 use App\ExpertModule;
+use App\Reference;
 
 class TablesSeeder extends Seeder
 {
@@ -204,6 +205,34 @@ class TablesSeeder extends Seeder
             Course::find(3)->enrolUser($u->id);
         });
 
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module1->id
+            ]);
+        Reference::create([
+            'content' => 'Jiménez Genchi A, Caraveo Anduaga J. Psiquiatría 2013;29 (Supl. 1):178-179',
+            'module_id' => $module1->id
+            ]);
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module2->id
+            ]);
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module3->id
+            ]);
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module4->id
+            ]);
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module5->id
+            ]);
+        Reference::create([
+            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
+            'module_id' => $module6->id
+            ]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 1]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 2]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 3]);

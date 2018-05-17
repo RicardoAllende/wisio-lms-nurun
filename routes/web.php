@@ -14,13 +14,6 @@ Route::get('/', function(){
 	return view('dashboard/welcome');
 })->name("welcome");
 
-Route::domain('{slug}.'.config('constants.main_domain'))->group(function () {
-    Route::get('student/{id}', function ($slug, $id) {
-		return "Buscando la farmacia con el slug: {$slug},<br> información que se obtendrá del usuario: {$id}";
-    })->name('subdomain');
-});
-
-
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
 Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
@@ -35,6 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::post('/attachments/uploadFile', 'AttachmentsController@uploadFile')->name('attachments.file.upload');
 		// Route::get('/resource/upload-attachment', '')
 		Route::get('/modules/{id}/manage-experts/', 'ModulesController@listExperts')->name('list.experts.for.module');
+		Route::get('/modules/{id}/order-resources/', 'ModulesController@orderResources')->name('order.module.resources');
 		Route::get('/experts/{id}/list-specialties', 'ExpertsController@listSpecialties')->name('list.specialties.for.expert');
 		Route::get('/experts/{id}/list-modules', 'ExpertsController@listModules')->name('list.modules.for.expert');
 		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'ExpertsController@attachModule')->name('attach.module.to.expert');
@@ -43,24 +37,24 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/experts/{expert_id}/detach-specialty/{module_id}', 'ExpertsController@detachSpecialty')->name('detach.specialty.to.expert');
 		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'ExpertsController@attachModule')->name('attach.module.to.expert');
 		Route::get('/experts/{expert_id}/detach-module/{module_id}', 'ExpertsController@detachModule')->name('detach.module.to.expert');
-		Route::get('users/search-by-email/{email}', 'UsersController@searchUsersByEmail')
-			->name('search.users.by.email');
-		Route::get('users/search-by-name/{name}', 'UsersController@searchUsersByName')
-			->name('search.users.by.name');
-		Route::get('users/list-for-ascription/{ascription_id}/search-by-email/{email}', 'UsersController@lisetForAscriptionSearchByEmail')
-			->name('list.users.for.ascription.search.by.email');
-		Route::get('users/list-for-ascription/{ascription_id}/search-by-name/{name}', 'UsersController@lisetForAscriptionSearchByName')
-			->name('list.users.for.ascription.search.by.name');
+		// Route::get('users/search-by-email/{email}', 'UsersController@searchUsersByEmail')
+		// 	->name('search.users.by.email');
+		// Route::get('users/search-by-name/{name}', 'UsersController@searchUsersByName')
+		// 	->name('search.users.by.name');
+		// Route::get('users/list-for-ascription/{ascription_id}/search-by-email/{email}', 'UsersController@lisetForAscriptionSearchByEmail')
+		// 	->name('list.users.for.ascription.search.by.email');
+		// Route::get('users/list-for-ascription/{ascription_id}/search-by-name/{name}', 'UsersController@lisetForAscriptionSearchByName')
+		// 	->name('list.users.for.ascription.search.by.name');
 		Route::get('/users/list-for-ascription/{ascription_id}', 'UsersController@listForAscription')->name('list.users.for.ascriptions');
-		Route::get('/users/{user_id}/enroll-to-ascription/{ascription_id}', 'UsersController@enrollToAscription')->name('enroll.user.to.ascription');
-		Route::get('/users/{user_id}/dissociate-of-ascription/{ascription_id}', 'UsersController@dissociateForAscription')->name('dissociate.user.for.ascription');
+		// Route::get('/users/{user_id}/enroll-to-ascription/{ascription_id}', 'UsersController@enrollToAscription')->name('enroll.user.to.ascription');
+		// Route::get('/users/{user_id}/dissociate-of-ascription/{ascription_id}', 'UsersController@dissociateForAscription')->name('dissociate.user.for.ascription');
 		// Route::get('/config/', 'UsersController@index')->name('.user.for.ascription');
 		// Route::get('/users/import',function(){	return view("Users.massiveimport");	})->name("formmassiveimport");
 		Route::get('/uploadQuestions','QuestionsController@formGift')->name("form.upload.questions");
 		Route::post('/upload-resource', 'ResourcesController@uploadResource')->name('upload.resource');
-		Route::resource('resources', 'ResourcesController');
+		Route::resource('modules/{module_id}/resources', 'ResourcesController');
 		Route::post('/uploadQuestions','QuestionsController@uploadQuestions')->name("uploadquestions");
-		Route::resource('/references', 'ReferencesController');
+		Route::resource('modules/{module}/references', 'ReferencesController');
 		Route::resource('/evaluations', 'EvaluationsController');
 		Route::resource('/experts', 'ExpertsController');
 		Route::resource('/ascriptions', 'AscriptionsController');
@@ -100,7 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
 	// 		return "Buscando la farmacia con el slug: {$slug},<br> información que se obtendrá del usuario: {$id}";
 	// 	})->name('subdomain');
 	// 	// ...
-	// })->middleware('pharmacy.doctor');
+	// })->middleware('pharmacy_doctor');
 
 	Route::group(['prefix' => '/student' , 'middleware' => ['student']], function () {
 		Route::get('/login', function () {

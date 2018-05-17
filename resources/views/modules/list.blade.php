@@ -5,6 +5,14 @@
   <a href="{{route('modules.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Módulo nuevo</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+          Módulos
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

@@ -24,16 +24,16 @@
             </li>
             @if (Auth::check())
                 @if (Auth::user()->isAdmin())
-                    <li class="isActiveRoute('main')">
+                    <!--<li class="isActiveRoute('main')">
                         <a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
-                    </li>
+                    </li>-->
                     <li>
-                        <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
+                        <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">Médicos de farmacia</a></li>
-                            <li><a href="dashboard_2.html">Médicos Públicos</a></li>
-                            <li><a href="index.html">Médicos Privados</a></li>
-                            <li><a href="dashboard_2.html">Administración del sistema</a></li>
+                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.pharmacy_doctor') }}">Médicos de farmacia</a></li>
+                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.public_doctor') }}?type">Médicos Públicos</a></li>
+                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.private_doctor') }}">Médicos Privados</a></li>
+                            <li><a href="{{ route('users.index')}}">Todos los médicos</a></li>
                         </ul>
                     </li>
                     <li class="">
@@ -51,9 +51,9 @@
                     <li class="">
                         <a href="{{ route('evaluations.index') }}"><i class="fa fa-edit"></i> <span class="nav-label">Evaluaciones</span></a>
                     </li>
-                    <li class="">
+                    <!--<li class="">
                         <a href="{{ route('attachments.index') }}"><i class="fa fa-list-ul"></i> <span class="nav-label">Archivos adjuntos</span></a>
-                    </li>
+                    </li>-->
                     <li class="">
                         <a href="{{ route('specialties.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Especialidades</span></a>
                     </li>

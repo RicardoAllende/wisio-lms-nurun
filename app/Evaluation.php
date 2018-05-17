@@ -66,7 +66,7 @@ class Evaluation extends Model
         }
     }
 
-    public function enrollUser($user_id){
+    public function enrolUser($user_id){
         if( ! $this->users->contains($user_id)){
             $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
         }

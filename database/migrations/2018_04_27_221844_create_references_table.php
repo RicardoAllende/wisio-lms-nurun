@@ -15,9 +15,9 @@ class CreateReferencesTable extends Migration
     {
         Schema::create('references', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('modules_id')->unsigned();
+            $table->integer('module_id')->unsigned();
             $table->text('content');
-            $table->foreign('modules_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

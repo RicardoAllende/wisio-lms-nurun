@@ -5,6 +5,20 @@
   <a href="{{route('options.edit', $option->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Respuesta</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('questions.index') }}">Preguntas</a>
+        </li>
+        <li>
+            <a href="{{ route('options.show') }}">Opciones</a>
+        </li>
+        <li>
+            {{ $option->content }}
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

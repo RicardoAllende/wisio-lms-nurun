@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Reference;
+use App\Module;
 
 class ReferencesController extends Controller
 {
@@ -11,9 +13,11 @@ class ReferencesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($module)
     {
-        //
+        $module = Module::find($module);
+        $references = $module->references;
+        return view('references/list', compact('references', 'module'));
     }
 
     /**

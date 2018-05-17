@@ -5,6 +5,15 @@
   <a href="{{route('course.form.for.ascription', $ascription->id)}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Curso</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('ascriptions.show', $ascription->id) }}"> Adscripción: <strong>{{ $ascription->name }}</strong></a>
+        </li>
+        <li>Administrar cursos</li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

@@ -5,8 +5,21 @@
   <a href="{{ action('QuestionsController@edit', $question->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Pregunta</a>
 @endsection
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('modules.show', $question->evaluation->module->id) }}">Módulo: {{ $question->evaluation->module->name }}</strong></a>
+        </li>
+        <li>
+            <a href="{{ route('evaluations.show', $question->evaluation->id) }}">Evaluación: {{ $question->evaluation->name }}</strong></a>
+        </li>
+        <li>
+            {{ $question->name }}
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">

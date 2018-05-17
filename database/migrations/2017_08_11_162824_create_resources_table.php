@@ -15,6 +15,7 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->nullable();
             $table->string('type');
             $table->integer('weight')->nullable();
             $table->integer('module_id')->unsigned()->nullable();

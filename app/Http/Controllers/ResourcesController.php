@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Attachment;
 use App\Resource;
-
-/**
- * This
- */
+use App\Module;
 
 class ResourcesController extends Controller
 {
@@ -28,9 +25,13 @@ class ResourcesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($module_id)
     {
-        return view('resources/form');
+        $module = Module::find($module_id);
+        if($module != null){
+            return view('resources/form', compact('module'));
+        }
+        return back();
     }
 
     /**
@@ -39,9 +40,21 @@ class ResourcesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($module_id, Request $request)
     {
-        //
+        $attachment_id = $request->attachment_id;
+        $module_id = $request->module_id;
+        $name = $request->name;
+        $module = Module::find($module_id);
+        if( ! $module->hasResources()){
+            $weight = 1;
+        }else{
+            $weight = $module->resources->count();
+        }
+        $attachment = Attachment::find($attachment_id);
+        $type = $attachment->type;
+        Resource::create( compact('attachment_id', 'module_id', 'type', 'name') );
+        return redirect()->route('modules.show', $module_id);
     }
 
     /**
@@ -50,14 +63,16 @@ class ResourcesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($module_id, $id)
     {
+        $module = Module::find($module_id);
         $resource = Resource::find($id);
         $attachment = $resource->attachment;
-        $mimetype = substr($attachment->mimetype, 0, strpos($attachment->mimetype, '/'));
-        return view('resources/show', compact('resource', 'attachment', 'mimetype'));
-        return $attachment;
+        $type = $attachment->type;
+        return view('resources/show', compact('resource', 'attachment', 'type', 'module'));
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -102,6 +117,10 @@ class ResourcesController extends Controller
         // return redirect()->action('ResourcesController@show', $attach->id);
         // return "El archivo se guardó en: ".$path;
         echo $attach->id;
+    }
+
+    public function orderResources($module_id){
+        return Module::find($module_id)->resources;
     }
 
 }

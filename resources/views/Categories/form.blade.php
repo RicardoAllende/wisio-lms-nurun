@@ -2,8 +2,18 @@
 
 @section('title', (isset($category)) ? 'Editar categoría' : 'Crear categoría')
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('categories.index') }}"> Categorías</a>
+        </li>
+        <li class="active" >
+            {{ (isset($category)) ? 'Editar categoría' : 'Crear categoría' }}
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -44,7 +54,7 @@
                     <div class="form-group">
                       {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                       {!! Form::open([ 'route' => 'attachments.file.upload', 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
-                      <input type="hidden" value="main_img" name="type">
+                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="categories" name="path">
                       <div class="dz-message" style="height:200px;">
                         @if(isset($category))

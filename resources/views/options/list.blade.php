@@ -5,8 +5,15 @@
   <a href="{{ route('options.create') }}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Opción</a>
 @endsection
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('questions.index') }}">Preguntas</a>
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">

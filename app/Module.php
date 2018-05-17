@@ -11,7 +11,8 @@ class Module extends Model
         'description',
         'start_date',
         'end_date',
-        'previous'
+        'previous',
+        'course_id'
     ];
 
     public function course(){
@@ -55,6 +56,19 @@ class Module extends Model
 
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
+    }
+
+    public function references(){
+        return $this->hasMany('App\Reference');
+    }
+
+    public function hasReferences(){
+        if ($this->references->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
 
     public function hasMainImg(){
@@ -107,7 +121,7 @@ class Module extends Model
         }
         $evaluations = $this->evaluations;
         foreach($evaluations as $evaluation){
-            $evaluation->enrollUser($user_id);
+            $evaluation->enrolUser($user_id);
         }
     }
 
