@@ -31,4 +31,12 @@ class CoursesController extends Controller
         if($course == null){ return redirect()->route('users_pages/courses.list'); }
         return view('users_pages/courses.show',compact('course'));
     }
+
+    public function recommendations()
+    {
+        $courses = Course::all();
+
+        return view('users_pages/courses.list',compact('courses'));
+
+    }
 }

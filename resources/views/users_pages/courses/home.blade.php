@@ -12,82 +12,26 @@ Curso {{ $course->name }}
           <div class="col s6 l3">
              <h2 class="recientes">cursos recomendados</h2>
           </div>
+          @foreach($courses as $course)
           <div class="col s12 l4 ">
-             <div class="card z-depth-0 white ">
-                <div class="card-content mods">
-                   <span class="categoria-academia">Cardiologia </span>
-                  <span class="icon-cardiologia iconcourse"></span>
-                   <div class="titulo-academia2">Conferencia: Genoma Humano</div>
-                    <div class="modulos">7 módulos</div>
-                    <div  class="moduloslista valign-wrapper">
-                      <ol>
-                          <li> Prevalencia y diagnóstico</li>
-                          <li> Opciones terapéuticas</li>
-                          <li> Insomnio en la mujer</li>
-                          <li> Paciente con insomnio</li>
-                          <li> Comorbilidades psiquiátricas</li>
-                          <li> Caso clínico</li>
-                          <li> Webcast</li>
-                        </ol>
-                    </div >
-                   <div class="leer-masmodulos">
-                      <a href="#!">Leer Todo</a>
-                       <hr class="line3"/>
-                   </div>
-                </div>
-             </div>
+            <div class="card z-depth-0 white ">
+               <div class="card-content cursoscard">
+                  <span class="categoria-academia">{{ $course->categories->first()->name }}</span>
+                 <div class="iconcourse"><img src="{{ $course->categories->first()->getMainImgUrl() }}" class="responsive-img"></div>
+                  <div class="titulo-academia2"> {{ $course->name }}</div>
+                   <div class="modulos">{{ $course->modules->count() }} módulos</div>
+                  <div class="leer-masmodulos_50">
+                     <a href="/student-courses/{{ $course->id }}">Ver mas</a>
+                      <hr class="line3"/>
+                  </div>
+                 <div class="leer-masmodulos">
+                     <a href="#!">Inscribirse</a>
+                      <hr class="line3"/>
+                  </div>
+               </div>
+            </div>
           </div>
-            <div class="col s12 l4 ">
-             <div class="card z-depth-0 white">
-                <div class="card-content mods">
-                   <span class="categoria-academia">Cardiologia </span>
-                  <span class="icon-cardiologia iconcourse"></span>
-                   <div  class="titulo-academia2">Conferencia: Genoma Humano</div >
-                    <div  class="modulos">9 módulos</div >
-                    <div  class="moduloslista valign-wrapper">
-                      <ol >
-                          <li> Prevalencia y diagnóstico</li>
-                          <li> Opciones terapéuticas</li>
-                          <li> Insomnio en la mujer</li>
-                          <li> Paciente con insomnio</li>
-                          <li> Comorbilidades psiquiátricas</li>
-                          <li> Caso clínico</li>
-                          <li> Webcast</li>
-                          <li> Caso clínico</li>
-                          <li> Webcast</li>
-                        </ol>
-                    </div >
-                   <div class="leer-masmodulos">
-                      <a href="#!">Leer Todo</a>
-                       <hr class="line3"/>
-                   </div>
-                </div>
-             </div>
-          </div>
-            <div class="col s12 l4 ">
-             <div class="card z-depth-0 white">
-                <div class="card-content mods">
-                   <span class="categoria-academia">Cardiologia </span>
-                  <span class="icon-cardiologia iconcourse"></span>
-                   <div  class="titulo-academia2">Conferencia: Genoma Humano</div >
-                    <div  class="modulos">5 módulos</div >
-                    <div  class="moduloslista valign-wrapper">
-                      <ol>
-                          <li> Prevalencia y diagnóstico</li>
-                          <li> Opciones terapéuticas</li>
-                          <li> Insomnio en la mujer</li>
-                          <li> Paciente con insomnio</li>
-                          <li> Comorbilidades psiquiátricas</li>
-
-                        </ol>
-                    </div >
-                   <div class="leer-masmodulos">
-                      <a href="#!">Leer Todo</a>
-                       <hr class="line3"/>
-                   </div>
-                </div>
-             </div>
-          </div>
+          @endforeach
        </div>
 
 

@@ -21,6 +21,7 @@ Route::get('/student-login', function () {
 });
 
 Route::get('/student-courses','Users_Pages\CoursesController@index');
+Route::get('/student-home','Users_Pages\CoursesController@recommendations');
 Route::get('/student-courses/{id}','Users_Pages\CoursesController@show');
 Route::get('/student-experts','Users_Pages\ExpertsController@index');
 Route::get('/student-experts/{id}','Users_Pages\ExpertsController@show');
