@@ -27,7 +27,7 @@ class CoursesController extends Controller
 
     public function show($adscription_slug, $course_slug)
     {
-        $course = Course::where('slug', $course_slug);
+        $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return redirect()->route('users_pages/courses.list'); }
         return view('users_pages/courses.show',compact('course'));
     }

@@ -21,7 +21,7 @@ Curso {{ $course->name }}
                   <div class="titulo-academia2"> {{ $course->name }}</div>
                    <div class="modulos">{{ $course->modules->count() }} módulos</div>
                   <div class="leer-masmodulos_50">
-                     <a href="/student-courses/{{ $course->id }}">Ver mas</a>
+                     <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver mas</a>
                       <hr class="line3"/>
                   </div>
                  <div class="leer-masmodulos">

@@ -23,7 +23,12 @@ Expertos
                       </div>
 
                     <div class="leer-masmodulos">
-                        <a href="student-experts/{{ $expert->id }}">Ver más</a>
+                      @if(Auth::check())
+                        <a href="{{ route('student.show.expert',[Auth::user()->ascription()->slug,$expert->slug]) }}">Ver más</a>
+                      @else
+                        <a href="{{ route('student.show.expert',['invitado',$expert->slug]) }}">Ver más</a>
+                      @endif
+
                          <hr class="line3"/>
                      </div>
                   </div>
