@@ -8,13 +8,10 @@
 @section('subtitle')
     <ol class="breadcrumb">
         <li>
-            <a href="{{ route('modules.show', $module->course->name) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+          <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}</strong></a>
         </li>
         <li>
-            <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}</strong></a>
-        </li>
-        <li>
-            Referencia
+          Administrar referencias
         </li>
     </ol>
 @endsection
@@ -41,16 +38,15 @@
                         <tbody>@php $i=1; @endphp
                             @foreach($references as $reference)
                               <tr>
-                                <td><a href="">{{ $i }}</a></td> @php $i++; @endphp
-                                <td><a href="">{{ $reference->content }}</a></td>
+                                <td><a href="{{ route('references.show', [$module->id, $reference->id]) }}">{{ $i }}</a></td> @php $i++; @endphp
+                                <td><a href="{{ route('references.show', [$module->id, $reference->id]) }}">{!! $reference->content !!}</a></td>
                                 <td>
-                                  
-                                    <a href="#" class="btn btn-danger btn-round btn_delete" >Eliminar</a>
-                                  
+                                  {!! Form::open(['method'=>'delete','route'=>['references.destroy', $module->id,  $reference->id],'style'=>'display:inline;']) !!}
+                                    <a class='btn btn-danger btn_delete'>Eliminar</a>
+                                  {!! Form::close() !!}
                                 </td>
                               </tr>
                             @endforeach
-                            
                         </tbody>
                       </table>
                       </div>

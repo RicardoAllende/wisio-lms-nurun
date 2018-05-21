@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Don't change this constants.
+ * The only that should be modified are default_password
+ * and url_medico_consentido
+ */
+
 return [
     /**
      * Attachment types.
@@ -19,6 +26,11 @@ return [
         'final' => 'f'
     ],
 
+    /**
+     * If you want to change this default_password, you must use bcrypt to crypt the password,
+     * for example: 
+     * 'default_password' = bcrypt('your default password'),
+     */
     'default_password' => '$2y$10$qQpVjcmcO5I1XffeZduhPuyAe55ZtEb5yxMUGhDXKI84r4PSKARoS', //secret
 
     'resources' => [
@@ -36,7 +48,6 @@ return [
     /**
      * Advance in a course, module or resource.
      */
-
     'status' => [
         'passed' => 'Aprobado',
         'failed' => 'Reprobado',
@@ -48,8 +59,6 @@ return [
 
     'url_medico_consentido' => 'http://www.sanofi.com.mx',
 
-    'main_domain' => 'localhost',
-
     'roles' => [
         'admin' => 'admin',
         'reporter' => 'reporter',
@@ -59,16 +68,5 @@ return [
         'private_doctor' => 'private_doctor',
         'public_doctor' => 'public_doctor',
         'pharmacy_doctor' => 'pharmacy_doctor'
-    ],
-    
-    'user_types' => [
-        'admin' => 'Administrador',
-        'reporter' => 'Reportero',
-        'editor' => 'Editor',
-        'tester' => 'Tester',
-        'teacher' => 'Profesor',
-        'private_doctor' => 'Médicos privados',
-        'public_doctor' => 'Médicos públicos',
-        'pharmacy_doctor' => 'Médicos de farmacia'
     ]
 ];

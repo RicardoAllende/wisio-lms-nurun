@@ -30,10 +30,12 @@
                     <li>
                         <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
+                            <li><a href="{{ route('users.index').'?type=doctors'}}">Todos los médicos</a></li>
+                            <li><a href="{{ route('users.create') }}">Crear usuario</a></li>
                             <li><a href="{{ route('users.index').'?type='.config('constants.roles.pharmacy_doctor') }}">Médicos de farmacia</a></li>
                             <li><a href="{{ route('users.index').'?type='.config('constants.roles.public_doctor') }}?type">Médicos Públicos</a></li>
                             <li><a href="{{ route('users.index').'?type='.config('constants.roles.private_doctor') }}">Médicos Privados</a></li>
-                            <li><a href="{{ route('users.index')}}">Todos los médicos</a></li>
+                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.admin') }}">Administradores</a></li>
                         </ul>
                     </li>
                     <li class="">

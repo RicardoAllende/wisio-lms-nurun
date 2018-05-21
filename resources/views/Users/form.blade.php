@@ -71,11 +71,29 @@
               </div>
             </div>
 
+            <div class="form-group">
+              {!! Form::label('role_id', 'Tipo de usuario:',['class'=>'control-label col-sm-2']); !!}
+              <div class="col-sm-10">
+              <select name="role_id" id="role_id" class="form-control" required>
+                @if(isset($user))
+                  <option value="{{$user->role->id}}">{{ $user->role->name }} (actual)</option>
+                @else
+                  <option value="">Seleccionar</option>
+                @endif
+                @foreach($roles as $role)
+                  <option value="{{$role->id}}">{{ $role->description }}</option>
+                @endforeach
+              </select>
+              </div>
+            </div>
+
             <div class="form-group"> 
               <div class="col-sm-offset-2 col-sm-10">
                 <a href="{{route('users.index')}}" class="btn btn-default">Cancelar</a>
-                {!! Form::submit('Guardar',['class'=>'btn btn-primary  btn-round']) !!} <br>
-                <button class="btn btn-default btn-round">Restaurar contraseña por defecto (secret)</button>
+                {!! Form::submit('Guardar',['class'=>'btn btn-primary btn-round']) !!}
+                @if(isset($user))
+                  &nbsp;&nbsp;<a href="{{ route('reset.default.password', $user->id) }}" class="btn btn-default btn-round" >Resetear contraseña por defecto</a>
+                @endif
               </div>
             </div>
             {!! Form::close() !!}

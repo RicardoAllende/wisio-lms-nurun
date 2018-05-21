@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Module;
 use App\CourseModule;
@@ -31,12 +32,21 @@ class ModulesController extends Controller
      */
     public function create()
     {
+        // Create a module for a specific course
+        if(isset($_GET['course_id'])){
+            $course_id = $_GET['course_id'];
+            $course = Course::find($course_id);
+            if($course != null){
+                return view('modules/form', compact('course'));
+            }
+        }
+        $courses = Course::all();
+        // For create a course and relate to a expert
         if(isset($_GET['expert_id'])){
             $expert_id = $_GET['expert_id'];
-            return view('modules/form', compact('expert_id'));
+            return view('modules/form', compact('expert_id', 'courses'));
         }
-        
-        return view('modules/form');
+        return view('modules/form', compact('courses'));
     }
 
     /**
@@ -49,21 +59,12 @@ class ModulesController extends Controller
     {
         $module = Module::create([
             'name' => $request->name, 'description' => $request->description,
-            'start_date' => $request->start_date, 'end_date' => $request->end_date,
-            'course_id' => Module::first()->id
+            'course_id' => $request->course_id
         ]);
 
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             AttachmentModule::create(['attachment_id' => $attach_id, 'module_id' => $module->id]);
-        }
-
-        if($request->filled('course_id')){
-            $course_id = $request->course_id;
-            if(Course::find($course_id) != null){
-                CourseModule::create(['course_id' => $course_id, 'module_id' => $module->id]);
-                return redirect()->route('courses.show', $course_id);
-            }
         }
 
         if($request->filled('expert_id')){
@@ -105,10 +106,11 @@ class ModulesController extends Controller
     public function edit($id)
     {
         $module = Module::find($id);
-        if ($module == null) {
+        if ($module == null) { // Module doesn't exist
             return redirect()->route('modules.index');
         }
-        return view('modules/form', compact('module'));
+        $courses = Course::all();
+        return view('modules/form', compact('module', 'courses'));
     }
 
     /**
@@ -124,8 +126,7 @@ class ModulesController extends Controller
         if($module == null){ return redirect()->route('modules.index'); }
         $module->name = $request->name;
         $module->description = $request->description;
-        $module->start_date = $request->start_date;
-        $module->end_date = $request->end_date;
+        $module->course_id = $request->course_id;
         $module->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
@@ -201,6 +202,7 @@ class ModulesController extends Controller
     public function orderResources($module_id){
         $module = Module::find($module_id);
         $resources = $module->resources;
+        // return $resources;
         return view('modules/order-resources', compact('module', 'resources'));
     }
 

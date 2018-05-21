@@ -11,7 +11,7 @@
             <a href="{{ route('experts.index') }}"> Expertos </a>
         </li>
         <li class="active" >
-            {{ $expert->name }}
+        <a href="{{ route('experts.show', $expert->id) }}">{{ $expert->name }}</a>
         </li>
     </ol>
 @endsection

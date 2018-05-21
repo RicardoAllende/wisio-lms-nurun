@@ -9,8 +9,18 @@
   @endsection
 @endif
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('experts.index') }}">Expertos</a>
+        </li>
+        <li class="active" >
+            {{(isset($expert)) ? 'Editar experto' : 'Crear experto'}}
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">
@@ -65,7 +75,7 @@
                         <input type="hidden" value="experts" name="path">
                       <div class="dz-message" style="height:200px;">
                           @if(isset($expert))
-                            @if($evaluation->hasMainImg())
+                            @if($expert->hasMainImg())
                               {{ 'Arrastre aquí una imagen para actualizarla' }}
                             @else
                               {{ 'Arrastre aquí la imagen del experto (requerida)' }}

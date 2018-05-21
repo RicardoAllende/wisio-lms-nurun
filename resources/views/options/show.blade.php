@@ -8,10 +8,13 @@
 @section('subtitle')
     <ol class="breadcrumb">
         <li>
-            <a href="{{ route('questions.index') }}">Preguntas</a>
+            <a href="{{ route('modules.show', $option->question->evaluation->module->id) }}">Módulo: {{ $option->question->evaluation->module->name }}</a>
         </li>
         <li>
-            <a href="{{ route('options.show') }}">Opciones</a>
+            <a href="{{ route('evaluations.show', $option->question->evaluation->id) }}">Módulo: {{ $option->question->evaluation->name }}</a>
+        </li>
+        <li>
+            <a href="{{ route('questions.show', $option->question->id) }}">Pregunta: {{ $option->question->name }}</a>
         </li>
         <li>
             {{ $option->content }}
@@ -33,7 +36,7 @@
                             Pregunta: {{ $option->question->content }}
                         </h3>
                         <h3>
-                            Opción: {{ $option->content }}
+                            Opción: < {{ $option->content }} >
                         </h3>
                         <small>Esta opción es una solución válida</small>
                     </div>
@@ -44,7 +47,7 @@
                         <i class="fas fa-times fa-4x"></i>
                         <h1 class="m-xs">47</h1>
                         <h3 class="font-bold no-margins">
-                            Opción: {{ $option->content }}
+                            Opción: < {{ $option->content }} >
                         </h3>
                         <small>Esta respuesta está marcada como incorrecta.</small>
                     </div>

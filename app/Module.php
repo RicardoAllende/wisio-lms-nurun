@@ -9,8 +9,6 @@ class Module extends Model
     protected $fillable = [
         'name',
         'description',
-        'start_date',
-        'end_date',
         'previous',
         'course_id'
     ];
@@ -45,6 +43,14 @@ class Module extends Model
         } else {
             return false;
         }
+    }
+
+    public function numResources(){
+        return $this->resources->count();
+    }
+
+    public function maxResourceWeight(){
+        return $this->resources->max('weight');
     }
 
     public function belongsToExpert($expert_id){

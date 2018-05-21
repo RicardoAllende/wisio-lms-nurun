@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Attachment;
 use App\Resource;
@@ -46,14 +47,10 @@ class ResourcesController extends Controller
         $module_id = $request->module_id;
         $name = $request->name;
         $module = Module::find($module_id);
-        if( ! $module->hasResources()){
-            $weight = 1;
-        }else{
-            $weight = $module->resources->count();
-        }
+        $weight = $module->maxResourceWeight() + 1; // default weight
         $attachment = Attachment::find($attachment_id);
         $type = $attachment->type;
-        Resource::create( compact('attachment_id', 'module_id', 'type', 'name') );
+        Resource::create( compact('attachment_id', 'module_id', 'type', 'name', 'weight') );
         return redirect()->route('modules.show', $module_id);
     }
 
@@ -108,19 +105,29 @@ class ResourcesController extends Controller
         //
     }
 
-    public function uploadResource(Request $request){
-        $name = request()->file('file')->getClientOriginalName();
-        $type = request()->file('file')->getMimeType();
-        $path = request()->file('file')->store('public/resources');
-        $path = str_replace('public', 'storage', $path);
-        $attach = Attachment::create(['name'=>$name , 'type'=> $type,'url'=>$path]);
-        // return redirect()->action('ResourcesController@show', $attach->id);
-        // return "El archivo se guardó en: ".$path;
-        echo $attach->id;
+    public function changeWeight($module_id, $resource_id, $newWeight){
+        $module = Module::find($module_id);
+        if($module == null){ echo "error"; return; }
+        $resource = Resource::find($resource_id);
+        if($resource == null){ echo "error"; return; }
+        $resource->weight = $newWeight;
+        $resource->save();
+        echo $resource->weight;
     }
 
-    public function orderResources($module_id){
-        return Module::find($module_id)->resources;
-    }
+    // public function uploadResource(Request $request){
+    //     $name = request()->file('file')->getClientOriginalName();
+    //     $type = request()->file('file')->getMimeType();
+    //     $path = request()->file('file')->store('public/resources');
+    //     $path = str_replace('public', 'storage', $path);
+    //     $attach = Attachment::create(['name'=>$name , 'type'=> $type,'url'=>$path]);
+    //     // return redirect()->action('ResourcesController@show', $attach->id);
+    //     // return "El archivo se guardó en: ".$path;
+    //     echo $attach->id;
+    // }
+
+    // public function orderResources($module_id){
+    //     return Module::find($module_id)->resources;
+    // }
 
 }

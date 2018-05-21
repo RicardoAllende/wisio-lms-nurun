@@ -8,7 +8,7 @@
 @section('subtitle')
     <ol class="breadcrumb">
         <li>
-          <a href="{{ route('evaluations.index') }}"> Evaluaciones</a>
+          Evaluaciones
         </li>
     </ol>
 @endsection
@@ -20,7 +20,6 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>Evaluaciones</h5>
-                        
                     </div>
                     <div class="ibox-content">
                       <div class="table-responsive">
@@ -29,6 +28,7 @@
                           <tr>
                             <th>#</th>@php $i=1; @endphp
                             <th>Evaluación</th>
+                            <th>Módulo</th>
                             <th>Tipo</th>
                             <th>Fecha de creación</th>
                             <th>Acciones</th>
@@ -37,8 +37,9 @@
                         <tbody>
                             @foreach($evaluations as $evaluation)
                               <tr>
-                              <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $i }}</a></td> @php $i++; @endphp
-                              <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
+                              <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td> @php $i++; @endphp
+                              <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
+                              <td><a href="{{ route('modules.show', $evaluation->module->id) }}">{{ $evaluation->module->name }}</a></td>
                               <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
                               <td>{{ $evaluation->created_at }}</td>
                               <td>
@@ -68,12 +69,12 @@
 
 @section('scripts')
 
-<script src="js/sweetalert2.min.js"></script>
-<script src="js/method_delete_f.js"></script>
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
 
 @endsection
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection
      

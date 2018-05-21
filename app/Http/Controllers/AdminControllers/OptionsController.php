@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Option;
 use App\Question;
@@ -93,7 +94,6 @@ class OptionsController extends Controller
             return redirect()->route('options.index');
         }
         $option->content = $request->content;
-        $option->feedback = $request->feedback;
         if($request->filled('score')){
             $option->score = $request->score;
         }else{

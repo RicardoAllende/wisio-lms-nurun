@@ -1,20 +1,33 @@
 @extends('layouts.app')
 
-@section('title', (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación'))
+@section('title', (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación')
 
-@section('subtitle')
-    <ol class="breadcrumb">
-        <li>
-          <a href="{{ route('courses.show', $evaluation->module->course->id) }}"> Curso: {{ $evaluation->module->course->name }}</a>
-        </li>
-        <li>
-          <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{$evaluation->module->name}} </a>
-        </li>
-        <li class="active" >
-            {{ (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación') }}
-        </li>
-    </ol>
-@endsection
+@if(isset($evaluation))
+  @section('subtitle')
+      <ol class="breadcrumb">
+          <li>
+            <a href="{{ route('courses.show', $evaluation->module->course->id) }}"> Curso: {{ $evaluation->module->course->name }}</a>
+          </li>
+          <li>
+            <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{$evaluation->module->name}} </a>
+          </li>
+          <li class="active" >
+              {{ (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación' }}
+          </li>
+      </ol>
+  @endsection
+ @else
+  @section('subtitle')
+      <ol class="breadcrumb">
+          <li>
+            <a href="{{ route('evaluations.index') }}"> Evaluaciones</a>
+          </li>
+          <li class="active" >
+              Editar evaluación
+          </li>
+      </ol>
+  @endsection
+ @endif
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -22,8 +35,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>(isset($evaluation))? 'Editar evaluación' : 'Crear evaluación')</h5>
-                        
+                        <h5>{{ (isset($evaluation))? 'Editar evaluación' : 'Crear evaluación'}}</h5>
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
@@ -73,25 +85,13 @@
                             <div class="form-group">
                               {!! Form::label('minimum_score', 'Calificación aprobatoria mínima:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::number('minimum_score',null,['class'=>'form-control','placeholder'=>'Calificación aprobatoria mínima (usar enteros)', 'required' => '', "min"=>1, 'max'=>10]) !!}
+                               {!! Form::number('minimum_score',null,['class'=>'form-control','placeholder'=>'Calificación aprobatoria mínima', 'required' => '', 'step'=>'0.1']) !!}
                               </div>
                             </div>
                             <div class="form-group">
                               {!! Form::label('maximum_attemps', 'Cantidad de intentos máximos:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::number('maximum_attemps',null,['class'=>'form-control','min' => 0, 'placeholder'=>'Cantidad de intentos máximos (ingrese 0 para no limitar los intentos)', 'required' => '']) !!}
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              {!! Form::label('start_date', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10"> 
-                                {!! Form::date('start_date',null,['class'=>'form-control', 'required'=>'']) !!}
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              {!! Form::label('end_date', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10"> 
-                                {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
+                               {!! Form::number('maximum_attemps',null,['class'=>'form-control','min' => 0, 'placeholder'=>'Cantidad de intentos máximos', 'required' => '']) !!}
                               </div>
                             </div>
 

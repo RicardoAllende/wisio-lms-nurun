@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Evaluation;
 use App\Module;
@@ -97,8 +98,6 @@ class EvaluationsController extends Controller
         $evaluation->description = $request->description;
         $evaluation->minimum_score = $request->minimum_score;
         $evaluation->maximum_attemps = $request->maximum_attemps;
-        $evaluation->start_date = $request->start_date;
-        $evaluation->end_date = $request->end_date;
         $evaluation->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');

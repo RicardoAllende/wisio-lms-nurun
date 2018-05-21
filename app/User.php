@@ -29,7 +29,8 @@ class User extends Authenticatable
         'cedula',
         'consultation_type',
         'lastaccess',
-        'enable'
+        'enable',
+        'role_id'
     ];
 
     /**
@@ -85,6 +86,21 @@ class User extends Authenticatable
         }
     }
 
+    public function detachNormalAscriptions(){
+        $ascriptions = $this->normalAscriptions();
+        foreach($ascriptions as $ascription){
+            $this->ascriptions()->detach($ascription->id);
+        }
+    }
+
+    public function attachAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){ return false; }
+        $this->detachNormalAscriptions();
+        $this->ascriptions()->attach($ascription_id);
+        return true;
+    }
+
     public function enrollToAscription($ascription_id){
         $ascription = Ascription::find($ascription_id);
         if($ascription == null) { return false; }
@@ -136,6 +152,10 @@ class User extends Authenticatable
     public function ascriptions()
     {
         return $this->belongsToMany('App\Ascription');
+    }
+
+    public function normalAscriptions(){
+        return $this->ascriptions->where('has_constancy', 0); // Not diplomat
     }
 
     public function hasAscriptions(){
@@ -203,6 +223,14 @@ class User extends Authenticatable
 
     public function isAdmin(){
         return $this->hasRole('admin');
+    }
+
+    public function hasAdvance(){
+        $advances = false;
+        if($this->evaluations->count() > 0){
+            $advances = true;
+        }
+        return $advances;
     }
 
     public function specialties(){

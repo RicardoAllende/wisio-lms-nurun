@@ -30,8 +30,8 @@
               <div class="col s6 l2">
                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
-              @if(Auth::user()->name != null)
-              <p class="user">Dr. {{ Auth::user()->name }}</p>
+              @if (Auth::check())
+                <p class="user">Dr. {{ Auth::user()->name }}</p>
               @endif
           </div>
 

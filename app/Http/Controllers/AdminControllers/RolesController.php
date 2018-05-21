@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Reference;
-use App\Module;
 
-class ReferencesController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($module)
+    public function index()
     {
-        $module = Module::find($module);
-        $references = $module->references;
-        return view('references/list', compact('references', 'module'));
+        //
     }
 
     /**

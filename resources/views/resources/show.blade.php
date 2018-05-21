@@ -13,6 +13,7 @@
         <li class="active">
             <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}<strong></a>
         </li>
+        <li>{{ $resource->name }}</li>
     </ol>
 @endsection
 

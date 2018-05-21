@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Attachment;
 
-class TagsController extends Controller
+class AttachmentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +25,7 @@ class TagsController extends Controller
      */
     public function create()
     {
-        //
+        return view('resources/form');
     }
 
     /**
@@ -80,5 +82,25 @@ class TagsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadFile(Request $request){
+        $type = "img"; // by default
+        $path = "attachments"; // by default
+        if($request->filled('path')){
+            $path = $request->input('path');
+        }
+        $filePath = request()->file('file')->store('public/'.$path);
+        $filePath = str_replace('public', 'storage', $filePath);
+        $name = request()->file('file')->getClientOriginalName();
+        $mimeType = request()->file('file')->getMimeType();
+        $type = substr($mimeType, 0, strpos($mimeType, '/'));
+        if($request->filled('type')){
+            $type = $request->input('type');
+        }
+        if($mimeType == 'application/pdf') $type = 'pdf';
+        $attachment = Attachment::create(['name'=>$name, 'type'=>$type, 'url' =>$filePath, 'mimetype' => $mimeType]);
+        $attachment = $attachment->id;
+        echo $attachment;
     }
 }

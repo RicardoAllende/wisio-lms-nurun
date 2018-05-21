@@ -9,16 +9,12 @@ class Evaluation extends Model
     protected $fillable = [
         'module_id',
         'course_id',
-        'ascription_id',
-        'resource_id',
         'name', 
         'type', 
         'description',
         'minimum_score',
         'maximum_score',
         'maximum_attemps',
-        'start_date',
-        'end_date',
         'status',
         'previous'
     ];

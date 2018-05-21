@@ -35,13 +35,13 @@
                     </div>
                     <div class="col-sm-9">
                         <h3><strong>Nombre: {{ $ascription->name }} </strong></h3>
+                        <p>Slug: {{ $ascription->slug }}</p>
+                        <p>Usuarios inscritos: {{ $ascription->users->count() }}</p>
+                        <p>Cursos: {{ $ascription->courses->count() }}</p>
                         <p>Descripción: {{ $ascription->description }} </p>
                         <p>Estado: {{ ($ascription->enabled == 1)? 'disponible' : 'no disponible' }}</p>
-                        <p>Slug: {{ $ascription->slug }}</p><br>
                         <p><a href="{{ route('list.users.for.ascriptions', $ascription->id) }}" class="btn btn-primary">Listado de usuarios</a></p>
-                        <!--{!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
-                            <a class='btn btn-danger btn_delete'>Eliminar</a>
-                        {!! Form::close() !!}-->
+
                     </div>
                     <div class="clearfix">
                     </div>
@@ -63,8 +63,8 @@
                             @php $i=1; @endphp
                             @foreach($ascription->courses as $course) 
                                 <tr>
-                                <td><a href="{{ action('CoursesController@show', $course->id) }}">{{ $i }}</a></td>
-                                <td><a href="{{ action('CoursesController@show', $course->id) }}">{{ $course->name }}</a></td>
+                                <td><a href="{{ route('courses.show', $course->id) }}">{{ $i }}</a></td>
+                                <td><a href="{{ route('courses.show', $course->id) }}">{{ $course->name }}</a></td>
                                 <td>{{$course->start_date}}</td>
                                 <td>{{$course->end_date}}</td>
                                 <td>

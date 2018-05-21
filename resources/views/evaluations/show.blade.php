@@ -34,7 +34,7 @@
                     </h2>
                         <small>Nombre de la evaluación</small>
                     </div>
-                    <img src="{{$evaluation->getMainImgUrl()}}" width="32%" height="18%" class="img-circle m-b-md" alt="Imagen del módulo">
+                    <img src="{{$evaluation->getMainImgUrl()}}" width="32%" height="18%" class="m-b-md" alt="Imagen del módulo">
                 </div>
                 <div class="col-sm-8" style="bottom: 50%;">
                 <br><br><br>
@@ -51,7 +51,7 @@
         </div>
         <div class="widget-text-box">
             <h4 class="media-heading">Descripción de la evaluación</h4>
-            <p>{{$evaluation->description}}. Fecha de inicio: {{ $evaluation->start_date }}, Fecha de término: {{ $evaluation->end_date }}</p>
+            <p>{{$evaluation->description}}</p>
         </div>
 
 
@@ -66,7 +66,7 @@
                             <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Tipo de pregunta</th>
+                            <th>Opciones de la pregunta</th>
                             <th>Acciones</th>
                             </tr>
                         </thead>
@@ -74,14 +74,10 @@
                             @php $i=1; @endphp
                             @foreach($evaluation->questions as $question) 
                                 <tr>
-                                <td><a href="{{ action('QuestionsController@show', $question->id) }}">{{ $i }}</a></td>
-                                <td><a href="{{ action('QuestionsController@show', $question->id) }}">{{ $question->name }}</a></td>
+                                <td><a href="{{ route('questions.show', $question->id) }}">{{ $i }}</a></td>
+                                <td><a href="{{ route('questions.show', $question->id) }}">{{ $question->name }}</a></td>
                                 <td>
-                                @if ($question->type == "2") <!-- Opción múltiple-->
-                                    Opción Múltiple
-                                @else <!-- Verdadero Falso -->
-                                    Verdadero/falso
-                                @endif
+                                    {{$question->options->count()}}
                                 </td>
                                 <td>
                                     {!! Form::open(['method'=>'DELETE','route'=>['questions.destroy',$question->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
@@ -95,10 +91,9 @@
                     </table>
                 </div>
                 @else
-                <h3><strong>Esta evaluación aún no tiene preguntas, desea agregar alguna?</strong></h3><br>
-                <!--<a href="{{ route('form.upload.questions') }}" class="btn btn-info">Agregar masivamente en formato GIFT</a>&nbsp;-->
-                <a href=" {{ route('questions.create') }}?evaluation_id={{$evaluation->id}}" class="btn btn-info">Agregar pregunta</a>
+                <h3><strong>Esta evaluación aún no tiene preguntas, ¿desea agregar alguna?</strong></h3><br>
                 @endif
+                <a href=" {{ route('questions.create') }}?evaluation_id={{$evaluation->id}}" class="btn btn-info">Agregar pregunta</a>
             </div>
         </div>
       </div>

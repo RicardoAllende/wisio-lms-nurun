@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use Illuminate\Support\Facades\Storage;
@@ -47,9 +48,9 @@ class CategoriesController extends Controller
         $input = $request->input();
         $category = Category::create($input);
         if($request->filled('attachment')){
+            $this->dropImgAttachments($category);
             $attach_id = $request->input('attachment');
             AttachmentCategory::create(['attachment_id' => $attach_id, 'category_id' => $category->id]);
-            $this->dropImgAttachments($category);
         }
         return redirect()->route('categories.show', $category->id);
     }
@@ -109,7 +110,7 @@ class CategoriesController extends Controller
     }
 
     public function dropImgAttachments($category){
-        $images = $category->attachments->where('type', 'main_img');
+        $images = $category->attachments->where('type', config('constants.attachments.main_img'));
         foreach($images as $image){
             $image->delete();
         }

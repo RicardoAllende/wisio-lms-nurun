@@ -4,12 +4,17 @@
 
 @section('subtitle')
     <ol class="breadcrumb">
+      @if(isset($ascription))
+        <li><a href="{{route('ascriptions.show', $ascription->id)}}">Adscripción: {{ $ascription->name }}</a></li>
+        <li>Crear curso</li>
+      @else
         <li>
             <a href="{{ route('courses.index') }}"> Cursos</a>
         </li>
         <li class="active" >
             {{ (isset($course)) ? 'Editar curso' : 'Crear curso' }}
         </li>
+      @endif
     </ol>
 @endsection
 
@@ -52,6 +57,18 @@
                               {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
                             </div>
                           </div>
+                          <!--<div class="form-group">
+                            {!! Form::label('maximum_attempts', 'Cantidad máxima de intentos)',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::number('maximum_attempts',null,['class'=>'form-control', 'required'=>'']) !!}
+                            </div>
+                          </div>-->
+                          <div class="form-group">
+                            {!! Form::label('minimum_score', 'Calificación mínima:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::number('minimum_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1']) !!}
+                            </div>
+                          </div>
                           <div class="form-group">
                             {!! Form::label('has_constancy', '¿Emitirá constancia?',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10">
@@ -77,8 +94,8 @@
                             </div>
                           </div>
                           
-                          @if(isset($ascription_id))
-                            <input type="hidden" value="{{$ascription_id}}" name="ascription_id">
+                          @if(isset($ascription))
+                            <input type="hidden" value="{{$ascription->id}}" name="ascription_id">
                           @endif
 
 

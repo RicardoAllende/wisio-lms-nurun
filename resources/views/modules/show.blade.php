@@ -2,7 +2,7 @@
 
 @section('title','Módulo: '.$module->name)
 @section('cta')
-  <a href="{{action('ModulesController@edit', $module->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Módulo</a>
+  <a href="{{ route('modules.edit', $module->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Módulo</a>
   <a href="{{ route('list.experts.for.module', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
   <a href="{{ route('references.index', $module->id) }}" class="btn btn-primary" >Administrar referencias</a>
 @endsection
@@ -40,7 +40,6 @@
                         <div>
                             <span>{{ $module->evaluations->count() }} inscritos</span> |
                             <span>{{ $timesPassed }} médicos terminaron el curso</span> |
-                            <span>{{ $module->attachments->count() }} archivos adjuntos</span>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -56,12 +55,12 @@
             <div class="widget-text-box">
                 <h4 class="media-heading">Descripción del Módulo</h4><br>
                 @if($module->hasCourse())<h3><a href="{{ route('courses.show', $module->course->id) }}" >Curso: {{ $module->course->name }}</a></h3>@endif
-                <p>{{$module->description}}. <br>Fecha de inicio: {{ $module->start_date }} || Fecha de término: {{ $module->end_date }}</p>
+                <br>
                 @php $i=1; @endphp
                 @if ($module->hasReferences())
                     <h5>Referencias</h5>
                     @foreach($module->references as $reference)
-                        <p> {{$i}} {{ $reference->content }}</p>@php $i++; @endphp
+                        <p>{!! $i.". ".$reference->content !!}</p>@php $i++; @endphp
                     @endforeach
                 @endif
             </div>
@@ -84,8 +83,8 @@
                                         @php $i=1; @endphp
                                         @foreach($module->evaluations as $evaluation) 
                                             <tr>
-                                            <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $i }}</a></td>
-                                            <td><a href="{{ action('EvaluationsController@show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
+                                            <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td>
+                                            <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
                                             <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
                                             </tr>
                                             @php $i++; @endphp
@@ -94,7 +93,7 @@
                                 </table>
                             </div>
                         @else
-                            <h3><strong>Este Módulo aún no tiene evaluaciones asignadas, ¿desea agregar alguna?</strong></h3><br>
+                            <h3><strong>Este Módulo aún no tiene evaluaciones, ¿desea agregar alguna?</strong></h3><br>
                         @endif
                         <a href="{{ action('EvaluationsController@create') }}?module_id={{$module->id}}" class="btn btn-info text-left">Crear evaluación</a><br><br><hr><hr>
                     </div>
@@ -107,7 +106,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Recurso</th>
-                                            <th>j</th>
+                                            <th>Tipo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -124,7 +123,7 @@
                                 </table>
                             </div>
                         @else
-                            <br><br>
+                            <h3><strong>Este Módulo aún no tiene recursos, ¿desea agregar alguno?</strong></h3><br>
                         @endif
                         <a href="{{ route('resources.create', $module->id) }}" class="btn btn-info btn-round" >Agregar recursos</a>
                         <a href="{{ route('order.module.resources', $module->id) }}" class="btn btn-info btn-round" >Ordenar recursos</a>
@@ -134,18 +133,4 @@
         </div>
 	</div>
 </div>
-
-                        
-
-
-@endsection
-
-@section('scripts')
-
-
-
-@endsection
-
-@section('styles')
-
 @endsection

@@ -2,7 +2,7 @@
 
 @section('title','Pregunta')
 @section('cta')
-  <a href="{{ action('QuestionsController@edit', $question->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Pregunta</a>
+  <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Pregunta</a>
 @endsection
 
 @section('subtitle')
@@ -25,14 +25,6 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    {{ $question->evaluation->module->name }}<br>
-                    {{$question->evaluation->name}}
-                    <a href="{{action('ModulesController@show', $question->evaluation->module->id)}}">
-                        {{ (strlen($question->evaluation->module->name) > 15) ? substr($question->evaluation->module->name, 0, 15).'...' : $question->evaluation->module->name }}
-                    </a> / 
-                    <a href="{{action('QuestionsController@show', $question->id)}}">
-                        {{ (strlen($question->evaluation->name) > 15) ? substr($question->evaluation->name, 0, 15).'...' : $question->evaluation->name }}
-                    </a> / 
                 </div>
             <div class="contact-box">
                 <div class="col-sm-6">
@@ -55,8 +47,8 @@
                                 @php $i=1; @endphp
                                 @foreach($question->options as $option) 
                                     <tr>
-                                        <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $i }}</a></td>
-                                        <td><a href="{{ action('OptionsController@show', $option->id) }}">{{ $option->content }}</a></td>
+                                        <td><a href="{{ route('options.show', $option->id) }}">{{ $i }}</a></td>
+                                        <td><a href="{{ route('options.show', $option->id) }}">{{ $option->content }}</a></td>
                                         <td>{{ ($option->score == 1) ? 'Correcto' : 'Incorrecto' }}</td>
                                         <td>
                                             {!! Form::open(['method'=>'DELETE','route'=>['options.destroy',$option->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
@@ -76,8 +68,7 @@
                 <div class="clearfix"></div>
                     
             </div>
-            <a href="{{ action('EvaluationsController@show',$question->evaluation->id) }}" class="btn btn-primary" >Atrás</a>
-            <a href="{{ action('OptionsController@createFor',$question->id) }}" class="btn btn-primary" >Agregar opción</a>
+            <a href="{{ route('options.createfor',$question->id) }}" class="btn btn-primary" >Agregar opción</a>
 
             </div>
         </div>

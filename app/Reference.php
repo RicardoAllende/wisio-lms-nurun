@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reference extends Model
 {
     protected $fillable = [
-        'modules_id', 'content'
+        'module_id', 'content'
     ];
 
     public function module(){

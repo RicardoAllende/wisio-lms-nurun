@@ -8,7 +8,7 @@
             <a href="{{ route('modules.index') }}">Módulos</a>
         </li>
         <li>
-            <a href="{{ route('questions.show') }}">Preguntas</a>
+            <a href="{{ route('questions.index') }}">Preguntas</a>
         </li>
         <li>
             {{ (isset($question)) ? 'Editar pregunta' : 'Crear pregunta' }}

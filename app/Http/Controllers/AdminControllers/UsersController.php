@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Attachment;
 use App\Ascription;
 use App\AscriptionUser;
@@ -26,7 +26,9 @@ class UsersController extends Controller
     public function index(){
         if (isset($_GET['type'])) {
             $type = $_GET['type'];
-            $types = config('constants.roles');
+            if ($type == 'doctors') {
+                $type = [config('constants.roles.public_doctor'), config('constants.roles.private_doctor'), config('constants.roles.pharmacy_doctor')];
+            }
             $role = Role::where('name', $type)->pluck('id');
             $users = User::whereIn('role_id', $role)->get();
         }else{
@@ -43,7 +45,8 @@ class UsersController extends Controller
     public function create()
     {
         $ascriptions = Ascription::All();
-        return view('Users/form', compact('ascriptions'));
+        $roles = Role::all();
+        return view('Users/form', compact('ascriptions', 'roles'));
     }
 
     /**
@@ -61,14 +64,11 @@ class UsersController extends Controller
             $userId = $user->id;
             if($request->filled('ascription_id')){
                 $ascription_id = $request->ascription_id;
-                if($user->hasAscriptions()){
-                    $user->dissociateAllAscriptions();
-                }
-                AscriptionUser::create(['ascription_id' =>$ascription_id, 'user_id' => $user->id]);
+                $user->attachAscription($ascription_id);
             }
             return redirect()->route('users.show',$userId);
         }catch(Exception $e){
-            return "Existió un error al ingresar usuario";
+            return redirect()->route('users.index')->withError('Existió un error al crear el usuario');
         }
     }
 
@@ -93,6 +93,7 @@ class UsersController extends Controller
     {
         //$user = User::find($id);
         $ascriptions = Ascription::All();
+        $roles = Rele::All();
         return view('Users/form',compact('user', 'ascriptions'));
     }
 
@@ -111,10 +112,7 @@ class UsersController extends Controller
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;
-            if($user->hasAscriptions()){
-                $user->dissociateAllAscriptions();
-            }
-            AscriptionUser::create(['ascription_id' =>$ascription_id, 'user_id' => $user->id]);
+            $user->attachAscription($ascription_id);
         }
         return redirect()->route('users.show', $user->id);
     }
@@ -140,61 +138,26 @@ class UsersController extends Controller
         return view('Users/list', compact('users', 'ascription'));
     }
 
-    public function searchUsersByEmail($email){
-        $users = User::where('email', 'like', '%'.$email.'%')->paginate($this->elementsPerPage);
-        return view('Users/list',compact('users'));
-    }
-
-    public function searchUsersByName($name){
-        $users = User::where(DB::raw('concat(firstname," ",lastname)') , 'LIKE' , '%'.$name.'%')->paginate($this->elementsPerPage);
-        return view('Users/list',compact('users'));
-    }
-
-    public function lisetForAscriptionSearchByEmail($ascription_id, $email){
-        $ascription = Ascription::find($ascription_id);
-        if($ascription == null){
-            return redirect()->route('users.index');
-        }
-        $users = User::where('email', 'like', '%'.$email.'%')->paginate($this->elementsPerPage);
-        return view('Users/list-for-ascription',compact('users', 'ascription'));
-    }
-
-    public function lisetForAscriptionSearchByName($ascription_id, $name){
-        $ascription = Ascription::find($ascription_id);
-        if($ascription == null){
-            return redirect()->route('users.index');
-        }
-        $users = User::where(DB::raw('concat(firstname," ",lastname)') , 'LIKE' , '%'.$name.'%')->paginate($this->elementsPerPage);
-        return view('Users/list-for-ascription',compact('users', 'ascription'));
-    }
-
-    public function enrollToAscription($user_id, $ascription_id){
-        $ascription = Ascription::find($ascription_id);
-        if ($ascription == null) {
-            return redirect()->route('ascriptions.index');
-        }
+    public function resetDefaultPassword($user_id){
         $user = User::find($user_id);
-        if ($user == null) {
-            return redirect()->route('list.users.for.ascriptions', $ascription_id);
+        if($user != null){
+            $user->password = config('constants.default_password'); // secret; to change this constant, go to config/constants.php
+            $user->save();
         }
-        $relation = AscriptionUser::firstOrCreate(['ascription_id' => $ascription_id, 'user_id' => $user_id]);
         return back();
     }
 
-    public function dissociateForAscription($user_id, $ascription_id){
-        $ascription = Ascription::find($ascription_id);
-        if ($ascription == null) {
-            return redirect()->route('ascriptions.index');
-        }
-        $user = User::find($user_id);
-        if ($user == null) {
-            return redirect()->route('list.users.for.ascriptions', $ascription_id);
-        }
-        $relations = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $user_id)->get();
-        foreach($relations as $relation){
-            $relation->delete();
-        }
-        return back();
+    /**
+     * Returns the response from the url
+     */
+    public function getResponse($query){
+        $ch = curl_init();
+        $url = "http://search.sep.gob.mx/solr/cedulasCore/select?&wt=json&q=".$query;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+        $output = curl_exec($ch); 
+        curl_close($ch);
+        echo $output;
     }
 
 }

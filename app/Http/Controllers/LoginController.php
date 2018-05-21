@@ -14,7 +14,8 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login/login');
+        $courses = Course::orderBy('created_at','desc')->limit(5)->get();
+        return view('users_pages/login/login', compact('courses'));
     }
 
     /**
@@ -28,9 +29,16 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard');
+            $user = Auth::user();
+            if($user->isAdmin()){
+                return redirect()->route('admin.dashboard');
+            }
+            if($user->isStudent()){
+                return redirect()->route('student.home');
+            }
         }else {
-            return redirect()->route('form.login');
+            return back();
+            // return redirect()->route('form.login')->withErrors('Error al autenticar');
         }
     }
 

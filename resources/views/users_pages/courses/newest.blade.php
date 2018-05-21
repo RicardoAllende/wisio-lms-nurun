@@ -1,5 +1,5 @@
 <!-- Cursos recientes -->
-@inject('newest','App\Http\Controllers\CoursesController')
+@inject('newest','App\Http\Controllers\AdminControllers\CoursesController')
          <div class="row cf pad-left3 pad-right2">
             <div class="col s6 l9">
                <hr class="line2"/>

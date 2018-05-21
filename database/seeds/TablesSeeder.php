@@ -40,13 +40,13 @@ class TablesSeeder extends Seeder
     public function run()
     {
         // https://lion.app.box.com/s/h9eoa8837p01c8uenq66wgfrmg930lk3/file/285174501391
-        $privateDoctor = Role::create(['name' => config('constants.roles.private_doctor'), 'description' => config('constants.roles.private_doctor')]);
-        $publicDoctor = Role::create(['name' => config('constants.roles.public_doctor'), 'description' => config('constants.roles.public_doctor')]);
-        $pharmacyDoctor = Role::create(['name' => config('constants.roles.pharmacy_doctor'), 'description' => config('constants.roles.pharmacy_doctor')]);
-        $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => config('constants.roles.reporter')]);
-        $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => config('constants.roles.admin')]);
-        $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => config('constants.roles.tester')]);
-        $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => config('constants.roles.teacher')]);
+        $privateDoctor = Role::create(['name' => config('constants.roles.private_doctor'), 'description' => 'Médico privado']);
+        $publicDoctor = Role::create(['name' => config('constants.roles.public_doctor'), 'description' => 'Médico público']);
+        $pharmacyDoctor = Role::create(['name' => config('constants.roles.pharmacy_doctor'), 'description' => 'Médico de farmacia']);
+        $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => 'Reportero']);
+        $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => 'Administrador']);
+        $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
+        $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
 
         $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'paec-mexico', 'description' => 'Sección principal']);
         $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
@@ -88,12 +88,12 @@ class TablesSeeder extends Seeder
         $tag2 = Tag::create(['tag'=>'Glándulas']);
         $tag3 = Tag::create(['tag'=>'Corazón']);
         
-        $module1 = Module::create(['name' => 'Ajustando las necesidades del cliente', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course->id]);
-        $module2 = Module::create(['name' => 'Estadísticas y necesidades de los pacientes', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course->id]);
-        $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course2->id]);
-        $module4 = Module::create(['name' => 'Lección final', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course2->id]);
-        $module5 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course3->id]);
-        $module6 = Module::create(['name' => 'Hipoglucemia en contexto', 'description' => 'Este curso ...', 'start_date' => '2000-01-01', 'end_date' => '2020-01-01', 'course_id' => $course3->id]);
+        $module1 = Module::create(['name' => 'Ajustando las necesidades del cliente', 'description' => 'Este curso ...', 'course_id' => $course->id]);
+        $module2 = Module::create(['name' => 'Estadísticas y necesidades de los pacientes', 'description' => 'Este curso ...', 'course_id' => $course->id]);
+        $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'course_id' => $course2->id]);
+        $module4 = Module::create(['name' => 'Lección final', 'description' => 'Este curso ...', 'course_id' => $course2->id]);
+        $module5 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'course_id' => $course3->id]);
+        $module6 = Module::create(['name' => 'Hipoglucemia en contexto', 'description' => 'Este curso ...', 'course_id' => $course3->id]);
         
         // Relations
             CourseTag::create(['tag_id'=> $tag1->id, 'course_id'=>$course->id]);

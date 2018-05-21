@@ -10,7 +10,7 @@ class Resource extends Model
 
     protected $fillable = ['attachment_id', 'type', 'previous', 'weight', 'module_id', 'name'];
 
-    public function modules(){
+    public function module(){
     	return $this->belongsTo('App\Module');
     }
 

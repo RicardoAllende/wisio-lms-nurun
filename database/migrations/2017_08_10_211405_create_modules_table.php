@@ -17,10 +17,8 @@ class CreateModulesTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->text('description')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
             $table->boolean('enable')->default(true);
-            $table->integer('course_id')->unsigned()->nullable();
+            $table->integer('course_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

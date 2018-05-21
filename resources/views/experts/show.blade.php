@@ -35,7 +35,7 @@
                             </div>
                             <img src="{{ $expert->getMainImgUrl() }}" style="width:20%; height:20%;" class="img-circle circle-border m-b-md" alt="profile">
                             <div class="text-left">
-                                <span>Ha participado en {{ $expert->modules->count() }} módulos</span>
+                                <span>Ha participado en {{ $expert->modules->count() }} módulos</span><br>
                                 @if($expert->hasSpecialties())
                                     <ul class="list-unstyled m-t-md">
                                         @foreach($expert->specialties as $specialty)
@@ -46,9 +46,10 @@
                                         @endforeach
                                     </ul>
                                 @else
-                                    Sin especialidades
-                                @endif
-                                <p>Resumen: {!! $expert->summary !!}</p>
+                                    <br>  Experto sin especialidades definidas <br>
+                                @endif <br>
+                                <p>Resumen:</p>
+                                <div>{!! $expert->summary !!}</div>
                             </div>
                         </div>
                         <div class="col-lg-6">

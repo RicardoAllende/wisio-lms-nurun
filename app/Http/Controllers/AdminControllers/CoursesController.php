@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Course;
 use App\Category;
@@ -67,9 +68,10 @@ class CoursesController extends Controller
         }
         if ($request->filled('ascription_id')) {
             $ascription_id = $request->input('ascription_id');
-            if (Ascription::find($ascription_id) != null){
+            $ascription = Ascription::find($ascription_id);
+            if ($ascription != null){
                 AscriptionCourse::Create(['ascription_id' => $ascription_id, 'course_id' => $course_id]);
-                return back();
+                return redirect()->route('ascriptions.show', $ascription_id);
             }
         }
         return redirect()->route('courses.show', $course_id);
@@ -123,6 +125,8 @@ class CoursesController extends Controller
         $course->description = $request->description;
         $course->start_date = $request->start_date;
         $course->end_date = $request->end_date;
+        $course->maximum_attempts = $request->maximum_attempts;
+        $course->minimum_score = $request->minimum_score;
         if($request->filled('has_constancy')){
             $has_constancy = 1;
         }else{
@@ -166,7 +170,7 @@ class CoursesController extends Controller
         $ascription = Ascription::find($ascription_id);
         $categories = Category::all();
         if ($ascription != null) {
-            return view('courses/form', compact('ascription_id', 'categories'));
+            return view('courses/form', compact('ascription', 'categories'));
         }
     }
 

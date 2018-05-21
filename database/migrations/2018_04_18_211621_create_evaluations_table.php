@@ -16,24 +16,18 @@ class CreateEvaluationsTable extends Migration
         Schema::create('evaluations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('type');
+            $table->string('type', 10);
             $table->string('description')->nullable();
             $table->float('minimum_score', 10, 5)->default(8);
             $table->float('maximum_score', 10, 5)->default(10);
             $table->integer('maximum_attemps')->default(2);
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
             /**
-             * An evaluation can belong to a module, course, resource or ascription,
+             * An evaluation can belong to a module or ascription in the v2,
              * only one of them must be filled for each evaluation.
              */
             $table->integer('module_id')->unsigned()->nullable();
-            $table->integer('course_id')->unsigned()->nullable();
-            $table->integer('resource_id')->unsigned()->nullable();
             $table->integer('ascription_id')->unsigned()->nullable();
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('ascription_id')->references('id')->on('ascriptions')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

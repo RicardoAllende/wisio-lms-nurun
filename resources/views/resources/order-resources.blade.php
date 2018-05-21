@@ -5,6 +5,17 @@
   <a href="{{route('resources.create', $module->id)}}" class="btn btn-primary "><i class='fa fa-plus'></i>Crear recurso</a>
 @endsection
 
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+        </li>
+        <li class="active">
+            <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}<strong></a>
+        </li>
+    </ol>
+@endsection
+
 @section('content')
 
 <div class="wrapper wrapper-content animated fadeInRight">

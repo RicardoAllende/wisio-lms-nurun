@@ -37,7 +37,7 @@
                         <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="route('modules.show', $module->id )" class="btn btn-default">Cancelar</a>
-                            {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
+                            {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave', 'disabled'=> '']) !!}
                             </div>
                         </div>
                         {!! Form::close() !!}

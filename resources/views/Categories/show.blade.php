@@ -39,35 +39,35 @@
             </div>
                 
         </div>
-
-                @if ($category->hasCourses())
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables">
-                            <thead>
+            @if ($category->hasCourses())
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover dataTables">
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Curso</th>
+                            <th>Fecha de inicio</th>
+                            <th>Fecha de fin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $i=1; @endphp
+                            @foreach($category->courses as $course) 
                                 <tr>
-                                <th>#</th>
-                                <th>Curso</th>
-                                <th>Fecha de inicio</th>
-                                <th>Fecha de fin</th>
+                                <td><a href="{{ route('courses.show', $course->id) }}">{{ $i }}</a></td>
+                                <td><a href="{{ route('courses.show', $course->id) }}">{{ $course->name }}</a></td>
+                                <td>{{$course->start_date}}</td>
+                                <td>{{$course->end_date}}</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @php $i=1; @endphp
-                                @foreach($category->courses as $course) 
-                                    <tr>
-                                    <td><a href="{{ action('CoursesController@show', $course->id) }}">{{ $i }}</a></td>
-                                    <td><a href="{{ action('CoursesController@show', $course->id) }}">{{ $course->name }}</a></td>
-                                    <td>{{$course->start_date}}</td>
-                                    <td>{{$course->end_date}}</td>
-                                    </tr>
-                                    @php $i++; @endphp
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <h3><strong>Ningún curso está asociado a esta categoría</strong></h3><br>
-                @endif
+                                @php $i++; @endphp
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <h3><strong>Ningún curso está asociado a esta categoría</strong></h3><br>
+            @endif
+            <a class="btn btn-info btn-round" href="{{ route('courses.index') }}">Cursos</a>
       </div>
 	</div>
 </div>

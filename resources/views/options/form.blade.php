@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title',(isset($option)) ? 'Editar opción' : 'Crear opción'))
+@section('title',(isset($option)) ? 'Editar opción' : 'Crear opción')
 
 @section('subtitle')
     <ol class="breadcrumb">
         <li>
             <a href="{{ route('questions.index') }}">Preguntas</a>
         </li>
+        @if(isset($question))<li>
+            <a href="{{ route('questions.show', $question->id) }}">{{ $question->name }}</a>
+        </li>@endif
         <li>
-            <a href="{{ route('options.show') }}">Opciones</a>
-        </li>
-        <li>
-            {{ (isset($option)) ? 'Editar opción' : 'Crear opción') }}
+            {{ (isset($option)) ? 'Editar opción' : 'Crear opción' }}
         </li>
     </ol>
 @endsection
@@ -22,7 +22,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>(isset($option)) ? 'Editar opción' : 'Crear opción')</h5>
+                        <h5>{{(isset($option)) ? 'Editar opción' : 'Crear opción'}}</h5>
                         
                     </div>
                     <div class="ibox-content">
@@ -58,13 +58,6 @@
                               {!! Form::label('content', 'Opción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
                                {!! Form::text('content',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              {!! Form::label('feedback', 'Feedbak:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10">
-                                {!! Form::text('feedback',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '']) !!}
                               </div>
                             </div>
 

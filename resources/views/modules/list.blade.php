@@ -39,8 +39,8 @@
                         <tbody>@php $i=1; @endphp
                             @foreach($modules as $module)
                               <tr>
-                              <td><a href="{{ action('ModulesController@show' , $module->id) }}">{{ $i }}</a></td>@php $i++; @endphp
-                              <td><a href="{{ action('ModulesController@show' , $module->id) }}">{{ $module->name }}</a></td>
+                              <td><a href="{{ route('modules.show' , $module->id) }}">{{ $i }}</a></td>@php $i++; @endphp
+                              <td><a href="{{ route('modules.show' , $module->id) }}">{{ $module->name }}</a></td>
                               <td><a href="{{route('courses.show', $module->course->id) }}">{{ $module->course->name }}</a>  </td>
                               <td>{{ $module->description }}</td>
                               <td>{{ $module->evaluations->count() }}</td>
@@ -64,19 +64,13 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
 @section('scripts')
-
-<script src="js/sweetalert2.min.js"></script>
-<script src="js/method_delete_f.js"></script>
-
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
 @endsection
 
 @section('styles')
-<link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminControllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Ascription;
 use App\AscriptionAttachment;
@@ -40,20 +41,14 @@ class AscriptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['name', 'description']);
+        $input = $request->only(['name', 'description', 'slug']);
         $ascription = Ascription::firstOrCreate($input);
-        $slug = str_slug($request->input('name'));
-        while (Ascription::where('slug', $slug)->count() > 0) {
-            $slug .= '-';
-        }
-        $ascription->slug = $slug;
         $ascription->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
         }
-        $ascriptionId = $ascription->id;
-        return redirect()->action('AscriptionsController@show', $ascriptionId); 
+        return redirect()->route('ascriptions.show', $ascription->id); 
     }
 
     /**
@@ -71,7 +66,6 @@ class AscriptionsController extends Controller
         }else{
             return redirect()->route('ascriptions.index');
         }
-        
     }
 
     /**
@@ -103,10 +97,7 @@ class AscriptionsController extends Controller
         if($ascription != null){
             if ($ascription->name != $request->input('name')) {
                 $ascription->name = $request->input('name');
-                $slug = str_slug($request->input('name'));
-                while (Ascription::where('slug', $slug)->count() > 0) {
-                    $slug .= '-';
-                }
+                $slug = $request->slug;
                 $ascription->slug = $slug;
             }
             $ascription->description = $request->input('description');

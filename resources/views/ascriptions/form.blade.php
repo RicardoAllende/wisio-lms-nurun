@@ -40,6 +40,12 @@
                               </div>
                             </div>
                             <div class="form-group">
+                                {!! Form::label('slug', 'Slug:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                {!! Form::text('slug', null, ['class'=>'form-control','placeholder'=>'Slug, ejemplo: del-ahorro', 'required' => '']) !!}
+                              </div>
+                            </div>
+                            <div class="form-group">
                               {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
                                 {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required' => '']) !!}

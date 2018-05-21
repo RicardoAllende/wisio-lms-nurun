@@ -15,10 +15,13 @@ class Course extends Model
     protected $fillable = [
         'name',
         'description',
+        'maximum_attempts',
+        'minimum_score',
+        'has_constancy',
+        'enabled',
         'start_date',
         'end_date',
-        'status',
-        'has_constancy'
+        'manual'
     ];
 
     public function likes(){

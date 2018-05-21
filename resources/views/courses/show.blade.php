@@ -3,7 +3,7 @@
 @section('title','Curso '.$course->name)
 @section('cta')
   <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Curso</a>
-  <a href="" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>
+  <!--<a href="" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>-->
 @endsection
 
 @section('subtitle')
@@ -29,7 +29,7 @@
                             <h2 class="font-bold no-margins">
                                 {{$course->name}}
                             </h2>
-                            <small>Nombre del curso</small>
+                            <small>{{ ($course->categories->first() != null) ? "Categoría ".$course->categories->first()->name : '' }}</small>
                         </div>
                         <img src="{{$course->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
                     </div>
@@ -66,8 +66,8 @@
                             @php $i=1; @endphp
                             @foreach($course->modules as $module) 
                                 <tr>
-                                <td><a href="{{ action('ModulesController@show', $module->id) }}">{{ $i }}</a></td>
-                                <td><a href="{{ action('ModulesController@show', $module->id) }}">{{ $module->name }}</a></td>
+                                <td><a href="{{ route('modules.show', $module->id) }}">{{ $i }}</a></td>
+                                <td><a href="{{ route('modules.show', $module->id) }}">{{ $module->name }}</a></td>
                                 <td>{{ $module->start_date }}</td>
                                 <td>{{ $module->end_date }}</td>
                                 <td>
@@ -84,9 +84,7 @@
                 @else
                     <h3><strong>Este curso aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
                 @endif
-                    <!--<a href="{{ route('list.modules.for.course', $course->id) }}" class="btn btn-info btn-round">Asignar módulo ya existente</a>&nbsp;
-                    <a href="{{ route('module.form.for.course', $course->id) }}" class="btn btn-info btn-round">Crear módulo</a>-->
-
+                    <a href="{{ route('modules.create').'?course_id='.$course->id }}" class="btn btn-info btn-round">Crear módulo</a>
             </div>
         </div>
 	</div>

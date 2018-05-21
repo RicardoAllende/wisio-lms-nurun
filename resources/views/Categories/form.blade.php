@@ -45,8 +45,16 @@
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="{{route('categories.index')}}" class="btn btn-default">Cancelar</a>
-                             {!! Form::hidden('attachment',null,['class'=>'form-control','placeholder'=>'','id'=>'featured_image']) !!}
-                             {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
+                             {!! Form::hidden('attachment',null,['class'=>'form-control','placeholder'=>'','id'=>'attachment']) !!}
+                             @if(isset($category))
+                                @if($category->hasMainImg())
+                                  {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
+                                @else
+                                  {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
+                                @endif
+                              @else
+                                {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
+                              @endif
                             </div>
                           </div>
                         {!! Form::close() !!}
@@ -71,19 +79,13 @@
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                       {!! Form::close() !!}
                   </div>
-                      
                     </div>
                     <div class="ibox-footer">
-                      
                     </div>
                 </div>
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
 @section('scripts')
@@ -102,7 +104,7 @@
                   this.on("success", function(file, response) {                    
                     console.log(response);                    
                     this.removeFile(file);
-                    $('#featured_image').attr('value',response);    
+                    $('#attachment').attr('value',response);    
                     $('#image-upload').hide();   
                     $('#btnSave').prop('disabled', false);
                   });            

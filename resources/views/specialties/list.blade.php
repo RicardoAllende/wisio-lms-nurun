@@ -5,8 +5,15 @@
   <a href="{{route('specialties.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear especialidad</a>
 @endsection
 
-@section('content')
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li class="active">
+            Especialidades
+        </li>
+    </ol>
+@endsection
 
+@section('content')
 <div class="wrapper wrapper-content animated fadeInRight">
             <div class="row">
                 <div class="col-lg-12">

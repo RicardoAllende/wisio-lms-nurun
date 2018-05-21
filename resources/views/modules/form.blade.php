@@ -41,22 +41,28 @@
                               {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required'=>'']) !!}
                             </div>
                           </div>
+                          
                           <div class="form-group">
-                            {!! Form::label('start_date', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('course', 'Curso:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::date('start_date',null,['class'=>'form-control', 'required'=>'']) !!}
+                            @if(isset($course))
+                              <input type="hidden" name="course_id" value="{{$course->id}}">
+                              <input type="text" class="form-control" disabled value="{{ $course->name }}">
+                            @else
+                              <select name="course_id" id="course_id" class="form-control">
+                                @if(isset($module))
+                                  <option value="{{ $module->course->id }}">{{ $module->course->name }} (actual)</option>
+                                @else
+                                  <option value="">Seleccionar </option>
+                                @endif
+                                @foreach($courses as $course)
+                                  <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                @endforeach
+                                </select>
+                            @endif
                             </div>
                           </div>
-                          <div class="form-group">
-                            {!! Form::label('end_date', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                              {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
-
-                          @if(isset($course))
-                            <input type="hidden" name="course_id" value="{{$course->id}}">
-                          @endif
+                          
 
                           @if(isset($expert_id))
                             <input type="hidden" name="expert_id" value="{{$expert_id}}">
@@ -108,19 +114,12 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
 
-
 @section('scripts')
-
-<script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
-<script type="text/javascript">
-
+  <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
+  <script type="text/javascript">
       Dropzone.options.imageUpload  = {            
                 paramName: "file", 
                 // The name that will be used to transfer the file            
@@ -140,11 +139,8 @@
                 }        
               };
     </script>
-
 @endsection
 
 @section('styles')
-
 <link rel="stylesheet" type="text/css" href="/css/plugins/dropzone/basic.css">
-
 @endsection
