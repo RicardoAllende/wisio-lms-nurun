@@ -17,7 +17,7 @@ use App\CourseUser;
 
 class CoursesController extends Controller
 {
-    public function index()
+    public function index($adscription_slug)
     {
         $courses = Course::all();
 
@@ -25,18 +25,16 @@ class CoursesController extends Controller
 
     }
 
-    public function show($id)
+    public function show($adscription_slug, $course_slug)
     {
-        $course = Course::find($id);
+        $course = Course::where('slug', $course_slug);
         if($course == null){ return redirect()->route('users_pages/courses.list'); }
         return view('users_pages/courses.show',compact('course'));
     }
 
-    public function recommendations()
+    public function recommendations($adscription_slug)
     {
         $courses = Course::all();
-
         return view('users_pages/courses.list',compact('courses'));
-
     }
 }

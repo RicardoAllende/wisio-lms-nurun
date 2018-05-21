@@ -8,6 +8,7 @@ class Expert extends Model
 {
     protected $fillable = [
         'name',
+        'slug',
         'summary'
     ];
 

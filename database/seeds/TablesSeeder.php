@@ -40,15 +40,13 @@ class TablesSeeder extends Seeder
     public function run()
     {
         // https://lion.app.box.com/s/h9eoa8837p01c8uenq66wgfrmg930lk3/file/285174501391
-        $privateDoctor = Role::create(['name' => config('constants.roles.private_doctor'), 'description' => 'Médico privado']);
-        $publicDoctor = Role::create(['name' => config('constants.roles.public_doctor'), 'description' => 'Médico público']);
-        $pharmacyDoctor = Role::create(['name' => config('constants.roles.pharmacy_doctor'), 'description' => 'Médico de farmacia']);
+        $doctor = Role::create(['name' => config('constants.roles.doctor'), 'description' => 'Médico']);
         $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => 'Reportero']);
         $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => 'Administrador']);
         $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
         $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
 
-        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'paec-mexico', 'description' => 'Sección principal']);
+        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal']);
         $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription3 = Ascription::create(['name' => 'Farmacia del ahorro', 'slug' => 'del-ahorro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription4 = Ascription::create(['name' => 'Farmacia Femsa', 'slug' => 'femsa', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
@@ -61,11 +59,11 @@ class TablesSeeder extends Seeder
         $specialty1 = Specialty::create(['name' => 'Alergólogo']);
         $specialty2 = Specialty::create(['name' => 'Cardiólogo']);
         $specialty3 = Specialty::create(['name' => 'Cirujano plástico']);
-        $course = Course::create(['name' => 'Insomnio', 'description' => 'Ejemplo de texto de descripción', 
+        $course = Course::create(['name' => 'Insomnio', 'slug' => 'insomnio', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
-        $course2 = Course::create(['name' => 'Diabetes', 'description' => 'Ejemplo de texto de descripción', 
+        $course2 = Course::create(['name' => 'Diabetes', 'slug' => 'diabetes', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
-        $course3 = Course::create(['name' => 'Hipertensión', 'description' => 'Ejemplo de texto de descripción', 
+        $course3 = Course::create(['name' => 'Hipertensión', 'slug' => 'hipertension', 'description' => 'Ejemplo de texto de descripción', 
             'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
         CategoryCourse::create(['category_id' => $category->id, 'course_id' => $course->id]);
         CategoryCourse::create(['category_id' => $category2->id, 'course_id' => $course2->id]);
@@ -81,9 +79,18 @@ class TablesSeeder extends Seeder
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
         $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Ricardo', 'lastname'=>'Allende', 'birthday' => '2000/01/01', 'role_id' => $admin->id]);
+        $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
+        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
+        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        $course->enrolUser($student->id);
+        $course2->enrolUser($student2->id);
+
         AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
         AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
         AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
+        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $student->id]);
+        AscriptionUser::create(['ascription_id' => $ascription2->id, 'user_id' => $student2->id]);
         $tag1 = Tag::create(['tag'=>'Sueño']);
         $tag2 = Tag::create(['tag'=>'Glándulas']);
         $tag3 = Tag::create(['tag'=>'Corazón']);
@@ -141,41 +148,41 @@ class TablesSeeder extends Seeder
             Option::create(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
 
 
-        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id]);
-        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id]);
-        CourseUser::create(['user_id' => $user1->id, 'course_id' => $course3->id]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
-        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id]);
-        CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id]);
-        CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
+        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id]);
+        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id]);
+        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course3->id]);
+        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id]);
+        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id]);
+        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
+        // CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id]);
+        // CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id]);
+        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
 
-        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 
-            'status' => config('constants.status.failed'), 'score' => 7.6]);
-        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 
-            'status' => config('constants.status.passed'), 'score' => 8.1]);
-        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation3->id, 
-            'status' => config('constants.status.failed'), 'score' => 5.9]);
-        EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation4->id, 
-            'status' => config('constants.status.passed'), 'score' => 10]);
+        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 
+        //     'status' => config('constants.status.failed'), 'score' => 7.6]);
+        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 
+        //     'status' => config('constants.status.passed'), 'score' => 8.1]);
+        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation3->id, 
+        //     'status' => config('constants.status.failed'), 'score' => 5.9]);
+        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation4->id, 
+        //     'status' => config('constants.status.passed'), 'score' => 10]);
         
-        EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 
-            'status' => config('constants.status.failed'), 'score' => 6.5]);
-        EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 
-            'status' => config('constants.status.passed'), 'score' => 9]);
-        EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 
-            'status' => config('constants.status.failed'), 'score' => 7.95]);
-        EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 
-            'status' => config('constants.status.passed'), 'score' => 8]);
+        // EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 
+        //     'status' => config('constants.status.failed'), 'score' => 6.5]);
+        // EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 
+        //     'status' => config('constants.status.passed'), 'score' => 9]);
+        // EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 
+        //     'status' => config('constants.status.failed'), 'score' => 7.95]);
+        // EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 
+        //     'status' => config('constants.status.passed'), 'score' => 8]);
 
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user1->id]);
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user2->id]);
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user3->id]);
         $summary = "is a doctor with it all: he's successful, he's rich, extremely self centred and he has no problems.... until he is diagnosed with throat cancer. Now that he has seen medicine, hospitals, and doctors from a patient's perspective, he realises tha";
-        $expert1 = Expert::create(['name' => 'Dr Ricardo Allende', 'summary' => $summary]);
-        $expert2 = Expert::create(['name' => 'Dr Juan Huerta', 'summary' => $summary]);
-        $expert3 = Expert::create(['name' => 'Dr Miguel Villegas', 'summary' => $summary]);
+        $expert1 = Expert::create(['name' => 'Mtro. Christian George',  'slug' => 'mtro-christian-george', 'summary' => $summary]);
+        $expert2 = Expert::create(['name' => 'Dr Omar Leyva', 'slug' => 'dr-omar-leyva', 'summary' => $summary]);
+        $expert3 = Expert::create(['name' => 'Dr Fernando Rodríguez', 'slug' => 'dr-fernando-rodriguez', 'summary' => $summary]);
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty1->id]);
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty2->id]);
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty3->id]);
@@ -185,9 +192,9 @@ class TablesSeeder extends Seeder
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
 
-        $course->saveAdvanceForAllUsers();
-        $course2->saveAdvanceForAllUsers();
-        $course3->saveAdvanceForAllUsers();
+        // $course->saveAdvanceForAllUsers();
+        // $course2->saveAdvanceForAllUsers();
+        // $course3->saveAdvanceForAllUsers();
 
 
         factory(User::class, 30)->create()->each(function ($u){

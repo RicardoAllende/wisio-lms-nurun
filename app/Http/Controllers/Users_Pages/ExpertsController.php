@@ -11,14 +11,14 @@ use App\Specialty;
 
 class ExpertsController extends Controller
 {
-  public function index()
+  public function index($adscription_slug)
   {
       $experts = Expert::all();
       return view('Users_Pages/experts.list', compact('experts'));
   }
 
-  public function listModules($expert_id){
-      $expert = Expert::find($expert_id);
+  public function listModules($adscription_slug, $expert_slug){
+      $expert = Expert::where('slug', $expert_slug)->first();
       if($expert == null){ return redirect()->route('experts.index'); }
       $modules = Module::all();
       return view('experts/list-modules', compact('expert', 'modules'));

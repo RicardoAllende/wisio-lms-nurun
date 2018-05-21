@@ -16,7 +16,7 @@ class CreateAscriptionsTable extends Migration
         Schema::create('ascriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug')->unique()->nullable();
+            $table->string('slug')->unique();
             $table->string('description');
             $table->boolean('has_constancy')->default(false); // If it's a 'diplomado'
             $table->boolean('is_pharmacy')->default(false); // For special actions

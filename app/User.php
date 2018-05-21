@@ -208,21 +208,11 @@ class User extends Authenticatable
     } 
 
     public function isStudent(){
-        $thisUserIsStudent = false;
-        if ($this->hasRole(config('constants.roles.private_doctor'))) {
-            $thisUserIsStudent = true;
-        }
-        if ($this->hasRole(config('constants.roles.public_doctor'))) {
-            $thisUserIsStudent = true;
-        }
-        if ($this->hasRole(config('constants.roles.pharmacy_doctor'))) {
-            $thisUserIsStudent = true;
-        }
-        return $thisUserIsStudent;
+        return $this->hasRole(config('constants.roles.doctor'));
     }
 
     public function isAdmin(){
-        return $this->hasRole('admin');
+        return $this->hasRole(config('constants.roles.admin'));
     }
 
     public function hasAdvance(){

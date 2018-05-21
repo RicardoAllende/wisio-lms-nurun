@@ -63,26 +63,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 
-	// Route::group([ 'prefix' => '/{pharmacy_slug}', 'middleware' => ['public.doctor', 'private.doctor']], function () {
-	Route::group([ 'prefix' => '/sanofi', 'middleware' => ['student']], function () {
+	Route::group([ 'prefix' => '/{adscription_slug}', 'middleware' => ['student']], function () {
 		Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
-		Route::get('/cursos/{id}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
+		Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
 		Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
 		Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
-		Route::get('/ver-experto','Users_Pages\ExpertsController@show')->name('student.show.expert');
+		Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
 	});
-
-	/**
-	 * Tentativa para farmacias
-	 */
-	// Route::group([ 'prefix' => '/{pharmacy_slug}', 'middleware' => ['pharmacy.doctor']], function () {
-	// 	Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
-	// 	Route::get('/cursos/{id}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
-	// 	Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
-	// 	Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
-	// 	Route::get('/ver-experto','Users_Pages\ExpertsController@show')->name('student.show.expert');
-	// });
-
-
 
 });

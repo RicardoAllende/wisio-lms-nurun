@@ -14,6 +14,7 @@ class Course extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'description',
         'maximum_attempts',
         'minimum_score',

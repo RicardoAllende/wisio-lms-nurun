@@ -65,8 +65,6 @@ return [
         'editor' => 'editor',
         'tester' => 'tester',
         'teacher' => 'teacher',
-        'private_doctor' => 'private_doctor',
-        'public_doctor' => 'public_doctor',
-        'pharmacy_doctor' => 'pharmacy_doctor'
+        'doctor' => 'doctor'
     ]
 ];

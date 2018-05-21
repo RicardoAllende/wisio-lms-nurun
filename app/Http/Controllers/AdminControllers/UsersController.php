@@ -27,7 +27,7 @@ class UsersController extends Controller
         if (isset($_GET['type'])) {
             $type = $_GET['type'];
             if ($type == 'doctors') {
-                $type = [config('constants.roles.public_doctor'), config('constants.roles.private_doctor'), config('constants.roles.pharmacy_doctor')];
+                $type = [config('constants.roles.doctor')];
             }
             $role = Role::where('name', $type)->pluck('id');
             $users = User::whereIn('role_id', $role)->get();

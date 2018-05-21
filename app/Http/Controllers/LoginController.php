@@ -34,7 +34,8 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                return redirect()->route('student.home');
+                $ascription = $user->ascription();
+                return redirect()->route('student.home', $ascription->slug);
             }
         }else {
             return back();

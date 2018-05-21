@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->string('description')->nullable();
             $table->integer('maximum_attempts')->unsigned()->default(2); // For special courses
             $table->float('minimum_score', 10, 5)->default(8);

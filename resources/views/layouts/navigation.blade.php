@@ -32,10 +32,8 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{ route('users.index').'?type=doctors'}}">Todos los médicos</a></li>
                             <li><a href="{{ route('users.create') }}">Crear usuario</a></li>
-                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.pharmacy_doctor') }}">Médicos de farmacia</a></li>
-                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.public_doctor') }}?type">Médicos Públicos</a></li>
-                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.private_doctor') }}">Médicos Privados</a></li>
                             <li><a href="{{ route('users.index').'?type='.config('constants.roles.admin') }}">Administradores</a></li>
+                            <li><a href="{{ route('users.index') }}">Todos los usuarios</a></li>
                         </ul>
                     </li>
                     <li class="">
