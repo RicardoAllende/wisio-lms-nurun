@@ -18,7 +18,11 @@
                       <div class="iconcourse"><img src="{{ $course->categories->first()->getMainImgUrl() }}" class="responsive-img"></div>
                        <span class="titulo-academia"> {{ $course->name }} </span>
                        <div class="leer-mas">
-                          <a href="student-courses/{{ $course->id }}">Leer más</a>
+                         @if(Auth::check())
+                           <a href="{{ route('student.show.expert',[Auth::user()->ascription()->slug,$course->slug]) }}">Ver más</a>
+                         @else
+                           <a href="{{ route('student.show.expert',['invitado',$course->slug]) }}">Ver más</a>
+                         @endif
                            <hr class="line3"/>
                        </div>
                     </div>
@@ -29,7 +33,11 @@
 
             <div class="row">
               <div class="col s12 l4 offset-l4 center cursos">
-                  <a href="/student-courses">Ver todos los cursos</a>
+                @if(Auth::check())
+                  <a href="{{ route('student.own.courses',Auth::user()->ascription()->slug )}}">Ver todos los cursos</a>
+                @else
+                  <a href="{{ route('student.own.courses','invitado' )}}">Ver todos los cursos</a>
+                @endif
                   <hr class="line4"/>
               </div>
             </div>

@@ -23,4 +23,10 @@ class ExpertsController extends Controller
       $modules = Module::all();
       return view('experts/list-modules', compact('expert', 'modules'));
   }
+
+  public function show($adscription_slug, $expert_slug)
+  {
+      $expert = Expert::where('slug', $expert_slug)->first();
+      return view('Users_Pages/experts.show', compact('expert'));
+  }
 }

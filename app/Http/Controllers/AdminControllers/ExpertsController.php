@@ -41,7 +41,10 @@ class ExpertsController extends Controller
     public function store(Request $request)
     {
         $input = $request->only(['name', 'summary']);
-        $expert = Expert::firstOrCreate($input);
+        $name = $request->name;
+        $summary = $request->summary;
+        $slug = str_slug($name);
+        $expert = Expert::firstOrCreate(compact('name', 'summary', 'slug'));
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             AttachmentExpert::create(['attachment_id' => $attach_id, 'expert_id' => $expert->id]);
@@ -95,6 +98,7 @@ class ExpertsController extends Controller
         }
         $expert->name = $request->name;
         $expert->summary = $request->summary;
+        $expert->slug = str_slug($request->name);
         $expert->update();
         return redirect()->route('experts.show', $expert->id); 
     }

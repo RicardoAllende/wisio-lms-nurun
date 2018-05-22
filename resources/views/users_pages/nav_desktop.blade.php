@@ -7,12 +7,24 @@
               <li><a href="#!" class="activo">Inicio</a></li>
               <li><a href="#!">¿Qué es un médico con sentido?</a></li>
               <li><a href="#!">Noticias</a></li>
-              <li><a href="#!" class="activo">Academia MC</a></li>
-               <ul class="submenu">
-                   <li><a href="">¿Cómo funciona?</a></li>
-                   <li><a href="">Cursos</a></li>
-                   <li><a href="">Expertos</a></li>
-                   <li><a href="">Evaluaciones</a></li>
+
+
+                 @if(Auth::check())
+                 <li><a href="{{ route('student.home', Auth::user()->ascription()->slug) }}" class="activo">Academia MC</a></li>
+                  <ul class="submenu">
+                 <li><a href="{{ route('student.funciona', Auth::user()->ascription()->slug) }}">¿Cómo funciona?</a></li>
+                 <li><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}">Cursos</a></li>
+                 <li><a href="{{ route('student.show.experts' , Auth::user()->ascription()->slug) }}">Expertos</a></li>
+                 <li><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}">Evaluaciones</a></li>
+                 @else
+                 <li><a href="{{ route('student.home', 'invitado') }}" class="activo">Academia MC</a></li>
+                  <ul class="submenu">
+                 <li><a href="{{ route('student.funciona', 'invitado') }}">¿Cómo funciona?</a></li>
+                 <li><a href="{{ route('student.own.courses' , 'invitado') }}">Cursos</a></li>
+                 <li><a href="{{ route('student.show.experts' , 'invitado') }}">Expertos</a></li>
+                 <li><a href="{{ route('student.own.courses' , 'invitado') }}">Evaluaciones</a></li>
+                 @endif
+
                </ul>
               <li><a href="#!">Calendario</a></li>
               <li><a href="#!">Medicamentos</a></li>

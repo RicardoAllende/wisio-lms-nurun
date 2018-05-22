@@ -31,7 +31,7 @@
                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
               @if (Auth::check())
-                <p class="user">Dr. {{ Auth::user()->name }}</p>
+                <p class="user">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</p>
               @endif
           </div>
 

@@ -18,7 +18,7 @@ Route::post('/login','LoginController@authenticate')->middleware('guest')->name(
 Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('/logout','LoginController@userLogout')->name("logout");
-	
+
 	Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
 		Route::get('/dashboard', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 		Route::post('/attachments/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
 		Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
 		Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
+		Route::get('/como_funciona',function (){ return view('users_pages.funciona'); })->name('student.funciona');
 	});
 
 });

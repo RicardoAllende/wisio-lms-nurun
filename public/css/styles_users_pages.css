@@ -521,25 +521,72 @@ nav a {
     position: relative;
 }
 
+.titulo-funciona{
+    font-weight: 700;
+    left: 20px;
+    text-transform: uppercase;
+    color:inherit;
+    font-size: 1.1em;
+    padding-top: 20px;
+    color: #8F6EAA;
+}
 
-.slider .indicators .indicator-item {
-  background-color: #666666;
-  border: 3px solid #ffffff;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+.text-funciona{
+    padding: 3% 0 3% 0;
+    color: #000;
 }
-.slider .indicators .indicator-item.active {
-  background-color: #ffffff;
+
+
+/* Slideshow container */
+.slideshow-container {
+  position: relative;
+  background: #f1f1f1f1;
 }
-.slider {
-  width: 900px;
-  margin: 0 auto;
+
+/* Slides */
+.mySlides {
+  display: none;
+  padding: 2%;
 }
-.slider .indicators {
-  bottom: 60px;
-  z-index: 100;
-  /* text-align: left; */
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  bottom: 0%;
+  font-size: 1rem;
+
+}
+
+/* Position the "next button" to the right */
+.next {
+
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+
+
+/* The dot/bullet/indicator container */
+.dot-container {
+  text-align: left;
+  padding: 20px 20px 20px 40px;
+
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  text-decoration: underline;
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: .8rem;
+  margin-bottom: 5px;
+
+}
+
+/* Add a background color to the active dot/circle */
+.activeFunciona, .dot:hover {
+  color: #8F6EAA;
 }
 
 

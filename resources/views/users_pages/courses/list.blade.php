@@ -13,17 +13,21 @@ Cursos
   @foreach($courses as $course)
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
-       <div class="card-content cursoscard">
+       <div class="card-content mods">
           <span class="categoria-academia">{{ $course->categories->first()->name }}</span>
          <div class="iconcourse"><img src="{{ $course->categories->first()->getMainImgUrl() }}" class="responsive-img"></div>
           <div class="titulo-academia2"> {{ $course->name }}</div>
            <div class="modulos">{{ $course->modules->count() }} módulos</div>
+              <div  class="moduloslista valign-wrapper">
+
+                    <ol>
+                      @foreach($course->modules as $module)
+                        <li>{{ $module->name }} </li>
+                      @endforeach
+                    </ol>
+              </div >
           <div class="leer-masmodulos_50">
-             <a href="/student-courses/{{ $course->id }}">Ver mas</a>
-              <hr class="line3"/>
-          </div>
-         <div class="leer-masmodulos">
-             <a href="#!">Inscribirse</a>
+             <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
               <hr class="line3"/>
           </div>
        </div>
@@ -31,5 +35,5 @@ Cursos
   </div>
   @endforeach
 </div>
-
+@include('users_pages.courses.newest')
 @stop
