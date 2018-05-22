@@ -16,11 +16,16 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
-        if($user->hasRole(config('constants.roles.admin'))){
-            return $next($request);
+        if(Auth::check()){
+            $user = Auth::user();
+            if($user->hasRole(config('constants.roles.admin'))){
+                return $next($request);
+            }else{
+                return redirect()->route('permission.denied');
+            }
         }else{
-            return redirect()->route('permission.denied');
+            return redirect('/');
         }
+        
     }
 }

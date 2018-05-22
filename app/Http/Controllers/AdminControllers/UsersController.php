@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
@@ -56,9 +57,32 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        dd($input);
-        if($input->filled('public_register')){
-            dd($input);
+        if($request->filled('public_register')){
+            $email = $request->email;
+            if(User::whereEmail($email)->count() > 0 ){ // Email exists
+                return back()->withInput()->withErrors(
+                    ['Error' => "Email repetido, ya existe un usuario con ese email"]
+                );
+            }
+            $cedula = $request->cedula;
+            if(User::whereCedula($cedula)->count() > 0 ){ // Cédula exists
+                return back()->withInput()->withErrors(
+                    ['Error' => "Cédula repetida, ya existe un usuario con esa cédula"]
+                );
+            }
+            $user = User::create($input);
+            $user->lastname = $request->paterno.' '.$request->materno;
+            $user->password = bcrypt($request->password);
+            $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
+            $publicAscription = Ascription::whereIsMainAscription(1)->first();
+            $user->ascriptions()->attach($publicAscription->id);
+            $user->save();
+            $email = $user->email;
+            $password = $request->password;
+            if(Auth::attempt(compact('email', 'password'))){
+                $ascription = $user->ascription();
+                return redirect()->route('student.home', $ascription->slug);
+            }
         }
         try{
             $user = User::create($input);
@@ -70,7 +94,7 @@ class UsersController extends Controller
             }
             return redirect()->route('users.show',$userId);
         }catch(Exception $e){
-            return redirect()->route('users.index')->withError('Existió un error al crear el usuario');
+            return back()->withInput()->withError('Existió un error al crear el usuario');
         }
     }
 
@@ -95,7 +119,7 @@ class UsersController extends Controller
     {
         //$user = User::find($id);
         $ascriptions = Ascription::All();
-        $roles = Rele::All();
+        $roles = Role::All();
         return view('Users/form',compact('user', 'ascriptions'));
     }
 
@@ -161,6 +185,24 @@ class UsersController extends Controller
         $output = curl_exec($ch); 
         curl_close($ch);
         echo $output;
+    }
+
+    public function disableUser($user_id){
+        $user = User::find($user_id);
+        if($user != null){
+            $user->enabled = 0;
+            $user->save();
+        }
+        return back();
+    }
+
+    public function enableUser($user_id){
+        $user = User::find($user_id);
+        if($user != null){
+            $user->enabled = 0;
+            $user->save();
+        }
+        return back();
     }
 
 }

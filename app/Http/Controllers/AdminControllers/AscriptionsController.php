@@ -132,4 +132,22 @@ class AscriptionsController extends Controller
         }
     }
 
+    public function disableAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription != null) {
+            $ascription->enabled = 0;
+            $ascription->save();
+        }
+        return back();
+    }
+
+    public function enableAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription != null) {
+            $ascription->enabled = 1;
+            $ascription->save();
+        }
+        return back();
+    }
+
 }

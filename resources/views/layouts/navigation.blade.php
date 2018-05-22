@@ -79,9 +79,9 @@
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> <span class="nav-label">Cerrar sesión</span></a>
                 </li>
             @else
-                <!--<li class="">
-                    <a href="route('form.login')"><i class="fa fa-sign-in"></i> <span class="nav-label">Iniciar sesión</span></a>
-                </li>-->
+                <li class="">
+                    <a href="/"><i class="fa fa-sign-in"></i> <span class="nav-label">Iniciar sesión</span></a>
+                </li>
             @endif
         </ul>
 

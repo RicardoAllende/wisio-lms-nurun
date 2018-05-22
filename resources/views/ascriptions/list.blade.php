@@ -46,14 +46,22 @@
                               <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
                               <td>{{ $ascription->description }}</td>
-                              <td>{{ ($ascription->enabled == 1)? 'Disponible' : 'No disponible' }}</td>
+                              <td>
+                              {{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
                               <td>{{ $ascription->courses->count() }}</td>
                               <td>{{ $ascription->users->count() }}</td>
                               <td>
+                                @if($ascription->hasRelations())
+                                  @if($ascription->enabled == 1)
+                                    <a href="{{ route('disable.ascription', $ascription->id) }}" class='btn btn-danger'>Deshabilitar</a>
+                                  @else
+                                    <a href="{{ route('enable.ascription', $ascription->id) }}" class='btn btn-info'>Habilitar</a>
+                                  @endif
+                                @else
                                   {!! Form::open(['method'=>'delete','route'=>['ascriptions.destroy',$ascription->id],'style'=>'display:inline;']) !!}
-                                    
                                     <a class='btn btn-danger btn_delete'>Eliminar</a>
                                   {!! Form::close() !!}
+                                @endif
                               </td>
                               </tr>
                             @endforeach
