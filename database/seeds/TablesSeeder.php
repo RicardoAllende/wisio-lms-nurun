@@ -46,7 +46,7 @@ class TablesSeeder extends Seeder
         $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
         $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
 
-        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal']);
+        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal', 'is_main_ascription' => 1]);
         $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription3 = Ascription::create(['name' => 'Farmacia del ahorro', 'slug' => 'del-ahorro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription4 = Ascription::create(['name' => 'Farmacia Femsa', 'slug' => 'femsa', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
@@ -146,35 +146,6 @@ class TablesSeeder extends Seeder
             Option::create(['question_id' => $question8->id, 'content' => 'Una opción adecuada', 'score' => 1]);
             Option::create(['question_id' => $question8->id, 'content' => 'Algo incorrecto', 'score' => 0]);
             Option::create(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-
-
-        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course->id]);
-        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course2->id]);
-        // CourseUser::create(['user_id' => $user1->id, 'course_id' => $course3->id]);
-        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course->id]);
-        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course2->id]);
-        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
-        // CourseUser::create(['user_id' => $user3->id, 'course_id' => $course->id]);
-        // CourseUser::create(['user_id' => $user3->id, 'course_id' => $course2->id]);
-        // CourseUser::create(['user_id' => $user2->id, 'course_id' => $course3->id]);
-
-        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation1->id, 
-        //     'status' => config('constants.status.failed'), 'score' => 7.6]);
-        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation2->id, 
-        //     'status' => config('constants.status.passed'), 'score' => 8.1]);
-        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation3->id, 
-        //     'status' => config('constants.status.failed'), 'score' => 5.9]);
-        // EvaluationUser::create(['user_id' => $user1->id, 'evaluation_id' => $evaluation4->id, 
-        //     'status' => config('constants.status.passed'), 'score' => 10]);
-        
-        // EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation1->id, 
-        //     'status' => config('constants.status.failed'), 'score' => 6.5]);
-        // EvaluationUser::create(['user_id' => $user2->id, 'evaluation_id' => $evaluation2->id, 
-        //     'status' => config('constants.status.passed'), 'score' => 9]);
-        // EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation1->id, 
-        //     'status' => config('constants.status.failed'), 'score' => 7.95]);
-        // EvaluationUser::create(['user_id' => $user3->id, 'evaluation_id' => $evaluation2->id, 
-        //     'status' => config('constants.status.passed'), 'score' => 8]);
 
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user1->id]);
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user2->id]);

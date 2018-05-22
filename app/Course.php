@@ -46,7 +46,12 @@ class Course extends Model
     }
 
     public function evaluations(){
-        return $this->hasMany('App\Evaluation');
+        $modules = $this->modules;
+        $result = collect();
+        foreach($modules as $module){
+            $result = $result->concat($module->evaluations);
+        }
+        return $result;
     }
 
     public function hasEvaluations(){
@@ -77,7 +82,7 @@ class Course extends Model
         if($this->modules->count() > 0){
             return true;
         }
-        if($this->attachments->count() > 0){
+        if($this->users->count() > 0){
             return true;
         }
         return false;
@@ -129,7 +134,7 @@ class Course extends Model
         }
     }
 
-    public function finalEvaluationsFromModules(){
+    public function finalEvaluations(){
         $modules = $this->modules;
         $result = collect();
         foreach($modules as $module){
@@ -138,7 +143,7 @@ class Course extends Model
         return $result;
     }
 
-    public function diagnosticEvaluationsFromModules(){
+    public function diagnosticEvaluations(){
         $modules = $this->modules;
         $result = collect();
         foreach($modules as $module){
@@ -188,7 +193,7 @@ class Course extends Model
     }
 
     public function calculateAvgForUser($user_id){
-        $evaluations = $this->finalEvaluationsFromModules()->pluck('id');
+        $evaluations = $this->finalEvaluations()->pluck('id');
         $user = User::find($user_id);
         if($user == null){ return false; }
         $avg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)

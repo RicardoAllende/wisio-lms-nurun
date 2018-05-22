@@ -22,7 +22,7 @@ class Module extends Model
     }
 
     public function evaluations(){
-    	return $this->hasMany('App\Evaluation')->withPivot('status', 'score');
+    	return $this->hasMany('App\Evaluation');
     }
 
     public function experts(){

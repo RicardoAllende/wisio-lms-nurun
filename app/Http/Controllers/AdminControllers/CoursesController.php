@@ -217,4 +217,22 @@ class CoursesController extends Controller
       return $courses;
     }
 
+    public function disableCourse($course_id){
+        $course = Course::find($course_id);
+        if($course != null){
+            $course->enabled = 0;
+            $course->save();
+        }
+        return back();
+    }
+
+    public function enableCourse($course_id){
+        $course = Course::find($course_id);
+        if($course != null){
+            $course->enabled = 1;
+            $course->save();
+        }
+        return back();
+    }
+
 }

@@ -59,9 +59,17 @@
                                   </td>
                                   <td>{{ $user->created_at }}</td>
                                   <td>
+                                    @if($user->hasAdvance())
+                                      @if($user->enabled == 1 )
+                                        <a href="{{ route('disable.user', $user->id) }}" class="btn btn-danger btn-round" >Deshabilitar</a>
+                                      @else
+                                        <a href="{{ route('enable.user', $user->id) }}" class="btn btn-info btn-round" >Habilitar</a>
+                                      @endif
+                                    @else
                                       {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                         <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
                                       {!! Form::close() !!}
+                                    @endif
                                   </td>
                                   </tr>
                                 @endforeach

@@ -29,7 +29,7 @@ class User extends Authenticatable
         'cedula',
         'consultation_type',
         'lastaccess',
-        'enable',
+        'enabled',
         'role_id'
     ];
 
@@ -43,7 +43,7 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('score', 'status');
+        return $this->belongsToMany('App\Course');
     }
 
     public function modules(){
@@ -234,12 +234,19 @@ class User extends Authenticatable
         return $this->hasRole(config('constants.roles.admin'));
     }
 
-    public function hasAdvance(){
-        $advances = false;
-        if($this->evaluations->count() > 0){
-            $advances = true;
+    public function isEnrolledInCourses() {
+        if ($this->courses->count() > 0) {
+            return true;
+        } else {
+            return false;
         }
-        return $advances;
+    }
+
+    public function hasAdvance(){
+        if($this->isEnrolledInCourses()){
+            return true;
+        }
+        // Another advances
     }
 
     public function specialty(){

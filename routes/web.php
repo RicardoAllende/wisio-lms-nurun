@@ -6,14 +6,9 @@ Route::get('/registro', function () { return view('Users\check-valid-user'); } )
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
-// Route::get('/student-courses','Users_Pages\CoursesController@index');
-// Route::get('/student-home','Users_Pages\CoursesController@recommendations');
-// Route::get('/student-courses/{id}','Users_Pages\CoursesController@show');
-// Route::get('/student-experts','Users_Pages\ExpertsController@index');
-// Route::get('/student-experts/{id}','Users_Pages\ExpertsController@show');
-
 // Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
+Route::post('/register-user', 'AdminControllers\UsersController@store')->name('public.register')->middleware('guest');
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -34,6 +29,12 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/experts/{expert_id}/detach-specialty/{module_id}', 'AdminControllers\ExpertsController@detachSpecialty')->name('detach.specialty.to.expert');
 		Route::get('/experts/{expert_id}/attach-module/{module_id}', 'AdminControllers\ExpertsController@attachModule')->name('attach.module.to.expert');
 		Route::get('/experts/{expert_id}/detach-module/{module_id}', 'AdminControllers\ExpertsController@detachModule')->name('detach.module.to.expert');
+		Route::get('/disable-ascription/{ascription_id}', 'AdminControllers\AscriptionsController@disableAscription')->name('disable.ascription');
+		Route::get('/enable-ascription/{ascription_id}', 'AdminControllers\AscriptionsController@enableAscription')->name('enable.ascription');
+		Route::get('/disable-user/{user_id}', 'AdminControllers\UsersController@disableUser')->name('disable.user');
+		Route::get('/enable-user/{user_id}', 'AdminControllers\UsersController@enableUser')->name('enable.user');
+		Route::get('/disable-course/{course_id}', 'AdminControllers\CoursesController@disableCourse')->name('disable.course');
+		Route::get('/enablecourse/{course_id}', 'AdminControllers\CoursesController@enableCourse')->name('enable.course');
 		Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');
 		Route::post('/upload-resource', 'AdminControllers\ResourcesController@uploadResource')->name('upload.resource');
 		Route::resource('modules/{module_id}/resources', 'AdminControllers\ResourcesController');

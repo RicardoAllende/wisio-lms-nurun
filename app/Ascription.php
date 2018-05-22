@@ -58,4 +58,27 @@ class Ascription extends Model
             return false;
         }
     }
+
+    public function students(){
+        $studentRole = Role::where('name', config('constants.roles.doctor'))->first();
+        return $this->users->where('role_id', $studentRole->id);
+    }
+
+    public function hasRelations(){
+        if($this->hasStudents()){
+            return true;
+        }
+        if($this->hasCourses()){
+            return true;
+        }
+        return false;
+    }
+
+    public function hasStudents(){
+        if ($this->students()->count() > 0 ) {
+            return true;
+        }
+        return false;
+    }
+
 }

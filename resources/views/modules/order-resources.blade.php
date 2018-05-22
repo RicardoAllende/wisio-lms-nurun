@@ -92,14 +92,9 @@
             success: function(result){
                 alertify.success('Cambios guardados');
                 $('#order' + id).html(result);
-                // alert(result);
             }
         });
-        // alert("Clic en el elemento " + route);
     });
-</script>
-<script>
-    //alertify.success("You've clicked OK");
 </script>
 @endsection
 

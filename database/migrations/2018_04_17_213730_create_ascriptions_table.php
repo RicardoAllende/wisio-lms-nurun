@@ -19,8 +19,9 @@ class CreateAscriptionsTable extends Migration
             $table->string('slug')->unique();
             $table->string('description');
             $table->boolean('has_constancy')->default(false); // If it's a 'diplomado'
-            $table->boolean('is_pharmacy')->default(false); // For special actions
-            $table->integer('maximum_attemps')->default(2)->unsigned(); // 0 means there's no restriction, it's for a diplomat
+            $table->boolean('is_pharmacy')->default(false);
+            $table->boolean('is_main_ascription')->default(false); // Academia-mc, or paec méxico. It's public
+            $table->integer('maximum_attemps')->default(2)->unsigned(); // 0 means there's no restriction, it's for a 'diplomado'
             $table->integer('minimum_score')->unsigned()->default(8);
             $table->boolean('enabled')->default(true);
             $table->timestamps();

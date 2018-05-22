@@ -15,11 +15,15 @@ class Editor
      */
     public function handle($request, Closure $next)
     {
-        $user = Auth::user();
-        if($user->hasRole(config('constants.roles.editor'))){
-            return $next($request);
+        if(Auth::check()){
+            $user = Auth::user();
+            if($user->hasRole(config('constants.roles.editor'))){
+                return $next($request);
+            }else{
+                return redirect()->route('permission.denied');
+            }
         }else{
-            return redirect()->route('permission.denied');
+            return redirect('/');
         }
     }
 }
