@@ -61,9 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
 	});
 
-
-
-	Route::group([ 'prefix' => '/{adscription_slug}', 'middleware' => ['student']], function () {
+	Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
 		Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
 		Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
 		Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');

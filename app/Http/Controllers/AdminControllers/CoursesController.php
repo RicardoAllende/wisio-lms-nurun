@@ -21,8 +21,6 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected $path;
-
     public function index()
     {
         $courses = Course::all();
@@ -53,7 +51,13 @@ class CoursesController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
+        $slug = str_slug($request->slug);
+        if(Course::whereSlug($slug)->count() > 0){ // Slug already exists
+            return back()->withErrors(['M1'=>'El slug ya existe'])->withInput();
+        }
         $course = Course::create($input);
+        $course->slug = str_slug($request->slug);
+        $course->save();
         $course_id = $course->id;
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
@@ -88,8 +92,7 @@ class CoursesController extends Controller
     {
         $course = Course::find($id);
         if($course == null){ return redirect()->route('courses.index'); }
-        $approved = CourseUser::where('course_id', $course->id)->where('status', 'visto')->count();
-        return view('courses/show',compact('course', 'approved'));
+        return view('courses/show',compact('course'));
     }
 
     /**
@@ -121,12 +124,21 @@ class CoursesController extends Controller
         if($course == null){
             return redirect()->route('courses.index');
         }
+        $newSlug = str_slug($request->slug);
+        if($course->slug != $newSlug ){
+            $numFound = Course::where('slug', $newSlug)->count(); // If the slug already exists
+            if ($numFound > 0) {
+                return back()->withErrors(['error'=> 'Slug < {$newSlug} > repetido, debe ser único'])->withInput();
+            }
+        }
         $course->name = $request->name;
         $course->description = $request->description;
         $course->start_date = $request->start_date;
         $course->end_date = $request->end_date;
         $course->maximum_attempts = $request->maximum_attempts;
         $course->minimum_score = $request->minimum_score;
+        $course->is_public = $request->is_public;
+        $course->slug = str_slug($request->slug);
         if($request->filled('has_constancy')){
             $has_constancy = 1;
         }else{
@@ -201,7 +213,7 @@ class CoursesController extends Controller
     }
 
     public function newestCourses(){
-      $courses = Course::orderBy('created_at','desc')->limit(5)->get();
+      $courses = Course::where('is_public', 1)->orderBy('created_at','desc')->limit(5)->get();
       return $courses;
     }
 

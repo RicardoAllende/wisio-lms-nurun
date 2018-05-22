@@ -22,7 +22,7 @@ class Course extends Model
         'enabled',
         'start_date',
         'end_date',
-        'manual'
+        'is_public'
     ];
 
     public function likes(){
@@ -149,9 +149,6 @@ class Course extends Model
 
     public function attachUser($user_id, $avg, $status){
         if(User::find($user_id) == null){ return false; }
-        // if($this->users->contains($user_id)){
-        //     $this->users()->detach($user_id);
-        // }
         $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
     }
 
@@ -174,14 +171,20 @@ class Course extends Model
 
     
     public function enrolUser($user_id){
-        $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-        $modules = $this->modules;
-        foreach($modules as $module){
-            $module->enrolUser($user_id);
-        }
+        $user = User::find($user_id);
+        if($user == null ){ return false; }
         if( ! $this->users->contains($user_id)){
-            $this->attachUser($user_id, 0, 'confi');
+            $this->users()->attach($user_id);
+            return true;
         }
+        // $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+        // $modules = $this->modules;
+        // foreach($modules as $module){
+        //     $module->enrolUser($user_id);
+        // }
+        // if( ! $this->users->contains($user_id)){
+        //     $this->attachUser($user_id, 0, 'confi');
+        // }
     }
 
     public function calculateAvgForUser($user_id){

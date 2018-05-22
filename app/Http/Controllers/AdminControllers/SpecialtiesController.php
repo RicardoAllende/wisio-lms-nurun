@@ -97,4 +97,9 @@ class SpecialtiesController extends Controller
         $specialty->delete();
         return redirect()->route('specialties.index');
     }
+
+    public function getAllSpecialties(){
+        return Specialty::all();
+    }
+
 }

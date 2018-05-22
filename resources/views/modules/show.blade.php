@@ -95,7 +95,7 @@
                         @else
                             <h3><strong>Este Módulo aún no tiene evaluaciones, ¿desea agregar alguna?</strong></h3><br>
                         @endif
-                        <a href="{{ action('EvaluationsController@create') }}?module_id={{$module->id}}" class="btn btn-info text-left">Crear evaluación</a><br><br><hr><hr>
+                        <a href="{{ route('evaluations.create') }}?module_id={{$module->id}}" class="btn btn-info text-left">Crear evaluación</a><br><br><hr><hr>
                     </div>
                     <div class="col-lg-6">
                         <h3>Recursos</h3>
@@ -115,7 +115,7 @@
                                             <tr>
                                             <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $i }}</a></td>
                                             <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $resource->name }}</a></td>
-                                            <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
+                                            <td>{{ $resource->type }}</td>
                                             </tr>
                                             @php $i++; @endphp
                                         @endforeach

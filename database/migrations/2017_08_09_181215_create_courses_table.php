@@ -24,8 +24,9 @@ class CreateCoursesTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->integer('manual')->unsigned()->nullable();
-            $table->foreign('manual')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
+            $table->boolean('is_public')->default(true);
+            // $table->integer('manual')->unsigned()->nullable();
+            // $table->foreign('manual')->references('id')->on('attachments')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

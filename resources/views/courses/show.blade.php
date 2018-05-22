@@ -35,8 +35,8 @@
                     </div>
                     <div class="col-lg-6"><br><br>
                         <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
-                        <p>{{ $approved }} terminaron el curso</p>
                         <p>{{ $course->modules->count() }} módulos</p>
+                        <p>Slug: {{ $course->slug }}</p>
                         <p>Evaluaciones finales: {{ $course->finalEvaluationsFromModules()->count() }}</p>
                         <h4 class="media-heading">Descripción del curso</h4>
                         <p>{{$course->description}}.</p>

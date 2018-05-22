@@ -51,15 +51,34 @@ class User extends Authenticatable
     }
 
     public function progressInModule($module_id){
-        if (Module::find($module_id) != null) {
-            $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
-            if($pivot == null){
-                return "No inscrito";
+        $courseBelongsTo = false;
+        foreach($this->courses as $course){
+            foreach($course->modules as $module){
+                if ($module_id == $module->id) {
+                    if($this->modules->contains($module_id)){
+                        return $this->modules->where('module_id', $module_id)->first()->status;
+                    }else{
+                        return config('constants.status.not_attemped'); // Pendiente
+                    }
+                }
             }
-            return $pivot->status;
-        }else{
-            return "No inscrito";
         }
+        return "No inscrito";
+        // if (Module::find($module_id) == null ) { return "-"; }
+        // if($this->modules->contains($module_id)){
+        //     return $this->modules->where('module_id', $module_id)->first()->status;
+        // }else{
+        //     return "Pendiente";
+        // }
+        // if (Module::find($module_id) != null) {
+        //     $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+        //     if($pivot == null){
+        //         return "No inscrito";
+        //     }
+        //     return $pivot->status;
+        // }else{
+        //     return "No inscrito";
+        // }
     }
 
     public function availableCourses(){
@@ -223,7 +242,7 @@ class User extends Authenticatable
         return $advances;
     }
 
-    public function specialties(){
-        return $this->belongsToMany('App\Specialty');
+    public function specialty(){
+        return $this->belongsTo('App\Specialty');
     }
 }

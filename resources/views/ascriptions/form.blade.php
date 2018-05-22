@@ -45,6 +45,13 @@
                                 {!! Form::text('slug', null, ['class'=>'form-control','placeholder'=>'Slug, ejemplo: del-ahorro', 'required' => '']) !!}
                               </div>
                             </div>
+
+                            <div class="form-group">
+                                {!! Form::label('is_pharmacy', 'Tipo de adscripción:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal'], null, ['class' => 'form-control']) !!}
+                              </div>
+                            </div>
                             <div class="form-group">
                               {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 

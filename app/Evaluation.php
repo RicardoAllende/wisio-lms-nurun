@@ -52,20 +52,16 @@ class Evaluation extends Model
         }
     }
 
-    public function approvedUsers(){
-
-    }
-
     public function attachUser($user_id, $score, $status){
         if(User::find($user_id) != null){
             $this->users()->attach($user_id, ['score' => $score, 'status' => $status]);
         }
     }
 
-    public function enrolUser($user_id){
-        if( ! $this->users->contains($user_id)){
-            $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-        }
-    }
+    // public function enrolUser($user_id){
+    //     if( ! $this->users->contains($user_id)){
+    //         $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+    //     }
+    // }
 
 }

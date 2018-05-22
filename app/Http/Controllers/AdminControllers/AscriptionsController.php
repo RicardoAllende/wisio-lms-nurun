@@ -17,9 +17,6 @@ class AscriptionsController extends Controller
     public function index()
     {
         $ascriptions = Ascription::all();
-        if($ascriptions->count() < 1){
-            return redirect()->route('ascriptions.create');
-        }
         return view('ascriptions/list', ['ascriptions'=>$ascriptions]);
     }
 
@@ -43,6 +40,7 @@ class AscriptionsController extends Controller
     {
         $input = $request->only(['name', 'description', 'slug']);
         $ascription = Ascription::firstOrCreate($input);
+        $ascription->slug = str_slug($ascription->slug);
         $ascription->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
@@ -95,12 +93,10 @@ class AscriptionsController extends Controller
     {
         $ascription = Ascription::find($id);
         if($ascription != null){
-            if ($ascription->name != $request->input('name')) {
-                $ascription->name = $request->input('name');
-                $slug = $request->slug;
-                $ascription->slug = $slug;
-            }
+            $ascription->name = $request->input('name');
             $ascription->description = $request->input('description');
+            $ascription->slug = str_slug($request->slug);
+            $ascription->is_pharmacy = $request->is_pharmacy;
             $ascription->save();
             if($request->filled('attachment')){
                 $attach_id = $request->input('attachment');

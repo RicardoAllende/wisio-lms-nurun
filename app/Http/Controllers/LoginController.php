@@ -38,13 +38,13 @@ class LoginController extends Controller
                 return redirect()->route('student.home', $ascription->slug);
             }
         }else {
-            return back();
-            // return redirect()->route('form.login')->withErrors('Error al autenticar');
+            return back()->withInput()->withErrors(['Error' => 'Verifique sus datos']);
         }
     }
 
     public function userLogout(){
         Auth::logout();
-        return redirect()->route('welcome');
+        return redirect('/');
+        // return redirect()->route('welcome');
     }
 }

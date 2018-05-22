@@ -26,4 +26,8 @@ class Resource extends Model
         return $this->belongsTo('App\Attachment');
     }
 
+    public function url(){
+        return $this->attachment->url;
+    }
+
 }

@@ -29,7 +29,7 @@
             @include('layouts.topnavbar')
 
             @include('layouts.title')
-
+            @include('layouts.errors')
             <!-- Main view  -->
             @yield('content')
 

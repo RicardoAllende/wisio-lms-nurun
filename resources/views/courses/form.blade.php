@@ -40,6 +40,18 @@
                             </div>
                           </div>
                           <div class="form-group">
+                            {!! Form::label('slug', 'Slug del curso:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10">
+                             {!! Form::text('slug',null,['class'=>'form-control','placeholder'=>'slug-del-curso', 'required'=>'']) !!}
+                            </div>
+                          </div>
+                          <div class="form-group">
+                              {!! Form::label('is_public', '¿Es público?',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10">
+                              {!! Form::select('is_public', ['1' => 'Sí', '0' => 'No'], null, ['class' => 'form-control']) !!}
+                            </div>
+                          </div>
+                          <div class="form-group">
                             {!! Form::label('descripcion', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
                               {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción del curso', 'required'=>'']) !!}

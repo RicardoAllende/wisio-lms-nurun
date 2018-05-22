@@ -21,8 +21,6 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public $elementsPerPage = 15;
-
     public function index(){
         if (isset($_GET['type'])) {
             $type = $_GET['type'];
@@ -58,6 +56,10 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
+        dd($input);
+        if($input->filled('public_register')){
+            dd($input);
+        }
         try{
             $user = User::create($input);
             $user->save();
@@ -109,6 +111,7 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
+        $user->is_pharmacy = $request->is_pharmacy;
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;

@@ -22,7 +22,7 @@ class Module extends Model
     }
 
     public function evaluations(){
-    	return $this->hasMany('App\Evaluation');
+    	return $this->hasMany('App\Evaluation')->withPivot('status', 'score');
     }
 
     public function experts(){
@@ -121,14 +121,14 @@ class Module extends Model
         $this->users()->attach($user_id, ['score' => $avg, 'status' => $status]);
     }
 
-    public function enrolUser($user_id){
-        if( ! $this->users->contains($user_id)){
-            $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-        }
-        $evaluations = $this->evaluations;
-        foreach($evaluations as $evaluation){
-            $evaluation->enrolUser($user_id);
-        }
-    }
+    // public function enrolUser($user_id){
+    //     if( ! $this->users->contains($user_id)){
+    //         $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
+    //     }
+    //     $evaluations = $this->evaluations;
+    //     foreach($evaluations as $evaluation){
+    //         $evaluation->enrolUser($user_id);
+    //     }
+    // }
 
 }
