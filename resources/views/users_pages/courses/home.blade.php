@@ -1,5 +1,5 @@
 @section('title')
-Curso {{ $course->name }}
+Inicio
 @stop
 @extends('users_pages.master')
 @section('body')
@@ -21,11 +21,15 @@ Curso {{ $course->name }}
                   <div class="titulo-academia2"> {{ $course->name }}</div>
                    <div class="modulos">{{ $course->modules->count() }} módulos</div>
                   <div class="leer-masmodulos_50">
+                  @if(Auth::check())
                      <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver mas</a>
+                  @else
+                     <a href="{{ route('student.show.course', 'invitado') }}">Ver mas  </a>
+                  @endif
                       <hr class="line3"/>
                   </div>
                  <div class="leer-masmodulos">
-                     <a href="#!">Inscribirse</a>
+                     <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
                       <hr class="line3"/>
                   </div>
                </div>
@@ -36,4 +40,30 @@ Curso {{ $course->name }}
 
 
 @include('users_pages.courses.newest')
+@stop
+
+@section('extrajs')
+<script>
+  cambiarItem("home");
+
+  // function enrol(){
+  //   $.ajax({
+  //     type: 'post',
+  //     url: 'enrol',
+  //     data: {
+  //       idUser: ,
+  //       _token: '{{ csrf_token() }}'
+  //     },
+  //     success: function (items) {
+  //
+  //     items_ = items;
+  //     console.log(items_);
+  //     },
+  //     error: function(request, error){
+  //       console.log(error);
+  //     }
+  //
+  //   });
+  // }
+</script>
 @stop

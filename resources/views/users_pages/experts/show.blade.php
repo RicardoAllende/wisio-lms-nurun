@@ -38,3 +38,9 @@ Experto {{ $expert->name }}
 </div>
 
 @stop
+
+@section('extrajs')
+<script>
+  cambiarItem("expertos");
+</script>
+@stop

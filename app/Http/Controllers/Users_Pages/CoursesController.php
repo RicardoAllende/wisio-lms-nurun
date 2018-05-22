@@ -14,12 +14,14 @@ use App\AttachmentCourse;
 use App\AscriptionCourse;
 use App\CategoryCourse;
 use App\CourseUser;
+use Illuminate\Support\Facades\Auth;
 
 class CoursesController extends Controller
 {
     public function index($adscription_slug)
     {
-        $courses = Course::all();
+        $user = Auth::user();
+        $courses = $user->courses;
 
         return view('users_pages/courses.list',compact('courses'));
 
@@ -28,13 +30,25 @@ class CoursesController extends Controller
     public function show($adscription_slug, $course_slug)
     {
         $course = Course::where('slug', $course_slug)->first();
-        if($course == null){ return redirect()->route('users_pages/courses.list'); }
+        if($course == null){ return view('users_pages/courses.list'); }
         return view('users_pages/courses.show',compact('course'));
     }
 
     public function recommendations($adscription_slug)
     {
         $courses = Course::all();
-        return view('users_pages/courses.list',compact('courses'));
+        return view('users_pages/courses.home',compact('courses'));
+    }
+
+    public function enrollment($slug,$user_id, $course_id)
+    {
+      $course = Course::find($course_id);
+
+      $enrol = $course->enrolUser($user_id);
+      if($enrol){
+        return redirect()->back()->with('success', ['Se realizó exitosamente la inscripción']);
+      } else {
+        return redirect()->back()->with('error', ['No se pudo inscribir']);
+      }
     }
 }

@@ -158,10 +158,11 @@ Cómo funciona
 
                 </div>
 
-
-                <!-- Dots/bullets/indicators -->
-
-
-
           </div>
+@stop
+
+@section('extrajs')
+<script>
+  cambiarItem("funciona");
+</script>
 @stop

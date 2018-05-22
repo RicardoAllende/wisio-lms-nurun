@@ -19,9 +19,9 @@
                        <span class="titulo-academia"> {{ $course->name }} </span>
                        <div class="leer-mas">
                          @if(Auth::check())
-                           <a href="{{ route('student.show.expert',[Auth::user()->ascription()->slug,$course->slug]) }}">Ver más</a>
+                           <a href="{{ route('student.show.course',[Auth::user()->ascription()->slug,$course->slug]) }}">Ver más</a>
                          @else
-                           <a href="{{ route('student.show.expert',['invitado',$course->slug]) }}">Ver más</a>
+                           <a href="{{ route('student.show.course',['invitado',$course->slug]) }}">Ver más</a>
                          @endif
                            <hr class="line3"/>
                        </div>

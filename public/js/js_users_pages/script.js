@@ -17,6 +17,9 @@
         }
       });
     }
+    $("ul.submenu li a").click(function(){
+
+    });
 
 });
 
@@ -45,4 +48,11 @@ function showSlides(n) {
     }
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " activeFunciona";
+}
+
+function cambiarItem(item){
+  $(".activo").each(function() {
+      $(this).removeClass('activo');
+  })
+  $("#"+item).addClass('activo');
 }

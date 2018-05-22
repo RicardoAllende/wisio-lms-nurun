@@ -17,7 +17,9 @@ Curso {{ $course->name }}
           <div class="col s6 l3">
              <h2 class="recientes">Módulos</h2>
           </div>
+          <?php $cont=0; ?>
           @foreach($course->modules as $module)
+          <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
                   <div class="card-content collapsiblemod" data-id="1">
@@ -29,14 +31,46 @@ Curso {{ $course->name }}
                         <span class="titulo-academia2">
                           {{ $module->name }}
                         </span>
-                          <div class="modulos">Pendiente</div>
+                          <div class="modulos">{{ Auth::user()->progressInModule($module->id) }}</div>
                       </div>
                     </div>
                   </div>
 
              </div>
           </div>
+          @if($cont == 3 )
+          <div class="col s12 content" id="mod1">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;">X</a>
+              <h6 class="cursoview">Módulo 1</h6><br/>
+              <h6 class="cursoview">Ajustando a la necesidad del paciente</h6><br/>
+              <video width="100%" controls>
+                  <source src="media/video.mp4" type="video/mp4">
+              </video>
+              <div>
+
+              </div>
+          </div>
+          @endif
+
           @endforeach
+          @if($course->modules->count() <= 3)
+          <div class="col s12 content" id="mod1">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;">X</a>
+              <h6 class="cursoview">Módulo 1</h6><br/>
+              <h6 class="cursoview">Ajustando a la necesidad del paciente</h6><br/>
+              <video width="100%" controls>
+                  <source src="media/video.mp4" type="video/mp4">
+              </video>
+              <div>
+
+              </div>
+          </div>
+          @endif
         </div>
 
+@stop
+@section('extrajs')
+<script>
+  cambiarItem("cursos");
+</script>
 @stop

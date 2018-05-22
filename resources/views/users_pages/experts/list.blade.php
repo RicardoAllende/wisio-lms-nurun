@@ -38,3 +38,9 @@ Expertos
 
   </div>
 @stop
+
+@section('extrajs')
+<script>
+  cambiarItem("expertos");
+</script>
+@stop
