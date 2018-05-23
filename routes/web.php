@@ -1,6 +1,7 @@
 <?php
 
-Route::get('/', 'HomeController@index')->name('welcome');	// Acá se pondrá la página inicial, con login
+Route::get('/', 'HomeController@index')->name('welcome');	// Acá se pondrá la página inicial, con ruta a login
+Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
 Route::get('/registro', function () { return view('Users\check-valid-user'); } );
 
