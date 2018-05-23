@@ -235,4 +235,13 @@ class User extends Authenticatable
     public function specialty(){
         return $this->belongsTo('App\Specialty');
     }
+
+    public function ascriptionSlug(){
+        $ascription = $this->ascription();
+        if($ascription != null){
+            return $this->ascription()->slug;
+        }
+        return "-";
+    }
+
 }
