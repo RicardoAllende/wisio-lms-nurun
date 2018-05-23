@@ -3,7 +3,6 @@
     $('.modal').modal();
     var coll = document.getElementsByClassName("collapsiblemod");
     var i;
-    console.log(coll);
     for (i = 0; i < coll.length; i++) {
       coll[i].addEventListener("click", function() {
         this.classList.toggle("active");
@@ -17,9 +16,6 @@
         }
       });
     }
-    $("ul.submenu li a").click(function(){
-
-    });
 
 });
 

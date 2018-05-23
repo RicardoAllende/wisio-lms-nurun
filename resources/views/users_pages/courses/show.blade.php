@@ -22,7 +22,7 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
-                  <div class="card-content collapsiblemod" data-id="1">
+                  <div class="card-content collapsiblemod" data-id="1" data-module="{{ $module->id }}">
                   <div class="row valign-wrapper">
                       <div class="col s4">
                         <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->

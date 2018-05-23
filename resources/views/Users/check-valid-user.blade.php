@@ -47,7 +47,7 @@
 
             <div class="form-group">
               {!! Form::label('paterno', 'Apellido paterno:',['class'=>'control-label col-sm-2']); !!}
-              <div class="col-sm-10"> 
+              <div class="col-sm-10">
                 {!! Form::text('paterno',null,['class'=>'form-control','placeholder'=>'Apellidos', 'id'=> 'paterno' ]) !!}
               </div>
             </div>
@@ -102,7 +102,7 @@
 
                 <div class="form-group">
                   {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
-                  <div class="col-sm-10"> 
+                  <div class="col-sm-10">
                     {!! Form::password('password',['class'=>'form-control','placeholder'=>'Contraseña', 'required' => '']) !!}
                   </div>
                 </div>
@@ -112,19 +112,19 @@
                     <div class="g-recaptcha" data-sitekey="6Lc701oUAAAAAGUQmLqCRKjBHwWOwBRIjzAtpmr5"></div>
                   </center>
                 </div>
-              
+
             </div><!-- Fin adicionales -->
             <br>
-            <div class="form-group"> 
+            <div class="form-group">
               <div class="col-sm-offset-2 col-sm-10">
                 <input type="submit" class="btn btn-success btn-round" value="Registrarse" style='display:none;' id="btnSubmit" >
-              
+
               </div>
             </div>
-            
+
               {!! Form::close() !!}
                 <button id="validate" class="btn btn-info btn-round" >Validar información</button>
-            
+
           </div>
         </div>
         <div class="ibox-footer">
