@@ -51,12 +51,11 @@ class User extends Authenticatable
     }
 
     public function progressInModule($module_id){
-        $courseBelongsTo = false;
         foreach($this->courses as $course){
             foreach($course->modules as $module){
                 if ($module_id == $module->id) {
                     if($this->modules->contains($module_id)){
-                        return $this->modules->where('module_id', $module_id)->first()->status;
+                        return $this->modules->where('id', $module_id)->first()->pivot->status;
                     }else{
                         return config('constants.status.not_attemped'); // Pendiente
                     }
@@ -64,21 +63,6 @@ class User extends Authenticatable
             }
         }
         return "No inscrito";
-        // if (Module::find($module_id) == null ) { return "-"; }
-        // if($this->modules->contains($module_id)){
-        //     return $this->modules->where('module_id', $module_id)->first()->status;
-        // }else{
-        //     return "Pendiente";
-        // }
-        // if (Module::find($module_id) != null) {
-        //     $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
-        //     if($pivot == null){
-        //         return "No inscrito";
-        //     }
-        //     return $pivot->status;
-        // }else{
-        //     return "No inscrito";
-        // }
     }
 
     public function availableCourses(){
@@ -88,14 +72,6 @@ class User extends Authenticatable
             return $empty;
         }
         return $ascription->courses;
-    }
-
-    public function enrolUser($user_id){
-        $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-    }
-
-    public function attachCourse($user_id, $avg, $status){
-
     }
 
     public function dissociateAllAscriptions(){
@@ -135,17 +111,17 @@ class User extends Authenticatable
         }
     }
 
-    public function stateInCourse($course_id){
-        if (Course::find($course_id) != null) {
-            $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
-            if($pivot == null){
-                return false;
-            }
-            return $pivot->status;
-        }else{
-            return false;
-        }
-    }
+    // public function stateInCourse($course_id){
+    //     if (Course::find($course_id) != null) {
+    //         $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
+    //         if($pivot == null){
+    //             return false;
+    //         }
+    //         return $pivot->status;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 
     public function dissociateFromAllAscriptions(){
         $relations = AscriptionUser::where('user_id', $this->id);
@@ -234,7 +210,7 @@ class User extends Authenticatable
         return $this->hasRole(config('constants.roles.admin'));
     }
 
-    public function isEnrolledInCourses() {
+    public function hasCourses() {
         if ($this->courses->count() > 0) {
             return true;
         } else {
@@ -242,8 +218,15 @@ class User extends Authenticatable
         }
     }
 
+    public function isEnrolledInCourse($course_id){
+        if($this->courses->contains($course_id)){
+            return true;
+        }
+        return false;
+    }
+
     public function hasAdvance(){
-        if($this->isEnrolledInCourses()){
+        if($this->hasCourses()){
             return true;
         }
         // Another advances

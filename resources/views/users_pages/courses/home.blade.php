@@ -29,8 +29,12 @@ Inicio
                       <hr class="line3"/>
                   </div>
                  <div class="leer-masmodulos">
-                     <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
-                      <hr class="line3"/>
+                    @if(Auth::user()->isEnrolledInCourse($course->id))
+                      Inscrito
+                    @else
+                      <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
+                    @endif
+                    <hr class="line3"/>
                   </div>
                </div>
             </div>

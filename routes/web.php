@@ -73,3 +73,15 @@ Route::group(['middleware' => ['auth']], function () {
 	});
 
 });
+
+/**
+ * 
+ * For visitors, they can see the public courses
+ */
+Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
+// Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
+// Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
+// Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
+// Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
+// Route::get('/como_funciona',function (){ return view('users_pages.funciona'); })->name('student.funciona');
+// Route::get('/enrol/{user_id}/{course_id}','Users_Pages\CoursesController@enrollment')->name('student.enrol.course');

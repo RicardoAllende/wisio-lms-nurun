@@ -180,8 +180,8 @@ class Course extends Model
         if($user == null ){ return false; }
         if( ! $this->users->contains($user_id)){
             $this->users()->attach($user_id);
-            return true;
         }
+        return true;
         // $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
         // $modules = $this->modules;
         // foreach($modules as $module){

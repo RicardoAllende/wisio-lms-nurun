@@ -51,4 +51,11 @@ class CoursesController extends Controller
         return redirect()->back()->with('error', ['No se pudo inscribir']);
       }
     }
+
+    public function publicCourses(){
+        $courses = Course::whereIsPublic(1)->get();
+        return view('users_pages/courses.list',compact('courses'));
+        return $courses;
+    }
+
 }

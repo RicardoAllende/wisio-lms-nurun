@@ -1,16 +1,38 @@
-@section('title')
-Login
-@stop
-@extends('users_pages.master')
-@section('body')
-  <div class="row" style="padding: 3%;">
-    <h5>Nota, para esta verificación ingrese su nombre tal y como aparece en su cédula profesional (podrán ser editados posteriormente)</h5>
-    <h6>0756579  ERNESTO MORALES </h6>
-    {!! Form::open(['route' => 'public.register', 'class'=>'form-horizontal','method' => 'post', 'autocomplete' => 'off']) !!} 
-      <div class="form-group">
+@extends('layouts.app')
+
+@section('title', (isset($user)) ? 'Editar usuario' : 'Crear usuario')
+
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ route('users.index') }}">Usuarios</a>
+        </li>
+        <li class="active" >
+            {{ (isset($user)) ? 'Editar usuario' : 'Crear usuario' }}
+        </li>
+    </ol>
+@endsection
+
+@section('content')
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Formulario para {{(isset($user)) ? 'editar usuario' : 'crear usuario'}}</h5><br>
+        </div>
+        <h4>Nota, para esta verificación ingrese su nombre tal y como aparece en su cédula profesional (podrán ser editados posteriormente)</h4>
+        <h5>0756579  ERNESTO MORALES </h5>
+        <h5>| Llevet              | Guzman Juarez       | NULL       | 3792167   |</h5>
+        <h5>| Jorge Alberto       | Romero rea          | NULL       | 9737184   |</h5>
+        <h5>| Nilce Elizabeth     | Maldonado Osorio    | NULL       | 9700477   |</h5>
+        <div class="ibox-content">
+          <div class="row ">
+          {!! Form::open(['route' => 'public.register', 'class'=>'form-horizontal','method' => 'post']) !!}
+            <div class="form-group">
               {!! Form::label('cedula', 'Cédula:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10">
-                {!! Form::number('cedula',null,['placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'cedula' ]) !!}
+                {!! Form::number('cedula',null,['class'=>'form-control','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'cedula' ]) !!}
               </div>
             </div>
 
@@ -19,21 +41,21 @@ Login
             <div class="form-group">
               {!! Form::label('firstname', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10">
-                {!! Form::text('firstname',null,['placeholder'=>'Nombre', 'id' => 'nombre']) !!}
+                {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Nombre', 'id' => 'nombre']) !!}
               </div>
             </div>
 
             <div class="form-group">
               {!! Form::label('paterno', 'Apellido paterno:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10"> 
-                {!! Form::text('paterno',null,['placeholder'=>'Apellidos', 'id'=> 'paterno' ]) !!}
+                {!! Form::text('paterno',null,['class'=>'form-control','placeholder'=>'Apellidos', 'id'=> 'paterno' ]) !!}
               </div>
             </div>
 
             <div class="form-group">
               {!! Form::label('materno', 'Apellido materno:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10">
-                {!! Form::text('materno',null,['placeholder'=>'Apellidos', 'id'=> 'materno' ]) !!}
+                {!! Form::text('materno',null,['class'=>'form-control','placeholder'=>'Apellidos', 'id'=> 'materno' ]) !!}
               </div>
             </div>
             <br>
@@ -41,14 +63,14 @@ Login
                 <div class="form-group">
                   {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10">
-                    {!! Form::email('email',null,['placeholder'=>'Correo electrónico', 'id'=> 'email' ]) !!}
+                    {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email' ]) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('gender', 'Género:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10"><!-- M->Male; F->Female -->
-                    {!! Form::select('gender', ['' => 'Seleccionar género', 'F' => 'Femenino', 'M' => 'Masculino'], null, ['required' => '']) !!}
+                    {!! Form::select('gender', ['' => 'Seleccionar género', 'F' => 'Femenino', 'M' => 'Masculino'], null, ['class' => 'form-control', 'required' => '']) !!}
                   </div>
                 </div>
 
@@ -67,22 +89,28 @@ Login
                 <div class="form-group">
                     {!! Form::label('consultation_type', 'Tipo de consulta:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10"><!-- M->Male; F->Female -->
-                    {!! Form::select('consultation_type', ['' => 'Tipo de consulta', 'Pública' => 'Pública', 'Privada' => 'Privada', 'Ambas' => 'Ambas'], null, ['required' => '']) !!}
+                    {!! Form::select('consultation_type', ['' => 'Tipo de consulta', 'Pública' => 'Pública', 'Privada' => 'Privada', 'Ambas' => 'Ambas'], null, ['class' => 'form-control', 'required' => '']) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                   {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10">
-                    {!! Form::number('mobile_phone',null,['placeholder'=>'Teléfono celular', 'required' => '']) !!}
+                    {!! Form::number('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '']) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                   {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10"> 
-                    {!! Form::password('password',['placeholder'=>'Contraseña', 'required' => '']) !!}
+                    {!! Form::password('password',['class'=>'form-control','placeholder'=>'Contraseña', 'required' => '']) !!}
                   </div>
+                </div>
+
+                <div class="form-group">
+                  <center>
+                    <div class="g-recaptcha" data-sitekey="6Lc701oUAAAAAGUQmLqCRKjBHwWOwBRIjzAtpmr5"></div>
+                  </center>
                 </div>
               
             </div><!-- Fin adicionales -->
@@ -97,13 +125,20 @@ Login
               {!! Form::close() !!}
                 <button id="validate" class="btn btn-info btn-round" >Validar información</button>
             
+          </div>
+        </div>
+        <div class="ibox-footer">
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 @endsection
 
-@section('extrajs')
+@section('scripts')
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <script src="/js/alertify.min.js"></script>
   <script>
-  alertify.success('Notificación');
     $('#validate').click(function (){
       var route = "{{ route('get.response', '') }}";
       if( $('#cedula').val() != '' ){

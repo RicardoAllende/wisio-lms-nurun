@@ -27,7 +27,11 @@ Cursos
                     </ol>
               </div >
           <div class="leer-masmodulos_50">
-             <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
+            @if(Auth::check())
+              <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
+            @else
+              <a href="">Todos los cursos versión pública</a>
+            @endif
               <hr class="line3"/>
           </div>
        </div>
