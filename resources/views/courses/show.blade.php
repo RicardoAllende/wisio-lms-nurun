@@ -3,6 +3,7 @@
 @section('title','Curso '.$course->name)
 @section('cta')
   <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Curso</a>
+  <a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>
   <!--<a href="" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>-->
 @endsection
 
@@ -37,7 +38,7 @@
                         <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
                         <p>{{ $course->modules->count() }} módulos</p>
                         <p>Slug: {{ $course->slug }}</p>
-                        <p>Evaluaciones finales: {{ $course->finalEvaluationsFromModules()->count() }}</p>
+                        <p>Evaluaciones finales: {{ $course->finalEvaluations()->count() }}</p>
                         <h4 class="media-heading">Descripción del curso</h4>
                         <p>{{$course->description}}.</p>
                         <p>Fecha de inicio: {{ $course->start_date }}</p>
@@ -89,18 +90,4 @@
         </div>
 	</div>
 </div>
-
-                        
-
-
-@endsection
-
-@section('scripts')
-
-
-
-@endsection
-
-@section('styles')
-
 @endsection

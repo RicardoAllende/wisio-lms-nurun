@@ -46,7 +46,14 @@ class ReferencesController extends Controller
     {
         $module = Module::find($module_id);
         if($module == null) { return redirect()->route('modules.index'); }
+        $content = $request->content;
+        if($this->hasScripts($content)){
+            return back()->withInput()->withErrors(['error' => 'Existe un script en el resumen']);
+        }
+        $content = $this->escapeString($content);
         $reference = Reference::create($request->input());
+        $reference->content = $content;
+        $reference->save();
         return redirect()->route('references.show', [$module->id, $reference->id]);
     }
 
@@ -60,7 +67,7 @@ class ReferencesController extends Controller
     {
         $reference = Reference::find($id);
         $module = Module::find($module_id);
-        if($reference == null or $module == null ) { return redirect()->route('references.index', $module->id); }
+        if($reference == null or $module == null ) { return redirect()->route('references.index', $module_id); }
         return view('references/show', compact('reference', 'module'));
     }
 
@@ -90,7 +97,12 @@ class ReferencesController extends Controller
     {
         $reference = Reference::find($reference_id);
         if ($reference != null) { 
-            $reference->content = $request->content;
+            $content = $request->content;
+            if($this->hasScripts($content)){
+                return back()->withInput()->withErrors(['error' => 'Existe un script en la referencia']);
+            }
+            $content = $this->escapeString($content);
+            $reference->content = $content;
             $reference->save();
             return redirect()->route('references.show', [$module_id, $reference_id]);
         }else{ return redirect()->route('references.index', $module_id); }
@@ -108,4 +120,27 @@ class ReferencesController extends Controller
         if ($reference != null) { $reference->delete(); }
         return redirect()->route('references.index', $module_id);
     }
+
+    private function hasScripts($string){
+        if(strpos($string, 'script') === false){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function escapeString($string){
+        return $this->dropPTag($string);
+    }
+
+    public function dropPTag($string){
+        $string = str_replace("<p>", "", $string);
+        if(substr_count($string, "</p>") > 1){
+            $string = str_replace("</p>", "<br>", $string);
+        }else{
+            $string = str_replace("</p>", "", $string);
+        }
+        return $string;
+    }
+
 }

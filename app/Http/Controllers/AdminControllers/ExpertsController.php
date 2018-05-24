@@ -43,6 +43,10 @@ class ExpertsController extends Controller
         $input = $request->only(['name', 'summary']);
         $name = $request->name;
         $summary = $request->summary;
+        if($this->hasScripts($summary)){
+            return back()->withInput()->withErrors(['error' => 'Existe un script en el resumen']);
+        }
+        $summary = $this->escapeString($summary);
         $slug = str_slug($name);
         $expert = Expert::firstOrCreate(compact('name', 'summary', 'slug'));
         if($request->filled('attachment')){
@@ -94,13 +98,48 @@ class ExpertsController extends Controller
         }
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
+            $this->dropPreviousProfileImg($expert);
             AttachmentExpert::create(['attachment_id' => $attach_id, 'expert_id' => $expert->id]);
         }
         $expert->name = $request->name;
-        $expert->summary = $request->summary;
+        $summary = $request->summary;
+        if($this->hasScripts($summary)){
+            return back()->withInput()->withErrors(['error' => 'Existe un script en el resumen']);
+        }
+        $summary = $this->escapeString($summary);
+        $expert->summary = $summary;
         $expert->slug = str_slug($request->name);
         $expert->update();
         return redirect()->route('experts.show', $expert->id); 
+    }
+
+    private function dropPreviousProfileImg($expert){
+        $images = $expert->attachments->where('type', config('constants.attachments.main_img'));
+        foreach ($images as $image) {
+            $image->delete();
+        }
+    }
+
+    private function hasScripts($string){
+        if(strpos($string, 'script') === false){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public function escapeString($string){
+        return $this->dropPTag($string);
+    }
+
+    public function dropPTag($string){
+        $string = str_replace("<p>", "", $string);
+        if(substr_count($string, "</p>") > 1){
+            $string = str_replace("</p>", "<br>", $string);
+        }else{
+            $string = str_replace("</p>", "", $string);
+        }
+        return $string;
     }
 
     /**
@@ -165,13 +204,5 @@ class ExpertsController extends Controller
         }
         return back();
     }
-
-    // public function attachModule($expert_id, $module_id){
-
-    // }
-
-    // public function detachModule($expert_id, $module_id){
-
-    // }
 
 }

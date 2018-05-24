@@ -3,6 +3,7 @@
 @section('title','Usuarios')
 @section('cta')
   <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Usuario</a>
+  <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Reiniciar avance</a>
 @endsection
 
 @if($user->hasAscriptions())
@@ -83,6 +84,46 @@
                     </div> 
                 </div>
             </div>
+            @if($user->hasCourses())
+            <h3>Inscripciones a curso</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover dataTables">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Curso</th>
+                            <th>Calificación mínima aprobatoria</th>
+                            <th>Calificación obtenida</th>
+                            <th>Fecha del último intento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>@php $i=1; @endphp
+                        @foreach($user->courses as $course)
+                        <tr>
+                            <td><a href="{{route('courses.show', $course->id)}}">{{ $i }}</a></td>@php $i++; @endphp
+                            <td><a href="{{route('courses.show', $course->id)}}">{{ $course->name }}</a></td>
+                            <td>{{ $course->minimum_score }}</td>
+                            <td>{{ $course->pivot->score }}</td>
+                            <td>{{ $course->pivot->updated_at }}</td>
+                            <td>
+                                @if($course->pivot->score != '')
+                                    @if( $course->minimum_score > $course->pivot->score )
+                                        <a href="{{ route('reset.evaluations', [$user->id, $course->id]) }}">Resetear Avances</a>
+                                    @else
+                                        Aprobó satisfactoriamente
+                                    @endif
+                                @else
+                                    Está realizando el curso
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                        
+                    </tbody>
+                </table>
+            </div>
+            @endif
             <div class="clearfix"></div>
                 
         </div>

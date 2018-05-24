@@ -109,11 +109,11 @@ class TablesSeeder extends Seeder
         
         // Evaluations
             $evaluation1 = Evaluation::create(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
-            $evaluation2 = Evaluation::create(['module_id' => $course->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
-            $evaluation3 = Evaluation::create(['module_id' => $ascription->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
+            $evaluation2 = Evaluation::create(['module_id' => $module1->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
+            $evaluation3 = Evaluation::create(['module_id' => $module2->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
             $evaluation4 = Evaluation::create(['module_id' => $module2->id, 'name'=>'Cómo favorecer el tratamiento de insulina', 'type' => 'f']);
-            $evaluation5 = Evaluation::create(['module_id' => $course2->id, 'name'=>'Hipoglucemia', 'type' => 'f']);
-            $evaluation6 = Evaluation::create(['module_id' => $module2->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
+            $evaluation5 = Evaluation::create(['module_id' => $course3->id, 'name'=>'Hipoglucemia', 'type' => 'f']);
+            $evaluation6 = Evaluation::create(['module_id' => $module3->id, 'name'=>'Conociendo los diferentes tipos de insulina', 'type' => 'f']);
             $question1 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 1', 'content'=>'No siempre se programó en computadoras.']);
             $question2 =  Question::create(['evaluation_id' => 2, 'name'=>'Pregunta 2', 'content'=>'Windows está disponible sólo en 32 bits']);
             $question3 =  Question::create(['evaluation_id' => 1, 'name'=>'Pregunta 3', 'content' => '¿Cuántas horas tiene un día?']);

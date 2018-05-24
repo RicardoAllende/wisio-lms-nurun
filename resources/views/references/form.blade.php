@@ -8,7 +8,7 @@
           <a href="{{ route('modules.show', $module->id) }}">Módulo: <strong>{{ $module->name }}</strong></a>
         </li>
         <li>
-          Crear Referencia
+            {{ (isset($reference)) ? 'Editar referencia' : 'Crear Referencia' }}
         </li>
     </ol>
 @endsection

@@ -32,7 +32,7 @@
                             <th>Categoria </th>
                             <th>Descripción</th>
                             <th>Fecha de creación</th>
-                            <th>Acciones</th>
+                            <!--<th>Acciones</th>-->
                           </tr>
                         </thead>
                         <tbody>@php $i=1; @endphp
@@ -42,11 +42,11 @@
                               <td><a href="{{ route('categories.show', $category->id) }}">{{ $category->name }}</a></td>
                               <td>{{ $category->description }}</td>
                               <td>{{ $category->created_at }}</td>
-                              <td>
+                              <!--<td>
                                   {!! Form::open(['method'=>'DELETE','route'=>['categories.destroy',$category->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                      <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
                                   {!! Form::close() !!}
-                              </td>
+                              </td>-->
                               </tr>
                             @endforeach
                             

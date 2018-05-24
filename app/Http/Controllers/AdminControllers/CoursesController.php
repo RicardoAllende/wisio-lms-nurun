@@ -13,6 +13,7 @@ use App\AttachmentCourse;
 use App\AscriptionCourse;
 use App\CategoryCourse;
 use App\CourseUser;
+Use App\User;
 
 class CoursesController extends Controller
 {
@@ -135,7 +136,6 @@ class CoursesController extends Controller
         $course->description = $request->description;
         $course->start_date = $request->start_date;
         $course->end_date = $request->end_date;
-        $course->maximum_attempts = $request->maximum_attempts;
         $course->minimum_score = $request->minimum_score;
         $course->is_public = $request->is_public;
         $course->slug = str_slug($request->slug);
@@ -233,6 +233,13 @@ class CoursesController extends Controller
             $course->save();
         }
         return back();
+    }
+
+    public function listUsers($course_id){
+        $users = User::all();
+        $course = Course::find($course_id);
+        if($course == null) { return redirect()->route('courses.index'); }
+        return view('courses/list-users', compact('course', 'users'));
     }
 
 }

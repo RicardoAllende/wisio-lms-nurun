@@ -2,7 +2,7 @@
 
 @section('title','Recurso: '.$resource->name)
 @section('cta')
-<a href="{{ route('resources.destroy', [$module->id, $resource->id]) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Eliminar recurso</a>
+<a href="{{ route('resources.edit', [$module->id, $resource->id]) }}" class="btn btn-primary"><i class='fa fa-edit'></i>Editar recurso</a>
 @endsection
 
 @section('subtitle')
@@ -23,7 +23,7 @@
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>Recurso {{ $resource->name }}</h5>
+                <h5>Recurso: {{ $resource->name }}</h5>
             </div>
             <div class="ibox-content">
                 <div class="contact-box">

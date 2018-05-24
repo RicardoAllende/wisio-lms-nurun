@@ -43,8 +43,26 @@ class Ascription extends Model
         return "/".$img->url;
     }
 
+    public function calendar(){
+        return $this->attachments->where('type', config('constants.attachments.calendar'))->first();
+    }
+
+    public function calendarUrl(){
+        $calendar = $this->calendar();
+        if($calendar == null){ return 'http://mediaroom.sanofi.com/wp-content/uploads/2016/06/969312-471x500.jpg'; } // default calendar
+        return "/".$calendar->url;
+    }
+
     public function hasMainImg(){
-        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+        if($this->attachments->where('type', config('constants.attachments.main_img'))->count() > 0){ 
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function hasCalendar(){
+        if($this->attachments->where('type', config('constants.attachments.calendar'))->count() > 0){ 
             return true;
         }else{
             return false;

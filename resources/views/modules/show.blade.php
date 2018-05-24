@@ -60,7 +60,7 @@
                 @if ($module->hasReferences())
                     <h5>Referencias</h5>
                     @foreach($module->references as $reference)
-                        <p>{!! $i.". ".$reference->content !!}</p>@php $i++; @endphp
+                        {!! $i.". ".$reference->content !!} @php $i++; @endphp <br>
                     @endforeach
                 @endif
             </div>
