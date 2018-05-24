@@ -41,8 +41,6 @@
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
                                 <th>Activo</th>
-                                <th>Adscripción</th><!-- De momento considerando una adscripción por usuario, pero en bd se permiten varias-->
-                                <th>Fecha de inscripción</th>
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -54,21 +52,13 @@
                                   <td>{{ $user->firstname }}</td>
                                   <td>{{ $user->lastname }}</td>
                                   <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                  <td>@if($user->hasAscriptions()){{ $user->ascriptions->first()->name }}
-                                    @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
-                                  </td>
-                                  <td>{{ $user->created_at }}</td>
                                   <td>
-                                    @if($user->hasAdvance())
-                                      @if($user->enabled == 1 )
-                                        <a href="{{ route('disable.user', $user->id) }}" class="btn btn-danger btn-round" >Deshabilitar</a>
-                                      @else
-                                        <a href="{{ route('enable.user', $user->id) }}" class="btn btn-info btn-round" >Habilitar</a>
+                                    @if($user->hasAvailableCourse($course->id))
+                                      @if( ! $user->isEnrolledInCourse($course->id) )
+                                        <a href="" class="btn btn-info btn-round">Inscribir al curso</a>
                                       @endif
                                     @else
-                                      {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                        <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
-                                      {!! Form::close() !!}
+
                                     @endif
                                   </td>
                                   </tr>
@@ -104,6 +94,5 @@
 @endsection
 
 @section('styles')
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

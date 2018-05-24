@@ -67,7 +67,7 @@
             @else
                 <h3><strong>Ningún curso está asociado a esta categoría</strong></h3><br>
             @endif
-            <a class="btn btn-info btn-round" href="{{ route('courses.index') }}">Cursos</a>
+            <a class="btn btn-info btn-round" href="{{ route('courses.index') }}">Listado de cursos</a>
       </div>
 	</div>
 </div>

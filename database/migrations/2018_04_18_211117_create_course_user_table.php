@@ -18,7 +18,7 @@ class CreateCourseUserTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('course_id')->unsigned();
             $table->float('score', 10,5)->nullable();
-            $table->string('status')->default(config('constants.status.not_attemped'));
+            $table->string('status')->default(config('constants.status.incomplete'));
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

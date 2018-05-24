@@ -39,11 +39,21 @@ class AscriptionsController extends Controller
     public function store(Request $request)
     {
         $input = $request->only(['name', 'description', 'slug']);
+        $name = $request->name;
+        $description = $request->description;
+        $slug = str_slug($request->slug);
+        if (Ascription::whereSlug($slug)->count() > 0) { // If slug exists
+            return back()->withErrors(['error' => 'El slug ya existe']);
+        }
         $ascription = Ascription::firstOrCreate($input);
         $ascription->slug = str_slug($ascription->slug);
         $ascription->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
+            AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
+        }
+        if($request->filled('calendar')){
+            $attach_id = $request->input('calendar');
             AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
         }
         return redirect()->route('ascriptions.show', $ascription->id); 
@@ -95,12 +105,23 @@ class AscriptionsController extends Controller
         if($ascription != null){
             $ascription->name = $request->input('name');
             $ascription->description = $request->input('description');
-            $ascription->slug = str_slug($request->slug);
+            $slug = str_slug($request->slug);
+            if($slug != $ascription->slug){
+                if (Ascription::whereSlug($slug)->count() > 0) { // If slug exists
+                    return back()->withErrors(['error' => 'El slug ya existe']);
+                }
+            }
+            $ascription->slug = $slug;
             $ascription->is_pharmacy = $request->is_pharmacy;
             $ascription->save();
             if($request->filled('attachment')){
                 $attach_id = $request->input('attachment');
                 $this->dropImgAttachments($ascription);
+                AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
+            }
+            if($request->filled('calendar')){
+                $attach_id = $request->calendar;
+                $this->dropPreviousCalendars($ascription);
                 AscriptionAttachment::create(['attachment_id' => $attach_id, 'ascription_id' => $ascription->id]);
             }
             $ascription = Ascription::find($ascription->id);
@@ -126,9 +147,16 @@ class AscriptionsController extends Controller
     }
 
     public function dropImgAttachments($ascription){
-        $images = $ascription->attachments->where('type', 'main_img');
+        $images = $ascription->attachments->where('type', config('constants.attachments.main_img'));
         foreach($images as $image){
             $image->delete();
+        }
+    }
+
+    public function dropPreviousCalendars($ascription){
+        $calendars = $ascription->attachments->where('type', config('constants.attachments.calendar'));
+        foreach ($calendars as $calendar) {
+            $calendar->delete();
         }
     }
 

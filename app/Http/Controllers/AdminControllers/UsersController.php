@@ -13,6 +13,8 @@ use App\Attachment;
 use App\Ascription;
 use App\AscriptionUser;
 use App\Role;
+use App\Course;
+use App\CourseUser;
 
 class UsersController extends Controller
 {
@@ -85,6 +87,12 @@ class UsersController extends Controller
             }
         }
         try{
+            $email = $request->email;
+            if(User::whereEmail($email)->count() > 0 ){ // Email exists
+                return back()->withInput()->withErrors(
+                    ['Error' => "Email repetido, ya existe un usuario con ese email"]
+                );
+            }
             $user = User::create($input);
             $user->save();
             $userId = $user->id;
@@ -202,6 +210,20 @@ class UsersController extends Controller
             $user->enabled = 0;
             $user->save();
         }
+        return back();
+    }
+    
+    public function resetCourseEvaluations($user_id, $course_id){
+        $user = User::find($user_id);
+        if ($user != null) {
+            $course = Course::find($course_id);
+            if($course != null){ // user and course exists
+                $user->resetAdvanceInCourse($course_id);
+            }
+        }
+        $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $course_id)->first();
+        $pivot->score = null;
+        $pivot->save();
         return back();
     }
 

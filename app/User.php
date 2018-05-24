@@ -43,11 +43,11 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course');
+        return $this->belongsToMany('App\Course')->withPivot('status', 'score')->withTimestamps();
     }
 
     public function modules(){
-        return $this->belongsToMany('App\Module')->withPivot('status', 'score');
+        return $this->belongsToMany('App\Module')->withPivot('status', 'score')->withTimestamps();
     }
 
     public function progressInModule($module_id){
@@ -74,12 +74,12 @@ class User extends Authenticatable
         return $ascription->courses;
     }
 
-    public function dissociateAllAscriptions(){
-        $relations = AscriptionUser::where('user_id', $this->id)->get();
-        foreach($relations as $relation){
-            $relation->delete();
-        }
-    }
+    // public function dissociateAllAscriptions(){
+    //     $relations = AscriptionUser::where('user_id', $this->id)->get();
+    //     foreach($relations as $relation){
+    //         $relation->delete();
+    //     }
+    // }
 
     public function detachNormalAscriptions(){
         $ascriptions = $this->normalAscriptions();
@@ -96,11 +96,11 @@ class User extends Authenticatable
         return true;
     }
 
-    public function enrollToAscription($ascription_id){
-        $ascription = Ascription::find($ascription_id);
-        if($ascription == null) { return false; }
-        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $this->id]);
-    }
+    // public function enrolToAscription($ascription_id){
+    //     $ascription = Ascription::find($ascription_id);
+    //     if($ascription == null) { return false; }
+    //     AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $this->id]);
+    // }
 
     public function belongsToAscription($ascription_id){
         $rows = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $this->id)->count();
@@ -123,30 +123,25 @@ class User extends Authenticatable
     //     }
     // }
 
-    public function dissociateFromAllAscriptions(){
-        $relations = AscriptionUser::where('user_id', $this->id);
-        foreach($relations as $relation){
-            try{
+    // public function dissociateFromAllAscriptions(){
+    //     $relations = AscriptionUser::where('user_id', $this->id);
+    //     foreach($relations as $relation){
+    //         try{
 
-            }catch(\Illuminate\Database\QueryException $e){
+    //         }catch(\Illuminate\Database\QueryException $e){
                 
-            }
-            $relation->delete();
-        }
-    }
+    //         }
+    //         $relation->delete();
+    //     }
+    // }
 
     public function evaluations(){
-        return $this->belongsToMany('App\Evaluation')->withPivot('status');
-    }
-
-    public function custom_fields()
-    {
-        return $this->belongsToMany('App\CustomField');
+        return $this->belongsToMany('App\Evaluation')->withPivot('status', 'score')->withTimestamps();
     }
 
     public function ascriptions()
     {
-        return $this->belongsToMany('App\Ascription');
+        return $this->belongsToMany('App\Ascription')->withTimestamps();
     }
 
     public function normalAscriptions(){
@@ -171,14 +166,14 @@ class User extends Authenticatable
 
     public function attachments()
     {
-        return $this->belongsToMany('App\Attachment');
+        return $this->belongsToMany('App\Attachment')->withTimestamps();
     }
 
     /**
      * Return answers for the questions the user has answered
      */
     public function answers(){
-        return $this->belongsToMany('App\Question');
+        return $this->belongsToMany('App\Question')->withTimestamps();
     }
 
 
@@ -242,6 +237,36 @@ class User extends Authenticatable
             return $this->ascription()->slug;
         }
         return "-";
+    }
+
+    /**
+     * This drop the advance in all evaluations the user has done
+     */
+    public function resetAdvanceInEvaluations(){
+        $this->evaluations()->detach();
+    }
+
+    public function resetAdvanceInCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        $evaluations = $course->finalEvaluations()->pluck('id');
+        $this->evaluations()->detach($evaluations);
+        return true;
+    }
+
+    /**
+     * Return true if the course is related to his ascription.
+     */
+    public function hasAvailableCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null ){
+            return false;
+        }
+        $ascription = $this->ascription();
+        if ($ascription == null) {
+            return false;
+        }
+        return $ascription->courses->contains($course_id);
     }
 
 }

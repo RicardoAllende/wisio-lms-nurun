@@ -23,9 +23,9 @@
         </div>
         <h4>Nota, para esta verificación ingrese su nombre tal y como aparece en su cédula profesional (podrán ser editados posteriormente)</h4>
         <h5>0756579  ERNESTO MORALES </h5>
-        <h5>| Llevet              | Guzman Juarez       | NULL       | 3792167   |</h5>
+        <!--<h5>| Llevet              | Guzman Juarez       | NULL       | 3792167   |</h5>
         <h5>| Jorge Alberto       | Romero rea          | NULL       | 9737184   |</h5>
-        <h5>| Nilce Elizabeth     | Maldonado Osorio    | NULL       | 9700477   |</h5>
+        <h5>| Nilce Elizabeth     | Maldonado Osorio    | NULL       | 9700477   |</h5>-->
         <div class="ibox-content">
           <div class="row ">
           {!! Form::open(['route' => 'public.register', 'class'=>'form-horizontal','method' => 'post']) !!}
@@ -63,7 +63,7 @@
                 <div class="form-group">
                   {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
                   <div class="col-sm-10">
-                    {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email' ]) !!}
+                    {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email', 'required' => '' ]) !!}
                   </div>
                 </div>
 
@@ -123,7 +123,7 @@
             </div>
             
               {!! Form::close() !!}
-                <button id="validate" class="btn btn-info btn-round" >Validar información</button>
+                <button id="validate" class="btn btn-info btn-round" >Validar cédula</button>
             
           </div>
         </div>
@@ -162,7 +162,6 @@
                 $('#nombre').prop('readonly', true);
                 $('#paterno').prop('readonly', true);
                 $('#materno').prop('readonly', true);
-                // $('#btnSubmit').prop('disabled', false);
                 $('#btnSubmit').show();
                 $('#adicionales').show();
                 $('#validate').hide();

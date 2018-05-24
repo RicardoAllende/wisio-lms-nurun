@@ -15,10 +15,9 @@ class ResourcesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($module_id)
     {
-        return config('constants');
-        return Attachment::all();
+        return redirect()->route('modules.show', $module_id);
     }
 
     /**
@@ -77,9 +76,15 @@ class ResourcesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($module_id, $id)
     {
-        //
+        $module = Module::find($module_id);
+        $resource = Resource::find($id);
+        if ($resource == null) {
+            return back();
+        }else{
+            return view('resources/edit-resource-title', compact('resource', 'module'));
+        }
     }
 
     /**
@@ -89,9 +94,15 @@ class ResourcesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($module_id, Request $request, $id)
     {
-        //
+        $resource = Resource::find($id);
+        $module = Module::find($id);
+        if($resource != null){
+            $resource->name = $request->name;
+            $resource->save();
+        }
+        return redirect()->route('resources.show', [$module_id, $id]);
     }
 
     /**

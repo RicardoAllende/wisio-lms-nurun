@@ -12,13 +12,12 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="#">Ajustes</a></li>
                         <li><a href="{{ route('logout') }}">Cerrar Sesión</a></li>
                     </ul>
                 </div>
                 @endif
                 <div class="logo-element">
-                    S
+                    A
                 </div>
                 
             </li>
@@ -51,9 +50,6 @@
                     <li class="">
                         <a href="{{ route('evaluations.index') }}"><i class="fa fa-edit"></i> <span class="nav-label">Evaluaciones</span></a>
                     </li>
-                    <!--<li class="">
-                        <a href="{{ route('attachments.index') }}"><i class="fa fa-list-ul"></i> <span class="nav-label">Archivos adjuntos</span></a>
-                    </li>-->
                     <li class="">
                         <a href="{{ route('specialties.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Especialidades</span></a>
                     </li>

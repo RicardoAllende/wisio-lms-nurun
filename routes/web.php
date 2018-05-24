@@ -16,7 +16,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/logout','LoginController@userLogout')->name("logout");
 
 	Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
-		Route::get('/dashboard', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
+		Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 		Route::post('/attachments/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
 		Route::get('/modules/{module}/manage-experts/', 'AdminControllers\ModulesController@listExperts')->name('list.experts.for.module');
 		Route::get('/modules/{module}/resources/{resource}/change-weight/{new_weight}', 'AdminControllers\ResourcesController@changeWeight')
@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/ascriptions', 'AdminControllers\AscriptionsController');
 		Route::resource('/modules', 'AdminControllers\ModulesController');
 		Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
+		Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
 		Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
 		Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
 		Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
@@ -54,9 +55,9 @@ Route::group(['middleware' => ['auth']], function () {
 			->name('dissociate.course.of.ascription');
 		Route::resource('/courses','AdminControllers\CoursesController');
 		Route::resource('/categories','AdminControllers\CategoriesController');
+		Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
 		Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
 		Route::resource('/users','AdminControllers\UsersController');
-		Route::resource('/attachments', 'AdminControllers\AttachmentsController');
 		Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
 		Route::resource('/options','AdminControllers\OptionsController');
 		Route::resource('/evaluations','AdminControllers\EvaluationsController');

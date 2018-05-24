@@ -45,9 +45,9 @@
                               <td><a href="{{ route('specialties.show', $specialty->id) }}">{{ $specialty->name }}</a></td>
                               <td>
                               @if($expert->hasSpecialty($specialty->id))
-                                <a href="{{ route('detach.specialty.to.expert', [$expert->id, $specialty->id]) }}" class="btn btn-danger">Quitar</a>
+                                <a href="{{ route('detach.specialty.to.expert', [$expert->id, $specialty->id]) }}" class="btn btn-danger">Quitar especialidad</a>
                               @else
-                                <a href="{{ route('attach.specialty.to.expert', [$expert->id, $specialty->id]) }}" class="btn btn-info">Agregar</a>
+                                <a href="{{ route('attach.specialty.to.expert', [$expert->id, $specialty->id]) }}" class="btn btn-info">Agregar especialidad</a>
                               @endif
                               </td>
                               </tr>

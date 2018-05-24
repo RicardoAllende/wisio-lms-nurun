@@ -59,6 +59,7 @@
                               </div>
                             </div>
                             {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
+                            <input type="hidden" name="calendar" id="calendar">
                             <div class="form-group"> 
                               <div class="col-sm-offset-2 col-sm-10">
                               <a href="{{route('ascriptions.index')}}" class="btn btn-default">Cancelar</a>
@@ -77,18 +78,18 @@
                         {!! Form::close() !!}
                     </div>
                     
-                      <div class="form-group">
-                        {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
+                      <div class="form-group" id="divImg">
+                        {!! Form::label('featured_label', 'Imagen de la adscripción:',['class'=>'control-label col-sm-2']); !!}
                         {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                         <div class="dz-message" style="height:200px;">
                           @if(isset($ascription))
                             @if($ascription->hasMainImg())
-                              {{ 'Arrastre aquí una imagen para actualizarla' }}
+                              Arrastre aquí una imagen para actualizarla
                             @else
-                              {{ 'Arrastre aquí la imagen de la adscripción/farmacia (requerida)' }}
+                              Arrastre aquí la imagen de la adscripción/farmacia (requerida)
                             @endif
                           @else
-                            {{ 'Arrastre aquí la imagen de la adscripción/farmacia (requerida)' }}
+                            Arrastre aquí la imagen de la adscripción/farmacia (requerida)
                           @endif
                         </div>
                         <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
@@ -97,12 +98,20 @@
                         <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                         {!! Form::close() !!}
                       </div>
-                      
                     </div>
 
-                    <div class="ibox-footer">
-                      
+                    <div class="form-group" id="divCalendar">
+                        {!! Form::label('featured_label', 'Calendario (si existe)',['class'=>'control-label col-sm-2 lbl']); !!}
+                        {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'id' => 'calendar_upload', 'class' => 'dropzone' ]) !!}
+                        <div class="dz-message" style="height:200px;">
+                          Arrastre aquí el calendario
+                        </div>
+                        <input type="hidden" value="{{ config('constants.attachments.calendar') }}" name="type">
+                        <input type="hidden" value="ascriptions/calendar" name="path">
+                        <div class="dropzone-previews"></div>
+                        {!! Form::close() !!}
                     </div>
+                    <div class="ibox-footer" id="result"></div>
                 </div>
               </div>
       </div>
@@ -112,24 +121,42 @@
 @section('scripts')
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
 <script type="text/javascript">
-  Dropzone.options.imageUpload  = {            
-            paramName: "file", 
-            // The name that will be used to transfer the file            
-            maxFilesize: 2,            
-            acceptedFiles: 'image/*',            
-            maxFiles: 1,            
-            dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            
-            //previewTemplate: '  ',            
-            init: function() {                
-              this.on("success", function(file, response) {                    
-                console.log(response);                    
-                this.removeFile(file);
-                $('#attachment').attr('value',response);    
-                $('#image-upload').hide();   
-                $('#btnSave').prop('disabled', false);
+  Dropzone.options.imageUpload  = {
+    paramName: "file",
+    // The name that will be used to transfer the file
+    maxFilesize: 20,
+    acceptedFiles: 'image/*',
+    maxFiles: 1,
+    dictDefaultMessage: 'Arrastra aquí la imagen de la adscripción/farmacia',
+    //previewTemplate: '  ',
+    init: function() {
+      this.on("success", function(file, response) {
+        console.log(response);
+        this.removeFile(file);
+        $('#attachment').val(response);
+        $('#divImg').hide();
+        $('#result').append('Imagen agregada<br>');
+        $('#btnSave').prop('disabled', false);
+      });
+    }
+  };
 
-              });            
-            }        
+  Dropzone.options.calendarUpload = {
+    paramName: "file",
+    // The name that will be used to transfer the file
+    maxFilesize: 100,
+    acceptedFiles: 'image/*,application/pdf',
+    maxFiles: 1,
+    dictDefaultMessage: 'Arrastra aquí el calendario',
+    init: function() {
+      this.on("success", function(file, response) {
+        console.log(response);
+        this.removeFile(file);
+        $('#calendar').val(response);
+        $('#divCalendar').hide();
+        $('#result').append('Calendario agregado<br>');
+      });
+    }
   };
 </script>
 @endsection
