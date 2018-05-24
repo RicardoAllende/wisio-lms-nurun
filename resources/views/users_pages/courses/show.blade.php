@@ -2,6 +2,9 @@
 Curso {{ $course->name }}
 @stop
 @extends('users_pages.master')
+@section('extracss')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+@stop
 @section('body')
 
 <div class="row pad-left3">
@@ -17,7 +20,7 @@ Curso {{ $course->name }}
           <div class="col s6 l3">
              <h2 class="recientes">Módulos</h2>
           </div>
-          <?php $cont=0; ?>
+          <?php $cont=0; $mod=0; ?>
           @foreach($course->modules as $module)
           <?php $cont++; ?>
           <div class="col s12 l4 ">
@@ -39,14 +42,15 @@ Curso {{ $course->name }}
              </div>
           </div>
           @if($cont == 3 )
-          <div class="col s12 content" id="mod1">
-              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;">X</a>
-              <h6 class="cursoview">Módulo 1</h6><br/>
-              <h6 class="cursoview">Ajustando a la necesidad del paciente</h6><br/>
-              <video width="100%" controls>
-                  <source src="media/video.mp4" type="video/mp4">
-              </video>
-              <div>
+          <?php $cont = 0; $mod++; ?>
+          <div class="col s12 content" id="mod{{ $mod }}">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
+              <h6 class="cursoview">Módulo</h6><br/>
+              <h6 class="cursoview" id="name_module"></h6><br/>
+              <div id="content">
+
+              </div>
+              <div id="references">
 
               </div>
           </div>
@@ -55,13 +59,13 @@ Curso {{ $course->name }}
           @endforeach
           @if($course->modules->count() <= 3)
           <div class="col s12 content" id="mod1">
-              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;">X</a>
-              <h6 class="cursoview">Módulo 1</h6><br/>
-              <h6 class="cursoview">Ajustando a la necesidad del paciente</h6><br/>
-              <video width="100%" controls>
-                  <source src="media/video.mp4" type="video/mp4">
-              </video>
-              <div>
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
+              <h6 class="cursoview">Módulo</h6><br/>
+              <h6 class="cursoview" id="name_module"></h6><br/>
+              <div id="content">
+
+              </div>
+              <div id="references">
 
               </div>
           </div>
