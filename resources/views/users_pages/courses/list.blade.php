@@ -30,7 +30,7 @@ Cursos
             @if(Auth::check())
               <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
             @else
-              <a href="">Todos los cursos versión pública</a>
+              <a href="{{ route('welcome') }}">ver mas</a>
             @endif
               <hr class="line3"/>
           </div>

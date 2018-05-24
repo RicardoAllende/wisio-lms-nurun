@@ -3,7 +3,7 @@
 Route::get('/', 'HomeController@index')->name('welcome');	// Acá se pondrá la página inicial, con ruta a login
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
-Route::get('/registro', function () { return view('Users\check-valid-user'); } );
+Route::get('/registro', function () { return view('Users\check-valid-user'); } )->name('register');
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 /**
- * 
+ *
  * For visitors, they can see the public courses
  */
 Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');

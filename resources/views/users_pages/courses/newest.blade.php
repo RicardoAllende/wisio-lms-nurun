@@ -36,7 +36,7 @@
                 @if(Auth::check())
                   <a href="{{ route('student.own.courses',Auth::user()->ascription()->slug )}}">Ver todos los cursos</a>
                 @else
-                  <a href="{{ route('student.own.courses','invitado' )}}">Ver todos los cursos</a>
+                  <a href="{{ route('public.courses' )}}">Ver todos los cursos</a>
                 @endif
                   <hr class="line4"/>
               </div>
