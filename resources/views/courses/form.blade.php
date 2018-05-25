@@ -92,6 +92,11 @@
                             {!! Form::label('category_id', 'Categoría:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
                               <select name="category_id" id="category_id" required>
+                              @if(isset($course))
+                                <option value="{{ ($course->category != null) ? $course->category->id : '' }}">
+                                  {{ ($course->category != null) ? $course->category->name.' (actual)' : '' }}
+                                </option>
+                              @endif
                               @if(isset($categories))
                                 @forelse($categories as $category)
                                   <option value="{{$category->id}}" >{{ $category->name }}</option>

@@ -30,7 +30,7 @@
                             <h2 class="font-bold no-margins">
                                 {{$course->name}}
                             </h2>
-                            <small>{{ ($course->categories->first() != null) ? "Categoría ".$course->categories->first()->name : '' }}</small>
+                            <small>{{ ($course->category != null) ? "Categoría ".$course->category->name : '' }}</small>
                         </div>
                         <img src="{{$course->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
                     </div>

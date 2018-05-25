@@ -14,8 +14,8 @@
               <div class="col s6 l3">
                  <div class="card card-academia z-depth-0">
                     <div class="card-content">
-                       <span class="categoria-academia">{{ $course->categories->first()->name }}</span>
-                      <div class="iconcourse"><img src="{{ $course->categories->first()->getMainImgUrl() }}" class="responsive-img"></div>
+                       <span class="categoria-academia">{{ $course->category->name }}</span>
+                      <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                        <span class="titulo-academia"> {{ $course->name }} </span>
                        <div class="leer-mas">
                          @if(Auth::check())

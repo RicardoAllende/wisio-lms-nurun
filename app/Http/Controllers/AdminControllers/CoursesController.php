@@ -65,12 +65,6 @@ class CoursesController extends Controller
             $this->dropImgAttachments($course);
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
-        if ($request->filled('category_id')) {
-            $category_id = $request->input('category_id');
-            if (Category::find($category_id) != null){
-                CategoryCourse::Create(['category_id' => $category_id, 'course_id' => $course_id]);
-            }
-        }
         if ($request->filled('ascription_id')) {
             $ascription_id = $request->input('ascription_id');
             $ascription = Ascription::find($ascription_id);
@@ -139,6 +133,7 @@ class CoursesController extends Controller
         $course->minimum_score = $request->minimum_score;
         $course->is_public = $request->is_public;
         $course->slug = str_slug($request->slug);
+        $course->category_id = $request->category_id;
         if($request->filled('has_constancy')){
             $has_constancy = 1;
         }else{
@@ -240,6 +235,14 @@ class CoursesController extends Controller
         $course = Course::find($course_id);
         if($course == null) { return redirect()->route('courses.index'); }
         return view('courses/list-users', compact('course', 'users'));
+    }
+
+    public function searchCourses($search){
+        $categoryFilter = function($query) use ($search) {
+                $query->where('name', 'like', '%'.$search.'%');
+            }; // If the search includes the category
+        return Course::where('name', 'like', '%'.$search.'%')
+            ->orWhereHas('category', $categoryFilter)->with('category.attachments')->get()->toJson();
     }
 
 }

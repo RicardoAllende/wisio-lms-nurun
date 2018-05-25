@@ -22,7 +22,8 @@ class Course extends Model
         'enabled',
         'start_date',
         'end_date',
-        'is_public'
+        'is_public',
+        'category_id'
     ];
 
     public function likes(){
@@ -108,8 +109,8 @@ class Course extends Model
     	return $this->hasMany('App\Resource');
     }
 
-    public function categories(){
-    	return $this->belongsToMany('App\Category');
+    public function category(){
+    	return $this->belongsTo('App\Category');
     }
 
     public function modules(){

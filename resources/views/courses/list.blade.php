@@ -44,8 +44,8 @@
                                 <td>{{ $course->description }}</td>
                                 <td>{{ $course->start_date }}</td>
                                 <td>{{ $course->end_date }}</td>
-                                @if($course->categories->count() > 0 )
-                                  <td>{{ $course->categories->first()->name }}</td>
+                                @if($course->category != null )
+                                  <td>{{ $course->category->name }}</td>
                                 @else
                                   <td>Sin categoría</td>
                                 @endif

@@ -64,6 +64,11 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
 	});
 
+	Route::get('/search-experts/{search}', 'AdminControllers\ExpertsController@searchByName')->name('search.experts');
+
+	// Search by name or by category
+	Route::get('/search-courses/{search}', 'AdminControllers\CoursesController@searchCourses')->name('search.courses');
+
 	Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
 		Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
 		Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug

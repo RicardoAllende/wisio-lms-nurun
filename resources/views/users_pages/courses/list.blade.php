@@ -14,8 +14,8 @@ Cursos
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
-          <span class="categoria-academia">{{ $course->categories->first()->name }}</span>
-         <div class="iconcourse"><img src="{{ $course->categories->first()->getMainImgUrl() }}" class="responsive-img"></div>
+          <span class="categoria-academia">{{ $course->category->name }}</span>
+         <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
           <div class="titulo-academia2"> {{ $course->name }}</div>
            <div class="modulos">{{ $course->modules->count() }} módulos</div>
               <div  class="moduloslista valign-wrapper">

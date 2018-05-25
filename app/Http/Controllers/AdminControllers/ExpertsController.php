@@ -205,4 +205,8 @@ class ExpertsController extends Controller
         return back();
     }
 
+    public function searchByName($search){
+        return Expert::where('name', 'like', '%'.$search.'%')->with(['specialties', 'attachments'])->get()->toJson();
+    }
+
 }

@@ -19,7 +19,6 @@ use App\RoleUser;
 use App\Ascription;
 use App\AscriptionUser;
 use App\Category;
-use App\CategoryCourse;
 use App\AscriptionCourse;
 use App\EvaluationUser;
 use App\CourseUser;
@@ -60,14 +59,11 @@ class TablesSeeder extends Seeder
         $specialty2 = Specialty::create(['name' => 'Cardiólogo']);
         $specialty3 = Specialty::create(['name' => 'Cirujano plástico']);
         $course = Course::create(['name' => 'Insomnio', 'slug' => 'insomnio', 'description' => 'Ejemplo de texto de descripción', 
-            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
+            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1, 'category_id' => $category->id]);
         $course2 = Course::create(['name' => 'Diabetes', 'slug' => 'diabetes', 'description' => 'Ejemplo de texto de descripción', 
-            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01']);
+            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'category_id' => $category2->id]);
         $course3 = Course::create(['name' => 'Hipertensión', 'slug' => 'hipertension', 'description' => 'Ejemplo de texto de descripción', 
-            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1]);
-        CategoryCourse::create(['category_id' => $category->id, 'course_id' => $course->id]);
-        CategoryCourse::create(['category_id' => $category2->id, 'course_id' => $course2->id]);
-        CategoryCourse::create(['category_id' => $category3->id, 'course_id' => $course3->id]);
+            'start_date' => '2009-10-04', 'end_date'=>'2018-04-01', 'has_constancy' => 1, 'category_id' => $category3->id]);
         AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course->id]);
         AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course2->id]);
         AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course3->id]);

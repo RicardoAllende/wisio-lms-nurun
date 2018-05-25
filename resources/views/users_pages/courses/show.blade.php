@@ -10,7 +10,7 @@ Curso {{ $course->name }}
 <div class="row pad-left3">
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
-            <span class="categoria-modulos">{{ $course->categories->first()->name }}</span>
+            <span class="categoria-modulos">{{ $course->category->name }}</span>
             <span class="icon-cardiologia iconmodule"></span>
             </div>
 
