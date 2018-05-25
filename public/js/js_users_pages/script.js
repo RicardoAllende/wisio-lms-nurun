@@ -68,7 +68,7 @@ for (i = 0; i < coll.length; i++) {
 
 function openModule(){
   content.style.display = 'block';
-  content.style.maxHeight = content.scrollHeight + "px";
+  content.style.maxHeight = content.scrollHeight + 60 + "px";
 }
 
 function closeModule(){
@@ -100,32 +100,51 @@ function getResourcesModules(idMod){
 }
 
 function printResources(resources){
+  var refs = '';
+  $.each(resources[0].references_module, function(index, value) {
+
+      refs += (index+1)+". " + value.content + '<br>';
+  })
   if(resources.length > 1){
+    var arrVideo = [];
+    var arrPdf = [];
+    var var contendiv = '';
+    $.each(resources, function(index, value){
+      if(value.type == "video"){
+        arrVideo.push(value.url);
+      } else if(value.type == "pdf"){
+        arrPdf.push(value.url);
+      }
+    });
+
+    // if(arrVideo.length > 0){
+    //   contendiv += '<video width="100%" controls>';
+    //   for(i=0;arrVideo.length-1;i++){
+    //     contendiv += '<source src="/'+arrVideo[i]+'" type="video/mp4">'
+    //   }
+    //   contendiv += '</video>';
+    // }
+    //
+    // $("#"+content.id+" #content").html(contendiv);
+
 
   } else {
-    var refs = '';
-    var content = '';
-    $("#"+content.id+" #name_module").html(resources[0]['name_module']);
 
+    var contendiv = '';
     switch(String(resources[0]['type'])) {
       case 'video':
-          content += '<video width="100%" controls><source src="'+resources[0]['url']+'" type="video/mp4"></video>';
+          contendiv += '<video width="100%" controls><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
         break;
       case 'pdf':
 
         break;
     }
-    console.log(content);
-    $("#"+content.id+" #content").html(content);
-    $.each(resources[0].references_module, function(index, value) {
-
-        refs += (index+1)+". " + value.content + '<br>';
-    })
-    $("#"+content.id+" #references").html(refs);
-
-    openModule();
+    $("#"+content.id+" #content").html(contendiv);
 
   }
 
+  $("#"+content.id+" #name_module").text(resources[0]['name_module']);
+  $("#"+content.id+" #references").html(refs);
+  openModule();
 
 }

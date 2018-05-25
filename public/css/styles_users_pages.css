@@ -263,6 +263,12 @@ nav a {
     display: inline-block;
     padding-right: 10px;
 }
+
+#references{
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
 #mobile-demo {
     margin-top: 98px;
 }
@@ -530,6 +536,7 @@ nav a {
     border: 1px solid #8F6EAA;
     display: none;
     margin-left: .8rem !important;
+    padding-bottom: 1rem !important;
 
 
 }

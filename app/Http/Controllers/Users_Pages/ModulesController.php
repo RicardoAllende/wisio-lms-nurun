@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users_Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Module;
+use Illuminate\Support\Facades\Storage;
 
 class ModulesController extends Controller
 {
