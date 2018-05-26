@@ -90,7 +90,7 @@ class TablesSeeder extends Seeder
         $tag1 = Tag::create(['tag'=>'Sueño']);
         $tag2 = Tag::create(['tag'=>'Glándulas']);
         $tag3 = Tag::create(['tag'=>'Corazón']);
-        
+        /*
         $module1 = Module::create(['name' => 'Ajustando las necesidades del cliente', 'description' => 'Este curso ...', 'course_id' => $course->id]);
         $module2 = Module::create(['name' => 'Estadísticas y necesidades de los pacientes', 'description' => 'Este curso ...', 'course_id' => $course->id]);
         $module3 = Module::create(['name' => 'Caso clínico', 'description' => 'Este curso ...', 'course_id' => $course2->id]);
@@ -98,10 +98,7 @@ class TablesSeeder extends Seeder
         $module5 = Module::create(['name' => 'Introducción', 'description' => 'Este curso ...', 'course_id' => $course3->id]);
         $module6 = Module::create(['name' => 'Hipoglucemia en contexto', 'description' => 'Este curso ...', 'course_id' => $course3->id]);
         
-        // Relations
-            CourseTag::create(['tag_id'=> $tag1->id, 'course_id'=>$course->id]);
-            CourseTag::create(['tag_id'=> $tag2->id, 'course_id'=>$course2->id]);
-            CourseTag::create(['tag_id'=> $tag3->id, 'course_id'=>$course3->id]);
+
         
         // Evaluations
             $evaluation1 = Evaluation::create(['module_id' => $module1->id, 'name'=>'Arsenal terapéutico', 'type' => 'f']);
@@ -142,7 +139,7 @@ class TablesSeeder extends Seeder
             Option::create(['question_id' => $question8->id, 'content' => 'Una opción adecuada', 'score' => 1]);
             Option::create(['question_id' => $question8->id, 'content' => 'Algo incorrecto', 'score' => 0]);
             Option::create(['question_id' => $question8->id, 'content' => 'Otra cosa fuera de lugar', 'score' => 0]);
-
+        */
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user1->id]);
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user2->id]);
         RecommendedCourse::create(['course_id'=>$course->id, 'user_id'=>$user3->id]);
@@ -154,10 +151,10 @@ class TablesSeeder extends Seeder
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty2->id]);
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty3->id]);
 
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module1->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
+        // ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module1->id]);
+        // ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
+        // ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
+        // ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
 
         // $course->saveAdvanceForAllUsers();
         // $course2->saveAdvanceForAllUsers();
@@ -178,7 +175,7 @@ class TablesSeeder extends Seeder
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(3)->enrolUser($u->id);
         });
-
+        /*
         Reference::create([
             'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
             'module_id' => $module1->id
@@ -207,6 +204,10 @@ class TablesSeeder extends Seeder
             'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
             'module_id' => $module6->id
             ]);
+            */
+
+
+
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 1]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 2]);
         // ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 3]);

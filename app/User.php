@@ -43,11 +43,11 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('status', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
     public function modules(){
-        return $this->belongsToMany('App\Module')->withPivot('status', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Module')->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
     public function progressInModule($module_id){
@@ -136,7 +136,20 @@ class User extends Authenticatable
     // }
 
     public function evaluations(){
-        return $this->belongsToMany('App\Evaluation')->withPivot('status', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Evaluation')->withPivot('id', 'finished', 'score')->withTimestamps();
+    }
+
+    public function finalEvaluations(){
+        return $this->evaluations->where('type', config('constants.evaluations.final'));
+    }
+
+    public function diagnosticEvaluations(){
+        return $this->evaluations->where('type', config('constants.evaluations.diagnostic'));
+    }
+
+    public function progressInEvaluation($evaluation_id){
+        $evaluation = Evaluation::find($evaluation_id);
+        if ($evaluation == null) { return "Evaluation doesn´t exist"; }
     }
 
     public function ascriptions()
@@ -268,5 +281,67 @@ class User extends Authenticatable
         }
         return $ascription->courses->contains($course_id);
     }
+
+    public function startEvaluation($evaluation_id){
+        $evaluation = Evaluation::find($evaluation_id);
+        $this->endPreviousAttempts($evaluation_id);
+        if( $evaluation == null ) { return false; }
+        /** Check how many times the user has done that evaluation */
+        // $finalEvaluations = $this->finalEvaluations();
+        $tries = $this->evaluations->where('id', $evaluation_id)->count();
+        if($evaluation->maximum_attempts > $tries){ // A valid attempt
+            // $pivot = $this->evaluations()->attach($evaluation_id);
+            $pivot = EvaluationUser::create(['user_id' => $this->id, 'evaluation_id' => $evaluation_id]);
+            return $pivot; // With this pivot (id), the user can save his advance in the evaluation
+        }else{
+            return false;
+        }
+    }
+
+    public function endPreviousAttempts($evaluation_id){
+        // get evaluationsIncompleted
+        // loop each evaluation Incomplete
+        //     if CheckTime() // no longer than 2 hours or something strtotime() - strtotime
+        //         finish
+        // return 
+    }
+
+    public function finishEvaluation($idTry, $score){
+        try{
+            $pivot = EvaluationUser::find($idTry);
+            $pivot->finished = 1;
+            $pivot->score = $score;
+            $pivot->save();
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
+    }
+    
+    /** Function for the controller */
+    // public function gradeEvaluation(Request $request){
+    //     $attempt_id = $request->attempt_id;
+    //     $user_id = $request->user_id;
+    //     $evaluation_id = $request->evaluation_id;
+    //     $evaluation = Evaluation::find($evaluation_id);
+    //     if($evaluation == null){
+    //         // return back(); // Error
+    //     }
+    //     $user = User::find($user_id);
+    //     if($user == null){
+    //         // return back(); // Error
+    //     }
+    //     $questions = $evaluation->questions;
+    //     $summatory = 0;
+    //     foreach ($questions as $question) {
+    //         $id = "question".$question->id;
+    //         if($request->filled($id)){
+    //             $optionGiven = $request->input($id);
+    //             $summatory += $question->scoreOfQuestion($optionGiven);
+    //         }
+    //     }
+    //     $score = $summatory / $questions->count();
+    //     $user->finishEvaluation($attempt_id, $evaluation_id);
+    // }
 
 }

@@ -26,6 +26,12 @@ class Course extends Model
         'category_id'
     ];
 
+    protected $appends = ['img'];
+
+    public function getImgAttribute(){
+        return $this->getMainImgUrl();
+    }
+
     public function likes(){
         return RecommendedCourse::where('course_id', $this->id)->count();
     }
@@ -123,7 +129,7 @@ class Course extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return 'https://www.capacityacademy.com/uploads/6/4/8/3/6483237/_________667043846.png'; } // Default Image
+        if($img == null){ return config('constants.default_images.course'); } // Default Image
         return "/".$img->url;
     }
 

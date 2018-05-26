@@ -28,4 +28,16 @@ class Question extends Model
             return false;
         }
     }
+
+    public function scoreOfQuestion($option_given){
+        $option = Option::find($option_given);
+        if($option == null) { return 0;}
+        $options = $this->options;
+        if($options->contains($option_given)){
+            return $option->score;
+        }else{
+            return 0;
+        }
+    }
+
 }

@@ -10,6 +10,12 @@ class Category extends Model
 
     protected $fillable = ['name','description'];
 
+    protected $appends = ['img'];
+
+    public function getImgAttribute(){
+        return $this->getMainImgUrl();
+    }
+    
     public function courses()
     {
     	return $this->hasMany('App\Course');
@@ -29,7 +35,7 @@ class Category extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return 'http://1.bp.blogspot.com/-rGg7seQMfgY/T526kIHkhkI/AAAAAAAAADU/efzshZ8OsEY/s1600/concepto-robado.gif'; }
+        if($img == null){ return config('constants.default_images.category'); }
         return "/".$img->url;
     }
 

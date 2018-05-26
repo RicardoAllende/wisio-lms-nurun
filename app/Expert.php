@@ -12,6 +12,8 @@ class Expert extends Model
         'summary'
     ];
 
+    protected $appends = ['img'];
+
     public function modules(){
     	return $this->belongsToMany('App\Module');
     }
@@ -22,7 +24,7 @@ class Expert extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return 'http://webapplayers.com/inspinia_admin-v2.6/img/a4.jpg'; }
+        if($img == null){ return config('constants.default_images.expert'); }
         return "/".$img->url;
     }
 
@@ -95,6 +97,10 @@ class Expert extends Model
             return true;
         }
         return false;
+    }
+
+    public function getImgAttribute(){
+        return $this->getMainImgUrl();
     }
 
 }

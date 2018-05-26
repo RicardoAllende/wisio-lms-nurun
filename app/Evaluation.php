@@ -14,7 +14,7 @@ class Evaluation extends Model
         'description',
         'minimum_score',
         'maximum_score',
-        'maximum_attemps',
+        'maximum_attempts',
         'status',
         'previous'
     ];
@@ -40,7 +40,7 @@ class Evaluation extends Model
 
     public function getMainImgUrl(){
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
-        if($img == null){ return 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png'; }
+        if($img == null){ return config('constants.default_images.evaluation'); }
         return "/".$img->url;
     }
 

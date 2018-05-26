@@ -60,7 +60,6 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/users','AdminControllers\UsersController');
 		Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
 		Route::resource('/options','AdminControllers\OptionsController');
-		Route::resource('/evaluations','AdminControllers\EvaluationsController');
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
 	});
 

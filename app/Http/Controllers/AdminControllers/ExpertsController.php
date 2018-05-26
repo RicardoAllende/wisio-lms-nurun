@@ -206,7 +206,7 @@ class ExpertsController extends Controller
     }
 
     public function searchByName($search){
-        return Expert::where('name', 'like', '%'.$search.'%')->with(['specialties', 'attachments'])->get()->toJson();
+        return Expert::where('name', 'like', '%'.$search.'%')->with(['specialties'])->get()->toJson();
     }
 
 }

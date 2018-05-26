@@ -242,7 +242,7 @@ class CoursesController extends Controller
                 $query->where('name', 'like', '%'.$search.'%');
             }; // If the search includes the category
         return Course::where('name', 'like', '%'.$search.'%')
-            ->orWhereHas('category', $categoryFilter)->with('category.attachments')->get()->toJson();
+            ->orWhereHas('category', $categoryFilter)->with('category')->get()->toJson();
     }
 
 }
