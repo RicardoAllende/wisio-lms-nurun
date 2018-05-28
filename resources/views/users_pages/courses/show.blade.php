@@ -11,7 +11,7 @@ Curso {{ $course->name }}
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
-            <span class="icon-cardiologia iconmodule"></span>
+            <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
             </div>
 
           <div class="col s6 l9">
@@ -25,7 +25,7 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
-                  <div class="card-content collapsiblemod" data-id="1" data-module="{{ $module->id }}">
+                  <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}">
                   <div class="row valign-wrapper">
                       <div class="col s4">
                         <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
@@ -74,6 +74,7 @@ Curso {{ $course->name }}
 
 @stop
 @section('extrajs')
+
 <script>
   cambiarItem("cursos");
 </script>
