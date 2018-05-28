@@ -59,24 +59,22 @@ class TablesSeeder extends Seeder
         $specialty2 = Specialty::create(['name' => 'Cardiólogo']);
         $specialty3 = Specialty::create(['name' => 'Cirujano plástico']);
 
-        $course1 = Course::create(['name' => 'PAEC Insomnio', 'slug' => 'insomnio', 'has_constancy' => 1]);
-        $course2 = Course::create(['name' => 'PAEC Diabetes', 'slug' => 'diabetes', 'has_constancy' => 1]);
-        $course3 = Course::create(['name' => 'PAEC Hipertensión', 'slug' => 'hipertension', 'has_constancy' => 0]);
-        $course4 = Course::create(['name' => 'PAEC Trombosis', 'slug' => 'trombosis', 'has_constancy' => 0]);
-        $course5 = Course::create(['name' => 'PAEC Lipid Leaders', 'slug' => 'lipid-leader', 'has_constancy' => 0]);
-        $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0]);
+        $course1 = Course::create(['name' => 'PAEC Insomnio', 'slug' => 'insomnio', 'has_constancy' => 1, 'category_id' => $category->id]);
+        $course2 = Course::create(['name' => 'PAEC Diabetes', 'slug' => 'diabetes', 'has_constancy' => 1, 'category_id' => $category->id]);
+        $course3 = Course::create(['name' => 'PAEC Hipertensión', 'slug' => 'hipertension', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course4 = Course::create(['name' => 'PAEC Trombosis', 'slug' => 'trombosis', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course5 = Course::create(['name' => 'PAEC Lipid Leaders', 'slug' => 'lipid-leader', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
         
-        // AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course1->id]);
-        // AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course2->id]);
-        // AscriptionCourse::create(['ascription_id' => $ascription->id, 'course_id' => $course3->id]);
-        // AscriptionCourse::create(['ascription_id' => $ascription2->id, 'course_id' => $course2->id]);
-        // AscriptionCourse::create(['ascription_id' => $ascription2->id, 'course_id' => $course3->id]);
-
-
-
+        $ascription->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
+        /** Aún no están los cursos de las adscripciones */
+        $ascription2->courses()->attach([$course1->id, $course4->id]);
+        $ascription2->courses()->attach([$course5->id, $course6->id]);
+        $ascription2->courses()->attach([$course3->id, $course1->id]);
+        $ascription2->courses()->attach([$course2->id]);
+        
         $user = User::create(['email'=>'soporte@paecmexico.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Christian', 'lastname'=>'Huerta', 'role_id' => $admin->id]);
-
+        'firstname'=>'Christian', 'lastname'=>'George', 'role_id' => $admin->id]);
         $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Juan', 'lastname'=>'Huerta', 'role_id' => $admin->id]);
         $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'password'=>config('constants.default_password'),
