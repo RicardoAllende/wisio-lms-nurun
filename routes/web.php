@@ -86,6 +86,10 @@ Route::group(['middleware' => ['auth']], function () {
  * For visitors, they can see the public courses
  */
 Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
+
+
+// Ejemplo de evaluaciones
+Route::get('/evaluacion/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation');
 // Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
 // Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
 // Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
