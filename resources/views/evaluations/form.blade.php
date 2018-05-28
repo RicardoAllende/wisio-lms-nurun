@@ -83,22 +83,16 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              {!! Form::label('minimum_score', 'Calificación aprobatoria mínima:',['class'=>'control-label col-sm-2']); !!}
+                              {!! Form::label('maximum_attempts', 'Cantidad de intentos máximos:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                               {!! Form::number('minimum_score',null,['class'=>'form-control','placeholder'=>'Calificación aprobatoria mínima', 'required' => '', 'step'=>'0.1']) !!}
-                              </div>
-                            </div>
-                            <div class="form-group">
-                              {!! Form::label('maximum_attemps', 'Cantidad de intentos máximos:',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10">
-                               {!! Form::number('maximum_attemps',null,['class'=>'form-control','min' => 0, 'placeholder'=>'Cantidad de intentos máximos', 'required' => '']) !!}
+                               {!! Form::number('maximum_attempts',null,['class'=>'form-control','min' => 0, 'placeholder'=>'Cantidad de intentos máximos', 'required' => '']) !!}
                               </div>
                             </div>
 
                             <div class="form-group">
                               {!! Form::label('type_label', 'Tipo:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
-                              {!! Form::select('type',[''=>'Seleccione una opcion','f'=>'Examen','d'=>'Diagnóstico'],null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::select('type',[''=>'Seleccione una opcion', config('constants.evaluations.diagnostic') =>'Examen', config('constants.evaluations.final') =>'Diagnóstico'],null,['class'=>'form-control', 'required'=>'']) !!}
                               </div>
                             </div>
                              <div class="form-group"> 

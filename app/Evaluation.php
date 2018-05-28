@@ -8,14 +8,13 @@ class Evaluation extends Model
 {
     protected $fillable = [
         'module_id',
-        'course_id',
-        'name', 
-        'type', 
+        'ascription_id',
+        'name',
+        'type',
         'description',
         'minimum_score',
         'maximum_score',
         'maximum_attempts',
-        'status',
         'previous'
     ];
     public function module(){
@@ -52,16 +51,12 @@ class Evaluation extends Model
         }
     }
 
-    public function attachUser($user_id, $score, $status){
-        if(User::find($user_id) != null){
-            $this->users()->attach($user_id, ['score' => $score, 'status' => $status]);
+    public function isFinalEvaluation(){
+        if ($this->type == config('constants.evaluations.final')) {
+            return true;
+        } else {
+            return false;
         }
     }
-
-    // public function enrolUser($user_id){
-    //     if( ! $this->users->contains($user_id)){
-    //         $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-    //     }
-    // }
 
 }

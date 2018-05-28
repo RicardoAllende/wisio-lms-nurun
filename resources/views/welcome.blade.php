@@ -77,18 +77,26 @@
                 </div>
             @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+            <div class="row ">
+                {!! Form::open(['route' => 'request.login','class'=>'form-horizontal','method' => 'post','enctype'=>'multipart/form-data']) !!}
+                    <div class="form-group">
+                        {!! Form::label('email_label', 'Email:',['class'=>'control-label col-sm-2']); !!}
+                        <div class="col-sm-10">
+                            {!! Form::text('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'required'=>'']) !!}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
+                    <div class="col-sm-10">
+                        {!! Form::password('password',['class'=>'form-control','placeholder'=>'Contraseña']) !!}
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            {!! Form::submit('Login',['class'=>'btn deep-purple lighten-3','id'=>'guardar']) !!}
+                        </div>
+                    </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </body>

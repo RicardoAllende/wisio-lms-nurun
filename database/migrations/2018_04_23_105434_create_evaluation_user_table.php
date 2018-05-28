@@ -18,7 +18,6 @@ class CreateEvaluationUserTable extends Migration
             $table->integer('evaluation_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->float('score', 10,5)->nullable();
-            $table->boolean('finished')->default(false);
             $table->foreign('evaluation_id')->references('id')->on('evaluations')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

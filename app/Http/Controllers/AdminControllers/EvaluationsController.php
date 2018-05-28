@@ -96,8 +96,7 @@ class EvaluationsController extends Controller
         if($evaluation == null){ return redirect()->route('evaluations.index'); }
         $evaluation->name = $request->name;
         $evaluation->description = $request->description;
-        $evaluation->minimum_score = $request->minimum_score;
-        $evaluation->maximum_attemps = $request->maximum_attemps;
+        $evaluation->maximum_attempts = $request->maximum_attempts;
         $evaluation->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');

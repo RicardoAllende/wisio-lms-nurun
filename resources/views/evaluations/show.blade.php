@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-sm-8" style="bottom: 50%;">
                 <br><br><br>
-                    <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} Intentos permitidos: {{ $evaluation->maximum_attemps }}</p>
+                    <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} Intentos permitidos: {{ $evaluation->maximum_attempts }}</p>
                     <p>Calificación mínima: {{ $evaluation->minimum_score }}</p>
                     <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
                     <span>Contiene {{ $evaluation->questions->count() }} preguntas</span> |

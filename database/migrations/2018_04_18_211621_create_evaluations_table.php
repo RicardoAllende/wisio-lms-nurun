@@ -18,8 +18,6 @@ class CreateEvaluationsTable extends Migration
             $table->string('name');
             $table->string('type', 10);
             $table->string('description')->nullable();
-            $table->float('minimum_score', 10, 5)->default(8);
-            $table->float('maximum_score', 10, 5)->default(10);
             $table->integer('maximum_attempts')->default(2);
             /**
              * An evaluation can belong to a module or ascription in the v2,

@@ -67,12 +67,19 @@ class TablesSeeder extends Seeder
         $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
         
         $ascription->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
-        /** Aún no están los cursos de las adscripciones */
+        /** Aún no están migrados los cursos de las adscripciones */
         $ascription2->courses()->attach([$course1->id, $course4->id]);
-        $ascription2->courses()->attach([$course5->id, $course6->id]);
-        $ascription2->courses()->attach([$course3->id, $course1->id]);
-        $ascription2->courses()->attach([$course2->id]);
+        $ascription3->courses()->attach([$course3->id, $course1->id]);
+        $ascription4->courses()->attach([$course3->id, $course1->id]);
+        $ascription5->courses()->attach([$course3->id, $course1->id]);
+        $ascription6->courses()->attach([$course3->id, $course1->id]);
+        $ascription7->courses()->attach([$course3->id, $course1->id]);
         
+
+        $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
+        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
+        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
         $user = User::create(['email'=>'soporte@paecmexico.com', 'password'=>config('constants.default_password'),
         'firstname'=>'Christian', 'lastname'=>'George', 'role_id' => $admin->id]);
         $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
@@ -81,10 +88,7 @@ class TablesSeeder extends Seeder
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'role_id' => $admin->id]);
         $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Ricardo', 'lastname'=>'Allende', 'role_id' => $admin->id]);
-        $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
-        $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        
         $course1->enrolUser($student->id);
         $course2->enrolUser($student2->id);
 

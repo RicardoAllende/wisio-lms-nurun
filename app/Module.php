@@ -37,6 +37,18 @@ class Module extends Model
         }
     }
 
+    public function finalEvaluations(){
+        return $this->hasMany('App\Evaluation')->where('type', config('constants.evaluations.final'));
+    }
+
+    public function hasFinalEvaluation(){
+        if ($this->evaluations->where('type', config('constants.evaluations.final'))->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function hasResources(){
         if ($this->resources->count() > 0) {
             return true;
@@ -120,15 +132,5 @@ class Module extends Model
         if(User::find($user_id) == null ){ return false; }
         $this->users()->attach($user_id, ['score' => $avg, 'status' => $status]);
     }
-
-    // public function enrolUser($user_id){
-    //     if( ! $this->users->contains($user_id)){
-    //         $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-    //     }
-    //     $evaluations = $this->evaluations;
-    //     foreach($evaluations as $evaluation){
-    //         $evaluation->enrolUser($user_id);
-    //     }
-    // }
 
 }

@@ -161,25 +161,28 @@ class Course extends Model
 
     public function attachUser($user_id, $avg, $status){
         if(User::find($user_id) == null){ return false; }
+        if($this->users->contains($user_id)){
+            $this->users()->detach($user_id);
+        }
         $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
     }
 
-    public function makeAttempt($user_id){
-        $this->dropPendientAdvances($user_id);
-        if(User::find($user_id)){ return false; }
-        $pivots = CourseUser::where('course_id', $this->id)->where('status', config('constants.status.not_attemped'))->get();
-        foreach($pivots as $pivot){
-            $pivot->delete();
-        }
-    }
+    // public function makeAttempt($user_id){
+    //     $this->dropPendientAdvances($user_id);
+    //     if(User::find($user_id)){ return false; }
+    //     $pivots = CourseUser::where('course_id', $this->id)->where('status', config('constants.status.not_attemped'))->get();
+    //     foreach($pivots as $pivot){
+    //         $pivot->delete();
+    //     }
+    // }
 
-    public function dropPendientAdvances($user_id){
-        $relations = CourseUser::where('course_id', $this->id)->where('user_id', $user_id)
-            ->where('status', config('constants.status.not_attemped'))->get();
-        foreach($relations as $relation){
-            $relation->delete();
-        }
-    }
+    // public function dropPendientAdvances($user_id){
+    //     $relations = CourseUser::where('course_id', $this->id)->where('user_id', $user_id)
+    //         ->where('status', config('constants.status.not_attemped'))->get();
+    //     foreach($relations as $relation){
+    //         $relation->delete();
+    //     }
+    // }
 
     
     public function enrolUser($user_id){
@@ -189,14 +192,6 @@ class Course extends Model
             $this->users()->attach($user_id);
         }
         return true;
-        // $this->attachUser($user_id, 0, config('constants.status.not_attemped'));
-        // $modules = $this->modules;
-        // foreach($modules as $module){
-        //     $module->enrolUser($user_id);
-        // }
-        // if( ! $this->users->contains($user_id)){
-        //     $this->attachUser($user_id, 0, 'confi');
-        // }
     }
 
     public function calculateAvgForUser($user_id){
@@ -205,19 +200,23 @@ class Course extends Model
         if($user == null){ return false; }
         $avg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
             ->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
-        if ($avg >= $this->minimum_score) {
-            $status = config('constants.status.passed');
-        } else {
-            $status = config('constants.status.passed');
-        }
-        $this->attachUser($user_id, $avg, $status); //  ->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
+        // if ($course->isComplete($user_id)) { // Función pendiente
+        //     $status = config('constants.status.completed');
+        // } else {
+        //     $status = config('constants.status.incomplete');
+        // }
+        $this->attachUser($user_id, $avg, config('constants.status.incomplete'));
         return true;
     }
 
-    public function saveAdvanceForAllUsers(){
-        $users = $this->enrolledUsers;
-        foreach ($users as $user) {
-            $this->calculateAvgForUser($user->id);
-        }
+    public function numModules(){
+        return $this->modules->count();
     }
+
+    // public function saveAdvanceForAllUsers(){
+    //     $users = $this->enrolledUsers;
+    //     foreach ($users as $user) {
+    //         $this->calculateAvgForUser($user->id);
+    //     }
+    // }
 }

@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Module')->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
+    public function completedModules(){
+        return $this->belongsToMany('App\Module')->wherePivot('status', config('constants.status.completed'))
+            ->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
     public function progressInModule($module_id){
         foreach($this->courses as $course){
             foreach($course->modules as $module){
@@ -74,12 +79,14 @@ class User extends Authenticatable
         return $ascription->courses;
     }
 
-    // public function dissociateAllAscriptions(){
-    //     $relations = AscriptionUser::where('user_id', $this->id)->get();
-    //     foreach($relations as $relation){
-    //         $relation->delete();
-    //     }
-    // }
+    public function hasAvailableEvaluation($evaluation_id){
+        foreach($this->modules as $module){
+            if ($module->evaluations->contains($evaluation_id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function detachNormalAscriptions(){
         $ascriptions = $this->normalAscriptions();
@@ -96,12 +103,6 @@ class User extends Authenticatable
         return true;
     }
 
-    // public function enrolToAscription($ascription_id){
-    //     $ascription = Ascription::find($ascription_id);
-    //     if($ascription == null) { return false; }
-    //     AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $this->id]);
-    // }
-
     public function belongsToAscription($ascription_id){
         $rows = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $this->id)->count();
         if($rows > 0){
@@ -111,32 +112,8 @@ class User extends Authenticatable
         }
     }
 
-    // public function stateInCourse($course_id){
-    //     if (Course::find($course_id) != null) {
-    //         $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
-    //         if($pivot == null){
-    //             return false;
-    //         }
-    //         return $pivot->status;
-    //     }else{
-    //         return false;
-    //     }
-    // }
-
-    // public function dissociateFromAllAscriptions(){
-    //     $relations = AscriptionUser::where('user_id', $this->id);
-    //     foreach($relations as $relation){
-    //         try{
-
-    //         }catch(\Illuminate\Database\QueryException $e){
-                
-    //         }
-    //         $relation->delete();
-    //     }
-    // }
-
     public function evaluations(){
-        return $this->belongsToMany('App\Evaluation')->withPivot('id', 'finished', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Evaluation')->withPivot('id', 'score')->withTimestamps();
     }
 
     public function finalEvaluations(){
@@ -282,66 +259,55 @@ class User extends Authenticatable
         return $ascription->courses->contains($course_id);
     }
 
-    public function startEvaluation($evaluation_id){
+    public function gradeEvaluation($evaluation_id, $score){
         $evaluation = Evaluation::find($evaluation_id);
-        $this->endPreviousAttempts($evaluation_id);
-        if( $evaluation == null ) { return false; }
-        /** Check how many times the user has done that evaluation */
-        // $finalEvaluations = $this->finalEvaluations();
-        $tries = $this->evaluations->where('id', $evaluation_id)->count();
+        if ($evaluation == null) { return false; }
+        if($this->hasAnotherAttemptInEvaluation($evaluation_id) == false ){ return false; }
+        return EvaluationUser::create(['user_id' => $this->id, 'evaluation_id' => $evaluation_id]);
+    }
+
+    private function numTriesInEvaluation($evaluation_id){
+        return $this->evaluations->where('id', $evaluation_id)->count();
+    }
+
+    // If the user has another opportunity to do the evaluation
+    public function hasAnotherAttemptInEvaluation($evaluation_id){
+        $evaluation = Evaluation::find($evaluation_id);
+        if ($evaluation == null) { return false; }
+        $tries = $this->numTriesInEvaluation($evaluation_id);
         if($evaluation->maximum_attempts > $tries){ // A valid attempt
-            // $pivot = $this->evaluations()->attach($evaluation_id);
-            $pivot = EvaluationUser::create(['user_id' => $this->id, 'evaluation_id' => $evaluation_id]);
-            return $pivot; // With this pivot (id), the user can save his advance in the evaluation
+            return true;
         }else{
             return false;
         }
     }
 
-    public function endPreviousAttempts($evaluation_id){
-        // get evaluationsIncompleted
-        // loop each evaluation Incomplete
-        //     if CheckTime() // no longer than 2 hours or something strtotime() - strtotime
-        //         finish
-        // return 
-    }
-
-    public function finishEvaluation($idTry, $score){
-        try{
-            $pivot = EvaluationUser::find($idTry);
-            $pivot->finished = 1;
-            $pivot->score = $score;
-            $pivot->save();
-            return true;
-        }catch(Exception $e){
+    public function setModuleComplete($module_id){
+        $module = Module::find($module_id);
+        if ($module == null) { return; }
+        if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
             return false;
         }
+        if($this->modules->contains($module_id)){
+            $this->modules()->detach($module_id);
+            ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+        }
+        $this->modules()->attach($module_id, ['status'=>config('constants.status.completed')]);
+        return true;
     }
-    
-    /** Function for the controller */
-    // public function gradeEvaluation(Request $request){
-    //     $attempt_id = $request->attempt_id;
-    //     $user_id = $request->user_id;
-    //     $evaluation_id = $request->evaluation_id;
-    //     $evaluation = Evaluation::find($evaluation_id);
-    //     if($evaluation == null){
-    //         // return back(); // Error
-    //     }
-    //     $user = User::find($user_id);
-    //     if($user == null){
-    //         // return back(); // Error
-    //     }
-    //     $questions = $evaluation->questions;
-    //     $summatory = 0;
-    //     foreach ($questions as $question) {
-    //         $id = "question".$question->id;
-    //         if($request->filled($id)){
-    //             $optionGiven = $request->input($id);
-    //             $summatory += $question->scoreOfQuestion($optionGiven);
-    //         }
-    //     }
-    //     $score = $summatory / $questions->count();
-    //     $user->finishEvaluation($attempt_id, $evaluation_id);
-    // }
+
+    public function hasCompletedTheModule($module_id){
+        $this->modules->contains($module_id);
+    }
+
+    public function completedModulesOfCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        return $this->completedModules->whereIn('id', $course->modules->pluck('id'))->count();
+    }
+
+    public function evaluationAttempts($evaluation_id){
+        return $this->evaluations->where('id', $evaluation_id)->count();
+    }
 
 }
