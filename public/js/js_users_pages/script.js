@@ -64,6 +64,7 @@ for (i = 0; i < coll.length; i++) {
       } else if(this.getAttribute('data-eval')){
         idEval = this.getAttribute('data-eval');
         getQuestionsEval(idEval);
+        openModule();
       }
 
 
@@ -106,7 +107,8 @@ function getResourcesModules(idMod){
 });
 }
 
-function getgetQuestionsEval(idEval){
+function getQuestionsEval(idEval){
+  return
   $.ajax({
   type: 'post',
   url: window.location+'/module/get_resources',
