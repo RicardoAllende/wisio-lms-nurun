@@ -275,6 +275,24 @@ nav a {
     padding-right: 10px;
 }
 
+.cursoev{
+    color: #2157A1 !important;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: inline-block;
+    padding: 10px;
+}
+
+.categoria-evaluacion{
+    color:#596066;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: inline-block;
+    position: relative;
+    right: 0;
+}
+
 #references{
   margin-bottom: 15px;
   margin-top: 15px;

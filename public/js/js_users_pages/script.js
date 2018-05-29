@@ -59,8 +59,14 @@ for (i = 0; i < coll.length; i++) {
       modActive.classList.toggle("active");
       content = document.getElementById('mod'+this.getAttribute('data-id'));
 
-      idModule = this.getAttribute('data-module');
-      getResourcesModules(idModule);
+      if(this.getAttribute('data-module')){
+        idModule = this.getAttribute('data-module');
+        getResourcesModules(idModule);
+      } else if(this.getAttribute('data-eval')){
+        idEval = this.getAttribute('data-eval');
+        getQuestionsEval(idEval);
+      }
+
 
     }
   });
@@ -97,6 +103,30 @@ function getResourcesModules(idMod){
   }
 
 });
+}
+
+function getgetQuestionsEval(idEval){
+  $.ajax({
+  type: 'post',
+  url: window.location+'/module/get_resources',
+  data: {
+    idModule: idEval,
+    _token: $('meta[name="csrf-token"]').attr('content')
+  },
+  success: function (resources) {
+      //console.log("exito");
+      printQuestions(resources)
+      //console.log(resources);
+  },
+  error: function(request, error){
+    console.log(error);
+  }
+
+});
+}
+
+function printQuestions(resources){
+  
 }
 
 function printResources(resources){
