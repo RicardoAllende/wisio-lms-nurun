@@ -2,7 +2,6 @@
 
     $('.modal').modal();
 
-
 });
 
 
@@ -21,8 +20,8 @@ function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("dot");
-
-  if(slides > 0){
+  
+  if(slides.length > 0){
     if (n > slides.length) {slideIndex = 1}
       if (n < 1) {slideIndex = slides.length}
       for (i = 0; i < slides.length; i++) {
@@ -74,13 +73,15 @@ for (i = 0; i < coll.length; i++) {
 
 function openModule(){
   content.style.display = 'block';
-  content.style.maxHeight = content.scrollHeight + 60 + "px";
+  setTimeout(function(){ content.style.maxHeight = content.scrollHeight + 60 + "px";}, 500);
+  //content.style.maxHeight = content.scrollHeight + 60 + "px";
 }
 
 function closeModule(){
   console.log("close module");
   modActive.classList.toggle("active");
   content.style.maxHeight = null;
+  $("#"+content.id+" #content").html('');
   setTimeout(function(){ content.style.display = 'none';blockViewModule = false;}, 200);
 
 }
@@ -126,13 +127,14 @@ function getgetQuestionsEval(idEval){
 }
 
 function printQuestions(resources){
-  
+
 }
 
 function printResources(resources){
 
   if(resources.length > 0){
     var refs = '';
+    var contendiv = '';
     $.each(resources[0].references_module, function(index, value) {
 
         refs += (index+1)+". " + value.content + '<br>';
@@ -141,7 +143,7 @@ function printResources(resources){
     if(resources.length > 1){
       var arrVideo = [];
       var arrPdf = [];
-      var contendiv = '';
+
       $.each(resources, function(index, value){
         if(value.type == "video"){
           arrVideo.push(value.url);
@@ -181,7 +183,7 @@ function printResources(resources){
 
     }
 
-    console.log(refs);
+    //console.log(refs);
     $("#"+content.id+" #name_module").text(resources[0]['name_module']);
     $("#"+content.id+" #references").html(refs);
     openModule();

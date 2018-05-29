@@ -549,18 +549,18 @@ nav a {
 
 .card .active {
     margin: 2rem 0 -1rem 0 !important;
-    transition: margin 0.2s ease-out;
+    transition: margin 0.3s ease-out;
 }
 
 .card .collapsiblemod{
-    transition: margin 0.2s ease-out;
+    transition: margin 0.3s ease-out;
 }
 
 .content {
     padding-left: 2rem !important;
     max-height:0;
     overflow: hidden;
-    transition: max-height 0.2s ease-out;
+    transition: max-height 0.4s ease-out;
     background-color: #fff;
     border: 1px solid #8F6EAA;
     display: none;

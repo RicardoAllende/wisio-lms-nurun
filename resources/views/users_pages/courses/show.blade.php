@@ -70,6 +70,20 @@ Curso {{ $course->name }}
               </div>
           </div>
           @endif
+          @if(($course->modules->count()%3) > 0)
+          <?php $cont = 0; $mod++; ?>
+          <div class="col s12 content" id="mod{{ $mod }}">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
+              <h6 class="cursoview">Módulo</h6><br/>
+              <h6 class="cursoview" id="name_module"></h6><br/>
+              <div id="content">
+
+              </div>
+              <div id="references">
+
+              </div>
+          </div>
+          @endif
         </div>
 
 @stop

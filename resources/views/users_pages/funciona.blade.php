@@ -14,7 +14,7 @@ Cómo funciona
                       <!-- Full-width slides/quotes -->
                       <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -27,7 +27,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -40,7 +40,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -53,7 +53,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -66,7 +66,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -79,7 +79,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -92,7 +92,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -105,7 +105,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -118,7 +118,7 @@ Cómo funciona
 
                     <div class="mySlides row">
                         <div class="col s3 center">
-                            <img src="img/img1.JPG" class="responsive-img">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
