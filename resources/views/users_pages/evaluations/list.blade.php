@@ -1,5 +1,5 @@
 @section('title')
-Cursos
+Evaluaciones
 @stop
 @extends('users_pages.master')
 @section('body')
@@ -8,16 +8,16 @@ Cursos
     <hr class="line"/>
   </div>
   <div class="col s6 l3">
-    <h2 class="recientes">cursos</h2>
+    <h2 class="recientes">Evaluaciones</h2>
   </div>
-  @foreach($courses as $course)
+  @foreach($evaluations as $evaluation)
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
-          <span class="categoria-academia">{{ $course->category->name }}</span>
-         <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
-          <div class="titulo-academia2"> {{ $course->name }}</div>
-           <div class="modulos">{{ $course->modules->count() }} módulos</div>
+          <span class="categoria-academia">{{ $evaluation->category->name }}</span>
+         <div class="iconcourse"><img src="{{ $evaluation->getMainImgUrl() }}" class="responsive-img"></div>
+          <div class="titulo-academia2"> {{ $evaluation->name }}</div>
+           <!-- <div class="modulos">{{ $course->modules->count() }} módulos</div>
               <div  class="moduloslista valign-wrapper">
 
                     <ol>
@@ -25,10 +25,10 @@ Cursos
                         <li>{{ $module->name }} </li>
                       @endforeach
                     </ol>
-              </div >
+              </div > -->
           <div class="leer-masmodulos_50">
             @if(Auth::check())
-              <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
+              <a href="{{ route('show.evaluation.course', [Auth::user()->ascription()->slug,$evaluation->module->course->slug]) }}">Ver todo</a>
             @else
               <a href="{{ route('welcome') }}">ver mas</a>
             @endif
@@ -39,10 +39,9 @@ Cursos
   </div>
   @endforeach
 </div>
-@include('users_pages.courses.newest')
 @stop
 @section('extrajs')
 <script>
-  cambiarItem("cursos");
+  cambiarItem("evaluaciones");
 </script>
 @stop

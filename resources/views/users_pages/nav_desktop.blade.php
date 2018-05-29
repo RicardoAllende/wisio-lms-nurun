@@ -15,14 +15,14 @@
                    <li ><a href="{{ route('student.funciona', Auth::user()->ascription()->slug) }}" id="funciona">¿Cómo funciona?</a></li>
                    <li ><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}" id="cursos">Cursos</a></li>
                    <li ><a href="{{ route('student.show.experts' , Auth::user()->ascription()->slug) }}" id="expertos">Expertos</a></li>
-                   <li ><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}" id="evaluaciones">Evaluaciones</a></li>
+                   <li ><a href="{{ route('student.list.evaluations' , Auth::user()->ascription()->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                  @else
                  <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                   <ul class="submenu">
                    <li ><a href="{{ route('student.funciona', 'invitado') }}" id="funciona">¿Cómo funciona?</a></li>
                    <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="cursos">Cursos</a></li>
                    <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertos">Expertos</a></li>
-                   <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="evaluaciones">Evaluaciones</a></li>
+                   <li ><a href="{{ route('student.list.evaluations' , 'invitado') }}" id="evaluaciones">Evaluaciones</a></li>
                  @endif
 
                </ul>

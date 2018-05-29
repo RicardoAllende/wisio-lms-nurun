@@ -101,155 +101,161 @@ function getResourcesModules(idMod){
 
 function printResources(resources){
 
-  var refs = '';
-  $.each(resources[0].references_module, function(index, value) {
+  if(resources.length > 0){
+    var refs = '';
+    $.each(resources[0].references_module, function(index, value) {
 
-      refs += (index+1)+". " + value.content + '<br>';
-  })
-  if(resources.length > 1){
-    var arrVideo = [];
-    var arrPdf = [];
-    var contendiv = '';
-    $.each(resources, function(index, value){
-      if(value.type == "video"){
-        arrVideo.push(value.url);
-      } else if(value.type == "pdf"){
-        arrPdf.push(value.url);
-      }
-    });
-    console.log(arrVideo.length);
-    if(arrVideo.length > 0){
-      contendiv += '<video width="100%" controls>';
-      for(i=0;i<=arrVideo.length-1;i++){
-        contendiv += '<source src="/'+arrVideo[i]+'" type="video/mp4">'
-      }
-      contendiv += '</video>';
-    }
+        refs += (index+1)+". " + value.content + '<br>';
+    })
 
-    $("#"+content.id+" #content").html(contendiv);
-
-
-  } else {
-
-    var contendiv = '';
-    switch(String(resources[0]['type'])) {
-      case 'video':
-          contendiv += '<video width="100%" controls><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
-        break;
-      case 'pdf':
-
-      contendiv = '<div><button id="prev">Previous</button><button id="next">Next</button>&nbsp; &nbsp;<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div><canvas id="the-canvas"></canvas>';
-      $("#"+content.id+" #content").html(contendiv);
-
-      // If absolute URL from the remote server is provided, configure the CORS
-    // header on that server.
-    var url = '/'+resources[0]['url'];
-
-    // Loaded via <script> tag, create shortcut to access PDF.js exports.
-    var pdfjsLib = window['pdfjs-dist/build/pdf'];
-
-    // The workerSrc property shall be specified.
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
-
-    var pdfDoc = null,
-      pageNum = 1,
-      pageRendering = false,
-      pageNumPending = null,
-      scale = 0.8,
-      canvas = document.getElementById('the-canvas'),
-      ctx = canvas.getContext('2d');
-
-    /**
-    * Get page info from document, resize canvas accordingly, and render page.
-    * @param num Page number.
-    */
-    function renderPage(num) {
-    pageRendering = true;
-    // Using promise to fetch the page
-    pdfDoc.getPage(num).then(function(page) {
-      var viewport = page.getViewport(scale);
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      // Render PDF page into canvas context
-      var renderContext = {
-        canvasContext: ctx,
-        viewport: viewport
-      };
-      var renderTask = page.render(renderContext);
-
-      // Wait for rendering to finish
-      renderTask.promise.then(function() {
-        pageRendering = false;
-        if (pageNumPending !== null) {
-          // New page rendering is pending
-          renderPage(pageNumPending);
-          pageNumPending = null;
+    if(resources.length > 1){
+      var arrVideo = [];
+      var arrPdf = [];
+      var contendiv = '';
+      $.each(resources, function(index, value){
+        if(value.type == "video"){
+          arrVideo.push(value.url);
+        } else if(value.type == "pdf"){
+          arrPdf.push(value.url);
         }
       });
-    });
 
-    // Update page counters
-    document.getElementById('page_num').textContent = num;
-    }
+      if(arrVideo.length > 0){
+        contendiv += '<video width="100%" controls>';
+        for(i=0;i<=arrVideo.length-1;i++){
+          contendiv += '<source src="/'+arrVideo[i]+'" type="video/mp4">'
+        }
+        contendiv += '</video>';
+      }
 
-    /**
-    * If another page rendering in progress, waits until the rendering is
-    * finised. Otherwise, executes rendering immediately.
-    */
-    function queueRenderPage(num) {
-    if (pageRendering) {
-      pageNumPending = num;
+      $("#"+content.id+" #content").html(contendiv);
+
+
     } else {
-      renderPage(num);
-    }
-    }
 
-    /**
-    * Displays previous page.
-    */
-    function onPrevPage() {
-    if (pageNum <= 1) {
-      return;
-    }
-    pageNum--;
-    queueRenderPage(pageNum);
-    }
-    document.getElementById('prev').addEventListener('click', onPrevPage);
+      var contendiv = '';
+      switch(String(resources[0]['type'])) {
+        case 'video':
+            contendiv += '<video width="100%" controls><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
+            $("#"+content.id+" #content").html(contendiv);
+          break;
+        case 'pdf':
 
-    /**
-    * Displays next page.
-    */
-    function onNextPage() {
-    if (pageNum >= pdfDoc.numPages) {
-      return;
-    }
-    pageNum++;
-    queueRenderPage(pageNum);
-    }
-    document.getElementById('next').addEventListener('click', onNextPage);
+            contendiv = '<div><button id="prev">Previous</button><button id="next">Next</button>&nbsp; &nbsp;<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div><canvas  width="100%" id="the-canvas"></canvas>';
+            $("#"+content.id+" #content").html(contendiv);
+            printPdfplayer('/'+resources[0]['url']);
 
-    /**
-    * Asynchronously downloads PDF.
-    */
-    pdfjsLib.getDocument(url).then(function(pdfDoc_) {
-    pdfDoc = pdfDoc_;
-    document.getElementById('page_count').textContent = pdfDoc.numPages;
-
-    // Initial/first page rendering
-    renderPage(pageNum);
-    });
+          break;
+      }
 
 
-
-        break;
     }
 
-
+    console.log(refs);
+    $("#"+content.id+" #name_module").text(resources[0]['name_module']);
+    $("#"+content.id+" #references").html(refs);
+    openModule();
+  } else {
+    $("#"+content.id+" #references").html("Este módulo aún no tiene recursos disponibles, contacte a su administrador.");
+    openModule();
   }
 
-  $("#"+content.id+" #name_module").text(resources[0]['name_module']);
-  $("#"+content.id+" #references").html(refs);
-  openModule();
 
+
+}
+
+function printPdfplayer(url){
+  var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+  // The workerSrc property shall be specified.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+  var pdfDoc = null,
+    pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 1,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d');
+
+  /**
+  * Get page info from document, resize canvas accordingly, and render page.
+  * @param num Page number.
+  */
+  function renderPage(num) {
+  pageRendering = true;
+  // Using promise to fetch the page
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport(scale);
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    // Render PDF page into canvas context
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    // Wait for rendering to finish
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      if (pageNumPending !== null) {
+        // New page rendering is pending
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  // Update page counters
+  document.getElementById('page_num').textContent = num;
+  }
+
+  /**
+  * If another page rendering in progress, waits until the rendering is
+  * finised. Otherwise, executes rendering immediately.
+  */
+  function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+  }
+
+  /**
+  * Displays previous page.
+  */
+  function onPrevPage() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+  }
+  document.getElementById('prev').addEventListener('click', onPrevPage);
+
+  /**
+  * Displays next page.
+  */
+  function onNextPage() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+  }
+  document.getElementById('next').addEventListener('click', onNextPage);
+
+  /**
+  * Asynchronously downloads PDF.
+  */
+  pdfjsLib.getDocument(url).then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  document.getElementById('page_count').textContent = pdfDoc.numPages;
+
+  // Initial/first page rendering
+  renderPage(pageNum);
+  });
 }

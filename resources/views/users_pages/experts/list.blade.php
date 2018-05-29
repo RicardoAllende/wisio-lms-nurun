@@ -16,7 +16,7 @@ Expertos
                       <div class="expertosparticipacion">
                         <p class="upper">Participa en:</p>
                         <ul class="browser-default">
-                            @foreach($expert->modules as $module)
+                            @foreach($expert->modules->slice(0,5) as $module)
                             <li>{{ $module->name }}</li>
                             @endforeach
                         </ul>

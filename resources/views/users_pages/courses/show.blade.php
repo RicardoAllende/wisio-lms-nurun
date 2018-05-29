@@ -11,7 +11,7 @@ Curso {{ $course->name }}
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
-            <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+            <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
             </div>
 
           <div class="col s6 l9">

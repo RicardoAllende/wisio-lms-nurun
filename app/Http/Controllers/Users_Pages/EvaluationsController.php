@@ -23,7 +23,14 @@ class EvaluationsController extends Controller
         $user = Auth::user();
         $course = $user->courses->first();
         $evaluations = $course->evaluations();
-        return view('users_pages/evaluations/list-evaluations', compact('user', 'course', 'evaluations'));
+        return view('users_pages/evaluations/list', compact('user', 'course', 'evaluations'));
+    }
+
+    public function showEvaluations($ascriptionSlug){
+        $user = Auth::user();
+        $course = $user->courses->first();
+        $evaluations = $course->evaluations();
+        return view('users_pages/evaluations/list', compact('user', 'course', 'evaluations'));
     }
 
     public function gradeEvaluation($ascriptionSlug, Request $request){
@@ -65,15 +72,15 @@ class EvaluationsController extends Controller
         echo "Número de preguntas: {$questions->count()} <br>";
         echo "Preguntas contestadas adecuadamente: {$summatory} <br>";
         echo "Promedio: {$evaluationAverage} <br>";
-        echo "Calificación mínima: {$evaluation->minimum_score} <br>";  
-        
-        
+        echo "Calificación mínima: {$evaluation->minimum_score} <br>";
+
+
         $module = $evaluation->module;
         $course = $module->course;
         $finalEvaluations = $module->finalEvaluations->pluck('id');
         $moduleAvg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
             ->whereIn('evaluation_id', $finalEvaluations)->groupBy('evaluation_id')->get()->avg('score');
-        
+
         if($user->modules->contains($module->id)){
             $user->modules()->detach($module->id);
         }

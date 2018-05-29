@@ -77,9 +77,10 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/como_funciona',function (){ return view('users_pages.funciona'); })->name('student.funciona');
 		Route::get('/enrol/{user_id}/{course_id}','Users_Pages\CoursesController@enrollment')->name('student.enrol.course');
 		Route::post('/cursos/{course_slug}/module/get_resources','Users_Pages\ModulesController@getResources');
-		
-		Route::get('/evaluaciones', 'Users_Pages\EvaluationsController@showAvailableEvaluations');
-		Route::get('/evaluacion/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
+
+		Route::get('/evaluaciones', 'Users_Pages\EvaluationsController@showEvaluations')->name('student.list.evaluations');
+		Route::get('/evaluacion/{course_id}', 'Users_Pages\EvaluationsController@showAvailableEvaluations')->name('show.evaluation.course');
+		Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
 	});
 
