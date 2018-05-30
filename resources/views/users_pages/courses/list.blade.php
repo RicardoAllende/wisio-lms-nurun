@@ -4,6 +4,18 @@ Cursos
 @extends('users_pages.master')
 @section('body')
 <div class="row pad-left3">
+
+  <div class="row">
+    <form class="col s4">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">search</i>
+          <input id="search" name="searchCourse" type="text" placeholder="Curso o especialidad" >
+        </div>
+      </div>
+    </form>
+  </div>
+
   <div class="col s6 l9">
     <hr class="line"/>
   </div>

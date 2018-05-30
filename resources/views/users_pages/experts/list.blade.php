@@ -5,6 +5,16 @@ Expertos
 @section('body')
   <div class="row pad-left3">
     <h2 class="recientes">Expertos</h2>
+    <div class="row">
+      <form class="col s4">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">search</i>
+            <input id="search" type="text" placeholder="Experto" >
+          </div>
+        </div>
+      </form>
+    </div>
     @foreach($experts as $expert)
     <div class="col s12 l3 ">
                <div class="card z-depth-0 white ">
