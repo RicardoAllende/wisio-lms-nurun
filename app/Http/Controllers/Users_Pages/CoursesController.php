@@ -21,16 +21,13 @@ class CoursesController extends Controller
     public function index($adscription_slug)
     {
       $user = Auth::user();
-      if (isset($_GET['searchCourse'])) {
-          $nameCourse = $_GET['searchCourse'];
-
-          $courses = $user->courses->where('name','like','%'.$nameCourse.'%');
-        
-      }else{
-
-
+    //   if (isset($_GET['searchCourse'])) {
+    //       $nameCourse = $_GET['searchCourse'];
+    //       $courses = $user->courses->where('name','like','%'.$nameCourse.'%');
+    //   }else{
+    //     $courses = $user->courses;
+    //   }
         $courses = $user->courses;
-      }
         return view('users_pages/courses.list',compact('courses'));
 
 

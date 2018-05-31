@@ -12,8 +12,16 @@ function plusSlides(n) {
   showSlides(slideIndex += n);
 }
 
+function plusSlidesE(n){
+  showSlides(slideIndex += n);
+}
+
 function currentSlide(n) {
   showSlides(slideIndex = n);
+}
+
+function currentSlideE(n){
+  showSlidesE(slideIndex = n);
 }
 
 function showSlides(n) {
@@ -34,6 +42,25 @@ function showSlides(n) {
     dots[slideIndex-1].className += " activeFunciona";
   }
 
+
+}
+
+function showSlidesE(n){
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("circle-dot");
+  console.log("Se encontraron " + dots.length);
+  if(slides.length > 0){
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex-1].style.display = "block";
+    let selector = '.dot' + n;
+    $(selector).removeClass( "circle-not-selected" );
+    $(selector).addClass( "circle-selected" );
+  }
 
 }
 
@@ -108,24 +135,17 @@ function getResourcesModules(idMod){
 }
 
 function getQuestionsEval(idEval){
-  return
+  var formUrl = window.location.protocol + "//" + window.location.hostname + '/drag-form-for-evaluation/' + idEval;
   $.ajax({
-  type: 'post',
-  url: window.location+'/module/get_resources',
-  data: {
-    idModule: idEval,
-    _token: $('meta[name="csrf-token"]').attr('content')
-  },
-  success: function (resources) {
-      //console.log("exito");
-      printQuestions(resources)
-      //console.log(resources);
-  },
-  error: function(request, error){
-    console.log(error);
-  }
-
-});
+    url: formUrl,
+    method: 'get',
+    success: function(result){
+        $("#" + content.id + " #content").html(result);
+    },
+    error: function(error){
+      console.log(error);
+    }
+  });
 }
 
 function printQuestions(resources){

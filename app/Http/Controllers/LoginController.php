@@ -28,6 +28,16 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        if(Auth::check()){
+            $user = Auth::user();
+            if($user->isAdmin()){
+                return redirect()->route('admin.dashboard');
+            }
+            if($user->isStudent()){
+                $ascription = $user->ascription();
+                return redirect()->route('student.home', $ascription->slug);
+            }
+        }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if($user->isAdmin()){
@@ -37,7 +47,8 @@ class LoginController extends Controller
                 $ascription = $user->ascription();
                 return redirect()->route('student.home', $ascription->slug);
             }
-        }else {
+            return redirect('/');
+        } else {
             return back()->withInput()->withErrors(['Error' => 'Verifique sus datos']);
         }
     }

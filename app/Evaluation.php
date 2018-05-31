@@ -43,6 +43,10 @@ class Evaluation extends Model
         return "/".$img->url;
     }
 
+    public function course(){
+        return $this->module->course;
+    }
+
     public function hasMainImg(){
         if($this->attachments->where('type', config('constants.attachments.main_img'))->count() > 0 ){
             return true;

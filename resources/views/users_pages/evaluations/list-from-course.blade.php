@@ -76,7 +76,8 @@ Evaluacion
                 <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
                 <h6 class="cursoview"></h6><br/>
                 <h6 class="cursoview" id="name_module"></h6><br/>
-                <div id="content" style="min-height: 400px;"><!-- start modal content -->
+                <!-- start modal content -->
+                <div id="content" style="min-height: 400px;">
                 
 
 
@@ -133,7 +134,5 @@ Evaluacion
 
 <script>
   cambiarItem("evaluaciones");
-  alert(window.location.hostname);
-//   $(':checkbox').material_select();
 </script>
 @stop
