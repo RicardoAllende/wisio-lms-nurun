@@ -16,14 +16,14 @@ class Course extends Model
         'name',
         'slug',
         'description',
-        'maximum_attempts',
         'minimum_score',
         'has_constancy',
         'enabled',
         'start_date',
         'end_date',
         'is_public',
-        'category_id'
+        'category_id',
+        'support_email'
     ];
 
     protected $appends = ['img'];

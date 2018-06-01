@@ -131,6 +131,7 @@ class CoursesController extends Controller
         $course->start_date = $request->start_date;
         $course->end_date = $request->end_date;
         $course->minimum_score = $request->minimum_score;
+        $course->support_email = $request->support_email;
         $course->is_public = $request->is_public;
         $course->slug = str_slug($request->slug);
         $course->category_id = $request->category_id;

@@ -383,6 +383,22 @@ nav a {
     padding: 10px;
 }
 
+.btnAcademia{
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  color: #8F6EAA !important;
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-transform: uppercase;
+  border-width: 0px;
+  border-style: none;
+  border-color: none;
+}
+
+.btnAcademia:focus{
+  background-color: #f2f2f2;
+}
 .registro{
   padding: 5px;
   text-transform: uppercase;
@@ -537,7 +553,7 @@ nav a {
     color: #8F6EAA;
 }
 
-.active, .collapsiblemod:hover {
+.activeMod, .collapsiblemod:hover {
     background-color: #8F6EAA;
     color: #fff;
 }
@@ -546,6 +562,9 @@ nav a {
     color: #fff;
 }
 
+.purple-academia{
+  background-color: #8F6EAA !important;
+}
 
 .card .active {
     margin: 2rem 0 -1rem 0 !important;
@@ -583,6 +602,15 @@ nav a {
     right: -.75rem;
     width: 4%;
     text-align: center;
+}
+
+.cerrarModal{
+  float: right;
+  background-color: #8F6EAA;
+  padding: 5px;
+  position: relative;
+  width: 4%;
+  text-align: center;
 }
 
 .titulo-funciona{
@@ -654,6 +682,19 @@ nav a {
 }
 
 i.material-icons.prefix.active{
+  background-color: inherit;
+}
+
+.reg label{
+  color: #9e9e9e;
+  font-size: .9rem;
+}
+
+.reg label.active {
+  background-color: inherit;
+}
+
+.select-dropdown ul.active{
   background-color: inherit;
 }
 

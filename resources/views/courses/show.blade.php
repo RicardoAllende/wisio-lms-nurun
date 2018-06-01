@@ -35,6 +35,7 @@
                         <img src="{{$course->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
                     </div>
                     <div class="col-lg-6"><br><br>
+                        <p>Email de resolución de dudas: {{ $course->support_email }}</p>
                         <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
                         <p>{{ $course->modules->count() }} módulos</p>
                         <p>Slug: {{ $course->slug }}</p>

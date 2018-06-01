@@ -1,10 +1,12 @@
 
 <div id="modal1" class="modal">
-
+    <a class="waves-effect waves-light btn-small cerrarModal modal-close" style="color:white !important;"">X</a>
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">Inicio de sesión</h4>
+            <h4 class="recientes">Inicio de sesión</h4>
+               <hr class="line"/>
         </div>
+        <br>
         <div class="modal-body">
             <div class="row ">
                 {!! Form::open(['route' => 'request.login','class'=>'form-horizontal','method' => 'post','enctype'=>'multipart/form-data']) !!}
@@ -22,15 +24,13 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            {!! Form::submit('Login',['class'=>'btn deep-purple lighten-3','id'=>'guardar']) !!}
+                            {!! Form::submit('Acceder',['class'=>'btnAcademia','id'=>'guardar']) !!}
                         </div>
                     </div>
                 {!! Form::close() !!}
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn modal-close deep-purple lighten-3" >Cerrar</button>
-        </div>
+
     </div>
 
 

@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('cedula')->nullable();
             $table->string('code')->nullable();
             $table->string('consultation_type')->nullable();
-            $table->timestamp('lastaccess')->nullable();
+            $table->timestamp('last_access')->nullable();
             $table->boolean('enabled')->default(true);
             $table->rememberToken()->nullable();
             $table->timestamps();

@@ -158,9 +158,18 @@ class TablesSeeder extends Seeder
         $expert1 = Expert::create(['name' => 'Mtro. Christian George',  'slug' => 'mtro-christian-george', 'summary' => $summary]);
         $expert2 = Expert::create(['name' => 'Dr Omar Leyva', 'slug' => 'dr-omar-leyva', 'summary' => $summary]);
         $expert3 = Expert::create(['name' => 'Dr Fernando Rodríguez', 'slug' => 'dr-fernando-rodriguez', 'summary' => $summary]);
+        $expert4 = Expert::create(['name' => 'Mtro. Andrés George',  'slug' => 'mtro-andres-george', 'summary' => $summary]);
+        $expert5 = Expert::create(['name' => 'Dr Ismael Serrano', 'slug' => 'dr-ismael-serrano', 'summary' => $summary]);
+        $expert6 = Expert::create(['name' => 'Dr Marco Sánchez', 'slug' => 'dr-marco-sanchez', 'summary' => $summary]);
+
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty1->id]);
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty2->id]);
         ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty3->id]);
+        ExpertSpecialty::create(['expert_id' => $expert2->id, 'specialty_id' => $specialty1->id]);
+        ExpertSpecialty::create(['expert_id' => $expert3->id, 'specialty_id' => $specialty2->id]);
+        ExpertSpecialty::create(['expert_id' => $expert4->id, 'specialty_id' => $specialty3->id]);
+        ExpertSpecialty::create(['expert_id' => $expert5->id, 'specialty_id' => $specialty1->id]);
+        ExpertSpecialty::create(['expert_id' => $expert6->id, 'specialty_id' => $specialty2->id]);
+        ExpertSpecialty::create(['expert_id' => $expert2->id, 'specialty_id' => $specialty3->id]);
 
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module1->id]);
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
@@ -212,12 +221,6 @@ class TablesSeeder extends Seeder
             'module_id' => $module6->id
             ]);
             
-
-
-
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 1]);
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 2]);
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => 3]);
         
         
         $evaluation1 = Evaluation::create(['name' => 'Prevalencia y diagnóstico', 'module_id' => $module1->id, 'type'=> 'f']);
