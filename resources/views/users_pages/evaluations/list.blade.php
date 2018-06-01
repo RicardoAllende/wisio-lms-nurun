@@ -10,27 +10,27 @@ Evaluaciones
   <div class="col s6 l3">
     <h2 class="recientes">Evaluaciones</h2>
   </div>
-  @foreach($evaluations as $evaluation)
+  @foreach($courses as $course)
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
-          <span class="categoria-academia">{{ $evaluation->category->name }}</span>
-         <div class="iconcourse"><img src="{{ $evaluation->getMainImgUrl() }}" class="responsive-img"></div>
-          <div class="titulo-academia2"> {{ $evaluation->name }}</div>
-           <!-- <div class="modulos">{{ $course->modules->count() }} módulos</div>
+          <span class="categoria-academia">{{ $course->category->name }}</span>
+         <div class="iconcourse"><img src="{{ $course->getMainImgUrl() }}" class="responsive-img"></div>
+          <div class="titulo-academia2"> {{ $course->name }}</div>
+           <div class="modulos">{{ $course->evaluations()->count() }} evaluaciones</div>
               <div  class="moduloslista valign-wrapper">
 
                     <ol>
-                      @foreach($course->modules->slice(0,5) as $module)
-                        <li>{{ $module->name }} </li>
+                      @foreach($course->evaluations()->slice(0,5) as $evaluation)
+                        <li>{{ $evaluation->name }} </li>
                       @endforeach
                     </ol>
-              </div > -->
+              </div >
           <div class="leer-masmodulos_50">
             @if(Auth::check())
-              <a href="{{ route('show.evaluation.course', [Auth::user()->ascription()->slug,$evaluation->module->course->slug]) }}">Ver todo</a>
+              <a href="{{ route('show.evaluation.course', [$user->ascriptionSlug(), $course->slug]) }}">Ver todo</a>
             @else
-              <a href="{{ route('welcome') }}">ver mas</a>
+              <a href="{{ route('welcome') }}">Ver más</a>
             @endif
               <hr class="line3"/>
           </div>
@@ -42,6 +42,7 @@ Evaluaciones
 @stop
 @section('extrajs')
 <script>
+  console.log("Hola".serialize());
   cambiarItem("evaluaciones");
 </script>
 @stop

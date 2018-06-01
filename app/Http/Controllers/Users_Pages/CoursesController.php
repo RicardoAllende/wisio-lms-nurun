@@ -21,6 +21,7 @@ class CoursesController extends Controller
     public function index($adscription_slug)
     {
       $user = Auth::user();
+<<<<<<< HEAD
       if (isset($_GET['searchCourse'])) {
           $nameCourse = $_GET['searchCourse'];
 
@@ -29,8 +30,15 @@ class CoursesController extends Controller
       }else{
 
 
+=======
+    //   if (isset($_GET['searchCourse'])) {
+    //       $nameCourse = $_GET['searchCourse'];
+    //       $courses = $user->courses->where('name','like','%'.$nameCourse.'%');
+    //   }else{
+    //     $courses = $user->courses;
+    //   }
+>>>>>>> c27110f2258355fc85cfd374507447959b2afded
         $courses = $user->courses;
-      }
         return view('users_pages/courses.list',compact('courses'));
 
 

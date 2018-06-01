@@ -41,7 +41,7 @@
         <div class="container">
             <div class="content">
                 <div class="title">Permiso a esta sección denegado</div>
-                <a href="{{ route('dashboard') }}" ><button>Ir atrás</button></a>
+                <a href="/" ><button>Ir atrás</button></a>
             </div>
         </div>
     </body>
