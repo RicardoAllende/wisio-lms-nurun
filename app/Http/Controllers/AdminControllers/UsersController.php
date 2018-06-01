@@ -189,8 +189,8 @@ class UsersController extends Controller
         $ch = curl_init();
         $url = "http://search.sep.gob.mx/solr/cedulasCore/select?&wt=json&q=".$query;
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-        $output = curl_exec($ch); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
         curl_close($ch);
         echo $output;
     }
@@ -212,7 +212,7 @@ class UsersController extends Controller
         }
         return back();
     }
-    
+
     public function resetCourseEvaluations($user_id, $course_id){
         $user = User::find($user_id);
         if ($user != null) {
@@ -225,6 +225,10 @@ class UsersController extends Controller
         $pivot->score = null;
         $pivot->save();
         return back();
+    }
+
+    public function updateInfo(Request $request){
+
     }
 
 }

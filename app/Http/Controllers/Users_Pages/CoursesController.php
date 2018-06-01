@@ -25,7 +25,7 @@ class CoursesController extends Controller
           $nameCourse = $_GET['searchCourse'];
 
           $courses = $user->courses->where('name','like','%'.$nameCourse.'%');
-        
+
       }else{
 
 
@@ -66,5 +66,7 @@ class CoursesController extends Controller
         return view('users_pages/courses.list',compact('courses'));
         return $courses;
     }
+
+    
 
 }
