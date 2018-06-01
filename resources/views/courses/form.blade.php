@@ -69,12 +69,14 @@
                               {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
                             </div>
                           </div>
-                          <!--<div class="form-group">
-                            {!! Form::label('maximum_attempts', 'Cantidad máxima de intentos)',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                              {!! Form::number('maximum_attempts',null,['class'=>'form-control', 'required'=>'']) !!}
+
+                          <div class="form-group">
+                            {!! Form::label('support_email', 'Email para resolución de dudas:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10">
+                              {!! Form::email('support_email',null,['class'=>'form-control','placeholder'=>'Email', 'required' => '']) !!}
                             </div>
-                          </div>-->
+                          </div>
+
                           <div class="form-group">
                             {!! Form::label('minimum_score', 'Calificación mínima:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 

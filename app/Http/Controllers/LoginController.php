@@ -40,6 +40,9 @@ class LoginController extends Controller
         }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+            $user->last_access = $dateTime;
+            $user->save();
             if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }

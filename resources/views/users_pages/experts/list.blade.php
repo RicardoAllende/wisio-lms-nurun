@@ -6,11 +6,29 @@ Expertos
   <div class="row pad-left3">
     <h2 class="recientes">Expertos</h2>
     <div class="row">
-      <form class="col s4">
+      <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">
-          <div class="input-field col s12">
-            <i class="material-icons prefix">search</i>
-            <input id="search" type="text" placeholder="Experto" >
+          <div class="input-field col s4">
+            <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
+          </div>
+          <div class="input-field col s4">
+            <select name="specialty" id="specialty">
+              @if($specialty != '')
+                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+              @else
+                <option value="">Filtrar por especialidad</option>
+              @endif
+              @inject('controller','App\Http\Controllers\Users_Pages\ExpertsController')
+              @foreach($controller->getSpecialties() as $specialty)
+                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="input-field col s4">
+            <button id="submit" class="btn waves-effect waves-light">Buscar</button>
+            <a href="{{ URL::current() }}" class="btn waves-effect waves-light" >Limpiar</a>
+            <!--<i class="material-icons prefix" id="submit">search</i>
+            <input class="material-icons prefix" type="submit">-->
           </div>
         </div>
       </form>
@@ -51,6 +69,23 @@ Expertos
 
 @section('extrajs')
 <script>
+  $('select').material_select();
+  $('#submit').click(function(){
+    $('#formSearch').submit();
+  });
+
+  $('#name').keydown(function(e){
+    if(e.which == 13) {
+      $('#formSearch').submit();
+    }
+  });
+
+  $('#specialty').change(function(){
+    if( $('#specialty').val() != "" ){
+      $('#formSearch').submit();
+    }
+  });
+
   cambiarItem("expertos");
 </script>
 @stop

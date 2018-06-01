@@ -6,14 +6,26 @@ Cursos
 <div class="row pad-left3">
 
   <div class="row">
-    <form class="col s4">
+    <form class="col s4" id="searchForm">
       <div class="row">
         <div class="input-field col s12">
-          <i class="material-icons prefix">search</i>
-          <input id="search" name="searchCourse" type="text" placeholder="Curso o especialidad" >
+          <i class="material-icons prefix" >search</i>
+          <input id="search" name="s" value="{{ $search }}" type="text" placeholder="Nombre del curso">
+          <!-- <div class="search-wrapper card">
+            <input id="search" type="text" placeholder="Nombre del curso"><i class="material-icons">search</i>
+          </div> -->
+
+          <!--<i class="material-icons" id="sendform">search</i>
+          <i class="material-icons sufix">subdirectory_arrow_left</i>-->
         </div>
       </div>
-    </form>
+    </form><br>
+
+    <div class="col s3">
+      <button id="sendform" class="btn waves-effect waves-light">Buscar</button>
+      <a href="{{ URL::current() }}" class="btn waves-effect waves-light" >Limpiar</a>
+    </div>
+
   </div>
 
   <div class="col s6 l9">
@@ -22,7 +34,7 @@ Cursos
   <div class="col s6 l3">
     <h2 class="recientes">cursos</h2>
   </div>
-  @foreach($courses as $course)
+  @forelse($courses as $course)
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
@@ -49,12 +61,21 @@ Cursos
        </div>
     </div>
   </div>
-  @endforeach
+  @empty
+    @if(isset($_GET['s']))
+      <h6>No existen cursos que coincidan con su búsqueda</h6>
+    @else
+      <h6>Aún no está inscrito a ningún curso</h6>
+    @endif
+  @endforelse
 </div>
 @include('users_pages.courses.newest')
 @stop
 @section('extrajs')
 <script>
+$("#sendform").click(function(){
+  $('#searchForm').submit();
+});
   cambiarItem("cursos");
 </script>
 @stop

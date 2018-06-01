@@ -28,7 +28,7 @@ class User extends Authenticatable
         'address',
         'cedula',
         'consultation_type',
-        'lastaccess',
+        'last_access',
         'enabled',
         'role_id'
     ];
