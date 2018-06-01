@@ -19,29 +19,15 @@ use Illuminate\Support\Facades\Auth;
 class CoursesController extends Controller
 {
     public function index($adscription_slug)
-    { // List all courses the user is enrolled in
+    {
         $user = Auth::user();
-        $search = "";
-        if (isset($_GET['s'])) { // Filter by name or category
-            $search = $_GET['s'];
-            $categories = Category::where('name', 'like', "%{$search}%")->pluck('id');
-            // dd($category);
-            // $categoryFilter = function($query) use ($search) {
-            //     $query->where('name', 'like', '%'.$search.'%');
-            // }; // If the search includes the category
-            // $categoryFilter = function($query) { $query->where('name', 'like', '%sistema%'); };
-            $courses = $user->courses()->where('name', 'like', '%'.$search.'%')->get();
-            // ->orWhereIn('category_id', $categories)->get();
-            // dd($courses);
-            // $courses = $user->courses()->where('name', 'like', '%'.$search.'%')
-            //     ->orWhereHas('category', $categoryFilter)->get();
-            // dd($courses->toSql());
-            // $courses = $user->courses()->where('name','like','%'.$search.'%')->get();
+        if (isset($_GET['searchCourse'])) {
+            $nameCourse = $_GET['searchCourse'];
+            $courses = $user->courses()->where('name','like','%'.$nameCourse.'%');
         }else{
             $courses = $user->courses;
         }
-        // dd($courses);
-        return view('users_pages/courses.list',compact('courses', 'search'));
+        return view('users_pages/courses.list',compact('courses'));
     }
 
     public function show($adscription_slug, $course_slug)
@@ -74,5 +60,7 @@ class CoursesController extends Controller
         return view('users_pages/courses.list',compact('courses'));
         return $courses;
     }
+
+    
 
 }

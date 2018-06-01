@@ -28,7 +28,7 @@ function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("dot");
-  
+
   if(slides.length > 0){
     if (n > slides.length) {slideIndex = 1}
       if (n < 1) {slideIndex = slides.length}
@@ -82,7 +82,7 @@ for (i = 0; i < coll.length; i++) {
     if(!blockViewModule){
       blockViewModule = true;
       modActive = this;
-      modActive.classList.toggle("active");
+      modActive.classList.toggle("activeMod");
       content = document.getElementById('mod'+this.getAttribute('data-id'));
 
       if(this.getAttribute('data-module')){
@@ -107,7 +107,7 @@ function openModule(){
 
 function closeModule(){
   console.log("close module");
-  modActive.classList.toggle("active");
+  modActive.classList.toggle("activeMod");
   content.style.maxHeight = null;
   $("#"+content.id+" #content").html('');
   setTimeout(function(){ content.style.display = 'none';blockViewModule = false;}, 200);
