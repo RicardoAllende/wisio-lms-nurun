@@ -20,20 +20,15 @@ class CoursesController extends Controller
 {
     public function index($adscription_slug)
     {
-      $user = Auth::user();
-      if (isset($_GET['searchCourse'])) {
-          $nameCourse = $_GET['searchCourse'];
-
-          $courses = $user->courses->where('name','like','%'.$nameCourse.'%');
-
-      }else{
-
-
-        $courses = $user->courses;
-       }
-        return view('users_pages/courses.list',compact('courses'));
-
-
+        $search = "";
+        $user = Auth::user();
+        if (isset($_GET['s'])) {
+            $search = $_GET['s'];
+            $courses = $user->courses()->where('name','like','%'.$search.'%');
+        }else{
+            $courses = $user->courses;
+        }
+        return view('users_pages/courses/list',compact('courses', 'search'));
     }
 
     public function show($adscription_slug, $course_slug)

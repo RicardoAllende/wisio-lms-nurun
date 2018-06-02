@@ -85,7 +85,7 @@ Registro
     <br>
     <div class="row">
       <div class="col s12 l6 offset-l3">
-        <input type="submit" class="btn btn-success btn-round" value="Registrarse" style='display:none;' id="btnSubmit" >
+        <input type="submit" class="btnAcademia" value="Registrarse" style='display:none;' id="btnSubmit" >
         {!! Form::close() !!}
           <button id="validate" class="btnAcademia" >Validar cédula</button>
       </div>

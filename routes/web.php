@@ -61,6 +61,18 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
 		Route::resource('/options','AdminControllers\OptionsController');
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
+
+		/** Reports */
+		Route::group(['prefix' => '/reports'], function(){
+			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showAscriptionsReport')->name('list.ascriptions.report'); // List of all ascriptions
+			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showAscriptionReport')->name('list.ascription.report'); 
+			Route::get('/courses', 'AdminControllers\CoursesController@index')->name('list.courses.report'); // List of all courses
+			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@index')->name('list.course.report');
+			Route::get('/users', 'AdminControllers\UsersController@index')->name('list.users.report'); // List of all users
+			Route::get('/user/{user_id}', 'AdminControllers\UsersController@index')->name('list.user.report');
+			// Route::get('/', 'AdminControllers\l')->name('');
+		});
+
 	});
 
 	Route::get('/search-experts/{search}', 'AdminControllers\ExpertsController@searchByName')->name('search.experts');
