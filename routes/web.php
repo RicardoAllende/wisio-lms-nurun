@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
 		/** Reports */
 		Route::group(['prefix' => '/reports'], function(){
 			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showAscriptionsReport')->name('list.ascriptions.report'); // List of all ascriptions
-			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showAscriptionReport')->name('list.ascription.report'); 
+			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showAscriptionReport')->name('list.ascription.report');
 			Route::get('/courses', 'AdminControllers\CoursesController@index')->name('list.courses.report'); // List of all courses
 			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@index')->name('list.course.report');
 			Route::get('/users', 'AdminControllers\UsersController@index')->name('list.users.report'); // List of all users
@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::post('/actualizar_user', 'AdminControllers\UsersController@updateInfo')->name('student.update.user');
 		Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
 		Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
+		Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');
 		Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
 		Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
 		Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
