@@ -42,7 +42,9 @@ Login
          @include('users_pages.courses.newest')
 @stop
 @section('extrajs')
+<script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>
 <script>
   cambiarItem("home");
 </script>
+
 @stop

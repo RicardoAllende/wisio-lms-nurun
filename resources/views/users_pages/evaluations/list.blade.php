@@ -21,7 +21,7 @@ Evaluaciones
               <div  class="moduloslista valign-wrapper">
 
                     <ol>
-                      @foreach($course->evaluations()->slice(0,5) as $evaluation)
+                      @foreach($course->evaluations()->slice(0,2) as $evaluation)
                         <li>{{ $evaluation->name }} </li>
                       @endforeach
                     </ol>

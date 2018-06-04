@@ -21,10 +21,11 @@ Cursos
       </div>
     </form><br>
 
-    <div class="col s3">
-      <button id="sendform" class="btn waves-effect waves-light">Buscar</button>
-      <a href="{{ URL::current() }}" class="btn waves-effect waves-light" >Limpiar</a>
+    <div class="col s6">
+      <button id="sendform" class="btnAcademia waves-effect waves-light">Buscar</button>
+      <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
     </div>
+
 
   </div>
 
@@ -74,7 +75,10 @@ Cursos
 @section('extrajs')
 <script>
 $("#sendform").click(function(){
-  $('#searchForm').submit();
+  if($('#search').val() != ''){
+    $('#searchForm').submit();
+  }
+
 });
   cambiarItem("cursos");
 </script>

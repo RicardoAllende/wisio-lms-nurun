@@ -162,6 +162,7 @@ Cómo funciona
 @stop
 
 @section('extrajs')
+
 <script>
   cambiarItem("funciona");
 </script>

@@ -78,7 +78,7 @@ Evaluacion
                 <h6 class="cursoview" id="name_module"></h6><br/>
                 <!-- start modal content -->
                 <div id="content" style="min-height: 400px;">
-                
+
 
 
 
@@ -87,7 +87,7 @@ Evaluacion
 
                 </div><!-- end modal content -->
                 <div id="references">
-                  
+
                 </div>
             </div>
             @endif
@@ -106,9 +106,23 @@ Evaluacion
               </div>
           </div>
           @endif
+
+          @if(($evaluations->count()%3) > 0)
+          <?php $cont = 0; $mod++; ?>
+          <div class="col s12 content" id="mod{{ $mod }}">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
+              <h6 class="cursoview"></h6><br/>
+              <h6 class="cursoview" id="name_module"></h6><br/>
+              <div id="content" style="min-height: 400px;"><!-- start modal content -->
+              </div><!-- end modal content -->
+              <div id="references">
+
+              </div>
+          </div>
+          @endif
         </div>
 
-  
+
 @stop
 @section('extrajs')
 <style>

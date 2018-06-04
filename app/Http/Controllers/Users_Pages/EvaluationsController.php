@@ -127,9 +127,9 @@ class EvaluationsController extends Controller
             echo csrf_field();
             echo '<input type="hidden" name="user_id" value="'.Auth::user()->id.'" >';
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
-            echo '<div class="row pad-left3"> 
-            <h2 class="recientes">Título de la evaluación</h2>
-    
+            echo '<div class="row pad-left3">
+            <h2 class="recientes">'.$evaluation->name.'</h2>
+
               <div class="row "><!-- Slideshow container -->
                 <div class="card white slideshow-container col s12">';
             $numQuestions = $evaluation->questions->count();
@@ -161,7 +161,7 @@ class EvaluationsController extends Controller
                     </div><!-- End Slideshow container -->
                         <div style="text-align:center">';
             for($i = 1; $i <= $numQuestions; $i++){
-                echo '<span class="circle-dot circle-not-selected dot'.$i.'" onclick="currentSlideE('.$i.')"></span> ';
+                echo '<span class="circle-dot circle-not-selected" id="dot'.$i.'" onclick="currentSlideE('.$i.')"></span> ';
             }
             echo '</div>
                 </div></form><!-- End pad-left3 -->

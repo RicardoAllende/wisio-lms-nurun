@@ -88,7 +88,6 @@ Curso {{ $course->name }}
 
 @stop
 @section('extrajs')
-
 <script>
   cambiarItem("cursos");
 </script>

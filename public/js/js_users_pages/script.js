@@ -1,9 +1,3 @@
- $(document).ready(function(){
-
-    $('.modal').modal();
-
-});
-
 
 var slideIndex = 1;
 showSlides(slideIndex);
@@ -13,7 +7,7 @@ function plusSlides(n) {
 }
 
 function plusSlidesE(n){
-  showSlides(slideIndex += n);
+  showSlidesE(slideIndex += n);
 }
 
 function currentSlide(n) {
@@ -57,7 +51,7 @@ function showSlidesE(n){
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
-    let selector = '.dot' + n;
+    let selector = '#dot' + n;
     $(selector).removeClass( "circle-not-selected" );
     $(selector).addClass( "circle-selected" );
   }
@@ -146,10 +140,6 @@ function getQuestionsEval(idEval){
       console.log(error);
     }
   });
-}
-
-function printQuestions(resources){
-
 }
 
 function printResources(resources){
