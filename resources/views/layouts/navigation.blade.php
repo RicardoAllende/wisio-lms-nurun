@@ -36,17 +36,11 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
+                        <a href="index.html"><i class="	fa fa-line-chart"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="{{ route('users.index').'?type=doctors'}}">Reporte por adscripción</a></li>
-                            <li><a href="{{ route('users.index').'?type=doctors'}}">Reporte por adscripción, última semana</a></li>
-                            <li><a href="{{ route('users.index').'?type=doctors'}}">Reporte por curso</a></li>
-                            <li><a href="{{ route('users.index').'?type=doctors'}}">Reporte por adscripción, última semana</a></li>
-                            <li><a href="{{ route('users.create') }}">Reporte de calificaciones por usuario</a></li>
-                            <li><a href="{{ route('users.index').'?type='.config('constants.roles.admin') }}">Reporte de calificaciones, última semana</a></li>
-                            <li><a href="{{ route('users.index') }}">Reporte de médicos sanofi</a></li>
-                            <li><a href="{{ route('users.index') }}">Reporte de médicos públicos</a></li>
-                            <li><a href="{{ route('users.index') }}">Reporte de médicos de farmacia</a></li>
+                            <li><a href="{{ route('list.ascriptions.report')}}">Adscripción</a></li>
+                            <li><a href="{{ route('list.courses.report')}}">Curso</a></li>
+                            <li><a href="{{ route('list.users.report') }}">Usuario</a></li>
                         </ul>
                     </li>
                     <li class="">

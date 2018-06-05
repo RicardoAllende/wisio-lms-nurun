@@ -64,13 +64,12 @@ Route::group(['middleware' => ['auth']], function () {
 
 		/** Reports */
 		Route::group(['prefix' => '/reports'], function(){
-			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showAscriptionsReport')->name('list.ascriptions.report'); // List of all ascriptions
-			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showAscriptionReport')->name('list.ascription.report'); 
-			Route::get('/courses', 'AdminControllers\CoursesController@index')->name('list.courses.report'); // List of all courses
-			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@index')->name('list.course.report');
-			Route::get('/users', 'AdminControllers\UsersController@index')->name('list.users.report'); // List of all users
-			Route::get('/user/{user_id}', 'AdminControllers\UsersController@index')->name('list.user.report');
-			// Route::get('/', 'AdminControllers\l')->name('');
+			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
+			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report'); 
+			Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
+			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
+			Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
+			Route::get('/user/{user_id}', 'AdminControllers\UsersController@showReport')->name('show.user.report');
 		});
 
 	});

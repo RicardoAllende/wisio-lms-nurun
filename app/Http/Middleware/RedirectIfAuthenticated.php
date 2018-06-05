@@ -23,7 +23,7 @@ class RedirectIfAuthenticated
                 return redirect()->route('admin.dashboard');
             }
             if($user->isAdmin()){
-                return redirect()->route('student.home');
+                return redirect()->route('student.home', $user->ascriptionSlug());
             }
             return redirect('/');
         }

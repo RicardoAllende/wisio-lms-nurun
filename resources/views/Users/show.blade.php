@@ -111,10 +111,10 @@
                                     @if( $course->minimum_score > $course->pivot->score )
                                         <a href="{{ route('reset.evaluations', [$user->id, $course->id]) }}">Resetear Avances</a>
                                     @else
-                                        Aprobó satisfactoriamente
+                                        Aprobó el curso
                                     @endif
                                 @else
-                                    Está realizando el curso
+                                    Curso en proceso
                                 @endif
                             </td>
                         </tr>

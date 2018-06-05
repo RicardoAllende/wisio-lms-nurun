@@ -310,4 +310,37 @@ class User extends Authenticatable
         return $this->evaluations->where('id', $evaluation_id)->count();
     }
 
+    public function completedEvaluationsForCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return 0; }
+        $evaluations = $this->evaluations()->distinct()->pluck('evaluations.id');
+        $courseEvalautions = $course->evaluations()->pluck('id');
+        $num = 0;
+        foreach($courseEvalautions as $evaluation){
+            if($evaluations->contains($evaluation)){
+                $num++;
+            }
+        }
+        return $num;
+    }
+
+    public function scoreInEvaluation($evaluation_id){
+        if($this->hasThisEvaluationCompleted($evaluation_id)){
+            return EvaluationUser::where('evaluation_id', $evaluation_id)->where('user_id', $this->id)
+                ->max('score');
+        }else{
+            return 0;
+        }
+    }
+
+    public function scoreInCourse($course_id){
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
+        if($pivot == null){ return '-'; }
+        return $pivot->score;
+    }
+
+    public function hasThisEvaluationCompleted($evaluation_id){
+        return $this->evaluations->contains($evaluation_id);
+    }
+
 }

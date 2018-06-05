@@ -178,4 +178,13 @@ class AscriptionsController extends Controller
         return back();
     }
 
+    public function showReportAllAscriptions(){
+        $ascriptions = Ascription::all();
+        return view('ascriptions/report-all', compact('ascriptions'));
+    }
+
+    public function showReport($ascription_id){
+        
+    }
+
 }

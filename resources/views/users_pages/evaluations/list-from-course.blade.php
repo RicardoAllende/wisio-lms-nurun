@@ -14,8 +14,8 @@ Evaluacion
               <div class="col s6 offset-s6">
                 <div class="card white">
                   <div class="row">
-                      <h6 class="cursoev">Endocrinología</h6>
-                      <span class="categoria-evaluacion">Cardiología </span>
+                      <h6 class="cursoev">{{ $course->name }}</h6>
+                      <span class="categoria-evaluacion">{{ $course->category->name }}</span>
                       <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                   </div>
                   <div class="card-content">
@@ -27,15 +27,15 @@ Evaluacion
                       </div>
                       <div class="row center">
                           <div class="col s3">Módulo</div>
-                          <div class="col s3">9</div>
-                          <div class="col s3">2</div>
-                          <div class="col s3">21%</div>
+                          <div class="col s3">{{ $numModules }}</div>
+                          <div class="col s3">{{ $completedModules }}</div>
+                          <div class="col s3">{{ $modulesAdvance }} % </div>
                       </div>
                       <div class="row center">
                           <div class="col s3">Evaluaciones</div>
-                          <div class="col s3">9</div>
-                          <div class="col s3">2</div>
-                          <div class="col s3">6.5</div>
+                          <div class="col s3">{{ $numEvaluations }}</div>
+                          <div class="col s3">{{ $completedEvaluations }}</div>
+                          <div class="col s3">{{ $evaluationsAdvance }}</div>
                       </div>
                   </div>
                 </div>
@@ -63,7 +63,7 @@ Evaluacion
                             <span class="titulo-academia2">
                             {{ $evaluation->name }}
                             </span>
-                            <div class="modulos">{{ Auth::user()->progressInModule($evaluation->id) }}</div>
+                            <div class="modulos">{{ ($user->hasThisEvaluationCompleted($evaluation->id)) ? "Calificación: ".$user->scoreInEvaluation($evaluation->id) : 'Pendiente' }}</div>
                         </div>
                         </div>
                     </div>

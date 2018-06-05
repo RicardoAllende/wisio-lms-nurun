@@ -231,4 +231,16 @@ class UsersController extends Controller
 
     }
 
+    public function showReportAllUsers(){
+        $role = Role::where('name', config('constants.roles.doctor') )->pluck('id'); // doctors
+        $users = User::whereIn('role_id', $role)->get();
+        return view('users/report-all', compact('users'));
+    }
+
+    public function showReport($user_id){
+        $user = User::find($user_id);
+        if($user == null){ return redirect()->route('list.users.report'); }
+        return view('users/report', compact('user'));
+    }
+
 }

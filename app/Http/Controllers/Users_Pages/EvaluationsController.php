@@ -9,6 +9,7 @@ use App\User;
 use App\EvaluationUser;
 use App\QuestionUser;
 use App\Ascription;
+use App\CourseUser;
 use App\Course;
 use App\Module;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,17 @@ class EvaluationsController extends Controller
     public function showEvaluationsFromCourse($ascriptionSlug, $courseSlug){
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
+        $numModules = $course->modules->count();
+        $completedModules = $user->completedModulesOfCourse($course->id);
+        $modulesAdvance = number_format($completedModules / $numModules * 100, 2);
         $evaluations = $course->evaluations();
-        return view('users_pages/evaluations/list-from-course', compact('user', 'course', 'evaluations'));
+        $numEvaluations = $evaluations->count();
+        $completedEvaluations = $user->completedEvaluationsForCourse($course->id);
+        $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
+        if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
+        return view('users_pages/evaluations/list-from-course', 
+        compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance', 
+        'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance'));
     }
 
     public function gradeEvaluation($ascriptionSlug, Request $request){
@@ -59,6 +69,10 @@ class EvaluationsController extends Controller
         $user = User::find($user_id);
         if($user == null){
             return "No existe usuario";
+        }
+
+        if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
+            return "Sin posibilidades de hacer esta evaluación nuevamente";
         }
 
         $evaluationAttempt = EvaluationUser::create(['evaluation_id' => $evaluation_id, 'user_id' => $user_id]);
@@ -80,8 +94,10 @@ class EvaluationsController extends Controller
             }
         }
         $evaluationAverage = $summatory / $questions->count()*10; //  0-10 scale
-        $evaluationAttempt->score = $evaluationAverage;
-        $evaluationAttempt->save();
+        if($evaluation->isFinalEvaluation()){
+            $evaluationAttempt->score = $evaluationAverage;
+            $evaluationAttempt->save();
+        }
 
 
         echo "Número de preguntas: {$questions->count()} <br>";

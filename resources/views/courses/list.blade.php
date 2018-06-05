@@ -27,7 +27,7 @@
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
-                            <th>#</th>
+                          <th>#</th>
                             <th>Curso</th>
                             <th>Descripción</th>
                             <th>Fecha de inicio</th>

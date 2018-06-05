@@ -104,7 +104,15 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score');
+        return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps();
+    }
+
+    public function approvedUsers(){
+        return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
+    }
+
+    public function failedUsers(){
+        return $this->users->count() - $this->approvedUsers->count();
     }
 
     public function enrolledUsers(){
@@ -167,24 +175,10 @@ class Course extends Model
         $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
     }
 
-    // public function makeAttempt($user_id){
-    //     $this->dropPendientAdvances($user_id);
-    //     if(User::find($user_id)){ return false; }
-    //     $pivots = CourseUser::where('course_id', $this->id)->where('status', config('constants.status.not_attemped'))->get();
-    //     foreach($pivots as $pivot){
-    //         $pivot->delete();
-    //     }
-    // }
+    public function usersAvg(){
+        return CourseUser::where('course_id', $this->id)->avg('score');
+    }
 
-    // public function dropPendientAdvances($user_id){
-    //     $relations = CourseUser::where('course_id', $this->id)->where('user_id', $user_id)
-    //         ->where('status', config('constants.status.not_attemped'))->get();
-    //     foreach($relations as $relation){
-    //         $relation->delete();
-    //     }
-    // }
-
-    
     public function enrolUser($user_id){
         $user = User::find($user_id);
         if($user == null ){ return false; }
@@ -213,10 +207,8 @@ class Course extends Model
         return $this->modules->count();
     }
 
-    // public function saveAdvanceForAllUsers(){
-    //     $users = $this->enrolledUsers;
-    //     foreach ($users as $user) {
-    //         $this->calculateAvgForUser($user->id);
-    //     }
-    // }
+    public function numUsersEnrolled(){
+        return $this->users->count();
+    }
+
 }
