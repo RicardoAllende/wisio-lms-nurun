@@ -8,10 +8,10 @@ Expertos
     <div class="row">
       <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">
-          <div class="input-field col s4">
+          <div class="input-field col s6 l4">
             <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
           </div>
-          <div class="input-field col s4">
+          <div class="input-field col s6 l4">
             <select name="specialty" id="specialty">
               @if($specialty != '')
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
@@ -35,15 +35,15 @@ Expertos
     </div>
     @foreach($experts as $expert)
     <div class="col s12 l3 ">
-               <div class="card z-depth-0 white ">
+               <div class="card z-depth-0 white">
                   <div class="card-content expertoscard">
-                     <div class="expertostitulo">{{ $expert->name }}</div>
-                      <div class="col s12">
+                     <div class="expertostitulo center">{{ $expert->name }}</div>
+                      <div class="col s12 center">
                           <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </div>
                       <div class="expertosparticipacion">
-                        <p class="upper">Participa en:</p>
-                        <ul class="browser-default">
+                        <p class="upper center">Participa en:</p>
+                        <ul class="browser-default ">
                             @foreach($expert->modules->slice(0,5) as $module)
                             <li>{{ $module->name }}</li>
                             @endforeach

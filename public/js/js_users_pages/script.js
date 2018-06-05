@@ -1,4 +1,14 @@
+$(".button-collapse").sideNav({
+  edge: 'left',
+  draggable: true,
+  onOpen: function(){
+    $('#btnMenu').html('<i class="material-icons">close</i>');
+  },
+  onClose: function(){
+    $('#btnMenu').html('<i class="material-icons">menu</i>');
+  },
 
+});
 
 var slideIndex = 1;
 showSlides(slideIndex);
@@ -74,6 +84,7 @@ var blockViewModule = false;
 var idModule = null;
 var videoPlaying = null;
 var idModule = null;
+var isMob = false;
 
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
@@ -81,7 +92,18 @@ for (i = 0; i < coll.length; i++) {
       blockViewModule = true;
       modActive = this;
       modActive.classList.toggle("activeMod");
-      content = document.getElementById('mod'+this.getAttribute('data-id'));
+
+      console.log(screen.width+" "+window.innerWidth);
+
+      if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
+          isMob = true;
+          content = document.getElementById('modalMod');
+
+
+      } else {
+
+        content = document.getElementById('mod'+this.getAttribute('data-id'));
+      }
 
       if(this.getAttribute('data-module')){
         idModule = this.getAttribute('data-module');
@@ -98,8 +120,14 @@ for (i = 0; i < coll.length; i++) {
 }
 
 function openModule(){
-  content.style.display = 'block';
-  setTimeout(function(){ content.style.maxHeight = content.scrollHeight + 60 + "px";}, 500);
+
+  if(isMob){
+    $('#modalMod').modal('open');
+  } else {
+    content.style.display = 'block';
+    setTimeout(function(){ content.style.maxHeight = content.scrollHeight + 60 + "px";}, 500);
+  }
+
   //content.style.maxHeight = content.scrollHeight + 60 + "px";
 }
 
@@ -108,9 +136,16 @@ function closeModule(){
   sendDataLrs();
   sendStatus('visto');
   modActive.classList.toggle("activeMod");
-  content.style.maxHeight = null;
-  $("#"+content.id+" #content").html('');
-  setTimeout(function(){ content.style.display = 'none';blockViewModule = false;}, 200);
+  if(isMob){
+    $('#modalMod').modal('close');
+    blockViewModule = false;
+    $("#"+content.id+" #name_module").html('');
+    $("#"+content.id+" #content").html('');
+  } else {
+    content.style.maxHeight = null;
+    setTimeout(function(){ content.style.display = 'none';blockViewModule = false;}, 200);
+    $("#"+content.id+" #content").html('');
+  }
 
 }
 

@@ -11,7 +11,7 @@ Evaluacion
           <div class="pad-left1">
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
-              <div class="col s6 offset-s6">
+              <div class="col s12 l6 offset-l6">
                 <div class="card white">
                   <div class="row">
                       <h6 class="cursoev">{{ $course->name }}</h6>
@@ -78,12 +78,6 @@ Evaluacion
                 <h6 class="cursoview" id="name_module"></h6><br/>
                 <!-- start modal content -->
                 <div id="content" style="min-height: 400px;">
-
-
-
-
-
-
 
                 </div><!-- end modal content -->
                 <div id="references">

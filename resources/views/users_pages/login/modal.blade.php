@@ -1,6 +1,6 @@
 
 <div id="modal1" class="modal">
-    <a class="waves-effect waves-light btn-small cerrarModal modal-close" style="color:white !important;"">X</a>
+    <a class="waves-effect waves-light btn-small cerrarModal modal-close" style="color:white !important;">X</a>
     <div class="modal-content">
         <div class="modal-header">
             <h4 class="recientes">Inicio de sesión</h4>

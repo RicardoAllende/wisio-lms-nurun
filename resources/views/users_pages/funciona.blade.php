@@ -9,7 +9,7 @@ Cómo funciona
                <h2 class="recientes">¿Cómo funciona?</h2>
             <!-- Slideshow container -->
                 <div class="row ">
-                    <div class="card white slideshow-container col s8">
+                    <div class="card white slideshow-container col s12 l8">
 
                       <!-- Full-width slides/quotes -->
                       <div class="mySlides row">
@@ -130,11 +130,9 @@ Cómo funciona
                       </div>
 
 
-
-                      <!-- Next/prev buttons -->
-
                     </div>
-                    <div class="dot-container col s4">
+                    
+                    <div class="dot-container col s12 l4">
                       <span class="dot"  onclick="currentSlide(1)">Registro</span><br>
                       <span class="dot"  onclick="currentSlide(2)">Clave única</span> <br>
                       <span class="dot" onclick="currentSlide(3)">Confirmación</span><br>
@@ -147,11 +145,11 @@ Cómo funciona
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col l3 leer-mas prev">
+                    <div class="col s6 l3 leer-mas prev">
                          <hr class="line3"/>
                         <a class="" onclick="plusSlides(-1)">anterior</a>
                      </div>
-                    <div class="col l3 offset-l3 leer-mas next">
+                    <div class="col s6 l3 offset-l3 leer-mas next">
                         <a class="" onclick="plusSlides(1)">siguiente</a>
                          <hr class="line3"/>
                      </div>

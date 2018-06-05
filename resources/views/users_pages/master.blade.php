@@ -24,10 +24,10 @@
       <div class="row contenido">
           <!-- Logo academia -->
           <div class="row pad-left3">
-              <div class="col s6 l10">
+              <div class="col s8 l10">
                 <hr class="line"/>
               </div>
-              <div class="col s6 l2">
+              <div class="col s4 l2">
                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
               @if (Auth::check())
@@ -43,6 +43,7 @@
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js')}}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+      <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
 
       @yield('extrajs')

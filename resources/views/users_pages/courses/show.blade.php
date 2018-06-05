@@ -6,7 +6,7 @@ Curso {{ $course->name }}
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 @section('body')
-
+@include('users_pages.courses.modal')
 <div class="row pad-left3">
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
@@ -90,5 +90,9 @@ Curso {{ $course->name }}
 @section('extrajs')
 <script>
   cambiarItem("cursos");
+  $('.modal').modal({
+    dismissible: false,
+    
+  });
 </script>
 @stop
