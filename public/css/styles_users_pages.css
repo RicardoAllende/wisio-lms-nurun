@@ -835,4 +835,9 @@ i.material-icons.prefix.active{
   max-width: 100%;
 }
 
+.pad-left3{
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 }

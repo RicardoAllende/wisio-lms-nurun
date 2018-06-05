@@ -6,7 +6,7 @@ Evaluacion
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
 @section('body')
-
+@include('users_pages.courses.modal')
 <div class="row pad-left3">
           <div class="pad-left1">
             <!-- <h3>Evaluaciones</h3> -->
@@ -142,5 +142,9 @@ Evaluacion
 
 <script>
   cambiarItem("evaluaciones");
+  $('.modal').modal({
+    dismissible: false,
+
+  });
 </script>
 @stop
