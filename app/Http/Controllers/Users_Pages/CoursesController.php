@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Users_Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Course;
+use App\Module;
 use App\Category;
 use App\Ascription;
 use Illuminate\Support\Facades\Storage;
@@ -60,6 +61,13 @@ class CoursesController extends Controller
         $courses = Course::whereIsPublic(1)->get();
         return view('users_pages/courses.list',compact('courses'));
         return $courses;
+    }
+
+    public function saveProgressModule(Request $request){
+      //dd($request);
+      $module = Module::find($request->module_id);
+      $save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
+      return $save;
     }
 
 

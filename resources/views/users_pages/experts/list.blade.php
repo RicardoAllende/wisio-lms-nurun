@@ -24,9 +24,9 @@ Expertos
               @endforeach
             </select>
           </div>
-          <div class="input-field col s4">
-            <button id="submit" class="btn waves-effect waves-light">Buscar</button>
-            <a href="{{ URL::current() }}" class="btn waves-effect waves-light" >Limpiar</a>
+          <div class="input-field col s6">
+            <button id="submit" class="btnAcademia waves-effect waves-light">Buscar</button>
+            <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
             <!--<i class="material-icons prefix" id="submit">search</i>
             <input class="material-icons prefix" type="submit">-->
           </div>

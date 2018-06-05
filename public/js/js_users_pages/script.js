@@ -1,8 +1,3 @@
- $(document).ready(function(){
-
-    $('.modal').modal();
-
-});
 
 
 var slideIndex = 1;
@@ -13,7 +8,7 @@ function plusSlides(n) {
 }
 
 function plusSlidesE(n){
-  showSlides(slideIndex += n);
+  showSlidesE(slideIndex += n);
 }
 
 function currentSlide(n) {
@@ -57,7 +52,7 @@ function showSlidesE(n){
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
-    let selector = '.dot' + n;
+    let selector = '#dot' + n;
     $(selector).removeClass( "circle-not-selected" );
     $(selector).addClass( "circle-selected" );
   }
@@ -77,6 +72,9 @@ var content = null;
 var modActive = null;
 var blockViewModule = false;
 var idModule = null;
+var videoPlaying = null;
+var idModule = null;
+
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     if(!blockViewModule){
@@ -106,7 +104,9 @@ function openModule(){
 }
 
 function closeModule(){
-  console.log("close module");
+
+  sendDataLrs();
+  sendStatus('visto');
   modActive.classList.toggle("activeMod");
   content.style.maxHeight = null;
   $("#"+content.id+" #content").html('');
@@ -115,6 +115,7 @@ function closeModule(){
 }
 
 function getResourcesModules(idMod){
+  idModule = idMod;
   $.ajax({
   type: 'post',
   url: window.location+'/module/get_resources',
@@ -148,10 +149,6 @@ function getQuestionsEval(idEval){
   });
 }
 
-function printQuestions(resources){
-
-}
-
 function printResources(resources){
 
   if(resources.length > 0){
@@ -175,15 +172,32 @@ function printResources(resources){
       });
 
       if(arrVideo.length > 0){
-        contendiv += '<video width="100%" controls>';
-        for(i=0;i<=arrVideo.length-1;i++){
-          contendiv += '<source src="/'+arrVideo[i]+'" type="video/mp4">'
-        }
+        contendiv += '<video width="100%" controls id="video">';
+        contendiv += '<source src="/'+arrVideo[0]+'" type="video/mp4">'
         contendiv += '</video>';
       }
 
-      $("#"+content.id+" #content").html(contendiv);
+      var contVid = 0;
 
+      $("#"+content.id+" #content").html(contendiv);
+      var vide = document.getElementById('video');
+      vide.onended = function() {
+
+          contVid++;
+          if(arrVideo[contVid] != undefined){
+            vide.src = '/'+arrVideo[contVid];
+            vide.play();
+          } else {
+            console.log('video concluido');
+          }
+
+      };
+      vide.onplay = function() {
+        videoPlaying = vide;
+      };
+      vide.onpause = function() {
+
+      }
 
     } else {
 
@@ -192,6 +206,15 @@ function printResources(resources){
         case 'video':
             contendiv += '<video width="100%" controls><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
+            vide.onended = function() {
+              console.log('video concluido');
+            };
+            vide.onplay = function() {
+              videoPlaying = vide;
+            };
+            vide.onpause = function() {
+
+            }
           break;
         case 'pdf':
 
@@ -311,5 +334,35 @@ function printPdfplayer(url){
 
   // Initial/first page rendering
   renderPage(pageNum);
+  });
+}
+
+function sendDataLrs(){
+  if(videoPlaying != null){
+      console.log(videoPlaying.currentSrc+"  "+videoPlaying.currentTime);
+  } else {
+
+  }
+
+}
+
+function sendStatus(status_){
+    var url_ = window.location.hostname +'/save_progress_module';
+
+    $.ajax({
+    type: 'post',
+    url: url_,
+    data: {
+      module_id: idModule,
+      status:status_,
+      _token: $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function (result) {
+        console.log(result);
+    },
+    error: function(request, error){
+      console.log(error);
+    }
+
   });
 }

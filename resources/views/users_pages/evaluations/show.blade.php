@@ -77,29 +77,36 @@ Evaluacion
                 <h6 class="cursoview"></h6><br/>
                 <h6 class="cursoview" id="name_module"></h6><br/>
                 <div id="content" style="min-height: 400px;"><!-- start modal content -->
-                
-
-
-
-
-
-
                 </div><!-- end modal content -->
                 <div id="references">
-                  
+
                 </div>
             </div>
             @endif
 
           @endforeach
-          @if($course->modules->count() <= 3)
-          <div class="col s12 content" id="mod1">
+
+          @if($evaluations->count() <= 3)
+          <?php $cont = 0; $mod++; ?>
+          <div class="col s12 content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h6 class="cursoview">Módulo</h6><br/>
               <h6 class="cursoview" id="name_module"></h6><br/>
-              <div id="content">
+              <div id="content" style="min-height: 400px;">
+              </div>
+              <div id="references">
 
               </div>
+          </div>
+          @endif
+          @if(($evaluations->count()%3) > 0)
+          <?php $cont = 0; $mod++; ?>
+          <div class="col s12 content" id="mod{{ $mod }}">
+              <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
+              <h6 class="cursoview"></h6><br/>
+              <h6 class="cursoview" id="name_module"></h6><br/>
+              <div id="content" style="min-height: 400px;"><!-- start modal content -->
+              </div><!-- end modal content -->
               <div id="references">
 
               </div>
@@ -107,9 +114,9 @@ Evaluacion
           @endif
         </div>
 
-  
+
 @stop
-@section('extrajs')
+@section('extracss')
 <style>
 .circle-selected, .circle-dot:hover {
   background-color: #8F6EAA;
@@ -130,7 +137,8 @@ Evaluacion
   background-color: #e9e9e9;
 }
 </style>
-
+@stop
+@section('extrajs')
 <script>
   cambiarItem("evaluaciones");
   alert(window.location.hostname);
