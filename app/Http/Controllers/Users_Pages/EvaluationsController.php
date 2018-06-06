@@ -45,10 +45,10 @@ class EvaluationsController extends Controller
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
         if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        return view('users_pages/evaluations/list-from-course', 'ascription',
+        return view('users_pages/evaluations/list-from-course',
         compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance', 
         'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance',
-        'ascriptionSlug', 'courseSlug'));
+        'ascriptionSlug', 'courseSlug', 'ascription'));
     }
 
     public function gradeEvaluation($ascription_slug, Request $request){

@@ -67,12 +67,14 @@ class CoursesController extends Controller
     }
 
     public function saveProgressModule(Request $request){
-      //dd($request);
       $module = Module::find($request->module_id);
       $save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
       return $save;
     }
 
-
+    public function howItWorks($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.funciona', compact('ascription'));
+    }
 
 }
