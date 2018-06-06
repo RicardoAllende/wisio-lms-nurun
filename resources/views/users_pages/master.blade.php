@@ -35,23 +35,15 @@
               @endif
           </div>
 
-          <div id="modal2" class="modal" style="width: 90%; height:85%;">
-            <div class="modal-content">
-            <center>
-                <img src="{{ config('constants.default_images.calendar') }}" style="width:80%; height:80%;" alt="Calendario">      
-            </center>
-            </div>
-            <div class="modal-footer">
-              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-            </div>
-          </div>
           @yield('body')
+          @include('users_pages.calendario.modal')
           @include('users_pages.footer')
 
       </div>
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js')}}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+      <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
 

@@ -16,6 +16,7 @@
                    <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursos">Cursos</a></li>
                    <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertos">Expertos</a></li>
                    <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
+                   <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
                  @else
                  <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                   <ul class="submenu">
@@ -27,7 +28,7 @@
 
                </ul>
               <li><a href="#!">Medicamentos</a></li>
-              <li><a class="modal-trigger" href="#modal2">Calendario</a> </li>
+
               @if(Auth::check())
                 <li class="registro"><a href="{{ route('logout') }}"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>
               @else
