@@ -35,10 +35,10 @@
               @endif
           </div>
 
-          <div id="modal2" class="modal">
+          <div id="modal2" class="modal" style="width: 90%; height:85%;">
             <div class="modal-content">
             <center>
-                <img src="{{ config('constants.default_images.evaluation') }}" style="width:80%; height:80%;" alt="Calendario">      
+                <img src="{{ config('constants.default_images.calendar') }}" style="width:80%; height:80%;" alt="Calendario">      
             </center>
             </div>
             <div class="modal-footer">

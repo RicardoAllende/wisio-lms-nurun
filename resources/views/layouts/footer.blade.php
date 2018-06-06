@@ -3,6 +3,6 @@
         
     </div>
     <div>
-        <strong>Copyright</strong> Subitus &copy; 2017
+        <strong>Copyright</strong> Sanofi &copy; 2018
     </div>
 </div>

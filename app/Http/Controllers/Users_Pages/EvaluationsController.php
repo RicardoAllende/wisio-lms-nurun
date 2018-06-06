@@ -57,15 +57,12 @@ class EvaluationsController extends Controller
         $evaluation_id = $request->evaluation_id;
         $evaluation = Evaluation::find($evaluation_id);
         if($evaluation == null){
-            return "No existe evaluación";
+            return back();
         }
-        $user = User::find($user_id);
-        if($user == null){
-            return "No existe usuario";
-        }
-
+        $user = Auth::user();
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
-            return "Sin posibilidades de hacer esta evaluación nuevamente";
+            $error = "Usted ya no puede realizar esta evaluación nuevamente";
+            return view('users_pages/evaluations/error', compact('error'));
         }
 
         $evaluationAttempt = EvaluationUser::create(['evaluation_id' => $evaluation_id, 'user_id' => $user_id]);
@@ -139,7 +136,6 @@ class EvaluationsController extends Controller
         if(Auth::user()->hasAnotherAttemptInEvaluation($evaluation->id)){
             echo '<form action="'.route('grade.evaluation', Auth::user()->ascriptionSlug()).'" method="post">';
             echo csrf_field();
-            echo '<input type="hidden" name="user_id" value="'.Auth::user()->id.'" >';
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
             echo '<div class="row pad-left3">
             <h2 class="recientes">'.$evaluation->name.'</h2>

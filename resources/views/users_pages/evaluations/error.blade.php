@@ -11,11 +11,7 @@ Evaluaciones
     <h2 class="recientes">Resultados de la evaluación</h2>
   </div>
   <div>
-    <h4>Resultados de la evaluación {{ $evaluation->name }}</h4>
-    <p>Número de preguntas en la evaluación: {{ $numQuestions }} </p>
-    <p>Preguntas contestadas correctamente: {{ $summatory }} </p>
-    <p>Calificación: {{ $evaluationAverage }} </p>
-    <p>Tipo de evaluación: {{ ($evaluation->isFinalEvaluation()) ? 'Evaluación final' : 'Evaluación diagnóstica' }}</p>
+    <h4>Ocurrió un error: {{ $evaluation->name }}, contacte con su administrador {{ config('constants.support_email') }}. Error evaluación </h4>
     <br>
     <a class="btnAcademia" href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Volver atrás</a>
   </div>
