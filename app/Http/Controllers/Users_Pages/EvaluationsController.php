@@ -26,13 +26,6 @@ class EvaluationsController extends Controller
         return view('Users_Pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
-    // public function showAvailableEvaluations($ascription_slug, $courseSlug){
-    //     $user = Auth::user();
-    //     $course = Course::whereSlug($courseSlug)->first();
-    //     $evaluations = $course->evaluations();
-    //     return view('users_pages/evaluations/list', compact('user', 'course', 'evaluations'));
-    // }
-
     public function showEvaluationsFromCourse($ascription_slug, $courseSlug){
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
@@ -48,18 +41,18 @@ class EvaluationsController extends Controller
         return view('users_pages/evaluations/list-from-course',
         compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance', 
         'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance',
-        'ascriptionSlug', 'courseSlug', 'ascription'));
+        'ascription_slug', 'courseSlug', 'ascription'));
     }
 
     public function gradeEvaluation($ascription_slug, Request $request){
         $attempt_id = $request->attempt_id;
-        $user_id = $request->user_id;
         $evaluation_id = $request->evaluation_id;
         $evaluation = Evaluation::find($evaluation_id);
         if($evaluation == null){
             return back();
         }
         $user = Auth::user();
+        $user_id = $user->id;
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
             $error = "Usted ya no puede realizar esta evaluación nuevamente";
             return view('users_pages/evaluations/error', compact('error'));
@@ -127,10 +120,10 @@ class EvaluationsController extends Controller
         );
     }
 
-    public function dragForm($evaluation_id){
+    public function drawForm($ascription_slug, $courseSlug, $evaluation_id){
         $evaluation = Evaluation::find($evaluation_id);
         if ($evaluation == null) {
-            return "Hubo un error, contacte con el administrador";
+            return "Hubo un error, contacte con el administrador ".config('constants.support_email');
         }
 
         if(Auth::user()->hasAnotherAttemptInEvaluation($evaluation->id)){
@@ -139,7 +132,6 @@ class EvaluationsController extends Controller
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
             echo '<div class="row pad-left3">
             <h2 class="recientes">'.$evaluation->name.'</h2>
-
               <div class="row "><!-- Slideshow container -->
                 <div class="card white slideshow-container col s12">';
             $numQuestions = $evaluation->questions->count();
@@ -151,20 +143,23 @@ class EvaluationsController extends Controller
                 foreach($question->options as $option){
                     echo '
                     <p>
-                            <input name="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
-                            <label for="o'.$option->id.'">'.$option->content.'</label>
-                          </p>
-                          ';
-
+                        <input name="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
+                        <label for="o'.$option->id.'">'.$option->content.'</label>
+                    </p>';
                 }
                 if ( $question == $questions->last() ) {
-                    echo '<button class="btn btn-success">Calificar</button>';
-                }
-                echo '</div>
-                        <div class="col s3 center">
-                        <a class="purple-text" onclick="plusSlidesE(1)">Siguiente<hr class="line3"/></a>
+                    echo '<button class="btnAcademia">Calificar</button>
                         </div>
-                    </div>';
+                            <div class="col s3 center">
+                            </div>
+                        </div>';
+                }else{
+                    echo '</div>
+                            <div class="col s3 center">
+                            <a class="purple-text" onclick="plusSlidesE(1)">Siguiente<hr class="line3"/></a>
+                            </div>
+                        </div>';
+                }
             }
             echo '</div>
                     </div><!-- End Slideshow container -->

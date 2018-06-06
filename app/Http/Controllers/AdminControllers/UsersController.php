@@ -251,12 +251,16 @@ class UsersController extends Controller
 
     public function attachUserToDiplomado($ascription_id, $user_id){
         $ascription = Ascription::find($ascription_id);
-        if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el id de la adscripción']); }
-        if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, contacte con el administrador']); }
+        if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el identificador de la adscripción']); }
+        if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, hubo un error de carga']); }
         $user = User::find($user_id);
         if($user == null){ return back()->withErrors(['Error' => 'Error al encontrar al usuario']); }
-        if( ! $user->ascriptions->contains($ascription_id)){
-            $user->ascriptions()->attach($ascription_id);
+        if( ! $user->diplomados->contains($ascription_id)){
+            $user->diplomados()->attach($ascription_id);
+        }
+        $courses = $ascription->courses;
+        foreach($courses as $course){
+            $course->enrolUser($user->id);
         }
         return back();
     }

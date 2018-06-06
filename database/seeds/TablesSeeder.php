@@ -56,9 +56,79 @@ class TablesSeeder extends Seeder
         $category = Category::create(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
         $category2 = Category::create(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
         $category3 = Category::create(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
-        $specialty1 = Specialty::create(['name' => 'Alergólogo']);
-        $specialty2 = Specialty::create(['name' => 'Cardiólogo']);
-        $specialty3 = Specialty::create(['name' => 'Cirujano plástico']);
+
+        $specialty1 = Specialty::create(['name' => 'Alergólogo', 'id' => '106']);
+        $specialty2 = Specialty::create(['name' => 'Algólogo', 'id' => '107']);
+        $specialty3 =  Specialty::create(['name' => 'Anat. patolÓgica', 'id' => '108']);
+        Specialty::create(['name' => 'Anestesiólogo', 'id' => '109']);
+        Specialty::create(['name' => 'Angiólogo', 'id' => '110']);
+        Specialty::create(['name' => 'Audiólogo', 'id' => '111']);
+        Specialty::create(['name' => 'Bariatra', 'id' => '112']);
+        Specialty::create(['name' => 'Biólogo molecular', 'id' => '113']);
+        Specialty::create(['name' => 'Cardiólogo', 'id' => '114']);
+        Specialty::create(['name' => 'Cir. maxilofacial', 'id' => '115']);
+        Specialty::create(['name' => 'Cir. retinólogo', 'id' => '116']);
+        Specialty::create(['name' => 'Cir. transplantÓlogo', 'id' => '117']);
+        Specialty::create(['name' => 'Cirujano', 'id' => '118']);
+        Specialty::create(['name' => 'Cirujano dentista', 'id' => '119']);
+        Specialty::create(['name' => 'Cirujano gastroenterólogo', 'id' => '120']);
+        Specialty::create(['name' => 'Cirujano obstetra', 'id' => '121']);
+        Specialty::create(['name' => 'Cirujano oncólogo', 'id' => '122']);
+        Specialty::create(['name' => 'Cirujano plastico', 'id' => '123']);
+        Specialty::create(['name' => 'Cirujano vascular', 'id' => '124']);
+        Specialty::create(['name' => 'Coloproctólogo', 'id' => '125']);
+        Specialty::create(['name' => 'Dermatólogo', 'id' => '126']);
+        Specialty::create(['name' => 'Endocrinólogo', 'id' => '127']);
+        Specialty::create(['name' => 'Enfermera', 'id' => '128']);
+        Specialty::create(['name' => 'Epidemiólogo', 'id' => '129']);
+        Specialty::create(['name' => 'Fisiólogo', 'id' => '130']);
+        Specialty::create(['name' => 'Fisioterapeuta', 'id' => '131']);
+        Specialty::create(['name' => 'Gastroenterólogo', 'id' => '132']);
+        Specialty::create(['name' => 'Genetica', 'id' => '133']);
+        Specialty::create(['name' => 'Geriatra', 'id' => '134']);
+        Specialty::create(['name' => 'Ginecólogo', 'id' => '135']);
+        Specialty::create(['name' => 'GinecÓlogo oncÓlogo', 'id' => '136']);
+        Specialty::create(['name' => 'Hematólogo', 'id' => '137']);
+        Specialty::create(['name' => 'Homeopata', 'id' => '138']);
+        Specialty::create(['name' => 'Infectólogo', 'id' => '139']);
+        Specialty::create(['name' => 'Inmunólogo', 'id' => '140']);
+        Specialty::create(['name' => 'Intensivista', 'id' => '141']);
+        Specialty::create(['name' => 'Internista', 'id' => '142']);
+        Specialty::create(['name' => 'Medicina del trabajo', 'id' => '143']);
+        Specialty::create(['name' => 'Medicina integrada', 'id' => '144']);
+        Specialty::create(['name' => 'Medicina legal', 'id' => '145']);
+        Specialty::create(['name' => 'Medicina nuclear', 'id' => '146']);
+        Specialty::create(['name' => 'Medico del deporte', 'id' => '147']);
+        Specialty::create(['name' => 'Medico familiar', 'id' => '148']);
+        Specialty::create(['name' => 'Medico general', 'id' => '149']);
+        Specialty::create(['name' => 'Medico internista', 'id' => '150']);
+        Specialty::create(['name' => 'Nefrólogo', 'id' => '151']);
+        Specialty::create(['name' => 'Neonatólogo', 'id' => '152']);
+        Specialty::create(['name' => 'Neumólogo', 'id' => '153']);
+        Specialty::create(['name' => 'Neurocirujano', 'id' => '154']);
+        Specialty::create(['name' => 'Neurólogo', 'id' => '155']);
+        Specialty::create(['name' => 'Nutricion', 'id' => '156']);
+        Specialty::create(['name' => 'Obstetra', 'id' => '157']);
+        Specialty::create(['name' => 'Odontólogo', 'id' => '158']);
+        Specialty::create(['name' => 'Oftalmólogo', 'id' => '159']);
+        Specialty::create(['name' => 'Oncólogo', 'id' => '160']);
+        Specialty::create(['name' => 'Ortopedista traumatólogo', 'id' => '161']);
+        Specialty::create(['name' => 'Otorrinolaringólogo', 'id' => '162']);
+        Specialty::create(['name' => 'Pediatra', 'id' => '163']);
+        Specialty::create(['name' => 'Podólogo', 'id' => '164']);
+        Specialty::create(['name' => 'Proctólogo', 'id' => '165']);
+        Specialty::create(['name' => 'Psiquiatra', 'id' => '166']);
+        Specialty::create(['name' => 'Radiólogo', 'id' => '167']);
+        Specialty::create(['name' => 'Radioterapeuta', 'id' => '168']);
+        Specialty::create(['name' => 'Rehabilitacion', 'id' => '169']);
+        Specialty::create(['name' => 'Reumatólogo', 'id' => '170']);
+        Specialty::create(['name' => 'Sexólogo', 'id' => '171']);
+        Specialty::create(['name' => 'Terapia intensiva', 'id' => '172']);
+        Specialty::create(['name' => 'Transplantólogo', 'id' => '173']);
+        Specialty::create(['name' => 'Urgenciólogo', 'id' => '174']);
+        Specialty::create(['name' => 'Urólogo', 'id' => '175']);
+        Specialty::create(['name' => 'Vias respiratorias', 'id' => '176']);
+        Specialty::create(['name' => 'Otra', 'id' => '177']);
 
         $course1 = Course::create(['name' => 'PAEC Insomnio', 'slug' => 'insomnio', 'has_constancy' => 1, 'category_id' => $category->id]);
         $course2 = Course::create(['name' => 'PAEC Diabetes', 'slug' => 'diabetes', 'has_constancy' => 1, 'category_id' => $category->id]);
@@ -68,7 +138,7 @@ class TablesSeeder extends Seeder
         $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
         
         $ascription->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
-        /** Aún no están migrados los cursos de las adscripciones */
+        /** Aún no están migrados los cursos de las farmacias */
         $ascription2->courses()->attach([$course1->id, $course4->id]);
         $ascription3->courses()->attach([$course3->id, $course1->id]);
         $ascription4->courses()->attach([$course3->id, $course1->id]);
@@ -79,17 +149,17 @@ class TablesSeeder extends Seeder
         
 
         $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
         $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        'firstname'=>'Ángel', 'lastname'=>'Ortegón', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
         $user = User::create(['email'=>'soporte@paecmexico.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Christian', 'lastname'=>'George', 'role_id' => $admin->id]);
+        'firstname'=>'Christian', 'lastname'=>'George', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
         $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Juan', 'lastname'=>'Huerta', 'role_id' => $admin->id]);
-        $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'password'=>config('constants.default_password'),
+        $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'password'=>config('constants.default_password'),
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'role_id' => $admin->id]);
         $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
-            'firstname'=>'Ricardo', 'lastname'=>'Allende', 'role_id' => $admin->id]);
+            'firstname'=>'Ricardo', 'lastname'=>'Allende', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
         
         $course1->enrolUser($student->id);
         $course2->enrolUser($student2->id);

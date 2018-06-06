@@ -25,7 +25,7 @@ class CoursesController extends Controller
         $user = Auth::user();
         if (isset($_GET['s'])) {
             $search = $_GET['s'];
-            $courses = $user->courses()->where('name','like','%'.$search.'%');
+            $courses = $user->courses()->where('name','like','%'.$search.'%')->get();
         }else{
             $courses = $user->courses;
         }

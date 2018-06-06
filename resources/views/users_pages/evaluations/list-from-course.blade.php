@@ -1,10 +1,9 @@
 @section('title')
 Evaluacion
 @stop
+
 @extends('users_pages.master')
-@section('extracss')
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-@stop
+
 @section('body')
 
 <div class="row pad-left3">
@@ -118,27 +117,37 @@ Evaluacion
 
 
 @stop
-@section('extrajs')
+
+@section('extracss')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <style>
-.circle-selected, .circle-dot:hover {
-  background-color: #8F6EAA;
-}
-.purple-text{
-  color: #8F6EAA;
-}
-.circle-dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
-.circle-not-selected{
-  background-color: #e9e9e9;
-}
+    .circle-selected, .circle-dot:hover {
+    background-color: #8F6EAA;
+    }
+    .purple-text{
+    color: #8F6EAA;
+    }
+    .circle-dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    }
+    .circle-not-selected{
+    background-color: #e9e9e9;
+    }
 </style>
+
+<script>
+    var urlDrawForm = "{{ route('draw.evaluation.form', [$ascription->slug, $courseSlug, '']) }}";
+</script>
+
+@endsection
+
+@section('extrajs')
 
 <script>
   cambiarItem("evaluaciones");

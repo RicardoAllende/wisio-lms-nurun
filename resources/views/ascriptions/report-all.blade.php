@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Adscripciones')
+@section('title','Reporte de adscripciones')
 @section('cta')
   <!-- <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a> -->
 @endsection

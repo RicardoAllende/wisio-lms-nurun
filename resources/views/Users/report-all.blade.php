@@ -38,6 +38,7 @@
                                 <th>Teléfono móvil</th>
                                 <th>Activo</th>
                                 <th>Adscripción</th>
+                                <th>Diplomado</th>
                                 <th>Fecha de inscripción</th>
                                 <th>Último acceso al sistema</th>
                               </tr>
@@ -52,9 +53,8 @@
                                   <td>{{ $user->cedula }}</td>
                                   <td>{{ $user->mobile_phone }}</td>
                                   <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                  <td>@if($user->hasAscriptions()){{ $user->ascriptions->first()->name }}
-                                    @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
-                                  </td>
+                                  <td>@if($user->hasAscriptions()) {{ $user->ascription()->name }} @endif</td>
+                                  <td>{{ ($user->hasDiplomado()) ? $user->firstDiplomado()->name : "No inscrito" }}</td>
                                   <td>{{ $user->created_at }}</td>
                                   <td>{{ $user->last_access }}</td>
                                   </tr>

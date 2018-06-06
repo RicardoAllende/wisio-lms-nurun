@@ -107,4 +107,17 @@ class Ascription extends Model
         }
     }
 
+    public function type(){
+        if($this->isDiplomado()){
+            return "Diplomado";
+        }
+        if($this->isPharmacy()){
+            return "Farmacia";
+        }
+        if($this->is_main_ascription == 1){
+            return "Adscripción principal";
+        }
+        return $this->name;
+    }
+
 }

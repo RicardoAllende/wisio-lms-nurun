@@ -171,7 +171,7 @@ function getResourcesModules(idMod){
 }
 
 function getQuestionsEval(idEval){
-  var formUrl = window.location.protocol + "//" + window.location.hostname + '/drag-form-for-evaluation/' + idEval;
+  var formUrl = urlDrawForm + '/' + idEval;
   $.ajax({
     url: formUrl,
     method: 'get',
@@ -179,7 +179,7 @@ function getQuestionsEval(idEval){
         $("#" + content.id + " #content").html(result);
     },
     error: function(error){
-      console.log(error);
+      $("#" + content.id + " #content").html(error);
     }
   });
 }

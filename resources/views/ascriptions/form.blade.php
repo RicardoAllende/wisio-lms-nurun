@@ -154,7 +154,7 @@
     paramName: "file",
     // The name that will be used to transfer the file
     maxFilesize: 100,
-    acceptedFiles: 'image/*,application/pdf',
+    acceptedFiles: 'image/*',
     maxFiles: 1,
     dictDefaultMessage: 'Arrastra aquí el calendario',
     init: function() {

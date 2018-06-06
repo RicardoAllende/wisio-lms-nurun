@@ -58,7 +58,7 @@
 
       $('.dataTables').DataTable({
         responsive: true,
-        //dom: 'Bfrtip',
+        dom: 'Bfrtip',
         buttons: [
             'csv', 'excelHtml5', 'pdf', 'print'
         ]

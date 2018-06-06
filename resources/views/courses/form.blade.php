@@ -73,7 +73,7 @@
                           <div class="form-group">
                             {!! Form::label('support_email', 'Email para resolución de dudas:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10">
-                              {!! Form::email('support_email',null,['class'=>'form-control','placeholder'=>'Email', 'required' => '']) !!}
+                              {!! Form::email('support_email',null,['class'=>'form-control','placeholder'=>'soporte@paecmexico.com', 'required' => '']) !!}
                             </div>
                           </div>
 

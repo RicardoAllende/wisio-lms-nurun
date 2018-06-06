@@ -36,6 +36,7 @@
                             <th>Estado</th>
                             <th>Cantidad de cursos</th>
                             <th>Usuarios</th>
+                            <th>Tipo de adscripción</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
@@ -50,6 +51,7 @@
                               {{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
                               <td>{{ $ascription->courses->count() }}</td>
                               <td>{{ $ascription->users->count() }}</td>
+                              <td>{{ ($ascription->type()) }}</td>
                               <td>
                                 @if($ascription->hasRelations())
                                   @if($ascription->enabled == 1)

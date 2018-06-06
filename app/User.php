@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection as Collection;
 
 class User extends Authenticatable
 {
@@ -58,6 +59,28 @@ class User extends Authenticatable
     public function completedCourses(){
         return $this->belongsToMany('App\Course')->wherePivot('status', config('constants.status.completed'))
         ->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
+    public function approvedCourses(){
+        $courses = $this->completedCourses;
+        $result = collect();
+        foreach ($courses as $course) {
+            if($course->pivot->score >= $course->minimum_score){
+                $result->push($course);
+            }
+        }
+        return $result;
+    }
+
+    public function availableCertificates(){ // Return the list of courses the user can download
+        $courses = $this->approvedCourses();
+        $result = collect();
+        foreach($courses as $course){
+            if($course->has_constancy == 1){
+                $result->push($course);
+            }
+        }
+        return $result;
     }
 
     public function progressInModule($module_id){
@@ -328,7 +351,7 @@ class User extends Authenticatable
         return $this->completedModules->whereIn('id', $course->modules->pluck('id'))->count();
     }
 
-    public function hasCompletedTheCourse($course_id){
+    public function hasCompletedTheModulesOfCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return false; }
         $numModules = $course->modules->count();
@@ -342,8 +365,8 @@ class User extends Authenticatable
     public function tryToSetCourseComplete($course_id){
         $course = Course::find($course_id);
         if($course == null){ return false; }
-        if($this->hasCompletedTheCourse($course_id)){
-            $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id);
+        if($this->hasCompletedTheModulesOfCourse($course_id)){
+            $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
             if($pivot == null) { return false; }
             $pivot->status = config('constants.status.completed');
             $pivot->save();
@@ -353,11 +376,7 @@ class User extends Authenticatable
     }
 
     public function hasCourseComplete($course_id){
-        $course = Course::find($course_id);
-        if($course == null){ return false; }
-        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id);
-        if($pivot == null) { return false; }
-        if($pivot->status == config('constants.status.completed')){
+        if($this->progressInCourse($course_id) == config('constants.status.completed')){
             return true;
         }else{
             return false;
@@ -397,9 +416,9 @@ class User extends Authenticatable
         return $pivot->score;
     }
 
-    public function hasThisEvaluationCompleted($evaluation_id){
-        return $this->evaluations->contains($evaluation_id);
-    }
+    // public function hasThisEvaluationCompleted($evaluation_id){
+    //     return $this->evaluations->contains($evaluation_id);
+    // }
 
     public function enrolInDiplomado($ascription_id){
         $ascripton = Ascription::find($ascription_id);
@@ -422,6 +441,10 @@ class User extends Authenticatable
         if($ascription == null) { return 0; }
         $ascriptionCourses = $ascription->courses->pluck('id');
         return $this->completedCourses()->whereIn('courses.id', $ascriptionCourses)->count();
+    }
+
+    public function firstDiplomado(){
+        return $this->diplomados->first(); // Null if user doesn't have
     }
 
 }
