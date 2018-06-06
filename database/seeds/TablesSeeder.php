@@ -52,6 +52,7 @@ class TablesSeeder extends Seeder
         $ascription5 = Ascription::create(['name' => 'Farmacia San pablo', 'slug' => 'san-pablo', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription6 = Ascription::create(['name' => 'Súper Farmacias', 'slug' => 'guadalajara', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
         $ascription7 = Ascription::create(['name' => 'Farmacia Nadro', 'slug' => 'nadro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $diplomado = Ascription::create(['name' => 'Diplomado Universidad la Salle', 'slug' => 'diplomado-universidad-la-salle', 'description' => 'Sección del diplomado', 'has_constancy' => 1]);
         $category = Category::create(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
         $category2 = Category::create(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
         $category3 = Category::create(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
@@ -74,6 +75,7 @@ class TablesSeeder extends Seeder
         $ascription5->courses()->attach([$course3->id, $course1->id]);
         $ascription6->courses()->attach([$course3->id, $course1->id]);
         $ascription7->courses()->attach([$course3->id, $course1->id]);
+        $diplomado->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
         
 
         $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
@@ -177,17 +179,17 @@ class TablesSeeder extends Seeder
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
 
 
-        factory(User::class, 30)->create()->each(function ($u){
+        factory(User::class, 300)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(1)->enrolUser($u->id);
         });
 
-        factory(User::class, 30)->create()->each(function ($u){
+        factory(User::class, 300)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(2)->enrolUser($u->id);
         });
 
-        factory(User::class, 30)->create()->each(function ($u){
+        factory(User::class, 300)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(3)->enrolUser($u->id);
         });

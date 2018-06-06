@@ -62,6 +62,11 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/options','AdminControllers\OptionsController');
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
 
+		Route::get('/list-users-for-diplomado/{ascription_id}', 'AdminControllers\AscriptionsController@listUsersForDiplomado')->name('list.users.for.diplomado');
+		Route::get('/attach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@attachUserToDiplomado')->name('attach.user.to.diplomado');
+		Route::get('/detach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@detachUserForDiplomado')->name('detach.user.to.diplomado');
+		Route::get('/diplomados', 'AdminControllers\AscriptionsController@listDiplomados')->name('list.diplomados');
+
 		/** Reports */
 		Route::group(['prefix' => '/reports'], function(){
 			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions

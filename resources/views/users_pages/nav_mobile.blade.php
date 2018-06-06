@@ -26,12 +26,12 @@
                 <hr class="linem"/>
 
                    @if(Auth::check())
-                   <li><a href="{{ route('student.home', Auth::user()->ascription()->slug) }}" id="home">Academia MC</a></li>
+                   <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
                     <ul class="submenu">
-                     <li ><a href="{{ route('student.funciona', Auth::user()->ascription()->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                     <li ><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}" id="cursos">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , Auth::user()->ascription()->slug) }}" id="expertos">Expertos</a></li>
-                     <li ><a href="{{ route('student.list.evaluations' , Auth::user()->ascription()->slug) }}" id="evaluaciones">Evaluaciones</a></li>
+                     <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
+                     <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursos">Cursos</a></li>
+                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertos">Expertos</a></li>
+                     <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                    @else
                    <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                     <ul class="submenu">

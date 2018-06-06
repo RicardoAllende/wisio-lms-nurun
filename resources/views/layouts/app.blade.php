@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="{!! asset('css/vendor.css') !!}" />
     <link rel="stylesheet" href="{!! asset('css/app.css') !!}" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="/css/plugins/dataTables/datatables.min.css">
     <link rel="shortcut icon" href="/favicon.ico" />
     @section('styles')
@@ -43,7 +45,6 @@
     <!-- End wrapper-->
 
 <script src="{!! asset('js/app.js') !!}" type="text/javascript"></script>
-<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>-->
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
@@ -56,7 +57,8 @@
   $(document).ready(function(){
 
       $('.dataTables').DataTable({
-        dom: 'Bfrtip',
+        responsive: true,
+        //dom: 'Bfrtip',
         buttons: [
             'csv', 'excelHtml5', 'pdf', 'print'
         ]

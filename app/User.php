@@ -55,6 +55,11 @@ class User extends Authenticatable
             ->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
+    public function completedCourses(){
+        return $this->belongsToMany('App\Course')->wherePivot('status', config('constants.status.completed'))
+        ->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
     public function progressInModule($module_id){
         foreach($this->courses as $course){
             foreach($course->modules as $module){
@@ -68,6 +73,12 @@ class User extends Authenticatable
             }
         }
         return "No inscrito";
+    }
+
+    public function progressInCourse($course_id){
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
+        if($pivot == null) { return "No inscrito"; }
+        return $pivot->status;
     }
 
     public function availableCourses(){
@@ -131,7 +142,11 @@ class User extends Authenticatable
 
     public function ascriptions()
     {
-        return $this->belongsToMany('App\Ascription')->withTimestamps();
+        return $this->belongsToMany('App\Ascription')->where('has_constancy', 0)->withTimestamps();
+    }
+
+    public function diplomados(){
+        return $this->belongsToMany('App\Ascription')->where('has_constancy', 1)->withPivot('score', 'status')->withTimestamps();
     }
 
     public function normalAscriptions(){
@@ -284,26 +299,69 @@ class User extends Authenticatable
 
     public function setModuleComplete($module_id){
         $module = Module::find($module_id);
-        if ($module == null) { return; }
+        if ($module == null) { return false; }
         if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
             return false;
         }
         if($this->modules->contains($module_id)){
             $this->modules()->detach($module_id);
-            ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+            // ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
         }
         $this->modules()->attach($module_id, ['status'=>config('constants.status.completed')]);
+        $this->tryToSetCourseComplete($module->course->id);
         return true;
     }
 
     public function hasCompletedTheModule($module_id){
-        $this->modules->contains($module_id);
+        $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+        if($pivot == null) { return false; }
+        if($pivot->status == config('constants.status.complete')){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function completedModulesOfCourse($course_id){
         $course = Course::find($course_id);
-        if($course == null){ return false; }
+        if($course == null){ return 0; }
         return $this->completedModules->whereIn('id', $course->modules->pluck('id'))->count();
+    }
+
+    public function hasCompletedTheCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        $numModules = $course->modules->count();
+        if($numModules == $this->completedModulesOfCourse($course_id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function tryToSetCourseComplete($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        if($this->hasCompletedTheCourse($course_id)){
+            $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id);
+            if($pivot == null) { return false; }
+            $pivot->status = config('constants.status.completed');
+            $pivot->save();
+            return true;
+        }
+        return false;
+    }
+
+    public function hasCourseComplete($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id);
+        if($pivot == null) { return false; }
+        if($pivot->status == config('constants.status.completed')){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function evaluationAttempts($evaluation_id){
@@ -341,6 +399,29 @@ class User extends Authenticatable
 
     public function hasThisEvaluationCompleted($evaluation_id){
         return $this->evaluations->contains($evaluation_id);
+    }
+
+    public function enrolInDiplomado($ascription_id){
+        $ascripton = Ascription::find($ascription_id);
+        if($ascription == null) { return false; }
+        if($ascription->hasConstancy == 0){ return false; } // Not a diplomado
+        $this->ascriptions()->attach($ascription_id);
+        return true;
+    }
+
+    public function hasDiplomado(){
+        if($this->diplomados->count() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function numCompletedCoursesOfAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null) { return 0; }
+        $ascriptionCourses = $ascription->courses->pluck('id');
+        return $this->completedCourses()->whereIn('courses.id', $ascriptionCourses)->count();
     }
 
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Ascription;
 use App\AscriptionAttachment;
+use App\Role;
+use App\User;
 
 class AscriptionsController extends Controller
 {
@@ -113,6 +115,7 @@ class AscriptionsController extends Controller
             }
             $ascription->slug = $slug;
             $ascription->is_pharmacy = $request->is_pharmacy;
+            $ascription->has_constancy = $request->has_constancy;
             $ascription->save();
             if($request->filled('attachment')){
                 $attach_id = $request->input('attachment');
@@ -184,7 +187,23 @@ class AscriptionsController extends Controller
     }
 
     public function showReport($ascription_id){
-        
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null) { return redirect()->route('list.ascriptions.report'); }
+        $users = $ascription->users;
+        return view('ascriptions/report', compact('ascription', 'users'));
+    }
+
+    public function listDiplomados(){
+        $ascriptions = Ascription::where('has_constancy', 1)->get(); // Diplomados
+        return view('diplomados/list', compact('ascriptions'));
+    }
+
+    public function listUsersForDiplomado($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){ return redirect()->route('list.diplomados'); }
+        $doctorRole = Role::where('name', config('constants.roles.doctor'))->pluck('id');
+        $users = User::whereIn('role_id', $doctorRole)->get();
+        return view('diplomados/list-users-to-enrol', compact('users', 'ascription'));
     }
 
 }

@@ -35,8 +35,17 @@
               @endif
           </div>
 
+          <div id="modal2" class="modal">
+            <div class="modal-content">
+            <center>
+                <img src="{{ config('constants.default_images.evaluation') }}" style="width:80%; height:80%;" alt="Calendario">      
+            </center>
+            </div>
+            <div class="modal-footer">
+              <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+          </div>
           @yield('body')
-
           @include('users_pages.footer')
 
       </div>

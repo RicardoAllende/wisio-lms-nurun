@@ -10,12 +10,12 @@
 
 
                  @if(Auth::check())
-                 <li><a href="{{ route('student.home', Auth::user()->ascription()->slug) }}" id="home">Academia MC</a></li>
+                 <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
                   <ul class="submenu">
-                   <li ><a href="{{ route('student.funciona', Auth::user()->ascription()->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                   <li ><a href="{{ route('student.own.courses' , Auth::user()->ascription()->slug) }}" id="cursos">Cursos</a></li>
-                   <li ><a href="{{ route('student.show.experts' , Auth::user()->ascription()->slug) }}" id="expertos">Expertos</a></li>
-                   <li ><a href="{{ route('student.list.evaluations' , Auth::user()->ascription()->slug) }}" id="evaluaciones">Evaluaciones</a></li>
+                   <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
+                   <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursos">Cursos</a></li>
+                   <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertos">Expertos</a></li>
+                   <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                  @else
                  <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                   <ul class="submenu">
@@ -27,8 +27,8 @@
 
                </ul>
               <li><a href="#!">Medicamentos</a></li>
+              <li><a class="modal-trigger" href="#modal2">Calendario</a> </li>
               @if(Auth::check())
-                <li class="modal-trigger" href="#modal2"><a href="#">Calendario</a> </li>
                 <li class="registro"><a href="{{ route('logout') }}"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>
               @else
                 <li class="registro"><a href="#modal1" class="modal-trigger"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/<br>Registro</span></a></li>
@@ -50,16 +50,4 @@
            </div>
 
       </div>
-@if(Auth::check())
-  <div id="modal2" class="modal">
-    <div class="modal-content">
-    <center>
-        <img src="{{ Auth::user()->ascription()->calendarUrl() }}" alt="Calendario">      
-    </center>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrrar</a>
-    </div>
-  </div>
-@endif
 @include('users_pages.login.modal')

@@ -2,15 +2,12 @@
 
 @section('title','Adscripciones')
 @section('cta')
-  <!-- <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a> -->
+  <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a>
 @endsection
 
 @section('subtitle')
     <ol class="breadcrumb">
-        <li>
-          Reportes
-        </li>
-        <li>Adscripciones</li>
+        <li>Diplomados</li>
     </ol>
 @endsection
 
@@ -22,7 +19,6 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>Adscripciones</h5>
-                        
                     </div>
                     <div class="ibox-content">
                     @if($ascriptions->count() > 0)
@@ -31,26 +27,25 @@
                         <thead>
                           <tr>
                             <th>#</th>
-                            <th>Adscripción</th>
+                            <th>Diplomado</th>
                             <th>Slug</th>
-                            <th>Descripción</th>
                             <th>Estado</th>
-                            <th>Cantidad de cursos</th>
-                            <th>Usuarios</th>
+                            <th># Cursos</th>
+                            <th>Médicos inscritos</th>
+
                           </tr>
                         </thead>
                         <tbody>@php $i=1; @endphp
                             @foreach($ascriptions as $ascription)
-                            <tr>
-                              <td><a href="{{ route('show.ascription.report' , $ascription->id) }}">{{ $i }}</a></td>@php $i++; @endphp
-                              <td><a href="{{ route('show.ascription.report' , $ascription->id) }}">{{ $ascription->name }}</a></td>
+                              <tr>
+                              <td><a href="{{ route('list.users.for.diplomado' , $ascription->id) }}">{{ $i }}</a></td>@php $i++; @endphp
+                              <td><a href="{{ route('list.users.for.diplomado' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
-                              <td>{{ $ascription->description }}</td>
-                              <td>
-                              {{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
+                              <td>{{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
                               <td>{{ $ascription->courses->count() }}</td>
                               <td>{{ $ascription->users->count() }}</td>
-                            </tr>
+                              
+                              </tr>
                             @endforeach
                             
                         </tbody>
@@ -71,5 +66,20 @@
                 </div>
               </div>
       </div>
-</div>                       
+</div>
+
+                        
+
+
+@endsection
+
+@section('scripts')
+
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
+
+@endsection
+
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

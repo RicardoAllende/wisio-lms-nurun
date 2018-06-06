@@ -4,11 +4,11 @@ Evaluaciones
 @extends('users_pages.master')
 @section('body')
 <div class="row pad-left3">
-  <div class="col s6 l9">
+  <div class="col s6 l5">
     <hr class="line"/>
   </div>
-  <div class="col s6 l3">
-    <h2 class="recientes">Evaluaciones</h2>
+  <div class="col s6 l7">
+    <h2 class="recientes">Elija un curso para mostrar sus evaluaciones</h2>
   </div>
   @foreach($courses as $course)
   <div class="col s12 l4 ">
@@ -27,12 +27,8 @@ Evaluaciones
                     </ol>
               </div >
           <div class="leer-masmodulos_50">
-            @if(Auth::check())
-              <a href="{{ route('show.evaluation.course', [$user->ascriptionSlug(), $course->slug]) }}">Ver todo</a>
-            @else
-              <a href="{{ route('welcome') }}">Ver más</a>
-            @endif
-              <hr class="line3"/>
+            <a href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Ver todas las evaluaciones</a>
+            <hr class="line3"/>
           </div>
        </div>
     </div>
@@ -42,7 +38,6 @@ Evaluaciones
 @stop
 @section('extrajs')
 <script>
-  console.log("Hola".serialize());
   cambiarItem("evaluaciones");
 </script>
 @stop

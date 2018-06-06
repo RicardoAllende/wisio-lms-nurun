@@ -52,6 +52,14 @@
                                 {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal'], null, ['class' => 'form-control']) !!}
                               </div>
                             </div>
+
+                            <div class="form-group">
+                                {!! Form::label('has_constancy', '¿Es un diplomado?',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                {!! Form::select('has_constancy', ['0' => 'No', '1' => 'Sí'], null, ['class' => 'form-control']) !!}
+                              </div>
+                            </div>
+
                             <div class="form-group">
                               {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10"> 
@@ -76,7 +84,7 @@
                             </div>
                           </div>
                         {!! Form::close() !!}
-                    </div>
+                    
                     
                       <div class="form-group" id="divImg">
                         {!! Form::label('featured_label', 'Imagen de la adscripción:',['class'=>'control-label col-sm-2']); !!}
@@ -112,6 +120,7 @@
                         {!! Form::close() !!}
                     </div>
                     <div class="ibox-footer" id="result"></div>
+                  </div>
                 </div>
               </div>
       </div>

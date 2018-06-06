@@ -99,4 +99,12 @@ class Ascription extends Model
         return false;
     }
 
+    public function isDiplomado(){
+        if ($this->has_constancy == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

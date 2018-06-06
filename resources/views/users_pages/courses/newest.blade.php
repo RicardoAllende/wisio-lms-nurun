@@ -19,7 +19,7 @@
                        <span class="titulo-academia"> {{ $course->name }} </span>
                        <div class="leer-mas">
                          @if(Auth::check())
-                           <a href="{{ route('student.show.course',[Auth::user()->ascription()->slug,$course->slug]) }}">Ver más</a>
+                           <a href="{{ route('student.show.course',[$ascription->slug,$course->slug]) }}">Ver más</a>
                          @else
                            <a href="{{ route('student.show.course',['invitado',$course->slug]) }}">Ver más</a>
                          @endif

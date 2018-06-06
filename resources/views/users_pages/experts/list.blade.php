@@ -52,7 +52,7 @@ Expertos
 
                     <div class="leer-masmodulos">
                       @if(Auth::check())
-                        <a href="{{ route('student.show.expert',[Auth::user()->ascription()->slug,$expert->slug]) }}">Ver más</a>
+                        <a href="{{ route('student.show.expert',[$ascription->slug,$expert->slug]) }}">Ver más</a>
                       @else
                         <a href="{{ route('student.show.expert',['invitado',$expert->slug]) }}">Ver más</a>
                       @endif

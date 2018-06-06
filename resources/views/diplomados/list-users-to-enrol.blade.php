@@ -1,16 +1,23 @@
 @extends('layouts.app')
 
-@section('title','Reporte de usuarios')
+@section('title','Usuarios')
 @section('cta')
-<!--<div style="display=inline;">
+<div style="display=inline;">
   <a href="{{route('users.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
-</div>-->
+</div>
 @endsection
 
 @section('subtitle')
     <ol class="breadcrumb">
-        <li>Reportes</li>
-        <li>Usuarios</li>
+        <li>
+          <a href="{{ route('list.diplomados') }}">Diplomados</a>
+        </li>
+        <li>
+          {{ $ascription->name }}
+        </li>
+        <li>
+          Administrar usuarios
+        </li>
     </ol>
 @endsection
 
@@ -20,7 +27,7 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Reporte de médicos inscritos en el sistema </h5><br>
+                        <h5>Listado de médicos, inscripción a {{ $ascription->name }}</h5><br>
                     </div>
                     <div class="ibox-content">
                       <br>
@@ -35,30 +42,33 @@
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
                                 <th>Cédula profesional</th>
-                                <th>Teléfono móvil</th>
                                 <th>Activo</th>
                                 <th>Adscripción</th>
-                                <th>Fecha de inscripción</th>
-                                <th>Último acceso al sistema</th>
+                                <th>Acciones</th>
                               </tr>
                             </thead>
                             <tbody>
                                 @foreach($users as $user)
                                   <tr>
                                   <td>{{$i}}</td>@php $i++; @endphp
-                                  <td><a href="{{ route('show.user.report' , $user->id) }}">{{$user->email}}</a></td>
+                                  <td><a href="{{ route('users.show' , $user->id) }}">{{$user->email}}</a></td>
                                   <td>{{ $user->firstname }}</td>
                                   <td>{{ $user->lastname }}</td>
                                   <td>{{ $user->cedula }}</td>
-                                  <td>{{ $user->mobile_phone }}</td>
                                   <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
                                   <td>@if($user->hasAscriptions()){{ $user->ascriptions->first()->name }}
                                     @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
                                   </td>
-                                  <td>{{ $user->created_at }}</td>
-                                  <td>{{ $user->last_access }}</td>
+                                  <td>
+                                    @if($user->hasDiplomado())
+                                        <a href="{{ route('detach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-danger btn-round" >Quitar del diplomado</a>
+                                    @else
+                                        <a href="{{ route('attach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-success btn-round" >Inscribir al diplomado</a>
+                                    @endif
+                                  </td>
                                   </tr>
                                 @endforeach
+                              
                             </tbody>
                           </table>
                         </div>

@@ -243,4 +243,29 @@ class UsersController extends Controller
         return view('users/report', compact('user'));
     }
 
+    public function listUsersToEnrolDiplomado(){
+        $doctorRole = Role::where('name', config('constants.roles.doctor'))->pluck('id');
+        $users = User::whereIn('role_id', $doctorRole)->get();
+        return view('diplomado/list-users-to-enrol', compact('users'));
+    }
+
+    public function attachUserToDiplomado($ascription_id, $user_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el id de la adscripción']); }
+        if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, contacte con el administrador']); }
+        $user = User::find($user_id);
+        if($user == null){ return back()->withErrors(['Error' => 'Error al encontrar al usuario']); }
+        if( ! $user->ascriptions->contains($ascription_id)){
+            $user->ascriptions()->attach($ascription_id);
+        }
+        return back();
+    }
+
+    public function detachUserForDiplomado($ascription_id, $user_id){
+        $user = User::find($user_id);
+        if($user ==null) { return back()->withErrors(['Error' => 'Error al buscar usuario']); }
+        $user->ascriptions()->detach($ascription_id);
+        return back();
+    }
+
 }

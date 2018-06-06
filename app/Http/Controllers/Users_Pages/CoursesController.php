@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CoursesController extends Controller
 {
-    public function index($adscription_slug)
+    public function index($ascription_slug)
     {
         $search = "";
         $user = Auth::user();
@@ -29,23 +29,26 @@ class CoursesController extends Controller
         }else{
             $courses = $user->courses;
         }
-        return view('users_pages/courses/list',compact('courses', 'search'));
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages/courses/list',compact('courses', 'search', 'ascription'));
     }
 
-    public function show($adscription_slug, $course_slug)
+    public function show($ascription_slug, $course_slug)
     {
         $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return view('users_pages/courses.list'); }
-        return view('users_pages/courses.show',compact('course'));
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages/courses.show',compact('course', 'ascription'));
     }
 
-    public function recommendations($adscription_slug)
+    public function recommendations($ascription_slug)
     {
         $courses = Course::all();
-        return view('users_pages/courses.home',compact('courses'));
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages/courses.home',compact('courses', 'ascription'));
     }
 
-    public function enrollment($slug,$user_id, $course_id)
+    public function enrollment($ascription_slug,$user_id, $course_id)
     {
       $course = Course::find($course_id);
 

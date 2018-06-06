@@ -8,10 +8,11 @@ use App\Expert;
 use App\AttachmentExpert;
 use App\Module;
 use App\Specialty;
+use App\Ascription;
 
 class ExpertsController extends Controller
 {
-    public function index($adscription_slug)
+    public function index($ascription_slug)
     {
         $name = "";
         $specialty = "";
@@ -32,20 +33,23 @@ class ExpertsController extends Controller
         }else{
             $experts = Expert::all();
         }
-        return view('Users_Pages/experts.list', compact('experts', 'name', 'specialty'));
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('Users_Pages/experts.list', compact('experts', 'name', 'specialty', 'ascription'));
     }
 
-  public function listModules($adscription_slug, $expert_slug){
+  public function listModules($ascription_slug, $expert_slug){
       $expert = Expert::where('slug', $expert_slug)->first();
       if($expert == null){ return redirect()->route('experts.index'); }
       $modules = Module::all();
-      return view('experts/list-modules', compact('expert', 'modules'));
+      $ascription = Ascription::whereSlug($ascription_slug)->first();
+      return view('experts/list-modules', compact('expert', 'modules', 'ascription'));
   }
 
-  public function show($adscription_slug, $expert_slug)
+  public function show($ascription_slug, $expert_slug)
   {
       $expert = Expert::where('slug', $expert_slug)->first();
-      return view('Users_Pages/experts.show', compact('expert'));
+      $ascription = Ascription::whereSlug($ascription_slug)->first();
+      return view('Users_Pages/experts.show', compact('expert', 'ascription'));
   }
 
   public function getSpecialties(){

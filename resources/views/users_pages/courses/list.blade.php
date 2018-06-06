@@ -53,7 +53,7 @@ Cursos
               </div >
           <div class="leer-masmodulos_50">
             @if(Auth::check())
-              <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver todo</a>
+              <a href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver todo</a>
             @else
               <a href="{{ route('welcome') }}">ver mas</a>
             @endif

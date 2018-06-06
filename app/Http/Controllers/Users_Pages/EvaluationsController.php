@@ -17,32 +17,23 @@ use Illuminate\Support\Facades\Auth;
 
 class EvaluationsController extends Controller
 {
-    public function showEvaluation($ascriptionSlug, $courseSlug, $evaluation_id){
-        $evaluation = Evaluation::find($evaluation_id);
-        if($evaluation == null){ return redirect('/evaluacion-nula'); }
-        $course = Course::find($evaluation_id);
-        // $modules = Module::all();
-        if($course == null){ return redirect('/curso-nulo'); }
-        $evaluations = $course->evaluations();
-        return view('Users_Pages/evaluations/show', compact('evaluations', 'course'));
-    }
-
-    public function showCourses($ascriptionSlug){
-        $ascription = Ascription::whereSlug($ascriptionSlug)->first();
+    public function showCourses($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
         $user = Auth::user();
         if($ascription == null) { return redirect()->route('student.home', $user->ascriptionSlug()); }
         $courses = $user->courses;
-        return view('Users_Pages/evaluations/list', compact('evaluations', 'courses', 'user'));
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('Users_Pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
-    // public function showAvailableEvaluations($ascriptionSlug, $courseSlug){
+    // public function showAvailableEvaluations($ascription_slug, $courseSlug){
     //     $user = Auth::user();
     //     $course = Course::whereSlug($courseSlug)->first();
     //     $evaluations = $course->evaluations();
     //     return view('users_pages/evaluations/list', compact('user', 'course', 'evaluations'));
     // }
 
-    public function showEvaluationsFromCourse($ascriptionSlug, $courseSlug){
+    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
         $numModules = $course->modules->count();
@@ -53,12 +44,14 @@ class EvaluationsController extends Controller
         $completedEvaluations = $user->completedEvaluationsForCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
         if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
-        return view('users_pages/evaluations/list-from-course', 
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages/evaluations/list-from-course', 'ascription',
         compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance', 
-        'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance'));
+        'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance',
+        'ascriptionSlug', 'courseSlug'));
     }
 
-    public function gradeEvaluation($ascriptionSlug, Request $request){
+    public function gradeEvaluation($ascription_slug, Request $request){
         $attempt_id = $request->attempt_id;
         $user_id = $request->user_id;
         $evaluation_id = $request->evaluation_id;
@@ -94,18 +87,17 @@ class EvaluationsController extends Controller
             }
         }
         $evaluationAverage = $summatory / $questions->count()*10; //  0-10 scale
-        if($evaluation->isFinalEvaluation()){
-            $evaluationAttempt->score = $evaluationAverage;
-            $evaluationAttempt->save();
-        }
+        $evaluationAttempt->score = $evaluationAverage;
+        $evaluationAttempt->save();
 
+        $numQuestions = $questions->count();
 
-        echo "Número de preguntas: {$questions->count()} <br>";
-        echo "Preguntas contestadas adecuadamente: {$summatory} <br>";
-        echo "Promedio: {$evaluationAverage} <br>";
-        echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
+        // echo "Número de preguntas: {$numQuestions} <br>";
+        // echo "Preguntas contestadas adecuadamente: {$summatory} <br>";
+        // echo "Promedio: {$evaluationAverage} <br>";
+        // echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
 
-
+        
         $module = $evaluation->module;
         $course = $module->course;
         $finalEvaluations = $module->finalEvaluations->pluck('id');
@@ -126,10 +118,16 @@ class EvaluationsController extends Controller
             }
         }
 
+        $user->tryToSetCourseComplete($course->id);
 
 
-        echo "Promedio del módulo: {$moduleAvg} <br>";
+        // echo "Promedio del módulo: {$moduleAvg} <br>";
         $course->calculateAvgForUser($user_id);
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages/evaluations/result', 
+            compact('numQuestions', 'summatory', 'evaluation', 'ascription',
+            'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
+        );
     }
 
     public function dragForm($evaluation_id){
@@ -164,12 +162,11 @@ class EvaluationsController extends Controller
 
                 }
                 if ( $question == $questions->last() ) {
-                    echo '<button class="btn btn-success">Enviar</button>';
+                    echo '<button class="btn btn-success">Calificar</button>';
                 }
                 echo '</div>
                         <div class="col s3 center">
-                        <a class="purple-text" onclick="plusSlidesE(1)">Siguiente</a>
-                        <hr class="line3"/>
+                        <a class="purple-text" onclick="plusSlidesE(1)">Siguiente<hr class="line3"/></a>
                         </div>
                     </div>';
             }

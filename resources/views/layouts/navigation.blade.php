@@ -46,6 +46,7 @@
                     <li class="">
                         <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Adscripciones</span></a>
                     </li>
+                    <li><a href="{{ route('list.diplomados') }}"><i class="fa fa-certificate" ></i><span>Diplomados</span> </a></li>
                     <li class="">
                         <a href="{{ route('categories.index') }}"><i class="fa fa-folder"></i> <span class="nav-label">Categorías</span></a>
                     </li>

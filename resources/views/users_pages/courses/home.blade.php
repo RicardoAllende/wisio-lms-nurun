@@ -22,7 +22,7 @@ Inicio
                    <div class="modulos">{{ $course->modules->count() }} módulos</div>
                   <div class="leer-masmodulos_50">
                   @if(Auth::check())
-                     <a href="{{ route('student.show.course', [Auth::user()->ascription()->slug,$course->slug]) }}">Ver mas</a>
+                     <a href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver mas</a>
                   @else
                      <a href="{{ route('student.show.course', 'invitado') }}">Ver mas  </a>
                   @endif

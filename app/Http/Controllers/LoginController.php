@@ -34,6 +34,10 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
+                if($user->hasDiplomado()){
+                    $diplomado = $user->diplomados->first();
+                    return redirect()->route('student.home', $diplomado->slug);
+                }
                 $ascription = $user->ascription();
                 return redirect()->route('student.home', $ascription->slug);
             }
@@ -47,6 +51,10 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
+                if($user->hasDiplomado()){
+                    $diplomado = $user->diplomados->first();
+                    return redirect()->route('student.home', $diplomado->slug);
+                }
                 $ascription = $user->ascription();
                 return redirect()->route('student.home', $ascription->slug);
             }

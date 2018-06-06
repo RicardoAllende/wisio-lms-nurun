@@ -38,8 +38,8 @@
                 </div>
                 <div class="col-sm-8" style="bottom: 50%;">
                 <br><br><br>
-                    <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} Intentos permitidos: {{ $evaluation->maximum_attempts }}</p>
-                    <p>Calificación mínima: {{ $evaluation->minimum_score }}</p>
+                    <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} </p>
+                    <p> Intentos permitidos: {{ $evaluation->maximum_attempts }}</p>
                     <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
                     <span>Contiene {{ $evaluation->questions->count() }} preguntas</span> |
                     <span>{{ $approved }} Veces aprobado</span>
@@ -75,7 +75,7 @@
                             @foreach($evaluation->questions as $question) 
                                 <tr>
                                 <td><a href="{{ route('questions.show', $question->id) }}">{{ $i }}</a></td>
-                                <td><a href="{{ route('questions.show', $question->id) }}">{{ $question->name }}</a></td>
+                                <td><a href="{{ route('questions.show', $question->id) }}">{{ $question->content }}</a></td>
                                 <td>
                                     {{$question->options->count()}}
                                 </td>
