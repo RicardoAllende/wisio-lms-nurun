@@ -416,9 +416,9 @@ class User extends Authenticatable
         return $pivot->score;
     }
 
-    // public function hasThisEvaluationCompleted($evaluation_id){
-    //     return $this->evaluations->contains($evaluation_id);
-    // }
+    public function hasThisEvaluationCompleted($evaluation_id){
+        return $this->evaluations->contains($evaluation_id);
+    }
 
     public function enrolInDiplomado($ascription_id){
         $ascripton = Ascription::find($ascription_id);
