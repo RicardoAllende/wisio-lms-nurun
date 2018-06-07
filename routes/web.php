@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth']], function () {
 		/** Reports */
 		Route::group(['prefix' => '/reports'], function(){
 			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
-			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report'); 
+			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
 			Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
 			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
 			Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
 			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js
 		// Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
+		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 	});
 
 });
