@@ -40,6 +40,8 @@ Inicio
             </div>
           </div>
           @endforeach
+
+          @include('users_pages.courses.diplomado')
        </div>
 
 
@@ -49,25 +51,5 @@ Inicio
 @section('extrajs')
 <script>
   cambiarItem("home");
-
-  // function enrol(){
-  //   $.ajax({
-  //     type: 'post',
-  //     url: 'enrol',
-  //     data: {
-  //       idUser: ,
-  //       _token: '{{ csrf_token() }}'
-  //     },
-  //     success: function (items) {
-  //
-  //     items_ = items;
-  //     console.log(items_);
-  //     },
-  //     error: function(request, error){
-  //       console.log(error);
-  //     }
-  //
-  //   });
-  // }
 </script>
 @stop

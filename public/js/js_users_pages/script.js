@@ -69,12 +69,7 @@ function showSlidesE(n){
 
 }
 
-function cambiarItem(item){
-  $(".activo").each(function() {
-      $(this).removeClass('activo');
-  })
-  $("#"+item).addClass('activo');
-}
+
 
 var coll = document.getElementsByClassName("collapsiblemod");
 var i;
@@ -405,4 +400,18 @@ function sendStatus(status_){
     }
 
   });
+}
+
+function cambiarItem(item){
+  console.log(item)
+  $(".activo").each(function() {
+      $(this).removeClass('activo');
+  })
+  console.log($("#"+item));
+  if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
+    $("#"+item+'Mob').addClass('activo');
+  } else {
+    $("#"+item).addClass('activo');
+  }
+
 }

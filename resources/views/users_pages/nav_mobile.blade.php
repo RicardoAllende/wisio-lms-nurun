@@ -26,20 +26,20 @@
                 <hr class="linem"/>
 
                    @if(Auth::check())
-                   <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
+                   <li><a href="{{ route('student.home', $ascription->slug) }}" id="homeMob">Academia MC</a></li>
                     <ul class="submenu">
-                     <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                     <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursos">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertos">Expertos</a></li>
-                     <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
+                     <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
+                     <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Cursos</a></li>
+                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Expertos</a></li>
+                     <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
                      <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
                    @else
                    <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                     <ul class="submenu">
-                     <li ><a href="{{ route('student.funciona', 'invitado') }}" id="funciona">¿Cómo funciona?</a></li>
-                     <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="cursos">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertos">Expertos</a></li>
-                     <li ><a href="{{ route('student.list.evaluations' , 'invitado') }}" id="evaluaciones">Evaluaciones</a></li>
+                     <li ><a href="{{ route('student.funciona', 'invitado') }}" id="funcionaMob">¿Cómo funciona?</a></li>
+                     <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="cursosMob">Cursos</a></li>
+                     <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertosMob">Expertos</a></li>
+                     <li ><a href="{{ route('student.list.evaluations' , 'invitado') }}" id="evaluacionesMob">Evaluaciones</a></li>
                    @endif
 
                  </ul>
