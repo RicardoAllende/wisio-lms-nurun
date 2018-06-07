@@ -85,6 +85,8 @@ var idModule = null;
 var videoPlaying = null;
 var idModule = null;
 var isMob = false;
+var isEval = false;
+var stat = false;
 
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
@@ -92,8 +94,6 @@ for (i = 0; i < coll.length; i++) {
       blockViewModule = true;
       modActive = this;
       modActive.classList.toggle("activeMod");
-
-      console.log(screen.width+" "+window.innerWidth);
 
       if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
           isMob = true;
@@ -133,8 +133,11 @@ function openModule(){
 
 function closeModule(){
 
-  sendDataLrs();
-  sendStatus('visto');
+  if(!isEval){
+    sendDataLrs();
+    sendStatus(stat);
+    stat = false;
+  }
   modActive.classList.toggle("activeMod");
   if(isMob){
     $('#modalMod').modal('close');
@@ -224,6 +227,8 @@ function printResources(resources){
             vide.play();
           } else {
             console.log('video concluido');
+            stat = true;
+
           }
 
       };
@@ -243,6 +248,7 @@ function printResources(resources){
             $("#"+content.id+" #content").html(contendiv);
             vide.onended = function() {
               console.log('video concluido');
+              stat = true;
             };
             vide.onplay = function() {
               videoPlaying = vide;
@@ -382,11 +388,10 @@ function sendDataLrs(){
 }
 
 function sendStatus(status_){
-    var url_ = window.location.hostname +'/save_progress_module';
 
     $.ajax({
     type: 'post',
-    url: url_,
+    url: window.location +'/save_progress_module',
     data: {
       module_id: idModule,
       status:status_,

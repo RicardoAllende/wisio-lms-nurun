@@ -68,7 +68,14 @@ class CoursesController extends Controller
 
     public function saveProgressModule(Request $request){
       $module = Module::find($request->module_id);
-      $save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
+      $user = Auth::user();
+      $save = null;
+
+      if($request->status){
+        $save = $user->setModuleComplete($request->module_id);
+      }
+
+      //$save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
       return $save;
     }
 
