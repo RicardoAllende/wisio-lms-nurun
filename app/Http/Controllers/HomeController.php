@@ -11,7 +11,7 @@ class HomeController extends Controller
         $courses = Course::orderBy('created_at','desc')->limit(5)->get();
         if(Auth::check()){
             $user = Auth::user();
-            if($user->hasDiplomado()){
+            if($user->hasDiplomados()){
                 $ascription = $user->diplomados->first();
                 return view('users_pages/login/login', compact('courses', 'ascription'));
             }

@@ -46,29 +46,26 @@ class LoginController extends Controller
             }
             return redirect('/');
 
-            // $user = Auth::user();
-            // if($user->isAdmin()){
-            //     return redirect()->route('admin.dashboard');
-            // }
-            // if($user->isStudent()){
-            //     $route = 'student.home';
-            //     if($user->last_profile_update == ''){
-            //         $route = 'student.update';
-            //     }
-            //     if($user->hasDifferentAscriptions()){
-            //         $route = 'student.select.ascription';
-            //     }
-            //     if($user->hasDiplomados()){
-            //         $ascription = 
-            //         $diplomado = $user->diplomados->first();
-            //         return redirect()->route('student.home', $diplomado->slug);
-            //     }
-            //     $ascription = $user->ascription();
-            //     return redirect()->route('student.home', $ascription->slug);
-            // }
+
+            $user = Auth::user();
+            if($user->isAdmin()){
+                return redirect()->route('admin.dashboard');
+            }
+            if($user->isStudent()){
+                if($user->last_profile_update == ''){
+                    return redirect()->route('student.update');
+                }
+                if($user->hasDifferentAscriptions()){
+                    return redirect()->route('student.select.ascription');
+                }
+                $ascription = $user->ascription();
+                return redirect()->route('student.home', $ascription->slug);
+            }
+
         }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            session(['info' => $user->email]);
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();
@@ -76,12 +73,14 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                if($user->hasDiplomados()){
-                    $diplomado = $user->diplomados->first();
-                    return redirect()->route('student.own.courses', $diplomado->slug);
+                if($user->last_profile_update == ''){
+                    return redirect()->route('student.update');
+                }
+                if($user->hasDifferentAscriptions()){
+                    return redirect()->route('student.select.ascription');
                 }
                 $ascription = $user->ascription();
-                return redirect()->route('student.own.courses', $ascription->slug);
+                return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');
         } else {

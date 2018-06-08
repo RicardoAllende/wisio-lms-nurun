@@ -102,15 +102,15 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/evaluaciones-de-cursos', 'Users_Pages\EvaluationsController@showCourses')->name('student.list.evaluations');
 		Route::get('/evaluaciones/{course_id}', 'Users_Pages\EvaluationsController@showEvaluationsFromCourse')->name('show.evaluation.course');
 		Route::get('/evaluaciones/{course_id}/draw-form/{evaluation_id}', 'Users_Pages\EvaluationsController@drawForm')
-			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js
+			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js, if it changes you must update the script.js
 		// Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
+		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 		Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
 	});
 
 	Route::get('/seleccionar-seccion', 'Users_Pages\UserController@selectAscription')->name('student.select.ascription');
-	// Route::get()->name('student.update');
-	Route::get('/actualizar', 'Users_Pages\UserController@edit')->name('student.update')->middleware('student');
+	Route::get('/actualizar-informacion-personal', 'Users_Pages\UserController@edit')->name('student.update')->middleware('student');
 	Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });
