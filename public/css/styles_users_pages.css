@@ -380,6 +380,13 @@ nav a {
     color: #000;
 }
 
+.acept{
+  background-color: #8F6EAA;
+}
+
+.error{
+  background-color:#e57373;
+}
 /******************/
 
 

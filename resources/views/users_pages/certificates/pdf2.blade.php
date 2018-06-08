@@ -16,7 +16,7 @@
         #nombre1{
             position: fixed;
             left: 320px;
-            top: 245px;
+            top: 235px;
             font-size: 22pt;
             width: 700px;
             text-align: left;
@@ -25,14 +25,14 @@
         }
         #dia1{
             position: fixed;
-            top: 368px;
+            top: 363px;
             left: 300px;
             font-size: 16pt;
             color: #396db6;
         }
         #dia2{
           position: fixed;
-          top: 368px;
+          top: 363px;
           left: 490px;
           font-size: 16pt;
           color: #396db6;
@@ -40,7 +40,7 @@
 
         #mes1{
           position: fixed;
-          top: 368px;
+          top: 363px;
           left: 390px;
           font-size: 16pt;
           color: #396db6;
@@ -48,7 +48,7 @@
 
         #mes2{
           position: fixed;
-          top: 368px;
+          top: 363px;
           left: 590px;
           font-size: 16pt;
           color: #396db6
@@ -56,7 +56,7 @@
 
         #anio{
           position: fixed;
-          top: 368px;
+          top: 363px;
           left: 685px;
           font-size: 16pt;
           color: #396db6
@@ -64,7 +64,7 @@
 
         #curso1{
             position: fixed;
-            top: 330px;
+            top: 320px;
             left: 80px;
             font-size: 22pt;
             color: #2052a6;
@@ -81,7 +81,7 @@
 <body>
 
     <div >
-      <img src="{{ asset('img/cert_1_sanofi.png')}}" width="1024px" height="750px">
+      <img src="{{ asset('img/cert_2_sanofi.png')}}" width="1024px" height="730px">
       <div id="nombre1">JULIA ALEJANDRA CHÁVEZ ZAPATA</div>
       <div id="curso1">Prevención de Lavado de Dinero</div>
       <div id="dia1">9</div>

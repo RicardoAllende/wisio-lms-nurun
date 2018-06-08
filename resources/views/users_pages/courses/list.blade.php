@@ -46,7 +46,7 @@ Cursos
               <div  class="moduloslista valign-wrapper">
 
                     <ol>
-                      @foreach($course->modules->slice(0,5) as $module)
+                      @foreach($course->modules->slice(0,3) as $module)
                         <li>{{ $module->name }} </li>
                       @endforeach
                     </ol>

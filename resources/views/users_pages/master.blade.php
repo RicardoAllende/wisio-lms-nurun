@@ -47,6 +47,19 @@
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
 
+      @if(session()->has('msj'))
+      <script>
+        var toastHTML = "{{ session('msj') }}"
+        Materialize.toast(toastHTML,3000,'acept')
+      </script>
+      @endif
+      @if(session()->has('error'))
+      <script>
+        var toastHTML = "{{ session('error') }}"
+        Materialize.toast(toastHTML,3000,'error')
+      </script>
+      @endif
+
       @yield('extrajs')
 
   </body>

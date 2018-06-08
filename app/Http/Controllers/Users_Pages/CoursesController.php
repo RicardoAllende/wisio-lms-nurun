@@ -54,9 +54,9 @@ class CoursesController extends Controller
 
       $enrol = $course->enrolUser($user_id);
       if($enrol){
-        return redirect()->back()->with('success', ['Se realizó exitosamente la inscripción']);
+        return back()->with('msj', 'Se realizó exitosamente la inscripción');
       } else {
-        return redirect()->back()->with('error', ['No se pudo inscribir']);
+        return back()->with('msj', 'No se pudo inscribir');
       }
     }
 
@@ -76,7 +76,7 @@ class CoursesController extends Controller
       }
 
       //$save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
-      return $save;
+      return back();
     }
 
     public function howItWorks($ascription_slug){
