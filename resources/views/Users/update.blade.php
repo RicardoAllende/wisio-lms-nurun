@@ -17,11 +17,11 @@ Actualizacion de información
 </div>
 
 <div class="row">
-  {!! Form::open(['route' => ['student.update.request', $ascription->slug], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
+  {!! Form::open(['route' => ['student.update.request'], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email', 'required' => '' ]) !!}
+      {!! Form::email('email', $user->email ,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email', 'required' => '', 'readonly' => '']) !!}
 
     </div>
     <div class="reg col s12 l6 offset-l3">
@@ -50,8 +50,9 @@ Actualizacion de información
 
     </div>
   </div>
+  <input type="submit" id="validate" class="btnAcademia" value="Actualizar información" >
+  <!-- <button  >Actualizar información</button> -->
   {!! Form::close() !!}
-  <button id="validate" class="btnAcademia" >Actualizar información</button>
 </div>
 @endsection
 
