@@ -67,10 +67,12 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/detach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@detachUserForDiplomado')->name('detach.user.to.diplomado');
 		Route::get('/diplomados', 'AdminControllers\AscriptionsController@listDiplomados')->name('list.diplomados');
 
+		Route::Resource('/templates', 'AdminControllers\CertificateTemplatesController');
+
 		/** Reports */
 		Route::group(['prefix' => '/reports'], function(){
 			Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
-			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
+			Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report'); 
 			Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
 			Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
 			Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
@@ -85,8 +87,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('/search-courses/{search}', 'AdminControllers\CoursesController@searchCourses')->name('search.courses');
 
 	Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
-		Route::get('/actualizar', function (){ return view('Users/update');})->name('student.update');
-		Route::post('/actualizar_user', 'AdminControllers\UsersController@updateInfo')->name('student.update.user');
+		// Route::get('/actualizar', 'Users_Pages\UserController@updateInformation')->name('student.update');
+		// Route::post('/actualizar_user', 'Users_Pages\UserController@updateInfo')->name('student.update.request');
 		Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
 		Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course'); // or slug
 		Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');
@@ -103,8 +105,13 @@ Route::group(['middleware' => ['auth']], function () {
 			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js
 		// Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
-		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
+		Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
 	});
+
+	Route::get('/seleccionar-seccion', 'Users_Pages\UserController@selectAscription')->name('student.select.ascription');
+	// Route::get()->name('student.update');
+	Route::get('/actualizar', 'Users_Pages\UserController@edit')->name('student.update')->middleware('student');
+	Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });
 

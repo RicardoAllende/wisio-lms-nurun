@@ -30,25 +30,42 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if(Auth::check()){
             $user = Auth::user();
+            $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+            $user->last_access = $dateTime;
+            $user->save();
             if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                $route = 'student.home';
-                if($user->last_profile_update == ''){
-                    $route = 'student.update';
-                }
-                if($user->hasDifferentAscriptions()){
-                    $route = 'student.select.ascription';
-                }
                 if($user->hasDiplomados()){
-                    $ascription = 
                     $diplomado = $user->diplomados->first();
-                    return redirect()->route('student.home', $diplomado->slug);
+                    return redirect()->route('student.own.courses', $diplomado->slug);
                 }
                 $ascription = $user->ascription();
-                return redirect()->route('student.home', $ascription->slug);
+                return redirect()->route('student.own.courses', $ascription->slug);
             }
+            return redirect('/');
+
+            // $user = Auth::user();
+            // if($user->isAdmin()){
+            //     return redirect()->route('admin.dashboard');
+            // }
+            // if($user->isStudent()){
+            //     $route = 'student.home';
+            //     if($user->last_profile_update == ''){
+            //         $route = 'student.update';
+            //     }
+            //     if($user->hasDifferentAscriptions()){
+            //         $route = 'student.select.ascription';
+            //     }
+            //     if($user->hasDiplomados()){
+            //         $ascription = 
+            //         $diplomado = $user->diplomados->first();
+            //         return redirect()->route('student.home', $diplomado->slug);
+            //     }
+            //     $ascription = $user->ascription();
+            //     return redirect()->route('student.home', $ascription->slug);
+            // }
         }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
