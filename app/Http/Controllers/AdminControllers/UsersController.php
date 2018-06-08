@@ -227,10 +227,6 @@ class UsersController extends Controller
         return back();
     }
 
-    public function updateInfo(Request $request){
-
-    }
-
     public function showReportAllUsers(){
         $role = Role::where('name', config('constants.roles.doctor') )->pluck('id'); // doctors
         $users = User::whereIn('role_id', $role)->get();

@@ -61,22 +61,24 @@
                         <th>Teléfono móvil</th>
                         <th>Activo</th>
                         <th>Número de cursos terminados</th>
+                        <th>Último acceso al sistema</th>
                         <th>Fecha de inscripción</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
-                            <tr>
+                        <tr>
                             <td>{{$i}}</td>@php $i++; @endphp
                             <td><a href="{{ route('show.user.report' , $user->id) }}">{{$user->email}}</a></td>
                             <td>{{ $user->firstname }}</td>
                             <td>{{ $user->lastname }}</td>
                             <td>{{ $user->cedula }}</td>
                             <td>{{ $user->mobile_phone }}</td>
-                            <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
+                            <td>{{ ($user->enabled == 1) ? 'Sí' : 'No' }}</td>
                             <td>{{ $user->numCompletedCoursesOfAscription($ascription->id) }}</td>
+                            <td>{{ $user->last_access }}</td>
                             <td>{{ $user->created_at }}</td>
-                            </tr>
+                        </tr>
                         @endforeach
                     </tbody>
                     </table>

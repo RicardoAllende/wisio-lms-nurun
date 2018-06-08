@@ -53,9 +53,11 @@ class EvaluationsController extends Controller
         }
         $user = Auth::user();
         $user_id = $user->id;
+        $module = $evaluation->module;
+        $course = $module->course;
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
             $error = "Usted ya no puede realizar esta evaluación nuevamente";
-            return view('users_pages/evaluations/error', compact('error'));
+            return view('users_pages/evaluations/error', compact('error', 'evaluation', 'ascription', 'course'));
         }
 
         $evaluationAttempt = EvaluationUser::create(['evaluation_id' => $evaluation_id, 'user_id' => $user_id]);
@@ -99,12 +101,12 @@ class EvaluationsController extends Controller
         }
 
         if ($evaluation->isFinalEvaluation()) {
-            $user->modules()->attach($module->id, ['status' => config('constants.status.completed'), 'score' => $moduleAvg]);
+            $user->modules()->attach($module->id, ['status' => 1, 'score' => $moduleAvg]);
         }else{
             if($module->hasFinalEvaluation()){
-                $user->modules()->attach($module->id, ['status' => config('constants.status.incomplete'), 'score' => $moduleAvg]);
+                $user->modules()->attach($module->id, ['status' => 0, 'score' => $moduleAvg]);
             }else{
-                $user->modules()->attach($module->id, ['status' => config('constants.status.complete'), 'score' => $moduleAvg]);
+                $user->modules()->attach($module->id, ['status' => 0, 'score' => $moduleAvg]);
             }
         }
 

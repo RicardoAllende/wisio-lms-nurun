@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                                 @foreach($users as $user)
-                                  <tr>
+                                <tr>
                                   <td>{{$i}}</td>@php $i++; @endphp
                                   <td><a href="{{ route('users.show' , $user->id) }}">{{$user->email}}</a></td>
                                   <td>{{ $user->firstname }}</td>
@@ -60,15 +60,14 @@
                                     @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
                                   </td>
                                   <td>
-                                    @if($user->hasDiplomado())
+                                    @if($user->isEnrolledInDiplomado($ascription->id))
                                         <a href="{{ route('detach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-danger btn-round" >Quitar del diplomado</a>
                                     @else
                                         <a href="{{ route('attach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-success btn-round" >Inscribir al diplomado</a>
                                     @endif
                                   </td>
-                                  </tr>
+                                </tr>
                                 @endforeach
-                              
                             </tbody>
                           </table>
                         </div>

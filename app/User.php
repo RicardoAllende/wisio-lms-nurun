@@ -52,12 +52,12 @@ class User extends Authenticatable
     }
 
     public function completedModules(){
-        return $this->belongsToMany('App\Module')->wherePivot('status', config('constants.status.completed'))
+        return $this->belongsToMany('App\Module')->wherePivot('status', 1)
             ->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
     public function completedCourses(){
-        return $this->belongsToMany('App\Course')->wherePivot('status', config('constants.status.completed'))
+        return $this->belongsToMany('App\Course')->wherePivot('status', 1)
         ->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
@@ -88,7 +88,11 @@ class User extends Authenticatable
             foreach($course->modules as $module){
                 if ($module_id == $module->id) {
                     if($this->modules->contains($module_id)){
-                        return $this->modules->where('id', $module_id)->first()->pivot->status;
+                        if($this->modules->where('id', $module_id)->first()->pivot->status == 1){
+                            return "Completado";
+                        }else{
+                            return "No completado";
+                        }
                     }else{
                         return config('constants.status.not_attemped'); // Pendiente
                     }
@@ -101,7 +105,11 @@ class User extends Authenticatable
     public function progressInCourse($course_id){
         $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
         if($pivot == null) { return "No inscrito"; }
-        return $pivot->status;
+        if($pivot->status == 1){
+            return "Completado";
+        }else{
+            return "No completado";
+        }
     }
 
     public function availableCourses(){
@@ -163,13 +171,16 @@ class User extends Authenticatable
         if ($evaluation == null) { return "Evaluation doesn´t exist"; }
     }
 
-    public function ascriptions()
-    {
+    public function ascriptions(){  // Return ascriptions that aren't 'diplomados'
         return $this->belongsToMany('App\Ascription')->where('has_constancy', 0)->withTimestamps();
     }
 
     public function diplomados(){
         return $this->belongsToMany('App\Ascription')->where('has_constancy', 1)->withPivot('score', 'status')->withTimestamps();
+    }
+
+    public function allAscriptions(){
+        return $this->belongsToMany('App\Ascription')->withPivot('score', 'status')->withTimestamps();
     }
 
     public function normalAscriptions(){
@@ -330,7 +341,7 @@ class User extends Authenticatable
             $this->modules()->detach($module_id);
             // ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
         }
-        $this->modules()->attach($module_id, ['status'=>config('constants.status.completed')]);
+        $this->modules()->attach($module_id, ['status'=>1]);
         $this->tryToSetCourseComplete($module->course->id);
         return true;
     }
@@ -338,7 +349,7 @@ class User extends Authenticatable
     public function hasCompletedTheModule($module_id){
         $pivot = ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
         if($pivot == null) { return false; }
-        if($pivot->status == config('constants.status.complete')){
+        if($pivot->status == 1){
             return true;
         }else{
             return false;
@@ -368,7 +379,7 @@ class User extends Authenticatable
         if($this->hasCompletedTheModulesOfCourse($course_id)){
             $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
             if($pivot == null) { return false; }
-            $pivot->status = config('constants.status.completed');
+            $pivot->status = 1;
             $pivot->save();
             return true;
         }
@@ -376,7 +387,7 @@ class User extends Authenticatable
     }
 
     public function hasCourseComplete($course_id){
-        if($this->progressInCourse($course_id) == config('constants.status.completed')){
+        if($this->progressInCourse($course_id) == 1){
             return true;
         }else{
             return false;
@@ -428,7 +439,7 @@ class User extends Authenticatable
         return true;
     }
 
-    public function hasDiplomado(){
+    public function hasDiplomados(){
         if($this->diplomados->count() > 0){
             return true;
         }else{
@@ -445,6 +456,18 @@ class User extends Authenticatable
 
     public function firstDiplomado(){
         return $this->diplomados->first(); // Null if user doesn't have
+    }
+
+    public function hasDifferentAscriptions(){
+        if ($this->hasAscription() && $this->hasDiplomados()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isEnrolledInDiplomado($ascription_id){
+        return $this->diplomados->contains($ascription_id);
     }
 
 }

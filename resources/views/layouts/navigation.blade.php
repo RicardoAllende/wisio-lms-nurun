@@ -27,7 +27,7 @@
                         <a href="{{ route('users.index') }}"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
                     </li>-->
                     <li>
-                        <a href="index.html"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
+                        <a href=""><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{ route('users.index').'?type=doctors'}}">Todos los médicos</a></li>
                             <li><a href="{{ route('users.create') }}">Crear usuario</a></li>
@@ -36,7 +36,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="index.html"><i class="	fa fa-line-chart"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
+                        <a href=""><i class="	fa fa-line-chart"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{ route('list.ascriptions.report')}}">Adscripción</a></li>
                             <li><a href="{{ route('list.courses.report')}}">Curso</a></li>
@@ -64,6 +64,9 @@
                     </li>
                     <li class="">
                         <a href="{{ route('experts.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Expertos</span></a>
+                    </li>
+                    <li class="">
+                        <a href="{{ route('templates.index') }}"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Plantillas para certificados</span></a>
                     </li>
                 @endif
                 @if (Auth::user()->isStudent())

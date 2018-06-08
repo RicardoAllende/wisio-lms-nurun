@@ -14,6 +14,7 @@ use App\AscriptionCourse;
 use App\CategoryCourse;
 use App\CourseUser;
 Use App\User;
+use App\CertificateTemplate;
 
 class CoursesController extends Controller
 {
@@ -40,7 +41,8 @@ class CoursesController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('courses/form',compact('categories'));
+        $templates = CertificateTemplate::all();
+        return view('courses/form',compact('categories', 'templates'));
     }
 
     /**
@@ -103,7 +105,8 @@ class CoursesController extends Controller
             return redirect()->route('courses.index');
         }
         $categories = Category::all();
-        return view('courses/form',compact('course', 'categories'));
+        $templates = CertificateTemplate::all();
+        return view('courses/form',compact('categories', 'templates', 'course'));
     }
 
     /**
@@ -139,6 +142,13 @@ class CoursesController extends Controller
             $has_constancy = 1;
         }else{
             $has_constancy = 0;
+        }
+        if($request->filled('certificate_template_id')){
+            $id = $request->certificate_template_id;
+            $template = CertificateTemplate::find($id);
+            if($template != null){
+                $course->$request->certificate_template_id;
+            }
         }
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');

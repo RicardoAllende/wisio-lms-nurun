@@ -23,7 +23,8 @@ class Course extends Model
         'end_date',
         'is_public',
         'category_id',
-        'support_email'
+        'support_email',
+        'certificate_template_id'
     ];
 
     protected $appends = ['img'];
@@ -115,9 +116,9 @@ class Course extends Model
         return $this->users->count() - $this->approvedUsers->count();
     }
 
-    public function enrolledUsers(){
-        return $this->belongsToMany('App\User')->wherePivot('status', config('constants.status.not_attemped'))->withPivot('status', 'score');
-    }
+    // public function enrolledUsers(){
+    //     return $this->belongsToMany('App\User')->wherePivot('status', config('constants.status.not_attemped'))->withPivot('status', 'score');
+    // }
 
     public function resources(){
     	return $this->hasMany('App\Resource');
@@ -142,7 +143,7 @@ class Course extends Model
     }
 
     public function hasMainImg(){
-        if($this->attachments->where('type', config())->count() > 0){ 
+        if($this->attachments->where('type', config('constants.attachments.main_img'))->count() > 0){ 
             return true;
         }else{
             return false;
@@ -194,12 +195,7 @@ class Course extends Model
         if($user == null){ return false; }
         $avg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
             ->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
-        // if ($course->isComplete($user_id)) { // Función pendiente
-        //     $status = config('constants.status.completed');
-        // } else {
-        //     $status = config('constants.status.incomplete');
-        // }
-        $this->attachUser($user_id, $avg, config('constants.status.incomplete'));
+        $this->attachUser($user_id, $avg, 0);
         return true;
     }
 
@@ -209,6 +205,16 @@ class Course extends Model
 
     public function numUsersEnrolled(){
         return $this->users->count();
+    }
+
+    public function certificate_template(){
+        return $this->belongsTo('App\CertificateTemplate');
+    }
+
+    public function template(){  // Return an image to make a certificate
+        $image = $this->certificate_template;
+        if($image == null) { return config('constants.default_images.certificate'); }
+        return "/".$image->url();
     }
 
 }

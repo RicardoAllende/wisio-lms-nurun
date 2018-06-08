@@ -26,7 +26,7 @@ class Ascription extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 
     public function hasCourses(){
@@ -49,7 +49,7 @@ class Ascription extends Model
 
     public function calendarUrl(){
         $calendar = $this->calendar();
-        if($calendar == null){ return 'http://mediaroom.sanofi.com/wp-content/uploads/2016/06/969312-471x500.jpg'; } // default calendar
+        if($calendar == null){ return config('constants.default_images.calendar'); } // default calendar
         return "/".$calendar->url;
     }
 

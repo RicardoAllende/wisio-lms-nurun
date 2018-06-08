@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 {!! Form::label('is_pharmacy', 'Tipo de adscripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal'], null, ['class' => 'form-control']) !!}
+                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal', '2' => 'Diplomado'], null, ['class' => 'form-control']) !!}
                               </div>
                             </div>
 
@@ -106,7 +106,7 @@
                         <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                         {!! Form::close() !!}
                       </div>
-                    </div>
+                    
 
                     <div class="form-group" id="divCalendar">
                         {!! Form::label('featured_label', 'Calendario (si existe)',['class'=>'control-label col-sm-2 lbl']); !!}
@@ -118,6 +118,7 @@
                         <input type="hidden" value="ascriptions/calendar" name="path">
                         <div class="dropzone-previews"></div>
                         {!! Form::close() !!}
+                    </div>
                     </div>
                     <div class="ibox-footer" id="result"></div>
                   </div>

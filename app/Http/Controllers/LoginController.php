@@ -34,7 +34,15 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                if($user->hasDiplomado()){
+                $route = 'student.home';
+                if($user->last_profile_update == ''){
+                    $route = 'student.update';
+                }
+                if($user->hasDifferentAscriptions()){
+                    $route = 'student.select.ascription';
+                }
+                if($user->hasDiplomados()){
+                    $ascription = 
                     $diplomado = $user->diplomados->first();
                     return redirect()->route('student.home', $diplomado->slug);
                 }
@@ -51,12 +59,12 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                if($user->hasDiplomado()){
+                if($user->hasDiplomados()){
                     $diplomado = $user->diplomados->first();
-                    return redirect()->route('student.home', $diplomado->slug);
+                    return redirect()->route('student.own.courses', $diplomado->slug);
                 }
                 $ascription = $user->ascription();
-                return redirect()->route('student.home', $ascription->slug);
+                return redirect()->route('student.own.courses', $ascription->slug);
             }
             return redirect('/');
         } else {

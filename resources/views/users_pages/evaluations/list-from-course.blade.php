@@ -63,8 +63,12 @@ Evaluacion
                             {{ $evaluation->name }} <br>
                             </span>
                             <div class="modulos">
-                            --{{ ($evaluation->isFinalEvaluation()) ? "Evaluación final" : "Evaluación diagnóstica"}}--
-                            {{ ($user->hasThisEvaluationCompleted($evaluation->id)) ? "Calificación: ".$user->scoreInEvaluation($evaluation->id) : 'Pendiente' }}
+                            --{{ ($evaluation->isFinalEvaluation()) ? "Evaluación final" : "Evaluación diagnóstica"}}-- <br>
+                            @if($user->hasThisEvaluationCompleted($evaluation->id))
+                                <i class="material-icons">check_box</i> EVALUACIÓN
+                            @else
+                                PENDIENTE
+                            @endif
                             </div>
                         </div>
                         </div>

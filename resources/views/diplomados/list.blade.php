@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title','Adscripciones')
+@section('title','Diplomados')
 @section('cta')
-  <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a>
+  <!-- <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a> -->
 @endsection
 
 @section('subtitle')

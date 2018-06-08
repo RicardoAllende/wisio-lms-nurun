@@ -1,9 +1,10 @@
 @section('title')
 Actualizacion de información
 @stop
-@extends('users_pages.master')
-@section('body')
 
+@extends('users_pages.master')
+
+@section('body')
 <div class="row pad-left3">
   <h2 class="recientes">Actualizacion de información</h2>
   <div class="col s6 l9">
@@ -16,7 +17,7 @@ Actualizacion de información
 </div>
 
 <div class="row">
-  {!! Form::open(['route' => 'student.update.user', 'class'=>'form-horizontal col s12','method' => 'post']) !!}}
+  {!! Form::open(['route' => ['student.update.request', $ascription->slug], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
@@ -52,3 +53,10 @@ Actualizacion de información
   {!! Form::close() !!}
   <button id="validate" class="btnAcademia" >Actualizar información</button>
 </div>
+@endsection
+
+@section('extrajs')
+  <script>
+    $('select').material_select();
+  </script>
+@endsection

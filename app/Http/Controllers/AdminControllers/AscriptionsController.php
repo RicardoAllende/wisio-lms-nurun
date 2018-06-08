@@ -40,7 +40,7 @@ class AscriptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['name', 'description', 'slug']);
+        $input = $request->only(['name', 'description', 'slug', 'has_constancy']);
         $name = $request->name;
         $description = $request->description;
         $slug = str_slug($request->slug);

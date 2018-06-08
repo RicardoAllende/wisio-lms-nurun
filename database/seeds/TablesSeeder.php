@@ -40,10 +40,10 @@ class TablesSeeder extends Seeder
     {
         // https://lion.app.box.com/s/h9eoa8837p01c8uenq66wgfrmg930lk3/file/285174501391
         $doctor = Role::create(['name' => config('constants.roles.doctor'), 'description' => 'Médico']);
-        $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => 'Reportero']);
+        // $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => 'Reportero']);
         $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => 'Administrador']);
-        $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
-        $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
+        // $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
+        // $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
 
         $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal', 'is_main_ascription' => 1]);
         $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
@@ -249,17 +249,17 @@ class TablesSeeder extends Seeder
         ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
 
 
-        factory(User::class, 300)->create()->each(function ($u){
+        factory(User::class, 30)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(1)->enrolUser($u->id);
         });
 
-        factory(User::class, 300)->create()->each(function ($u){
+        factory(User::class, 30)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(2)->enrolUser($u->id);
         });
 
-        factory(User::class, 300)->create()->each(function ($u){
+        factory(User::class, 30)->create()->each(function ($u){
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(3)->enrolUser($u->id);
         });

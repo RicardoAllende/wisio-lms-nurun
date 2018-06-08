@@ -17,6 +17,7 @@
                    <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertos">Expertos</a></li>
                    <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                    <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
+                   <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                  @else
                  <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                   <ul class="submenu">

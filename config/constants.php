@@ -76,8 +76,9 @@ return [
         'module' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'evaluation' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'category' => 'http://1.bp.blogspot.com/-rGg7seQMfgY/T526kIHkhkI/AAAAAAAAADU/efzshZ8OsEY/s1600/concepto-robado.gif',
-        'calendar' => 'img/default-calendar.jpg'
+        'calendar' => '/img/default-calendar.jpg',
+        'certificate' => '/storage/ascriptions/certificado.jpg'
     ],
 
-    'support_email' => 'soporte@sanofi.com'
+    'support_email' => 'soporte@paecmexico.com'
 ];

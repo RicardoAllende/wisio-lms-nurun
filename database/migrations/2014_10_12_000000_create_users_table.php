@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->string('code')->nullable();
             $table->string('consultation_type')->nullable();
             $table->timestamp('last_access')->nullable();
+            $table->timestamp('last_profile_update')->nullable();
             $table->boolean('enabled')->default(true);
             $table->rememberToken()->nullable();
             $table->timestamps();
