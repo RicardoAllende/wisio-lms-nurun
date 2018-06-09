@@ -39,19 +39,19 @@
                             </div>
                         </div>
                         {!! Form::close() !!}
-                    </div>
 
                         <div class="form-group">
                             {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                             {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                             <div class="dz-message" style="height:200px;">
-                                Arrastre la plantilla aquí, es recomendable que tenga una resolución aproximada de 900px  x   700px
+                                Arrastre la plantilla aquí, es recomendable que tenga una resolución aproximada de 1024 x 750px
                             </div>
                             <input type="hidden" value="certificates" name="path">
                             <div class="dropzone-previews"></div>
                             <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                             {!! Form::close() !!}
                         </div>
+                    </div>
                     </div>
                     <div class="ibox-footer" id='result'></div>
                 </div>

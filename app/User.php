@@ -25,7 +25,7 @@ class User extends Authenticatable
         'mobile_phone',
         'postal_code',
         'city',
-        'state',
+        'state_id',
         'address',
         'cedula',
         'consultation_type',
@@ -59,6 +59,10 @@ class User extends Authenticatable
     public function completedCourses(){
         return $this->belongsToMany('App\Course')->wherePivot('status', 1)
         ->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
+    public function resources(){
+        return $this->belongsToMany('App\Resource')->withPivot('status')->withTimestamps();
     }
 
     public function approvedCourses(){
@@ -394,6 +398,10 @@ class User extends Authenticatable
         }
     }
 
+    public function state(){
+        return $this->belongsTo('App\State');
+    }
+
     public function evaluationAttempts($evaluation_id){
         return $this->evaluations->where('id', $evaluation_id)->count();
     }
@@ -459,15 +467,25 @@ class User extends Authenticatable
     }
 
     public function hasDifferentAscriptions(){
-        if ($this->hasAscription() && $this->hasDiplomados()) {
+        if($this->allAscriptions->count() > 1){
             return true;
-        } else {
+        }else{
             return false;
         }
+
+        // if ($this->hasAscription() && $this->hasDiplomados()) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function isEnrolledInDiplomado($ascription_id){
         return $this->diplomados->contains($ascription_id);
+    }
+
+    public function firstAscription(){
+        return $this->allAscriptions->first();
     }
 
 }

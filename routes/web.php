@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('/seleccionar-seccion', 'Users_Pages\UserController@selectAscription')->name('student.select.ascription');
 	Route::get('/actualizar-informacion-personal', 'Users_Pages\UserController@updateInformation')->name('student.update')->middleware('student');
+	Route::get('/establecer-seccion-temporal/{ascription_slug}', 'Users_Pages\UserController@setTemporalAscription')
+	->name('set.temporal.ascription')->middleware('student');
 	Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });

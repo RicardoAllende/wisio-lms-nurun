@@ -1,35 +1,47 @@
-<div class="col s6 l9">
-  <hr class="line"/>
-</div>
-<div class="col s6 l3">
-  <h2 class="recientes">Diplomados</h2>
-</div>
-
-@foreach($courses as $course)
-<div class="col s12 l4 ">
-  <div class="card z-depth-0 white ">
-     <div class="card-content cursoscard">
-        <span class="categoria-academia">{{ $course->category->name }}</span>
-       <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
-        <div class="titulo-academia2"> {{ $course->name }}</div>
-         <div class="modulos">{{ $course->modules->count() }} módulos</div>
-        <div class="leer-masmodulos_50">
-        @if(Auth::check())
-           <a href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver mas</a>
-        @else
-           <a href="{{ route('student.show.course', 'invitado') }}">Ver mas  </a>
-        @endif
-            <hr class="line3"/>
-        </div>
-       <div class="leer-masmodulos">
-          @if(Auth::user()->isEnrolledInCourse($course->id))
-            Inscrito
-          @else
-            <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
-          @endif
-          <hr class="line3"/>
-        </div>
-     </div>
+@section('title')
+Cursos
+@stop
+@extends('users_pages.master')
+@section('body')
+<div class="row pad-left3">
+  <div class="col s6 l7">
+    <hr class="line"/>
   </div>
+  <div class="col s6 l5">
+    <h2 class="recientes">Seleccione la sección a la que quiere ingresar</h2>
+  </div>
+    @foreach($ascriptions as $ascription)
+    <div class="col s12 l4 ascriptionSelector" data-slug="{{ $ascription->slug }}" data-url="{{ route('student.home', $ascription->slug) }}" >
+      <div class="card z-depth-0 white ">
+        <div class="card-content cursoscard">
+          <span class="categoria-academia">{{ $ascription->name }}</span>
+          <div class="iconcourse"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></div>
+          <div class="titulo-academia2"> {{ $ascription->name }}</div>
+          <div class="modulos">Contiene {{ $ascription->courses->count() }} cursos</div>
+        </div>
+      </div>
+    </div>
+    @endforeach
 </div>
-@endforeach
+@stop
+
+@section('extrajs')
+  <script>
+    $('.ascriptionSelector').click(function(){
+      var route = "{{ route('set.temporal.ascription', '') }}";
+      var url = $(this).data("url");
+      var slug = $(this).data("slug");
+      $.ajax({
+        type: 'get',
+        url:  route + "/" + slug,
+        success: function (result) {
+            console.log(result);
+        },
+        error: function(request, error){
+          console.log(error);
+        }
+      });
+      window.location.href = url;
+    });
+  </script>
+@endsection

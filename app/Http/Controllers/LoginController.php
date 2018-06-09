@@ -37,12 +37,20 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-                if($user->hasDiplomados()){
-                    $diplomado = $user->diplomados->first();
-                    return redirect()->route('student.own.courses', $diplomado->slug);
+                if($user->last_profile_update == ''){
+                    return redirect()->route('student.update');
+                }
+                if(session()->has('ascription_slug')){
+                    $slug = session('ascription_slug');
+                    if(Ascription::whereSlug($slug)->first() != null){
+                        return redirect()->route('student.home', $slug);
+                    }
+                }
+                if($user->hasDifferentAscriptions()){
+                    return redirect()->route('student.select.ascription');
                 }
                 $ascription = $user->ascription();
-                return redirect()->route('student.own.courses', $ascription->slug);
+                return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');
 
@@ -84,7 +92,7 @@ class LoginController extends Controller
             }
             return redirect('/');
         } else {
-            return back()->with('error','Verifique sus datos');
+            return back()->withInput()->withErrors(['Error' => 'Verifique sus datos']);
         }
     }
 

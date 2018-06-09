@@ -18,8 +18,8 @@ class CreateResourceUserTable extends Migration
          */
         Schema::create('resource_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status');
-            $table->float('score');
+            $table->boolean('status')->default(true);
+            // $table->float('score');
             $table->integer('resource_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade')->onUpdate('cascade');

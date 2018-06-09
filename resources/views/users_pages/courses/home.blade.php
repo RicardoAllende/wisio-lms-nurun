@@ -41,7 +41,6 @@ Inicio
           </div>
           @endforeach
 
-          @include('users_pages.courses.diplomado')
        </div>
 
 
