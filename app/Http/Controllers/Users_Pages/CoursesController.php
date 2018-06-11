@@ -67,16 +67,18 @@ class CoursesController extends Controller
     }
 
     public function saveProgressModule(Request $request){
-      $module = Module::find($request->module_id);
-      $user = Auth::user();
-      $save = null;
+        $module = Module::find($request->module_id);
+        $user = Auth::user();
+        $save = null;
 
-      if($request->status){
-        $save = $user->setModuleComplete($request->module_id);
-      }
-
-      //$save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
-      return back();
+        if($request->status){
+            $save = $user->setModuleComplete($request->module_id);
+        }
+        if($save){
+            return "Módulo completado";
+        }else{
+            return "Módulo incompleto, revise las evaluaciones";
+        }
     }
 
     public function howItWorks($ascription_slug){
