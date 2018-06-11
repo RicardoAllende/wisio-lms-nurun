@@ -16,7 +16,7 @@ class CreateOptionsTable extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('question_id')->unsigned();
-            $table->string('content');
+            $table->text('content');
             $table->string('feedback')->nullable();
             $table->integer('score')->default(0); // default false
             $table->foreign('question_id')->references('id')->on('questions')
