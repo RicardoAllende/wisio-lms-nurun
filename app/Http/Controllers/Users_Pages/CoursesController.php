@@ -67,7 +67,6 @@ class CoursesController extends Controller
     }
 
     public function saveProgressModule(Request $request){
-
         $module = Module::find($request->module_id);
         $user = Auth::user();
         $save = null;
@@ -80,7 +79,6 @@ class CoursesController extends Controller
         }else{
             return "Módulo incompleto, revise las evaluaciones";
         }
-
     }
 
     public function howItWorks($ascription_slug){
