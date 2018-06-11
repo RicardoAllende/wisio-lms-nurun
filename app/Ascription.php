@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ascription extends Model
 {
     protected $fillable = [
+        'id',
         'name',
         'slug',
         'description',

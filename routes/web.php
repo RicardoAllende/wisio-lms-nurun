@@ -109,6 +109,9 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
 	});
 
+	Route::get('/module-has-diagnostic-evaluation/{module_id}', 'Users_Pages\EvaluationsController@checkDiagnosticEvaluation')->name('check.diagnostic.evaluation.availability');
+	Route::get('/module-has-final-evaluation/{module_id}', 'Users_Pages\EvaluationsController@checkFinalEvaluation')->name('check.final.evaluation.availability');
+
 	Route::get('/seleccionar-seccion', 'Users_Pages\UserController@selectAscription')->name('student.select.ascription');
 	Route::get('/actualizar-informacion-personal', 'Users_Pages\UserController@updateInformation')->name('student.update')->middleware('student');
 	Route::get('/establecer-seccion-temporal/{ascription_slug}', 'Users_Pages\UserController@setTemporalAscription')

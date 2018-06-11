@@ -177,4 +177,13 @@ class EvaluationsController extends Controller
             echo '<h3>Ya no puede hacer esta evaluación nuevamente</h3>';
         }
     }
+
+    public function checkDiagnosticEvaluation($module_id){
+
+    }
+
+    public function checkFinalEvaluation($module_id){
+        
+    }
+
 }

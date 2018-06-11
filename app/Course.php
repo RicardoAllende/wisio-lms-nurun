@@ -13,6 +13,7 @@ class Course extends Model
     protected $table = "courses";
 
     protected $fillable = [
+        'id',
         'name',
         'slug',
         'description',

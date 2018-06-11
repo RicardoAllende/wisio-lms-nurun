@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Evaluation extends Model
 {
     protected $fillable = [
+        'id',
         'module_id',
         'ascription_id',
         'name',

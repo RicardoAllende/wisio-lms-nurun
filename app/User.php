@@ -31,7 +31,8 @@ class User extends Authenticatable
         'consultation_type',
         'last_access',
         'enabled',
-        'role_id'
+        'role_id',
+        'code'
     ];
 
     /**
