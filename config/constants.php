@@ -15,7 +15,7 @@ return [
         'img' => 'img',
         'pdf' => 'pdf',
         'video' => 'video',
-        'profile_img' => 'profile_img', 
+        'profile_img' => 'profile_img',
         'manual' => 'manual',
         'calendar' => 'calendar',
         'resource' => 'resource'
@@ -28,7 +28,7 @@ return [
 
     /**
      * If you want to change this default_password, you must use bcrypt to crypt the password,
-     * for example: 
+     * for example:
      * 'default_password' = bcrypt('your default password'),
      */
     'default_password' => '$2y$10$qQpVjcmcO5I1XffeZduhPuyAe55ZtEb5yxMUGhDXKI84r4PSKARoS', //secret
@@ -69,7 +69,7 @@ return [
     ],
 
     'default_images' => [
-        'expert' => 'http://webapplayers.com/inspinia_admin-v2.6/img/a4.jpg',
+        'expert' => 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
         'user' => 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png',
         'course' => 'https://www.capacityacademy.com/uploads/6/4/8/3/6483237/_________667043846.png',
         'ascription' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',

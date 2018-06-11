@@ -102,7 +102,7 @@ while ($fila = $result->fetch_assoc()) {
 // }
 
 // name, type    ,      mimetype, url, description              Attachment
-//     ,pdf/video,     video/mp4, 
+//     ,pdf/video,     video/mp4,
 
 // type
 
@@ -247,7 +247,7 @@ class TablesSeeder extends Seeder
         $course4 = Course::create(['name' => 'PAEC Trombosis', 'slug' => 'trombosis', 'has_constancy' => 0, 'category_id' => $category->id]);
         $course5 = Course::create(['name' => 'PAEC Lipid Leaders', 'slug' => 'lipid-leader', 'has_constancy' => 0, 'category_id' => $category->id]);
         $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
-        
+
         $ascription->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
         /** Aún no están migrados los cursos de las farmacias */
         $ascription2->courses()->attach([$course1->id, $course4->id]);
@@ -257,7 +257,7 @@ class TablesSeeder extends Seeder
         $ascription6->courses()->attach([$course3->id, $course1->id]);
         $ascription7->courses()->attach([$course3->id, $course1->id]);
         $diplomado->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
-        
+
 
         $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
         'firstname'=>'Mario', 'lastname'=>'Mendoza', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
@@ -271,7 +271,7 @@ class TablesSeeder extends Seeder
             'firstname'=>'Miguel', 'lastname'=>'Villegas', 'role_id' => $admin->id]);
         $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
             'firstname'=>'Ricardo', 'lastname'=>'Allende', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
-        
+
         $course1->enrolUser($student->id);
         $course2->enrolUser($student2->id);
 
@@ -283,7 +283,7 @@ class TablesSeeder extends Seeder
         $tag1 = Tag::create(['tag'=>'Sueño']);
         $tag2 = Tag::create(['tag'=>'Glándulas']);
         $tag3 = Tag::create(['tag'=>'Corazón']);
-        
+
         $module1 = Module::create(['name' => 'Prevalencia y diagnóstico', 'course_id' => $course1->id]);
         $module2 = Module::create(['name' => 'Opciones terapéuticas', 'course_id' => $course1->id]);
         $module3 = Module::create(['name' => 'Insomnio en la mujer', 'course_id' => $course1->id]);
@@ -336,254 +336,254 @@ class TablesSeeder extends Seeder
 
 
         /** Vídeos de los cursos */
-        $attach1 = Attachment::create(['type' => 'video', 'url' => 'storage/video/Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach1 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module1->id, "attachment_id" => $attach1->id, "type" => "video"]);
-        $attach2 = Attachment::create(['type' => 'video', 'url' => 'storage/video/Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach2 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module1->id, "attachment_id" => $attach2->id, "type" => "video"]);
-        $attach3 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M02_1.mp4', 'name' => 'M02_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach3 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M02_1.mp4', 'name' => 'M02_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module2->id, "attachment_id" => $attach3->id, "type" => "video"]);
-        $attach4 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M02_2.mp4', 'name' => 'M02_2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach4 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M02_2.mp4', 'name' => 'M02_2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module2->id, "attachment_id" => $attach4->id, "type" => "video"]);
-        $attach5 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M03_1.mp4', 'name' => 'M03_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach5 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M03_1.mp4', 'name' => 'M03_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module3->id, "attachment_id" => $attach5->id, "type" => "video"]);
-        $attach6 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_PAEC_SANOFI_08JUN17.mp4', 'name' => '1a_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach6 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1a_PAEC_SANOFI_08JUN17.mp4', 'name' => '1a_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module6->id, "attachment_id" => $attach6->id, "type" => "video"]);
-        $attach7 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_PAEC_SANOFI_08JUN17.mp4', 'name' => '1b_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach7 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1b_PAEC_SANOFI_08JUN17.mp4', 'name' => '1b_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module6->id, "attachment_id" => $attach7->id, "type" => "video"]);
-        $attach8 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1c_PAEC_SANOFI_08JUN17.mp4', 'name' => '1c_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach8 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1c_PAEC_SANOFI_08JUN17.mp4', 'name' => '1c_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module6->id, "attachment_id" => $attach8->id, "type" => "video"]);
-        $attach9 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2a_PAEC_SANOFI_06JUN17.mp4', 'name' => '2a_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach9 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/2a_PAEC_SANOFI_06JUN17.mp4', 'name' => '2a_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module7->id, "attachment_id" => $attach9->id, "type" => "video"]);
-        $attach10 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2b_PAEC_SANOFI_06JUN17.mp4', 'name' => '2b_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach10 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/2b_PAEC_SANOFI_06JUN17.mp4', 'name' => '2b_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module7->id, "attachment_id" => $attach10->id, "type" => "video"]);
-        $attach11 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach11 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module8->id, "attachment_id" => $attach11->id, "type" => "video"]);
-        $attach12 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach12 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module8->id, "attachment_id" => $attach12->id, "type" => "video"]);
-        $attach13 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach13 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module9->id, "attachment_id" => $attach13->id, "type" => "video"]);
-        $attach14 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach14 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module9->id, "attachment_id" => $attach14->id, "type" => "video"]);
-        $attach15 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach15 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module10->id, "attachment_id" => $attach15->id, "type" => "video"]);
-        $attach16 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach16 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module10->id, "attachment_id" => $attach16->id, "type" => "video"]);
-        $attach17 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach17 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module10->id, "attachment_id" => $attach17->id, "type" => "video"]);
-        $attach18 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach18 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module10->id, "attachment_id" => $attach18->id, "type" => "video"]);
-        $attach19 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach19 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module10->id, "attachment_id" => $attach19->id, "type" => "video"]);
-        $attach20 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_001.mp4', 'name' => 'Obesidad_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach20 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_001.mp4', 'name' => 'Obesidad_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module11->id, "attachment_id" => $attach20->id, "type" => "video"]);
-        $attach21 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_002.mp4', 'name' => 'Obesidad_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach21 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_002.mp4', 'name' => 'Obesidad_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module11->id, "attachment_id" => $attach21->id, "type" => "video"]);
-        $attach22 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_003.mp4', 'name' => 'Obesidad_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach22 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_003.mp4', 'name' => 'Obesidad_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module11->id, "attachment_id" => $attach22->id, "type" => "video"]);
-        $attach23 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_004.mp4', 'name' => 'Obesidad_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach23 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_004.mp4', 'name' => 'Obesidad_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module11->id, "attachment_id" => $attach23->id, "type" => "video"]);
-        $attach24 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach24 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module8->id, "attachment_id" => $attach24->id, "type" => "video"]);
-        $attach25 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach25 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module8->id, "attachment_id" => $attach25->id, "type" => "video"]);
-        $attach26 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3a_paec.mp4', 'name' => 'modulo3a_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach26 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/modulo3a_paec.mp4', 'name' => 'modulo3a_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module12->id, "attachment_id" => $attach26->id, "type" => "video"]);
-        $attach27 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3b_paec.mp4', 'name' => 'modulo3b_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach27 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/modulo3b_paec.mp4', 'name' => 'modulo3b_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module12->id, "attachment_id" => $attach27->id, "type" => "video"]);
-        $attach28 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M04_01.mp4', 'name' => 'M04_01.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach28 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M04_01.mp4', 'name' => 'M04_01.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module4->id, "attachment_id" => $attach28->id, "type" => "video"]);
-        $attach29 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/webcast/webcast1parte1.mp4', 'name' => 'webcast1parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach29 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/webcast/webcast1parte1.mp4', 'name' => 'webcast1parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module13->id, "attachment_id" => $attach29->id, "type" => "video"]);
-        $attach30 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/webcast/webcast1parte2.mp4', 'name' => 'webcast1parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach30 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/webcast/webcast1parte2.mp4', 'name' => 'webcast1parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module13->id, "attachment_id" => $attach30->id, "type" => "video"]);
-        $attach31 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M05.mp4', 'name' => 'M05.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach31 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M05.mp4', 'name' => 'M05.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module5->id, "attachment_id" => $attach31->id, "type" => "video"]);
-        $attach32 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach32 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module14->id, "attachment_id" => $attach32->id, "type" => "video"]);
-        $attach33 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach33 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module15->id, "attachment_id" => $attach33->id, "type" => "video"]);
-        $attach34 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach34 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module16->id, "attachment_id" => $attach34->id, "type" => "video"]);
-        $attach35 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte1.mp4', 'name' => 'mod7parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach35 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod7parte1.mp4', 'name' => 'mod7parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module17->id, "attachment_id" => $attach35->id, "type" => "video"]);
-        $attach36 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte2.mp4', 'name' => 'mod7parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach36 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod7parte2.mp4', 'name' => 'mod7parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module17->id, "attachment_id" => $attach36->id, "type" => "video"]);
-        $attach37 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach37 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module18->id, "attachment_id" => $attach37->id, "type" => "video"]);
-        $attach38 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod_9_Dr_Rene_Rodriguez_baja.mp4', 'name' => 'mod_9_Dr_Rene_Rodriguez_baja.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach38 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod_9_Dr_Rene_Rodriguez_baja.mp4', 'name' => 'mod_9_Dr_Rene_Rodriguez_baja.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module19->id, "attachment_id" => $attach38->id, "type" => "video"]);
-        $attach39 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach39 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module20->id, "attachment_id" => $attach39->id, "type" => "video"]);
-        $attach40 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach40 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module21->id, "attachment_id" => $attach40->id, "type" => "video"]);
-        $attach41 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach41 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module22->id, "attachment_id" => $attach41->id, "type" => "video"]);
-        $attach42 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach42 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module22->id, "attachment_id" => $attach42->id, "type" => "video"]);
-        $attach43 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_modulo2.mp4', 'name' => 'cardio_modulo2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach43 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_modulo2.mp4', 'name' => 'cardio_modulo2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module23->id, "attachment_id" => $attach43->id, "type" => "video"]);
-        $attach44 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m3.mp4', 'name' => 'cardio_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach44 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m3.mp4', 'name' => 'cardio_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module24->id, "attachment_id" => $attach44->id, "type" => "video"]);
-        $attach45 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4.mp4', 'name' => 'cardio_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach45 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m4.mp4', 'name' => 'cardio_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module25->id, "attachment_id" => $attach45->id, "type" => "video"]);
-        $attach46 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4_2_caso_clinico.mp4', 'name' => 'cardio_m4_2_caso_clinico.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach46 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m4_2_caso_clinico.mp4', 'name' => 'cardio_m4_2_caso_clinico.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module25->id, "attachment_id" => $attach46->id, "type" => "video"]);
-        $attach47 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/hipertension_mod5.mp4', 'name' => 'hipertension_mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach47 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/hipertension_mod5.mp4', 'name' => 'hipertension_mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module26->id, "attachment_id" => $attach47->id, "type" => "video"]);
-        $attach48 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'name' => 'mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach48 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'name' => 'mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module27->id, "attachment_id" => $attach48->id, "type" => "video"]);
-        $attach49 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'name' => 'modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach49 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'name' => 'modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module28->id, "attachment_id" => $attach49->id, "type" => "video"]);
-        $attach50 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cierre_modulo.mp4', 'name' => 'cierre_modulo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach50 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cierre_modulo.mp4', 'name' => 'cierre_modulo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module29->id, "attachment_id" => $attach50->id, "type" => "video"]);
-        $attach51 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod1_ricardo.mp4', 'name' => 'mod1_ricardo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach51 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod1_ricardo.mp4', 'name' => 'mod1_ricardo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module30->id, "attachment_id" => $attach51->id, "type" => "video"]);
-        $attach52 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'name' => 'mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach52 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'name' => 'mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module31->id, "attachment_id" => $attach52->id, "type" => "video"]);
-        $attach53 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod3_trombosis.mp4', 'name' => 'mod3_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach53 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod3_trombosis.mp4', 'name' => 'mod3_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module32->id, "attachment_id" => $attach53->id, "type" => "video"]);
-        $attach54 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod4_TROMBOSIS.mp4', 'name' => 'mod4_TROMBOSIS.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach54 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod4_TROMBOSIS.mp4', 'name' => 'mod4_TROMBOSIS.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module33->id, "attachment_id" => $attach54->id, "type" => "video"]);
-        $attach55 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod5_PAEC_Trombosis.mp4', 'name' => 'mod5_PAEC_Trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach55 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod5_PAEC_Trombosis.mp4', 'name' => 'mod5_PAEC_Trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module34->id, "attachment_id" => $attach55->id, "type" => "video"]);
-        $attach56 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod6_trombosis.mp4', 'name' => 'mod6_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach56 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod6_trombosis.mp4', 'name' => 'mod6_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module35->id, "attachment_id" => $attach56->id, "type" => "video"]);
-        $attach57 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod7_TROMBOSISM7_pena_duque.mp4', 'name' => 'mod7_TROMBOSISM7_pena_duque.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach57 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod7_TROMBOSISM7_pena_duque.mp4', 'name' => 'mod7_TROMBOSISM7_pena_duque.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module36->id, "attachment_id" => $attach57->id, "type" => "video"]);
-        $attach58 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod1.mp4', 'name' => 'mod1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach58 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod1.mp4', 'name' => 'mod1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module37->id, "attachment_id" => $attach58->id, "type" => "video"]);
-        $attach59 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod2.mp4', 'name' => 'mod2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach59 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod2.mp4', 'name' => 'mod2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module38->id, "attachment_id" => $attach59->id, "type" => "video"]);
-        $attach60 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod3.mp4', 'name' => 'mod3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach60 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod3.mp4', 'name' => 'mod3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module39->id, "attachment_id" => $attach60->id, "type" => "video"]);
-        $attach61 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach61 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module40->id, "attachment_id" => $attach61->id, "type" => "video"]);
-        $attach62 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach62 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module41->id, "attachment_id" => $attach62->id, "type" => "video"]);
-        $attach63 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach63 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module42->id, "attachment_id" => $attach63->id, "type" => "video"]);
-        $attach64 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod7.mp4', 'name' => 'mod7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach64 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod7.mp4', 'name' => 'mod7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module43->id, "attachment_id" => $attach64->id, "type" => "video"]);
-        $attach65 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach65 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module44->id, "attachment_id" => $attach65->id, "type" => "video"]);
-        $attach66 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod9.mp4', 'name' => 'mod9.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach66 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod9.mp4', 'name' => 'mod9.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module45->id, "attachment_id" => $attach66->id, "type" => "video"]);
-        $attach67 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach67 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module46->id, "attachment_id" => $attach67->id, "type" => "video"]);
-        $attach68 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO1_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO1_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach68 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO1_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO1_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module47->id, "attachment_id" => $attach68->id, "type" => "video"]);
-        $attach69 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO3_EM_4JUL2017.mp4', 'name' => 'VIDEO_CASO3_EM_4JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach69 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO3_EM_4JUL2017.mp4', 'name' => 'VIDEO_CASO3_EM_4JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module47->id, "attachment_id" => $attach69->id, "type" => "video"]);
-        $attach70 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'name' => 'CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach70 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'name' => 'CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module47->id, "attachment_id" => $attach70->id, "type" => "video"]);
-        $attach71 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'name' => 'CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach71 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'name' => 'CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module47->id, "attachment_id" => $attach71->id, "type" => "video"]);
-        $attach72 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO2_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO2_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach72 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO2_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO2_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module48->id, "attachment_id" => $attach72->id, "type" => "video"]);
-        $attach73 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO4_EM_7JUL2017.mp4', 'name' => 'VIDEO_CASO4_EM_7JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach73 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO4_EM_7JUL2017.mp4', 'name' => 'VIDEO_CASO4_EM_7JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module48->id, "attachment_id" => $attach73->id, "type" => "video"]);
-        $attach74 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'name' => 'CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        $attach74 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'name' => 'CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
         Resource::create(["module_id" => $module48->id, "attachment_id" => $attach74->id, "type" => "video"]);
 
 
         /** Imágenes de los módulos */
-        $attach10000 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10000 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10000->id, "module_id" => $module1->id]);
-        $attach10001 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_opciones.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10001 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_opciones.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10001->id, "module_id" => $module2->id]);
-        $attach10002 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_insomnio.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10002 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_insomnio.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10002->id, "module_id" => $module3->id]);
-        $attach10003 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_perfil.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10003 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_perfil.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10003->id, "module_id" => $module4->id]);
-        $attach10004 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_comorbilidades.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10004 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_comorbilidades.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10004->id, "module_id" => $module5->id]);
-        $attach10005 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m1_icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10005 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m1_icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10005->id, "module_id" => $module6->id]);
-        $attach10006 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m2_icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10006 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m2_icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10006->id, "module_id" => $module7->id]);
-        $attach10007 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/pie-diabetico-OE-Dig-06.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10007 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/pie-diabetico-OE-Dig-06.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10007->id, "module_id" => $module8->id]);
-        $attach10008 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/retinopia-OE-Dig-05.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10008 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/retinopia-OE-Dig-05.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10008->id, "module_id" => $module9->id]);
-        $attach10009 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/nefropatia-OE-Dig-07.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10009 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/nefropatia-OE-Dig-07.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10009->id, "module_id" => $module10->id]);
-        $attach10010 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/obesidad-OE-Dig-08.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10010 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/obesidad-OE-Dig-08.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10010->id, "module_id" => $module11->id]);
-        $attach10011 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/modulo3_icono_linea.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10011 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/modulo3_icono_linea.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10011->id, "module_id" => $module12->id]);
-        $attach10012 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10012 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10012->id, "module_id" => $module13->id]);
-        $attach10013 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m4.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10013 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m4.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10013->id, "module_id" => $module14->id]);
-        $attach10014 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m5.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10014 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m5.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10014->id, "module_id" => $module15->id]);
-        $attach10015 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m6.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10015 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m6.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10015->id, "module_id" => $module16->id]);
-        $attach10016 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m7.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10016 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m7.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10016->id, "module_id" => $module17->id]);
-        $attach10017 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m8.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10017 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m8.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10017->id, "module_id" => $module18->id]);
-        $attach10018 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m9.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10018 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m9.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10018->id, "module_id" => $module19->id]);
-        $attach10019 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m10.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10019 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m10.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10019->id, "module_id" => $module20->id]);
-        $attach10020 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod01.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10020 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod01.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10020->id, "module_id" => $module21->id]);
-        $attach10021 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod02.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10021 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod02.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10021->id, "module_id" => $module22->id]);
-        $attach10022 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod03.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10022 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod03.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10022->id, "module_id" => $module23->id]);
-        $attach10023 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod04.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10023 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod04.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10023->id, "module_id" => $module24->id]);
-        $attach10024 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod05.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10024 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod05.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10024->id, "module_id" => $module25->id]);
-        $attach10025 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod06.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10025 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod06.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10025->id, "module_id" => $module26->id]);
-        $attach10026 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod07.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10026 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod07.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10026->id, "module_id" => $module27->id]);
-        $attach10027 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod08.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10027 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod08.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10027->id, "module_id" => $module28->id]);
-        $attach10028 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod09.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10028 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod09.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10028->id, "module_id" => $module29->id]);
-        $attach10029 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/trombosisCifras_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10029 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/trombosisCifras_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10029->id, "module_id" => $module30->id]);
-        $attach10030 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/evaluacionRiesgo_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10030 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/evaluacionRiesgo_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10030->id, "module_id" => $module31->id]);
-        $attach10031 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tromboembolia_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10031 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tromboembolia_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10031->id, "module_id" => $module32->id]);
-        $attach10032 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tromboEmboliaPulmonar_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10032 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tromboEmboliaPulmonar_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10032->id, "module_id" => $module33->id]);
-        $attach10033 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/sindromesCoronarios_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10033 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/sindromesCoronarios_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10033->id, "module_id" => $module34->id]);
-        $attach10034 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tratamientoPaciente_Icon.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10034 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tratamientoPaciente_Icon.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10034->id, "module_id" => $module35->id]);
-        $attach10035 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/icono_infartoagudo_blanco.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10035 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/icono_infartoagudo_blanco.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10035->id, "module_id" => $module36->id]);
-        $attach10036 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-1.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10036 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-1.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10036->id, "module_id" => $module37->id]);
-        $attach10037 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-2.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10037 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-2.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10037->id, "module_id" => $module38->id]);
-        $attach10038 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-3.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10038 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-3.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10038->id, "module_id" => $module39->id]);
-        $attach10039 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-4.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10039 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-4.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10039->id, "module_id" => $module40->id]);
-        $attach10040 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-5.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10040 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-5.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10040->id, "module_id" => $module41->id]);
-        $attach10041 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-6.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10041 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-6.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10041->id, "module_id" => $module42->id]);
-        $attach10042 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-7.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10042 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-7.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10042->id, "module_id" => $module43->id]);
-        $attach10043 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-8.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10043 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-8.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10043->id, "module_id" => $module44->id]);
-        $attach10044 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-9.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10044 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-9.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10044->id, "module_id" => $module45->id]);
-        $attach10045 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-10.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10045 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-10.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10045->id, "module_id" => $module46->id]);
-        $attach10046 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10046 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10046->id, "module_id" => $module47->id]);
-        $attach10047 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc2.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10047 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc2.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10047->id, "module_id" => $module48->id]);
-        $attach10048 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
+        $attach10048 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
         AttachmentModule::create(["attachment_id" => $attach10048->id, "module_id" => $module49->id]);
 
 
@@ -598,7 +598,7 @@ class TablesSeeder extends Seeder
         Resource::create(["module_id" => $moduleCC->id, "attachment_id" => $attach5003->id, 'type' => 'video']);
         $attach5004 = Attachment::create(['type' => 'video', 'url' => 'storage/video/cc01/v4.mp4', 'name' => 'v4.mp4', 'mimetype' => 'video/mp4']);
         Resource::create(["module_id" => $moduleCC->id, "attachment_id" => $attach5004->id, 'type' => 'video']);
-        
+
         RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user1->id]);
         RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user2->id]);
         RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user3->id]);
@@ -639,7 +639,7 @@ class TablesSeeder extends Seeder
             $u->ascriptions()->attach(rand(1, 7));
             Course::find(3)->enrolUser($u->id);
         });
-        
+
         Reference::create([
             'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
             'module_id' => $module1->id
@@ -668,9 +668,9 @@ class TablesSeeder extends Seeder
             'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
             'module_id' => $module6->id
             ]);
-            
-        
-        
+
+
+
         $evaluation1 = Evaluation::create(['name' => 'Prevalencia y diagnóstico', 'module_id' => $module1->id, 'type'=> 'f']);
         $evaluation2 = Evaluation::create(['name' => 'Opciones terapéuticas', 'module_id' => $module2->id, 'type'=> 'f']);
         $evaluation3 = Evaluation::create(['name' => 'Insomnio en la mujer', 'module_id' => $module3->id, 'type'=> 'f']);

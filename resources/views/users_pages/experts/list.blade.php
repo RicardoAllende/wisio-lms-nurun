@@ -38,7 +38,7 @@ Expertos
                <div class="card z-depth-0 white">
                   <div class="card-content expertoscard">
                      <div class="expertostitulo center">{{ $expert->name }}</div>
-                      <div class="col s12 center">
+                      <div class="col s8 offset-s2 center">
                           <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </div>
                       <div class="expertosparticipacion">

@@ -70,11 +70,10 @@ class CoursesController extends Controller
       $module = Module::find($request->module_id);
       $user = Auth::user();
       $save = null;
-
+    //  dd($request);
       if($request->status){
         $save = $user->setModuleComplete($request->module_id);
       }
-
       //$save = $module->users()->attach(Auth::user()->id, ['status' => $request->status]);
       return back();
     }

@@ -1,3 +1,5 @@
+/* Cambia el boton de menu al abrirse*/
+
 $(".button-collapse").sideNav({
   edge: 'left',
   draggable: true,
@@ -10,6 +12,34 @@ $(".button-collapse").sideNav({
 
 });
 
+/*Cambia el tamaño de fuente */
+var donde = $('body');
+  var sizeFuenteOriginal = donde.css('font-size');
+
+  // Resetear Font Size
+  $(".resetearFont").click(function(){
+  donde.css('font-size', sizeFuenteOriginal);
+  });
+
+  // Aumentar Font Size
+  $("#font-up,#font-upMob").click(function(){
+  	var sizeFuenteActual = donde.css('font-size');
+ 	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
+    var sizeFuenteNuevo = sizeFuenteActualNum*1.2;
+	donde.css('font-size', sizeFuenteNuevo);
+	return false;
+  });
+
+  // Disminuir Font Size
+  $("#font-down,#font-downMob").click(function(){
+  	var sizeFuenteActual = donde.css('font-size');
+ 	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
+    var sizeFuenteNuevo = sizeFuenteActualNum*0.8;
+	donde.css('font-size', sizeFuenteNuevo);
+	return false;
+  });
+
+/*funciones para presentar los slides de como funciona y evaluaciones*/
 var slideIndex = 1;
 showSlides(slideIndex);
 
@@ -69,7 +99,7 @@ function showSlidesE(n){
 
 }
 
-
+/*Funciones para mostrar el contenido de los modulos */
 
 var coll = document.getElementsByClassName("collapsiblemod");
 var i;
@@ -122,8 +152,6 @@ function openModule(){
     content.style.display = 'block';
     setTimeout(function(){ content.style.maxHeight = content.scrollHeight + 60 + "px";}, 500);
   }
-
-  //content.style.maxHeight = content.scrollHeight + 60 + "px";
 }
 
 function closeModule(){
@@ -147,6 +175,8 @@ function closeModule(){
 
 }
 
+/*Obtiene los recursos desde el controlador*/
+
 function getResourcesModules(idMod){
   idModule = idMod;
   $.ajax({
@@ -157,9 +187,9 @@ function getResourcesModules(idMod){
     _token: $('meta[name="csrf-token"]').attr('content')
   },
   success: function (resources) {
-      //console.log("exito");
-      printResources(resources)
       //console.log(resources);
+      printResources(resources)
+
   },
   error: function(request, error){
     console.log(error);
@@ -167,6 +197,9 @@ function getResourcesModules(idMod){
 
 });
 }
+
+/*Obtiene el formulario de las preguntas de la evaluaciones
+ desde el controlador*/
 
 function getQuestionsEval(idEval){
   var formUrl = urlDrawForm + '/' + idEval;
@@ -182,8 +215,10 @@ function getQuestionsEval(idEval){
   });
 }
 
-function printResources(resources){
+/*imprime los recursos de los modulos*/
 
+function printResources(resources){
+  /*Verifica l acantida de recursos en el modulo*/
   if(resources.length > 0){
     var refs = '';
     var contendiv = '';
@@ -195,7 +230,7 @@ function printResources(resources){
     if(resources.length > 1){
       var arrVideo = [];
       var arrPdf = [];
-
+      /*guarda los recursos en un arreglo*/
       $.each(resources, function(index, value){
         if(value.type == "video"){
           arrVideo.push(value.url);
@@ -239,10 +274,11 @@ function printResources(resources){
       var contendiv = '';
       switch(String(resources[0]['type'])) {
         case 'video':
-            contendiv += '<video width="100%" controls><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
+            contendiv += '<video width="100%" controls id="video"><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
+            var vide = document.getElementById('video');
             vide.onended = function() {
-              console.log('video concluido');
+              //console.log('video concluido');
               stat = true;
             };
             vide.onplay = function() {
@@ -276,6 +312,8 @@ function printResources(resources){
 
 
 }
+
+/*player pdf de los recursos*/
 
 function printPdfplayer(url){
   var pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -373,6 +411,8 @@ function printPdfplayer(url){
   });
 }
 
+/*Envia datos al LRS*/
+
 function sendDataLrs(){
   if(videoPlaying != null){
       console.log(videoPlaying.currentSrc+"  "+videoPlaying.currentTime);
@@ -381,6 +421,9 @@ function sendDataLrs(){
   }
 
 }
+
+
+/*Envia estatus del modulo*/
 
 function sendStatus(status_){
 
@@ -393,7 +436,7 @@ function sendStatus(status_){
       _token: $('meta[name="csrf-token"]').attr('content')
     },
     success: function (result) {
-        console.log(result);
+        //console.log(result);
     },
     error: function(request, error){
       console.log(error);
@@ -402,12 +445,14 @@ function sendStatus(status_){
   });
 }
 
+/*Cambia la clase de activo al menu*/
+
 function cambiarItem(item){
-  console.log(item)
+  //console.log(item)
   $(".activo").each(function() {
       $(this).removeClass('activo');
   })
-  console.log($("#"+item));
+
   if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
     $("#"+item+'Mob').addClass('activo');
   } else {

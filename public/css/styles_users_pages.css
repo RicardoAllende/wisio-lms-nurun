@@ -243,6 +243,29 @@ nav a {
 
 }
 
+#font-down{
+  font-size: .6rem;
+  font-weight:700;
+  cursor: pointer;
+}
+
+#font-up{
+  font-size: .8rem;
+  font-weight:700;
+  cursor: pointer;
+}
+
+#font-downMob{
+  font-size: .6rem;
+  font-weight:700;
+  cursor: pointer;
+}
+
+#font-upMob{
+  font-size: .8rem;
+  font-weight:700;
+  cursor: pointer;
+}
 
 .iconcourseshow {
     position: relative;

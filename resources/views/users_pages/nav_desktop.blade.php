@@ -45,6 +45,8 @@
 
            </div>
            <div class="col s8 l10">
+             <span id="font-down">-A</span>
+             <span id="font-up">A+</span>
                Este sitio es exclusivo para profesionales de la salud en México
            </div>
            <div class="col s2 l1">
