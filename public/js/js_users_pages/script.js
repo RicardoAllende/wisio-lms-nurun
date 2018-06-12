@@ -422,7 +422,6 @@ function sendDataLrs(){
 
 }
 
-
 /*Envia estatus del modulo*/
 
 function sendStatus(status_){

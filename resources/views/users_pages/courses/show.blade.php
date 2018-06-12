@@ -41,7 +41,7 @@ Curso {{ $course->name }}
                         <span class="titulo-academia2">
                           {{ $module->name }}
                         </span>
-                          <div class="modulos">{{ Auth::user()->progressInModule($module->id) }}</div>
+                          <div class="modulos">{!! Auth::user()->progressInModule($module->id) !!}</div>
                       </div>
                     </div>
                   </div>
