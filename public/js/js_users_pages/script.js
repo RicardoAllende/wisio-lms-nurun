@@ -247,7 +247,7 @@ function printResources(resources){
         videoStart = 0;
         
         contendiv += '<video width="100%" controls id="video">';
-        contendiv += '<source src="'+ videoSource +'" type="video/mp4">'
+        contendiv += '<source src="'+ videoSource +'" type="video/mp4">';
         contendiv += '</video>';
         tincanActivityId = arrVideo[0];
       }
@@ -327,9 +327,33 @@ function printResources(resources){
             contendiv += '<video width="100%" controls id="video"><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
             var vide = document.getElementById('video');
+
+            myActivity = new TinCan.Activity({
+              id: 'https://module/' + idModule,
+              objectType: 'Activity'
+            });
+    
+            var bookmarkVideoRequest = lrs.retrieveState("videoBookmark", {
+              agent: myAgent,
+              activity: myActivity,
+              callback: function(error, result) {
+                if(result != null) {
+                  bookmarkVideoContent = result.contents;
+                  videoSource = bookmarkVideoContent.split('|')[0];
+                  videoStart = bookmarkVideoContent.split('|')[1];
+                  vide.src = videoSource;
+                  vide.currentTime = videoStart;
+                }
+              }
+            });
+
             vide.onended = function() {
               //console.log('video concluido');
               stat = true;
+              lrs.dropState("videoBookmark", {
+                agent: myAgent,
+                activity: myActivity
+              });
             };
             vide.onplay = function() {
               videoPlaying = vide;
