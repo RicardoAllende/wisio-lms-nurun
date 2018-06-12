@@ -243,6 +243,7 @@ function printResources(resources){
         contendiv += '<video width="100%" controls id="video">';
         contendiv += '<source src="/'+arrVideo[0]+'" type="video/mp4">'
         contendiv += '</video>';
+        tincanActivityId = arrVideo[0];
       }
 
       var contVid = 0;
@@ -254,19 +255,35 @@ function printResources(resources){
           contVid++;
           if(arrVideo[contVid] != undefined){
             vide.src = '/'+arrVideo[contVid];
+            tincanActivityId = arrVideo[contVid];
             vide.play();
           } else {
             console.log('video concluido');
             stat = true;
 
           }
-
       };
       vide.onplay = function() {
         videoPlaying = vide;
+        console.log(resources);
+        console.log(vide.src);
+        tincan.sendStatement(
+          {
+              actor: {
+                  name: student_data.name,
+                  mbox: "mailto:"+student_data.email
+              },
+              verb: {
+                  id: "http://adlnet.gov/expapi/verbs/attempted"
+              },
+              object: {  
+                id: 'http://video/' + tincanActivityId,
+                objectType: "Activity"  
+              } 
+          }
+        );
       };
       vide.onpause = function() {
-
       }
 
     } else {
@@ -293,6 +310,21 @@ function printResources(resources){
             contendiv = '<div><button id="prev">Previous</button><button id="next">Next</button>&nbsp; &nbsp;<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div><canvas  width="100%" id="the-canvas"></canvas>';
             $("#"+content.id+" #content").html(contendiv);
             printPdfplayer('/'+resources[0]['url']);
+            tincan.sendStatement(
+              {
+                  actor: {
+                      name: student_data.name,
+                      mbox: "mailto:"+student_data.email
+                  },
+                  verb: {
+                      id: "http://adlnet.gov/expapi/verbs/attempted"
+                  },
+                  object: {  
+                    id: 'http://pdf/' + resources[0]['url'],
+                    objectType: "Activity"  
+                  } 
+              }
+            );
 
           break;
       }
@@ -416,6 +448,21 @@ function printPdfplayer(url){
 function sendDataLrs(){
   if(videoPlaying != null){
       console.log(videoPlaying.currentSrc+"  "+videoPlaying.currentTime);
+      tincan.sendStatement(
+        {
+            actor: {
+                name: student_data.name,
+                mbox: "mailto:"+student_data.email
+            },
+            verb: {
+                id: "http://adlnet.gov/expapi/verbs/attempted"
+            },
+            object: {  
+              id: videoPlaying.currentSrc,
+              objectType: "Activity"  
+            } 
+        }
+      );
   } else {
 
   }

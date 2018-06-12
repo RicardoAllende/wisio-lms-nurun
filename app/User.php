@@ -489,4 +489,8 @@ class User extends Authenticatable
         return $this->allAscriptions->first();
     }
 
+    public function getFullNameAttribute() {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
 }

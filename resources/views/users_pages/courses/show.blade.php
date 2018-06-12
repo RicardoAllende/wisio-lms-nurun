@@ -88,11 +88,18 @@ Curso {{ $course->name }}
 
 @stop
 @section('extrajs')
+<script src="/js/plugins/tincan/tincan.js" type="text/javascript"></script>
+<script src="/js/js_users_pages/tincanConnector.js" type="text/javascript"></script>
 <script>
   cambiarItem("cursos");
   $('.modal').modal({
     dismissible: false,
     
   });
+
+  var student_data = {
+    name: '{{ Auth::user()->full_name }}',
+    email: '{{ Auth::user()->email }}'
+  };
 </script>
 @stop
