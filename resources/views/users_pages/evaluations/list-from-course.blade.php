@@ -4,13 +4,23 @@ Evaluacion
 
 @extends('users_pages.master')
 
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.list.evaluations' , $ascription->slug) }}" class="breadcrumb">Evaluaciones</a>
+  <a href="" class="breadcrumb">{{ $course->name }}</a>
+@stop
+
 @section('body')
 
 <div class="row pad-left3">
           <div class="pad-left1">
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
-              <div class="col s6 offset-s6">
+              <div class="col s6">
+                  <h4 class="categoria-evaluacion">EVALUACIONES</h4>
+                  <p>Elija el curso del que desea consultar sus evaluaciones:</p>
+              </div>
+              <div class="col s6">
                 <div class="card white">
                   <div class="row">
                       <h6 class="cursoev">{{ $course->name }}</h6>

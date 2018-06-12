@@ -2,6 +2,12 @@
 Certificados
 @stop
 @extends('users_pages.master')
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('certificates.list', $ascription->slug) }}" class="breadcrumb">Certificados</a>
+@stop
+
 @section('body')
 <div class="row pad-left3" style="min-height: 500px;">
     <div class="col s6 l5">
@@ -24,7 +30,7 @@ Certificados
         @endforeach
         </ul>
     @else
-        <h5>Sin diplomas disponibles para descargar, si concluyó algún curso y requiere constancia, 
+        <h5>Sin diplomas disponibles para descargar, si concluyó algún curso y requiere constancia,
         póngase en contacto con <a href="mailto:{{ config('constants.support_email') }}">{{ config('constants.support_email') }}</a></h5>
     @endif
 </div>

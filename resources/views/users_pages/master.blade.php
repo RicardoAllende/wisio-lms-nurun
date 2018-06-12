@@ -23,7 +23,17 @@
      <!-- Contenido -->
       <div class="row contenido">
           <!-- Logo academia -->
-          <div class="row pad-left3">
+          <div class="row breads">
+            <div class="col s12 l6">
+              @yield('breadcrumbs')
+            </div>
+            <div class="col l6 hide-on-med-and-down right-align ">
+                <a href="" class="links">En caja</a>
+                <a href="" class="links">Contacto</a>
+            </div >
+          </div>
+
+          <div class="row">
               <div class="col s8 l10">
                 <hr class="line"/>
               </div>
@@ -31,7 +41,7 @@
                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
               @if (Auth::check())
-                <p class="user">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</p>
+                <p class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</p>
               @endif
           </div>
 

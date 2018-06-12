@@ -30,16 +30,6 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
-      @inject('states','App\Http\Controllers\Users_Pages\UserController')
-      <select name="state_id" id="state_id" required class="">
-        @foreach($states->getAllStates() as $state)
-          <option value="{{$state->id}}"> {{$state->name}} </option>
-        @endforeach
-      </select>
-    </div>
-
-    <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
       <select name="specialty_id" id="specialty_id" required class="">
         @inject('specialtiesController','App\Http\Controllers\AdminControllers\SpecialtiesController')
         @foreach($specialtiesController->getAllSpecialties() as $specialty)

@@ -182,14 +182,39 @@ nav {
 nav a {
     color: #4a62ae;
 }
+a.links{
+  color: #9078a3;
+  font-size: .8rem;
+  text-decoration: underline;
+  padding-left: 1rem;
+}
 
+.breads{
+  padding-top: .5rem;
+}
+.breadcrumb{
+  color: #9078a3;
+  font-size: .8rem;
+}
+.breadcrumb:before{
+  color: #9078a3;
+  font-size: .8rem;
+  padding-top: 3px;
+}
 
+.breadcrumb:last-child {
+    color: #7c43ab;
+}
 /* row contenido */
 .contenido{
     position: absolute;
     left: 200px;
     width: calc(100% - 200px);
-    padding-top: 2rem;
+
+}
+
+.padtop {
+  padding-top: 2rem;
 }
 
 /*****************/

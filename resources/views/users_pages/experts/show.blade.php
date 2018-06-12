@@ -2,6 +2,13 @@
 Experto {{ $expert->name }}
 @stop
 @extends('users_pages.master')
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.show.experts' , $ascription->slug) }}" class="breadcrumb">Evaluaciones</a>
+  <a href="" class="breadcrumb">{{ $expert->name }}</a>
+@stop
+
 @section('body')
 
 <div class="row pad-left3">

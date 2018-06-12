@@ -2,6 +2,11 @@
 Inicio
 @stop
 @extends('users_pages.master')
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+@stop
+
 @section('body')
 
 

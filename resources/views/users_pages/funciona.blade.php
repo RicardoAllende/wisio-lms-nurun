@@ -2,6 +2,12 @@
 Cómo funciona
 @stop
 @extends('users_pages.master')
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.funciona', $ascription->slug) }}" class="breadcrumb">Como funciona</a>
+@stop
+
 @section('body')
 
 <!-- Slider como funciona -->
@@ -131,7 +137,7 @@ Cómo funciona
 
 
                     </div>
-                    
+
                     <div class="dot-container col s12 l4">
                       <span class="dot"  onclick="currentSlide(1)">Registro</span><br>
                       <span class="dot"  onclick="currentSlide(2)">Clave única</span> <br>

@@ -5,6 +5,13 @@ Curso {{ $course->name }}
 @section('extracss')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 @stop
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.own.courses' , $ascription->slug) }}" class="breadcrumb">Cursos</a>
+  <a href="" class="breadcrumb">{{ $course->name }}</a>
+@stop
+
 @section('body')
 @include('users_pages.courses.modal')
 <div class="row pad-left3">
@@ -92,7 +99,7 @@ Curso {{ $course->name }}
   cambiarItem("cursos");
   $('.modal').modal({
     dismissible: false,
-    
+
   });
 </script>
 @stop
