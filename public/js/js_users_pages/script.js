@@ -239,9 +239,15 @@ function printResources(resources){
         }
       });
 
+
+
       if(arrVideo.length > 0){
+
+        videoSource = '/' + arrVideo[0];
+        videoStart = 0;
+        
         contendiv += '<video width="100%" controls id="video">';
-        contendiv += '<source src="/'+arrVideo[0]+'" type="video/mp4">'
+        contendiv += '<source src="'+ videoSource +'" type="video/mp4">'
         contendiv += '</video>';
         tincanActivityId = arrVideo[0];
       }
@@ -250,6 +256,29 @@ function printResources(resources){
 
       $("#"+content.id+" #content").html(contendiv);
       var vide = document.getElementById('video');
+      vide.currentTime = videoStart;
+
+      if(arrVideo.length > 0) {
+        myActivity = new TinCan.Activity({
+          id: 'https://module/' + idModule,
+          objectType: 'Activity'
+        });
+
+        var bookmarkVideoRequest = lrs.retrieveState("videoBookmark", {
+          agent: myAgent,
+          activity: myActivity,
+          callback: function(error, result) {
+            if(result != null) {
+              bookmarkVideoContent = result.contents;
+              videoSource = bookmarkVideoContent.split('|')[0];
+              videoStart = bookmarkVideoContent.split('|')[1];
+              vide.src = videoSource;
+              vide.currentTime = videoStart;
+            }
+          }
+        });
+      }
+
       vide.onended = function() {
 
           contVid++;
@@ -260,6 +289,10 @@ function printResources(resources){
           } else {
             console.log('video concluido');
             stat = true;
+            lrs.dropState("videoBookmark", {
+              agent: myAgent,
+              activity: myActivity
+            });
 
           }
       };
@@ -448,22 +481,14 @@ function printPdfplayer(url){
 function sendDataLrs(){
   if(videoPlaying != null){
       console.log(videoPlaying.currentSrc+"  "+videoPlaying.currentTime);
-      tincan.sendStatement(
-        {
-            actor: {
-                name: student_data.name,
-                mbox: "mailto:"+student_data.email
-            },
-            verb: {
-                id: "http://adlnet.gov/expapi/verbs/attempted"
-            },
-            object: {  
-              id: videoPlaying.currentSrc,
-              objectType: "Activity"  
-            } 
-        }
-      );
+      //lrs.retrieveState("someKey","hola", { agent: myAgent, activity: myActivity });
+      myActivity = new TinCan.Activity({
+        id: 'https://module/' + idModule,
+        objectType: 'Activity'
+      });
+      lrs.saveState("videoBookmark",videoPlaying.currentSrc + '|' + videoPlaying.currentTime, { agent: myAgent, activity: myActivity });
   } else {
+      console.log('Video not playing');
 
   }
 

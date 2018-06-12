@@ -101,5 +101,11 @@ Curso {{ $course->name }}
     name: '{{ Auth::user()->full_name }}',
     email: '{{ Auth::user()->email }}'
   };
+
+  var myAgent = new TinCan.Agent (
+    {
+        mbox: "mailto:" + student_data.email
+    }
+);
 </script>
 @stop
