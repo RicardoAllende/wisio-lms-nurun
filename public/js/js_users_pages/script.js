@@ -239,34 +239,84 @@ function printResources(resources){
         }
       });
 
+
+
       if(arrVideo.length > 0){
+
+        videoSource = '/' + arrVideo[0];
+        videoStart = 0;
+        
         contendiv += '<video width="100%" controls id="video">';
-        contendiv += '<source src="/'+arrVideo[0]+'" type="video/mp4">'
+        contendiv += '<source src="'+ videoSource +'" type="video/mp4">';
         contendiv += '</video>';
+        tincanActivityId = arrVideo[0];
       }
 
       var contVid = 0;
 
       $("#"+content.id+" #content").html(contendiv);
       var vide = document.getElementById('video');
+      vide.currentTime = videoStart;
+
+      if(arrVideo.length > 0) {
+        myActivity = new TinCan.Activity({
+          id: 'https://module/' + idModule,
+          objectType: 'Activity'
+        });
+
+        var bookmarkVideoRequest = lrs.retrieveState("videoBookmark", {
+          agent: myAgent,
+          activity: myActivity,
+          callback: function(error, result) {
+            if(result != null) {
+              bookmarkVideoContent = result.contents;
+              videoSource = bookmarkVideoContent.split('|')[0];
+              videoStart = bookmarkVideoContent.split('|')[1];
+              vide.src = videoSource;
+              vide.currentTime = videoStart;
+            }
+          }
+        });
+      }
+
       vide.onended = function() {
 
           contVid++;
           if(arrVideo[contVid] != undefined){
             vide.src = '/'+arrVideo[contVid];
+            tincanActivityId = arrVideo[contVid];
             vide.play();
           } else {
             console.log('video concluido');
             stat = true;
+            lrs.dropState("videoBookmark", {
+              agent: myAgent,
+              activity: myActivity
+            });
 
           }
-
       };
       vide.onplay = function() {
         videoPlaying = vide;
+        console.log(resources);
+        console.log(vide.src);
+        tincan.sendStatement(
+          {
+              actor: {
+                  name: student_data.name,
+                  mbox: "mailto:"+student_data.email
+              },
+              verb: {
+                  id: "http://adlnet.gov/expapi/verbs/attempted"
+              },
+              object: {  
+                id: 'http://video/' + tincanActivityId,
+                objectType: "Activity"  
+              } 
+          }
+        );
       };
       vide.onpause = function() {
-
       }
 
     } else {
@@ -277,9 +327,33 @@ function printResources(resources){
             contendiv += '<video width="100%" controls id="video"><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
             var vide = document.getElementById('video');
+
+            myActivity = new TinCan.Activity({
+              id: 'https://module/' + idModule,
+              objectType: 'Activity'
+            });
+    
+            var bookmarkVideoRequest = lrs.retrieveState("videoBookmark", {
+              agent: myAgent,
+              activity: myActivity,
+              callback: function(error, result) {
+                if(result != null) {
+                  bookmarkVideoContent = result.contents;
+                  videoSource = bookmarkVideoContent.split('|')[0];
+                  videoStart = bookmarkVideoContent.split('|')[1];
+                  vide.src = videoSource;
+                  vide.currentTime = videoStart;
+                }
+              }
+            });
+
             vide.onended = function() {
               //console.log('video concluido');
               stat = true;
+              lrs.dropState("videoBookmark", {
+                agent: myAgent,
+                activity: myActivity
+              });
             };
             vide.onplay = function() {
               videoPlaying = vide;
@@ -293,6 +367,21 @@ function printResources(resources){
             contendiv = '<div><button id="prev">Previous</button><button id="next">Next</button>&nbsp; &nbsp;<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div><canvas  width="100%" id="the-canvas"></canvas>';
             $("#"+content.id+" #content").html(contendiv);
             printPdfplayer('/'+resources[0]['url']);
+            tincan.sendStatement(
+              {
+                  actor: {
+                      name: student_data.name,
+                      mbox: "mailto:"+student_data.email
+                  },
+                  verb: {
+                      id: "http://adlnet.gov/expapi/verbs/attempted"
+                  },
+                  object: {  
+                    id: 'http://pdf/' + resources[0]['url'],
+                    objectType: "Activity"  
+                  } 
+              }
+            );
 
           break;
       }
@@ -416,7 +505,14 @@ function printPdfplayer(url){
 function sendDataLrs(){
   if(videoPlaying != null){
       console.log(videoPlaying.currentSrc+"  "+videoPlaying.currentTime);
+      //lrs.retrieveState("someKey","hola", { agent: myAgent, activity: myActivity });
+      myActivity = new TinCan.Activity({
+        id: 'https://module/' + idModule,
+        objectType: 'Activity'
+      });
+      lrs.saveState("videoBookmark",videoPlaying.currentSrc + '|' + videoPlaying.currentTime, { agent: myAgent, activity: myActivity });
   } else {
+      console.log('Video not playing');
 
   }
 
