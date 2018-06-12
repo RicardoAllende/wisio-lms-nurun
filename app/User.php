@@ -89,22 +89,19 @@ class User extends Authenticatable
     }
 
     public function progressInModule($module_id){
-        foreach($this->courses as $course){
-            foreach($course->modules as $module){
-                if ($module_id == $module->id) {
-                    if($this->modules->contains($module_id)){
-                        if($this->modules->where('id', $module_id)->first()->pivot->status == 1){
-                            return "Completado";
-                        }else{
-                            return "No completado";
-                        }
-                    }else{
-                        return config('constants.status.not_attemped'); // Pendiente
-                    }
+        if($this->modules->contains($module_id)){
+            $module = $this->modules->find($module_id);
+            if($module->hasFinalEvaluation()){
+                $finalEvaluation = $module->finalEvaluations()->first();
+                if($this->hasThisEvaluationCompleted($finalEvaluation->id)){
+                    return '<i class="material-icons">check_box</i> EVALUACIÓN';
                 }
             }
+            if($this->hasCompletedTheModule($module->id)){
+                return "VISTO ".substr($module->created_at, 0, 10); // Show only time
+            }
         }
-        return "No inscrito";
+        return "PENDIENTE";
     }
 
     public function progressInCourse($course_id){
