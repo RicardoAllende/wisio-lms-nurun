@@ -92,7 +92,7 @@ class LoginController extends Controller
             }
             return redirect('/');
         } else {
-            return back()->withInput()->withErrors(['Error' => 'Verifique sus datos']);
+            return back()->with('error','Verifique sus datos');
         }
     }
 

@@ -14,6 +14,7 @@ Curso {{ $course->name }}
 
 @section('body')
 @include('users_pages.courses.modal')
+@include('users_pages.courses.modalEvDiag')
 <div class="row pad-left3">
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
@@ -32,10 +33,10 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
-                  <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}">
+                  <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}">
                   <div class="row valign-wrapper">
                       <div class="col s4">
-                        <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"> <!-- notice the "circle" class -->
                       </div>
                       <div class="col s8">
                         <span class="titulo-academia2">
@@ -45,7 +46,6 @@ Curso {{ $course->name }}
                       </div>
                     </div>
                   </div>
-
              </div>
           </div>
           @if($cont == 3 )
@@ -100,9 +100,10 @@ Curso {{ $course->name }}
 <script>
   cambiarItem("cursos");
   $('.modal').modal({
-    dismissible: false,
-
+    dismissible: false
   });
+
+  
 
   var student_data = {
     name: '{{ Auth::user()->full_name }}',

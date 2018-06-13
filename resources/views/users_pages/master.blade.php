@@ -7,7 +7,7 @@
 
       <title>Academia Sanofi | @yield('title')</title>
 
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.min.css')}}"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/iconsAcademia.css')}}" />
@@ -28,8 +28,8 @@
               @yield('breadcrumbs')
             </div>
             <div class="col l6 hide-on-med-and-down right-align ">
-                <a href="" class="links">En caja</a>
                 <a href="" class="links">Contacto</a>
+                <a href="" class="links">Editar Perfil</a>
             </div >
           </div>
 
@@ -50,7 +50,7 @@
           @include('users_pages.footer')
 
       </div>
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js')}}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>

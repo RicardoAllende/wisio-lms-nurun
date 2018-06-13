@@ -120,9 +120,12 @@ for (i = 0; i < coll.length; i++) {
       modActive.classList.toggle("activeMod");
 
       if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
-        isMob = true;
-        content = document.getElementById('modalMod');
+          isMob = true;
+          content = document.getElementById('modalMod');
+
+
       } else {
+
         content = document.getElementById('mod'+this.getAttribute('data-id'));
       }
 
@@ -135,7 +138,6 @@ for (i = 0; i < coll.length; i++) {
         }
         ;
       } else if(this.getAttribute('data-eval')){
-        isEval = true;
         idEval = this.getAttribute('data-eval');
         getQuestionsEval(idEval);
         openModule();
@@ -163,7 +165,6 @@ function closeModule(){
     sendStatus(stat,modActive);
     stat = false;
   }
-  isEval= false;
   modActive.classList.toggle("activeMod");
   if(isMob){
     $('#modalMod').modal('close');
@@ -179,36 +180,34 @@ function closeModule(){
 }
 
 function hasEvDiag(idMod){
-  return true;
+
 }
 
 function getEvDiag(idMod){
 
-  $('#modalEvDiag .modal-content').html('hola');
-  $('#modalEvDiag').modal({
-    dismissible: false
-  });
-  $('#modalEvDiag').modal('open');
-
-}
-
-function closeModEvDiag(){
-  getResourcesModules(idModuleGlobal);
 }
 
 /*Obtiene los recursos desde el controlador*/
 
 function getResourcesModules(idMod){
   //idModule = idMod;
-  sendAjax('post',window.location+'/module/get_resources',{
+  $.ajax({
+  type: 'post',
+  url: window.location+'/module/get_resources',
+  data: {
     idModule: idMod,
     _token: $('meta[name="csrf-token"]').attr('content')
-  }, function(response){
-      if(response != null){
-        printResources(response);
-      }
-    });
+  },
+  success: function (resources) {
+      //console.log(resources);
+      printResources(resources)
 
+  },
+  error: function(request, error){
+    console.log(error);
+  }
+
+});
 }
 
 /*Obtiene el formulario de las preguntas de la evaluaciones
@@ -216,13 +215,16 @@ function getResourcesModules(idMod){
 
 function getQuestionsEval(idEval){
   var formUrl = urlDrawForm + '/' + idEval;
-
-  sendAjax('get',formUrl,'', function(response){
-      if(response != null){
-        $("#" + content.id + " #content").html(response);
-      }
-    });
-
+  $.ajax({
+    url: formUrl,
+    method: 'get',
+    success: function(result){
+        $("#" + content.id + " #content").html(result);
+    },
+    error: function(error){
+      $("#" + content.id + " #content").html(error);
+    }
+  });
 }
 
 /*imprime los recursos de los modulos*/
@@ -309,8 +311,8 @@ function printResources(resources){
       };
       vide.onplay = function() {
         videoPlaying = vide;
-        //console.log(resources);
-        //console.log(vide.src);
+        console.log(resources);
+        console.log(vide.src);
         tincan.sendStatement(
           {
               actor: {
@@ -533,16 +535,24 @@ function sendDataLrs(){
 /*Envia estatus del modulo*/
 
 function sendStatus(status_,mod){
-    sendAjax('post',window.location +'/save_progress_module',{
-        module_id: idModuleGlobal,
-        status:status_,
-        _token: $('meta[name="csrf-token"]').attr('content')
-      }, function(response){
-        if(response != null){
-          $('#'+mod.id+" div div .modulos").text(response);
-        }
-      });
 
+    $.ajax({
+    type: 'post',
+    url: window.location +'/save_progress_module',
+    data: {
+      module_id: idModuleGlobal,
+      status:status_,
+      _token: $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function (result) {
+        console.log(result);
+        $('#'+mod.id+" div div .modulos").text(result);
+    },
+    error: function(request, error){
+      console.log(error);
+    }
+
+  });
 }
 
 /*Cambia la clase de activo al menu*/
@@ -564,36 +574,4 @@ function cambiarItem(item){
 function MsjVideoFinish(){
   var toastHTML = "Se han concluido todos los videos";
   Materialize.toast(toastHTML,5000,'acept');
-}
-
-function sendAjax(method_,url_,data_,callback){
-
-  //console.log(method_+" "+url_+" "+data_);
-
-  if(method_ == "post"){
-    $.ajax({
-      type: method_,
-      url: url_,
-      data: data_,
-      success: function (result) {
-        //console.log(result);
-        callback(result);
-      },
-      error: function(request, error){
-        console.log(error);
-      }
-
-    });
-  } else if(method_ == "get"){
-    $.ajax({
-      url: url_,
-      method: method_,
-      success: function(result){
-          callback(result);
-      },
-      error: function(error){
-        callback(result);
-      }
-    });
-  }
 }
