@@ -77,8 +77,8 @@
                             </li>
                             <li>
                                 <span class="fa fa-book m-r-xs"></span>
-                                <label>Especialidad</label>
-                                {{ $user->specialty }}
+                                <label>Especialidad: </label>
+                                {{ $user->specialty->name }}
                             </li>
                         </ul>
                     </div> 

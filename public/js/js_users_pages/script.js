@@ -243,7 +243,7 @@ function printResources(resources){
 
       if(arrVideo.length > 0){
 
-        videoSource = '/' + arrVideo[0];
+        videoSource = '' + arrVideo[0];
         videoStart = 0;
         
         contendiv += '<video width="100%" controls id="video">';
@@ -283,7 +283,7 @@ function printResources(resources){
 
           contVid++;
           if(arrVideo[contVid] != undefined){
-            vide.src = '/'+arrVideo[contVid];
+            vide.src = ''+arrVideo[contVid];
             tincanActivityId = arrVideo[contVid];
             vide.play();
           } else {
@@ -366,7 +366,7 @@ function printResources(resources){
 
             contendiv = '<div><button id="prev">Previous</button><button id="next">Next</button>&nbsp; &nbsp;<span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div><canvas  width="100%" id="the-canvas"></canvas>';
             $("#"+content.id+" #content").html(contendiv);
-            printPdfplayer('/'+resources[0]['url']);
+            printPdfplayer(''+resources[0]['url']);
             tincan.sendStatement(
               {
                   actor: {
