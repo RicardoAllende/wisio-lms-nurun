@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection as Collection;
+use App\Ascription;
 
 class User extends Authenticatable
 {
@@ -46,6 +47,11 @@ class User extends Authenticatable
 
     public function courses(){
         return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
+    public function coursesFromAscription(Ascription $ascription){
+        $coursesEnrolled = $this->courses->pluck('id');
+        return $ascription->courses()->whereIn('courses.id', $coursesEnrolled)->get();
     }
 
     public function modules(){
@@ -416,6 +422,19 @@ class User extends Authenticatable
             }
         }
         return $num;
+    }
+
+    public function completedFinalEvaluationsFromCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return 0; }
+        $finalEvaluations = $course->finalEvaluations();
+        $count = 0;
+        foreach($finalEvaluations as $evaluation){
+            if($this->hasThisEvaluationCompleted($evaluation->id)){
+                $count++;
+            }
+        }
+        return $count;
     }
 
     public function scoreInEvaluation($evaluation_id){

@@ -9,7 +9,7 @@ use PDF;
 class DownloadCertificateController extends Controller
 {
     public function downloadPdf(Request $request){
-
+      
       $view = \View::make('users_pages.certificates.pdf2')->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->setPaper('A4','landscape');

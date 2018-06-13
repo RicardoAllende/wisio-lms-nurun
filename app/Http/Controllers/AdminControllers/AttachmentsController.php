@@ -103,4 +103,9 @@ class AttachmentsController extends Controller
         $attachment = $attachment->id;
         echo $attachment;
     }
+
+    public function verify(){
+        $attachments = Attachment::all();
+        return view('attachments/verify', compact('attachments'));
+    }
 }

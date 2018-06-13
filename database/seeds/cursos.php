@@ -60,14 +60,14 @@ mysqli_set_charset ($connection , 'utf8');
 // }
 
 
-$sql = "SELECT id, distinct title, summary FROM experts";
-$resultado = $connection->query($sql);
-while($fila = $resultado->fetch_assoc()){
-	echo "Expert::create(['id' => ".$fila['id'].", 'name' => '".$fila['title']."', 'slug' => str_slug('".$fila['title']."'), 'summary' => '".$fila['description']."']);";
-	echo "<br>";
-	echo "ExpertModule::create(['expert_id' => ".$fila['id'].", 'module_id' => ".$fila['modules_id']."]);";
-	echo "<br>";
-}
+// $sql = "SELECT id, distinct title, summary FROM experts";
+// $resultado = $connection->query($sql);
+// while($fila = $resultado->fetch_assoc()){
+// 	echo "Expert::create(['id' => ".$fila['id'].", 'name' => '".$fila['title']."', 'slug' => str_slug('".$fila['title']."'), 'summary' => '".$fila['description']."']);";
+// 	echo "<br>";
+// 	echo "ExpertModule::create(['expert_id' => ".$fila['id'].", 'module_id' => ".$fila['modules_id']."]);";
+// 	echo "<br>";
+// }
 
 // $sql = "SELECT * FROM users JOIN specialties ON users.specialty = specialties.";
 // $resultado = $connection->query($sql);
@@ -138,16 +138,20 @@ while($fila = $resultado->fetch_assoc()){
 
 
 	// Migración de las imágenes del módulo
-	// $i = 10000;
-	// $query = "select icon, id from modules";
-	// $result = $connection->query($query) or die($connection->error);
-	// while($fila = $result->fetch_assoc()){
-	//     echo '$attach'.$i.' = Attachment::create(["type" => "main_img", "url" => "'.str_replace('storage', 'storage', $fila['icon']).'", "mimetype" => "image/png"]);';
-	//     echo "<br>";
-	//     echo 'AttachmentModule::create(["attachment_id" => $attach'.$i.'->id, "module_id" => '.$fila['id'].']);';
-	//     echo "<br>";
-	//     $i++;
-	// }
+	$i = 20000;
+	$query = "select icon, id from paecs";
+	$result = $connection->query($query) or die($connection->error);
+	while($fila = $result->fetch_assoc()){
+	    echo '$attach'.$i.' = Attachment::create(["type" => "main_img", "url" => "'.str_replace('storage', 'storage', $fila['icon']).'", "mimetype" => "image/png"]);';
+	    echo "<br>";
+	    echo 'AttachmentCourse::create(["attachment_id" => $attach'.$i.'->id, "course_id" => '.$fila['id'].']);';
+	    echo "<br>";
+	    $i++;
+	}
+
+
+
+	// Migración 
 
 	// name, type    ,      mimetype, url, description              Attachment
 	//     ,pdf/video,     video/mp4, 

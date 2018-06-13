@@ -103,11 +103,13 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/evaluaciones/{course_id}', 'Users_Pages\EvaluationsController@showEvaluationsFromCourse')->name('show.evaluation.course');
 		Route::get('/evaluaciones/{course_id}/draw-form/{evaluation_id}', 'Users_Pages\EvaluationsController@drawForm')
 			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js, if it changes you must update the script.js
+		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 		// Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')->name('show.evaluation');
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
-		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 		Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
 	});
+
+	Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf')->name('test.download.certificate');
 
 	Route::get('/module-has-diagnostic-evaluation/{module_id}', 'Users_Pages\EvaluationsController@checkDiagnosticEvaluation')->name('check.diagnostic.evaluation.availability');
 	Route::get('/module-has-final-evaluation/{module_id}', 'Users_Pages\EvaluationsController@checkFinalEvaluation')->name('check.final.evaluation.availability');
@@ -125,6 +127,4 @@ Route::group(['middleware' => ['auth']], function () {
  * For visitors, they can see the public courses
  */
 Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
-Route::get('/temp', function(){
-	return view('welcome');
-});
+Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');

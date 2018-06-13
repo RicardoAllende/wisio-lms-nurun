@@ -23,7 +23,7 @@ class Evaluation extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('score', 'status');
+        return $this->belongsToMany('App\User')->withPivot('score')->withTimestamps();
     }
 
     public function questions(){
@@ -35,7 +35,7 @@ class Evaluation extends Model
     }
 
     public function enrollments(){
-        return $this->belongsToMany('App\User')->withPivot('status');
+        return $this->belongsToMany('App\User')->withPivot('score')->withTimestamps();
     }
 
     public function getMainImgUrl(){
@@ -62,6 +62,13 @@ class Evaluation extends Model
         } else {
             return false;
         }
+    }
+
+    public function isDiagnosticEvaluation(){
+        if($this->type == config('constants.evaluations.diagnostic')){
+            return true;
+        }
+        return false;
     }
 
 }

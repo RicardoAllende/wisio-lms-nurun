@@ -16,10 +16,8 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('evaluation_id')->unsigned()->nullable();
-            $table->string('name')->nullable();
+            $table->text('name')->nullable();
             $table->text('content')->nullable();
-            // $table->string('type');
-            // $table->boolean('is_true')->nullable();
             $table->foreign('evaluation_id')->references('id')
                 ->on('evaluations')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

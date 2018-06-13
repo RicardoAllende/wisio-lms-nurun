@@ -30,83 +30,10 @@ use App\ExpertModule;
 use App\Reference;
 use App\State;
 use App\AttachmentModule;
-
-/*
-$connection = mysqli_connect("127.0.0.1", "root", "", "paecmexico");
-$connection->set_charset("utf8");
-// $query = "select title, is_available_constancy, minimum_grade from paecs";
-// $result = $connection->query($query);
-// while ($course = $result->fetch_assoc()) {
-// 	echo "Course::create(['name' => '".$course['title']."', 'has_constancy' => ".$course['is_available_constancy'].");";
-//     echo "<br>";
-// }
-
-// $query = "select name from states";
-// $result = $connection->query($query);
-// while ($fila = $result->fetch_assoc()) {
-// 	echo "State::create(['name' => '".$fila['name']."']);";
-//     echo "<br>";
-// }
+use App\AttachmentCourse;
+use App\AscriptionAttachment;
 
 
-
-// $query = "select cc_id, url from cc_medias";
-// $queryImg = "select icon from cc where id = 1";
-// $result = $connection->query($query);
-// $result2 = $connection->query($queryImg);
-// $i = 5000;
-// $weight = 1;
-// $img = $result2->fetch_assoc();
-// echo '$attach'.$i." = Attachment::create(['type' => 'main_img', 'url' => '".str_replace('/storage', 'storage',
-//     $img['icon'])."', 'mimetype' => 'image/*']);";
-// echo "<br>";
-// echo 'AttachmentModule::create(["attachment_id" => , "module_id" => ])';
-// $i++;
-// while ($fila = $result->fetch_assoc()) {
-//     echo '$attach'.$i." = Attachment::create(['type' => 'video', 'url' => '".str_replace('/storage', 'storage',
-//     $fila['url'])."', 'name' => '".substr($fila['url'], strripos($fila['url'], '/') + 1 )."', 'mimetype' => 'video/mp4']);";
-//     echo "<br>";
-//     echo 'Resource::create(["module_id" => $moduleCC->id, "attachment_id" => $attach'.$i.'->id]);';
-//     echo '<br>';
-//     $i++;
-//     $weight++;
-// }
-
-
-
-// Migración de los vídeos de los módulos
-$query = "select modules_id, url from medias";
-$result = $connection->query($query);
-$i = 1;
-while ($fila = $result->fetch_assoc()) {
-    echo '$attach'.$i." = Attachment::create(['type' => 'video', 'url' => '".str_replace('/storage', 'storage',
-    $fila['url'])."', 'name' => '".substr($fila['url'], strripos($fila['url'], '/') + 1 )."', 'mimetype' => 'video/mp4', 'type' => 'video']);";
-    echo "<br>";
-    echo 'Resource::create(["module_id" => $module'.$fila['modules_id'].'->id, "attachment_id" => $attach'.$i.'->id, "type" => "video"]);';
-    echo '<br>';
-    $i++;
-}
-
-
-
-// Migración de las imágenes del módulo
-// $i = 10000;
-// $query = "select icon, id from modules";
-// $result = $connection->query($query) or die($connection->error);
-// while($fila = $result->fetch_assoc()){
-//     echo '$attach'.$i.' = Attachment::create(["type" => "main_img", "url" => "'.str_replace('storage', 'storage', $fila['icon']).'", "mimetype" => "image/png"]);';
-//     echo "<br>";
-//     echo 'AttachmentModule::create(["attachment_id" => $attach'.$i.'->id, "module_id" => $module'.$fila['id'].'->id]);';
-//     echo "<br>";
-//     $i++;
-// }
-
-// name, type    ,      mimetype, url, description              Attachment
-//     ,pdf/video,     video/mp4,
-
-// type
-
-*/
 class TablesSeeder extends Seeder
 {
     /**
@@ -117,474 +44,666 @@ class TablesSeeder extends Seeder
     public function run()
     {
         // https://lion.app.box.com/s/h9eoa8837p01c8uenq66wgfrmg930lk3/file/285174501391
-        $doctor = Role::create(['name' => config('constants.roles.doctor'), 'description' => 'Médico']);
+        // $doctor = Role::firstOrCreate(['name' => config('constants.roles.doctor'), 'description' => 'Médico']);
         // $reporter = Role::create(['name' => config('constants.roles.reporter'), 'description' => 'Reportero']);
-        $admin = Role::create(['name' => config('constants.roles.admin'), 'description' => 'Administrador']);
+        // $admin = Role::firstOrCreate(['name' => config('constants.roles.admin'), 'description' => 'Administrador']);
         // $tester = Role::create(['name' => config('constants.roles.tester'), 'description' => 'Tester']);
         // $teacher = Role::create(['name' => config('constants.roles.teacher'), 'description' => 'Profesor']);
+        $doctor = Role::find(1);
+        $admin = Role::find(2);
 
-        $ascription = Ascription::create(['name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal', 'is_main_ascription' => 1]);
-        $ascription2 = Ascription::create(['name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $ascription3 = Ascription::create(['name' => 'Farmacia del ahorro', 'slug' => 'del-ahorro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $ascription4 = Ascription::create(['name' => 'Farmacia Femsa', 'slug' => 'femsa', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $ascription5 = Ascription::create(['name' => 'Farmacia San pablo', 'slug' => 'san-pablo', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $ascription6 = Ascription::create(['name' => 'Súper Farmacias', 'slug' => 'guadalajara', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $ascription7 = Ascription::create(['name' => 'Farmacia Nadro', 'slug' => 'nadro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
-        $diplomado = Ascription::create(['name' => 'Diplomado Universidad la Salle', 'slug' => 'diplomado-universidad-la-salle', 'description' => 'Sección del diplomado', 'has_constancy' => 1]);
+        $ascription = Ascription::create(['id' => 1, 'name' => 'Paec México', 'slug' => 'academia-mc', 'description' => 'Sección principal', 'is_main_ascription' => 1]);
+        $ascription2 = Ascription::create(['id' => 7, 'code' => 'PAECBENAVIDES', 'name' => 'Farmacia Benavides', 'slug' => 'benavides', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription3 = Ascription::create(['id' => 8, 'code' => 'PAECDELAHORRO', 'name' => 'Farmacia del ahorro', 'slug' => 'del-ahorro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription4 = Ascription::create(['id' => 9, 'code' => 'PAECYZA', 'name' => 'Farmacia Femsa', 'slug' => 'femsa', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription5 = Ascription::create(['id' => 10, 'code' => 'PAECSANPABLO', 'name' => 'Farmacia San pablo', 'slug' => 'san-pablo', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription6 = Ascription::create(['id' => 11, 'code' => 'PAECFRAGUA', 'name' => 'Súper Farmacias', 'slug' => 'guadalajara', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $ascription7 = Ascription::create(['id' => 12, 'code' => 'PAECCIRCULO', 'name' => 'Farmacia Nadro', 'slug' => 'nadro', 'description' => 'Sección para la farmacia benavides', 'is_pharmacy' => 1]);
+        $diplomado = Ascription::create(['id' => 13, 'code' => '', 'name' => 'Diplomado Universidad la Salle', 'slug' => 'diplomado-universidad-la-salle', 'description' => 'Sección del diplomado', 'has_constancy' => 1]);
         $category = Category::create(['name'=>'Sistema Nervioso Central', 'description' => 'Sistema Nervioso Central']);
         $category2 = Category::create(['name'=>'Endocrinología', 'description' => 'Sistema Nervioso Central']);
         $category3 = Category::create(['name'=>'Cardiología', 'description' => 'Sistema Nervioso Central']);
-
-        $specialty1 = Specialty::create(['name' => 'Alergólogo', 'id' => '106']);
-        $specialty2 = Specialty::create(['name' => 'Algólogo', 'id' => '107']);
-        $specialty3 =  Specialty::create(['name' => 'Anat. patológica', 'id' => '108']);
-        Specialty::create(['name' => 'Anestesiólogo', 'id' => '109']);
-        Specialty::create(['name' => 'Angiólogo', 'id' => '110']);
-        Specialty::create(['name' => 'Audiólogo', 'id' => '111']);
-        Specialty::create(['name' => 'Bariatra', 'id' => '112']);
-        Specialty::create(['name' => 'Biólogo molecular', 'id' => '113']);
-        Specialty::create(['name' => 'Cardiólogo', 'id' => '114']);
-        Specialty::create(['name' => 'Cir. maxilofacial', 'id' => '115']);
-        Specialty::create(['name' => 'Cir. retinólogo', 'id' => '116']);
-        Specialty::create(['name' => 'Cir. transplantÓlogo', 'id' => '117']);
-        Specialty::create(['name' => 'Cirujano', 'id' => '118']);
-        Specialty::create(['name' => 'Cirujano dentista', 'id' => '119']);
-        Specialty::create(['name' => 'Cirujano gastroenterólogo', 'id' => '120']);
-        Specialty::create(['name' => 'Cirujano obstetra', 'id' => '121']);
-        Specialty::create(['name' => 'Cirujano oncólogo', 'id' => '122']);
-        Specialty::create(['name' => 'Cirujano plástico', 'id' => '123']);
-        Specialty::create(['name' => 'Cirujano vascular', 'id' => '124']);
-        Specialty::create(['name' => 'Coloproctólogo', 'id' => '125']);
-        Specialty::create(['name' => 'Dermatólogo', 'id' => '126']);
-        Specialty::create(['name' => 'Endocrinólogo', 'id' => '127']);
-        Specialty::create(['name' => 'Enfermera', 'id' => '128']);
-        Specialty::create(['name' => 'Epidemiólogo', 'id' => '129']);
-        Specialty::create(['name' => 'Fisiólogo', 'id' => '130']);
-        Specialty::create(['name' => 'Fisioterapeuta', 'id' => '131']);
-        Specialty::create(['name' => 'Gastroenterólogo', 'id' => '132']);
-        Specialty::create(['name' => 'Genética', 'id' => '133']);
-        Specialty::create(['name' => 'Geriatra', 'id' => '134']);
-        Specialty::create(['name' => 'Ginecólogo', 'id' => '135']);
-        Specialty::create(['name' => 'Ginecólogo oncÓlogo', 'id' => '136']);
-        Specialty::create(['name' => 'Hematólogo', 'id' => '137']);
-        Specialty::create(['name' => 'Homeópata', 'id' => '138']);
-        Specialty::create(['name' => 'Infectólogo', 'id' => '139']);
-        Specialty::create(['name' => 'Inmunólogo', 'id' => '140']);
-        Specialty::create(['name' => 'Intensivista', 'id' => '141']);
-        Specialty::create(['name' => 'Internista', 'id' => '142']);
-        Specialty::create(['name' => 'Medicina del trabajo', 'id' => '143']);
-        Specialty::create(['name' => 'Medicina integrada', 'id' => '144']);
-        Specialty::create(['name' => 'Medicina legal', 'id' => '145']);
-        Specialty::create(['name' => 'Medicina nuclear', 'id' => '146']);
-        Specialty::create(['name' => 'Médico del deporte', 'id' => '147']);
-        Specialty::create(['name' => 'Médico familiar', 'id' => '148']);
-        Specialty::create(['name' => 'Médico general', 'id' => '149']);
-        Specialty::create(['name' => 'Médico internista', 'id' => '150']);
-        Specialty::create(['name' => 'Nefrólogo', 'id' => '151']);
-        Specialty::create(['name' => 'Neonatólogo', 'id' => '152']);
-        Specialty::create(['name' => 'Neumólogo', 'id' => '153']);
-        Specialty::create(['name' => 'Neurocirujano', 'id' => '154']);
-        Specialty::create(['name' => 'Neurólogo', 'id' => '155']);
-        Specialty::create(['name' => 'Nutricion', 'id' => '156']);
-        Specialty::create(['name' => 'Obstetra', 'id' => '157']);
-        Specialty::create(['name' => 'Odontólogo', 'id' => '158']);
-        Specialty::create(['name' => 'Oftalmólogo', 'id' => '159']);
-        Specialty::create(['name' => 'Oncólogo', 'id' => '160']);
-        Specialty::create(['name' => 'Ortopedista traumatólogo', 'id' => '161']);
-        Specialty::create(['name' => 'Otorrinolaringólogo', 'id' => '162']);
-        Specialty::create(['name' => 'Pediatra', 'id' => '163']);
-        Specialty::create(['name' => 'Podólogo', 'id' => '164']);
-        Specialty::create(['name' => 'Proctólogo', 'id' => '165']);
-        Specialty::create(['name' => 'Psiquiatra', 'id' => '166']);
-        Specialty::create(['name' => 'Radiólogo', 'id' => '167']);
-        Specialty::create(['name' => 'Radioterapeuta', 'id' => '168']);
-        Specialty::create(['name' => 'Rehabilitación', 'id' => '169']);
-        Specialty::create(['name' => 'Reumatólogo', 'id' => '170']);
-        Specialty::create(['name' => 'Sexólogo', 'id' => '171']);
-        Specialty::create(['name' => 'Terapia intensiva', 'id' => '172']);
-        Specialty::create(['name' => 'Transplantólogo', 'id' => '173']);
-        Specialty::create(['name' => 'Urgenciólogo', 'id' => '174']);
-        Specialty::create(['name' => 'Urólogo', 'id' => '175']);
-        Specialty::create(['name' => 'Vías respiratorias', 'id' => '176']);
-        Specialty::create(['name' => 'Otra', 'id' => '177']);
-        State::create(['name' => 'Aguascalientes']);
-        State::create(['name' => 'Baja California']);
-        State::create(['name' => 'Baja California Sur']);
-        State::create(['name' => 'Campeche']);
-        State::create(['name' => 'CDMX']);
-        State::create(['name' => 'Chiapas']);
-        State::create(['name' => 'Chihuahua']);
-        State::create(['name' => 'Coahuila']);
-        State::create(['name' => 'Colima']);
-        State::create(['name' => 'Durango']);
-        State::create(['name' => 'Guanajuato']);
-        State::create(['name' => 'Guerrero']);
-        State::create(['name' => 'Hidalgo']);
-        State::create(['name' => 'Jalisco']);
-        State::create(['name' => 'México']);
-        State::create(['name' => 'Michoacán']);
-        State::create(['name' => 'Morelos']);
-        State::create(['name' => 'Nayarit']);
-        State::create(['name' => 'Nuevo León']);
-        State::create(['name' => 'Oaxaca']);
-        State::create(['name' => 'Puebla']);
-        State::create(['name' => 'Querétaro']);
-        State::create(['name' => 'Quintana Roo']);
-        State::create(['name' => 'San Luis Potosí']);
-        State::create(['name' => 'Sinaloa']);
-        State::create(['name' => 'Sonora']);
-        State::create(['name' => 'Tabasco']);
-        State::create(['name' => 'Tamaulipas']);
-        State::create(['name' => 'Tlaxcala']);
-        State::create(['name' => 'Veracruz']);
-        State::create(['name' => 'Yucatán']);
-        State::create(['name' => 'Zacatecas']);
+        
 
 
-        $course1 = Course::create(['name' => 'PAEC Insomnio', 'slug' => 'insomnio', 'has_constancy' => 1, 'category_id' => $category->id]);
-        $course2 = Course::create(['name' => 'PAEC Diabetes', 'slug' => 'diabetes', 'has_constancy' => 1, 'category_id' => $category->id]);
-        $course3 = Course::create(['name' => 'PAEC Hipertensión', 'slug' => 'hipertension', 'has_constancy' => 0, 'category_id' => $category->id]);
-        $course4 = Course::create(['name' => 'PAEC Trombosis', 'slug' => 'trombosis', 'has_constancy' => 0, 'category_id' => $category->id]);
-        $course5 = Course::create(['name' => 'PAEC Lipid Leaders', 'slug' => 'lipid-leader', 'has_constancy' => 0, 'category_id' => $category->id]);
-        $course6 = Course::create(['name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course1 = Course::create(['id' => 1, 'name' => 'PAEC Insomnio', 'slug' => 'insomnio', 'has_constancy' => 1, 'category_id' => $category->id]);
+        $course2 = Course::create(['id' => 2, 'name' => 'PAEC Diabetes', 'slug' => 'diabetes', 'has_constancy' => 1, 'category_id' => $category->id]);
+        $course3 = Course::create(['id' => 3, 'name' => 'PAEC Hipertensión', 'slug' => 'hipertension', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course4 = Course::create(['id' => 4, 'name' => 'PAEC Trombosis', 'slug' => 'trombosis', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course5 = Course::create(['id' => 5, 'name' => 'PAEC Lipid Leaders', 'slug' => 'lipid-leader', 'has_constancy' => 0, 'category_id' => $category->id]);
+        $course6 = Course::create(['id' => 6, 'name' => 'PAEC Esclerosis Múltiple', 'slug' => 'esclerosis-multiple', 'has_constancy' => 0, 'category_id' => $category->id]);
 
+        $course7 = Course::create(['id' => 7, 'name' => 'Paec diabetes', 'slug' => 'diabetes-', 'has_constancy' => 1, 'category_id' => $category->id]);
+        $course8 = Course::create(['id' => 8, 'name' => 'Paec Hipertensión', 'slug' => 'hipertension-', 'has_constancy' => 0, 'category_id' => $category->id]);
+        
         $ascription->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
-        /** Aún no están migrados los cursos de las farmacias */
-        $ascription2->courses()->attach([$course1->id, $course4->id]);
-        $ascription3->courses()->attach([$course3->id, $course1->id]);
-        $ascription4->courses()->attach([$course3->id, $course1->id]);
-        $ascription5->courses()->attach([$course3->id, $course1->id]);
-        $ascription6->courses()->attach([$course3->id, $course1->id]);
-        $ascription7->courses()->attach([$course3->id, $course1->id]);
-        $diplomado->courses()->attach([$course1->id, $course2->id, $course3->id, $course4->id, $course5->id, $course6->id]);
+        $ascription2->courses()->attach($course7->id);
+        $ascription3->courses()->attach($course7->id);
+        $ascription4->courses()->attach($course8->id);
+        $ascription5->courses()->attach($course8->id);
+        $ascription6->courses()->attach($course8->id);
+        $ascription7->courses()->attach($course7->id);
+        
 
+        // $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
+        // 'firstname'=>'Mario', 'lastname'=>'Mendoza', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        // $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
+        // 'firstname'=>'Ángel', 'lastname'=>'Ortegón', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
+        // $user = User::create(['email'=>'soporte@paecmexico.com', 'password'=>config('constants.default_password'),
+        // 'firstname'=>'Christian', 'lastname'=>'George', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
+        // $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
+        //     'firstname'=>'Juan', 'lastname'=>'Huerta', 'role_id' => $admin->id]);
+        // $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'password'=>config('constants.default_password'),
+        //     'firstname'=>'Miguel', 'lastname'=>'Villegas', 'role_id' => $admin->id]);
+        // $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
+        //     'firstname'=>'Ricardo', 'lastname'=>'Allende', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
+        
+        // $course1->enrolUser($student->id);
+        // $course2->enrolUser($student2->id);
 
-        $student = User::create(['email'=>'doctor@sanofi.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Mario', 'lastname'=>'Mendoza', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
-        $student2 = User::create(['email'=>'doctor@benavides.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Ángel', 'lastname'=>'Ortegón', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'birthday' => '2000/01/01', 'role_id' => $doctor->id]);
-        $user = User::create(['email'=>'soporte@paecmexico.com', 'password'=>config('constants.default_password'),
-        'firstname'=>'Christian', 'lastname'=>'George', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
-        $user1 = User::create(['email'=>'juan.huerta@subitus.com', 'password'=>config('constants.default_password'),
-            'firstname'=>'Juan', 'lastname'=>'Huerta', 'role_id' => $admin->id]);
-        $user2 = User::create(['email'=>'miguel.villegas@subitus.com', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'password'=>config('constants.default_password'),
-            'firstname'=>'Miguel', 'lastname'=>'Villegas', 'role_id' => $admin->id]);
-        $user3 = User::create(['email'=>'ricardo.allende@subitus.com', 'password'=>config('constants.default_password'),
-            'firstname'=>'Ricardo', 'lastname'=>'Allende', 'cedula' => '13245678', 'mobile_phone' => '123456789', 'role_id' => $admin->id]);
+        // AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
+        // AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
+        // AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
+        // AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $student->id]);
+        // AscriptionUser::create(['ascription_id' => $ascription2->id, 'user_id' => $student2->id]);
+        
+        $module1 = Module::create(['id' => '1', 'name' => 'Prevalencia y diagnóstico', 'course_id' => 1]);
+        $module2 = Module::create(['id' => '2', 'name' => 'Opciones terapéuticas', 'course_id' => 1]);
+        $module3 = Module::create(['id' => '3', 'name' => 'Insomnio en la mujer', 'course_id' => 1]);
+        $module4 = Module::create(['id' => '4', 'name' => 'Paciente con insomnio', 'course_id' => 1]);
+        $module5 = Module::create(['id' => '5', 'name' => 'Comorbilidades psiquiátricas', 'course_id' => 1]);
+        $module6 = Module::create(['id' => '6', 'name' => 'Ajustando a la necesidad del paciente', 'course_id' => 2]);
+        $module7 = Module::create(['id' => '7', 'name' => 'Estadísticas de DM y necesidades de los pacientes', 'course_id' => 2]);
+        $module8 = Module::create(['id' => '8', 'name' => 'Pie diabético', 'course_id' => 2]);
+        $module9 = Module::create(['id' => '9', 'name' => 'Retinopatia', 'course_id' => 2]);
+        $module10 = Module::create(['id' => '10', 'name' => 'Nefropatia Diabética ', 'course_id' => 2]);
+        $module11 = Module::create(['id' => '11', 'name' => 'Obesidad', 'course_id' => 2]);
+        $module12 = Module::create(['id' => '12', 'name' => 'Recomendaciones para DMT1 Y T2', 'course_id' => 2]);
+        $module13 = Module::create(['id' => '13', 'name' => 'Webcast Dr. Edilberto Peña', 'course_id' => 1]);
+        $module14 = Module::create(['id' => '14', 'name' => 'Arsenal terapéutico oral en diabetes', 'course_id' => 2]);
+        $module15 = Module::create(['id' => '15', 'name' => 'Conociendo los diferentes tipos de insulinas', 'course_id' => 2]);
+        $module16 = Module::create(['id' => '16', 'name' => '¿Cómo favorecer el inicio del tratamiento con insulina?', 'course_id' => 2]);
+        $module17 = Module::create(['id' => '17', 'name' => 'Insulinas de acción ultra-rápida, beneficios en Tipo 1 y Tipo 2', 'course_id' => 2]);
+        $module18 = Module::create(['id' => '18', 'name' => 'Titulación correcta para llegar a metas', 'course_id' => 2]);
+        $module19 = Module::create(['id' => '19', 'name' => 'Hipoglucemia en contexto ', 'course_id' => 2]);
+        $module20 = Module::create(['id' => '20', 'name' => 'Seguridad CV y legado', 'course_id' => 2]);
+        $module21 = Module::create(['id' => '21', 'name' => 'Introducción Dr. Luis Alcocer Díaz Barreiro', 'course_id' => 3]);
+        $module22 = Module::create(['id' => '22', 'name' => 'Generalidades de hipertensión', 'course_id' => 3]);
+        $module23 = Module::create(['id' => '23', 'name' => 'Toma correcta de la presión arterial', 'course_id' => 3]);
+        $module24 = Module::create(['id' => '24', 'name' => 'Modificaciones al estilo de vida en hipertensión (Obesidad y Alimentación)', 'course_id' => 3]);
+        $module25 = Module::create(['id' => '25', 'name' => 'Comorbilidades del paciente con hipertensión', 'course_id' => 3]);
+        $module26 = Module::create(['id' => '26', 'name' => 'Creación de plan estratégico para hipertensión', 'course_id' => 3]);
+        $module27 = Module::create(['id' => '27', 'name' => 'Caso Clinico Dr. Diaz (Módulo 2)', 'course_id' => 3]);
+        $module28 = Module::create(['id' => '28', 'name' => 'Caso Clinico Dr. Ramos (Módulo 5)', 'course_id' => 3]);
+        $module29 = Module::create(['id' => '29', 'name' => 'Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa', 'course_id' => 3]);
+        $module30 = Module::create(['id' => '30', 'name' => 'Trombosis en cifras', 'course_id' => 4]);
+        $module31 = Module::create(['id' => '31', 'name' => 'Evaluación de riesgo y tratamiento', 'course_id' => 4]);
+        $module32 = Module::create(['id' => '32', 'name' => 'Tromboembolia Venosa', 'course_id' => 4]);
+        $module33 = Module::create(['id' => '33', 'name' => 'Tomboembolia Pulmonar', 'course_id' => 4]);
+        $module34 = Module::create(['id' => '34', 'name' => 'Sindromes coronarios agudos', 'course_id' => 4]);
+        $module35 = Module::create(['id' => '35', 'name' => 'Tratamiento del paciente postinfarto', 'course_id' => 4]);
+        $module36 = Module::create(['id' => '36', 'name' => 'Infarto agudo', 'course_id' => 4]);
+        $module37 = Module::create(['id' => '37', 'name' => 'Carga de las dislipidemias en México', 'course_id' => 5]);
+        $module38 = Module::create(['id' => '38', 'name' => 'Hipercolesterolemia: Necesidades no cubiertas', 'course_id' => 5]);
+        $module39 = Module::create(['id' => '39', 'name' => 'Biotecnología en hipercolesterolemia', 'course_id' => 5]);
+        $module40 = Module::create(['id' => '40', 'name' => 'Guías de tratamiento clínico: inhibidores de PCSK9', 'course_id' => 5]);
+        $module41 = Module::create(['id' => '41', 'name' => 'Pacientes con hipercolesterolemia resistente al tratamiento', 'course_id' => 5]);
+        $module42 = Module::create(['id' => '42', 'name' => 'Caso Clínico: Paciente con alto riesgo cardiovascular', 'course_id' => 5]);
+        $module43 = Module::create(['id' => '43', 'name' => 'Hipercolesterolemia en paciente con diabetes', 'course_id' => 5]);
+        $module44 = Module::create(['id' => '44', 'name' => '¿Cómo identificar y tratar la Hipercolesterolemia Familiar Heterocigota?', 'course_id' => 5]);
+        $module45 = Module::create(['id' => '45', 'name' => 'Caso Clínico: Paciente con alto riesgo cardiovascular e Hipercolesterolemia Familiar Heterocigota', 'course_id' => 5]);
+        $module46 = Module::create(['id' => '46', 'name' => 'Pacientes intolerantes a estatinas con hipercolesterolemia: tratamiento', 'course_id' => 5]);
+        $module47 = Module::create(['id' => '47', 'name' => 'EM leve a moderada', 'course_id' => 6]);
+        $module48 = Module::create(['id' => '48', 'name' => 'EM severa/ altamente activa', 'course_id' => 6]);
+        $module49 = Module::create(['id' => '49', 'name' => 'Sesión 3', 'course_id' => 6]);
 
-        $course1->enrolUser($student->id);
-        $course2->enrolUser($student2->id);
-
-        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user1->id]);
-        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user2->id]);
-        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $user3->id]);
-        AscriptionUser::create(['ascription_id' => $ascription->id, 'user_id' => $student->id]);
-        AscriptionUser::create(['ascription_id' => $ascription2->id, 'user_id' => $student2->id]);
-        $tag1 = Tag::create(['tag'=>'Sueño']);
-        $tag2 = Tag::create(['tag'=>'Glándulas']);
-        $tag3 = Tag::create(['tag'=>'Corazón']);
-
-        $module1 = Module::create(['name' => 'Prevalencia y diagnóstico', 'course_id' => $course1->id]);
-        $module2 = Module::create(['name' => 'Opciones terapéuticas', 'course_id' => $course1->id]);
-        $module3 = Module::create(['name' => 'Insomnio en la mujer', 'course_id' => $course1->id]);
-        $module4 = Module::create(['name' => 'Paciente con insomnio', 'course_id' => $course1->id]);
-        $module5 = Module::create(['name' => 'Comorbilidades psiquiátricas', 'course_id' => $course1->id]);
-        $module6 = Module::create(['name' => 'Ajustando a la necesidad del paciente', 'course_id' => $course2->id]);
-        $module7 = Module::create(['name' => 'Estadísticas de DM y necesidades de los pacientes', 'course_id' => $course2->id]);
-        $module8 = Module::create(['name' => 'Pie diabético', 'course_id' => $course2->id]);
-        $module9 = Module::create(['name' => 'Retinopatia', 'course_id' => $course2->id]);
-        $module10 = Module::create(['name' => 'Nefropatia Diabética ', 'course_id' => $course2->id]);
-        $module11 = Module::create(['name' => 'Obesidad', 'course_id' => $course2->id]);
-        $module12 = Module::create(['name' => 'Recomendaciones para DMT1 Y T2', 'course_id' => $course2->id]);
-        $module13 = Module::create(['name' => 'Webcast Dr. Edilberto Peña', 'course_id' => $course1->id]);
-        $module14 = Module::create(['name' => 'Arsenal terapéutico oral en diabetes', 'course_id' => $course2->id]);
-        $module15 = Module::create(['name' => 'Conociendo los diferentes tipos de insulinas', 'course_id' => $course2->id]);
-        $module16 = Module::create(['name' => '¿Cómo favorecer el inicio del tratamiento con insulina?', 'course_id' => $course2->id]);
-        $module17 = Module::create(['name' => 'Insulinas de acción ultra-rápida, beneficios en Tipo 1 y Tipo 2', 'course_id' => $course2->id]);
-        $module18 = Module::create(['name' => 'Titulación correcta para llegar a metas', 'course_id' => $course2->id]);
-        $module19 = Module::create(['name' => 'Hipoglucemia en contexto ', 'course_id' => $course2->id]);
-        $module20 = Module::create(['name' => 'Seguridad CV y legado', 'course_id' => $course2->id]);
-        $module21 = Module::create(['name' => 'Introducción Dr. Luis Alcocer Díaz Barreiro', 'course_id' => $course3->id]);
-        $module22 = Module::create(['name' => 'Generalidades de hipertensión', 'course_id' => $course3->id]);
-        $module23 = Module::create(['name' => 'Toma correcta de la presión arterial', 'course_id' => $course3->id]);
-        $module24 = Module::create(['name' => 'Modificaciones al estilo de vida en hipertensión (Obesidad y Alimentación)', 'course_id' => $course3->id]);
-        $module25 = Module::create(['name' => 'Comorbilidades del paciente con hipertensión', 'course_id' => $course3->id]);
-        $module26 = Module::create(['name' => 'Creación de plan estratégico para hipertensión', 'course_id' => $course3->id]);
-        $module27 = Module::create(['name' => 'Caso Clinico Dr. Diaz (Módulo 2)', 'course_id' => $course3->id]);
-        $module28 = Module::create(['name' => 'Caso Clinico Dr. Ramos (Módulo 5)', 'course_id' => $course3->id]);
-        $module29 = Module::create(['name' => 'Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa', 'course_id' => $course3->id]);
-        $module30 = Module::create(['name' => 'Trombosis en cifras', 'course_id' => $course4->id]);
-        $module31 = Module::create(['name' => 'Evaluación de riesgo y tratamiento', 'course_id' => $course4->id]);
-        $module32 = Module::create(['name' => 'Tromboembolia Venosa', 'course_id' => $course4->id]);
-        $module33 = Module::create(['name' => 'Tomboembolia Pulmonar', 'course_id' => $course4->id]);
-        $module34 = Module::create(['name' => 'Sindromes coronarios agudos', 'course_id' => $course4->id]);
-        $module35 = Module::create(['name' => 'Tratamiento del paciente postinfarto', 'course_id' => $course4->id]);
-        $module36 = Module::create(['name' => 'Infarto agudo', 'course_id' => $course4->id]);
-        $module37 = Module::create(['name' => 'Carga de las dislipidemias en México', 'course_id' => $course5->id]);
-        $module38 = Module::create(['name' => 'Hipercolesterolemia: Necesidades no cubiertas', 'course_id' => $course5->id]);
-        $module39 = Module::create(['name' => 'Biotecnología en hipercolesterolemia', 'course_id' => $course5->id]);
-        $module40 = Module::create(['name' => 'Guías de tratamiento clínico: inhibidores de PCSK9', 'course_id' => $course5->id]);
-        $module41 = Module::create(['name' => 'Pacientes con hipercolesterolemia resistente al tratamiento', 'course_id' => $course5->id]);
-        $module42 = Module::create(['name' => 'Caso Clínico: Paciente con alto riesgo cardiovascular', 'course_id' => $course5->id]);
-        $module43 = Module::create(['name' => 'Hipercolesterolemia en paciente con diabetes', 'course_id' => $course5->id]);
-        $module44 = Module::create(['name' => '¿Cómo identificar y tratar la Hipercolesterolemia Familiar Heterocigota?', 'course_id' => $course5->id]);
-        $module45 = Module::create(['name' => 'Caso Clínico: Paciente con alto riesgo cardiovascular e Hipercolesterolemia Familiar Heterocigota', 'course_id' => $course5->id]);
-        $module46 = Module::create(['name' => 'Pacientes intolerantes a estatinas con hipercolesterolemia: tratamiento', 'course_id' => $course5->id]);
-        $module47 = Module::create(['name' => 'EM leve a moderada', 'course_id' => $course6->id]);
-        $module48 = Module::create(['name' => 'EM severa/ altamente activa', 'course_id' => $course6->id]);
-        $module49 = Module::create(['name' => 'Sesión 3', 'course_id' => $course6->id]);
+        $module50 = Module::create(['id' => '71', 'name' => 'Ajustando la necesidad del paciente', 'course_id' => 7]);
+        $module51 = Module::create(['id' => '72', 'name' => 'Estadisticas de DM y necesidades de los pacientes', 'course_id' => 7]);
+        $module52 = Module::create(['id' => '73', 'name' => 'Recomendaciones para DMT1 Y T2', 'course_id' => 7]);
+        $module53 = Module::create(['id' => '74', 'name' => 'Arsenal terapéutico oral en DM', 'course_id' => 7]);
+        $module54 = Module::create(['id' => '75', 'name' => 'Conociendo los diferentes tipos de insulinas', 'course_id' => 7]);
+        $module55 = Module::create(['id' => '76', 'name' => '¿Cómo favorecer el inicio del tratamiento con insulina?', 'course_id' => 7]);
+        $module56 = Module::create(['id' => '77', 'name' => 'Insulinas de acción ultra-rápida, beneficios en Tipo 1 y Tipo 2', 'course_id' => 7]);
+        $module57 = Module::create(['id' => '78', 'name' => 'Titulación correcta para llegar a metas', 'course_id' => 7]);
+        $module58 = Module::create(['id' => '79', 'name' => 'Hipoglucemia en contexto', 'course_id' => 7]);
+        $module59 = Module::create(['id' => '80', 'name' => 'Seguridad CV y legado', 'course_id' => 7]);
+        $module60 = Module::create(['id' => '124', 'name' => 'Pie diabético', 'course_id' => 7]);
+        $module61 = Module::create(['id' => '125', 'name' => 'Retinopatía', 'course_id' => 7]);
+        $module62 = Module::create(['id' => '126', 'name' => 'Nefropatía Diabética', 'course_id' => 7]);
+        $module63 = Module::create(['id' => '132', 'name' => 'Introducción Dr. Luis Alcocer Díaz Barreiro', 'course_id' => 8]);
+        $module64 = Module::create(['id' => '133', 'name' => 'Generalidades de hipertensión', 'course_id' => 8]);
+        $module65 = Module::create(['id' => '134', 'name' => 'Toma correcta de la presión arterial', 'course_id' => 8]);
+        $module66 = Module::create(['id' => '135', 'name' => 'Modificaciones al estilo de vida en hipertensión (Obesidad y Alimentación)', 'course_id' => 8]);
+        $module67 = Module::create(['id' => '136', 'name' => 'Comorbilidades del paciente con hipertensión', 'course_id' => 8]);
+        $module68 = Module::create(['id' => '137', 'name' => 'Creación de plan estratégico para hipertensión', 'course_id' => 8]);
+        $module69 = Module::create(['id' => '138', 'name' => 'Caso Clinico Dr. Diaz (Módulo 2)', 'course_id' => 8]);
+        $module70 = Module::create(['id' => '139', 'name' => 'Caso Clinico Dr. Ramos (Módulo 5)', 'course_id' => 8]);
+        $module71 = Module::create(['id' => '140', 'name' => 'Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa', 'course_id' => 8]);
 
 
         /** Vídeos de los cursos */
-        $attach1 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module1->id, "attachment_id" => $attach1->id, "type" => "video"]);
-        $attach2 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module1->id, "attachment_id" => $attach2->id, "type" => "video"]);
-        $attach3 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M02_1.mp4', 'name' => 'M02_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module2->id, "attachment_id" => $attach3->id, "type" => "video"]);
-        $attach4 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M02_2.mp4', 'name' => 'M02_2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module2->id, "attachment_id" => $attach4->id, "type" => "video"]);
-        $attach5 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M03_1.mp4', 'name' => 'M03_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module3->id, "attachment_id" => $attach5->id, "type" => "video"]);
-        $attach6 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1a_PAEC_SANOFI_08JUN17.mp4', 'name' => '1a_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module6->id, "attachment_id" => $attach6->id, "type" => "video"]);
-        $attach7 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1b_PAEC_SANOFI_08JUN17.mp4', 'name' => '1b_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module6->id, "attachment_id" => $attach7->id, "type" => "video"]);
-        $attach8 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1c_PAEC_SANOFI_08JUN17.mp4', 'name' => '1c_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module6->id, "attachment_id" => $attach8->id, "type" => "video"]);
-        $attach9 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/2a_PAEC_SANOFI_06JUN17.mp4', 'name' => '2a_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module7->id, "attachment_id" => $attach9->id, "type" => "video"]);
-        $attach10 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/2b_PAEC_SANOFI_06JUN17.mp4', 'name' => '2b_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module7->id, "attachment_id" => $attach10->id, "type" => "video"]);
-        $attach11 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module8->id, "attachment_id" => $attach11->id, "type" => "video"]);
-        $attach12 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module8->id, "attachment_id" => $attach12->id, "type" => "video"]);
-        $attach13 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module9->id, "attachment_id" => $attach13->id, "type" => "video"]);
-        $attach14 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module9->id, "attachment_id" => $attach14->id, "type" => "video"]);
-        $attach15 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module10->id, "attachment_id" => $attach15->id, "type" => "video"]);
-        $attach16 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module10->id, "attachment_id" => $attach16->id, "type" => "video"]);
-        $attach17 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module10->id, "attachment_id" => $attach17->id, "type" => "video"]);
-        $attach18 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module10->id, "attachment_id" => $attach18->id, "type" => "video"]);
-        $attach19 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module10->id, "attachment_id" => $attach19->id, "type" => "video"]);
-        $attach20 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_001.mp4', 'name' => 'Obesidad_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module11->id, "attachment_id" => $attach20->id, "type" => "video"]);
-        $attach21 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_002.mp4', 'name' => 'Obesidad_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module11->id, "attachment_id" => $attach21->id, "type" => "video"]);
-        $attach22 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_003.mp4', 'name' => 'Obesidad_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module11->id, "attachment_id" => $attach22->id, "type" => "video"]);
-        $attach23 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Obesidad_004.mp4', 'name' => 'Obesidad_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module11->id, "attachment_id" => $attach23->id, "type" => "video"]);
-        $attach24 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module8->id, "attachment_id" => $attach24->id, "type" => "video"]);
-        $attach25 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module8->id, "attachment_id" => $attach25->id, "type" => "video"]);
-        $attach26 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/modulo3a_paec.mp4', 'name' => 'modulo3a_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module12->id, "attachment_id" => $attach26->id, "type" => "video"]);
-        $attach27 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/modulo3b_paec.mp4', 'name' => 'modulo3b_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module12->id, "attachment_id" => $attach27->id, "type" => "video"]);
-        $attach28 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M04_01.mp4', 'name' => 'M04_01.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module4->id, "attachment_id" => $attach28->id, "type" => "video"]);
-        $attach29 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/webcast/webcast1parte1.mp4', 'name' => 'webcast1parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module13->id, "attachment_id" => $attach29->id, "type" => "video"]);
-        $attach30 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/webcast/webcast1parte2.mp4', 'name' => 'webcast1parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module13->id, "attachment_id" => $attach30->id, "type" => "video"]);
-        $attach31 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/insomnio/M05.mp4', 'name' => 'M05.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module5->id, "attachment_id" => $attach31->id, "type" => "video"]);
-        $attach32 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module14->id, "attachment_id" => $attach32->id, "type" => "video"]);
-        $attach33 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module15->id, "attachment_id" => $attach33->id, "type" => "video"]);
-        $attach34 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module16->id, "attachment_id" => $attach34->id, "type" => "video"]);
-        $attach35 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod7parte1.mp4', 'name' => 'mod7parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module17->id, "attachment_id" => $attach35->id, "type" => "video"]);
-        $attach36 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod7parte2.mp4', 'name' => 'mod7parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module17->id, "attachment_id" => $attach36->id, "type" => "video"]);
-        $attach37 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module18->id, "attachment_id" => $attach37->id, "type" => "video"]);
-        $attach38 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod_9_Dr_Rene_Rodriguez_baja.mp4', 'name' => 'mod_9_Dr_Rene_Rodriguez_baja.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module19->id, "attachment_id" => $attach38->id, "type" => "video"]);
-        $attach39 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/diabetes/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module20->id, "attachment_id" => $attach39->id, "type" => "video"]);
-        $attach40 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module21->id, "attachment_id" => $attach40->id, "type" => "video"]);
-        $attach41 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module22->id, "attachment_id" => $attach41->id, "type" => "video"]);
-        $attach42 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module22->id, "attachment_id" => $attach42->id, "type" => "video"]);
-        $attach43 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_modulo2.mp4', 'name' => 'cardio_modulo2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module23->id, "attachment_id" => $attach43->id, "type" => "video"]);
-        $attach44 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m3.mp4', 'name' => 'cardio_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module24->id, "attachment_id" => $attach44->id, "type" => "video"]);
-        $attach45 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m4.mp4', 'name' => 'cardio_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module25->id, "attachment_id" => $attach45->id, "type" => "video"]);
-        $attach46 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cardio_m4_2_caso_clinico.mp4', 'name' => 'cardio_m4_2_caso_clinico.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module25->id, "attachment_id" => $attach46->id, "type" => "video"]);
-        $attach47 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/hipertension_mod5.mp4', 'name' => 'hipertension_mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module26->id, "attachment_id" => $attach47->id, "type" => "video"]);
-        $attach48 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'name' => 'mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module27->id, "attachment_id" => $attach48->id, "type" => "video"]);
-        $attach49 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'name' => 'modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module28->id, "attachment_id" => $attach49->id, "type" => "video"]);
-        $attach50 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/hinpertension/cierre_modulo.mp4', 'name' => 'cierre_modulo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module29->id, "attachment_id" => $attach50->id, "type" => "video"]);
-        $attach51 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod1_ricardo.mp4', 'name' => 'mod1_ricardo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module30->id, "attachment_id" => $attach51->id, "type" => "video"]);
-        $attach52 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'name' => 'mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module31->id, "attachment_id" => $attach52->id, "type" => "video"]);
-        $attach53 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod3_trombosis.mp4', 'name' => 'mod3_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module32->id, "attachment_id" => $attach53->id, "type" => "video"]);
-        $attach54 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod4_TROMBOSIS.mp4', 'name' => 'mod4_TROMBOSIS.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module33->id, "attachment_id" => $attach54->id, "type" => "video"]);
-        $attach55 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod5_PAEC_Trombosis.mp4', 'name' => 'mod5_PAEC_Trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module34->id, "attachment_id" => $attach55->id, "type" => "video"]);
-        $attach56 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod6_trombosis.mp4', 'name' => 'mod6_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module35->id, "attachment_id" => $attach56->id, "type" => "video"]);
-        $attach57 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/trombosis/mod7_TROMBOSISM7_pena_duque.mp4', 'name' => 'mod7_TROMBOSISM7_pena_duque.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module36->id, "attachment_id" => $attach57->id, "type" => "video"]);
-        $attach58 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod1.mp4', 'name' => 'mod1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module37->id, "attachment_id" => $attach58->id, "type" => "video"]);
-        $attach59 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod2.mp4', 'name' => 'mod2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module38->id, "attachment_id" => $attach59->id, "type" => "video"]);
-        $attach60 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod3.mp4', 'name' => 'mod3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module39->id, "attachment_id" => $attach60->id, "type" => "video"]);
-        $attach61 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module40->id, "attachment_id" => $attach61->id, "type" => "video"]);
-        $attach62 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module41->id, "attachment_id" => $attach62->id, "type" => "video"]);
-        $attach63 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module42->id, "attachment_id" => $attach63->id, "type" => "video"]);
-        $attach64 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod7.mp4', 'name' => 'mod7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module43->id, "attachment_id" => $attach64->id, "type" => "video"]);
-        $attach65 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module44->id, "attachment_id" => $attach65->id, "type" => "video"]);
-        $attach66 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod9.mp4', 'name' => 'mod9.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module45->id, "attachment_id" => $attach66->id, "type" => "video"]);
-        $attach67 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/lipid/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module46->id, "attachment_id" => $attach67->id, "type" => "video"]);
-        $attach68 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO1_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO1_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module47->id, "attachment_id" => $attach68->id, "type" => "video"]);
-        $attach69 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO3_EM_4JUL2017.mp4', 'name' => 'VIDEO_CASO3_EM_4JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module47->id, "attachment_id" => $attach69->id, "type" => "video"]);
-        $attach70 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'name' => 'CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module47->id, "attachment_id" => $attach70->id, "type" => "video"]);
-        $attach71 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'name' => 'CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module47->id, "attachment_id" => $attach71->id, "type" => "video"]);
-        $attach72 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO2_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO2_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module48->id, "attachment_id" => $attach72->id, "type" => "video"]);
-        $attach73 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/VIDEO_CASO4_EM_7JUL2017.mp4', 'name' => 'VIDEO_CASO4_EM_7JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module48->id, "attachment_id" => $attach73->id, "type" => "video"]);
-        $attach74 = Attachment::create(['type' => 'video', 'url' => 'storage/resources/video/eem/CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'name' => 'CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
-        Resource::create(["module_id" => $module48->id, "attachment_id" => $attach74->id, "type" => "video"]);
+        $attach1 = Attachment::create(['type' => 'video', 'url' => 'storage/video/Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 1, "attachment_id" => $attach1->id, "type" => "video"]);
+        $attach2 = Attachment::create(['type' => 'video', 'url' => 'storage/video/Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'name' => 'Dr-Alejandro-Jimenez-Stilnox-parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 1, "attachment_id" => $attach2->id, "type" => "video"]);
+        $attach3 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M02_1.mp4', 'name' => 'M02_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 2, "attachment_id" => $attach3->id, "type" => "video"]);
+        $attach4 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M02_2.mp4', 'name' => 'M02_2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 2, "attachment_id" => $attach4->id, "type" => "video"]);
+        $attach5 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M03_1.mp4', 'name' => 'M03_1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 3, "attachment_id" => $attach5->id, "type" => "video"]);
+        $attach6 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_PAEC_SANOFI_08JUN17.mp4', 'name' => '1a_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 6, "attachment_id" => $attach6->id, "type" => "video"]);
+        $attach7 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_PAEC_SANOFI_08JUN17.mp4', 'name' => '1b_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 6, "attachment_id" => $attach7->id, "type" => "video"]);
+        $attach8 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1c_PAEC_SANOFI_08JUN17.mp4', 'name' => '1c_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 6, "attachment_id" => $attach8->id, "type" => "video"]);
+        $attach9 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2a_PAEC_SANOFI_06JUN17.mp4', 'name' => '2a_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 7, "attachment_id" => $attach9->id, "type" => "video"]);
+        $attach10 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2b_PAEC_SANOFI_06JUN17.mp4', 'name' => '2b_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 7, "attachment_id" => $attach10->id, "type" => "video"]);
+        $attach11 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 8, "attachment_id" => $attach11->id, "type" => "video"]);
+        $attach12 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 8, "attachment_id" => $attach12->id, "type" => "video"]);
+        $attach13 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 9, "attachment_id" => $attach13->id, "type" => "video"]);
+        $attach14 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 9, "attachment_id" => $attach14->id, "type" => "video"]);
+        $attach15 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 10, "attachment_id" => $attach15->id, "type" => "video"]);
+        $attach16 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 10, "attachment_id" => $attach16->id, "type" => "video"]);
+        $attach17 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 10, "attachment_id" => $attach17->id, "type" => "video"]);
+        $attach18 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 10, "attachment_id" => $attach18->id, "type" => "video"]);
+        $attach19 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 10, "attachment_id" => $attach19->id, "type" => "video"]);
+        $attach20 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_001.mp4', 'name' => 'Obesidad_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 11, "attachment_id" => $attach20->id, "type" => "video"]);
+        $attach21 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_002.mp4', 'name' => 'Obesidad_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 11, "attachment_id" => $attach21->id, "type" => "video"]);
+        $attach22 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_003.mp4', 'name' => 'Obesidad_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 11, "attachment_id" => $attach22->id, "type" => "video"]);
+        $attach23 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Obesidad_004.mp4', 'name' => 'Obesidad_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 11, "attachment_id" => $attach23->id, "type" => "video"]);
+        $attach24 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 8, "attachment_id" => $attach24->id, "type" => "video"]);
+        $attach25 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 8, "attachment_id" => $attach25->id, "type" => "video"]);
+        $attach26 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3a_paec.mp4', 'name' => 'modulo3a_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 12, "attachment_id" => $attach26->id, "type" => "video"]);
+        $attach27 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3b_paec.mp4', 'name' => 'modulo3b_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 12, "attachment_id" => $attach27->id, "type" => "video"]);
+        $attach28 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M04_01.mp4', 'name' => 'M04_01.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 4, "attachment_id" => $attach28->id, "type" => "video"]);
+        $attach29 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/webcast/webcast1parte1.mp4', 'name' => 'webcast1parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 13, "attachment_id" => $attach29->id, "type" => "video"]);
+        $attach30 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/webcast/webcast1parte2.mp4', 'name' => 'webcast1parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 13, "attachment_id" => $attach30->id, "type" => "video"]);
+        $attach31 = Attachment::create(['type' => 'video', 'url' => 'storage/video/insomnio/M05.mp4', 'name' => 'M05.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 5, "attachment_id" => $attach31->id, "type" => "video"]);
+        $attach32 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 14, "attachment_id" => $attach32->id, "type" => "video"]);
+        $attach33 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 15, "attachment_id" => $attach33->id, "type" => "video"]);
+        $attach34 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 16, "attachment_id" => $attach34->id, "type" => "video"]);
+        $attach35 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte1.mp4', 'name' => 'mod7parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 17, "attachment_id" => $attach35->id, "type" => "video"]);
+        $attach36 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte2.mp4', 'name' => 'mod7parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 17, "attachment_id" => $attach36->id, "type" => "video"]);
+        $attach37 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 18, "attachment_id" => $attach37->id, "type" => "video"]);
+        $attach38 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod_9_Dr_Rene_Rodriguez_baja.mp4', 'name' => 'mod_9_Dr_Rene_Rodriguez_baja.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 19, "attachment_id" => $attach38->id, "type" => "video"]);
+        $attach39 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 20, "attachment_id" => $attach39->id, "type" => "video"]);
+        $attach40 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 21, "attachment_id" => $attach40->id, "type" => "video"]);
+        $attach41 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 22, "attachment_id" => $attach41->id, "type" => "video"]);
+        $attach42 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 22, "attachment_id" => $attach42->id, "type" => "video"]);
+        $attach43 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_modulo2.mp4', 'name' => 'cardio_modulo2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 23, "attachment_id" => $attach43->id, "type" => "video"]);
+        $attach44 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m3.mp4', 'name' => 'cardio_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 24, "attachment_id" => $attach44->id, "type" => "video"]);
+        $attach45 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4.mp4', 'name' => 'cardio_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 25, "attachment_id" => $attach45->id, "type" => "video"]);
+        $attach46 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4_2_caso_clinico.mp4', 'name' => 'cardio_m4_2_caso_clinico.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 25, "attachment_id" => $attach46->id, "type" => "video"]);
+        $attach47 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/hipertension_mod5.mp4', 'name' => 'hipertension_mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 26, "attachment_id" => $attach47->id, "type" => "video"]);
+        $attach48 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'name' => 'mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 27, "attachment_id" => $attach48->id, "type" => "video"]);
+        $attach49 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'name' => 'modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 28, "attachment_id" => $attach49->id, "type" => "video"]);
+        $attach50 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cierre_modulo.mp4', 'name' => 'cierre_modulo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 29, "attachment_id" => $attach50->id, "type" => "video"]);
+        $attach51 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod1_ricardo.mp4', 'name' => 'mod1_ricardo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 30, "attachment_id" => $attach51->id, "type" => "video"]);
+        $attach52 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'name' => 'mod2_TROMBOSISM2_IZAGUIRRE.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 31, "attachment_id" => $attach52->id, "type" => "video"]);
+        $attach53 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod3_trombosis.mp4', 'name' => 'mod3_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 32, "attachment_id" => $attach53->id, "type" => "video"]);
+        $attach54 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod4_TROMBOSIS.mp4', 'name' => 'mod4_TROMBOSIS.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 33, "attachment_id" => $attach54->id, "type" => "video"]);
+        $attach55 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod5_PAEC_Trombosis.mp4', 'name' => 'mod5_PAEC_Trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 34, "attachment_id" => $attach55->id, "type" => "video"]);
+        $attach56 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod6_trombosis.mp4', 'name' => 'mod6_trombosis.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 35, "attachment_id" => $attach56->id, "type" => "video"]);
+        $attach57 = Attachment::create(['type' => 'video', 'url' => 'storage/video/trombosis/mod7_TROMBOSISM7_pena_duque.mp4', 'name' => 'mod7_TROMBOSISM7_pena_duque.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 36, "attachment_id" => $attach57->id, "type" => "video"]);
+        $attach58 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod1.mp4', 'name' => 'mod1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 37, "attachment_id" => $attach58->id, "type" => "video"]);
+        $attach59 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod2.mp4', 'name' => 'mod2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 38, "attachment_id" => $attach59->id, "type" => "video"]);
+        $attach60 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod3.mp4', 'name' => 'mod3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 39, "attachment_id" => $attach60->id, "type" => "video"]);
+        $attach61 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 40, "attachment_id" => $attach61->id, "type" => "video"]);
+        $attach62 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 41, "attachment_id" => $attach62->id, "type" => "video"]);
+        $attach63 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 42, "attachment_id" => $attach63->id, "type" => "video"]);
+        $attach64 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod7.mp4', 'name' => 'mod7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 43, "attachment_id" => $attach64->id, "type" => "video"]);
+        $attach65 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 44, "attachment_id" => $attach65->id, "type" => "video"]);
+        $attach66 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod9.mp4', 'name' => 'mod9.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 45, "attachment_id" => $attach66->id, "type" => "video"]);
+        $attach67 = Attachment::create(['type' => 'video', 'url' => 'storage/video/lipid/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 46, "attachment_id" => $attach67->id, "type" => "video"]);
+        $attach68 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO1_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO1_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 47, "attachment_id" => $attach68->id, "type" => "video"]);
+        $attach69 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO3_EM_4JUL2017.mp4', 'name' => 'VIDEO_CASO3_EM_4JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 47, "attachment_id" => $attach69->id, "type" => "video"]);
+        $attach70 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'name' => 'CASO5_PAEC-EM_SANOFI_27NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 47, "attachment_id" => $attach70->id, "type" => "video"]);
+        $attach71 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'name' => 'CASO7_PAEC-EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 47, "attachment_id" => $attach71->id, "type" => "video"]);
+        $attach72 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO2_EM_3JUL2017.mp4', 'name' => 'VIDEO_CASO2_EM_3JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 48, "attachment_id" => $attach72->id, "type" => "video"]);
+        $attach73 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/VIDEO_CASO4_EM_7JUL2017.mp4', 'name' => 'VIDEO_CASO4_EM_7JUL2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 48, "attachment_id" => $attach73->id, "type" => "video"]);
+        $attach74 = Attachment::create(['type' => 'video', 'url' => 'storage/video/eem/CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'name' => 'CASO8_PAEC_EM_SANOFI_30NOV17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 48, "attachment_id" => $attach74->id, "type" => "video"]);
+
+        
+        $attach100 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_PAEC_SANOFI_08JUN17.mp4', 'name' => '1a_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 71, "attachment_id" => $attach100->id, "type" => "video"]);
+        $attach101 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2a_PAEC_SANOFI_06JUN17.mp4', 'name' => '2a_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 72, "attachment_id" => $attach101->id, "type" => "video"]);
+        $attach102 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3a_paec.mp4', 'name' => 'modulo3a_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 73, "attachment_id" => $attach102->id, "type" => "video"]);
+        $attach103 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod4.mp4', 'name' => 'mod4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 74, "attachment_id" => $attach103->id, "type" => "video"]);
+        $attach104 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod5.mp4', 'name' => 'mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 75, "attachment_id" => $attach104->id, "type" => "video"]);
+        $attach105 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod6.mp4', 'name' => 'mod6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 76, "attachment_id" => $attach105->id, "type" => "video"]);
+        $attach106 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte1.mp4', 'name' => 'mod7parte1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 77, "attachment_id" => $attach106->id, "type" => "video"]);
+        $attach107 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod8.mp4', 'name' => 'mod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 78, "attachment_id" => $attach107->id, "type" => "video"]);
+        $attach108 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod_9_Dr_Rene_Rodriguez_baja.mp4', 'name' => 'mod_9_Dr_Rene_Rodriguez_baja.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 79, "attachment_id" => $attach108->id, "type" => "video"]);
+        // $attach109 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m1.mp4', 'name' => 'ahorro_diabetes_m1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 81, "attachment_id" => $attach109->id, "type" => "video"]);
+        // $attach110 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m2.mp4', 'name' => 'ahorro_diabetes_m2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 82, "attachment_id" => $attach110->id, "type" => "video"]);
+        // $attach111 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_hipertension_intro.mp4', 'name' => 'femsa_hipertension_intro.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 91, "attachment_id" => $attach111->id, "type" => "video"]);
+        // $attach112 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_hipertension_m1_01.mp4', 'name' => 'femsa_hipertension_m1_01.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 92, "attachment_id" => $attach112->id, "type" => "video"]);
+        // $attach113 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_hipertension_m1_02.mp4', 'name' => 'femsa_hipertension_m1_02.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 92, "attachment_id" => $attach113->id, "type" => "video"]);
+        // $attach114 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/sanpablo_hipertension_intro.mp4', 'name' => 'sanpablo_hipertension_intro.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 102, "attachment_id" => $attach114->id, "type" => "video"]);
+        // $attach115 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/sanpablo_hipertension_m1_p1.mp4', 'name' => 'sanpablo_hipertension_m1_p1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 103, "attachment_id" => $attach115->id, "type" => "video"]);
+        // $attach116 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/sanpablo_hipertension_m1_p2.mp4', 'name' => 'sanpablo_hipertension_m1_p2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 103, "attachment_id" => $attach116->id, "type" => "video"]);
+        // $attach117 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/guadalajara_hipertension_intro.mp4', 'name' => 'guadalajara_hipertension_intro.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 113, "attachment_id" => $attach117->id, "type" => "video"]);
+        // $attach118 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/guadalajara_hipertension_m1_p1.mp4', 'name' => 'guadalajara_hipertension_m1_p1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 114, "attachment_id" => $attach118->id, "type" => "video"]);
+        // $attach119 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/guadalajara_hipertension_m1_p2.mp4', 'name' => 'guadalajara_hipertension_m1_p2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 114, "attachment_id" => $attach119->id, "type" => "video"]);
+        $attach120 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_PAEC_SANOFI_08JUN17.mp4', 'name' => '1b_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 71, "attachment_id" => $attach120->id, "type" => "video"]);
+        $attach121 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1c_PAEC_SANOFI_08JUN17.mp4', 'name' => '1c_PAEC_SANOFI_08JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 71, "attachment_id" => $attach121->id, "type" => "video"]);
+        // $attach122 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m1_02.mp4', 'name' => 'ahorro_diabetes_m1_02.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 81, "attachment_id" => $attach122->id, "type" => "video"]);
+        // $attach123 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m1_03.mp4', 'name' => 'ahorro_diabetes_m1_03.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 81, "attachment_id" => $attach123->id, "type" => "video"]);
+        // $attach124 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/benavides_diabetes_m4.mp4', 'name' => 'benavides_diabetes_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 84, "attachment_id" => $attach124->id, "type" => "video"]);
+        // $attach125 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/benavides_diabetes_m5.mp4', 'name' => 'benavides_diabetes_m5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 85, "attachment_id" => $attach125->id, "type" => "video"]);
+        // $attach126 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/benavides_diabetes_m6.mp4', 'name' => 'benavides_diabetes_m6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 86, "attachment_id" => $attach126->id, "type" => "video"]);
+        // $attach127 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/benavides_diabetes_m7.mp4', 'name' => 'benavides_diabetes_m7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 87, "attachment_id" => $attach127->id, "type" => "video"]);
+        $attach128 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/modulo3b_paec.mp4', 'name' => 'modulo3b_paec.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 73, "attachment_id" => $attach128->id, "type" => "video"]);
+        // $attach129 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad.mp4', 'name' => 'femsa_obesidad.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 100, "attachment_id" => $attach129->id, "type" => "video"]);
+        // $attach130 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad2.mp4', 'name' => 'femsa_obesidad2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 100, "attachment_id" => $attach130->id, "type" => "video"]);
+        // $attach131 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad3.mp4', 'name' => 'femsa_obesidad3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 100, "attachment_id" => $attach131->id, "type" => "video"]);
+        // $attach132 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad4.mp4', 'name' => 'femsa_obesidad4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 100, "attachment_id" => $attach132->id, "type" => "video"]);
+        // $attach133 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio.mp4', 'name' => 'femsa_dietayejercicio.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach133->id, "type" => "video"]);
+        // $attach134 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio2.mp4', 'name' => 'femsa_dietayejercicio2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach134->id, "type" => "video"]);
+        // $attach135 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio3.mp4', 'name' => 'femsa_dietayejercicio3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach135->id, "type" => "video"]);
+        // $attach136 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio4.mp4', 'name' => 'femsa_dietayejercicio4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach136->id, "type" => "video"]);
+        // $attach137 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio5.mp4', 'name' => 'femsa_dietayejercicio5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach137->id, "type" => "video"]);
+        // $attach138 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio6.mp4', 'name' => 'femsa_dietayejercicio6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach138->id, "type" => "video"]);
+        // $attach139 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio7.mp4', 'name' => 'femsa_dietayejercicio7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 101, "attachment_id" => $attach139->id, "type" => "video"]);
+        // $attach140 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_hipertension_m3.mp4', 'name' => 'femsa_hipertension_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 94, "attachment_id" => $attach140->id, "type" => "video"]);
+        // $attach141 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/guadalajara_hipertension_m3.mp4', 'name' => 'guadalajara_hipertension_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 105, "attachment_id" => $attach141->id, "type" => "video"]);
+        // $attach142 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/sanpablo_hipertension_m3.mp4', 'name' => 'sanpablo_hipertension_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 116, "attachment_id" => $attach142->id, "type" => "video"]);
+        // $attach143 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m3.mp4', 'name' => 'ahorro_diabetes_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 83, "attachment_id" => $attach143->id, "type" => "video"]);
+        // $attach144 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m3_02.mp4', 'name' => 'ahorro_diabetes_m3_02.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 83, "attachment_id" => $attach144->id, "type" => "video"]);
+        // $attach145 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m4.mp4', 'name' => 'ahorro_diabetes_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 84, "attachment_id" => $attach145->id, "type" => "video"]);
+        // $attach146 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m5.mp4', 'name' => 'ahorro_diabetes_m5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 85, "attachment_id" => $attach146->id, "type" => "video"]);
+        // $attach147 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m6.mp4', 'name' => 'ahorro_diabetes_m6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 86, "attachment_id" => $attach147->id, "type" => "video"]);
+        // $attach148 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_diabetes_m7.mp4', 'name' => 'ahorro_diabetes_m7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 87, "attachment_id" => $attach148->id, "type" => "video"]);
+        // $attach149 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_mod9.mp4', 'name' => 'ahorro_mod9.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 89, "attachment_id" => $attach149->id, "type" => "video"]);
+        // $attach150 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod10.mp4', 'name' => 'mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 80, "attachment_id" => $attach150->id, "type" => "video"]);
+        // $attach151 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/ahorro_mod10.mp4', 'name' => 'ahorro_mod10.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 90, "attachment_id" => $attach151->id, "type" => "video"]);
+        // $attach152 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad.mp4', 'name' => 'femsa_obesidad.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 111, "attachment_id" => $attach152->id, "type" => "video"]);
+        // $attach153 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad2.mp4', 'name' => 'femsa_obesidad2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 111, "attachment_id" => $attach153->id, "type" => "video"]);
+        // $attach154 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad3.mp4', 'name' => 'femsa_obesidad3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 111, "attachment_id" => $attach154->id, "type" => "video"]);
+        // $attach155 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad4.mp4', 'name' => 'femsa_obesidad4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 111, "attachment_id" => $attach155->id, "type" => "video"]);
+        // $attach156 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio.mp4', 'name' => 'femsa_dietayejercicio.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach156->id, "type" => "video"]);
+        // $attach157 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio2.mp4', 'name' => 'femsa_dietayejercicio2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach157->id, "type" => "video"]);
+        // $attach158 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio3.mp4', 'name' => 'femsa_dietayejercicio3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach158->id, "type" => "video"]);
+        // $attach159 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio4.mp4', 'name' => 'femsa_dietayejercicio4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach159->id, "type" => "video"]);
+        // $attach160 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio5.mp4', 'name' => 'femsa_dietayejercicio5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach160->id, "type" => "video"]);
+        // $attach161 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio6.mp4', 'name' => 'femsa_dietayejercicio6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach161->id, "type" => "video"]);
+        // $attach162 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio7.mp4', 'name' => 'femsa_dietayejercicio7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 112, "attachment_id" => $attach162->id, "type" => "video"]);
+        // $attach163 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad.mp4', 'name' => 'femsa_obesidad.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 122, "attachment_id" => $attach163->id, "type" => "video"]);
+        // $attach164 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad2.mp4', 'name' => 'femsa_obesidad2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 122, "attachment_id" => $attach164->id, "type" => "video"]);
+        // $attach165 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad3.mp4', 'name' => 'femsa_obesidad3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 122, "attachment_id" => $attach165->id, "type" => "video"]);
+        // $attach166 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_obesidad4.mp4', 'name' => 'femsa_obesidad4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 122, "attachment_id" => $attach166->id, "type" => "video"]);
+        // $attach167 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio.mp4', 'name' => 'femsa_dietayejercicio.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach167->id, "type" => "video"]);
+        // $attach168 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio2.mp4', 'name' => 'femsa_dietayejercicio2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach168->id, "type" => "video"]);
+        // $attach169 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio3.mp4', 'name' => 'femsa_dietayejercicio3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach169->id, "type" => "video"]);
+        // $attach170 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio4.mp4', 'name' => 'femsa_dietayejercicio4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach170->id, "type" => "video"]);
+        // $attach171 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio5.mp4', 'name' => 'femsa_dietayejercicio5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach171->id, "type" => "video"]);
+        // $attach172 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio6.mp4', 'name' => 'femsa_dietayejercicio6.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach172->id, "type" => "video"]);
+        // $attach173 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/femsa_dietayejercicio7.mp4', 'name' => 'femsa_dietayejercicio7.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 123, "attachment_id" => $attach173->id, "type" => "video"]);
+        $attach174 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 124, "attachment_id" => $attach174->id, "type" => "video"]);
+        $attach175 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 124, "attachment_id" => $attach175->id, "type" => "video"]);
+        $attach176 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 125, "attachment_id" => $attach176->id, "type" => "video"]);
+        $attach177 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 125, "attachment_id" => $attach177->id, "type" => "video"]);
+        $attach178 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 126, "attachment_id" => $attach178->id, "type" => "video"]);
+        $attach179 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 126, "attachment_id" => $attach179->id, "type" => "video"]);
+        $attach180 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 126, "attachment_id" => $attach180->id, "type" => "video"]);
+        $attach181 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 126, "attachment_id" => $attach181->id, "type" => "video"]);
+        $attach182 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 126, "attachment_id" => $attach182->id, "type" => "video"]);
+        // $attach183 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_001.mp4', 'name' => 'Pie_Diabetico_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 127, "attachment_id" => $attach183->id, "type" => "video"]);
+        // $attach184 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_002.mp4', 'name' => 'Pie_Diabetico_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 127, "attachment_id" => $attach184->id, "type" => "video"]);
+        // $attach185 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1a_Retinopatia_pt1.mp4', 'name' => '1a_Retinopatia_pt1.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 128, "attachment_id" => $attach185->id, "type" => "video"]);
+        // $attach186 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/1b_Retinopatia_pt2.mp4', 'name' => '1b_Retinopatia_pt2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 128, "attachment_id" => $attach186->id, "type" => "video"]);
+        // $attach187 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_001.mp4', 'name' => 'Nefropatia_001.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 129, "attachment_id" => $attach187->id, "type" => "video"]);
+        // $attach188 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_002.mp4', 'name' => 'Nefropatia_002.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 129, "attachment_id" => $attach188->id, "type" => "video"]);
+        // $attach189 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_003.mp4', 'name' => 'Nefropatia_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 129, "attachment_id" => $attach189->id, "type" => "video"]);
+        // $attach190 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_004.mp4', 'name' => 'Nefropatia_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 129, "attachment_id" => $attach190->id, "type" => "video"]);
+        // $attach191 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Nefropatia_005.mp4', 'name' => 'Nefropatia_005.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 129, "attachment_id" => $attach191->id, "type" => "video"]);
+        $attach192 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 124, "attachment_id" => $attach192->id, "type" => "video"]);
+        $attach193 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 124, "attachment_id" => $attach193->id, "type" => "video"]);
+        // $attach194 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_003.mp4', 'name' => 'Pie_Diabetico_003.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 127, "attachment_id" => $attach194->id, "type" => "video"]);
+        // $attach195 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/Pie_Diabetico_004.mp4', 'name' => 'Pie_Diabetico_004.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 127, "attachment_id" => $attach195->id, "type" => "video"]);
+        // $attach196 = Attachment::create(['type' => 'video', 'url' => 'storage/videos/diabetesMod8.mp4', 'name' => 'diabetesMod8.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 88, "attachment_id" => $attach196->id, "type" => "video"]);
+        $attach197 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/2b_PAEC_SANOFI_06JUN17.mp4', 'name' => '2b_PAEC_SANOFI_06JUN17.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 72, "attachment_id" => $attach197->id, "type" => "video"]);
+        $attach198 = Attachment::create(['type' => 'video', 'url' => 'storage/video/diabetes/mod7parte2.mp4', 'name' => 'mod7parte2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 77, "attachment_id" => $attach198->id, "type" => "video"]);
+        // $attach199 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 130, "attachment_id" => $attach199->id, "type" => "video"]);
+        // $attach200 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 131, "attachment_id" => $attach200->id, "type" => "video"]);
+        // $attach201 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        // Resource::create(["module_id" => 131, "attachment_id" => $attach201->id, "type" => "video"]);
+        $attach202 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'name' => 'PAEC_Sincronizacion_IntroHiptertension_11agosto2017.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 132, "attachment_id" => $attach202->id, "type" => "video"]);
+        $attach203 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_Generalidades_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 133, "attachment_id" => $attach203->id, "type" => "video"]);
+        $attach204 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/DR_Fernandez_hipertension_12sep.mp4', 'name' => 'DR_Fernandez_hipertension_12sep.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 133, "attachment_id" => $attach204->id, "type" => "video"]);
+        $attach205 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_modulo2.mp4', 'name' => 'cardio_modulo2.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 134, "attachment_id" => $attach205->id, "type" => "video"]);
+        $attach206 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m3.mp4', 'name' => 'cardio_m3.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 135, "attachment_id" => $attach206->id, "type" => "video"]);
+        $attach207 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4.mp4', 'name' => 'cardio_m4.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 136, "attachment_id" => $attach207->id, "type" => "video"]);
+        $attach208 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cardio_m4_2_caso_clinico.mp4', 'name' => 'cardio_m4_2_caso_clinico.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 136, "attachment_id" => $attach208->id, "type" => "video"]);
+        $attach209 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/hipertension_mod5.mp4', 'name' => 'hipertension_mod5.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 137, "attachment_id" => $attach209->id, "type" => "video"]);
+        $attach210 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'name' => 'mod2_Hipertension_Caso_clinico_Dr_Diaz.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 138, "attachment_id" => $attach210->id, "type" => "video"]);
+        $attach211 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'name' => 'modulo_que_hago_con_mi_paciente_con_HTA.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 139, "attachment_id" => $attach211->id, "type" => "video"]);
+        $attach212 = Attachment::create(['type' => 'video', 'url' => 'storage/video/hinpertension/cierre_modulo.mp4', 'name' => 'cierre_modulo.mp4', 'mimetype' => 'video/mp4', 'type' => 'video']);
+        Resource::create(["module_id" => 140, "attachment_id" => $attach212->id, "type" => "video"]);
 
 
         /** Imágenes de los módulos */
-        $attach10000 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10000->id, "module_id" => $module1->id]);
-        $attach10001 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_opciones.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10001->id, "module_id" => $module2->id]);
-        $attach10002 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_insomnio.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10002->id, "module_id" => $module3->id]);
-        $attach10003 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_perfil.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10003->id, "module_id" => $module4->id]);
-        $attach10004 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_comorbilidades.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10004->id, "module_id" => $module5->id]);
-        $attach10005 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m1_icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10005->id, "module_id" => $module6->id]);
-        $attach10006 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m2_icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10006->id, "module_id" => $module7->id]);
-        $attach10007 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/pie-diabetico-OE-Dig-06.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10007->id, "module_id" => $module8->id]);
-        $attach10008 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/retinopia-OE-Dig-05.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10008->id, "module_id" => $module9->id]);
-        $attach10009 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/nefropatia-OE-Dig-07.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10009->id, "module_id" => $module10->id]);
-        $attach10010 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/obesidad-OE-Dig-08.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10010->id, "module_id" => $module11->id]);
-        $attach10011 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/modulo3_icono_linea.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10011->id, "module_id" => $module12->id]);
-        $attach10012 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/insomnio/m_prevalencia.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10012->id, "module_id" => $module13->id]);
-        $attach10013 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m4.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10013->id, "module_id" => $module14->id]);
-        $attach10014 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m5.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10014->id, "module_id" => $module15->id]);
-        $attach10015 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m6.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10015->id, "module_id" => $module16->id]);
-        $attach10016 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m7.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10016->id, "module_id" => $module17->id]);
-        $attach10017 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m8.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10017->id, "module_id" => $module18->id]);
-        $attach10018 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m9.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10018->id, "module_id" => $module19->id]);
-        $attach10019 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/diabetes/m10.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10019->id, "module_id" => $module20->id]);
-        $attach10020 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod01.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10020->id, "module_id" => $module21->id]);
-        $attach10021 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod02.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10021->id, "module_id" => $module22->id]);
-        $attach10022 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod03.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10022->id, "module_id" => $module23->id]);
-        $attach10023 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod04.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10023->id, "module_id" => $module24->id]);
-        $attach10024 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod05.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10024->id, "module_id" => $module25->id]);
-        $attach10025 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod06.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10025->id, "module_id" => $module26->id]);
-        $attach10026 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod07.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10026->id, "module_id" => $module27->id]);
-        $attach10027 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod08.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10027->id, "module_id" => $module28->id]);
-        $attach10028 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/hipertension/mod09.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10028->id, "module_id" => $module29->id]);
-        $attach10029 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/trombosisCifras_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10029->id, "module_id" => $module30->id]);
-        $attach10030 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/evaluacionRiesgo_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10030->id, "module_id" => $module31->id]);
-        $attach10031 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tromboembolia_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10031->id, "module_id" => $module32->id]);
-        $attach10032 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tromboEmboliaPulmonar_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10032->id, "module_id" => $module33->id]);
-        $attach10033 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/sindromesCoronarios_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10033->id, "module_id" => $module34->id]);
-        $attach10034 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/tratamientoPaciente_Icon.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10034->id, "module_id" => $module35->id]);
-        $attach10035 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/trombosis/icono_infartoagudo_blanco.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10035->id, "module_id" => $module36->id]);
-        $attach10036 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-1.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10036->id, "module_id" => $module37->id]);
-        $attach10037 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-2.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10037->id, "module_id" => $module38->id]);
-        $attach10038 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-3.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10038->id, "module_id" => $module39->id]);
-        $attach10039 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-4.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10039->id, "module_id" => $module40->id]);
-        $attach10040 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-5.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10040->id, "module_id" => $module41->id]);
-        $attach10041 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-6.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10041->id, "module_id" => $module42->id]);
-        $attach10042 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-7.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10042->id, "module_id" => $module43->id]);
-        $attach10043 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-8.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10043->id, "module_id" => $module44->id]);
-        $attach10044 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-9.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10044->id, "module_id" => $module45->id]);
-        $attach10045 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/lipid/Modulo-10.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10045->id, "module_id" => $module46->id]);
-        $attach10046 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10046->id, "module_id" => $module47->id]);
-        $attach10047 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc2.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10047->id, "module_id" => $module48->id]);
-        $attach10048 = Attachment::create(["type" => "main_img", "url" => "storage/resources/img/eem/cc1.png", "mimetype" => "image/png", "type" => "video"]);
-        AttachmentModule::create(["attachment_id" => $attach10048->id, "module_id" => $module49->id]);
+        $attach10000 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_prevalencia.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10000->id, "module_id" => 1]);
+        $attach10001 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_opciones.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10001->id, "module_id" => 2]);
+        $attach10002 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_insomnio.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10002->id, "module_id" => 3]);
+        $attach10003 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_perfil.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10003->id, "module_id" => 4]);
+        $attach10004 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_comorbilidades.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10004->id, "module_id" => 5]);
+        $attach10005 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m1_icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10005->id, "module_id" => 6]);
+        $attach10006 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m2_icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10006->id, "module_id" => 7]);
+        $attach10007 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/pie-diabetico-OE-Dig-06.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10007->id, "module_id" => 8]);
+        $attach10008 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/retinopia-OE-Dig-05.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10008->id, "module_id" => 9]);
+        $attach10009 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/nefropatia-OE-Dig-07.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10009->id, "module_id" => 10]);
+        $attach10010 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/obesidad-OE-Dig-08.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10010->id, "module_id" => 11]);
+        $attach10011 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/modulo3_icono_linea.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10011->id, "module_id" => 12]);
+        $attach10012 = Attachment::create(["type" => "main_img", "url" => "storage/img/insomnio/m_prevalencia.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10012->id, "module_id" => 13]);
+        $attach10013 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m4.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10013->id, "module_id" => 14]);
+        $attach10014 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m5.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10014->id, "module_id" => 15]);
+        $attach10015 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m6.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10015->id, "module_id" => 16]);
+        $attach10016 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m7.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10016->id, "module_id" => 17]);
+        $attach10017 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m8.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10017->id, "module_id" => 18]);
+        $attach10018 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m9.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10018->id, "module_id" => 19]);
+        $attach10019 = Attachment::create(["type" => "main_img", "url" => "storage/img/diabetes/m10.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10019->id, "module_id" => 20]);
+        $attach10020 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod01.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10020->id, "module_id" => 21]);
+        $attach10021 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod02.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10021->id, "module_id" => 22]);
+        $attach10022 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod03.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10022->id, "module_id" => 23]);
+        $attach10023 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod04.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10023->id, "module_id" => 24]);
+        $attach10024 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod05.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10024->id, "module_id" => 25]);
+        $attach10025 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod06.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10025->id, "module_id" => 26]);
+        $attach10026 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod07.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10026->id, "module_id" => 27]);
+        $attach10027 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod08.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10027->id, "module_id" => 28]);
+        $attach10028 = Attachment::create(["type" => "main_img", "url" => "storage/img/hipertension/mod09.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10028->id, "module_id" => 29]);
+        $attach10029 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/trombosisCifras_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10029->id, "module_id" => 30]);
+        $attach10030 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/evaluacionRiesgo_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10030->id, "module_id" => 31]);
+        $attach10031 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tromboembolia_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10031->id, "module_id" => 32]);
+        $attach10032 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tromboEmboliaPulmonar_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10032->id, "module_id" => 33]);
+        $attach10033 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/sindromesCoronarios_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10033->id, "module_id" => 34]);
+        $attach10034 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/tratamientoPaciente_Icon.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10034->id, "module_id" => 35]);
+        $attach10035 = Attachment::create(["type" => "main_img", "url" => "storage/img/trombosis/icono_infartoagudo_blanco.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10035->id, "module_id" => 36]);
+        $attach10036 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-1.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10036->id, "module_id" => 37]);
+        $attach10037 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-2.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10037->id, "module_id" => 38]);
+        $attach10038 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-3.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10038->id, "module_id" => 39]);
+        $attach10039 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-4.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10039->id, "module_id" => 40]);
+        $attach10040 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-5.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10040->id, "module_id" => 41]);
+        $attach10041 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-6.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10041->id, "module_id" => 42]);
+        $attach10042 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-7.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10042->id, "module_id" => 43]);
+        $attach10043 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-8.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10043->id, "module_id" => 44]);
+        $attach10044 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-9.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10044->id, "module_id" => 45]);
+        $attach10045 = Attachment::create(["type" => "main_img", "url" => "storage/img/lipid/Modulo-10.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10045->id, "module_id" => 46]);
+        $attach10046 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc1.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10046->id, "module_id" => 47]);
+        $attach10047 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc2.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10047->id, "module_id" => 48]);
+        $attach10048 = Attachment::create(["type" => "main_img", "url" => "storage/img/eem/cc1.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10048->id, "module_id" => 49]);
+
+        $attach10100 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod01.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10100->id, "module_id" => 71]);
+        $attach10101 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod02.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10101->id, "module_id" => 72]);
+        $attach10102 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod03.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10102->id, "module_id" => 73]);
+        $attach10103 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod04.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10103->id, "module_id" => 74]);
+        $attach10104 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod05.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10104->id, "module_id" => 75]);
+        $attach10105 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod06.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10105->id, "module_id" => 76]);
+        $attach10106 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod07.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10106->id, "module_id" => 77]);
+        $attach10107 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod08.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10107->id, "module_id" => 78]);
+        $attach10108 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod09.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10108->id, "module_id" => 79]);
+        $attach10109 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/mod10.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10109->id, "module_id" => 80]);
+        $attach10110 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/54.png ", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10110->id, "module_id" => 124]);
+        $attach10111 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/55.png ", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10111->id, "module_id" => 125]);
+        $attach10112 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/diabetes/56.png ", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10112->id, "module_id" => 126]);
+        $attach10113 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10113->id, "module_id" => 132]);
+        $attach10114 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod1.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10114->id, "module_id" => 133]);
+        $attach10115 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod2.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10115->id, "module_id" => 134]);
+        $attach10116 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod3.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10116->id, "module_id" => 135]);
+        $attach10117 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod4.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10117->id, "module_id" => 136]);
+        $attach10118 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod5.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10118->id, "module_id" => 137]);
+        $attach10119 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod6.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10119->id, "module_id" => 138]);
+        $attach10120 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod7.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10120->id, "module_id" => 139]);
+        $attach10121 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/hipertension/mod8.png", "mimetype" => "image/png"]);
+        AttachmentModule::create(["attachment_id" => $attach10121->id, "module_id" => 140]);
 
 
         $moduleCC = Module::create(['name' => 'Caso Clínico 1', 'course_id' => $course1->id]); // Caso clínico
@@ -598,3657 +717,525 @@ class TablesSeeder extends Seeder
         Resource::create(["module_id" => $moduleCC->id, "attachment_id" => $attach5003->id, 'type' => 'video']);
         $attach5004 = Attachment::create(['type' => 'video', 'url' => 'storage/video/cc01/v4.mp4', 'name' => 'v4.mp4', 'mimetype' => 'video/mp4']);
         Resource::create(["module_id" => $moduleCC->id, "attachment_id" => $attach5004->id, 'type' => 'video']);
-
-        RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user1->id]);
-        RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user2->id]);
-        RecommendedCourse::create(['course_id'=>$course1->id, 'user_id'=>$user3->id]);
-        $summary = "is a doctor with it all: he's successful, he's rich, extremely self centred and he has no problems.... until he is diagnosed with throat cancer. Now that he has seen medicine, hospitals, and doctors from a patient's perspective, he realises tha";
-        $expert1 = Expert::create(['name' => 'Mtro. Christian George',  'slug' => 'mtro-christian-george', 'summary' => $summary]);
-        $expert2 = Expert::create(['name' => 'Dr Omar Leyva', 'slug' => 'dr-omar-leyva', 'summary' => $summary]);
-        $expert3 = Expert::create(['name' => 'Dr Fernando Rodríguez', 'slug' => 'dr-fernando-rodriguez', 'summary' => $summary]);
-        $expert4 = Expert::create(['name' => 'Mtro. Andrés George',  'slug' => 'mtro-andres-george', 'summary' => $summary]);
-        $expert5 = Expert::create(['name' => 'Dr Ismael Serrano', 'slug' => 'dr-ismael-serrano', 'summary' => $summary]);
-        $expert6 = Expert::create(['name' => 'Dr Marco Sánchez', 'slug' => 'dr-marco-sanchez', 'summary' => $summary]);
-
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty1->id]);
-        ExpertSpecialty::create(['expert_id' => $expert1->id, 'specialty_id' => $specialty3->id]);
-        ExpertSpecialty::create(['expert_id' => $expert2->id, 'specialty_id' => $specialty1->id]);
-        ExpertSpecialty::create(['expert_id' => $expert3->id, 'specialty_id' => $specialty2->id]);
-        ExpertSpecialty::create(['expert_id' => $expert4->id, 'specialty_id' => $specialty3->id]);
-        ExpertSpecialty::create(['expert_id' => $expert5->id, 'specialty_id' => $specialty1->id]);
-        ExpertSpecialty::create(['expert_id' => $expert6->id, 'specialty_id' => $specialty2->id]);
-        ExpertSpecialty::create(['expert_id' => $expert2->id, 'specialty_id' => $specialty3->id]);
-
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module1->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module2->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module3->id]);
-        ExpertModule::create(['expert_id' => $expert1->id, 'module_id' => $module4->id]);
+        
+        
+        /** Imágenes de los cursos (PAECS) */
+        $attach20000 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/ic1_insomnio.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20000->id, "course_id" => 1]);
+        $attach20001 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/ic8_diabetes.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20001->id, "course_id" => 2]);
+        $attach20002 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/hipertension_main.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20002->id, "course_id" => 3]);
+        $attach20003 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/trombosis.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20003->id, "course_id" => 4]);
+        $attach20004 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/iconoLipid.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20004->id, "course_id" => 5]);
+        $attach20005 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/paec/EsclerosisMultiple.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20005->id, "course_id" => 6]);
+        
+        $attach20100 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/logosPaecs/diabetes.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20100->id, "course_id" => 7]);
+        $attach20101 = Attachment::create(["type" => "main_img", "url" => "storage/farmacias/img/logosPaecs/hipertension.png", "mimetype" => "image/png"]);
+        AttachmentCourse::create(["attachment_id" => $attach20101->id, "course_id" => 8]);
 
 
-        factory(User::class, 30)->create()->each(function ($u){
-            $u->ascriptions()->attach(rand(1, 7));
-            Course::find(1)->enrolUser($u->id);
-        });
-
-        factory(User::class, 30)->create()->each(function ($u){
-            $u->ascriptions()->attach(rand(1, 7));
-            Course::find(2)->enrolUser($u->id);
-        });
-
-        factory(User::class, 30)->create()->each(function ($u){
-            $u->ascriptions()->attach(rand(1, 7));
-            Course::find(3)->enrolUser($u->id);
-        });
-
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module1->id
-            ]);
-        Reference::create([
-            'content' => 'Jiménez Genchi A, Caraveo Anduaga J. Psiquiatría 2013;29 (Supl. 1):178-179',
-            'module_id' => $module1->id
-            ]);
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module2->id
-            ]);
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module3->id
-            ]);
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module4->id
-            ]);
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module5->id
-            ]);
-        Reference::create([
-            'content' => 'American Psychiatric Association. Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition. Arlington VA: American Psychiatric Association, 2013.',
-            'module_id' => $module6->id
-            ]);
-
-
-
-        $evaluation1 = Evaluation::create(['name' => 'Prevalencia y diagnóstico', 'module_id' => $module1->id, 'type'=> 'f']);
-        $evaluation2 = Evaluation::create(['name' => 'Opciones terapéuticas', 'module_id' => $module2->id, 'type'=> 'f']);
-        $evaluation3 = Evaluation::create(['name' => 'Insomnio en la mujer', 'module_id' => $module3->id, 'type'=> 'f']);
-        $evaluation5 = Evaluation::create(['name' => 'Estadísticas de DM y necesidades de los pacientes', 'module_id' => $module7->id, 'type'=> 'd']);
-        $evaluation6 = Evaluation::create(['name' => 'Estadísticas de DM y necesidades de los pacientes', 'module_id' => $module7->id, 'type'=> 'f']);
-        $evaluation7 = Evaluation::create(['name' => 'Evaluación 1 Ajustando a la necesidad del paciente', 'module_id' => $module6->id, 'type'=> 'f']);
-        $evaluation8 = Evaluation::create(['name' => 'Evaluación diagnóstico Ajustando a la necesidad del paciente', 'module_id' => $module6->id, 'type'=> 'd']);
-        $evaluation9 = Evaluation::create(['name' => 'Opciones terapéuticas', 'module_id' => $module2->id, 'type'=> 'd']);
-        $evaluation10 = Evaluation::create(['name' => 'Pre-evaluación y evaluación final Recomendaciones para DMT1 Y T2', 'module_id' => $module12->id, 'type'=> 'd']);
-        $evaluation11 = Evaluation::create(['name' => 'Evaluación Recomendaciones para DMT1 Y T2', 'module_id' => $module12->id, 'type'=> 'f']);
-        $evaluation12 = Evaluation::create(['name' => ' Pre-evaluación insomnio en la mujer', 'module_id' => $module3->id, 'type'=> 'd']);
-        $evaluation13 = Evaluation::create(['name' => 'Paciente con insomnio', 'module_id' => $module4->id, 'type'=> 'f']);
-        $evaluation14 = Evaluation::create(['name' => 'Comorbilidades psiquiátricas', 'module_id' => $module5->id, 'type'=> 'd']);
-        $evaluation15 = Evaluation::create(['name' => 'Arsenal terapéutico oral en diabetes', 'module_id' => $module14->id, 'type'=> 'd']);
-        $evaluation16 = Evaluation::create(['name' => 'Arsenal terapéutico oral en diabetes', 'module_id' => $module14->id, 'type'=> 'f']);
-        $evaluation17 = Evaluation::create(['name' => 'Pre-evaluacion Conociendo los diferentes tipos de insulinas ', 'module_id' => $module15->id, 'type'=> 'd']);
-        $evaluation18 = Evaluation::create(['name' => 'Evaluación Conociendo los diferentes tipos de insulinas ', 'module_id' => $module15->id, 'type'=> 'f']);
-        $evaluation19 = Evaluation::create(['name' => 'Pre-evaluación ¿Cómo favorecer el inicio del tratamiento con insulina?', 'module_id' => $module16->id, 'type'=> 'd']);
-        $evaluation20 = Evaluation::create(['name' => 'Evaluación ¿Cómo favorecer el inicio del tratamiento con insulina?', 'module_id' => $module16->id, 'type'=> 'f']);
-        $evaluation21 = Evaluation::create(['name' => 'Pre-evaluación Insulinas de acción ultra-rápida, beneficios en Tipo 1 y Tipo 2', 'module_id' => $module17->id, 'type'=> 'd']);
-        $evaluation22 = Evaluation::create(['name' => 'Evaluación Insulinas de acción ultra-rápida, beneficios en Tipo 1 y Tipo 2', 'module_id' => $module17->id, 'type'=> 'f']);
-        $evaluation23 = Evaluation::create(['name' => 'Evaluación Comorbilidades psiquiátricas', 'module_id' => $module5->id, 'type'=> 'f']);
-        $evaluation24 = Evaluation::create(['name' => 'Pre-evaluación Titulación correcta para llegar a metas', 'module_id' => $module18->id, 'type'=> 'd']);
-        $evaluation25 = Evaluation::create(['name' => 'Evaluación Titulación correcta para llegar a metas', 'module_id' => $module18->id, 'type'=> 'f']);
-        $evaluation26 = Evaluation::create(['name' => 'Pre-evaluación Hipoglucemia en contexto', 'module_id' => $module19->id, 'type'=> 'd']);
-        $evaluation27 = Evaluation::create(['name' => 'Evaluación Hipoglucemia en contexto', 'module_id' => $module19->id, 'type'=> 'f']);
-        $evaluation28 = Evaluation::create(['name' => 'Seguridad CV y legado', 'module_id' => $module20->id, 'type'=> 'd']);
-        $evaluation29 = Evaluation::create(['name' => 'Seguridad CV y legado', 'module_id' => $module20->id, 'type'=> 'f']);
-        $evaluation30 = Evaluation::create(['name' => 'Evaluación Pie diabético', 'module_id' => $module8->id, 'type'=> 'f']);
-        $evaluation31 = Evaluation::create(['name' => 'Evaluación Retinopatia', 'module_id' => $module9->id, 'type'=> 'f']);
-        $evaluation32 = Evaluation::create(['name' => 'Evaluación Nefropatia Diabética ', 'module_id' => $module10->id, 'type'=> 'f']);
-        $evaluation33 = Evaluation::create(['name' => 'Significado de la PA', 'module_id' => $module22->id, 'type'=> 'd']);
-        $evaluation34 = Evaluation::create(['name' => 'Significado de la PA', 'module_id' => $module22->id, 'type'=> 'f']);
-        $evaluation35 = Evaluation::create(['name' => 'Medición de la PA', 'module_id' => $module23->id, 'type'=> 'd']);
-        $evaluation36 = Evaluation::create(['name' => 'Medición de la PA', 'module_id' => $module23->id, 'type'=> 'f']);
-        $evaluation37 = Evaluation::create(['name' => 'Cambios en el estilo de vida', 'module_id' => $module24->id, 'type'=> 'd']);
-        $evaluation38 = Evaluation::create(['name' => 'Cambios en el estilo de vida', 'module_id' => $module24->id, 'type'=> 'f']);
-        $evaluation39 = Evaluation::create(['name' => 'Comorbilidades del paciente hipertenso y sus complicaciones', 'module_id' => $module25->id, 'type'=> 'd']);
-        $evaluation40 = Evaluation::create(['name' => 'Comorbilidades del paciente hipertenso y sus complicaciones', 'module_id' => $module25->id, 'type'=> 'f']);
-        $evaluation41 = Evaluation::create(['name' => 'El plan estrategico de vida para el paciente con hipertensión arterial', 'module_id' => $module26->id, 'type'=> 'd']);
-        $evaluation42 = Evaluation::create(['name' => 'El plan estrategico de vida para el paciente con hipertensión arterial', 'module_id' => $module26->id, 'type'=> 'f']);
-        $evaluation43 = Evaluation::create(['name' => 'Pre-evaluación Trombosis en cifras', 'module_id' => $module30->id, 'type'=> 'd']);
-        $evaluation44 = Evaluation::create(['name' => 'Evaluación Trombosis en cifras', 'module_id' => $module30->id, 'type'=> 'f']);
-        $evaluation45 = Evaluation::create(['name' => 'Pre-evaluación Evaluación de riesgo y tratamiento', 'module_id' => $module31->id, 'type'=> 'd']);
-        $evaluation46 = Evaluation::create(['name' => 'Evaluación Evaluación de riesgo y tratamiento', 'module_id' => $module31->id, 'type'=> 'f']);
-        $evaluation47 = Evaluation::create(['name' => 'Evaluación Tromboembolia Venosa', 'module_id' => $module32->id, 'type'=> 'f']);
-        $evaluation48 = Evaluation::create(['name' => 'Pre-evaluación Tromboembolia Venosa', 'module_id' => $module32->id, 'type'=> 'd']);
-        $evaluation49 = Evaluation::create(['name' => 'Pre-evaluación Tomboembolia Pulmonar', 'module_id' => $module33->id, 'type'=> 'd']);
-        $evaluation50 = Evaluation::create(['name' => 'Evaluación Tomboembolia Pulmonar', 'module_id' => $module33->id, 'type'=> 'f']);
-        $evaluation51 = Evaluation::create(['name' => 'Pre-evaluación Sindromes coronarios agudos', 'module_id' => $module34->id, 'type'=> 'd']);
-        $evaluation52 = Evaluation::create(['name' => 'Evaluación Sindromes coronarios agudos', 'module_id' => $module34->id, 'type'=> 'f']);
-        $evaluation53 = Evaluation::create(['name' => 'Pre-evaluación Tratamiento del paciente postinfarto', 'module_id' => $module35->id, 'type'=> 'd']);
-        $evaluation54 = Evaluation::create(['name' => 'Evaluación Tratamiento del paciente postinfarto', 'module_id' => $module35->id, 'type'=> 'f']);
-        $evaluation55 = Evaluation::create(['name' => 'Pre-evaluación Infarto agudo', 'module_id' => $module36->id, 'type'=> 'd']);
-        $evaluation56 = Evaluation::create(['name' => 'Evaluación Infarto agudo', 'module_id' => $module36->id, 'type'=> 'f']);
-        $evaluation57 = Evaluation::create(['name' => ' Carga de las dislipidemias en México	', 'module_id' => $module37->id, 'type'=> 'd']);
-        $evaluation58 = Evaluation::create(['name' => ' Carga de las dislipidemias en México	', 'module_id' => $module37->id, 'type'=> 'f']);
-        $evaluation59 = Evaluation::create(['name' => 'Hipercolesterolemia “Necesidades no cubiertas”', 'module_id' => $module38->id, 'type'=> 'd']);
-        $evaluation60 = Evaluation::create(['name' => 'Hipercolesterolemia “Necesidades no cubiertas”', 'module_id' => $module38->id, 'type'=> 'f']);
-        $evaluation61 = Evaluation::create(['name' => 'Biotecnología en hipercolesterolemia', 'module_id' => $module39->id, 'type'=> 'd']);
-        $evaluation62 = Evaluation::create(['name' => 'Biotecnología en hipercolesterolemia', 'module_id' => $module39->id, 'type'=> 'f']);
-        $evaluation63 = Evaluation::create(['name' => 'Pre-evaluación Guías de tratamiento clínico: inhibidores de PCSK9', 'module_id' => $module40->id, 'type'=> 'd']);
-        $evaluation64 = Evaluation::create(['name' => 'Evaluación Guías de tratamiento clínico: inhibidores de PCSK9', 'module_id' => $module40->id, 'type'=> 'f']);
-        $evaluation65 = Evaluation::create(['name' => 'Pre-evaluación Pacientes con hipercolesterolemia resistente al tratamiento', 'module_id' => $module41->id, 'type'=> 'd']);
-        $evaluation66 = Evaluation::create(['name' => 'Evaluación Pacientes con hipercolesterolemia resistente al tratamiento', 'module_id' => $module41->id, 'type'=> 'f']);
-        $evaluation67 = Evaluation::create(['name' => 'Pre-evaluación Hipercolesterolemia en paciente con diabetes', 'module_id' => $module43->id, 'type'=> 'd']);
-        $evaluation68 = Evaluation::create(['name' => 'Evaluación Hipercolesterolemia en paciente con diabetes', 'module_id' => $module43->id, 'type'=> 'f']);
-        $evaluation69 = Evaluation::create(['name' => 'Pre-evaluación ¿Cómo identificar y tratar la Hipercolesterolemia Familiar Heterocigota?', 'module_id' => $module44->id, 'type'=> 'd']);
-        $evaluation70 = Evaluation::create(['name' => 'Evaluación ¿Cómo identificar y tratar la Hipercolesterolemia Familiar Heterocigota?', 'module_id' => $module44->id, 'type'=> 'f']);
-        $evaluation71 = Evaluation::create(['name' => 'Pre-evaluación Pacientes intolerantes a estatinas con hipercolesterolemia: tratamiento', 'module_id' => $module46->id, 'type'=> 'd']);
-        $evaluation72 = Evaluation::create(['name' => 'Evaluación Pacientes intolerantes a estatinas con hipercolesterolemia: tratamiento', 'module_id' => $module46->id, 'type'=> 'f']);
-
-
-        Question::create(['id' => 1, 'content' => 'La prevalencia de los síntomas de insomnio en México es de:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 2, 'content' => 'La prevalencia en México del síndrome de insomnio es de:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 3, 'content' => 'La prevalencia de síntomas de insomnio:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 4, 'content' => '¿Qué proporción de los pacientes que acuden a atención primaria presentan insomnio?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 5, 'content' => 'Los síntomas de insomnio más frecuentes en población general y clínica son:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 6, 'content' => 'Los siguientes son síntomas clave del insomnio, excepto:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 7, 'content' => '¿Qué cantidad de puntos en la escalad e Atenas, nos indica un Insomnio clínicamente significativo?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 8, 'content' => '¿Qué patología evalúa el Cuestionario de Berlin?:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 9, 'content' => '¿Qué escala o cuestionario se utiliza para establecer únicamente somnolencia? ', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 10, 'content' => '¿La Polisomnografía es el estándar de oro para detectar Insomnio?:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 11, 'content' => 'Cuál es la prevalencia de los síntomas de insomnio en México?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 12, 'content' => 'La prevalencia en México del síndrome de insomnio es del 16%, verdadero o falso:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 13, 'content' => 'Seleccione el enunciado correcto: La prevalencia de síntomas de insomnio:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 14, 'content' => '¿Hasta que porcentaje de pacientes que acuden a atención primaria, presentan síntomas de insomnio?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 15, 'content' => 'Los síntomas de insomnio más frecuentes en población general y clínica son:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 16, 'content' => 'Menciona algunos síntomas clave del insomnio?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 17, 'content' => '¿Qué escala o cuestionario se utiliza para establecer únicamente somnolencia? ', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 18, 'content' => '¿Qué patología evalúa el Cuestionario de Berlin?:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 19, 'content' => '¿Qué cantidad de puntos en la escalad e Atenas, nos indica un Insomnio clínicamente significativo?', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 20, 'content' => '¿Cuál es la principal indicación para llevar a cabo una Polisomnografía?:', 'evaluation_id' => $evaluation1->id]);
-        Question::create(['id' => 21, 'content' => 'De acuerdo a los datos de la ENSANUT 2012 de la diabetes, la prevalencia de la misma en México se encuentra en', 'evaluation_id' => $evaluation5->id]);
-        Question::create(['id' => 22, 'content' => 'Porcentaje aproximado de pacientes con diabetes con control metabólico adecuado de acuerdo a la ENSANUT 2012 (entendido como HbA1c <7%):', 'evaluation_id' => $evaluation5->id]);
-        Question::create(['id' => 23, 'content' => 'Los resultados de la ENSANUT de MC 2016 muestran:', 'evaluation_id' => $evaluation5->id]);
-        Question::create(['id' => 24, 'content' => 'De acuerdo a los resultados de medio camino ENSANUT 2016, la tasa de insulinización actual en México es de aproximadamente:', 'evaluation_id' => $evaluation5->id]);
-        Question::create(['id' => 25, 'content' => 'En México el 90% de los casos de diabetes corresponde a:', 'evaluation_id' => $evaluation5->id]);
-        Question::create(['id' => 26, 'content' => 'La diabetes Mellitus es un grupo de enfermedades metabólicas caracterizadas por hiperglucemia.', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 27, 'content' => 'En México el 90% de los casos de diabetes corresponde a:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 28, 'content' => 'En México el 10% de los casos de diabetes corresponde a:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 29, 'content' => 'La Diabetes tipo 1 de origen autoinmune se puede caracterizar por la presencia de alguno de los siguientes autoanticuerpos, EXCEPTO :', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 30, 'content' => 'El diagnóstico de Diabetes Mellitus puede determinarse a través de un valor de HbA1c:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 31, 'content' => 'El diagnóstico de Diabetes Mellitus puede determinarse a través de un valor de glucosa posprandial (2 horas) en una prueba de tolerancia oral a la glucosa de:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 32, 'content' => 'El diagnóstico de Diabetes Mellitus puede determinarse a través de un valor de glucosa plasmática en ayuno:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 33, 'content' => 'De acuerdo a los datos de la ENSANUT 2012 acerca de la diabetes, la prevalencia de la misma en México se encuentra en:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 34, 'content' => 'Porcentaje aproximado de pacientes con diabetes con control metabólico adecuado de acuerdo a la ENSANUT 2012 (entendido como HbA1c <7%):', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 35, 'content' => 'Los resultados de la ENSANUT de MC 2016 muestran:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 36, 'content' => 'De acuerdo a los resultados de medio camino ENSANUT 2016, la tasa de insulinización actual en México es de aproximadamente:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 37, 'content' => 'De acuerdo a los datos de la ENSANUT MC 2016 acerca de la diabetes, la prevalencia de la misma en México se encuentra en:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 38, 'content' => 'El control eficaz de la Diabetes tipo 2 reduce el riesgo de:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 39, 'content' => 'Un número mayor de años con la enfermedad (diabetes) se relaciona con:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 40, 'content' => 'Un número mayor de años con la enfermedad (diabetes) se relaciona con:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 41, 'content' => 'Un número mayor de años con la enfermedad (diabetes) se relaciona con:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 42, 'content' => 'Se debe a un estado de hiperglucemia de magnitud variable que se inicia o diagnostica durante el embarazo independientemente del tipo de tratamiento que se requiera o del estado metabólico a la resolución.', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 43, 'content' => 'Los antecedentes de la Encuesta de Salud y Nutrición se remontan a la realización de las siguientes encuestas:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 44, 'content' => 'Aproximadamente 47% de los pacientes con diabetes, tienen comorbilidad la siguente enfermedad:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 45, 'content' => 'Tipo de diabetes relacionada con destrucción de la célula B y una falta absoluta de insulina:', 'evaluation_id' => $evaluation6->id]);
-        Question::create(['id' => 48, 'content' => 'La dosis total de insulina al día de la señora González es de 43 unidades. Calcula por favor su “sensibilidad a la insulina” (es decir, cuántos mg/dl de glucosa le disminuyen 1 unidad de insulina rápida)', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 49, 'content' => 'Si su cifra de glucosa capilar antes del desayuno es de 196 mg/dl y su meta de control glucémico (acordada por su médico) es de 130 mg/dl. ¿Cuántas unidades de insulina rápida requiere para corregir esa cifra?', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 50, 'content' => 'Ahora calcula por favor su relación Insulina:Hidratos de Carbono:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 51, 'content' => 'Si va a desayunar 2 quesadillas de tortillas de maíz con queso y champiñones, frijoles de la olla ½ taza, fresas 1 taza y café negro, los cuales equivalen (en un conteo básico) a 60 gramos de hidratos de carbono, cuántas unidades de insulina rápida deberá inyectarse para cubrir su desayuno?', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 52, 'content' => '¿Cuántas unidades debe inyectarse en total antes de desayunar?', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 53, 'content' => 'En días de enfermedad, un paciente con diabetes experimenta como respuesta a una infección aguda:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 54, 'content' => 'Las dosis suplementarias de insulina de acción rápida o ultrarrápida en días de enfermedad se indican cuando:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 55, 'content' => 'Además de recomendar la utilización de ropa y calzado acordes con la actividad física a realizar e hidratarse bien, un paciente que vive con diabetes debe medir sus niveles de glucosa antes del ejercicio y consumir un refrigerio si sus niveles de glucosa son:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 56, 'content' => 'Se considera un ejercicio de intensidad moderada cuando el intervalo de frecuencia cardiaca se calcula en el siguiente porcentaje de la frecuencia cardiaca máxima:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 57, 'content' => 'Las acciones que se pueden tomar para reducir el riesgo de hipoglucemia durante la actividad física planeada incluyen:', 'evaluation_id' => $evaluation7->id]);
-        Question::create(['id' => 58, 'content' => 'La valoración integral de un paciente con diabetes con la finalidad de prescribir actividad física debe incluir: ', 'evaluation_id' => $evaluation8->id]);
-        Question::create(['id' => 59, 'content' => 'El conteo de carbohidratos tiene como finalidad lo siguiente, EXCEPTO:', 'evaluation_id' => $evaluation8->id]);
-        Question::create(['id' => 60, 'content' => 'Las guías del colegio americano de medicina del deporte establecen un riesgo cardiovascular alto en pacientes con:', 'evaluation_id' => $evaluation8->id]);
-        Question::create(['id' => 61, 'content' => 'En la prescripción de actividad física, el tiempo recomendado para realizar actividades de resistencia es de:', 'evaluation_id' => $evaluation8->id]);
-        Question::create(['id' => 62, 'content' => 'La dosis de insulina de un paciente con diabetes debe ajustarse respecto a:', 'evaluation_id' => $evaluation8->id]);
-        Question::create(['id' => 63, 'content' => 'En cuanto a los accidentes de tráfico y el insomnio, las siguientes aseveraciones son ciertas:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 64, 'content' => 'Padecer de insomnio se relacionó a que porcentaje de incremento en la glucosa en ayuno:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 65, 'content' => 'En cuanto a la fatiga en los pacientes portadores de Lupus Eritematoso Sistémico, las siguientes aseveraciones son ciertas:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 66, 'content' => 'Según la IARC (Agencia Internacional para Investigación en Cáncer) a las guardias nocturnas ya se les considera:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 67, 'content' => '¿Cuáles son los factores que correlacionan con una menor calidad de vida en los pacientes con EPOC?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 68, 'content' => '¿Cuánto disminuye mi riesgo de tener una enfermedad cardiovascular con cada hora más de sueño promedio?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 69, 'content' => '¿Cuál es el padecimiento psiquiátrico que más se asocia a la presencia de insomnio?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 70, 'content' => 'Todos son consejos de higiene del sueño, excepto:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 71, 'content' => 'Son características del zolpidem, excepto:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 72, 'content' => 'Es cierto con respecto al uso de las benzodiacepinas en el sueño:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 73, 'content' => 'Padecer de insomnio se relacionó a que porcentaje de incremento en la glucosa en ayuno:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 74, 'content' => '¿Cuánto disminuye mi riesgo de tener una enfermedad cardiovascular con cada hora más de sueño promedio?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 75, 'content' => 'Según la IARC (Agencia Internacional para Investigación en Cáncer) a las guardias nocturnas ya se les considera:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 76, 'content' => '¿Cuál es el padecimiento psiquiátrico que más se asocia a la presencia de insomnio?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 77, 'content' => '¿Cuáles son los factores que correlacionan con una menor calidad de vida en los pacientes con EPOC?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 78, 'content' => 'Son características del zolpidem, excepto:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 79, 'content' => '¿Cuál es la vida media del Clonazepam?', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 80, 'content' => 'Los hipnóticos no benzodiacepínicos tienen baja frecuencia y severiedad de eventos adversos en comparación con las benzodiacepinas aprobadas', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 81, 'content' => 'Escoja el enunciado correcto sobre Antidepresivos:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 82, 'content' => 'Es cierto con respecto al uso de las benzodiacepinas en el sueño:', 'evaluation_id' => $evaluation2->id]);
-        Question::create(['id' => 83, 'content' => 'Padecer de insomnio se relacionó a que porcentaje de incremento en la glucosa en ayuno:', 'evaluation_id' => $evaluation9->id]);
-        Question::create(['id' => 84, 'content' => '¿Cuánto disminuye mi riesgo de tener una enfermedad cardiovascular con cada hora más de sueño promedio?', 'evaluation_id' => $evaluation9->id]);
-        Question::create(['id' => 85, 'content' => 'Según la IARC (Agencia Internacional para Investigación en Cáncer) a las guardias nocturnas ya se les considera:', 'evaluation_id' => $evaluation9->id]);
-        Question::create(['id' => 86, 'content' => '¿Cuál es el padecimiento psiquiátrico que más se asocia a la presencia de insomnio?', 'evaluation_id' => $evaluation9->id]);
-        Question::create(['id' => 87, 'content' => '¿Cuáles son los factores que correlacionan con una menor calidad de vida en los pacientes con EPOC?', 'evaluation_id' => $evaluation9->id]);
-        Question::create(['id' => 88, 'content' => 'Cuál es el nivel deseable de HbA1C en el paciente con diabetes?', 'evaluation_id' => $evaluation10->id]);
-        Question::create(['id' => 89, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, mantener la hemoglobina glucosilada por debajo de 7.0% en todo paciente diabético, corresponde a una evidencia nivel:', 'evaluation_id' => $evaluation10->id]);
-        Question::create(['id' => 90, 'content' => 'En un paciente con diabetes tipo 2, con valor de hemoglobina glucosilada >9% y de acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, se recomienda considerar el tratamiento en:', 'evaluation_id' => $evaluation10->id]);
-        Question::create(['id' => 91, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, entre las opciones para intensificación de la terapia inyectable se incluyen las siguientes, EXCEPTO:', 'evaluation_id' => $evaluation10->id]);
-        Question::create(['id' => 92, 'content' => 'Además del tratamiento farmacológico, las guías internacionales incluyen los siguientes principios para el abordaje inicial para el tratamiento de la diabetes tipo 2, EXCEPTO:', 'evaluation_id' => $evaluation10->id]);
-        Question::create(['id' => 93, 'content' => 'Cuál es el nivel deseable de HbA1C en el paciente con diabetes ?', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 94, 'content' => 'Cuál es el nivel deseable de HbA1C en el paciente con diabetes ?', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 95, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, mantener la hemoglobina glucosilada por debajo de 6.5% en pacientes diabéticos de corta evolución, con alta expectativa de vida y sin complicaciones microvasculares, corresponde a un nivel de evidencia:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 96, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, mantener la hemoglobina glucosilada por debajo de 7.0% en todo paciente diabético, corresponde a una evidencia nivel:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 97, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, mantener la hemoglobina glucosilada por debajo de 8.0% en pacientes con limitada expectativa de vida, que presenta cuadros de hipoglucemia graves y complicaciones macrovasculares avanzadas, corresponde a una evidencia nivel:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 98, 'content' => 'Paciente masculino de 55 años de edad, acude a consulta de primera vez por poliuria, nicturia, astenia y pérdida de peso en los últimos 6 meses. Tras un examen clínico minucioso y realización de pruebas de laboratorio se obtienen los siguientes resultados: Glu: 189 mg/dl Cr: 1.1 BUN: 13.3 mg/dl Ac. Úrico: 6.4 mg/dl. Se decide realizar Hemoglobina glucosilada la cual reporta valor de 8.8%. De acuerdo a lo anterior, en concordancia con las guías de la Sociedad Americana de Diabetes, es recomendado iniciar la terapia antidiabética en este paciente con: ', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 99, 'content' => 'Paciente femenino de 59 años de edad, acude a consulta de primera vez por poliuria, nicturia, astenia y pérdida de peso en los últimos 6 meses. Tras un examen clínico minucioso y realización de pruebas de laboratorio se obtienen los siguientes resultados: Glu: 211 mg/dl Cr: 0.8 BUN: 14.1 mg/dl Ac. Úrico: 8.2 mg/dl. Se decide realizar Hemoglobina glucosilada la cual reporta valor de 9.3%. De acuerdo a lo anterior, en concordancia con las guías de la Sociedad Americana de Diabetes, es posible iniciar la terapia antidiabética en esta paciente con: ', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 100, 'content' => 'En un paciente con diabetes tipo 2, con valor de hemoglobina glucosilada >9% y de acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, se recomienda considerar el tratamiento en:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 101, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017 en un paciente con diabetes tipo 2 en terapia dual, con valor de hemoglobina glucosilada >9% y que después de tres meses no se alcanza el objetivo de HbA1c, se recomienda considerar el tratamiento con:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 102, 'content' => 'En un paciente con diabetes tipo 2, con valor de hemoglobina glucosilada >10% y de acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, se recomienda considerar el tratamiento en', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 103, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes (ADA) 2017, entre las opciones para intensificación de la terapia inyectable se incluyen las siguientes, EXCEPTO', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 104, 'content' => 'En la terapia con insulina en pacientes con diabetes tipo 2, las guías de la Asociación Americana de Diabetes (ADA) recomiendan:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 105, 'content' => 'Paciente masculino de 52 años de edad con diagnóstico previo de diabetes mellitus tipo 2 de 8 años de evolución en tratamiento con metformina 2g/día, sitagliptina 100 mg q.i.d. e insulina glargina 22 U/día. En los exámenes complementarios se obtiene HbA1c 8.3% y glucosa plasmática en ayuno de 85 mg/dl y durante el automonitoreo presenta glucemias postprandiales (2 horas postcomida) por arriba de 170 mg/dl. De acuerdo a las guías de la Asociación Americana de Diabetes, representa una adecuada adición terapéutica', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 106, 'content' => 'De acuerdo a las guías de la Asociación Americana de Endocrinólogos Clínicos (AACE / ACE) 2017, el tratamiento con insulina suele estar relacionado con:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 107, 'content' => 'De acuerdo a las guías de la Asociación Americana de Endocrinólogos Clínicos (AACE / ACE) 2017, el tratamiento con metformina suele estar relacionado con:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 108, 'content' => 'Además del tratamiento farmacológico, las guías internacionales incluyen los siguientes principios para el abordaje inicial para el tratamiento de la diabetes tipo 2, EXCEPTO:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 109, 'content' => 'De acuerdo a la Asociación Latinoamericana de Diabetes, en pacientes diabéticos con índice de masa corporal >30 kg/m2 se debe considerar en el tratamiento:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 110, 'content' => 'De acuerdo a la Sociedad Americana de Endocrinólogos Clínicos (AACE/ACE) 2017, el ajuste de la dosis de insulina basal se debe realizar:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 111, 'content' => 'De acuerdo a la Sociedad Americana de Diabetes (ADA) 2017, el ajuste de la dosis de insulina basal usualmente se realiza:', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 112, 'content' => 'En concordancia con las guías de la Sociedad Americana de Diabetes, en un paciente con diabetes mellitus tipo 2 que no llega a metas de HbA1c después de 3 meses en tratamiento con terapia dual, es posible el escalamiento terapéutico con: ', 'evaluation_id' => $evaluation11->id]);
-        Question::create(['id' => 113, 'content' => ' Prevalencia de insomnio en mujeres embarazadas', 'evaluation_id' => $evaluation12->id]);
-        Question::create(['id' => 114, 'content' => ' Las siguientes patologías están relacionadas con el l insomnio y embarazo, excepto:', 'evaluation_id' => $evaluation12->id]);
-        Question::create(['id' => 115, 'content' => ' ¿En qué etapa de la mujer es más común el insomnio?', 'evaluation_id' => $evaluation12->id]);
-        Question::create(['id' => 116, 'content' => ' Definición de insomnio por el DSM V', 'evaluation_id' => $evaluation12->id]);
-        Question::create(['id' => 117, 'content' => ' ¿Mínimo de horas que tiene que dormir para no incrementar el riesgo a padecer enfermedad cardiacas, hipertensión y diabetes?', 'evaluation_id' => $evaluation12->id]);
-        Question::create(['id' => 118, 'content' => 'Alteraciones del insomnio en la calidad de vida, excepto:', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 119, 'content' => 'Definición de insomnio por el DSM V:', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 120, 'content' => '¿Mínimo de horas que tiene que dormir para no incrementar el riesgo a padecer enfermedad cardiaca, hipertensión y diabetes?', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 121, 'content' => '¿En qué etapa de la mujer es más común el insomnio?', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 122, 'content' => '¿Tiene relación el insomnio con los niveles más altos de progesterona, en el ciclo menstrual de la mujer?', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 123, 'content' => 'Prevalencia de insomnio en mujeres embarazadas', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 124, 'content' => 'Las siguientes patologías están relacionadas con el insomnio y embarazo', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 125, 'content' => 'Los síntomas vasomotores, tienen relación directa con el insomnio', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 126, 'content' => 'El incremento de qué hormona, causa insomnio', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 127, 'content' => 'Prevalencia del insomnio en mujeres de edad avanzada', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 128, 'content' => 'Las siguientes patologías están relacionadas con el insomnio y embarazo, excepto:', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 129, 'content' => 'Los síntomas vasomotores, son factores de riesgo para padecer insomnio', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 130, 'content' => '¿Tiene relación el insomnio con los niveles más altos de estrógeno, en el ciclo menstrual de la mujer?', 'evaluation_id' => $evaluation3->id]);
-        Question::create(['id' => 131, 'content' => 'En diferentes estudios se ha documentado un nexo entre la falta de sueño y:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 132, 'content' => 'Hay estudios que sostienen que el sueño de los adultos mayores sanos:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 133, 'content' => 'En qué rango de edad es más frecuente la sintomatología de insomnio:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 134, 'content' => 'El síntoma más frecuente en adultos mayores que padecen insomnio es:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 135, 'content' => 'La resistencia a la insulina se incrementa su presentación cuando un paciente padece:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 136, 'content' => 'Factor de riesgo modificable para la presentación de EVC:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 137, 'content' => 'Al no descender la presión arterial mientras dormimos puede ocurrir:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 138, 'content' => 'El dormir menos de 6 hrs al día, aumenta 3.59 veces más el riesgo de padecer:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 139, 'content' => 'El tratamiento del insomnio debe consistir en tratamiento con:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 140, 'content' => 'Algunos de los efectos secundarios más frecuentes de las benzodiacepinas ansiolíticas son:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 141, 'content' => 'De las siguientes benzodiacepinas ansiolíticas, cuál tiene la vida media más larga:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 142, 'content' => 'Por su farmacología (Vm), no produce somnolencia diurna:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 143, 'content' => 'Una ventaja de los hipnóticos NO benzodiacepínicos sobre las benzodiacepinas, es que:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 144, 'content' => 'De los siguientes, cuál es el más indicado de prescribir para un paciente con SAOS:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 145, 'content' => 'El no provocar insomnio de rebote, es un beneficio de:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 146, 'content' => 'Al cuanto tiempo de haber sido administrado inicia su acción zolpidem:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 147, 'content' => 'Algunas de las medidas que se pueden tomar como parte del tratamiento NO farmacológico del insomnio son:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 148, 'content' => 'Entre los factores tóxicos productores de insomnio en adultos mayores podemos encontrar con mayor frecuencia:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 149, 'content' => 'Produce alteraciones de la función cerebral que, a su vez, alteran o modifican de manera directa o indirecta el funcionamiento de otros sistemas fisiológicos:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 150, 'content' => 'La alteración cognitiva es un efecto adverso que comparten:', 'evaluation_id' => $evaluation13->id]);
-        Question::create(['id' => 151, 'content' => 'Los síntomas de insomnio son un criterio diagnóstico en:', 'evaluation_id' => $evaluation14->id]);
-        Question::create(['id' => 152, 'content' => 'La persistencia del insomnio es un factor de riesgo para el desarrollo de:', 'evaluation_id' => $evaluation14->id]);
-        Question::create(['id' => 153, 'content' => 'La persistencia del insomnio tras un tratamiento antidepresivo exitoso con con fármacos o psicoterapia se presenta en:', 'evaluation_id' => $evaluation14->id]);
-        Question::create(['id' => 154, 'content' => 'Los trastornos psiquiátricos que presentan una mayor comorbilidad con el insomnio son:', 'evaluation_id' => $evaluation14->id]);
-        Question::create(['id' => 155, 'content' => 'Con respecto a la direccionalidad de la relación entre insomnio, ansiedad y depresión, una de las siguientes afirmaciones es verdadera:', 'evaluation_id' => $evaluation14->id]);
-        Question::create(['id' => 156, 'content' => 'Las anormalidades fisiopatológicas presentes en la Diabetes tipo 2 pueden ocurrir en los siguientes niveles, excepto:', 'evaluation_id' => $evaluation15->id]);
-        Question::create(['id' => 157, 'content' => 'A continuación se enumeran los efectos principales de la administración de metformina en pacientes con diabetes tipo 2, señale la opción que NO corresponde a un efecto del medicamento:', 'evaluation_id' => $evaluation15->id]);
-        Question::create(['id' => 158, 'content' => 'Es una sulfonilurea de tercera generación :', 'evaluation_id' => $evaluation15->id]);
-        Question::create(['id' => 159, 'content' => 'Los inhibidores de SGLT-2 causan la excreción urinaria de glucosa reduciendo su reabsorción en aproximadamente :', 'evaluation_id' => $evaluation15->id]);
-        Question::create(['id' => 160, 'content' => 'Son efectos de las incretinas, EXCEPTO:', 'evaluation_id' => $evaluation15->id]);
-        Question::create(['id' => 161, 'content' => 'Las anormalidades fisiopatológicas presentes en la Diabetes tipo 2 pueden ocurrir en los siguientes niveles, excepto:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 162, 'content' => 'A continuación se enumeran los efectos principales de la administración de metformina en pacientes con diabetes tipo 2, señale la opción que NO corresponde a un efecto del medicamento:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 163, 'content' => 'A continuación se enumeran los efectos principales de la administración de tiazolidinedionas en pacientes con diabetes tipo 2, señale la opción que NO corresponde a un efecto del medicamento:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 164, 'content' => 'Señale el mecanismo de acción de las sulfonilureas', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 165, 'content' => 'Señale el mecanismo de acción de glimepirida', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 166, 'content' => 'Señale el mecanismo de acción de la sitagliptina', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 167, 'content' => 'Son efectos de las incretinas, EXCEPTO:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 168, 'content' => 'Señale el mecanismo de acción de canaglifozina', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 169, 'content' => 'Lixisenatide es un fármaco inyectable que actúa con la unión y consecuente activación del receptor GLP-1. Su mecanismo de acción actúa sobre la vía de las incretinas, al igual que el siguiente grupo de medicamentos orales:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 170, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes y de la Asociación Americana de Endocrinólogos Clínicos, el tratamiento de la DT2 con sulfonilureas puede asociarse con:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 171, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes y de la Asociación Americana de Endocrinólogos Clínicos, el tratamiento de la DT2 con tiazolidinedionas puede asociarse con:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 172, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes y de la Asociación Americana de Endocrinólogos Clínicos, el tratamiento de la DT2 con i-DPP4 puede asociarse con:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 173, 'content' => 'De acuerdo a las guías de la Asociación Americana de Diabetes y de la Asociación Americana de Endocrinólogos Clínicos, el tratamiento de la DT2 con i-SGLT2 puede asociarse con:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 174, 'content' => 'Si el tratamiento con metformina no es suficiente para llegar a metas de tratamiento, el siguiente fármaco por vía oral a agregar debe:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 175, 'content' => 'Respecto al tratamiento con antidiabéticos orales, para llegar a metas de tratamiento es más efectivo y seguro:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 176, 'content' => 'Es una sulfonilurea de tercera generación :', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 177, 'content' => 'Se puede afirmar lo siguiente respecto al tratamiento con sulfonilureas:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 178, 'content' => 'Se puede afirmar lo siguiente respecto al tratamiento con tiazolidinedionas:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 179, 'content' => 'Los inhibidores de SGLT-2 causan la excreción urinaria de glucosa reduciendo su reabsorción en aproximadamente :', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 180, 'content' => 'Los inhibidores de SGLT-2 causan la excreción urinaria de glucosa reduciendo su reabsorción a nivel de:', 'evaluation_id' => $evaluation16->id]);
-        Question::create(['id' => 181, 'content' => 'El estudio de la concentración de un fármaco en el organismo con el objetivo de valorar o predecir su acción terapéutica se conoce como:', 'evaluation_id' => $evaluation17->id]);
-        Question::create(['id' => 182, 'content' => 'Estudia los mecanismos de acción de los fármacos y los efectos bioquímicos/fisiológicos que estos producen en el organismo', 'evaluation_id' => $evaluation17->id]);
-        Question::create(['id' => 183, 'content' => 'La insulina es una hormona proteica, producida por las células pancreáticas y co-secretada con:', 'evaluation_id' => $evaluation17->id]);
-        Question::create(['id' => 184, 'content' => 'Respecto al perfil de farmacocinética/farmacodinamia de la nueva generación de análogos de insulina basales, estos se caracterizan por presentar:', 'evaluation_id' => $evaluation17->id]);
-        Question::create(['id' => 185, 'content' => 'En la formulación de insulina glargina ocurre:', 'evaluation_id' => $evaluation17->id]);
-        Question::create(['id' => 186, 'content' => 'Comprenden barreras clínicas asociadas a la terapia con insulina, excepto:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 187, 'content' => 'El estudio de la concentración de un fármaco en el organismo con el objetivo de valorar o predecir su acción terapéutica se conoce como:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 188, 'content' => 'Estudia los mecanismos de acción de los fármacos y los efectos bioquímicos/fisiológicos que estos producen en el organismo', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 190, 'content' => 'La insulina es una hormona proteica, producida y secretada por las células pancreáticas:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 191, 'content' => 'La insulina es una hormona proteica, producida por las células pancreáticas y co-secretada con:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 192, 'content' => 'Al producto de realizar modificaciones en la secuencia o el número de aminoácidos de la molécula de insulina humana, para conferirle diferentes propiedades físico-químicas, que modifique su acción, duración (farmacocinética/Farmacodinamia), seguridad, se le conoce como:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 193, 'content' => 'En la formulación de insulina glargina ocurre:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 194, 'content' => 'A una insulina de acción intermedia/larga en combinación con una insulina de acción rápida se le conoce como:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 195, 'content' => 'Insulina de acción intermedia con un inicio del perfil de acción de 1 a 2 horas, pico de acción de 6-8 horas y duración de 14-16 horas:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 196, 'content' => 'Las insulinas análogas basales fueron desarrolladas:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 197, 'content' => 'Respecto al perfil de farmacocinética/farmacodinamia de la nueva generación de análogos de insulina basales, estos se caracterizan por presentar:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 198, 'content' => 'Insulina glulisina, un análogo de insulina de acción rápida se caracteriza por presentar:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 199, 'content' => 'El tratamiento con insulina glargina U-100 en comparación con insulina NPH está relacionado con:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 200, 'content' => 'El perfil de farmacocinética/farmacodinamia de insulina glargina U-300 en comparación con insulina glargina U-100 presenta:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 201, 'content' => 'Los estudios de fase 1 y 2 en pacientes con diabetes tipo 1 demostraron que Glargina-300 tiene las siguientes características, EXCEPTO:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 202, 'content' => 'Conocer el perfil de farmacocinética/farmacodinamia de las diferentes alternativas de terapias con insulina nos permite:', 'evaluation_id' => $evaluation18->id]);
-        Question::create(['id' => 204, 'content' => '¿Por qué se requiere que la insulinización sea oportuna?', 'evaluation_id' => $evaluation19->id]);
-        Question::create(['id' => 205, 'content' => 'Las guías clínicas de la ADA sugieren dentro de su algoritmo de tratamiento de la Diabetes tipo 2 la utilización de insulina basal:', 'evaluation_id' => $evaluation19->id]);
-        Question::create(['id' => 206, 'content' => 'De los esquemas de uso de insulina, cuál es el más recomendado para iniciar la insulinización oportunamente:', 'evaluation_id' => $evaluation19->id]);
-        Question::create(['id' => 207, 'content' => '¿A qué se refiere el esquema de insulina basal-bolo?', 'evaluation_id' => $evaluation19->id]);
-        Question::create(['id' => 208, 'content' => 'Para qué es importante empoderar al paciente?', 'evaluation_id' => $evaluation19->id]);
-        Question::create(['id' => 209, 'content' => '¿Para qué es importante empoderar al paciente?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 210, 'content' => '¿Cómo se puede empoderar al paciente desde la primera consulta?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 211, 'content' => 'El empoderamiento del paciente lo entendemos como una filosofía que ayuda a los pacientes a descubrir y a utilizar su habilidad innata para ganar dominio sobre su enfermedad, desarrollando en ellos habilidades para el autocuidado, tomando en cuenta aspectos emocionales y conductuales y adaptándolos a sus preferencias y su entorno.', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 212, 'content' => 'Hablando de un paciente que utiliza insulina como parte de su tratamiento, sabemos que está empoderado cuando:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 213, 'content' => '¿Por qué se requiere que la insulinización sea oportuna?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 214, 'content' => 'Los pacientes que se pueden beneficiar más con el tratamiento temprano con insulina son los pacientes con diabetes tipo 2 con IMC elevado y que no logran un adecuado control glucémico a pesar de modificaciones en el estilo de vida.', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 215, 'content' => 'Los objetivos del tratamiento con insulina son:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 216, 'content' => 'De los esquemas de uso de insulina, cuál es el más recomendado para iniciar la insulinización oportunamente:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 217, 'content' => 'El paciente Alfredo, que utiliza 2 antidiabéticos orales y trata de caminar 20 minutos aunque sea 3 veces por semana, presenta un resultado de HbA1c de 9.3%. ¿Qué sería lo más indicado para complementar su tratamiento?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 218, 'content' => 'Susana de 48 años y con un peso corporal de 89 kg e IMC de 34, vive con diabetes tipo 2 desde hace 4 años, va a iniciar con insulina basal utilizando una inyección al día por las noches. ¿Cuál es la dosis recomendada para que inicie su tratamiento?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 219, 'content' => 'El señor Hernández utiliza 32 unidades de insulina basal desde hace 1 año. Sus cifras de glucosa en ayuno ya se encuentran en un rango adecuado de control, pero su HbA1c continúa fuera de rango. ¿Qué es lo más indicado en este caso?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 220, 'content' => '¿Cuál es el esquema de insulina más fisiológico?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 221, 'content' => 'La utilización de dos aplicaciones de insulina intermedia humana NPH tiene como desventajas que no cubre el desayuno ni la cena y que puede provocar hipoglucemias a medio día y en la madrugada.', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 222, 'content' => 'Las guías clínicas de la ADA sugieren dentro de su algoritmo de tratamiento de la Diabetes tipo 2 la utilización de insulina basal:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 223, 'content' => '¿A qué se refiere el esquema de insulina basal-bolo?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 224, 'content' => '¿Cuál es la sugerencia para calcular la dosis inicial del insulina basal tomando en cuenta el peso corporal del paciente?', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 225, 'content' => 'Al iniciar un esquema basal de insulina, lo más importante es indicar al paciente:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 226, 'content' => 'El objetivo de la insulinización oportuna es el desarrollo de complicaciones micro y macrovasculares', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 227, 'content' => 'El momento oportuno del curso natural de la Diabetes tipo 2 cuando la actividad pancreática va decayendo es para iniciar tratamiento con:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 228, 'content' => 'Al iniciar tratamiento con insulina el profesional de la salud debe:', 'evaluation_id' => $evaluation20->id]);
-        Question::create(['id' => 229, 'content' => 'Una de las siguientes son ejemplos de Insulinas prandiales:', 'evaluation_id' => $evaluation21->id]);
-        Question::create(['id' => 230, 'content' => 'Una de las siguientes son ejemplos de Insulinas basales:', 'evaluation_id' => $evaluation21->id]);
-        Question::create(['id' => 231, 'content' => 'Una de las siguientes es un ejemplo de Insulinas premezclada:', 'evaluation_id' => $evaluation21->id]);
-        Question::create(['id' => 232, 'content' => 'El pico de acción de los análogos de acción rápida de insulina es de:', 'evaluation_id' => $evaluation21->id]);
-        Question::create(['id' => 233, 'content' => 'La duración de acción de la insulina NPH es de:', 'evaluation_id' => $evaluation21->id]);
-        Question::create(['id' => 234, 'content' => 'Cuando se comparan los análogos de acción rápida de insulina vs insulina regular los primeros tienen:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 235, 'content' => 'Se considera hiperglucemia intrahospitalaria a una glucosa plasmática:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 236, 'content' => 'El pico de acción de los análogos de acción rápida de insulina es de:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 237, 'content' => 'Basándonos en la referencia de Diabetes Care publicada en el 2013, ¿qué porcentaje de pacientes en UCIA padecen hiperglucemia?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 238, 'content' => 'Basándonos en la referencia de Diabetes Care publicada en el 2013, ¿qué porcentaje de pacientes en el servicio de Medicina Interna padecen hiperglucemia?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 239, 'content' => 'Respecto al inicio de acción de la insulina regular, ¿cuántos minutos antes de los alimentos tiene que ser aplicadas:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 240, 'content' => 'Respecto al inicio de acción de los análogos de insulina de acción rápida, ¿cuántos minutos antes de los alimentos tienen que ser aplicadas:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 241, 'content' => 'Cuando se comparan los análogos de acción rápida de insulina vs insulina regular los primeros tienen:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 242, 'content' => 'En un paciente con cetoacidosis diabética moderada en cual que ocupa una bomba de insulina cual seria la dosis a la cual la indicaría de inicio:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 243, 'content' => 'La dosis total inicial de insulina en pacientes con DM1 (>20ª) sin infección/RI es alrededor de:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 244, 'content' => 'La dosis total inicial de insulina en pacientes con DM2 y cetoacidosis con infección/RIS es alrededor de:', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 245, 'content' => '¿Cuál es el tipo de insulina que está contraindicada durante la Hospitalización?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 246, 'content' => '¿Cómo se calcula la disminución de cada UI de Insulina REGULAR?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 247, 'content' => '¿Cómo se calcula la disminución de cada UI de ANÁLOGO de Insulina?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 248, 'content' => 'Utilizando la fórmula correcta, calcule cuántas unidades de glucosa va a disminuir la glucosa alguien que está con 40 UI totales de insulina y va a utilizar de Insulina REGULAR.', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 249, 'content' => 'Utilizando la fórmula correcta, calcule cuántas unidades de glucosa va a disminuir la glucosa alguien que esta con 40 UI totales de insulina y va a utilizar un ANÁLOGO de Acción Rápida de Insulina.', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 250, 'content' => 'Si desconoce la dosis total de insulina ¿Cuántos mg de glucosa disminuye una Unidad Internacional de Insulina REGULAR o ANÁLOGO de Insulina?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 251, 'content' => 'Cuáles son las ventajas de la Insulina RÁPIDA frente a los ANÁLOGOS de Insulina en el manejo de pacientes con bombas de insulina?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 252, 'content' => '¿Cuál es el esquema de insulina ideal en el paciente hospitalizado?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 253, 'content' => '¿Cómo se modifica la Dosis Total de Insulina en el paciente ya que se encuentre bien controlado y que ingresa al hospital?', 'evaluation_id' => $evaluation22->id]);
-        Question::create(['id' => 254, 'content' => 'El insomnio tienen una tasa de comorbilidad mayor con uno de los siguientes trastornos de ansiedad:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 255, 'content' => 'Los síntomas de insomnio son un criterio diagnóstico en:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 256, 'content' => 'En relación con otros síntomas, el insomnio en el curso de un episodio depresivo mayor se presenta con mayor frecuencia:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 257, 'content' => 'La persistencia del insomnio es un factor de riesgo para el desarrollo de:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 258, 'content' => 'Entre los síntomas residuales más frecuentes tras la remisión sintomática de un episodio depresivo mayor se encuentran:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 259, 'content' => 'La persistencia del insomnio tras un tratamiento antidepresivo exitoso con fármacos o psicoterapia se presenta en:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 260, 'content' => 'Los trastornos psiquiátricos que presentan una mayor comorbilidad con el insomnio son:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 261, 'content' => 'Con respecto a la direccionalidad de la relación entre insomnio, ansiedad y depresión, una de las siguientes afirmaciones es verdadera:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 262, 'content' => 'Cuando se presenta el insomnio en comorbilidad con un trastorno depresivo o de ansiedad, generalmente:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 263, 'content' => 'La duración del insomnio se asocia con:', 'evaluation_id' => $evaluation23->id]);
-        Question::create(['id' => 274, 'content' => 'El no lograr una HbA1C ≤7% a los 3 meses post-inicio de insulina basal se asocia', 'evaluation_id' => $evaluation24->id]);
-        Question::create(['id' => 275, 'content' => 'Son indicaciones para insulinizar en pacientes con diabetes tipo 2', 'evaluation_id' => $evaluation24->id]);
-        Question::create(['id' => 276, 'content' => 'En la fase de inicio del esquema de insulina:', 'evaluation_id' => $evaluation24->id]);
-        Question::create(['id' => 277, 'content' => 'De acuerdo a la Sociedad Americana de Endocrinólogos Clínicos (AACE/ACE) 2017, el ajuste de la dosis de insulina basal se debe realizar:', 'evaluation_id' => $evaluation24->id]);
-        Question::create(['id' => 278, 'content' => 'Para llevar a cabo la titulación de insulina prandial de forma adecuada, es necesario realizarla con base en los valores de:', 'evaluation_id' => $evaluation24->id]);
-        Question::create(['id' => 279, 'content' => 'Para lograr la meta de HbA1C en pacientes tratados con insulina se puede afirmar que:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 280, 'content' => 'El no lograr una HbA1C ≤7% a los 3 meses post-inicio de insulina basal se asocia:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 281, 'content' => 'Son indicaciones para insulinizar en pacientes con diabetes tipo 2:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 282, 'content' => 'Son indicaciones para insulinizar en pacientes con diabetes tipo 2:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 283, 'content' => 'En la fase de inicio del esquema de insulina:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 284, 'content' => 'Cuál es el nivel deseable de HbA1C en el paciente con diabetes?', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 285, 'content' => 'Al producto de realizar modificaciones en la secuencia o el número de aminoácidos de la molécula de insulina humana, para conferirle diferentes propiedades físico-químicas, que modifique su acción, duración (farmacocinética/Farmacodinamia), seguridad, se le conoce como:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 286, 'content' => 'Son ventajas de los análogos de insulina basal vs insulina NPH:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 287, 'content' => 'Son indicaciones para iniciar insulina prandial en un paciente con DM2, EXCEPTO:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 288, 'content' => 'Es una característica de las premezclas:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 289, 'content' => 'De los esquemas de uso de insulina, cuál es el más recomendado para iniciar la insulinización oportunamente:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 290, 'content' => 'Para llevar a cabo la titulación de insulina basal de forma adecuada, es necesario realizarla con base en los valores de:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 291, 'content' => 'Para llevar a cabo la titulación de insulina prandial de forma adecuada, es necesario realizarla con base en los valores de:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 292, 'content' => 'Para llevar a cabo la titulación de insulina prandial de forma adecuada, es necesario realizarla con base en los valores de:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 293, 'content' => '¿A qué se refiere el esquema de insulina basal-bolo?', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 294, 'content' => 'Describa la pauta de ajuste de insulina prandial (insulina de acción rápida) una vez al día:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 295, 'content' => 'En la fase de ajuste del esquema de insulina:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 296, 'content' => 'En la terapia con insulina en pacientes con diabetes tipo 2, las guías de la Asociación Americana de Diabetes (ADA) recomiendan:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 297, 'content' => 'De acuerdo a la Sociedad Americana de Endocrinólogos Clínicos (AACE/ACE) 2017, el ajuste de la dosis de insulina basal se debe realizar:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 298, 'content' => 'De acuerdo a la Sociedad Americana de Diabetes (ADA) 2017, el ajuste de la dosis de insulina basal usualmente se realiza:', 'evaluation_id' => $evaluation25->id]);
-        Question::create(['id' => 300, 'content' => '¿Cuáles son las cifras de glucosa plasmática de la definición tradicional de hipoglucemia de la ADA 2016?', 'evaluation_id' => $evaluation26->id]);
-        Question::create(['id' => 301, 'content' => 'Según la clasificación de la ADA 2017, ¿cuáles son las cifras de alerta de glucosa (nivel 1)?', 'evaluation_id' => $evaluation26->id]);
-        Question::create(['id' => 302, 'content' => 'Según la clasificación de la ADA 2017, ¿cuáles son las cifras clínicamente significativas (nivel 2)?', 'evaluation_id' => $evaluation26->id]);
-        Question::create(['id' => 303, 'content' => '¿Cuál es un componente del modelo de la toma de decisiones SDM-EBM?', 'evaluation_id' => $evaluation26->id]);
-        Question::create(['id' => 304, 'content' => 'Según la clasificación de la ADA 2017, ¿cuáles son los criterios clínicos de hipoglucemia severa (nivel 3)?', 'evaluation_id' => $evaluation26->id]);
-        Question::create(['id' => 305, 'content' => '¿Cuál es el nivel de hemoglobina glucosilada meta en el control glicémico convencional?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 306, 'content' => '¿Cuál es el nivel de hemoglobina glucosilada meta en el control glicémico intensivo?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 307, 'content' => '¿Qué tipo de control glicémico se ha visto relacionado con un aumento de dos a tres veces con riesgo de hipoglucemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 308, 'content' => '¿Cuál de los siguientes desenlaces adversos está asociado con hipoglucemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 309, 'content' => '¿Cuál de los siguientes desenlaces adversos está asociado con hipoglucemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 310, 'content' => '¿Cuál de los siguientes desenlaces adversos está asociado con hipoglucemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 311, 'content' => '¿Cuál de los siguientes desenlaces adversos está asociado con hipoglucemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 312, 'content' => '¿Cuáles son los niveles de hemoglobina asociados con riesgo elevado de mortalidad?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 313, 'content' => '¿Cuál es el criterio que dicta la conducta en relación al control glucémico en la mayoría de las guías clínicas de tratamiento de diabetes?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 314, 'content' => '¿Cuál es un componente del modelo de la toma de decisiones SDM-EBM?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 315, 'content' => '¿Cuál es un componente del modelo de la toma de decisiones SDM-EBM?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 316, 'content' => '¿Cuál es el aumento en el riesgo relativo en muerte por cualquier causa que se relaciona a hipoglicemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 317, 'content' => '¿Cuál es el aumento en el riesgo relativo en eventos cardiovasculares mayores que se relaciona a hipoglicemia severa?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 318, 'content' => 'Goto et al. en su análisis meta-análisis describen que las hipoglucemias presentan riesgo relativo de 2.05 (CI 1.74-2.42) para padecer enfermedad cardiovascular. ¿Cómo se interpreta lo anterior?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 319, 'content' => 'Whitmer et al. describieron que 3 o más episodios de hipoglucemias presentan riesgo relativo de 2.60 (CI 1.78-3.79) para padecer demencia. ¿Cómo se interpreta lo anterior?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 320, 'content' => '¿Aparte de Obesidad cuál es la comorbilidad más común de diabetes tipo 2?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 321, 'content' => '¿Cómo afecta los episodios de hipoglicemia severa la calidad de vida del paciente?', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 322, 'content' => 'Qué recomendaciones debemos de seguir en cuanto a tomar HbA1c si se encuentra en META CON episodios de HIPOGLUCEMIA.', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 323, 'content' => 'Qué recomendaciones debemos de seguir en cuanto a tomar HbA1c si se encuentra en META SIN episodios de HIPOGLUCEMIA.', 'evaluation_id' => $evaluation27->id]);
-        Question::create(['id' => 330, 'content' => 'Población de estudio del UKPDS (Estudio Prospectivo inglés sobre diabetes)', 'evaluation_id' => $evaluation28->id]);
-        Question::create(['id' => 331, 'content' => 'Es importante conocer la correlación de la enfermedad cardiovascular y la diabetes tipo 2 debido a que:', 'evaluation_id' => $evaluation28->id]);
-        Question::create(['id' => 332, 'content' => 'Los siguientes factores contribuyen en aproximadamente un 90% en la generación del riesgo de presentar infarto al miocardio, observado a nivel mundial, excepto:', 'evaluation_id' => $evaluation28->id]);
-        Question::create(['id' => 333, 'content' => 'La FDA emitió una guía para la aprobación de medicamentos anti-hiperglucémicos que requería el estudio de los desenlaces cardiovasculares en el año:', 'evaluation_id' => $evaluation28->id]);
-        Question::create(['id' => 334, 'content' => 'Estudio para determinar si la terapia de reemplazo con insulina para alcanzar la normoglucemia puede reducir la morbilidad y/o mortalidad cardiovascular en personas con alto riesgo cardiovascular con alteración de la glucosa en ayuno, alteración de la tolerancia a la glucosa o diabetes tipo 2 temprana:', 'evaluation_id' => $evaluation28->id]);
-        Question::create(['id' => 335, 'content' => '¿Cuál fue el perfil de pacientes que se incluyó en el estudio UKPDS (Estudio Prospectivo inglés sobre diabetes)?', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 336, 'content' => 'Población de estudio del ACCORD (Acción para el Control del Riesgo Cardiovascular en la Diabetes)', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 337, 'content' => 'Los hallazgos clave en los más de 6 años de seguimiento del estudio ORIGIN son todos excepto:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 338, 'content' => 'Población de estudio del ADVANCE (Acción en la Diabetes y la Enfermedad Vascular)', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 339, 'content' => 'Estos factores son la causa del incremento en el riesgo de presentar infarto al miocardio en casi un 90%, excepto:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 340, 'content' => 'Señale las recomendaciones en la prevención primaria para la estratificación y detección de factores de riesgo cardiovascular:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 341, 'content' => 'Es importante conocer la correlación de la enfermedad cardiovascular y la diabetes tipo 2 debido a que:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 342, 'content' => '¿En qué año, la FDA emite una guía para la aprobación de medicamentos anti-hiperglucémicos que requieren el estudio de los desenlaces cardiovasculares?:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 343, 'content' => 'Los estudios de desenlaces cardiovasculares mostraron que los inhibidores de la dipeptidil peptidasa-4 (iDPP4) saxagliptina, sitagliptina, alogliptina son seguros respecto a los desenlaces cardiovasculares en pacientes con:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 344, 'content' => 'El estudio LEADER mostró que el siguiente fármaco podría ser capaz de disminuir el riesgo cardiovascular en pacientes con DMT2:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 345, 'content' => 'El estudio ELIXA mostró que el siguiente fármaco es seguro respecto a los desenlaces cardiovasculares en pacientes con Diabetes tipo 2:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 346, 'content' => 'Se han realizado estudios de seguridad cardiovascular específicos para los siguientes fármacos, EXCEPTO:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 347, 'content' => 'La terapia de reemplazo con insulina para alcanzar la normoglucemia, puede reducir la morbilidad y/o mortalidad cardiovascular en personas que presentan alto riesgo cardiovascular con alteración de la glucosa en ayuno, alteración de la tolerancia a la glucosa o diabetes tipo 2 temprana, ¿en qué estudio se intentó valorar este hecho?', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 348, 'content' => 'En el estudio ORIGIN se utilizó como terapia insulina…', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 349, 'content' => 'Los hallazgos clave en los más de 6 años de seguimiento del estudio ORIGIN son:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 350, 'content' => 'Estudio realizado en 2 años de seguimiento pasivo a pacientes sobrevivientes del estudio ORIGIN:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 351, 'content' => 'Principales hallazgos del estudio ORIGINALE:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 352, 'content' => 'La valoración integral de un paciente con diabetes con la finalidad de prescribir actividad física debe incluir: ', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 353, 'content' => 'Al indicar actividad física a un paciente con riesgo cardiovascular alto, lo ideal es incluir en la valoración:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 354, 'content' => 'En las guías del colegio americano de medicina del deporte se establece que una persona con Diabetes Mellitus tipo 2 se encuentra en riesgo cardiovascular:', 'evaluation_id' => $evaluation29->id]);
-        Question::create(['id' => 356, 'content' => 'Es la definición de pie diabético propuesta por la OMS:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 357, 'content' => 'El 70% de las amputaciones de los miembros pélvicos se asocian a la presencia de Diabetes:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 358, 'content' => '¿Cuáles son algunos de los factores predisponentes para el desarrollo del pie diabético?', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 359, 'content' => 'Son factores desencadenantes del pie diabético:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 360, 'content' => 'Son factores agravantes del pie diabético', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 361, 'content' => 'Son tres alteraciones características del proceso fisiopatológico del pie diabético', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 362, 'content' => 'El corte de las uñas para la prevención del pie diabético debe ser:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 363, 'content' => 'Es la signosintomatología característica de la neuropatía diabética:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 364, 'content' => 'El examen neurológico para valorar la presencia o ausencia de pie diabético debe incluir:', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 365, 'content' => 'Son aspectos a considerar durante la exploración vascular del paciente con riesgo a desarrollar pie diabético', 'evaluation_id' => $evaluation30->id]);
-        Question::create(['id' => 366, 'content' => 'Es la primer causa de ceguera de origen vascular a nivel mundial', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 367, 'content' => 'Son factores de riesgo para desarrollar retinopatía diabética', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 368, 'content' => 'Es la inflamación de la parte central de la retina relacionada a la visión fina como la lectura', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 369, 'content' => 'Son lesiones básicas de la retinopatía', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 370, 'content' => 'Lesiones hemorrágicas de características puntiformes que se forman en los capilares venosos del ojo y tienen un diámetro inferior a 125 micras', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 371, 'content' => 'Estudio que permite detectar microaneurismas, diferenciarlos de microhemorragias y determinar la permeabilidad de las paredes de los vasos del ojo', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 372, 'content' => 'Tipo de retinopatía diabética que implica la formación de nuevos vasos', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 373, 'content' => 'Son medicamentos utilizados para disminuir la formación de nuevos vasos sanguíneos en la retinopatía diabética', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 374, 'content' => 'Complicación de la retinopatía diabética en la que los vasos sanguíneos nuevos llegan al iris incrementando la presión intraocular conduciendo a ceguera', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 375, 'content' => 'Patología que se presenta por alteraciones en la estructura arteriolar del ojo, impactando directamente en las paredes vasculares', 'evaluation_id' => $evaluation31->id]);
-        Question::create(['id' => 376, 'content' => 'Causa más frecuente de insuficiencia renal crónica a nivel mundial y en nuestro país y que afecta a cerca del 40% de pacientes con diabetes', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 377, 'content' => 'Son factores que desencadenan la presencia de nefropatía diabética', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 378, 'content' => 'Las alteraciones metabólicas comprenden:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 379, 'content' => 'La primer acción correctiva para disminuir el riesgo de desarrollar nefropatía diabética debe ser:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 380, 'content' => 'Proceso o procesos derivados de hiperglucemia crónica que intervienen en la aparición de nefropatía diabética:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 381, 'content' => 'Son los aspectos clínicos propios de la nefropatía diabética', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 382, 'content' => 'El estadio 5 de la insuficiencia renal crónica hace referencia a:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 383, 'content' => 'Son manifestaciones que se deben buscar de manera intencionada para realizar el diagnóstico oportuno de nefropatía diabética', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 384, 'content' => 'Estudio(s) de laboratorio a solicitar al paciente ante la sospecha de nefropatía diabética:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 385, 'content' => 'Son factores de riesgo para desarrollar nefropatía diabética:', 'evaluation_id' => $evaluation32->id]);
-        Question::create(['id' => 386, 'content' => 'Para el diagnóstico, evaluación del riesgo cardiovascular, tratamiento y control de un paciente con Hipertensión Arterial, usted sigue las recomendaciones de:', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 387, 'content' => 'Para el diagnóstico, evaluación del riesgo cardiovascular, el tratamiento y control de un paciente con Diabetes Mellitus, usted sigue a:', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 388, 'content' => '¿Qué opina usted acerca de la propuesta sobre modificar la recomendación sobre el consumo de colesterol en la dieta, actualmente sometida a revisión en los Departamentos de Salud y Servicios Humanos y de Agricultura de los EUA*?', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 389, 'content' => '¿Con cuál de las siguientes opciones estaría usted de acuerdo? ', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 390, 'content' => '¿Cuál de los siguientes padecimientos o situaciones se considera como una “Condición de Riesgo Alto” per se, en la cual está contraindicado calcular el riesgo cardiovascular con cualquier tabla o ecuación de cálculo?', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 391, 'content' => '¿Cuál de los siguientes padecimientos o situaciones se considera como una “Condición de Riesgo Alto” per se, en la cual está contraindicado calcular el riesgo cardiovascular con cualquier tabla o ecuación de cálculo?', 'evaluation_id' => $evaluation33->id]);
-        Question::create(['id' => 392, 'content' => 'Respecto a la evolución natural de la presión arterial sistólica a lo largo de los años de edad de las personas en general, señale la opción correcta:', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 393, 'content' => 'Respecto a la evolución natural de la presión arterial diastólica a lo largo de los años de edad de las personas en general, señale la opción correcta:', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 394, 'content' => '¿Cuál de los siguientes factores participa en la fisiopatología de la Hipertensión Arterial Esencial?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 395, 'content' => '¿Cuál de las siguientes enfermedades cardiovasculares se relaciona más intensamente con la Hipertensión Arterial?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 396, 'content' => 'La probabilidad de que una persona con Hipertensión Arterial sufra un primer evento de Enfermedad Cardiovascular Arteriosclerótica está determinada por:', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 397, 'content' => 'En la prevención de los eventos de Enfermedad Cardiovascular Arteriosclerótica asociados a la Hipertensión Arterial, señale la opción correcta', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 398, 'content' => '¿Cuál de las siguientes ecuaciones o tabla de cálculo de riesgo cardiovascular es la más apropiada para un paciente con Hipertensión Arterial y antecedente de haber sufrido un infarto del miocardio?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 399, 'content' => '¿Cuál es el riesgo cardiovascular arteriosclerótico de un paciente masculino de 55 años de edad, sedentario, que aún no ha sufrido alguna enfermedad cardiovascular clínica todavía, pero que tiene índice de masa corporal de 28 kg/m2, presión arterial de 128/80 mmHg bajo tratamiento médico con calcioantagonista combinado con bloqueador del receptor de angiotensina, glucosa en ayunas de 110 mg/dL en tratamiento dietético y farmacológico de Diabetes Mellitus tipo 2 desde hace 5 años, y cuyos niveles de lípidos son los siguientes, bajo tratamiento con estatina de potencia alta: Colesterol Total de 180 mg/dL, Colesterol de las HDL de 25 mg/dL, Triglicéridos de 160 mg/dL y Colesterol de las LDL de 123 mg/dL?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 400, 'content' => '¿Cuál es el riesgo cardiovascular arteriosclerótico del siguiente caso? Mujer de 57 años de edad, obesa (IMC 31.1 kg/m2), sedentaria, con Hipertensión Arterial de 8 años de evolución, se presenta con usted con presión arterial de 132/90 mmHg, bajo tratamiento crónico con bloqueador de receptor de angiotensina en dosis máxima recomendada más diurético de tipo tiazídico en dosis baja. No fuma y no tiene historia personal ni familiar de enfermedad cardiovascular arteriosclerótica clínica. Nunca se le ha diagnósticado Diabetes Mellitus ni Dislpidemia. Trae los siguientes resultados: Glucosa en Ayunas 108 mg/dL, creatinina 1.6 mg/dL, ácido úrico 8.0 mg/dL, potasio 3.8 mEq/L, huellas de proteínas en el examen general de orina, Colesterol total 194 mg/dL, Triglicéridos 310 mg/dL, Colesterol de las HDL 42 mg/dL, Colesterol de las NO-HDL 152 mg/dL. ', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 401, 'content' => '¿Qué tipo de eventos evalúan las tablas de riesgo cardiovascular arteriosclerótico “GLOBORISK”?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 402, 'content' => '¿Cuál de los siguientes padecimientos o situaciones se considera como una “Condición de Riesgo Alto” per se, en la cual está contraindicado calcular el riesgo cardiovascular con cualquier tabla o ecuación de cálculo?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 403, 'content' => '¿Cuál de los siguientes padecimientos o situaciones se considera como una “Condición de Riesgo Alto” per se, en la cual está contraindicado calcular el riesgo cardiovascular con cualquier tabla o ecuación de cálculo?', 'evaluation_id' => $evaluation34->id]);
-        Question::create(['id' => 404, 'content' => '¿Cuánto tiempo debe ser el reposo previo del paciente antes de tomar la PA?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 405, 'content' => '¿Hasta qué nivel se debe insuflar el brazalete?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 406, 'content' => '¿A qué velocidad se debe liberar el aire de brazalete para la toma auscultatoria de la PA? ', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 407, 'content' => '¿Cuántos más mmHg debo seguir liberando el aire a la misma velocidad después de escuchar el último latido?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 408, 'content' => '¿Cuánto tiempo debe estar el paciente de pie para toma de PA cuando buscamos hipotensión ortostática?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 409, 'content' => '¿Cómo puedo estar seguro que la porción inflable del brazalete está correctamente centrada?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 410, 'content' => '¿En qué nivel del brazo se debe medir su circunferencia para elegir el brazalete adecuado?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 411, 'content' => '¿Cuál es el error más común por parte del observador en la medición de la PA?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 412, 'content' => '¿En qué consiste la laguna auscultatoria?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 413, 'content' => '¿Qué ventajas ofrece el monitoreo ambulatorio de la PA?', 'evaluation_id' => $evaluation35->id]);
-        Question::create(['id' => 414, 'content' => '¿Cuánto tiempo debe ser el reposo previo del paciente antes de tomar la PA?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 415, 'content' => '¿Hasta qué nivel se debe insuflar el brazalete?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 416, 'content' => '¿A qué velocidad se debe liberar el aire de brazalete para la toma auscultatoria de la PA? ', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 417, 'content' => '¿Cuántos más mmHg debo seguir liberando el aire a la misma velocidad después de escuchar el último latido?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 418, 'content' => '¿Cuánto tiempo debe estar el paciente de pie para toma de PA cuando buscamos hipotensión ortostática?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 419, 'content' => '¿Cómo puedo estar seguro que la porción inflable del brazalete está correctamente centrada?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 420, 'content' => '¿En qué nivel del brazo se debe medir su circunferencia para elegir el brazalete adecuado?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 421, 'content' => '¿Cuál es el error más común por parte del observador en la medición de la PA?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 422, 'content' => '¿En qué consiste la laguna auscultatoria?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 423, 'content' => '¿Qué ventajas ofrece el monitoreo ambulatorio de la PA?', 'evaluation_id' => $evaluation36->id]);
-        Question::create(['id' => 424, 'content' => 'De acuerdo a las Guías Clínicas, La ingesta de sodio, ¿se considera un factor modificable de Hipertensión Arterial?', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 425, 'content' => '¿De acuerdo al estudio INTERSALT, por cada gramo ingerido de sal, se registra un aumento en la Presión arterial de?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 426, 'content' => 'El sodio puede encontrase oculto en alimentos, bebidas salsas, ¿algunas de mayor contenido son?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 427, 'content' => '¿La ingesta recomendada de Sodio es de?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 428, 'content' => '¿El incremento de peso eleva la PA por?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 429, 'content' => '¿Efectuar ejercicio físico regular produce?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 430, 'content' => 'Para obtener reducción de peso adecuada, ¿lo ideal es?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 431, 'content' => '¿En la dieta Mediterránea el postre ideal es?', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 432, 'content' => '¿La OMS define como un fumador regular a aquel que ha utilizado?:', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 433, 'content' => '¿El humo del tabaco contiene alrededor de cuantas substancias identificadas?', 'evaluation_id' => $evaluation37->id]);
-        Question::create(['id' => 434, 'content' => '¿Cuantas de las partículas identificada en el humo del tabaco son carcinógenas ó nocivas para los humanos?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 435, 'content' => '¿La nicotina eleva los niveles de?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 436, 'content' => '¿El primer cigarrillo de la mañana, produce un mayor elevación de la Presión arterial?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 437, 'content' => '¿Cuanto incrementa la PAS después de fumar?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 438, 'content' => '¿En el paciente Hipertenso, que reducción de PA produce el ejercicio aeróbico?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 439, 'content' => '¿De acuerdo a los meta-análisis, reducir la PA 10/5 mmHg PAS/PAD, disminuye el riesgo de EVC en que porcentaje?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 440, 'content' => '¿De acuerdo al JNC 8, en Diabetes e HAS, la meta terapéutica deberá de ser?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 441, 'content' => '¿A partir de que cifra de TA, deberá considerarse terapia combinada?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 442, 'content' => '¿De acuerdo a ESC cuales son algunas de las recomendaciones de fármacos?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 443, 'content' => '¿El uso de ARA proporciona otros beneficios más allá de la reducción de PA, como?', 'evaluation_id' => $evaluation38->id]);
-        Question::create(['id' => 444, 'content' => 'Una comorbilidad se define como:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 445, 'content' => 'De acuerdo con datos en México. La hipertensión arterial y la diabetes mellitus coexisten en el:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 446, 'content' => 'Un paciente hipertensión arterial y cifras tensionales de 140/90 mmHg con Tasa de Filtrado Glomerular estimada (TFGe) de 60 mL/min/1.73m2SC debe ser clasificado como de riesgo:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 447, 'content' => 'El manejo farmacológico de las dislipidemias debe contemplar como objetivo primario el control de las cifras de:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 448, 'content' => 'En pacientes con nefropatía establecida, la hipertensión arterial se encuentra presente en más del:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 449, 'content' => 'En pacientes hipertensos, es uno de los primeros datos que apuntan a disfunción renal:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 450, 'content' => 'La meta de control tensional en pacientes hipertensos con enfermedad cerebrovascular es de:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 451, 'content' => 'Son medicamentos antihipertensivos que han demostrado disminuir la incidencia de eventos cerebrovasculares', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 452, 'content' => 'Son fármacos contraindicados para el manejo de la hipertensión en pacientes con insuficiencia cardiaca:', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 453, 'content' => 'En pacientes hipertensos, la monoterapia es eficaz para alcanzar las metas de control de presión arterial en más del 50% de los casos', 'evaluation_id' => $evaluation39->id]);
-        Question::create(['id' => 454, 'content' => 'Un adecuado control de la presión arterial disminuye el riesgo de desarrollar Insuficiencia cardiaca', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 455, 'content' => 'En pacientes hipertensos con insuficiencia cardiaca, la meta de control antihipertensivo es de:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 456, 'content' => 'Se cataloga como disfunción renal grado 4 cuando la TFGe se encuentra en:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 457, 'content' => 'De acuerdo con la OMS, la enfermedad cerebrovascular en pacientes hipertensos es considerada como:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 458, 'content' => 'Además de sus efectos como antihipertensivos, los betabloqueadores deben ser considerados para el alivio de la angina de pecho en pacientes con hipertensión y cardiopatía isquémica:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 459, 'content' => 'Paciente masculino de 65 años, diabético, hipertenso, fumador, acude a consulta para control de la presión arterial. Se encuentra asintomático. A la e.f. destaca TA 140/90 mmHg. Con estos datos usted clasifica al paciente como de riesgo:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 460, 'content' => 'Los betabloqueadores y los diuréticos tienen un perfil metabólicamente protector:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 461, 'content' => 'En pacientes hipertensos sobrevivientes de un infarto, el grupo farmacológico con mejor evidencia es:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 462, 'content' => 'El manejo combinado debe considerarse cuando las cifras de presión arterial se encuentran en:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 463, 'content' => 'Son combinaciones útiles para el manejo de la hipertensión arterial todas, excepto:', 'evaluation_id' => $evaluation40->id]);
-        Question::create(['id' => 464, 'content' => 'Las enfermedades crónicas no trasmisibles:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 465, 'content' => 'La hipertensión arterial:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 466, 'content' => 'La hipertensión arterial es el factor de riesgo de más peso para:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 467, 'content' => 'La hipertensión arterial es:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 468, 'content' => 'El objetivo final del tratamiento del paciente con hipertensión arterial es:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 469, 'content' => 'El bajo control de pacientes con hipertensión arterial que reciben medicamentos, se explican principalmente por:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 470, 'content' => 'La autoeficacia se refiere:', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 471, 'content' => 'Cuál sería la mejor forma de prescribir del médico para logra el control permanente de la hipertensión arterial en el paciente', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 472, 'content' => 'Que se entiende por adherencia al tratamiento.', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 473, 'content' => 'La duración del tratamiento antihipertensor debe ser', 'evaluation_id' => $evaluation41->id]);
-        Question::create(['id' => 474, 'content' => 'Las enfermedades crónicas no trasmisibles:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 475, 'content' => 'La hipertensión arterial:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 476, 'content' => 'La hipertensión arterial es el factor de riesgo de más peso para:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 477, 'content' => 'La hipertensión arterial es:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 478, 'content' => 'El objetivo final del tratamiento del paciente con hipertensión arterial es:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 479, 'content' => 'El bajo control de pacientes con hipertensión arterial que reciben medicamentos, se explican principalmente por:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 480, 'content' => 'La autoeficacia se refiere:', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 481, 'content' => 'Cuál sería la mejor forma de prescribir del médico para logra el control permanente de la hipertensión arterial en el paciente', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 482, 'content' => 'Que se entiende por adherencia al tratamiento.', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 483, 'content' => 'La duración del tratamiento antihipertensor debe ser', 'evaluation_id' => $evaluation42->id]);
-        Question::create(['id' => 484, 'content' => '¿Usted conoce qué porcentaje de la población en general conoce del problema de la Enfermedad Tromboembólica?', 'evaluation_id' => $evaluation43->id]);
-        Question::create(['id' => 485, 'content' => '¿Cuáles son los Factores de riesgo para ETV, EXCEPTO?', 'evaluation_id' => $evaluation43->id]);
-        Question::create(['id' => 486, 'content' => '¿Cuáles son las Complicaciones de la trombosis venosa profunda y embolia pulmonar, EXCEPTO?', 'evaluation_id' => $evaluation43->id]);
-        Question::create(['id' => 487, 'content' => '¿El costo total de la Tromboprofilaxis es mayor con las heparinas de bajo peso molecular?', 'evaluation_id' => $evaluation43->id]);
-        Question::create(['id' => 488, 'content' => '¿El mayor porcentaje de enfermedad tromboembólica se presenta en?', 'evaluation_id' => $evaluation43->id]);
-        Question::create(['id' => 489, 'content' => 'Según los estudios ENDORSE del 2008 y 2010, ¿Ha aumentado la Tromboprofilaxis en los enfermos en riesgo de ETV?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 490, 'content' => 'Factores involucrados en el desarrollo de ETV, EXCEPTO.', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 491, 'content' => '¿Cuál es la causa de muerte más prevenible en el medio intrahospitalario?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 492, 'content' => 'Según los resultados de muchos estudios, ¿Los enfermos quirúrgicos reciben más Tromboprofilaxis que los enfermos no quirúrgicos?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 493, 'content' => 'En enfermos con cáncer ¿Qué factores de riesgo favorecen la ETV, EXCEPTO?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 494, 'content' => '¿La obesidad confiere mayor riesgo de ETV que la inmovilidad?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 495, 'content' => '¿Cuál es el horario recomendado para iniciar Tromboprofilaxis en enfermos con artroplastia de cadera y artroplastia de rodilla, tanto antes como después de la cirugía?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 496, 'content' => 'La adición de un sistema neumático intermitente a la HBPM logra un resultado sobre la profilaxis de ETV', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 497, 'content' => 'Para enfermos con diversos factores de riesgo (obesidad, enfermedad oncológica, cirugía reciente, uso de estrógenos, embarazo), que realizarán un viaje largo se recomienda:', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 498, 'content' => '¿Es la trombosis venosa profunda proximal un mayor factor de riesgo de EP que la trombosis venosa profunda distal?', 'evaluation_id' => $evaluation44->id]);
-        Question::create(['id' => 499, 'content' => '¿Cuáles son los factores de riesgo para trombosis EXCEPTO?', 'evaluation_id' => $evaluation45->id]);
-        Question::create(['id' => 500, 'content' => '¿Cuáles son las alteraciones genéticas asociada a trombosis EXCEPTO?', 'evaluation_id' => $evaluation45->id]);
-        Question::create(['id' => 501, 'content' => '¿Cuál es el riesgo relativo de padecer trombosis por permanecer sentado en un avión más de 12 hrs?', 'evaluation_id' => $evaluation45->id]);
-        Question::create(['id' => 502, 'content' => 'Padecer angina de pecho aumenta la probabilidad de padecer trombosis', 'evaluation_id' => $evaluation45->id]);
-        Question::create(['id' => 503, 'content' => 'La escala de Padua y Caprini son herramientas adecuadas para la evaluación del paciente en terapia intensiva solamente', 'evaluation_id' => $evaluation45->id]);
-        Question::create(['id' => 504, 'content' => 'Según los estudios ENDORSE del 2008 y 2010, ¿Ha aumentado la Tromboprofilaxis en los enfermos en riesgo de ETV?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 505, 'content' => 'Factores involucrados en el desarrollo de ETV, EXCEPTO.', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 506, 'content' => '¿Cuál es la causa de muerte más prevenible en el medio intrahospitalario?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 507, 'content' => 'Según los resultados de muchos estudios, ¿Los enfermos quirúrgicos reciben más Tromboprofilaxis que los enfermos no quirúrgicos?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 508, 'content' => 'En enfermos con cáncer ¿Qué factores de riesgo favorecen la ETV, EXCEPTO?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 509, 'content' => '¿La obesidad confiere mayor riesgo de ETV que la inmovilidad?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 510, 'content' => '¿Cuál es el horario recomendado para iniciar Tromboprofilaxis en enfermos con artroplastia de cadera y artroplastia de rodilla, tanto antes como después de la cirugía?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 511, 'content' => 'La adición de un sistema neumático intermitente a la HBPM logra un resultado sobre la profilaxis de ETV', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 512, 'content' => 'Para enfermos con diversos factores de riesgo (obesidad, enfermedad oncológica, cirugía reciente, uso de estrógenos, embarazo), que realizarán un viaje largo se recomienda', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 513, 'content' => '¿Es la trombosis venosa profunda proximal mayor factor de riesgo de EP que la trombosis venosa profunda distal?', 'evaluation_id' => $evaluation46->id]);
-        Question::create(['id' => 514, 'content' => '¿Cuáles de los siguientes son factores de riesgo asociados a trombosis venosa profunda?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 515, 'content' => '¿Qué institución es la encargada de evaluar la ETEVP?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 516, 'content' => '¿Cuál es el lugar anatómico en donde, con mayor frecuencia se llevan a cabo los procesos tromboembólicos?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 517, 'content' => '¿Cuál es una de las principales causas de trombosis venosa?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 518, 'content' => '¿Cuáles son los principales síntomas de la enfermedad tromboembolicovenosa?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 519, 'content' => '¿Qué método diagnóstico es el más útil en esta patología?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 520, 'content' => '¿Qué tratamiento se debe ofrecer a estos pacientes?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 521, 'content' => '¿Cuál de las siguientes corresponde a una medida de tromboprofilaxis mecánica?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 522, 'content' => '¿Cómo se realiza el monitoreo de la anticoagulación correcta?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 523, 'content' => '¿Cuál es el tiempo que se debe de mantener la tromboprofilaxis?', 'evaluation_id' => $evaluation47->id]);
-        Question::create(['id' => 524, 'content' => '¿Cuáles de los siguientes son factores de riesgo asociados a trombosis venosa profunda?', 'evaluation_id' => $evaluation48->id]);
-        Question::create(['id' => 525, 'content' => '¿Qué institución es la encargada de evaluar la ETEVP?', 'evaluation_id' => $evaluation48->id]);
-        Question::create(['id' => 526, 'content' => '¿Cuál es el lugar anatómico en donde, con mayor frecuencia se llevan a cabo los procesos tromboembólicos?', 'evaluation_id' => $evaluation48->id]);
-        Question::create(['id' => 527, 'content' => '¿Cuál es una de las principales causas de trombosis venosa?', 'evaluation_id' => $evaluation48->id]);
-        Question::create(['id' => 528, 'content' => '¿Cuáles son los principales síntomas de la enfermedad tromboembolicovenosa?', 'evaluation_id' => $evaluation48->id]);
-        Question::create(['id' => 529, 'content' => '¿En qué porciento los factores “predisponentes” para tromboembolia pulmonar se consideran desconocidos?', 'evaluation_id' => $evaluation49->id]);
-        Question::create(['id' => 530, 'content' => 'Documentar valor ajustado a la edad de Dimero D “negativo” (Dimero D con valor predictivo negativo) el cual representa la posibilidad de TEP/TVP en cifras de:', 'evaluation_id' => $evaluation49->id]);
-        Question::create(['id' => 531, 'content' => 'La Angiotomografía Pulmonar Computada Multicorte permite visualizar vasos arteriales pulmonares hasta el nivel segmentario y tiene una sensibilidad (s) y especificidad (E) de:', 'evaluation_id' => $evaluation49->id]);
-        Question::create(['id' => 532, 'content' => 'Las discordancias en la interpretación de la Angiotomografía Pulmonar Computada Multicorte ocurren a nivel del embolismo solitario o cuando ésta es solo a nivel segmentario y es cercana al:', 'evaluation_id' => $evaluation49->id]);
-        Question::create(['id' => 533, 'content' => 'El estudio Pioped II confirmó la utilidad del Gamamagrama Ventilatorio/ Perfusorio planar, al compararla con la Angiotomografía Pulmonar Computada Multicorte en las categorías diagnósticas de:', 'evaluation_id' => $evaluation49->id]);
-        Question::create(['id' => 534, 'content' => '¿En qué porciento los factores “predisponentes” para tromboembolia pulmonar se consideran desconocidos?', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 535, 'content' => 'Documentar valor ajustado a la edad de Dimero D “negativo” (Dimero D con valor predictivo negativo) el cual representa la posibilidad de TEP/TVP en cifras de:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 536, 'content' => 'La Angiotomografía Pulmonar Computada Multicorte permite visualizar vasos arteriales pulmonares hasta el nivel segmentario y tiene una sensibilidad (s) y especificidad (E) de:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 537, 'content' => 'Las discordancias en la interpretación de la Angiotomografía Pulmonar Computada Multicorte ocurren a nivel del embolismo solitario o cuando ésta es solo a nivel segmentario y es cercana al:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 538, 'content' => 'El estudio Pioped II confirmó la utilidad del Gamamagrama Ventilatorio/ Perfusorio planar, al compararla con la Angiotomografía Pulmonar Computada Multicorte en las categorías diagnósticas de:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 539, 'content' => 'Para clasificar a los enfermos con riesgo de mortalidad “Intermedia Alta”, se requieren positivos los componentes identificados como:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 540, 'content' => 'En enfermos con tromboembolia pulmonar aguda de riesgo de mortalidad “intermedia alta”, la estrategia terapéutica médica inicial será:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 541, 'content' => 'La utilidad hemodinámica y el beneficio de la fibrinólisis se obtiene en tromboembolia pulmonar aguda:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 542, 'content' => 'En enfermos con tromboembolia pulmonar aguda de riesgo de mortalidad “intermedia alta”, las dosis completas de Tenecteplase + Heparina vs Heparina no fraccionada + placebo, dan EVC hemorrágico y sangrado mayor dentro de la primera semana con:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 543, 'content' => 'En Tromboembolia Pulmonar Aguda de riesgo de mortalidad “Alta (masivo)” concluida la fibrinólisis, la anticoagulación parenteral de iniciarse de manera inmediata será con:', 'evaluation_id' => $evaluation50->id]);
-        Question::create(['id' => 544, 'content' => 'En relación al Impacto y lugar; ¿Qué lugar ocupan las Enfermedades Cardiovasculares en México y a nivel mundial? Señale el enunciado correcto:', 'evaluation_id' => $evaluation51->id]);
-        Question::create(['id' => 545, 'content' => '¿Cuál de los FRCV no es considerado modificable?', 'evaluation_id' => $evaluation51->id]);
-        Question::create(['id' => 546, 'content' => '¿El Xantelasma es?', 'evaluation_id' => $evaluation51->id]);
-        Question::create(['id' => 547, 'content' => 'En relación a los Registros Nacionales de Síndromes Coronarios Agudos en México: RENASICA II 2005 y RENASICA III 2016. Señale el enunciado correcto:', 'evaluation_id' => $evaluation51->id]);
-        Question::create(['id' => 548, 'content' => 'Los siguientes son componentes que conforman la Placa Aterosclerosa Responsable de los SICA. Excepto:', 'evaluation_id' => $evaluation51->id]);
-        Question::create(['id' => 549, 'content' => 'En relación al Impacto y lugar; ¿Qué lugar ocupan las Enfermedades Cardiovasculares en México y a nivel mundial? Señale el enunciado correcto:', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 550, 'content' => '¿Cuál de los FRCV no es considerado modificable?', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 551, 'content' => '¿El Xantelasma es?', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 552, 'content' => 'En relación a los Registros Nacionales de Síndromes Coronarios Agudos en México: RENASICA II 2005 y RENASICA III 2016. Señale el enunciado correcto:', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 553, 'content' => 'Los siguientes son componentes que conforman la Placa Aterosclerosa Responsable de los SICA. Excepto:', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 554, 'content' => 'La Ruptura de Placa – Erosión - Nódulo Calcificado, son los mecanismos reconocidos que desencadenan un SICA.', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 555, 'content' => 'En la Ruptura de Placa, se caracteriza por: Tener pocos lípidos, ser rico en glicosamin glicanos, reducción de ruptura neofibrilar de la colágena neofibrilar, tener pocas células inflamatorias, apoptosis de células endoteliales, predominante en mujeres, tener muchos triglicéridos y se asocia más a IAM Sin-E-ST', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 556, 'content' => 'El Trombo es la caracteristica distintiva en los infartos sin Elevación del ST provocados por un desbalance entre aporte y demanda.', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 557, 'content' => 'El Trombo Coronario se presenta en placas con estenosis, ligeras, Moderadas y severas.', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 558, 'content' => 'Después de ocurrir un IAM, Las Troponinas por determinación Cualitativa se detectan positivas desde:', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 559, 'content' => '¿Cuál es el tiempo establecido como límite para esperar a que un enfermo con IAM con E-ST se pueda transferir y sea llevado a ACTP-1ª, de lo contrario recibir terapia Lítica, desde el inicio de los síntomas?', 'evaluation_id' => $evaluation52->id]);
-        Question::create(['id' => 560, 'content' => 'La interacción Plaqueta –Plaqueta forma puentes cruzados de unión con:', 'evaluation_id' => $evaluation53->id]);
-        Question::create(['id' => 561, 'content' => 'Son Bloqueadores de los receptores P2Y12 plaquetarios todos excepto:', 'evaluation_id' => $evaluation53->id]);
-        Question::create(['id' => 562, 'content' => 'El Vorapaxar es un antiplaquetario que actúa a nivel del receptor:', 'evaluation_id' => $evaluation53->id]);
-        Question::create(['id' => 563, 'content' => 'Las siguientes son las dosis correctas de Antiplaquetarios Tienopiridinas excepto:', 'evaluation_id' => $evaluation53->id]);
-        Question::create(['id' => 564, 'content' => 'El estudio Trombotic Trialist Collaboration mostró:', 'evaluation_id' => $evaluation53->id]);
-        Question::create(['id' => 565, 'content' => 'La interacción Plaqueta –Plaqueta forma puentes cruzados de unión con:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 566, 'content' => 'Son Bloqueadores de los receptores P2Y12 plaquetarios todos excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 567, 'content' => 'El Vorapaxar es un antiplaquetario que actúa a nivel del receptor:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 568, 'content' => 'Las siguientes son las dosis correctas de Antiplaquetarios Tienopiridinas excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 569, 'content' => 'El estudio Trombotic Trialist Collaboration mostró:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 570, 'content' => 'Los siguientes enunciados acerca del Clopidogrel son verdaderos Excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 571, 'content' => 'En relación al Estudio CAPRIE los siguientes enunciados son verdaderos excepto.', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 572, 'content' => 'En relación al estudio TRITON los siguientes enunciados son verdaderos excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 573, 'content' => 'En relación al estudio WOEST los siguientes enunciados son verdaderos excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 574, 'content' => 'En relación a los Inhibidores de la GP IIb/IIIa los siguientes enunciados son ciertos excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 575, 'content' => 'Las siguientes diferencias entre Clopidogrel VS. Ticagrelor y Prasugrel son ciertas excepto:', 'evaluation_id' => $evaluation54->id]);
-        Question::create(['id' => 576, 'content' => 'En relación a el Impacto y lugar que lugar ocupan las Enfermedades Cardiovasculares en México y a nivel mundial, señale el enunciado correcto:', 'evaluation_id' => $evaluation55->id]);
-        Question::create(['id' => 577, 'content' => '¿Cuál de los FRCV no es considerado modificable?', 'evaluation_id' => $evaluation55->id]);
-        Question::create(['id' => 578, 'content' => 'El Xantelasma es:', 'evaluation_id' => $evaluation55->id]);
-        Question::create(['id' => 579, 'content' => 'En relación a los Registros Nacionales de Síndromes Coronarios Agudos en México: RENASICA II 2005 y RENASICA III 2016. señale el enunciado correcto:', 'evaluation_id' => $evaluation55->id]);
-        Question::create(['id' => 580, 'content' => 'Los siguientes Son Componentes que conforman la Placa Aterosclerosa Responsable de los SICA. Excepto:', 'evaluation_id' => $evaluation55->id]);
-        Question::create(['id' => 581, 'content' => 'En relación a el Impacto y lugar que lugar ocupan las Enfermedades Cardiovasculares en México y a nivel mundial, señale el enunciado correcto:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 582, 'content' => '¿Cuál de los FRCV no es considerado modificable?', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 583, 'content' => 'El Xantelasma es:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 584, 'content' => 'En relación a los Registros Nacionales de Síndromes Coronarios Agudos en México: RENASICA II 2005 y RENASICA III 2016. señale el enunciado correcto:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 585, 'content' => 'Los siguientes Son Componentes que conforman la Placa Aterosclerosa Responsable de los SICA. Excepto:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 586, 'content' => 'En la clasificación del infarto agudo de miocardio el tipo 4A corresponde a:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 587, 'content' => 'En la clasificación del infarto agudo de miocardio el tipo 4B corresponde a:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 588, 'content' => 'Después de ocurrir un IAM las troponinas por determinación cualitativa se detectan positivas desde:', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 589, 'content' => '¿Cuál es el tiempo establecido como límite para esperar a que un enfermo con IAM y con E-ST se pueda transferir y ser llevado a ACTP-1ª, de lo contrario recibir terapia Lítica, desde el inicio de los síntomas?', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 590, 'content' => '¿Cuáles son las entidades que pueden semejar IAM ya que presentan ECG con E-ST?', 'evaluation_id' => $evaluation56->id]);
-        Question::create(['id' => 591, 'content' => 'Significado de las siglas ECNT.', 'evaluation_id' => $evaluation57->id]);
-        Question::create(['id' => 592, 'content' => 'Causas por la que han aumentado las ECNT a nivel mundial.', 'evaluation_id' => $evaluation57->id]);
-        Question::create(['id' => 593, 'content' => '¿Qué porcentaje de adultos presenta dislipidemias + obesidad + hiperglucemia + hipertensión?', 'evaluation_id' => $evaluation57->id]);
-        Question::create(['id' => 594, 'content' => '¿Cuál es la prevalencia general del C-LDL mayor a 130 mg/dL? (ENSANUT 2012)', 'evaluation_id' => $evaluation57->id]);
-        Question::create(['id' => 595, 'content' => '¿Cuál es la prevalencia general de los niveles de C-HDL menor de 40 mg/dL? (ENSANUT 2012)', 'evaluation_id' => $evaluation57->id]);
-        Question::create(['id' => 596, 'content' => 'Porcentaje de muertes por ECNT en países de ingresos bajos y medios.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 597, 'content' => 'Significado de las siglas ECNT.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 598, 'content' => 'Causas por la que ha aumentado las ECNT a nivel mundial.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 599, 'content' => 'Se mencionó que las dislipidemias están asociadas al exceso de peso, entonces, ¿Cúantas veces es más propenso un adulto con obesidad para padecer alguna dislipidemia?', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 600, 'content' => '¿Qué porcentaje de adultos presenta dislipidemias + obesidad + hiperglucemia + hipertensión?', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 601, 'content' => '¿Cuál es la prevalencia general del C-LDL mayor a 130 mg/dL? (ENSANUT 2012)', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 602, 'content' => '¿Cuál es la prevalencia general de los niveles de C-HDL menor de 40 mg/dL? (ENSANUT 2012)', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 603, 'content' => 'Mencione los tres principales factores de riesgo relacionados a la dieta de mortalidad en México.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 604, 'content' => 'Mencione alguna estrategia a nivel poblacional.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 605, 'content' => 'Mencione alguna estrategia para identificar a individuos de alto riesgo.', 'evaluation_id' => $evaluation58->id]);
-        Question::create(['id' => 606, 'content' => 'En la población general ¿qué niveles de colesterol LDL se considera óptimos, y se asocian a riesgo coronario bajo?', 'evaluation_id' => $evaluation59->id]);
-        Question::create(['id' => 607, 'content' => 'Por cada aumento de 20mg/dL del colesterol LDL, el riesgo de mortalidad por EVC aumentará:', 'evaluation_id' => $evaluation59->id]);
-        Question::create(['id' => 608, 'content' => '¿Cuál es la principal causa de muerte en México?', 'evaluation_id' => $evaluation59->id]);
-        Question::create(['id' => 609, 'content' => 'Porcentaje de pacientes que no logran colesterol LDL <70mg/dl', 'evaluation_id' => $evaluation59->id]);
-        Question::create(['id' => 610, 'content' => '¿Qué porcentaje de los pacientes en tratamiento con estatinas descontinúan la terapia durante el primer año?', 'evaluation_id' => $evaluation59->id]);
-        Question::create(['id' => 611, 'content' => 'En la población general ¿qué niveles de colesterol LDL se considera óptimos, y se asocian a riesgo coronario bajo?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 612, 'content' => 'Por cada aumento de 20mg/dL del colesterol LDL, el riesgo de mortalidad por EVC aumentará:', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 613, 'content' => '¿Qué factor hace mayor sinergia junto con hipercolesterolemia para aumentar el riesgo cardiovascular total?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 614, 'content' => '¿Cuál es la principal causa de muerte en México?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 615, 'content' => 'De los siguientes fármacos, ¿cuáles pueden lograr un descenso en el colesterol LDL > 50%?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 616, 'content' => 'Al duplicar la dosis de una estatina, ¿cuál es el promedio en descenso de LDL que se logra?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 617, 'content' => '¿Qué porcentaje de pacientes no alcanza meta de colesterol LDL <100mg/dl a pesar de terapia intensiva con estatinas?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 618, 'content' => 'Porcentaje de pacientes que no logran colesterol LDL <70mg/dl.', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 619, 'content' => 'En caso de no lograr metas en colesterol LDL, a pesar de manejo con estatina de alta potencia, ¿Qué fármaco biológico puede ser útil?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 620, 'content' => 'En el estudio “REVERSAL” se encontró:', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 621, 'content' => '¿Cuál es la dosis de atorvastatina que ha mostrado disminuir de un 30-50% el colesterol LDL?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 622, 'content' => 'Según el ATP III, los niveles óptimos de triglicéridos son:', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 623, 'content' => '¿Qué porcentaje de las muertes por enfermedad cardiovascular ateromatosa se atribuye a infarto agudo del miocardio?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 624, 'content' => 'De los siguientes, ¿Cuál tratamiento puede bajar el colesterol LDL hasta un 50% del basal?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 625, 'content' => '¿Qué porcentaje de los pacientes en tratamiento con estatinas descontinuan la terapia durante el primer año?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 626, 'content' => 'De los siguientes, ¿Cuál es el fármaco con menor índice de logro de metas en LDL?', 'evaluation_id' => $evaluation60->id]);
-        Question::create(['id' => 627, 'content' => 'Definición de Biotecnología.', 'evaluation_id' => $evaluation61->id]);
-        Question::create(['id' => 628, 'content' => 'Menciona cuál de los siguiente ejemplos, no hace mención a la biotecnología.', 'evaluation_id' => $evaluation61->id]);
-        Question::create(['id' => 629, 'content' => 'Paso importante que tiene la línea celular de un mamífero en comparación a una bacteria.', 'evaluation_id' => $evaluation61->id]);
-        Question::create(['id' => 630, 'content' => 'Menciona la región variable de un anticuerpo monoclonal.', 'evaluation_id' => $evaluation61->id]);
-        Question::create(['id' => 631, 'content' => 'Menciona 3 diferencias entre una molécula grande o biológico de una pequeña o fármaco convencional.', 'evaluation_id' => $evaluation61->id]);
-        Question::create(['id' => 632, 'content' => 'Definición de Biotecnología', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 633, 'content' => 'Menciona el peso aproximado de un anticuerpo monoclonal.', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 634, 'content' => 'Menciona cuál de los siguiente ejemplos, no hace mención a la biotecnología', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 635, 'content' => 'Menciona dos diferencias entre la producción de medicamentos por medio de Biotecnología.', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 636, 'content' => 'Paso importante que tiene la línea celular de un mamífero en comparación a una bacteria', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 637, 'content' => 'Menciona la región variable de un anticuerpo monoclonal', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 638, 'content' => 'Menciona 3 diferencias entre una molécula grande o biológico de una pequeña o fármaco convencional', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 639, 'content' => '¿Cómo se le conoce también a la recombinación de genes?', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 640, 'content' => 'Región del antígeno reconocida por los anticuerpos.', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 641, 'content' => 'Técnica actual para la creación de anticuerpos monoclonales.', 'evaluation_id' => $evaluation62->id]);
-        Question::create(['id' => 642, 'content' => 'Menciona tres problemas de la vida real sobre el tratamiento a estatinas.', 'evaluation_id' => $evaluation63->id]);
-        Question::create(['id' => 643, 'content' => 'Menciona cual fue el porcentaje de disminución en eventos CV mayores con el tratamiento con estatinas a 1 año y con qué nivel de C-LDL', 'evaluation_id' => $evaluation63->id]);
-        Question::create(['id' => 644, 'content' => '¿Quién es uno de los principales reguladores del receptor de C-LDL?', 'evaluation_id' => $evaluation63->id]);
-        Question::create(['id' => 645, 'content' => '¿Qué niveles de C-LDL debería de tener un paciente con un riesgo cardiovascular extremo, según las ACCE de 2017?', 'evaluation_id' => $evaluation63->id]);
-        Question::create(['id' => 646, 'content' => 'Menciona un perfil de paciente para considerar el uso de PCSK9 según las guías revisadas.', 'evaluation_id' => $evaluation63->id]);
-        Question::create(['id' => 647, 'content' => 'Son problemas en la vida real cuando se prescribe tratamiento con estatinas', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 648, 'content' => 'Menciona cuál fue el porcentaje de disminución en eventos CV mayores con el tratamiento con estatinas a 1 año y con qué nivel de C-LDL', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 649, 'content' => '¿Quién es uno de los reguladores principales del receptor de C-LDL?', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 650, 'content' => '¿Qué niveles de C-LDL debería de tener un paciente con un riesgo cardiovascular extremo, según las ACCE del 2017?', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 651, 'content' => 'Menciona el perfil de paciente para considerar el uso de iPCSK9 según las guías revisadas', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 652, 'content' => '¿Cuál es el mecanismo de acción de los iPCSK9?', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 653, 'content' => '¿Cuál es el porcentaje de reducción de los iPCSK9?', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 654, 'content' => '¿Qué porcentaje de reducción en eventos CV mayores se ha comprobado con el uso de iPCSK9?', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 655, 'content' => 'Menciona en que guías nacionales se encuentra hoy en día recomendaciones para el uso de iPCSK9', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 656, 'content' => 'Todas las guías revisadas recomiendan el empleo de iPCSK9 en pacientes con Hipercolesterolemia severa (C-LDL basal > 190 mg/dL [FH]) en pacientes que no alcanzan la meta con terapia óptima.', 'evaluation_id' => $evaluation64->id]);
-        Question::create(['id' => 657, 'content' => '¿Cuál es la principal causa de muerte a nivel global?', 'evaluation_id' => $evaluation65->id]);
-        Question::create(['id' => 658, 'content' => '¿Cuál es el porcentaje de reducción de rosuvastatina en eventos MACE en pacientes con niveles de C-LDL <50 mg/dL?', 'evaluation_id' => $evaluation65->id]);
-        Question::create(['id' => 659, 'content' => '¿Qué hacer con los pacientes en prevención secundaria con hipercolesterolemia que a pesar de estar en tratamiento óptimo, no alcanzan metas de C-LDL?', 'evaluation_id' => $evaluation65->id]);
-        Question::create(['id' => 660, 'content' => 'Mencione el porcentaje de pacientes que alcanzan la meta en el estudio LONG TERM.', 'evaluation_id' => $evaluation65->id]);
-        Question::create(['id' => 661, 'content' => '¿Cuál es el nombre de los tres inhibidores de la PCSK9 mencionados en la plática?', 'evaluation_id' => $evaluation65->id]);
-        Question::create(['id' => 662, 'content' => '¿Cuál es la principal causa de muerte a nivel global?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 663, 'content' => '¿Porcentaje de reducción en causas de mortalidad al reducir el C-LDL más allá de los 50 mg/dL?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 664, 'content' => '¿Cuál es el porcentaje de reducción de rosuvastatina en eventos MACE en pacientes con niveles de C-LDL <50 mg/dL?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 665, 'content' => '¿Qué hacer con los pacientes en prevención secundaria con hipercolesterolemia que a pesar de estar en tratamiento óptimo, no alcanzan metas de C-LDL?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 666, 'content' => '¿Cuál fue el promedio de disminución de C-LDL a la semana 24 en el estudio COMBO I y II?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 667, 'content' => '¿Cuál fue el promedio de disminución de C-LDL a la semana 52 en el estudio Descartes?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 668, 'content' => 'Mencione el porcentaje de pacientes que alcanzan la meta en el estudio LONG TERM.', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 669, 'content' => 'Mencione el objetivo primario en el estudio Fourier.', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 670, 'content' => '¿Cuál es el nombre de los tres inhibidores de la PCSK9 mencionados en la plática?', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 671, 'content' => 'Principales grupos de pacientes estudiados para inhibidores de la PCSK9.', 'evaluation_id' => $evaluation66->id]);
-        Question::create(['id' => 672, 'content' => '¿Cuál es el incremento del riesgo cardiovascular en un paciente diagnosticado con DM?', 'evaluation_id' => $evaluation67->id]);
-        Question::create(['id' => 673, 'content' => 'Menciona las manifestaciones cardiovasculares más comunes en pacientes diagnosticados con DM.', 'evaluation_id' => $evaluation67->id]);
-        Question::create(['id' => 674, 'content' => 'Menciona la triada lipídica comentada en el módulo:', 'evaluation_id' => $evaluation67->id]);
-        Question::create(['id' => 675, 'content' => '¿La resistencia a la insulina conlleva a aterosclerosis?', 'evaluation_id' => $evaluation67->id]);
-        Question::create(['id' => 676, 'content' => 'Menciona el objetivo primario del estudio ODYSSEY DM-INSULIN.', 'evaluation_id' => $evaluation67->id]);
-        Question::create(['id' => 677, 'content' => '¿Cuál es el incremento del riesgo cardiovascular en un paciente diagnosticado con DM?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 678, 'content' => 'Menciona un cambio cuantitativo del metabolismo de las lipoproteínas en pacientes con DM-2.', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 679, 'content' => 'Menciona las manifestaciones cardiovasculares más comunes en pacientes diagnosticados con DM', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 680, 'content' => 'Menciona la triada lipídica comentada en el módulo:', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 681, 'content' => '¿La resistencia a la insulina conlleva a aterosclerosis?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 682, 'content' => '¿Cuál es el porcentaje de disminución en el riesgo CV anual al disminuir 39 mg/dL de C-LDL?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 683, 'content' => '¿El uso de fibratos en pacientes con DM-2, ha demostrado una reducción en los eventos cardiovasculares totales?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 684, 'content' => 'Menciona el objetivo primario del estudio ODYSSEY DM-INSULIN:', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 685, 'content' => '¿A partir de qué edad recomienda la ADA en su última actualización de 2017, utilizar estatinas de alta intensidad en pacientes con factores de riesgo para ECVAE?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 686, 'content' => 'Según la ACCE 2017, ¿Cuál es la meta de control de C-LDL (mg/dL) en pacientes diagnosticados con DM y factores de riesgo a 10 años como ECV clínica establecida, IRC 3/4, o HFHe?', 'evaluation_id' => $evaluation68->id]);
-        Question::create(['id' => 687, 'content' => 'Seleccione la aseveración correcta sobre la hipercolesterolemia familiar heterocigota', 'evaluation_id' => $evaluation69->id]);
-        Question::create(['id' => 688, 'content' => 'Seleccione la aseveración correcta sobre el tratamiento de la hipercolesterolemia familiar', 'evaluation_id' => $evaluation69->id]);
-        Question::create(['id' => 689, 'content' => 'Los genes causales de la hipercolesterolemia familiar heterocigota son:', 'evaluation_id' => $evaluation69->id]);
-        Question::create(['id' => 690, 'content' => 'Seleccione la lipoproteina que se acumula en el plasma de los casos con hipercolesterolemia familiar:', 'evaluation_id' => $evaluation69->id]);
-        Question::create(['id' => 691, 'content' => 'El perfil de lipidos que es característico de la hipercolesterolemia familiar heterocigota es:', 'evaluation_id' => $evaluation69->id]);
-        Question::create(['id' => 692, 'content' => 'El escrutinio de la hipercolesterolemia familiar está indicado en:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 693, 'content' => 'Son datos clínicos que se deben evaluar en forma intencionada en un paciente con hipercolesterolemia familiar heterocigota, excepto:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 694, 'content' => 'Son dislipidemias que se caracterizan ser causa de xantomas tendinosos', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 695, 'content' => 'La localización más frecuente de los xantomas tendinosos es:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 696, 'content' => 'Las guias europeas consideran a los casos en prevencion primaria con hipercolesterolemia familiar heterocigota como de:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 697, 'content' => 'Es una limitante de las tablas de Framingham para estimar el riesgo cardiovascular en la hipercolesterolemia familiar', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 698, 'content' => 'La meta de colesterol-LDL para los casos en prevención secundaria con hipercolesterolemia familiar es:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 699, 'content' => 'Es el decremento mínimo requerido en la concentración de colesterol LDL basal requerido en un paciente con hipercolesterolemia familiar heterocigota en prevención secundaria:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 700, 'content' => 'La concentración de colesterol LDL considerada como meta de tratamiento en un paciente con hipercolesterolemia familiar heterocigota en prevención primaria es:', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 701, 'content' => 'Tratamiento farmacológico inicial en un paciente con cardiopatía isquémica, hipercolesterolemia familiar heterocigota y colesterol 360 mg/dl, triglicéridos 120 mg/dl, colesterol HDL 25 mg/dl', 'evaluation_id' => $evaluation70->id]);
-        Question::create(['id' => 702, 'content' => 'Según el Consenso de la Sociedad Europea de Aterosclerosis, se define como mialgia.', 'evaluation_id' => $evaluation71->id]);
-        Question::create(['id' => 703, 'content' => '¿Cuál de la siguientes es verdadera? En relación a los síntomas musculares relacionados a intolerancia a las estatinas', 'evaluation_id' => $evaluation71->id]);
-        Question::create(['id' => 704, 'content' => 'En relación a la definición de intolerancia a las estatinas tanto la Sociedad Europea de Aterosclerosis, el grupo del Consenso Canadiense de trabajo de la conferencia sobre Diagnóstico, Prevención y Manejo de los efectos adversos y la Asociación Nacional de Lípidos, establecen que el diagnóstico se establece…', 'evaluation_id' => $evaluation71->id]);
-        Question::create(['id' => 705, 'content' => 'La definición pragmática de la Asociación Nacional de Lípidos define la dosis diaria más baja de estatinas con la que puede considerarse intolerancia a las estatinas:', 'evaluation_id' => $evaluation71->id]);
-        Question::create(['id' => 706, 'content' => 'La Asociación Nacional de Lípidos define la dosis diaria más baja de estatinas con la que puede considerarse intolerancia a las estatinas:', 'evaluation_id' => $evaluation71->id]);
-        Question::create(['id' => 707, 'content' => 'Según la cohorte retrospectiva de la base de datos Kaiser Permanente de Colorado menciona que la no adherencia a las estatinas se asoció con:', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 708, 'content' => 'Con base a los resultados de la cohorte del estudio PRIMO ¿cuál de las siguientes aseveraciones es correcta?', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 709, 'content' => 'Son factores de riesgo que se asocian a intolerancia a las estatinas, excepto', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 710, 'content' => 'Según las recomendaciones de la AACE se establece como meta de tratamiento en pacientes de muy alto riesgo', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 711, 'content' => 'En el estudio ODYSSEY MONOTERAPIA la reducción del C-LDL con ezetimiba a dosis de 10 mg/día fue del:', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 712, 'content' => 'En el estudio ODYSSEY MONOTERAPIA la reducción del C-LDL con Alirocumab a dosis de 75 mg cada 2 semanas fue del:', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 713, 'content' => 'En el estudio ODYSSEY ALTERNATIVE lo siguiente es falso en cuanto al diseño del estudio', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 714, 'content' => 'En el estudio ODYSSEY ALTERNATIVE la reducción del C-LDL con ezetimiba a dosis de 10 mg/día fue del:', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 715, 'content' => 'En el estudio ODYSSEY ALTERNATIVE la reducción del C-LDL con Alirocumab cada 2 semanas fue del:', 'evaluation_id' => $evaluation72->id]);
-        Question::create(['id' => 716, 'content' => 'La prevalencia de intolerancia a las estatinas es mayor en las cohortes retrospectivas a lo reportado en los ensayos clínicos', 'evaluation_id' => $evaluation72->id]);
-
-        Option::create(['content' => '10 – 15 %', 'question_id' => 1, 'score' => 0]);
-        Option::create(['content' => '35 – 40 %', 'question_id' => 1, 'score' => 1]);
-        Option::create(['content' => '> 50 %', 'question_id' => 1, 'score' => 0]);
-        Option::create(['content' => '1%', 'question_id' => 2, 'score' => 0]);
-        Option::create(['content' => '6%', 'question_id' => 2, 'score' => 0]);
-        Option::create(['content' => '16%', 'question_id' => 2, 'score' => 1]);
-        Option::create(['content' => '36%', 'question_id' => 2, 'score' => 0]);
-        Option::create(['content' => 'Es mayor en las mujeres y disminuye con la edad', 'question_id' => 3, 'score' => 0]);
-        Option::create(['content' => 'Es mayor en las mujeres y aumenta con la edad', 'question_id' => 3, 'score' => 1]);
-        Option::create(['content' => 'Es mayor en los hombres y disminuye con la edad', 'question_id' => 3, 'score' => 0]);
-        Option::create(['content' => 'No se asocia con el género y la edad', 'question_id' => 3, 'score' => 0]);
-        Option::create(['content' => '26%', 'question_id' => 4, 'score' => 0]);
-        Option::create(['content' => '46%', 'question_id' => 4, 'score' => 1]);
-        Option::create(['content' => '36%', 'question_id' => 4, 'score' => 0]);
-        Option::create(['content' => '16%', 'question_id' => 4, 'score' => 0]);
-        Option::create(['content' => 'Las dificultades para iniciar el sueño', 'question_id' => 5, 'score' => 0]);
-        Option::create(['content' => 'Las dificultades para mantener el sueño', 'question_id' => 5, 'score' => 0]);
-        Option::create(['content' => 'Los despertares prematuros', 'question_id' => 5, 'score' => 0]);
-        Option::create(['content' => 'a y b son correctas', 'question_id' => 5, 'score' => 1]);
-        Option::create(['content' => 'Síntomas nocturnos', 'question_id' => 6, 'score' => 1]);
-        Option::create(['content' => 'Somnolencia excesiva', 'question_id' => 6, 'score' => 0]);
-        Option::create(['content' => 'Ronquido', 'question_id' => 6, 'score' => 0]);
-        Option::create(['content' => 'Movimientos durante el dormir', 'question_id' => 6, 'score' => 0]);
-        Option::create(['content' => '›8', 'question_id' => 7, 'score' => 0]);
-        Option::create(['content' => '›6', 'question_id' => 7, 'score' => 1]);
-        Option::create(['content' => '5', 'question_id' => 7, 'score' => 0]);
-        Option::create(['content' => '9', 'question_id' => 7, 'score' => 0]);
-        Option::create(['content' => 'Trastorno respiratorio relacionado con el sueño', 'question_id' => 8, 'score' => 1]);
-        Option::create(['content' => 'Trastornos psicopatológicos', 'question_id' => 8, 'score' => 0]);
-        Option::create(['content' => 'Diagnóstico de Insomnio', 'question_id' => 8, 'score' => 0]);
-        Option::create(['content' => 'Somnolencia', 'question_id' => 8, 'score' => 0]);
-        Option::create(['content' => 'Escala de Atenas de Insomnio', 'question_id' => 9, 'score' => 0]);
-        Option::create(['content' => 'Índice de Severidad del Insomnio', 'question_id' => 9, 'score' => 0]);
-        Option::create(['content' => 'Índice de Calidad de sueño de Pittsburgh', 'question_id' => 9, 'score' => 0]);
-        Option::create(['content' => 'Escala de somnolencia de Epworth', 'question_id' => 9, 'score' => 1]);
-        Option::create(['content' => 'F', 'question_id' => 10, 'score' => 0]);
-        Option::create(['content' => 'V', 'question_id' => 10, 'score' => 1]);
-        Option::create(['content' => '5 -10 %', 'question_id' => 11, 'score' => 0]);
-        Option::create(['content' => '10 – 15 %', 'question_id' => 11, 'score' => 0]);
-        Option::create(['content' => '35 – 40 %', 'question_id' => 11, 'score' => 1]);
-        Option::create(['content' => '> 50 %', 'question_id' => 11, 'score' => 0]);
-        Option::create(['content' => 'V', 'question_id' => 12, 'score' => 0]);
-        Option::create(['content' => 'F', 'question_id' => 12, 'score' => 1]);
-        Option::create(['content' => 'Es menor en las mujeres y disminuye con la edad', 'question_id' => 13, 'score' => 0]);
-        Option::create(['content' => 'Es mayor en los hombres y aumenta con la edad', 'question_id' => 13, 'score' => 0]);
-        Option::create(['content' => 'Es mayor en las mujeres y aumenta con la edad', 'question_id' => 13, 'score' => 1]);
-        Option::create(['content' => 'No se asocia con el género y la edad', 'question_id' => 13, 'score' => 0]);
-        Option::create(['content' => '14%', 'question_id' => 14, 'score' => 0]);
-        Option::create(['content' => '22%', 'question_id' => 14, 'score' => 0]);
-        Option::create(['content' => '36%', 'question_id' => 14, 'score' => 0]);
-        Option::create(['content' => '46%', 'question_id' => 14, 'score' => 1]);
-        Option::create(['content' => 'Las dificultades para iniciar el sueño', 'question_id' => 15, 'score' => 0]);
-        Option::create(['content' => 'Las dificultades para mantener el sueño', 'question_id' => 15, 'score' => 0]);
-        Option::create(['content' => 'Los despertares prematuros', 'question_id' => 15, 'score' => 0]);
-        Option::create(['content' => 'a y b son correctas', 'question_id' => 15, 'score' => 1]);
-        Option::create(['content' => 'Síntomas nocturnos', 'question_id' => 16, 'score' => 0]);
-        Option::create(['content' => 'Síntomas diurnos', 'question_id' => 16, 'score' => 0]);
-        Option::create(['content' => 'Insomnio, somnolencia, Ronquido', 'question_id' => 16, 'score' => 1]);
-        Option::create(['content' => 'Accidentes', 'question_id' => 16, 'score' => 0]);
-        Option::create(['content' => 'Escala de Atenas de Insomnio', 'question_id' => 17, 'score' => 0]);
-        Option::create(['content' => 'Índice de Severidad del Insomnio', 'question_id' => 17, 'score' => 0]);
-        Option::create(['content' => 'Índice de Calidad de sueño de Pittsburgh', 'question_id' => 17, 'score' => 0]);
-        Option::create(['content' => 'Escala de somnolencia de Epworth', 'question_id' => 17, 'score' => 1]);
-        Option::create(['content' => 'Trastorno respiratorio relacionado con el sueño', 'question_id' => 18, 'score' => 1]);
-        Option::create(['content' => 'Trastornos psicopatológicos', 'question_id' => 18, 'score' => 0]);
-        Option::create(['content' => 'Diagnóstico de Insomnio', 'question_id' => 18, 'score' => 0]);
-        Option::create(['content' => 'Somnolencia', 'question_id' => 18, 'score' => 0]);
-        Option::create(['content' => '›8', 'question_id' => 19, 'score' => 0]);
-        Option::create(['content' => '›6', 'question_id' => 19, 'score' => 1]);
-        Option::create(['content' => '5', 'question_id' => 19, 'score' => 0]);
-        Option::create(['content' => '9', 'question_id' => 19, 'score' => 0]);
-        Option::create(['content' => 'Insomnio ', 'question_id' => 20, 'score' => 0]);
-        Option::create(['content' => 'Narcolepsia', 'question_id' => 20, 'score' => 0]);
-        Option::create(['content' => 'Parasomnias atípicas', 'question_id' => 20, 'score' => 0]);
-        Option::create(['content' => 'Trastornos de la Respiración relacionados con el sueño (SAOS)', 'question_id' => 20, 'score' => 1]);
-        Option::create(['content' => '<5%', 'question_id' => 21, 'score' => 0]);
-        Option::create(['content' => '5-7%', 'question_id' => 21, 'score' => 0]);
-        Option::create(['content' => '8-9%', 'question_id' => 21, 'score' => 0]);
-        Option::create(['content' => '9-12%', 'question_id' => 21, 'score' => 1]);
-        Option::create(['content' => 'Menos del 10%', 'question_id' => 22, 'score' => 0]);
-        Option::create(['content' => '25%', 'question_id' => 22, 'score' => 1]);
-        Option::create(['content' => '50%', 'question_id' => 22, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 22, 'score' => 0]);
-        Option::create(['content' => 'Aumento de la prevalencia de DM2 en varones', 'question_id' => 23, 'score' => 0]);
-        Option::create(['content' => 'Aumento de la prevalencia de DM2 en mujeres', 'question_id' => 23, 'score' => 0]);
-        Option::create(['content' => 'Prevalencia aumentada en el grupo de edad de 60-69 años', 'question_id' => 23, 'score' => 0]);
-        Option::create(['content' => 'Aumento en la tasa de insulinización', 'question_id' => 23, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 23, 'score' => 1]);
-        Option::create(['content' => '5%', 'question_id' => 24, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 24, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 24, 'score' => 1]);
-        Option::create(['content' => '40%', 'question_id' => 24, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 25, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 2', 'question_id' => 25, 'score' => 1]);
-        Option::create(['content' => 'Diabetes gestacional', 'question_id' => 25, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo MODY', 'question_id' => 25, 'score' => 0]);
-        Option::create(['content' => 'Defecto en la secreción de insulina', 'question_id' => 26, 'score' => 0]);
-        Option::create(['content' => 'Defecto en la acción de insulina', 'question_id' => 26, 'score' => 0]);
-        Option::create(['content' => 'Ambas', 'question_id' => 26, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo 1.', 'question_id' => 27, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 2.', 'question_id' => 27, 'score' => 1]);
-        Option::create(['content' => 'Diabetes gestacional.', 'question_id' => 27, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo MODY.', 'question_id' => 27, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1.', 'question_id' => 28, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo 2.', 'question_id' => 28, 'score' => 0]);
-        Option::create(['content' => 'Diabetes gestacional.', 'question_id' => 28, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo MODY.', 'question_id' => 28, 'score' => 0]);
-        Option::create(['content' => 'Autoanticuerpos a células de islotes.', 'question_id' => 29, 'score' => 0]);
-        Option::create(['content' => 'Autoanticuerpos a gliadina.', 'question_id' => 29, 'score' => 1]);
-        Option::create(['content' => 'Autoanticuerpos a insulina.', 'question_id' => 29, 'score' => 0]);
-        Option::create(['content' => 'Autoanticuerpos a GAD.', 'question_id' => 29, 'score' => 0]);
-        Option::create(['content' => 'Autoanticuerpos a fosfatasas de tirosina.', 'question_id' => 29, 'score' => 0]);
-        Option::create(['content' => '>5.5%', 'question_id' => 30, 'score' => 0]);
-        Option::create(['content' => '>6.5%', 'question_id' => 30, 'score' => 1]);
-        Option::create(['content' => '>7.5%', 'question_id' => 30, 'score' => 0]);
-        Option::create(['content' => '>8.5%', 'question_id' => 30, 'score' => 0]);
-        Option::create(['content' => '>126 mg/dl', 'question_id' => 31, 'score' => 0]);
-        Option::create(['content' => '>140 mg/dl', 'question_id' => 31, 'score' => 0]);
-        Option::create(['content' => '>180 mg/dl', 'question_id' => 31, 'score' => 0]);
-        Option::create(['content' => '>200 mg/dl', 'question_id' => 31, 'score' => 1]);
-        Option::create(['content' => '>126 mg/dl', 'question_id' => 32, 'score' => 1]);
-        Option::create(['content' => '>140 mg/dl', 'question_id' => 32, 'score' => 0]);
-        Option::create(['content' => '>180 mg/dl', 'question_id' => 32, 'score' => 0]);
-        Option::create(['content' => '>200 mg/dl', 'question_id' => 32, 'score' => 0]);
-        Option::create(['content' => '<5%', 'question_id' => 33, 'score' => 0]);
-        Option::create(['content' => '5-7%', 'question_id' => 33, 'score' => 0]);
-        Option::create(['content' => '7-9%', 'question_id' => 33, 'score' => 0]);
-        Option::create(['content' => '9-12%', 'question_id' => 33, 'score' => 1]);
-        Option::create(['content' => 'Menos del 10%', 'question_id' => 34, 'score' => 0]);
-        Option::create(['content' => '25%', 'question_id' => 34, 'score' => 1]);
-        Option::create(['content' => '50%', 'question_id' => 34, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 34, 'score' => 0]);
-        Option::create(['content' => 'Aumento de la prevalencia de DM2 en varones', 'question_id' => 35, 'score' => 0]);
-        Option::create(['content' => 'Aumento de la prevalencia de DM2 en mujeres', 'question_id' => 35, 'score' => 0]);
-        Option::create(['content' => 'Prevalencia aumentada en el grupo de edad de 60-69 años', 'question_id' => 35, 'score' => 0]);
-        Option::create(['content' => 'Aumento en la tasa de insulinización', 'question_id' => 35, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 35, 'score' => 1]);
-        Option::create(['content' => '5%', 'question_id' => 36, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 36, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 36, 'score' => 1]);
-        Option::create(['content' => '40%', 'question_id' => 36, 'score' => 0]);
-        Option::create(['content' => '6.4%', 'question_id' => 37, 'score' => 0]);
-        Option::create(['content' => '7.4%', 'question_id' => 37, 'score' => 0]);
-        Option::create(['content' => '8.4%', 'question_id' => 37, 'score' => 0]);
-        Option::create(['content' => '9.4%.', 'question_id' => 37, 'score' => 1]);
-        Option::create(['content' => 'Enfermedad microvascular', 'question_id' => 38, 'score' => 0]);
-        Option::create(['content' => 'Trastornos vasculares periféricos', 'question_id' => 38, 'score' => 0]);
-        Option::create(['content' => 'Insuficiencia cardiaca', 'question_id' => 38, 'score' => 0]);
-        Option::create(['content' => 'Infarto al miocardio.', 'question_id' => 38, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores.', 'question_id' => 38, 'score' => 1]);
-        Option::create(['content' => 'Disminución de glucosa preprandial', 'question_id' => 39, 'score' => 0]);
-        Option::create(['content' => 'Mayor resistencia a la insulina', 'question_id' => 39, 'score' => 1]);
-        Option::create(['content' => 'Mayor secreción de insulina', 'question_id' => 39, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores.', 'question_id' => 39, 'score' => 0]);
-        Option::create(['content' => 'Aumento de glucosa posprandial', 'question_id' => 40, 'score' => 1]);
-        Option::create(['content' => 'Mayor sensibilidad a la insulina', 'question_id' => 40, 'score' => 0]);
-        Option::create(['content' => 'Mayor secreción de insulina', 'question_id' => 40, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores.', 'question_id' => 40, 'score' => 0]);
-        Option::create(['content' => 'Disminución de glucosa preprandial', 'question_id' => 41, 'score' => 0]);
-        Option::create(['content' => 'Mayor sensibilidad a la insulina', 'question_id' => 41, 'score' => 0]);
-        Option::create(['content' => 'Menor secreción de insulina', 'question_id' => 41, 'score' => 1]);
-        Option::create(['content' => 'Todas las anteriores.', 'question_id' => 41, 'score' => 0]);
-        Option::create(['content' => 'Diabetes idiopática', 'question_id' => 42, 'score' => 0]);
-        Option::create(['content' => 'Diabetes gestacional', 'question_id' => 42, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo MODY', 'question_id' => 42, 'score' => 0]);
-        Option::create(['content' => 'Diabetes puerperal', 'question_id' => 42, 'score' => 0]);
-        Option::create(['content' => 'ENEC 2000, EDIABETES 2005', 'question_id' => 43, 'score' => 0]);
-        Option::create(['content' => 'ENEC 1993, ENSA 2000', 'question_id' => 43, 'score' => 1]);
-        Option::create(['content' => 'ENEC 1990, ENSANUT 2000', 'question_id' => 43, 'score' => 0]);
-        Option::create(['content' => 'ENEC, EMSA 1990', 'question_id' => 43, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión Arterial Sistémica', 'question_id' => 44, 'score' => 1]);
-        Option::create(['content' => 'Dislipidemia', 'question_id' => 44, 'score' => 0]);
-        Option::create(['content' => 'Cataratas', 'question_id' => 44, 'score' => 0]);
-        Option::create(['content' => 'Hipotiroidismo', 'question_id' => 44, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 45, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo 2', 'question_id' => 45, 'score' => 0]);
-        Option::create(['content' => 'Diabetes gestacional.', 'question_id' => 45, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo MODY.', 'question_id' => 45, 'score' => 0]);
-        Option::create(['content' => '35 mg/dl', 'question_id' => 48, 'score' => 1]);
-        Option::create(['content' => '10 mg/dl', 'question_id' => 48, 'score' => 0]);
-        Option::create(['content' => '80 mg/dl', 'question_id' => 48, 'score' => 0]);
-        Option::create(['content' => '22 mg/dl', 'question_id' => 48, 'score' => 0]);
-        Option::create(['content' => '1 unidad', 'question_id' => 49, 'score' => 0]);
-        Option::create(['content' => '3 unidades', 'question_id' => 49, 'score' => 0]);
-        Option::create(['content' => '2 unidades', 'question_id' => 49, 'score' => 1]);
-        Option::create(['content' => '6 unidades', 'question_id' => 49, 'score' => 0]);
-        Option::create(['content' => '45 g', 'question_id' => 50, 'score' => 0]);
-        Option::create(['content' => '18 g', 'question_id' => 50, 'score' => 0]);
-        Option::create(['content' => '10 g', 'question_id' => 50, 'score' => 1]);
-        Option::create(['content' => '25 g', 'question_id' => 50, 'score' => 0]);
-        Option::create(['content' => '3 unidades', 'question_id' => 51, 'score' => 0]);
-        Option::create(['content' => '6 unidades', 'question_id' => 51, 'score' => 1]);
-        Option::create(['content' => '2 unidades', 'question_id' => 51, 'score' => 0]);
-        Option::create(['content' => '1 unidad', 'question_id' => 51, 'score' => 0]);
-        Option::create(['content' => '8 unidades', 'question_id' => 52, 'score' => 1]);
-        Option::create(['content' => '4 unidades', 'question_id' => 52, 'score' => 0]);
-        Option::create(['content' => '5 unidades', 'question_id' => 52, 'score' => 0]);
-        Option::create(['content' => '10 unidades', 'question_id' => 52, 'score' => 0]);
-        Option::create(['content' => 'Hipoglucemia', 'question_id' => 53, 'score' => 0]);
-        Option::create(['content' => 'Disminución de las respuestas hormonales de glucagón y catecolaminas', 'question_id' => 53, 'score' => 0]);
-        Option::create(['content' => 'Hiperglucemia con o sin cetosis', 'question_id' => 53, 'score' => 1]);
-        Option::create(['content' => 'Hipotermia', 'question_id' => 53, 'score' => 0]);
-        Option::create(['content' => 'Las glucemias son <250 mg/dl sin cuerpos cetónicos', 'question_id' => 54, 'score' => 0]);
-        Option::create(['content' => 'No hay presencia de cuerpos cetónicos', 'question_id' => 54, 'score' => 0]);
-        Option::create(['content' => 'Las glucemias son >250 mg/dl con cuerpos cetónicos', 'question_id' => 54, 'score' => 1]);
-        Option::create(['content' => 'Las glucemias son >180 mg/dl ', 'question_id' => 54, 'score' => 0]);
-        Option::create(['content' => '>250 mg/dl', 'question_id' => 55, 'score' => 0]);
-        Option::create(['content' => '180-250 mg/dl', 'question_id' => 55, 'score' => 0]);
-        Option::create(['content' => '200 mg/dl', 'question_id' => 55, 'score' => 0]);
-        Option::create(['content' => '100-120 mg/dl', 'question_id' => 55, 'score' => 1]);
-        Option::create(['content' => '64-76%', 'question_id' => 56, 'score' => 1]);
-        Option::create(['content' => '0.8', 'question_id' => 56, 'score' => 0]);
-        Option::create(['content' => '<64%', 'question_id' => 56, 'score' => 0]);
-        Option::create(['content' => '>76%', 'question_id' => 56, 'score' => 0]);
-        Option::create(['content' => 'Incrementar la dosis de insulina de acción rápida', 'question_id' => 57, 'score' => 0]);
-        Option::create(['content' => 'Aplicar la insulina en sitios de mayor actividad muscular', 'question_id' => 57, 'score' => 0]);
-        Option::create(['content' => 'Aplicar la insulina en sitios de menor actividad muscular', 'question_id' => 57, 'score' => 1]);
-        Option::create(['content' => 'Realizar el ejercicio en ayuno', 'question_id' => 57, 'score' => 0]);
-        Option::create(['content' => 'Revisión de situación cardiovascular', 'question_id' => 58, 'score' => 0]);
-        Option::create(['content' => 'Revisión de pies', 'question_id' => 58, 'score' => 0]);
-        Option::create(['content' => 'Revisión oftalmológica', 'question_id' => 58, 'score' => 0]);
-        Option::create(['content' => 'Valoración neurológica', 'question_id' => 58, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones', 'question_id' => 58, 'score' => 1]);
-        Option::create(['content' => 'Mantener un seguimiento de la cantidad de hidratos de carbono que se consumen durante las comidas o los refrigerios', 'question_id' => 59, 'score' => 0]);
-        Option::create(['content' => 'Determinar la duración de la actividad física', 'question_id' => 59, 'score' => 1]);
-        Option::create(['content' => 'Tener una mejor planeación de los alimentos con un mejor control glucémico', 'question_id' => 59, 'score' => 0]);
-        Option::create(['content' => 'Prevenir complicaciones', 'question_id' => 59, 'score' => 0]);
-        Option::create(['content' => 'Poder realizar con mayor precisión ajustes en las dosis de insulina rápida.', 'question_id' => 59, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad metabólica', 'question_id' => 60, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad renal', 'question_id' => 60, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad lumbar', 'question_id' => 60, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad pulmonar', 'question_id' => 60, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad cardiaca', 'question_id' => 60, 'score' => 0]);
-        Option::create(['content' => 'Todas excepto enfermedad lumbar', 'question_id' => 60, 'score' => 1]);
-        Option::create(['content' => '10 minutos al día', 'question_id' => 61, 'score' => 0]);
-        Option::create(['content' => '30 minutos al día', 'question_id' => 61, 'score' => 0]);
-        Option::create(['content' => '60 minutos al día', 'question_id' => 61, 'score' => 0]);
-        Option::create(['content' => 'No hay tiempo específico', 'question_id' => 61, 'score' => 1]);
-        Option::create(['content' => 'Ejercicio, días de enfermedad, dieta.', 'question_id' => 62, 'score' => 1]);
-        Option::create(['content' => 'Retinopatía.', 'question_id' => 62, 'score' => 0]);
-        Option::create(['content' => 'Vía de administración preferida.', 'question_id' => 62, 'score' => 0]);
-        Option::create(['content' => 'Riesgo cardiovascular.', 'question_id' => 62, 'score' => 0]);
-        Option::create(['content' => 'El uso de benzodiacepinas explica esta asociación.', 'question_id' => 63, 'score' => 0]);
-        Option::create(['content' => 'No se encontró ninguna relación entre estas dos variables.', 'question_id' => 63, 'score' => 0]);
-        Option::create(['content' => 'Las pocas horas de sueño correlacionaron con el mayor número de accidentes viales. ', 'question_id' => 63, 'score' => 1]);
-        Option::create(['content' => 'Primera y tercera son ciertas.', 'question_id' => 63, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores.', 'question_id' => 63, 'score' => 0]);
-        Option::create(['content' => '10 %.', 'question_id' => 64, 'score' => 0]);
-        Option::create(['content' => '23%. ', 'question_id' => 64, 'score' => 1]);
-        Option::create(['content' => '30%.', 'question_id' => 64, 'score' => 0]);
-        Option::create(['content' => '40%.', 'question_id' => 64, 'score' => 0]);
-        Option::create(['content' => '55%.', 'question_id' => 64, 'score' => 0]);
-        Option::create(['content' => 'La explican las alteraciones inmunológicas.', 'question_id' => 65, 'score' => 0]);
-        Option::create(['content' => 'La explican la pobre calidad del sueño, la depresión y la ansiedad.', 'question_id' => 65, 'score' => 0]);
-        Option::create(['content' => 'No hay relación entre estas variables.', 'question_id' => 65, 'score' => 0]);
-        Option::create(['content' => 'Primera y segunda son ciertas. ', 'question_id' => 65, 'score' => 1]);
-        Option::create(['content' => 'Ninguna de las anteriores.', 'question_id' => 65, 'score' => 0]);
-        Option::create(['content' => 'Factor carcinogénico. ', 'question_id' => 66, 'score' => 1]);
-        Option::create(['content' => 'Indeseables varios problemas de salud.', 'question_id' => 66, 'score' => 0]);
-        Option::create(['content' => 'Que favorecen el cometer errores médicos.', 'question_id' => 66, 'score' => 0]);
-        Option::create(['content' => 'No causan ninguna alteración médica.', 'question_id' => 66, 'score' => 0]);
-        Option::create(['content' => 'No se ha manifestado sobre temas de sueño.', 'question_id' => 66, 'score' => 0]);
-        Option::create(['content' => 'Uso de oxígeno suplementario.', 'question_id' => 67, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo.', 'question_id' => 67, 'score' => 0]);
-        Option::create(['content' => 'Tristeza y ansiedad.', 'question_id' => 67, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 67, 'score' => 0]);
-        Option::create(['content' => 'Solo la primera y tercera son correctas. ', 'question_id' => 67, 'score' => 1]);
-        Option::create(['content' => '3%.', 'question_id' => 68, 'score' => 0]);
-        Option::create(['content' => '6%. ', 'question_id' => 68, 'score' => 1]);
-        Option::create(['content' => '9%.', 'question_id' => 68, 'score' => 0]);
-        Option::create(['content' => '12%.', 'question_id' => 68, 'score' => 0]);
-        Option::create(['content' => '15%.', 'question_id' => 68, 'score' => 0]);
-        Option::create(['content' => 'Depresión.', 'question_id' => 69, 'score' => 0]);
-        Option::create(['content' => 'Esquizofrenia.', 'question_id' => 69, 'score' => 0]);
-        Option::create(['content' => 'Trastornos de ansiedad. ', 'question_id' => 69, 'score' => 1]);
-        Option::create(['content' => 'Trastorno Bipolar.', 'question_id' => 69, 'score' => 0]);
-        Option::create(['content' => 'Demencias.', 'question_id' => 69, 'score' => 0]);
-        Option::create(['content' => 'Mismos horarios fijos de sueño.', 'question_id' => 70, 'score' => 0]);
-        Option::create(['content' => 'Ejercicio matutino, no nocturno.', 'question_id' => 70, 'score' => 0]);
-        Option::create(['content' => 'Controlar estímulos que sean molestos para dormir como luz y temperatura.', 'question_id' => 70, 'score' => 0]);
-        Option::create(['content' => 'Evitar usar sustancias estimulantes.', 'question_id' => 70, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores. ', 'question_id' => 70, 'score' => 1]);
-        Option::create(['content' => 'Se acopla a subunidad GABAA 1.', 'question_id' => 71, 'score' => 0]);
-        Option::create(['content' => 'Baja tendencia a tolerancia, dependencia y abstinencia.', 'question_id' => 71, 'score' => 0]);
-        Option::create(['content' => 'Produce alteraciones cognitivas al otro día de utilizarlo. ', 'question_id' => 71, 'score' => 1]);
-        Option::create(['content' => 'Respeta la arquitectura del sueño.', 'question_id' => 71, 'score' => 0]);
-        Option::create(['content' => 'Escasamente se asocia a insomnio de rebote.', 'question_id' => 71, 'score' => 0]);
-        Option::create(['content' => 'No mejoran la latencia al sueño vs. Placebo.', 'question_id' => 72, 'score' => 0]);
-        Option::create(['content' => 'Mejoran sustancialmente el tiempo total de sueño.', 'question_id' => 72, 'score' => 0]);
-        Option::create(['content' => 'Incrementan significativamente la presencia de eventos adversos al día siguiente.', 'question_id' => 72, 'score' => 0]);
-        Option::create(['content' => 'Incrementan el número de caídas nocturnas en mayores de 65 años.', 'question_id' => 72, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores. ', 'question_id' => 72, 'score' => 1]);
-        Option::create(['content' => '10 %.', 'question_id' => 73, 'score' => 0]);
-        Option::create(['content' => '23%. ', 'question_id' => 73, 'score' => 1]);
-        Option::create(['content' => '30%.', 'question_id' => 73, 'score' => 0]);
-        Option::create(['content' => '40%.', 'question_id' => 73, 'score' => 0]);
-        Option::create(['content' => '55%.', 'question_id' => 73, 'score' => 0]);
-        Option::create(['content' => '3%.', 'question_id' => 74, 'score' => 0]);
-        Option::create(['content' => '6%. ', 'question_id' => 74, 'score' => 0]);
-        Option::create(['content' => '9%.', 'question_id' => 74, 'score' => 1]);
-        Option::create(['content' => '12%.', 'question_id' => 74, 'score' => 0]);
-        Option::create(['content' => '15%.', 'question_id' => 74, 'score' => 0]);
-        Option::create(['content' => 'Factor carcinogénico. ', 'question_id' => 75, 'score' => 1]);
-        Option::create(['content' => 'Indeseables varios problemas de salud.', 'question_id' => 75, 'score' => 0]);
-        Option::create(['content' => 'Que favorecen el cometer errores médicos.', 'question_id' => 75, 'score' => 0]);
-        Option::create(['content' => 'No causan ninguna alteración médica.', 'question_id' => 75, 'score' => 0]);
-        Option::create(['content' => 'No se ha manifestado sobre temas de sueño.', 'question_id' => 75, 'score' => 0]);
-        Option::create(['content' => 'Depresión.', 'question_id' => 76, 'score' => 0]);
-        Option::create(['content' => 'Esquizofrenia.', 'question_id' => 76, 'score' => 0]);
-        Option::create(['content' => 'Trastornos de ansiedad. ', 'question_id' => 76, 'score' => 1]);
-        Option::create(['content' => 'Trastorno Bipolar.', 'question_id' => 76, 'score' => 0]);
-        Option::create(['content' => 'Demencias.', 'question_id' => 76, 'score' => 0]);
-        Option::create(['content' => 'Uso de oxígeno suplementario.', 'question_id' => 77, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo.', 'question_id' => 77, 'score' => 0]);
-        Option::create(['content' => 'Tristeza y ansiedad.', 'question_id' => 77, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 77, 'score' => 0]);
-        Option::create(['content' => 'Solo a y c son correctas. ', 'question_id' => 77, 'score' => 1]);
-        Option::create(['content' => 'Se acopla a subunidad GABAA 1.', 'question_id' => 78, 'score' => 0]);
-        Option::create(['content' => 'Baja tendencia a tolerancia, dependencia y abstinencia.', 'question_id' => 78, 'score' => 0]);
-        Option::create(['content' => 'Produce alteraciones cognitivas al otro día de utilizarlo. ', 'question_id' => 78, 'score' => 1]);
-        Option::create(['content' => 'Respeta la arquitectura del sueño.', 'question_id' => 78, 'score' => 0]);
-        Option::create(['content' => 'Escasamente se asocia a insomnio de rebote.', 'question_id' => 78, 'score' => 0]);
-        Option::create(['content' => '20 a 60 horas', 'question_id' => 79, 'score' => 1]);
-        Option::create(['content' => '35 minutos', 'question_id' => 79, 'score' => 0]);
-        Option::create(['content' => '10 a 19 horas', 'question_id' => 79, 'score' => 0]);
-        Option::create(['content' => '12 a 16', 'question_id' => 79, 'score' => 0]);
-        Option::create(['content' => 'VERDADERO', 'question_id' => 80, 'score' => 1]);
-        Option::create(['content' => 'FALSO', 'question_id' => 80, 'score' => 0]);
-        Option::create(['content' => 'No han demostrado su eficacia, no hay datos de seguridad a largo plazo', 'question_id' => 81, 'score' => 0]);
-        Option::create(['content' => 'Se encuentra bastante literatura basado en estudios clínicos; lo que ha establecido la relación dosis-respuesta', 'question_id' => 81, 'score' => 0]);
-        Option::create(['content' => 'Nulos eventos adversos cuando se usan para tratar el insomnio', 'question_id' => 81, 'score' => 0]);
-        Option::create(['content' => 'No han sido aprobados por la FDA para el tratamiento del insomnio', 'question_id' => 81, 'score' => 1]);
-        Option::create(['content' => 'No mejoran la latencia al sueño vs. Placebo.', 'question_id' => 82, 'score' => 0]);
-        Option::create(['content' => 'Mejoran sustancialmente el tiempo total de sueño.', 'question_id' => 82, 'score' => 0]);
-        Option::create(['content' => 'Incrementan significativamente la presencia de eventos adversos al día siguiente.', 'question_id' => 82, 'score' => 0]);
-        Option::create(['content' => 'Incrementan el número de caídas nocturnas en mayores de 65 años.', 'question_id' => 82, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores. ', 'question_id' => 82, 'score' => 1]);
-        Option::create(['content' => '10 %.', 'question_id' => 83, 'score' => 0]);
-        Option::create(['content' => '23%. ', 'question_id' => 83, 'score' => 1]);
-        Option::create(['content' => '30%.', 'question_id' => 83, 'score' => 0]);
-        Option::create(['content' => '40%.', 'question_id' => 83, 'score' => 0]);
-        Option::create(['content' => '55%.', 'question_id' => 83, 'score' => 0]);
-        Option::create(['content' => '3%.', 'question_id' => 84, 'score' => 0]);
-        Option::create(['content' => '6%. ', 'question_id' => 84, 'score' => 0]);
-        Option::create(['content' => '9%.', 'question_id' => 84, 'score' => 1]);
-        Option::create(['content' => '12%.', 'question_id' => 84, 'score' => 0]);
-        Option::create(['content' => '15%.', 'question_id' => 84, 'score' => 0]);
-        Option::create(['content' => 'Factor carcinogénico. ', 'question_id' => 85, 'score' => 1]);
-        Option::create(['content' => 'Indeseables varios problemas de salud.', 'question_id' => 85, 'score' => 0]);
-        Option::create(['content' => 'Que favorecen el cometer errores médicos.', 'question_id' => 85, 'score' => 0]);
-        Option::create(['content' => 'No causan ninguna alteración médica.', 'question_id' => 85, 'score' => 0]);
-        Option::create(['content' => 'No se ha manifestado sobre temas de sueño.', 'question_id' => 85, 'score' => 0]);
-        Option::create(['content' => 'Depresión.', 'question_id' => 86, 'score' => 0]);
-        Option::create(['content' => 'Esquizofrenia.', 'question_id' => 86, 'score' => 0]);
-        Option::create(['content' => 'Trastornos de ansiedad. ', 'question_id' => 86, 'score' => 1]);
-        Option::create(['content' => 'Trastorno Bipolar.', 'question_id' => 86, 'score' => 0]);
-        Option::create(['content' => 'Demencias.', 'question_id' => 86, 'score' => 0]);
-        Option::create(['content' => 'Uso de oxígeno suplementario.', 'question_id' => 87, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo.', 'question_id' => 87, 'score' => 0]);
-        Option::create(['content' => 'Tristeza y ansiedad.', 'question_id' => 87, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 87, 'score' => 0]);
-        Option::create(['content' => 'Solo la primera y tercera son correctas. ', 'question_id' => 87, 'score' => 1]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes de larga evolución corta expectativa de vida', 'question_id' => 88, 'score' => 0]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes con complicaciones macrovasculares', 'question_id' => 88, 'score' => 0]);
-        Option::create(['content' => 'A1C < 7 % en todos los pacientes', 'question_id' => 88, 'score' => 1]);
-        Option::create(['content' => 'A1C < 8.0 % en individuos que presentan hipoglucemia leve', 'question_id' => 88, 'score' => 0]);
-        Option::create(['content' => 'A', 'question_id' => 89, 'score' => 1]);
-        Option::create(['content' => 'B', 'question_id' => 89, 'score' => 0]);
-        Option::create(['content' => 'B', 'question_id' => 89, 'score' => 0]);
-        Option::create(['content' => 'C', 'question_id' => 89, 'score' => 0]);
-        Option::create(['content' => 'Monoterapia', 'question_id' => 90, 'score' => 0]);
-        Option::create(['content' => 'Terapia Dual', 'question_id' => 90, 'score' => 1]);
-        Option::create(['content' => 'Terapia Triple', 'question_id' => 90, 'score' => 0]);
-        Option::create(['content' => 'Terapia de combinación inyectable', 'question_id' => 90, 'score' => 0]);
-        Option::create(['content' => 'Añadir 1 inyección de insulina acción rápida antes comida más grande', 'question_id' => 91, 'score' => 0]);
-        Option::create(['content' => 'Añada un agonista GLP-1', 'question_id' => 91, 'score' => 0]);
-        Option::create(['content' => 'Cambiar a una insulina premezclada dos veces al día (desayuno y cena)', 'question_id' => 91, 'score' => 0]);
-        Option::create(['content' => 'Añadir al tratamiento con insulina basal 1 inyección de insulina premezclada.', 'question_id' => 91, 'score' => 1]);
-        Option::create(['content' => 'Enfatizar en los cambios en el estilo de vida', 'question_id' => 92, 'score' => 0]);
-        Option::create(['content' => 'Realizar intervenciones conductuales para la pérdida de peso', 'question_id' => 92, 'score' => 0]);
-        Option::create(['content' => 'Minimizar el riesgo de presentar hipoglucemias)', 'question_id' => 92, 'score' => 0]);
-        Option::create(['content' => 'Optimizar la adherencia', 'question_id' => 92, 'score' => 0]);
-        Option::create(['content' => 'Plantear las metas de tratamiento únicamente basado en porcentaje de HbA1c', 'question_id' => 92, 'score' => 1]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes de larga evolución y corta expectativa de vida', 'question_id' => 93, 'score' => 0]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes con complicaciones macrovasculares', 'question_id' => 93, 'score' => 0]);
-        Option::create(['content' => 'A1C < 7 % en todos los pacientes', 'question_id' => 93, 'score' => 1]);
-        Option::create(['content' => 'A1C < 8.0 % en individuos que presentan hipoglucemia leve', 'question_id' => 93, 'score' => 0]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes de corta evolución y alta expectativa de vida', 'question_id' => 94, 'score' => 1]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes con complicaciones macrovasculares', 'question_id' => 94, 'score' => 0]);
-        Option::create(['content' => 'A1C < 7 % sólo en pacientes seleccionados', 'question_id' => 94, 'score' => 0]);
-        Option::create(['content' => 'A1C < 8.0 % en individuos que presentan hipoglucemia leve', 'question_id' => 94, 'score' => 0]);
-        Option::create(['content' => 'A', 'question_id' => 95, 'score' => 0]);
-        Option::create(['content' => 'B', 'question_id' => 95, 'score' => 0]);
-        Option::create(['content' => 'C', 'question_id' => 95, 'score' => 1]);
-        Option::create(['content' => 'D', 'question_id' => 95, 'score' => 0]);
-        Option::create(['content' => 'A', 'question_id' => 96, 'score' => 1]);
-        Option::create(['content' => 'B', 'question_id' => 96, 'score' => 0]);
-        Option::create(['content' => 'C', 'question_id' => 96, 'score' => 0]);
-        Option::create(['content' => 'D', 'question_id' => 96, 'score' => 0]);
-        Option::create(['content' => 'A', 'question_id' => 97, 'score' => 0]);
-        Option::create(['content' => 'B', 'question_id' => 97, 'score' => 1]);
-        Option::create(['content' => 'C', 'question_id' => 97, 'score' => 0]);
-        Option::create(['content' => 'D', 'question_id' => 97, 'score' => 0]);
-        Option::create(['content' => 'Metformina', 'question_id' => 98, 'score' => 1]);
-        Option::create(['content' => 'Sulfonilureas', 'question_id' => 98, 'score' => 0]);
-        Option::create(['content' => 'Insulina', 'question_id' => 98, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores DPP4', 'question_id' => 98, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 98, 'score' => 0]);
-        Option::create(['content' => 'Metformina + sulfonilureas', 'question_id' => 99, 'score' => 0]);
-        Option::create(['content' => 'Metformina + inhibidor DPP4', 'question_id' => 99, 'score' => 0]);
-        Option::create(['content' => 'Metformina + Insulina', 'question_id' => 99, 'score' => 0]);
-        Option::create(['content' => 'Metformina + inhibidores SGLT2', 'question_id' => 99, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 99, 'score' => 1]);
-        Option::create(['content' => 'Monoterapia', 'question_id' => 100, 'score' => 0]);
-        Option::create(['content' => 'Terapia Dual', 'question_id' => 100, 'score' => 1]);
-        Option::create(['content' => 'Terapia Triple', 'question_id' => 100, 'score' => 0]);
-        Option::create(['content' => 'Terapia de combinación inyectable', 'question_id' => 100, 'score' => 0]);
-        Option::create(['content' => 'Monoterapia', 'question_id' => 101, 'score' => 0]);
-        Option::create(['content' => 'Terapia Dual', 'question_id' => 101, 'score' => 0]);
-        Option::create(['content' => 'Terapia Triple', 'question_id' => 101, 'score' => 1]);
-        Option::create(['content' => 'Terapia de combinación inyectable', 'question_id' => 101, 'score' => 0]);
-        Option::create(['content' => 'Monoterapia', 'question_id' => 102, 'score' => 0]);
-        Option::create(['content' => 'Terapia Dual', 'question_id' => 102, 'score' => 0]);
-        Option::create(['content' => 'Terapia Triple', 'question_id' => 102, 'score' => 0]);
-        Option::create(['content' => 'Terapia de combinación inyectable', 'question_id' => 102, 'score' => 1]);
-        Option::create(['content' => 'Añadir 1 inyección de insulina acción rápida antes comida más grande', 'question_id' => 103, 'score' => 0]);
-        Option::create(['content' => 'Añada un agonista GLP-1', 'question_id' => 103, 'score' => 0]);
-        Option::create(['content' => 'Cambiar a una insulina premezclada dos veces al día (desayuno y cena)', 'question_id' => 103, 'score' => 0]);
-        Option::create(['content' => 'Añadir al tratamiento con insulina basal 1 inyección de insulina premezclada.', 'question_id' => 103, 'score' => 1]);
-        Option::create(['content' => 'Iniciar 5 U/día de insulina basal y ajustar cada 2-3 días hasta alcanzar glucosa plasmática en ayuno meta.', 'question_id' => 104, 'score' => 0]);
-        Option::create(['content' => 'Iniciar 10 U/día ó 0.1-0.2 U/kg/día de insulina basal y ajustar 10-15% ò 2-4 U. una o dos veces por semana hasta alcanzar glucosa plasmática en ayuno meta', 'question_id' => 104, 'score' => 1]);
-        Option::create(['content' => 'Iniciar el tratamiento 50% con insulina basal y 50% con insulina prandial desde el inicio', 'question_id' => 104, 'score' => 0]);
-        Option::create(['content' => 'Adicionar sulfonilurea por la mañana', 'question_id' => 105, 'score' => 0]);
-        Option::create(['content' => 'Adicionar bolo de insulina prandial en las comidas con cifras de glucemia postprandial por arriba de metas de tratamiento.', 'question_id' => 105, 'score' => 1]);
-        Option::create(['content' => 'Cambiar a una insulina premezclada una vez al día', 'question_id' => 105, 'score' => 0]);
-        Option::create(['content' => 'Disminución en el peso', 'question_id' => 106, 'score' => 0]);
-        Option::create(['content' => 'Aumento en la incidencia de cetoacidosis', 'question_id' => 106, 'score' => 0]);
-        Option::create(['content' => 'Riesgo de hipoglucemias en pacientes con insuficiencia renal ', 'question_id' => 106, 'score' => 1]);
-        Option::create(['content' => 'Aumento en la incidencia de eventos gastrointestinales ', 'question_id' => 106, 'score' => 0]);
-        Option::create(['content' => 'Ligera disminución en el peso', 'question_id' => 107, 'score' => 1]);
-        Option::create(['content' => 'Aumento en la incidencia de cetoacidosis', 'question_id' => 107, 'score' => 0]);
-        Option::create(['content' => 'Hipoglucemias en pacientes con insuficiencia renal ', 'question_id' => 107, 'score' => 0]);
-        Option::create(['content' => 'Disminución en la incidencia de eventos gastrointestinales ', 'question_id' => 107, 'score' => 0]);
-        Option::create(['content' => 'Enfatizar en los cambios en el estilo de vida', 'question_id' => 108, 'score' => 0]);
-        Option::create(['content' => 'Realizar intervenciones conductuales para la pérdida de peso', 'question_id' => 108, 'score' => 0]);
-        Option::create(['content' => 'Minimizar el riesgo de presentar hipoglucemias', 'question_id' => 108, 'score' => 0]);
-        Option::create(['content' => 'Optimizar la adherencia', 'question_id' => 108, 'score' => 0]);
-        Option::create(['content' => 'Plantear las metas de tratamiento únicamente basado en porcentaje de HbA1c', 'question_id' => 108, 'score' => 1]);
-        Option::create(['content' => 'Fármacos para reducción de peso y agonistas de GLP-1', 'question_id' => 109, 'score' => 1]);
-        Option::create(['content' => 'Cirugía bariátrica', 'question_id' => 109, 'score' => 0]);
-        Option::create(['content' => 'Insulina si se encuentra clínicamente estable', 'question_id' => 109, 'score' => 0]);
-        Option::create(['content' => 'Una vez al día', 'question_id' => 110, 'score' => 0]);
-        Option::create(['content' => 'Una vez por semana', 'question_id' => 110, 'score' => 0]);
-        Option::create(['content' => 'Cada 2-3 días hasta alcanzar metas de glucosa plasmática en ayuno', 'question_id' => 110, 'score' => 1]);
-        Option::create(['content' => 'Cuando se presenten eventos de hipoglucemia', 'question_id' => 110, 'score' => 0]);
-        Option::create(['content' => '5% ó 1 unidad de insulina una vez al día', 'question_id' => 111, 'score' => 0]);
-        Option::create(['content' => '10% de insulina una vez por semana', 'question_id' => 111, 'score' => 0]);
-        Option::create(['content' => '2-4 Unidades cada 2-4 días hasta alcanzar metas de glucosa plasmática en ayuno.', 'question_id' => 111, 'score' => 1]);
-        Option::create(['content' => 'Cuando se presenten eventos de hipoglucemia', 'question_id' => 111, 'score' => 0]);
-        Option::create(['content' => 'Sulfonilureas', 'question_id' => 112, 'score' => 0]);
-        Option::create(['content' => 'Inhibidor DPP4', 'question_id' => 112, 'score' => 0]);
-        Option::create(['content' => 'Insulina', 'question_id' => 112, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores SGLT2', 'question_id' => 112, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 112, 'score' => 1]);
-        Option::create(['content' => ' 12.6%', 'question_id' => 113, 'score' => 1]);
-        Option::create(['content' => ' 15%', 'question_id' => 113, 'score' => 0]);
-        Option::create(['content' => ' 17%', 'question_id' => 113, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 113, 'score' => 0]);
-        Option::create(['content' => 'Pre clampsia', 'question_id' => 114, 'score' => 0]);
-        Option::create(['content' => 'Parto pretermino', 'question_id' => 114, 'score' => 0]);
-        Option::create(['content' => 'Daño cognitivo', 'question_id' => 114, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 114, 'score' => 0]);
-        Option::create(['content' => 'Demencia', 'question_id' => 114, 'score' => 1]);
-        Option::create(['content' => 'Posmenopausica', 'question_id' => 115, 'score' => 1]);
-        Option::create(['content' => 'Perimenopausica', 'question_id' => 115, 'score' => 0]);
-        Option::create(['content' => 'Pubertad', 'question_id' => 115, 'score' => 0]);
-        Option::create(['content' => 'Adolescencia ', 'question_id' => 115, 'score' => 0]);
-        Option::create(['content' => 'Insatisfacción en la calidad y cantidad de sueño', 'question_id' => 116, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para iniciar el sueño', 'question_id' => 116, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para mantenerse dormido', 'question_id' => 116, 'score' => 0]);
-        Option::create(['content' => 'Despertares temprano', 'question_id' => 116, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 116, 'score' => 1]);
-        Option::create(['content' => '9 horas', 'question_id' => 117, 'score' => 0]);
-        Option::create(['content' => '6 horas', 'question_id' => 117, 'score' => 1]);
-        Option::create(['content' => '7 horas', 'question_id' => 117, 'score' => 0]);
-        Option::create(['content' => '8 horas', 'question_id' => 117, 'score' => 0]);
-        Option::create(['content' => 'Déficits en procesos cognitivos', 'question_id' => 118, 'score' => 0]);
-        Option::create(['content' => 'Intentos de suicidio', 'question_id' => 118, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 118, 'score' => 0]);
-        Option::create(['content' => 'Memoria', 'question_id' => 118, 'score' => 0]);
-        Option::create(['content' => 'Falta de apetito', 'question_id' => 118, 'score' => 1]);
-        Option::create(['content' => 'Insatisfacción en la calidad y cantidad de sueño', 'question_id' => 119, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para iniciar el sueño', 'question_id' => 119, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para mantenerse dormido', 'question_id' => 119, 'score' => 0]);
-        Option::create(['content' => 'Despertares temprano', 'question_id' => 119, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 119, 'score' => 1]);
-        Option::create(['content' => '9 horas', 'question_id' => 120, 'score' => 0]);
-        Option::create(['content' => '6 horas', 'question_id' => 120, 'score' => 1]);
-        Option::create(['content' => '7 horas', 'question_id' => 120, 'score' => 0]);
-        Option::create(['content' => '8 horas', 'question_id' => 120, 'score' => 0]);
-        Option::create(['content' => 'Posmenopausica', 'question_id' => 121, 'score' => 1]);
-        Option::create(['content' => 'Perimenopausica', 'question_id' => 121, 'score' => 0]);
-        Option::create(['content' => 'Pubertad', 'question_id' => 121, 'score' => 0]);
-        Option::create(['content' => 'Adolescencia', 'question_id' => 121, 'score' => 0]);
-        Option::create(['content' => 'VERDADERO', 'question_id' => 122, 'score' => 1]);
-        Option::create(['content' => 'FALSO', 'question_id' => 122, 'score' => 0]);
-        Option::create(['content' => '12.6%', 'question_id' => 123, 'score' => 1]);
-        Option::create(['content' => '15%', 'question_id' => 123, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 123, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 123, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 123, 'score' => 0]);
-        Option::create(['content' => 'Pre clampsia', 'question_id' => 124, 'score' => 0]);
-        Option::create(['content' => 'Parto pretermino', 'question_id' => 124, 'score' => 0]);
-        Option::create(['content' => 'Daño cognitivo', 'question_id' => 124, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 124, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 124, 'score' => 1]);
-        Option::create(['content' => 'VERDADERO', 'question_id' => 125, 'score' => 1]);
-        Option::create(['content' => 'FALSO', 'question_id' => 125, 'score' => 0]);
-        Option::create(['content' => 'Estrógeno', 'question_id' => 126, 'score' => 0]);
-        Option::create(['content' => 'Progesterona', 'question_id' => 126, 'score' => 1]);
-        Option::create(['content' => 'Testosterona', 'question_id' => 126, 'score' => 0]);
-        Option::create(['content' => 'Folículo estimulante ', 'question_id' => 126, 'score' => 0]);
-        Option::create(['content' => '60%', 'question_id' => 127, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 127, 'score' => 0]);
-        Option::create(['content' => '12%', 'question_id' => 127, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 127, 'score' => 0]);
-        Option::create(['content' => 'Pre clampsia', 'question_id' => 128, 'score' => 0]);
-        Option::create(['content' => 'Parto pretermino', 'question_id' => 128, 'score' => 0]);
-        Option::create(['content' => 'Daño cognitivo', 'question_id' => 128, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 128, 'score' => 0]);
-        Option::create(['content' => 'Demencia', 'question_id' => 128, 'score' => 1]);
-        Option::create(['content' => 'VERDADERO', 'question_id' => 129, 'score' => 0]);
-        Option::create(['content' => 'FALSO', 'question_id' => 129, 'score' => 1]);
-        Option::create(['content' => 'VERDADERO', 'question_id' => 130, 'score' => 0]);
-        Option::create(['content' => 'FALSO', 'question_id' => 130, 'score' => 1]);
-        Option::create(['content' => 'Alto autoestima', 'question_id' => 131, 'score' => 0]);
-        Option::create(['content' => 'Delirios de tipo auditivo', 'question_id' => 131, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades cardiovasculares', 'question_id' => 131, 'score' => 1]);
-        Option::create(['content' => 'Falta de apetito', 'question_id' => 131, 'score' => 0]);
-        Option::create(['content' => 'Siempre se ve afectado por el insomnio', 'question_id' => 132, 'score' => 0]);
-        Option::create(['content' => 'No presenta mayores alteraciones', 'question_id' => 132, 'score' => 1]);
-        Option::create(['content' => 'Nunca cambia, y se mantiene estable sin importar patologías concomitantes', 'question_id' => 132, 'score' => 0]);
-        Option::create(['content' => 'Esta alterado y se acompaña de comorbilidades psiquiátricas', 'question_id' => 132, 'score' => 0]);
-        Option::create(['content' => '60 a 67 años', 'question_id' => 133, 'score' => 0]);
-        Option::create(['content' => '70 a 74 años', 'question_id' => 133, 'score' => 1]);
-        Option::create(['content' => '75 a 82 años', 'question_id' => 133, 'score' => 0]);
-        Option::create(['content' => '85 a 90 años', 'question_id' => 133, 'score' => 0]);
-        Option::create(['content' => 'Fatiga en el transcurso del día por sueño de baja calidad', 'question_id' => 134, 'score' => 1]);
-        Option::create(['content' => 'Sentirse cansado al despertar', 'question_id' => 134, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para conciliar el sueño', 'question_id' => 134, 'score' => 0]);
-        Option::create(['content' => 'Despertarse muy temprano', 'question_id' => 134, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 135, 'score' => 0]);
-        Option::create(['content' => 'Ansiedad', 'question_id' => 135, 'score' => 0]);
-        Option::create(['content' => 'Insomnio', 'question_id' => 135, 'score' => 1]);
-        Option::create(['content' => 'TOC', 'question_id' => 135, 'score' => 0]);
-        Option::create(['content' => 'Dislipidemia mixta de etiología desconocida', 'question_id' => 136, 'score' => 0]);
-        Option::create(['content' => 'DM2', 'question_id' => 136, 'score' => 0]);
-        Option::create(['content' => 'Antecedente paterno de HAS', 'question_id' => 136, 'score' => 0]);
-        Option::create(['content' => 'Calidad del sueño', 'question_id' => 136, 'score' => 1]);
-        Option::create(['content' => 'Predisposición de enfermedades psiquiátricas', 'question_id' => 137, 'score' => 0]);
-        Option::create(['content' => 'Alteraciones del ciclo circadiano', 'question_id' => 137, 'score' => 0]);
-        Option::create(['content' => 'Desregulación de la temperatura en estado de vigilia', 'question_id' => 137, 'score' => 0]);
-        Option::create(['content' => 'Lesión en órganos blanco', 'question_id' => 137, 'score' => 1]);
-        Option::create(['content' => 'DM2', 'question_id' => 138, 'score' => 0]);
-        Option::create(['content' => 'HAS', 'question_id' => 138, 'score' => 1]);
-        Option::create(['content' => 'Obesidad', 'question_id' => 138, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 138, 'score' => 0]);
-        Option::create(['content' => 'Acupuntura y melatonina', 'question_id' => 139, 'score' => 0]);
-        Option::create(['content' => 'Antidepresivos e hipnóticos benzodiacepínicos', 'question_id' => 139, 'score' => 0]);
-        Option::create(['content' => 'Hipnóticos benzodicepínicos y no benzodiacepínicos', 'question_id' => 139, 'score' => 1]);
-        Option::create(['content' => 'Antidepresivos e hipnóticos no benzodiacepínicos', 'question_id' => 139, 'score' => 0]);
-        Option::create(['content' => 'Aparición de tolerancia de 1 a 2 meses después de iniciar tratamiento y sedación diurna', 'question_id' => 140, 'score' => 1]);
-        Option::create(['content' => 'Síndrome de abstinencia y alteraciones psicóticas', 'question_id' => 140, 'score' => 0]);
-        Option::create(['content' => 'Insomnio de rebote y alteraciones permanentes pérdida de memoria', 'question_id' => 140, 'score' => 0]);
-        Option::create(['content' => 'Pueden condicionar la aparición de EPOC', 'question_id' => 140, 'score' => 0]);
-        Option::create(['content' => 'Alprazolam', 'question_id' => 141, 'score' => 0]);
-        Option::create(['content' => 'Diazepam', 'question_id' => 141, 'score' => 0]);
-        Option::create(['content' => 'Estazolam', 'question_id' => 141, 'score' => 0]);
-        Option::create(['content' => 'Prazepam', 'question_id' => 141, 'score' => 1]);
-        Option::create(['content' => 'Zolpidem', 'question_id' => 142, 'score' => 1]);
-        Option::create(['content' => 'Zopiclona', 'question_id' => 142, 'score' => 0]);
-        Option::create(['content' => 'Alprazolam', 'question_id' => 142, 'score' => 0]);
-        Option::create(['content' => 'Diazepam', 'question_id' => 142, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de adicción', 'question_id' => 143, 'score' => 0]);
-        Option::create(['content' => 'Respetan la arquitectura del sueño', 'question_id' => 143, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de tolerancia y dependencia', 'question_id' => 143, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 143, 'score' => 1]);
-        Option::create(['content' => 'Zolpidem', 'question_id' => 144, 'score' => 1]);
-        Option::create(['content' => 'Zopiclona', 'question_id' => 144, 'score' => 0]);
-        Option::create(['content' => 'Alprazolam', 'question_id' => 144, 'score' => 0]);
-        Option::create(['content' => 'Diazepam', 'question_id' => 144, 'score' => 0]);
-        Option::create(['content' => 'Hipnóticos benzodiaceínicos', 'question_id' => 145, 'score' => 0]);
-        Option::create(['content' => 'Hipnóticos NO benzodiaceínicos', 'question_id' => 145, 'score' => 1]);
-        Option::create(['content' => 'Benzodiacepinas ansiolíticas', 'question_id' => 145, 'score' => 0]);
-        Option::create(['content' => 'Benzodiacepinas', 'question_id' => 145, 'score' => 0]);
-        Option::create(['content' => '15 minutos', 'question_id' => 146, 'score' => 1]);
-        Option::create(['content' => '20 minutos', 'question_id' => 146, 'score' => 0]);
-        Option::create(['content' => '25 minutos', 'question_id' => 146, 'score' => 0]);
-        Option::create(['content' => '30 minutos', 'question_id' => 146, 'score' => 0]);
-        Option::create(['content' => 'Cambios favorables al estilo de vida', 'question_id' => 147, 'score' => 1]);
-        Option::create(['content' => 'Dieta a base de proteínas no animales', 'question_id' => 147, 'score' => 0]);
-        Option::create(['content' => 'Ingesta de 4 L de agua al día', 'question_id' => 147, 'score' => 0]);
-        Option::create(['content' => 'Terapia psicológica', 'question_id' => 147, 'score' => 0]);
-        Option::create(['content' => 'Cafeína', 'question_id' => 148, 'score' => 1]);
-        Option::create(['content' => 'LSD', 'question_id' => 148, 'score' => 0]);
-        Option::create(['content' => 'Cocaína', 'question_id' => 148, 'score' => 0]);
-        Option::create(['content' => 'Té negro', 'question_id' => 148, 'score' => 0]);
-        Option::create(['content' => 'Depresión', 'question_id' => 149, 'score' => 0]);
-        Option::create(['content' => 'Ansiedad', 'question_id' => 149, 'score' => 0]);
-        Option::create(['content' => 'Insomnio', 'question_id' => 149, 'score' => 1]);
-        Option::create(['content' => 'TOC', 'question_id' => 149, 'score' => 0]);
-        Option::create(['content' => 'Hipnóticos benzodiaceínicos e hipnóticos NO benzodiaceínicos', 'question_id' => 150, 'score' => 0]);
-        Option::create(['content' => 'Hipnóticos NO benzodiaceínicos y remedios herbolarios', 'question_id' => 150, 'score' => 0]);
-        Option::create(['content' => 'Benzodiacepinas ansiolíticas e hipnóticos benzodiaceínicos', 'question_id' => 150, 'score' => 1]);
-        Option::create(['content' => 'Benzodiacepinas y melatonina', 'question_id' => 150, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de Ansiedad Generalizada y trastorno de pánico', 'question_id' => 151, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de obsesivo compulsivo y trastorno depresivo mayor', 'question_id' => 151, 'score' => 0]);
-        Option::create(['content' => 'Trastorno obsesivo compulsivo y trastorno de pánico', 'question_id' => 151, 'score' => 0]);
-        Option::create(['content' => 'Trastorno depresivo mayor y trastorno de ansiedad generalizada', 'question_id' => 151, 'score' => 1]);
-        Option::create(['content' => 'Trastorno obsesivo compulsivo', 'question_id' => 152, 'score' => 0]);
-        Option::create(['content' => 'Trastorno depresivo mayor', 'question_id' => 152, 'score' => 1]);
-        Option::create(['content' => 'Trastorno por estrés postraumático', 'question_id' => 152, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de ansiedad generalizada', 'question_id' => 152, 'score' => 0]);
-        Option::create(['content' => '5 % de los casos', 'question_id' => 153, 'score' => 0]);
-        Option::create(['content' => '50 % de los casos', 'question_id' => 153, 'score' => 1]);
-        Option::create(['content' => '75% de los casos', 'question_id' => 153, 'score' => 0]);
-        Option::create(['content' => '10 % de los casos', 'question_id' => 153, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos por abuso de sustancias', 'question_id' => 154, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos psicóticos', 'question_id' => 154, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos de ansiedad y el trastorno depresivo mayor', 'question_id' => 154, 'score' => 1]);
-        Option::create(['content' => 'La relación entre insomnio y ansiedad es bidireccional', 'question_id' => 155, 'score' => 0]);
-        Option::create(['content' => 'El insomnio precede a los trastornos de ansiedad', 'question_id' => 155, 'score' => 0]);
-        Option::create(['content' => 'El insomnio precede a la depresión', 'question_id' => 155, 'score' => 1]);
-        Option::create(['content' => 'La depresión precede al insomnio', 'question_id' => 155, 'score' => 0]);
-        Option::create(['content' => 'Secreción pancreática de insulina', 'question_id' => 156, 'score' => 0]);
-        Option::create(['content' => 'Efecto de las incretinas', 'question_id' => 156, 'score' => 0]);
-        Option::create(['content' => 'Producción hepática de glucosa', 'question_id' => 156, 'score' => 0]);
-        Option::create(['content' => 'Excreción renal de glucosa', 'question_id' => 156, 'score' => 0]);
-        Option::create(['content' => 'Metabolismo de las purinas', 'question_id' => 156, 'score' => 1]);
-        Option::create(['content' => 'Disminución de la producción hepática de glucosa', 'question_id' => 157, 'score' => 0]);
-        Option::create(['content' => 'Aumento de captación de glucosa a nivel hepático', 'question_id' => 157, 'score' => 0]);
-        Option::create(['content' => 'Excreción de glucosa por vía renal.', 'question_id' => 157, 'score' => 1]);
-        Option::create(['content' => 'Sensibilizador de insulina', 'question_id' => 157, 'score' => 0]);
-        Option::create(['content' => 'Tolbutamida', 'question_id' => 158, 'score' => 0]);
-        Option::create(['content' => 'Glibenclamida', 'question_id' => 158, 'score' => 0]);
-        Option::create(['content' => 'Glimepirida', 'question_id' => 158, 'score' => 1]);
-        Option::create(['content' => 'Gliburida', 'question_id' => 158, 'score' => 0]);
-        Option::create(['content' => 'Clorpropamina', 'question_id' => 158, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 159, 'score' => 0]);
-        Option::create(['content' => '10-30%', 'question_id' => 159, 'score' => 0]);
-        Option::create(['content' => '30-50%', 'question_id' => 159, 'score' => 1]);
-        Option::create(['content' => '50-70%', 'question_id' => 159, 'score' => 0]);
-        Option::create(['content' => 'Aumento de secreción de insulina en respuesta a hiperglucemia', 'question_id' => 160, 'score' => 0]);
-        Option::create(['content' => 'Estimulación de receptores nucleares PPAR.', 'question_id' => 160, 'score' => 1]);
-        Option::create(['content' => 'Inhibición de la liberación de glucagon postprandial.', 'question_id' => 160, 'score' => 0]);
-        Option::create(['content' => 'Retardo en el vaciamiento gástrico', 'question_id' => 160, 'score' => 0]);
-        Option::create(['content' => 'Reducen la ingestión de alimentos.', 'question_id' => 160, 'score' => 0]);
-        Option::create(['content' => 'Secreción pancreática de insulina', 'question_id' => 161, 'score' => 0]);
-        Option::create(['content' => 'Efecto de las incretinas', 'question_id' => 161, 'score' => 0]);
-        Option::create(['content' => 'Producción hepática de glucosa', 'question_id' => 161, 'score' => 0]);
-        Option::create(['content' => 'Excreción renal de glucosa', 'question_id' => 161, 'score' => 0]);
-        Option::create(['content' => 'Metabolismo de las purinas', 'question_id' => 161, 'score' => 1]);
-        Option::create(['content' => 'Disminución de la producción hepática de glucosa', 'question_id' => 162, 'score' => 0]);
-        Option::create(['content' => 'Aumento de captación de glucosa a nivel hepático', 'question_id' => 162, 'score' => 0]);
-        Option::create(['content' => 'Excreción de glucosa por vía renal.', 'question_id' => 162, 'score' => 1]);
-        Option::create(['content' => 'Sensibilizador de insulina', 'question_id' => 162, 'score' => 0]);
-        Option::create(['content' => 'Estimulación de receptores nucleares PPAR.', 'question_id' => 163, 'score' => 0]);
-        Option::create(['content' => 'Regulación del metabolismo de lípidos.', 'question_id' => 163, 'score' => 0]);
-        Option::create(['content' => 'Sensibilizador de insulina', 'question_id' => 163, 'score' => 0]);
-        Option::create(['content' => 'Retardo en el vaciamiento gástrico', 'question_id' => 163, 'score' => 1]);
-        Option::create(['content' => 'Efecto agonista y activador del receptor de la proliferación de los peroxisomas gamma activados (PPARg)', 'question_id' => 164, 'score' => 0]);
-        Option::create(['content' => 'Bloqueo de los canales de potasio dependientes de ATP presentes en la membrana de las células beta pancreáticas, provocando despolarización, entrada de calcio y liberación de insulina.', 'question_id' => 164, 'score' => 1]);
-        Option::create(['content' => 'Inhibición selectiva y reversible del cotransportador de sodio y glucosa 2.', 'question_id' => 164, 'score' => 0]);
-        Option::create(['content' => 'Inhibición de la enzima dipeptidil peptidasa tipo 4', 'question_id' => 164, 'score' => 0]);
-        Option::create(['content' => 'Efecto agonista y activador del receptor de la proliferación de los peroxisomas gamma activados (PPARg)', 'question_id' => 165, 'score' => 1]);
-        Option::create(['content' => 'Bloqueo de los canales de potasio dependientes de ATP presentes en la membrana de las células beta pancreáticas, provocando despolarización, entrada de calcio y liberación de insulina.', 'question_id' => 165, 'score' => 0]);
-        Option::create(['content' => 'Inhibición selectiva y reversible del cotransportador de sodio y glucosa 2.', 'question_id' => 165, 'score' => 0]);
-        Option::create(['content' => 'Inhibición de la enzima dipeptidil peptidasa tipo 4', 'question_id' => 165, 'score' => 0]);
-        Option::create(['content' => 'Efecto agonista y activador del receptor de la proliferación de los peroxisomas gamma activados (PPARg)', 'question_id' => 166, 'score' => 1]);
-        Option::create(['content' => 'Bloqueo de los canales de potasio dependientes de ATP presentes en la membrana de las células beta pancreáticas, provocando despolarización, entrada de calcio y liberación de insulina.', 'question_id' => 166, 'score' => 0]);
-        Option::create(['content' => 'Inhibición selectiva y reversible del cotransportador de sodio y glucosa 2.', 'question_id' => 166, 'score' => 0]);
-        Option::create(['content' => 'Inhibición de la enzima dipeptidil peptidasa tipo 4', 'question_id' => 166, 'score' => 0]);
-        Option::create(['content' => 'Aumento de secreción de insulina en respuesta a hiperglucemia.', 'question_id' => 167, 'score' => 0]);
-        Option::create(['content' => 'Estimulación de receptores nucleares PPAR.', 'question_id' => 167, 'score' => 1]);
-        Option::create(['content' => 'Inhibición de la liberación de glucagon postprandial.', 'question_id' => 167, 'score' => 0]);
-        Option::create(['content' => 'Retardo en el vaciamiento gástrico', 'question_id' => 167, 'score' => 0]);
-        Option::create(['content' => 'Reducen la ingestión de alimentos.', 'question_id' => 167, 'score' => 0]);
-        Option::create(['content' => 'Efecto agonista y activador del receptor de la proliferación de los peroxisomas gamma activados (PPARg)', 'question_id' => 168, 'score' => 0]);
-        Option::create(['content' => 'Unión y consecuente activación del receptor GLP-1, con disminución indirecta de la secreción de insulina a través de la vía de las incretinas', 'question_id' => 168, 'score' => 0]);
-        Option::create(['content' => 'Inhibición selectiva y reversible del cotransportador de sodio y glucosa 2', 'question_id' => 168, 'score' => 1]);
-        Option::create(['content' => 'Inhibición de la enzima dipeptidil peptidasa tipo 4', 'question_id' => 168, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores SGLT2', 'question_id' => 169, 'score' => 0]);
-        Option::create(['content' => 'Sulfonilureas', 'question_id' => 169, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores DPP4', 'question_id' => 169, 'score' => 1]);
-        Option::create(['content' => 'Glitazonas', 'question_id' => 169, 'score' => 0]);
-        Option::create(['content' => 'Infecciones genitales micóticas', 'question_id' => 170, 'score' => 0]);
-        Option::create(['content' => 'Edema', 'question_id' => 170, 'score' => 0]);
-        Option::create(['content' => 'Eventos adversos gastrointestinales', 'question_id' => 170, 'score' => 0]);
-        Option::create(['content' => 'Riesgo moderado de hipoglucemia', 'question_id' => 170, 'score' => 1]);
-        Option::create(['content' => 'Pérdida de peso', 'question_id' => 171, 'score' => 0]);
-        Option::create(['content' => 'Riesgo moderado de fracturas', 'question_id' => 171, 'score' => 1]);
-        Option::create(['content' => 'Eventos adversos gastrointestinales', 'question_id' => 171, 'score' => 0]);
-        Option::create(['content' => 'Riesgo moderado de hipoglucemia', 'question_id' => 171, 'score' => 0]);
-        Option::create(['content' => 'Aumento de peso', 'question_id' => 172, 'score' => 0]);
-        Option::create(['content' => 'Riesgo de fracturas', 'question_id' => 172, 'score' => 0]);
-        Option::create(['content' => 'Eventos adversos gastrointestinales', 'question_id' => 172, 'score' => 0]);
-        Option::create(['content' => 'Bajo riesgo de hipoglucemias', 'question_id' => 172, 'score' => 1]);
-        Option::create(['content' => 'Pérdida de peso', 'question_id' => 173, 'score' => 1]);
-        Option::create(['content' => 'Insuficiencia cardiaca congestiva', 'question_id' => 173, 'score' => 0]);
-        Option::create(['content' => 'Eventos adversos gastrointestinales', 'question_id' => 173, 'score' => 0]);
-        Option::create(['content' => 'Riesgo moderado de hipoglucemias', 'question_id' => 173, 'score' => 0]);
-        Option::create(['content' => 'Ser siempre el de menor precio', 'question_id' => 174, 'score' => 0]);
-        Option::create(['content' => 'Elegirse considerando las ventajas y desventajas de cada droga en específico, y acorde al perfil de cada paciente', 'question_id' => 174, 'score' => 1]);
-        Option::create(['content' => 'Ser aquel con mayor beneficio sobre el riesgo cardiovascular', 'question_id' => 174, 'score' => 0]);
-        Option::create(['content' => 'Ser aquel que conlleve menor aumento de peso', 'question_id' => 174, 'score' => 0]);
-        Option::create(['content' => 'Combinar de acuerdo al perfil de eventos adversos', 'question_id' => 175, 'score' => 0]);
-        Option::create(['content' => 'Titular cada fármaco siempre hasta la dosis máxima', 'question_id' => 175, 'score' => 0]);
-        Option::create(['content' => 'No agregar insulina', 'question_id' => 175, 'score' => 0]);
-        Option::create(['content' => 'Complementar mecanismos fisiopatológicos sobre los que actúa cada fármaco', 'question_id' => 175, 'score' => 1]);
-        Option::create(['content' => 'Tolbutamida', 'question_id' => 176, 'score' => 0]);
-        Option::create(['content' => 'Glibenclamida', 'question_id' => 176, 'score' => 0]);
-        Option::create(['content' => 'Glimepirida', 'question_id' => 176, 'score' => 1]);
-        Option::create(['content' => 'Gliburida', 'question_id' => 176, 'score' => 0]);
-        Option::create(['content' => 'Clorpropamina', 'question_id' => 176, 'score' => 0]);
-        Option::create(['content' => 'Son Potentes reductores de los niveles de glucemia y por lo tanto de hemoglobina glucosilada', 'question_id' => 177, 'score' => 0]);
-        Option::create(['content' => 'Son seguras desde el punto de vista cardiovascular.', 'question_id' => 177, 'score' => 0]);
-        Option::create(['content' => 'No se ha demostrado que aumenten apoptosis a nivel de la célula B dl páncreas.', 'question_id' => 177, 'score' => 0]);
-        Option::create(['content' => 'Debe vigilarse la hipoglucemia.', 'question_id' => 177, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 177, 'score' => 1]);
-        Option::create(['content' => 'Su efecto hipoglucemiante es alrededor de 1,3 % en la A1c', 'question_id' => 178, 'score' => 0]);
-        Option::create(['content' => 'Pueden utilizarse en combinación con sulfonilureas, metformina y con Insulina.', 'question_id' => 178, 'score' => 0]);
-        Option::create(['content' => 'Sus principales efectos colaterales son retención de líquidos con IC, ganancia de peso, anemia por dilución, Osteoporosis y ECV.', 'question_id' => 178, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 178, 'score' => 1]);
-        Option::create(['content' => '10%', 'question_id' => 179, 'score' => 0]);
-        Option::create(['content' => '10-30%', 'question_id' => 179, 'score' => 0]);
-        Option::create(['content' => '30-50%', 'question_id' => 179, 'score' => 1]);
-        Option::create(['content' => '50-70%', 'question_id' => 179, 'score' => 0]);
-        Option::create(['content' => 'Túbulo proximal', 'question_id' => 180, 'score' => 1]);
-        Option::create(['content' => 'Túbulo distal', 'question_id' => 180, 'score' => 0]);
-        Option::create(['content' => 'Túbulo colector', 'question_id' => 180, 'score' => 0]);
-        Option::create(['content' => 'Asa de Henle', 'question_id' => 180, 'score' => 0]);
-        Option::create(['content' => 'Farmacocinetica', 'question_id' => 181, 'score' => 1]);
-        Option::create(['content' => 'Farmacodinamia', 'question_id' => 181, 'score' => 0]);
-        Option::create(['content' => 'Metabolismo', 'question_id' => 181, 'score' => 0]);
-        Option::create(['content' => 'Mecanismo de acción', 'question_id' => 181, 'score' => 0]);
-        Option::create(['content' => 'Farmacocinetica', 'question_id' => 182, 'score' => 0]);
-        Option::create(['content' => 'Farmacodinamia', 'question_id' => 182, 'score' => 1]);
-        Option::create(['content' => 'Metabolismo', 'question_id' => 182, 'score' => 0]);
-        Option::create(['content' => 'Mecanismo de acción', 'question_id' => 182, 'score' => 0]);
-        Option::create(['content' => 'Ghrelina', 'question_id' => 183, 'score' => 0]);
-        Option::create(['content' => 'Glucagon', 'question_id' => 183, 'score' => 0]);
-        Option::create(['content' => 'Péptido conector (Péptido C)', 'question_id' => 183, 'score' => 1]);
-        Option::create(['content' => 'Somatostatina', 'question_id' => 183, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos, sin pico de acción y duración de 12 a 14 horas.', 'question_id' => 184, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos, sin pico de acción y duración de más de 24 horas.', 'question_id' => 184, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 1-2 horas, sin pico de acción y duración de 12 a 14 horas', 'question_id' => 184, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 1-2 horas, sin pico de acción y duración de más de 24 horas.', 'question_id' => 184, 'score' => 1]);
-        Option::create(['content' => 'Sustitución de asparagina por lisina en la posición B3, y de la lisina en la posición B29 por ácido glutámico', 'question_id' => 185, 'score' => 0]);
-        Option::create(['content' => 'Sustitución de asparagina por glicina en la posición 21 y adición de 2 residuos de arginina en el extremo C terminal de la cadena b', 'question_id' => 185, 'score' => 1]);
-        Option::create(['content' => 'Sustitución de prolina en posición 28 de la cadena B, por ácido aspártico.', 'question_id' => 185, 'score' => 0]);
-        Option::create(['content' => 'Intercambio de las posiciones de prolina y lisina en las posiciones 28 y 29 de la cadena B.', 'question_id' => 185, 'score' => 0]);
-        Option::create(['content' => 'Plumas para administración de insulina', 'question_id' => 186, 'score' => 1]);
-        Option::create(['content' => 'Riesgo de Hipoglucemia', 'question_id' => 186, 'score' => 0]);
-        Option::create(['content' => 'Ganancia de peso', 'question_id' => 186, 'score' => 0]);
-        Option::create(['content' => 'Fluctuaciones diurnas de glucosa', 'question_id' => 186, 'score' => 0]);
-        Option::create(['content' => 'Farmacocinetica', 'question_id' => 187, 'score' => 1]);
-        Option::create(['content' => 'Farmacodinamia', 'question_id' => 187, 'score' => 0]);
-        Option::create(['content' => 'Metabolismo', 'question_id' => 187, 'score' => 0]);
-        Option::create(['content' => 'Mecanismo de acción', 'question_id' => 187, 'score' => 0]);
-        Option::create(['content' => 'Farmacocinetica', 'question_id' => 188, 'score' => 0]);
-        Option::create(['content' => 'Farmacodinamia', 'question_id' => 188, 'score' => 1]);
-        Option::create(['content' => 'Metabolismo', 'question_id' => 188, 'score' => 0]);
-        Option::create(['content' => 'Mecanismo de acción', 'question_id' => 188, 'score' => 0]);
-        Option::create(['content' => 'Alfa', 'question_id' => 190, 'score' => 0]);
-        Option::create(['content' => 'Beta', 'question_id' => 190, 'score' => 1]);
-        Option::create(['content' => 'Gama', 'question_id' => 190, 'score' => 0]);
-        Option::create(['content' => 'Delta', 'question_id' => 190, 'score' => 0]);
-        Option::create(['content' => 'Ghrelina', 'question_id' => 191, 'score' => 0]);
-        Option::create(['content' => 'Glucagon', 'question_id' => 191, 'score' => 0]);
-        Option::create(['content' => 'Péptido conector (Péptido C)', 'question_id' => 191, 'score' => 1]);
-        Option::create(['content' => 'Somatostatina', 'question_id' => 191, 'score' => 0]);
-        Option::create(['content' => 'Medicamento genérico', 'question_id' => 192, 'score' => 0]);
-        Option::create(['content' => 'Biocomparable', 'question_id' => 192, 'score' => 0]);
-        Option::create(['content' => 'Análogo de insulina', 'question_id' => 192, 'score' => 1]);
-        Option::create(['content' => 'Insulina regular', 'question_id' => 192, 'score' => 0]);
-        Option::create(['content' => 'Sustitución de asparagina por lisina en la posición B3, y de la lisina en la posición B29 por ácido glutámico', 'question_id' => 193, 'score' => 0]);
-        Option::create(['content' => 'Sustitución de asparagina por glicina en la posición 21 y adición de 2 residuos de arginina en el extremo C terminal de la cadena b', 'question_id' => 193, 'score' => 1]);
-        Option::create(['content' => 'Sustitución de prolina en posición 28 de la cadena B, por ácido aspártico.', 'question_id' => 193, 'score' => 0]);
-        Option::create(['content' => 'Intercambio de las posiciones de prolina y lisina en las posiciones 28 y 29 de la cadena B.', 'question_id' => 193, 'score' => 0]);
-        Option::create(['content' => 'Insulina ultra-rápida', 'question_id' => 194, 'score' => 0]);
-        Option::create(['content' => 'Insulina ultra-lenta', 'question_id' => 194, 'score' => 0]);
-        Option::create(['content' => 'Premezcla', 'question_id' => 194, 'score' => 1]);
-        Option::create(['content' => 'Análogo de insulina.', 'question_id' => 194, 'score' => 0]);
-        Option::create(['content' => 'Insulina humana regular', 'question_id' => 195, 'score' => 0]);
-        Option::create(['content' => 'Insulina NPH', 'question_id' => 195, 'score' => 1]);
-        Option::create(['content' => 'Insulina Glargina', 'question_id' => 195, 'score' => 0]);
-        Option::create(['content' => 'Insulina Degludec', 'question_id' => 195, 'score' => 0]);
-        Option::create(['content' => 'Para disminuir la formación de anticuerpos anti-péptido C', 'question_id' => 196, 'score' => 0]);
-        Option::create(['content' => 'Para aumentar la frecuencia de aplicación de la insulina.', 'question_id' => 196, 'score' => 0]);
-        Option::create(['content' => 'Para solventar las limitaciones asociadas a NPH, con menor variación en su absorción y mayor duración de acción para permitir una aplicación diaria y menor tasa de hipoglucemia nocturna.', 'question_id' => 196, 'score' => 1]);
-        Option::create(['content' => 'Para aumentar la variabilidada glucémica.', 'question_id' => 196, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos, sin pico de acción y duración de 12 a 14 horas.', 'question_id' => 197, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos, sin pico de acción y duración de más de 24 horas.', 'question_id' => 197, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 1-2 horas, sin pico de acción y duración de 12 a 14 horas', 'question_id' => 197, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 1-2 horas, sin pico de acción y duración de más de 24 horas.', 'question_id' => 197, 'score' => 1]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos y pico de acción 45-60 minutos.', 'question_id' => 198, 'score' => 1]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos y sin pico de acción.', 'question_id' => 198, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 5-10 minutos y duración de más de 24 horas.', 'question_id' => 198, 'score' => 0]);
-        Option::create(['content' => 'Inicio de acción de 1-2 horas y pico de acción 6-8 horas.', 'question_id' => 198, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de hipoglucemia nocturna y sintomática', 'question_id' => 199, 'score' => 1]);
-        Option::create(['content' => 'Mayor control glucémico medido por hemoglobina glucosilada', 'question_id' => 199, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de complicaciones microvasculares a largo plazo', 'question_id' => 199, 'score' => 0]);
-        Option::create(['content' => 'Menor adherencia al tratamiento', 'question_id' => 199, 'score' => 0]);
-        Option::create(['content' => 'Menor adherencia al tratamiento con glargina U-100', 'question_id' => 200, 'score' => 0]);
-        Option::create(['content' => 'Aumento de incidencia de hipoglucemia con glargina U-300', 'question_id' => 200, 'score' => 0]);
-        Option::create(['content' => 'Menor variabilidad a lo largo del día con glargina U-300', 'question_id' => 200, 'score' => 1]);
-        Option::create(['content' => 'Mayor efecto sobre hemoglobina glucosilada con glargina U-300', 'question_id' => 200, 'score' => 0]);
-        Option::create(['content' => 'Un perfil farmacocinético y farmacodinámico más constante y prolongado comparado con Gla-100.', 'question_id' => 201, 'score' => 0]);
-        Option::create(['content' => 'Baja fluctuación en el día y baja variabilidad entre días', 'question_id' => 201, 'score' => 0]);
-        Option::create(['content' => 'Mayor variabilidad glucémica respecto a Gla-100.', 'question_id' => 201, 'score' => 1]);
-        Option::create(['content' => 'Un perfil de glucosa más constante con Gla-300 vs Gla-100 cuando se administra en la mañana o en la noche.', 'question_id' => 201, 'score' => 0]);
-        Option::create(['content' => 'Adecuar la elección de la terapia al paciente de forma adecuada, tratando de imitar el perfil de secreción fisiológico de insulina y evitar las excursiones de hiperglucemia.', 'question_id' => 202, 'score' => 1]);
-        Option::create(['content' => 'Utilizar un solo tipo de insulina para todos los pacientes.', 'question_id' => 202, 'score' => 0]);
-        Option::create(['content' => 'Hacer inferencia de la potencia de cada una de las moléculas', 'question_id' => 202, 'score' => 0]);
-        Option::create(['content' => 'Predecir la aparición de eventos adversos.', 'question_id' => 202, 'score' => 0]);
-        Option::create(['content' => 'Para que las complicaciones micro y macrovasculares se manifiesten en etapas tempranas de la enfermedad', 'question_id' => 204, 'score' => 0]);
-        Option::create(['content' => 'Para favorecer la apoptosis de las células beta', 'question_id' => 204, 'score' => 0]);
-        Option::create(['content' => '(Para revertir la glucotoxicidad y lipotoxicidad', 'question_id' => 204, 'score' => 1]);
-        Option::create(['content' => 'Para que el paciente no experimente complicaciones agudas de la diabetes', 'question_id' => 204, 'score' => 0]);
-        Option::create(['content' => 'Hasta cuando se requiere triple terapia', 'question_id' => 205, 'score' => 0]);
-        Option::create(['content' => 'En lugar de las modificaciones en el estilo de vida', 'question_id' => 205, 'score' => 0]);
-        Option::create(['content' => 'Desde que se requiere la terapia dual', 'question_id' => 205, 'score' => 1]);
-        Option::create(['content' => 'Hasta que el paciente presente complicaciones', 'question_id' => 205, 'score' => 0]);
-        Option::create(['content' => 'Basal plus', 'question_id' => 206, 'score' => 0]);
-        Option::create(['content' => 'Basal', 'question_id' => 206, 'score' => 1]);
-        Option::create(['content' => 'Basal-bolo', 'question_id' => 206, 'score' => 0]);
-        Option::create(['content' => 'Prandial', 'question_id' => 206, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 1 aplicación prandial de insulina rápida', 'question_id' => 207, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 2 aplicaciones prandiales de insulina rápida', 'question_id' => 207, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 3 aplicación prandiales de insulina rápida', 'question_id' => 207, 'score' => 1]);
-        Option::create(['content' => 'Una aplicación de insulina rápida + 3 aplicación prandiales de insulina basal', 'question_id' => 207, 'score' => 0]);
-        Option::create(['content' => 'Para que solamente siga al pie de la letra las prescripciones de su médico', 'question_id' => 208, 'score' => 0]);
-        Option::create(['content' => 'Para que sienta que no es capaz de obtener un control adecuado de su enfermedad', 'question_id' => 208, 'score' => 0]);
-        Option::create(['content' => 'Para darle el poder de tomar decisiones informadas con responsabilidad y facilitar el cambio de conductas', 'question_id' => 208, 'score' => 1]);
-        Option::create(['content' => 'Para favorecer su negación ante el diagnóstico', 'question_id' => 208, 'score' => 0]);
-        Option::create(['content' => 'Para que solamente siga al pie de la letra las prescripciones de su médico', 'question_id' => 209, 'score' => 0]);
-        Option::create(['content' => 'Para que sienta que no es capaz de obtener un control adecuado de su enfermedad', 'question_id' => 209, 'score' => 0]);
-        Option::create(['content' => 'Para darle el poder de tomar decisiones informadas con responsabilidad y facilitar el cambio de conductas', 'question_id' => 209, 'score' => 1]);
-        Option::create(['content' => 'Para favorecer su negación ante el diagnóstico', 'question_id' => 209, 'score' => 0]);
-        Option::create(['content' => 'Siendo autoritarios e inflexibles', 'question_id' => 210, 'score' => 0]);
-        Option::create(['content' => 'Utilizando habilidades como comunicación, escucha activa, entrevista motivacional y siendo empáticos', 'question_id' => 210, 'score' => 1]);
-        Option::create(['content' => 'Utilizando el modelo de atención que no toma en cuenta las necesidades del paciente', 'question_id' => 210, 'score' => 0]);
-        Option::create(['content' => 'Haciéndole sentir que debe seguir las prescripciones al pie de la letra', 'question_id' => 210, 'score' => 0]);
-        Option::create(['content' => 'Cierto', 'question_id' => 211, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 211, 'score' => 0]);
-        Option::create(['content' => 'Puede ajustar la dosis de insulina de acuerdo a sus necesidades', 'question_id' => 212, 'score' => 1]);
-        Option::create(['content' => 'No sabe hacer modificaciones en su dosis de insulina', 'question_id' => 212, 'score' => 0]);
-        Option::create(['content' => 'Realiza monitoreo de glucosa en ayuno pero no titula la dosis hasta que vuelve a consulta con su médico', 'question_id' => 212, 'score' => 0]);
-        Option::create(['content' => 'Prefiere utilizar la insulina solo cuando se siente mal', 'question_id' => 212, 'score' => 0]);
-        Option::create(['content' => 'Para que las complicaciones micro y macrovasculares se manifiesten en etapas tempranas de la enfermedad', 'question_id' => 213, 'score' => 0]);
-        Option::create(['content' => 'Para favorecer la apoptosis de las células beta', 'question_id' => 213, 'score' => 0]);
-        Option::create(['content' => 'Para revertir la glucotoxicidad y lipotoxicidad', 'question_id' => 213, 'score' => 1]);
-        Option::create(['content' => 'Para que el paciente no experimente complicaciones agudas de la diabetes', 'question_id' => 213, 'score' => 0]);
-        Option::create(['content' => 'Cierto', 'question_id' => 214, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 214, 'score' => 0]);
-        Option::create(['content' => 'Generar barreras psicológicas y mitos', 'question_id' => 215, 'score' => 0]);
-        Option::create(['content' => 'Favorecer la ganancia de peso y las hipoglucemias', 'question_id' => 215, 'score' => 0]);
-        Option::create(['content' => 'Imitar el patrón de secreción fisiológica normal de la insulina endógena', 'question_id' => 215, 'score' => 1]);
-        Option::create(['content' => 'Imitar el patrón de secreción fisiológica normal de la insulina exógena', 'question_id' => 215, 'score' => 0]);
-        Option::create(['content' => 'Basal plus', 'question_id' => 216, 'score' => 0]);
-        Option::create(['content' => 'Basal', 'question_id' => 216, 'score' => 1]);
-        Option::create(['content' => 'Basal-bolo', 'question_id' => 216, 'score' => 0]);
-        Option::create(['content' => 'Prandial', 'question_id' => 216, 'score' => 0]);
-        Option::create(['content' => 'Agregar un tercer antidiabético oral', 'question_id' => 217, 'score' => 0]);
-        Option::create(['content' => 'Iniciar con un análogo de insulina rápida', 'question_id' => 217, 'score' => 0]);
-        Option::create(['content' => 'Iniciar con un análogo de insulina de acción prolongada', 'question_id' => 217, 'score' => 1]);
-        Option::create(['content' => 'Que camine cada tercer día', 'question_id' => 217, 'score' => 0]);
-        Option::create(['content' => '5 unidades', 'question_id' => 218, 'score' => 0]);
-        Option::create(['content' => '20 unidades', 'question_id' => 218, 'score' => 0]);
-        Option::create(['content' => '18 unidades', 'question_id' => 218, 'score' => 1]);
-        Option::create(['content' => '34 unidades', 'question_id' => 218, 'score' => 0]);
-        Option::create(['content' => 'Iniciar un esquema basal- bolo', 'question_id' => 219, 'score' => 0]);
-        Option::create(['content' => 'Iniciar un esquema basal plus', 'question_id' => 219, 'score' => 1]);
-        Option::create(['content' => 'Continuar titulando la insulina basal', 'question_id' => 219, 'score' => 0]);
-        Option::create(['content' => 'Disminuir la dosis de insulina basal', 'question_id' => 219, 'score' => 0]);
-        Option::create(['content' => 'Premezclas de insulina', 'question_id' => 220, 'score' => 0]);
-        Option::create(['content' => 'Insulina NPH dos veces al día', 'question_id' => 220, 'score' => 0]);
-        Option::create(['content' => 'Basal', 'question_id' => 220, 'score' => 0]);
-        Option::create(['content' => 'Basal-bolo', 'question_id' => 220, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 221, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 221, 'score' => 0]);
-        Option::create(['content' => 'Hasta cuando se requiere triple terapia', 'question_id' => 222, 'score' => 0]);
-        Option::create(['content' => 'En lugar de las modificaciones en el estilo de vida', 'question_id' => 222, 'score' => 0]);
-        Option::create(['content' => 'Desde que se requiere la terapia dual', 'question_id' => 222, 'score' => 1]);
-        Option::create(['content' => 'Hasta que el paciente presente complicaciones', 'question_id' => 222, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 1 aplicación prandial de insulina rápida', 'question_id' => 223, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 2 aplicaciones prandiales de insulina rápida', 'question_id' => 223, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 3 aplicación prandiales de insulina rápida', 'question_id' => 223, 'score' => 1]);
-        Option::create(['content' => 'Una aplicación de insulina rápida + 3 aplicación prandiales de insulina basal', 'question_id' => 223, 'score' => 0]);
-        Option::create(['content' => '10 UI/kg de peso /día', 'question_id' => 224, 'score' => 0]);
-        Option::create(['content' => '.2 UI/kg de peso/día', 'question_id' => 224, 'score' => 1]);
-        Option::create(['content' => '.6 UI/kg de peso/día', 'question_id' => 224, 'score' => 0]);
-        Option::create(['content' => '.10 UI/kg de peso/día', 'question_id' => 224, 'score' => 0]);
-        Option::create(['content' => 'Que no se preocupe por las hipoglucemias', 'question_id' => 225, 'score' => 0]);
-        Option::create(['content' => 'Que no es necesario realizar monitoreo de glucosa', 'question_id' => 225, 'score' => 0]);
-        Option::create(['content' => 'Que no debe titular hasta la dosis óptima hasta la siguiente consulta', 'question_id' => 225, 'score' => 0]);
-        Option::create(['content' => 'Que no deje de titular hasta la dosis óptima', 'question_id' => 225, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 226, 'score' => 0]);
-        Option::create(['content' => 'Falso', 'question_id' => 226, 'score' => 1]);
-        Option::create(['content' => 'Insulina', 'question_id' => 227, 'score' => 1]);
-        Option::create(['content' => 'Metformina', 'question_id' => 227, 'score' => 0]);
-        Option::create(['content' => 'Dieta', 'question_id' => 227, 'score' => 0]);
-        Option::create(['content' => 'Ejercicio', 'question_id' => 227, 'score' => 0]);
-        Option::create(['content' => 'Enseñar al paciente los sitios de inyección y la técnica correcta de aplicación de insulina', 'question_id' => 228, 'score' => 1]);
-        Option::create(['content' => 'Decir al paciente que no debe realizar actividad física', 'question_id' => 228, 'score' => 0]);
-        Option::create(['content' => 'Sugerir al paciente que siempre se aplique la insulina en el mismo sitio', 'question_id' => 228, 'score' => 0]);
-        Option::create(['content' => 'Evitar platicar con el paciente a cerca de la hipoglucemia', 'question_id' => 228, 'score' => 0]);
-        Option::create(['content' => 'Aspart, Detemir, Glulisina', 'question_id' => 229, 'score' => 0]);
-        Option::create(['content' => 'Degludec, Glargina, NPH', 'question_id' => 229, 'score' => 0]);
-        Option::create(['content' => 'Lispro, Regular, Aspart', 'question_id' => 229, 'score' => 1]);
-        Option::create(['content' => 'Detemir, NPH, Regular', 'question_id' => 229, 'score' => 0]);
-        Option::create(['content' => 'Aspart, Detemir, Glulisina', 'question_id' => 230, 'score' => 0]);
-        Option::create(['content' => 'Degludec, Glargina, NPH', 'question_id' => 230, 'score' => 1]);
-        Option::create(['content' => 'Lispro, Regular, Aspart', 'question_id' => 230, 'score' => 0]);
-        Option::create(['content' => 'Detemir, NPH, Regular', 'question_id' => 230, 'score' => 0]);
-        Option::create(['content' => 'NPH', 'question_id' => 231, 'score' => 0]);
-        Option::create(['content' => '75/25', 'question_id' => 231, 'score' => 1]);
-        Option::create(['content' => 'Lispro', 'question_id' => 231, 'score' => 0]);
-        Option::create(['content' => 'Detemir', 'question_id' => 231, 'score' => 0]);
-        Option::create(['content' => '45-60 minutos', 'question_id' => 232, 'score' => 1]);
-        Option::create(['content' => '1-2 horas', 'question_id' => 232, 'score' => 0]);
-        Option::create(['content' => '20-30 minutos', 'question_id' => 232, 'score' => 0]);
-        Option::create(['content' => '2-4 horas', 'question_id' => 232, 'score' => 0]);
-        Option::create(['content' => '24 horas', 'question_id' => 233, 'score' => 0]);
-        Option::create(['content' => '14-16 horas', 'question_id' => 233, 'score' => 1]);
-        Option::create(['content' => '6 horas', 'question_id' => 233, 'score' => 0]);
-        Option::create(['content' => '2 horas', 'question_id' => 233, 'score' => 0]);
-        Option::create(['content' => 'Efecto neutro sobre glucosa postprandial', 'question_id' => 234, 'score' => 0]);
-        Option::create(['content' => 'Ningún beneficio en relación a HbA1c', 'question_id' => 234, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de hipoglucemias severas', 'question_id' => 234, 'score' => 1]);
-        Option::create(['content' => 'Tiempo de administración preprandial mayor', 'question_id' => 234, 'score' => 0]);
-        Option::create(['content' => '>126mg/dL', 'question_id' => 235, 'score' => 0]);
-        Option::create(['content' => '>100mg/dL', 'question_id' => 235, 'score' => 0]);
-        Option::create(['content' => '>180mg/dL', 'question_id' => 235, 'score' => 0]);
-        Option::create(['content' => '>140mg/dL', 'question_id' => 235, 'score' => 1]);
-        Option::create(['content' => '45-60 minutos', 'question_id' => 236, 'score' => 1]);
-        Option::create(['content' => '1-2 horas', 'question_id' => 236, 'score' => 0]);
-        Option::create(['content' => '20-30 minutos', 'question_id' => 236, 'score' => 0]);
-        Option::create(['content' => '2-4 horas', 'question_id' => 236, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 237, 'score' => 0]);
-        Option::create(['content' => '75%', 'question_id' => 237, 'score' => 1]);
-        Option::create(['content' => '50%', 'question_id' => 237, 'score' => 0]);
-        Option::create(['content' => '25%', 'question_id' => 237, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 238, 'score' => 0]);
-        Option::create(['content' => '75%', 'question_id' => 238, 'score' => 0]);
-        Option::create(['content' => '30-50%', 'question_id' => 238, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 238, 'score' => 0]);
-        Option::create(['content' => '10-15 min', 'question_id' => 239, 'score' => 0]);
-        Option::create(['content' => '5-10 min', 'question_id' => 239, 'score' => 0]);
-        Option::create(['content' => '20-30 min', 'question_id' => 239, 'score' => 1]);
-        Option::create(['content' => '30-60 min', 'question_id' => 239, 'score' => 0]);
-        Option::create(['content' => '10-15 min', 'question_id' => 240, 'score' => 0]);
-        Option::create(['content' => '5-10 min', 'question_id' => 240, 'score' => 1]);
-        Option::create(['content' => '20-30 min', 'question_id' => 240, 'score' => 0]);
-        Option::create(['content' => '30-60 min', 'question_id' => 240, 'score' => 0]);
-        Option::create(['content' => 'Mejor efecto sobre glucosa postprandial', 'question_id' => 241, 'score' => 1]);
-        Option::create(['content' => 'Ningún beneficio en relación a HbA1c', 'question_id' => 241, 'score' => 0]);
-        Option::create(['content' => 'Mayor riesgo de hipoglucemias', 'question_id' => 241, 'score' => 0]);
-        Option::create(['content' => 'Tiempo de administración preprandial mayor', 'question_id' => 241, 'score' => 0]);
-        Option::create(['content' => '0.1 x kg de peso en Bolo + esquema subcutánea c/2 horas de insulina rapida', 'question_id' => 242, 'score' => 0]);
-        Option::create(['content' => 'Esquema basal + bolo', 'question_id' => 242, 'score' => 0]);
-        Option::create(['content' => 'infusión a 0.1 x Kg de peso por hora', 'question_id' => 242, 'score' => 0]);
-        Option::create(['content' => '0.1 x kg de peso en Bolo y luego infusión a 0.1 x Kg de peso por hora', 'question_id' => 242, 'score' => 1]);
-        Option::create(['content' => '0.8-1.2 x kg Peso', 'question_id' => 243, 'score' => 0]);
-        Option::create(['content' => '0.8-0.9 x kg Peso', 'question_id' => 243, 'score' => 0]);
-        Option::create(['content' => '0.4 -0.5 x kg Peso', 'question_id' => 243, 'score' => 1]);
-        Option::create(['content' => '0.6-0.7 x kg Peso', 'question_id' => 243, 'score' => 0]);
-        Option::create(['content' => '0.8-1.2 x kg Peso', 'question_id' => 244, 'score' => 1]);
-        Option::create(['content' => '0.8-0.9 x kg Peso', 'question_id' => 244, 'score' => 0]);
-        Option::create(['content' => '0.4 -0.5 x kg Peso', 'question_id' => 244, 'score' => 0]);
-        Option::create(['content' => '0.6-0.7 x kg Peso', 'question_id' => 244, 'score' => 0]);
-        Option::create(['content' => 'Glargina', 'question_id' => 245, 'score' => 0]);
-        Option::create(['content' => 'Detemir', 'question_id' => 245, 'score' => 0]);
-        Option::create(['content' => 'Lispro', 'question_id' => 245, 'score' => 0]);
-        Option::create(['content' => 'Premezclas', 'question_id' => 245, 'score' => 1]);
-        Option::create(['content' => '1500 / Dosis total de Insulina', 'question_id' => 246, 'score' => 0]);
-        Option::create(['content' => '1800 / Dosis total de Insulina', 'question_id' => 246, 'score' => 1]);
-        Option::create(['content' => '50 / Dosis total de Insulina', 'question_id' => 246, 'score' => 0]);
-        Option::create(['content' => '60 / Dosis total de Insulina', 'question_id' => 246, 'score' => 0]);
-        Option::create(['content' => '1500 / Dosis total de Insulina', 'question_id' => 247, 'score' => 1]);
-        Option::create(['content' => '1800 / Dosis total de Insulina', 'question_id' => 247, 'score' => 0]);
-        Option::create(['content' => '50 / Dosis total de Insulina', 'question_id' => 247, 'score' => 0]);
-        Option::create(['content' => '60 / Dosis total de Insulina', 'question_id' => 247, 'score' => 0]);
-        Option::create(['content' => '47.5', 'question_id' => 248, 'score' => 0]);
-        Option::create(['content' => '37.5', 'question_id' => 248, 'score' => 0]);
-        Option::create(['content' => '36', 'question_id' => 248, 'score' => 0]);
-        Option::create(['content' => '45', 'question_id' => 248, 'score' => 1]);
-        Option::create(['content' => '47.5', 'question_id' => 249, 'score' => 0]);
-        Option::create(['content' => '37.5', 'question_id' => 249, 'score' => 1]);
-        Option::create(['content' => '36', 'question_id' => 249, 'score' => 0]);
-        Option::create(['content' => '45', 'question_id' => 249, 'score' => 0]);
-        Option::create(['content' => '20-30 mg/dL', 'question_id' => 250, 'score' => 0]);
-        Option::create(['content' => '40-50 mg/dL', 'question_id' => 250, 'score' => 1]);
-        Option::create(['content' => '80-90 mg/dL', 'question_id' => 250, 'score' => 0]);
-        Option::create(['content' => '15-25 mg/dL', 'question_id' => 250, 'score' => 0]);
-        Option::create(['content' => 'Fácil manejo de medicamentos', 'question_id' => 251, 'score' => 0]);
-        Option::create(['content' => 'Disminuye el tiempo de estancia hospitalaria', 'question_id' => 251, 'score' => 0]);
-        Option::create(['content' => 'Menor mortalidad', 'question_id' => 251, 'score' => 0]);
-        Option::create(['content' => 'Mejor control glucémico y menos hipoglucemias', 'question_id' => 251, 'score' => 1]);
-        Option::create(['content' => 'Basal + bolo', 'question_id' => 252, 'score' => 0]);
-        Option::create(['content' => 'Basal + bolo + correcciones', 'question_id' => 252, 'score' => 1]);
-        Option::create(['content' => 'Escala de Insulina', 'question_id' => 252, 'score' => 0]);
-        Option::create(['content' => 'Basal Plus', 'question_id' => 252, 'score' => 0]);
-        Option::create(['content' => 'Aumentar 10-20% de la dosis total de insulina.', 'question_id' => 253, 'score' => 0]);
-        Option::create(['content' => 'Modificar el tipo de insulina que se utiliza.', 'question_id' => 253, 'score' => 0]);
-        Option::create(['content' => 'Disminuir 10-20% de la dosis total de insulina.', 'question_id' => 253, 'score' => 1]);
-        Option::create(['content' => 'No se modifica el esquema.', 'question_id' => 253, 'score' => 0]);
-        Option::create(['content' => 'Trastorno Obsesivo Compulsivo', 'question_id' => 254, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de Pánico', 'question_id' => 254, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de Ansiedad Generalizada', 'question_id' => 254, 'score' => 1]);
-        Option::create(['content' => 'Trastorno por Ansiedad Social', 'question_id' => 254, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de Ansiedad Generalizada y trastorno de pánico', 'question_id' => 255, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de obsesivo compulsivo y trastorno depresivo mayor', 'question_id' => 255, 'score' => 0]);
-        Option::create(['content' => 'Trastorno obsesivo compulsivo y trastorno de pánico', 'question_id' => 255, 'score' => 0]);
-        Option::create(['content' => 'Trastorno depresivo mayor y trastorno de ansiedad generalizada', 'question_id' => 255, 'score' => 1]);
-        Option::create(['content' => 'Al inicio', 'question_id' => 256, 'score' => 1]);
-        Option::create(['content' => 'Al mismo tiempo', 'question_id' => 256, 'score' => 0]);
-        Option::create(['content' => 'Después de la remisión', 'question_id' => 256, 'score' => 0]);
-        Option::create(['content' => 'Al inicio y después de la remisión', 'question_id' => 256, 'score' => 0]);
-        Option::create(['content' => 'Trastorno obsesivo compulsivo', 'question_id' => 257, 'score' => 0]);
-        Option::create(['content' => 'Trastorno depresivo mayor', 'question_id' => 257, 'score' => 1]);
-        Option::create(['content' => 'Trastorno por estrés postraumático', 'question_id' => 257, 'score' => 0]);
-        Option::create(['content' => 'Trastorno de ansiedad generalizada', 'question_id' => 257, 'score' => 0]);
-        Option::create(['content' => 'Las ideas suicidas', 'question_id' => 258, 'score' => 0]);
-        Option::create(['content' => 'El estado de ánimo bajo', 'question_id' => 258, 'score' => 0]);
-        Option::create(['content' => 'La agitación/enlentecimiento psicomotor', 'question_id' => 258, 'score' => 0]);
-        Option::create(['content' => 'Las alteraciones del sueño', 'question_id' => 258, 'score' => 1]);
-        Option::create(['content' => '5 % de los casos', 'question_id' => 259, 'score' => 0]);
-        Option::create(['content' => '50 % de los casos', 'question_id' => 259, 'score' => 1]);
-        Option::create(['content' => '75% de los casos', 'question_id' => 259, 'score' => 0]);
-        Option::create(['content' => '10 % de los casos', 'question_id' => 259, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos por abuso de sustancias', 'question_id' => 260, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos psicóticos', 'question_id' => 260, 'score' => 0]);
-        Option::create(['content' => 'Los trastornos de ansiedad y el trastorno depresivo mayor', 'question_id' => 260, 'score' => 1]);
-        Option::create(['content' => 'La relación entre insomnio y ansiedad es bidireccional', 'question_id' => 261, 'score' => 0]);
-        Option::create(['content' => 'El insomnio precede a los trastornos de ansiedad', 'question_id' => 261, 'score' => 0]);
-        Option::create(['content' => 'El insomnio precede a la depresión', 'question_id' => 261, 'score' => 1]);
-        Option::create(['content' => 'La depresión precede al insomnio', 'question_id' => 261, 'score' => 0]);
-        Option::create(['content' => 'El tratamiento farmacológico con un antidepresivo ISRS resuelve el insomnio', 'question_id' => 262, 'score' => 0]);
-        Option::create(['content' => 'El tratamiento con antidepresivos sedantes resuelve el insomnio', 'question_id' => 262, 'score' => 1]);
-        Option::create(['content' => 'El tratamiento con antidepresivos/psicoterapia normaliza el dormir', 'question_id' => 262, 'score' => 0]);
-        Option::create(['content' => 'El insomnio debe ser contemplado en el tratamiento', 'question_id' => 262, 'score' => 0]);
-        Option::create(['content' => 'La duración de los trastornos psiquiátricos', 'question_id' => 263, 'score' => 0]);
-        Option::create(['content' => 'Una mayor presentación de trastornos psiquiátricos', 'question_id' => 263, 'score' => 1]);
-        Option::create(['content' => 'Una mejor respuesta al tratamiento', 'question_id' => 263, 'score' => 0]);
-        Option::create(['content' => 'Una menor gravedad', 'question_id' => 263, 'score' => 0]);
-        Option::create(['content' => 'Mayor tasa de hipoglucemia', 'question_id' => 274, 'score' => 0]);
-        Option::create(['content' => 'Un control sub-óptimo a los 24 meses', 'question_id' => 274, 'score' => 1]);
-        Option::create(['content' => 'Complicaciones cardiovasculares a largo plazo', 'question_id' => 274, 'score' => 0]);
-        Option::create(['content' => 'Resistencia a la insulina', 'question_id' => 274, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad renal o hepática.', 'question_id' => 275, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 2 recién diagnosticada sintomática con hiperglucemia severa > 300', 'question_id' => 275, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Tipo 2 con HbA1c > 10%.', 'question_id' => 275, 'score' => 0]);
-        Option::create(['content' => 'HbA1C > 7.5% a pesar de dosis máximas útiles de hipoglucemiantes orales.', 'question_id' => 275, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 275, 'score' => 1]);
-        Option::create(['content' => 'Se calcula la dosis', 'question_id' => 276, 'score' => 1]);
-        Option::create(['content' => 'Se valora la respuesta del paciente a la terapia', 'question_id' => 276, 'score' => 0]);
-        Option::create(['content' => 'Se hacen ajustes para evitar hipo e hiperglucemias', 'question_id' => 276, 'score' => 0]);
-        Option::create(['content' => 'Se mide HbA1c', 'question_id' => 276, 'score' => 0]);
-        Option::create(['content' => 'El estilo de vida no es un factor deteriminante', 'question_id' => 279, 'score' => 0]);
-        Option::create(['content' => 'Es necesario el cambio de azúcar por edulcorantes', 'question_id' => 279, 'score' => 0]);
-        Option::create(['content' => 'La titulación de la insulina (basal/prandial) es fundamental', 'question_id' => 279, 'score' => 1]);
-        Option::create(['content' => 'Es necesario en todos los pacientes iniciar con insulina prandial antes de titular la insulina basal.', 'question_id' => 279, 'score' => 0]);
-        Option::create(['content' => 'Una vez al día.', 'question_id' => 277, 'score' => 0]);
-        Option::create(['content' => 'Una vez por semana.', 'question_id' => 277, 'score' => 0]);
-        Option::create(['content' => 'Cada 2-3 días hasta alcanzar metas de glucosa plasmática en ayuno.', 'question_id' => 277, 'score' => 1]);
-        Option::create(['content' => 'Cuando se presenten eventos de hipoglucemia.', 'question_id' => 277, 'score' => 0]);
-        Option::create(['content' => 'Mayor tasa de hipoglucemia', 'question_id' => 280, 'score' => 0]);
-        Option::create(['content' => 'Un control sub-óptimo a los 24 meses', 'question_id' => 280, 'score' => 1]);
-        Option::create(['content' => 'Complicaciones cardiovasculares a largo plazo', 'question_id' => 280, 'score' => 0]);
-        Option::create(['content' => 'Resistencia a la insulina', 'question_id' => 280, 'score' => 0]);
-        Option::create(['content' => 'Hemoglobina glucosilada', 'question_id' => 278, 'score' => 0]);
-        Option::create(['content' => 'Glucosa precomida siguiente', 'question_id' => 278, 'score' => 1]);
-        Option::create(['content' => 'Glucosa plasmática en ayuno', 'question_id' => 278, 'score' => 0]);
-        Option::create(['content' => 'Glucosa postprandial a los 30 min', 'question_id' => 278, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad renal o hepática.', 'question_id' => 281, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 2 recién diagnosticada sintomática con hiperglucemia severa > 300', 'question_id' => 281, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Tipo 2 con HbA1c > 10%.', 'question_id' => 281, 'score' => 0]);
-        Option::create(['content' => 'HbA1C > 7.5% a pesar de dosis máximas útiles de hipoglucemiantes orales.', 'question_id' => 281, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 281, 'score' => 1]);
-        Option::create(['content' => 'Enfermedades intercurrentes (infecciones, IAM) o cirugía.', 'question_id' => 282, 'score' => 0]);
-        Option::create(['content' => 'Alergia o intolerancia a hipoglucemiantes orales.', 'question_id' => 282, 'score' => 0]);
-        Option::create(['content' => 'Embarazo o planes de embarazo.', 'question_id' => 282, 'score' => 0]);
-        Option::create(['content' => 'HbA1C > 7.5% a pesar de dosis máximas útiles de hipoglucemiantes orales.', 'question_id' => 282, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 282, 'score' => 1]);
-        Option::create(['content' => 'Se calcula la dosis', 'question_id' => 283, 'score' => 1]);
-        Option::create(['content' => 'Ajuste de dosis 1-2 unidades una o dos veces por semana hasta alcanzar la meta.', 'question_id' => 294, 'score' => 1]);
-        Option::create(['content' => 'Ajuste de dosis cada 24 horas', 'question_id' => 294, 'score' => 0]);
-        Option::create(['content' => 'Ajuste de dosis después de cada comida', 'question_id' => 294, 'score' => 0]);
-        Option::create(['content' => 'No es necesario titular la insulina prandial, únicamente la basal.', 'question_id' => 294, 'score' => 0]);
-        Option::create(['content' => 'Se valora la respuesta del paciente a la terapia', 'question_id' => 283, 'score' => 0]);
-        Option::create(['content' => 'Se hacen ajustes para evitar hipo e hiperglucemias', 'question_id' => 283, 'score' => 0]);
-        Option::create(['content' => 'Se mide HbA1c', 'question_id' => 283, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 1 aplicación prandial de insulina rápida', 'question_id' => 293, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 2 aplicaciones prandiales de insulina rápida', 'question_id' => 293, 'score' => 0]);
-        Option::create(['content' => 'Una aplicación de insulina basal + 3 aplicación prandiales de insulina rápida', 'question_id' => 293, 'score' => 1]);
-        Option::create(['content' => 'Una aplicación de insulina rápida + 3 aplicación prandiales de insulina basal', 'question_id' => 293, 'score' => 0]);
-        Option::create(['content' => 'Se calcula la dosis', 'question_id' => 295, 'score' => 0]);
-        Option::create(['content' => 'Hemoglobina glucosilada', 'question_id' => 292, 'score' => 0]);
-        Option::create(['content' => 'Glucosa precomida siguiente', 'question_id' => 292, 'score' => 1]);
-        Option::create(['content' => 'Glucosa plasmática en ayuno', 'question_id' => 292, 'score' => 0]);
-        Option::create(['content' => 'Glucosa postprandial a los 30 min', 'question_id' => 292, 'score' => 0]);
-        Option::create(['content' => 'Se valora la respuesta del paciente a la terapia y se realizan ajustes para evitar hipo e hiperglucemias.', 'question_id' => 295, 'score' => 1]);
-        Option::create(['content' => 'Se elige el tipo de insulina a utilizar', 'question_id' => 295, 'score' => 0]);
-        Option::create(['content' => 'Iniciar 5 U/día de insulina basal y ajustar cada 2-3 días hasta alcanzar glucosa plasmática en ayuno meta.', 'question_id' => 296, 'score' => 0]);
-        Option::create(['content' => 'Iniciar 10 U/día ó 0.1-0.2 U/kg/día de insulina basal y ajustar 10-15% ò 2-4 U. una o dos veces por semana hasta alcanzar glucosa plasmática en ayuno meta.', 'question_id' => 296, 'score' => 1]);
-        Option::create(['content' => 'Iniciar el tratamiento 50% con insulina basal y 50% con insulina prandial desde el inicio.', 'question_id' => 296, 'score' => 0]);
-        Option::create(['content' => 'Hemoglobina glucosilada', 'question_id' => 291, 'score' => 0]);
-        Option::create(['content' => 'Glucosa postprandial a las 2-h', 'question_id' => 291, 'score' => 1]);
-        Option::create(['content' => 'Glucosa plasmática en ayuno', 'question_id' => 291, 'score' => 0]);
-        Option::create(['content' => 'Glucosa precomida', 'question_id' => 291, 'score' => 0]);
-        Option::create(['content' => 'Una vez al día.', 'question_id' => 297, 'score' => 0]);
-        Option::create(['content' => 'Una vez por semana.', 'question_id' => 297, 'score' => 0]);
-        Option::create(['content' => 'Cada 2-3 días hasta alcanzar metas de glucosa plasmática en ayuno.', 'question_id' => 297, 'score' => 1]);
-        Option::create(['content' => 'Cuando se presenten eventos de hipoglucemia.', 'question_id' => 297, 'score' => 0]);
-        Option::create(['content' => '5% ó 1 unidad de insulina una vez al día', 'question_id' => 298, 'score' => 0]);
-        Option::create(['content' => 'Hemoglobina glucosilada', 'question_id' => 290, 'score' => 0]);
-        Option::create(['content' => 'Glucosa postprandial a las 2-h', 'question_id' => 290, 'score' => 0]);
-        Option::create(['content' => 'Glucosa plasmática en ayuno', 'question_id' => 290, 'score' => 1]);
-        Option::create(['content' => 'Conteo de carbohidratos', 'question_id' => 290, 'score' => 0]);
-        Option::create(['content' => '10% de insulina una vez por semana', 'question_id' => 298, 'score' => 0]);
-        Option::create(['content' => '2-4 Unidades cada 2-4 días hasta alcanzar metas de glucosa plasmática en ayuno.', 'question_id' => 298, 'score' => 1]);
-        Option::create(['content' => 'Cuando se presenten eventos de hipoglucemia.', 'question_id' => 298, 'score' => 0]);
-        Option::create(['content' => 'Basal plus', 'question_id' => 289, 'score' => 0]);
-        Option::create(['content' => 'Basal', 'question_id' => 289, 'score' => 1]);
-        Option::create(['content' => 'Basal-bolo', 'question_id' => 289, 'score' => 0]);
-        Option::create(['content' => 'Prandial', 'question_id' => 289, 'score' => 0]);
-        Option::create(['content' => 'Las metas de tratamiento, requieren ser menos estrictas A1C (<7.5% or ≤8%)', 'question_id' => 288, 'score' => 1]);
-        Option::create(['content' => 'Representan una sustitución fisiológica de la secreción de insulina', 'question_id' => 288, 'score' => 0]);
-        Option::create(['content' => 'Conllevan menor riesgo de hipoglucemia respecto a esquema basal-bolo', 'question_id' => 288, 'score' => 0]);
-        Option::create(['content' => 'Permiten un patrón de alimentación y ejercicio flexible', 'question_id' => 288, 'score' => 0]);
-        Option::create(['content' => 'Pacientes que no llegan a metas con insulina basal.', 'question_id' => 287, 'score' => 0]);
-        Option::create(['content' => 'A1C arriba de la meta con insulina basal >0.1 U/kg/dia', 'question_id' => 287, 'score' => 1]);
-        Option::create(['content' => 'Disminución importante de la glucemia en la noche o entre comidas', 'question_id' => 287, 'score' => 0]);
-        Option::create(['content' => 'Cuando un aumento en la insulina basal resulta en hipoglucemia', 'question_id' => 287, 'score' => 0]);
-        Option::create(['content' => 'Menor variabilidad inter-diaria', 'question_id' => 286, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de hipoglucemia', 'question_id' => 286, 'score' => 0]);
-        Option::create(['content' => 'Menor ganancia de peso', 'question_id' => 286, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 286, 'score' => 1]);
-        Option::create(['content' => 'Medicamento genérico', 'question_id' => 285, 'score' => 0]);
-        Option::create(['content' => 'Análogo de insulina', 'question_id' => 285, 'score' => 1]);
-        Option::create(['content' => 'Biocomparable', 'question_id' => 285, 'score' => 0]);
-        Option::create(['content' => 'Insulina regular', 'question_id' => 285, 'score' => 0]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes de larga evolución corta expectativa de vida', 'question_id' => 284, 'score' => 0]);
-        Option::create(['content' => 'A1C < 6.5 % en pacientes con complicaciones macrovasculares', 'question_id' => 284, 'score' => 0]);
-        Option::create(['content' => 'A1C < 7 % en todos los pacientes', 'question_id' => 284, 'score' => 1]);
-        Option::create(['content' => 'A1C < 8.0 % en individuos que presentan hipoglucemia leve', 'question_id' => 284, 'score' => 0]);
-        Option::create(['content' => '<54mg/dL', 'question_id' => 300, 'score' => 0]);
-        Option::create(['content' => '≤70mg/dL', 'question_id' => 300, 'score' => 1]);
-        Option::create(['content' => '<60mg/dL', 'question_id' => 300, 'score' => 0]);
-        Option::create(['content' => '<42mg/dL', 'question_id' => 300, 'score' => 0]);
-        Option::create(['content' => '<54mg/dL', 'question_id' => 301, 'score' => 0]);
-        Option::create(['content' => '≤70mg/dL', 'question_id' => 301, 'score' => 1]);
-        Option::create(['content' => '<60mg/dL', 'question_id' => 301, 'score' => 0]);
-        Option::create(['content' => '<42mg/dL', 'question_id' => 301, 'score' => 0]);
-        Option::create(['content' => '<60 mg/dL', 'question_id' => 302, 'score' => 0]);
-        Option::create(['content' => '<42mg/dL', 'question_id' => 302, 'score' => 0]);
-        Option::create(['content' => '<54 mg/dL', 'question_id' => 302, 'score' => 1]);
-        Option::create(['content' => '<70mg/dL', 'question_id' => 302, 'score' => 0]);
-        Option::create(['content' => 'Contexto del paciente', 'question_id' => 303, 'score' => 1]);
-        Option::create(['content' => 'Opiniones de familiares y amigos', 'question_id' => 303, 'score' => 0]);
-        Option::create(['content' => 'Modelo paternalista-médico de toma de decisiones', 'question_id' => 303, 'score' => 0]);
-        Option::create(['content' => 'Tendencias y modas de tratamiento', 'question_id' => 303, 'score' => 0]);
-        Option::create(['content' => 'Alteración del estado de conciencia que necesita rescate de una tercera persona', 'question_id' => 304, 'score' => 1]);
-        Option::create(['content' => 'Alteración del estado de conciencia con recuperación espontanea', 'question_id' => 304, 'score' => 0]);
-        Option::create(['content' => 'Temblor y sudoración', 'question_id' => 304, 'score' => 0]);
-        Option::create(['content' => 'Palidez y ansiedad', 'question_id' => 304, 'score' => 0]);
-        Option::create(['content' => '<9%', 'question_id' => 305, 'score' => 0]);
-        Option::create(['content' => '<8.5%', 'question_id' => 305, 'score' => 1]);
-        Option::create(['content' => '<11%', 'question_id' => 305, 'score' => 0]);
-        Option::create(['content' => '<10%', 'question_id' => 305, 'score' => 0]);
-        Option::create(['content' => '<9%', 'question_id' => 306, 'score' => 0]);
-        Option::create(['content' => '<8.5%', 'question_id' => 306, 'score' => 0]);
-        Option::create(['content' => '<7%', 'question_id' => 306, 'score' => 1]);
-        Option::create(['content' => '<10%', 'question_id' => 306, 'score' => 0]);
-        Option::create(['content' => 'Convencional', 'question_id' => 307, 'score' => 0]);
-        Option::create(['content' => 'Intensivo', 'question_id' => 307, 'score' => 1]);
-        Option::create(['content' => 'Esquema Metformina', 'question_id' => 307, 'score' => 0]);
-        Option::create(['content' => 'Utilizar Metformina en conjunto con Estatinas', 'question_id' => 307, 'score' => 0]);
-        Option::create(['content' => 'Hiporexia', 'question_id' => 308, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad Vascular Cerebral', 'question_id' => 308, 'score' => 0]);
-        Option::create(['content' => 'Mortalidad', 'question_id' => 308, 'score' => 1]);
-        Option::create(['content' => 'Hipertension Arterial', 'question_id' => 308, 'score' => 0]);
-        Option::create(['content' => 'Alzheimer', 'question_id' => 309, 'score' => 0]);
-        Option::create(['content' => 'Colon irritable', 'question_id' => 309, 'score' => 0]);
-        Option::create(['content' => 'Osteoporosis', 'question_id' => 309, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad cardiovascular', 'question_id' => 309, 'score' => 1]);
-        Option::create(['content' => 'Menopausia temprana', 'question_id' => 310, 'score' => 0]);
-        Option::create(['content' => 'Hipotiroidismo primario', 'question_id' => 310, 'score' => 0]);
-        Option::create(['content' => 'Aumento de enfermedades reumatológicas', 'question_id' => 310, 'score' => 0]);
-        Option::create(['content' => 'Deterioro cognitivo', 'question_id' => 310, 'score' => 1]);
-        Option::create(['content' => 'Disminución en la calidad de vida', 'question_id' => 311, 'score' => 1]);
-        Option::create(['content' => 'Bloqueo de rama izquierda', 'question_id' => 311, 'score' => 0]);
-        Option::create(['content' => 'Síndrome del Seno Enfermo', 'question_id' => 311, 'score' => 0]);
-        Option::create(['content' => 'Disautonomias', 'question_id' => 311, 'score' => 0]);
-        Option::create(['content' => 'Alta ≥ 6.4%', 'question_id' => 312, 'score' => 0]);
-        Option::create(['content' => 'Baja ≤5.0%', 'question_id' => 312, 'score' => 0]);
-        Option::create(['content' => 'Ambos', 'question_id' => 312, 'score' => 1]);
-        Option::create(['content' => 'Ninguna', 'question_id' => 312, 'score' => 0]);
-        Option::create(['content' => 'Esquema de tratamiento previo', 'question_id' => 313, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos', 'question_id' => 313, 'score' => 0]);
-        Option::create(['content' => 'Hemoglobina glucosilada', 'question_id' => 313, 'score' => 1]);
-        Option::create(['content' => 'Precio de los medicamentos', 'question_id' => 313, 'score' => 0]);
-        Option::create(['content' => 'Evidencia de investigación científica', 'question_id' => 314, 'score' => 1]);
-        Option::create(['content' => 'Empirismo médico', 'question_id' => 314, 'score' => 0]);
-        Option::create(['content' => 'Contactar lo mínimo posible al paciente', 'question_id' => 314, 'score' => 0]);
-        Option::create(['content' => 'Paciente auto-medicado', 'question_id' => 314, 'score' => 0]);
-        Option::create(['content' => 'Tendencias y modas de tratamiento', 'question_id' => 315, 'score' => 0]);
-        Option::create(['content' => 'Opiniones de familiares y amigos', 'question_id' => 315, 'score' => 0]);
-        Option::create(['content' => 'Siguiendo esquemas de seguros médicos privados', 'question_id' => 315, 'score' => 0]);
-        Option::create(['content' => 'Valores y preferencias del paciente', 'question_id' => 315, 'score' => 1]);
-        Option::create(['content' => '3-4', 'question_id' => 316, 'score' => 1]);
-        Option::create(['content' => '1-2', 'question_id' => 316, 'score' => 0]);
-        Option::create(['content' => '0.1-1', 'question_id' => 316, 'score' => 0]);
-        Option::create(['content' => 'Ninguno', 'question_id' => 316, 'score' => 0]);
-        Option::create(['content' => '3-4', 'question_id' => 317, 'score' => 1]);
-        Option::create(['content' => '1-2', 'question_id' => 317, 'score' => 0]);
-        Option::create(['content' => '0.1-1', 'question_id' => 317, 'score' => 0]);
-        Option::create(['content' => 'Ninguno', 'question_id' => 317, 'score' => 0]);
-        Option::create(['content' => 'Que la hipoglucemia aumenta el riesgo de padecer enfermedad cardiovascular de manera estadísticamente significativa.', 'question_id' => 318, 'score' => 1]);
-        Option::create(['content' => 'Que la hipoglucemia disminuye el riesgo de padecer enfermedad cardiovascular de manera estadísticamente significativo.', 'question_id' => 318, 'score' => 0]);
-        Option::create(['content' => 'Que la hipoglucemia aumenta el riesgo de padecer enfermedad cardiovascular de manera NO estadísticamente significativa.', 'question_id' => 318, 'score' => 0]);
-        Option::create(['content' => 'NO se puede llegar a una conclusión con los resultados obtenidos.', 'question_id' => 318, 'score' => 0]);
-        Option::create(['content' => 'Que 3 o más episodios de hipoglucemia aumenta el riesgo de padecer enfermedad cardiovascular de manera NO estadísticamente significativa', 'question_id' => 319, 'score' => 0]);
-        Option::create(['content' => 'NO se puede llegar a una conclusión con los resultados obtenidos.', 'question_id' => 319, 'score' => 0]);
-        Option::create(['content' => 'Que 3 o más episodios de hipoglucemia aumentan el riesgo presentar demencia de manera estadísticamente significativa.', 'question_id' => 319, 'score' => 1]);
-        Option::create(['content' => 'Que 3 o más episodios de hipoglucemia disminuye el riesgo de padecer demencia de manera estadísticamente significativo.', 'question_id' => 319, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión', 'question_id' => 320, 'score' => 1]);
-        Option::create(['content' => 'Depresión', 'question_id' => 320, 'score' => 0]);
-        Option::create(['content' => 'Demensia', 'question_id' => 320, 'score' => 0]);
-        Option::create(['content' => 'Insuficiencia cardíaca', 'question_id' => 320, 'score' => 0]);
-        Option::create(['content' => 'No afecta la calidad de vida.', 'question_id' => 321, 'score' => 0]);
-        Option::create(['content' => 'Disminuye la calidad de vida.', 'question_id' => 321, 'score' => 1]);
-        Option::create(['content' => 'Puede alterar la calidad de vida pero está justificado por disminuir la HbA1c.', 'question_id' => 321, 'score' => 0]);
-        Option::create(['content' => 'No hay estudios que demuestren que la hipoglucemia severa altere la calidad de vida.', 'question_id' => 321, 'score' => 0]);
-        Option::create(['content' => 'Se debe seguir con el mismo esquema de tratamiento.', 'question_id' => 322, 'score' => 0]);
-        Option::create(['content' => 'Se debe intensificar el esquema de tratamiento para disminuir HbA1c hasta que sea <7%', 'question_id' => 322, 'score' => 0]);
-        Option::create(['content' => 'Se debe agregar un esquema de Insulina.', 'question_id' => 322, 'score' => 0]);
-        Option::create(['content' => 'Se debe de-intensificar el tratamiento.', 'question_id' => 322, 'score' => 1]);
-        Option::create(['content' => 'Se debe seguir con el mismo esquema de tratamiento', 'question_id' => 323, 'score' => 1]);
-        Option::create(['content' => 'Se debe intensificar el esquema de tratamiento para disminuir HbA1c hasta que sea <7%', 'question_id' => 323, 'score' => 0]);
-        Option::create(['content' => 'Se debe agregar un esquema de Insulina', 'question_id' => 323, 'score' => 0]);
-        Option::create(['content' => 'Se debe de-intensificar el tratamiento.', 'question_id' => 323, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 330, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de reciente diagnóstico', 'question_id' => 330, 'score' => 1]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 con presencia de complicaciones', 'question_id' => 330, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de larga evolución sin riesgo cardiovascular', 'question_id' => 330, 'score' => 0]);
-        Option::create(['content' => 'Es una de las mayores causas de muerte en esta población', 'question_id' => 331, 'score' => 1]);
-        Option::create(['content' => 'Es la primera manifestación de la diabetes', 'question_id' => 331, 'score' => 0]);
-        Option::create(['content' => 'Es el último estadío de la enfermedad metabólica', 'question_id' => 331, 'score' => 0]);
-        Option::create(['content' => 'Es una complicación predominante en diabéticos con reciente diagnóstico.', 'question_id' => 331, 'score' => 0]);
-        Option::create(['content' => 'Dislipidemias e hipertensión arterial', 'question_id' => 332, 'score' => 0]);
-        Option::create(['content' => 'Edad >50 años y trombosis venosa profunda', 'question_id' => 332, 'score' => 1]);
-        Option::create(['content' => 'EPOC y tabaquismo', 'question_id' => 332, 'score' => 0]);
-        Option::create(['content' => 'Obesidad e inactividad física', 'question_id' => 332, 'score' => 0]);
-        Option::create(['content' => 'Dieta inadecuada y factores psicosociales', 'question_id' => 332, 'score' => 0]);
-        Option::create(['content' => '2000', 'question_id' => 333, 'score' => 0]);
-        Option::create(['content' => '2008', 'question_id' => 333, 'score' => 1]);
-        Option::create(['content' => '2012', 'question_id' => 333, 'score' => 0]);
-        Option::create(['content' => '2017', 'question_id' => 333, 'score' => 0]);
-        Option::create(['content' => 'ORIGIN', 'question_id' => 334, 'score' => 1]);
-        Option::create(['content' => 'DEVOTE', 'question_id' => 334, 'score' => 0]);
-        Option::create(['content' => 'CANVAS', 'question_id' => 334, 'score' => 0]);
-        Option::create(['content' => 'SAVOR-TIMI', 'question_id' => 334, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 335, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de reciente diagnóstico', 'question_id' => 335, 'score' => 1]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 con presencia de complicaciones', 'question_id' => 335, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de larga evolución sin riesgo cardiovascular', 'question_id' => 335, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 336, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de reciente diagnóstico', 'question_id' => 336, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 con presencia de complicaciones', 'question_id' => 336, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 con riesgo cardiovascular elevado', 'question_id' => 336, 'score' => 1]);
-        Option::create(['content' => 'Efecto neutral sobre los desenlaces cardiovasculares', 'question_id' => 337, 'score' => 0]);
-        Option::create(['content' => 'No incrementó el riesgo de cáncer', 'question_id' => 337, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de hipoglucemia versus otros estudios', 'question_id' => 337, 'score' => 0]);
-        Option::create(['content' => 'Insulina glargina redujo la progresión de prediabetes a diabetes', 'question_id' => 337, 'score' => 0]);
-        Option::create(['content' => 'Presencia de hipoglucemia importante versus otros estudios', 'question_id' => 337, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo 1', 'question_id' => 338, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 y edad  ≥55 años con factores de riesgo para enfermedad vascular', 'question_id' => 338, 'score' => 1]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 de reciente diagnóstico', 'question_id' => 338, 'score' => 0]);
-        Option::create(['content' => 'Diabetes mellitus tipo 2 con presencia de complicaciones', 'question_id' => 338, 'score' => 0]);
-        Option::create(['content' => 'Dislipidemias e hipertensión arterial', 'question_id' => 339, 'score' => 0]);
-        Option::create(['content' => 'Edad >50 años y trombosis venosa profunda', 'question_id' => 339, 'score' => 1]);
-        Option::create(['content' => 'Diabetes mellitus y tabaquismo', 'question_id' => 339, 'score' => 0]);
-        Option::create(['content' => 'Obesidad e inactividad física', 'question_id' => 339, 'score' => 0]);
-        Option::create(['content' => 'Dieta inadecuada y factores psicosociales', 'question_id' => 339, 'score' => 0]);
-        Option::create(['content' => 'En pacientes asintomáticos sin Diabetes Mellitus medir HbA1c no es útil para medir riesgo cardiovascular.', 'question_id' => 340, 'score' => 0]);
-        Option::create(['content' => 'En pacientes asintomáticos con Diabetes Mellitus o Hipertensión podría ser útil medir microalbuminuria para detectar riesgo cardiovascular', 'question_id' => 340, 'score' => 1]);
-        Option::create(['content' => 'En pacientes asintomáticos con Hipertensión arterial y Diabetes es razonable solicitar una prueba de esfuerzo', 'question_id' => 340, 'score' => 0]);
-        Option::create(['content' => 'En todos los pacientes con riesgo cardiovascular está indicado realizar ecocardiograma de estrés.', 'question_id' => 340, 'score' => 0]);
-        Option::create(['content' => 'Es una de las mayores causas de muerte en esta población', 'question_id' => 341, 'score' => 1]);
-        Option::create(['content' => 'Es la primera manifestación de la diabetes', 'question_id' => 341, 'score' => 0]);
-        Option::create(['content' => 'Es el último estadío de la enfermedad metabólica', 'question_id' => 341, 'score' => 0]);
-        Option::create(['content' => 'Es una complicación predominante en diabéticos con reciente diagnóstico.', 'question_id' => 341, 'score' => 0]);
-        Option::create(['content' => '2000', 'question_id' => 342, 'score' => 0]);
-        Option::create(['content' => '2008', 'question_id' => 342, 'score' => 1]);
-        Option::create(['content' => '2012', 'question_id' => 342, 'score' => 0]);
-        Option::create(['content' => '2017', 'question_id' => 342, 'score' => 0]);
-        Option::create(['content' => 'Diabetes tipo 2 de larga duración y alto riesgo cardiovascular', 'question_id' => 343, 'score' => 1]);
-        Option::create(['content' => 'Diabetes tipo 2 de reciente diagnóstico', 'question_id' => 343, 'score' => 0]);
-        Option::create(['content' => 'Diabetes gestacional', 'question_id' => 343, 'score' => 0]);
-        Option::create(['content' => 'No lograron demostrar seguridad cardiovascular', 'question_id' => 343, 'score' => 0]);
-        Option::create(['content' => 'Lixisenatide', 'question_id' => 344, 'score' => 0]);
-        Option::create(['content' => 'Liraglutide', 'question_id' => 344, 'score' => 1]);
-        Option::create(['content' => 'Saxagliptina', 'question_id' => 344, 'score' => 0]);
-        Option::create(['content' => 'Empaglifozina', 'question_id' => 344, 'score' => 0]);
-        Option::create(['content' => 'Lixisenatide', 'question_id' => 345, 'score' => 1]);
-        Option::create(['content' => 'Liraglutide', 'question_id' => 345, 'score' => 0]);
-        Option::create(['content' => 'Saxagliptina', 'question_id' => 345, 'score' => 0]);
-        Option::create(['content' => 'Empaglifozina', 'question_id' => 345, 'score' => 0]);
-        Option::create(['content' => 'Insulina glargina e insulina degludec', 'question_id' => 346, 'score' => 0]);
-        Option::create(['content' => 'Sulfonilureas', 'question_id' => 346, 'score' => 1]);
-        Option::create(['content' => 'Inhibidores DPP4', 'question_id' => 346, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores SGLT-2', 'question_id' => 346, 'score' => 0]);
-        Option::create(['content' => 'Análogos GLP-1', 'question_id' => 346, 'score' => 0]);
-        Option::create(['content' => 'ORIGIN', 'question_id' => 347, 'score' => 1]);
-        Option::create(['content' => 'DEVOTE', 'question_id' => 347, 'score' => 0]);
-        Option::create(['content' => 'CANVAS', 'question_id' => 347, 'score' => 0]);
-        Option::create(['content' => 'SAVOR-TIMI', 'question_id' => 347, 'score' => 0]);
-        Option::create(['content' => 'NPH', 'question_id' => 348, 'score' => 0]);
-        Option::create(['content' => 'Glargina', 'question_id' => 348, 'score' => 1]);
-        Option::create(['content' => 'Detemir', 'question_id' => 348, 'score' => 0]);
-        Option::create(['content' => 'Degludec', 'question_id' => 348, 'score' => 0]);
-        Option::create(['content' => 'Efecto neutral sobre los desenlaces cardiovasculares', 'question_id' => 349, 'score' => 0]);
-        Option::create(['content' => 'No produjo un incremento en el riesgo de incidencia de cáncer', 'question_id' => 349, 'score' => 0]);
-        Option::create(['content' => 'Menor riesgo de hipoglucemia en comparación con otros estudios', 'question_id' => 349, 'score' => 0]);
-        Option::create(['content' => 'Insulina Glargina redujo la progresión de la prediabetes a diabetes', 'question_id' => 349, 'score' => 0]);
-        Option::create(['content' => 'Todos los anteriores', 'question_id' => 349, 'score' => 1]);
-        Option::create(['content' => 'DEVOTE', 'question_id' => 350, 'score' => 0]);
-        Option::create(['content' => 'ACCORD', 'question_id' => 350, 'score' => 0]);
-        Option::create(['content' => 'ORIGINALE', 'question_id' => 350, 'score' => 1]);
-        Option::create(['content' => 'ELIXA', 'question_id' => 350, 'score' => 0]);
-        Option::create(['content' => 'Insulina glargina tuvo un efecto neutro en resultados CV y muertes por toda causa', 'question_id' => 351, 'score' => 1]);
-        Option::create(['content' => 'Insulina glargina tuvo un efecto negativo en resultados microvasculares y mayor incidencia de cáncer', 'question_id' => 351, 'score' => 0]);
-        Option::create(['content' => 'Insulina glargina previene indiscutiblemente la diabetes en personas con factores de riesgo.', 'question_id' => 351, 'score' => 0]);
-        Option::create(['content' => 'Revisión de situación cardiovascular', 'question_id' => 352, 'score' => 0]);
-        Option::create(['content' => 'Revisión de pies', 'question_id' => 352, 'score' => 0]);
-        Option::create(['content' => 'Revisión oftalmológica', 'question_id' => 352, 'score' => 0]);
-        Option::create(['content' => 'Valoración neurológica', 'question_id' => 352, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 352, 'score' => 1]);
-        Option::create(['content' => 'Espirometría', 'question_id' => 353, 'score' => 0]);
-        Option::create(['content' => 'Holter', 'question_id' => 353, 'score' => 0]);
-        Option::create(['content' => 'Electrocardiograma y prueba de esfuerzo', 'question_id' => 353, 'score' => 1]);
-        Option::create(['content' => 'Monitoreo continuo de glucosa', 'question_id' => 353, 'score' => 0]);
-        Option::create(['content' => 'Bajo', 'question_id' => 354, 'score' => 0]);
-        Option::create(['content' => 'Moderado', 'question_id' => 354, 'score' => 0]);
-        Option::create(['content' => 'Alto', 'question_id' => 354, 'score' => 1]);
-        Option::create(['content' => 'Complicación macrovascular que comprende a las extremidades inferiores', 'question_id' => 356, 'score' => 0]);
-        Option::create(['content' => 'Es la infección, ulceración y destrucción de los tejidos profundos de la extremidad inferior', 'question_id' => 356, 'score' => 1]);
-        Option::create(['content' => 'Es una complicación aguda de la diabetes que lleva a la discapacidad y posterior mutilación de la extremidad', 'question_id' => 356, 'score' => 0]);
-        Option::create(['content' => 'Cierto', 'question_id' => 357, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 357, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Mellitus de larga evolución descontrolada', 'question_id' => 358, 'score' => 0]);
-        Option::create(['content' => 'Desarrollo de neuropatía', 'question_id' => 358, 'score' => 0]);
-        Option::create(['content' => 'Micro y macroangiopatía', 'question_id' => 358, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 358, 'score' => 1]);
-        Option::create(['content' => 'HbA1c descontrolada ( >10%)', 'question_id' => 359, 'score' => 0]);
-        Option::create(['content' => 'Onicomicosis severa', 'question_id' => 359, 'score' => 0]);
-        Option::create(['content' => 'Traumatismos en la extremidad inferior y deformidades', 'question_id' => 359, 'score' => 1]);
-        Option::create(['content' => 'Procesos infecciosos', 'question_id' => 360, 'score' => 1]);
-        Option::create(['content' => 'Urticaria/prurito', 'question_id' => 360, 'score' => 0]);
-        Option::create(['content' => 'Neuropatía periférica', 'question_id' => 360, 'score' => 0]);
-        Option::create(['content' => 'HbA1c descontrolada, microangiopatía, macroangiopatía', 'question_id' => 361, 'score' => 0]);
-        Option::create(['content' => 'Descompensación hidroelectrolítica, angiopatía, edema periférico', 'question_id' => 361, 'score' => 0]);
-        Option::create(['content' => 'Neuropatía, angiopatía, infección', 'question_id' => 361, 'score' => 1]);
-        Option::create(['content' => 'De forma circular', 'question_id' => 362, 'score' => 0]);
-        Option::create(['content' => 'De forma recta', 'question_id' => 362, 'score' => 1]);
-        Option::create(['content' => 'De forma triangular', 'question_id' => 362, 'score' => 0]);
-        Option::create(['content' => 'Sensación de ardor, pérdida de la sensibilidad y de la fuerza', 'question_id' => 363, 'score' => 0]);
-        Option::create(['content' => 'Calambres y adormecimiento', 'question_id' => 363, 'score' => 0]);
-        Option::create(['content' => 'Piel seca, callosidades y deformidades', 'question_id' => 363, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 363, 'score' => 1]);
-        Option::create(['content' => 'Sensación de presión usando el monofilamento, sensación de dolor usando alfiler', 'question_id' => 364, 'score' => 0]);
-        Option::create(['content' => 'Pruebas de vibración y de propiocepción', 'question_id' => 364, 'score' => 0]);
-        Option::create(['content' => 'Examinación de reflejos osteotendinosos y de fuerza distal', 'question_id' => 364, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 364, 'score' => 1]);
-        Option::create(['content' => 'Pulsos femorales, tibiales, poplíteos y pedios', 'question_id' => 365, 'score' => 0]);
-        Option::create(['content' => 'Temperatura y coloración de los pies', 'question_id' => 365, 'score' => 0]);
-        Option::create(['content' => 'A y B son correctas', 'question_id' => 365, 'score' => 1]);
-        Option::create(['content' => 'Glaucoma', 'question_id' => 366, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía diabética', 'question_id' => 366, 'score' => 1]);
-        Option::create(['content' => 'Degeneración macular relacionada a la edad', 'question_id' => 366, 'score' => 0]);
-        Option::create(['content' => 'Duración de la Diabetes Mellitus', 'question_id' => 367, 'score' => 0]);
-        Option::create(['content' => 'Largo tiempo en descontrol glucémico expresado en la HbA1c', 'question_id' => 367, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad renal', 'question_id' => 367, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 367, 'score' => 1]);
-        Option::create(['content' => 'Edema macular', 'question_id' => 368, 'score' => 1]);
-        Option::create(['content' => 'Glaucoma', 'question_id' => 368, 'score' => 0]);
-        Option::create(['content' => 'Conjuntivitis', 'question_id' => 368, 'score' => 0]);
-        Option::create(['content' => 'Microaneurismas', 'question_id' => 369, 'score' => 0]);
-        Option::create(['content' => 'Microhemmoragias', 'question_id' => 369, 'score' => 0]);
-        Option::create(['content' => 'Exudados blandos (depósitos algodonosos) y exudados duros', 'question_id' => 369, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 369, 'score' => 1]);
-        Option::create(['content' => 'Exudados duros', 'question_id' => 370, 'score' => 0]);
-        Option::create(['content' => 'Depósitos algodonosos', 'question_id' => 370, 'score' => 0]);
-        Option::create(['content' => 'Microaneurismas', 'question_id' => 370, 'score' => 1]);
-        Option::create(['content' => 'Microhemorragias', 'question_id' => 370, 'score' => 0]);
-        Option::create(['content' => 'Estudio de fluorangiografía', 'question_id' => 371, 'score' => 1]);
-        Option::create(['content' => 'Estudio de fondo de ojo', 'question_id' => 371, 'score' => 0]);
-        Option::create(['content' => 'Estudio de tonometría', 'question_id' => 371, 'score' => 0]);
-        Option::create(['content' => 'Estudio de paquimetría', 'question_id' => 371, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía diabética aguda', 'question_id' => 372, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía diabética proliferativa', 'question_id' => 372, 'score' => 1]);
-        Option::create(['content' => 'Retinopatía diabética crónica', 'question_id' => 372, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía diabética no proliferativa', 'question_id' => 372, 'score' => 0]);
-        Option::create(['content' => 'Antiangiogénicos', 'question_id' => 373, 'score' => 1]);
-        Option::create(['content' => 'Antiinflamatorios no esteroideos', 'question_id' => 373, 'score' => 0]);
-        Option::create(['content' => 'Antidiabéticos orales', 'question_id' => 373, 'score' => 0]);
-        Option::create(['content' => 'Insulinas', 'question_id' => 373, 'score' => 0]);
-        Option::create(['content' => 'Microaneurismas', 'question_id' => 374, 'score' => 0]);
-        Option::create(['content' => 'Microhemorragias', 'question_id' => 374, 'score' => 0]);
-        Option::create(['content' => 'Glaucoma neovascular', 'question_id' => 374, 'score' => 1]);
-        Option::create(['content' => 'Hilos de cobre', 'question_id' => 374, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía diabética', 'question_id' => 375, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía hipertensiva', 'question_id' => 375, 'score' => 1]);
-        Option::create(['content' => 'Retinopatía proliferativa', 'question_id' => 375, 'score' => 0]);
-        Option::create(['content' => 'Retinopatía no proliferativa', 'question_id' => 375, 'score' => 0]);
-        Option::create(['content' => 'Neuropatía diabética', 'question_id' => 376, 'score' => 0]);
-        Option::create(['content' => 'Nefropatía diabética', 'question_id' => 376, 'score' => 1]);
-        Option::create(['content' => 'Glomerulopatías', 'question_id' => 376, 'score' => 0]);
-        Option::create(['content' => 'Arteriopatía periférica', 'question_id' => 376, 'score' => 0]);
-        Option::create(['content' => 'Alteraciones metabólicas, hemodinámicas y anatómicas', 'question_id' => 377, 'score' => 1]);
-        Option::create(['content' => 'Alteraciones nutrimentales, anatómicas y cardiovasculares', 'question_id' => 377, 'score' => 0]);
-        Option::create(['content' => 'Alteraciones genéticas, metabólicas y vasculares', 'question_id' => 377, 'score' => 0]);
-        Option::create(['content' => 'Alteraciones celulares, estructurales y nutrimentales', 'question_id' => 377, 'score' => 0]);
-        Option::create(['content' => 'Presencia crónica de hiperglucemia', 'question_id' => 378, 'score' => 0]);
-        Option::create(['content' => 'Falla en la acción de la insulina', 'question_id' => 378, 'score' => 0]);
-        Option::create(['content' => 'Periodos prolongados de hipoglucemia', 'question_id' => 378, 'score' => 0]);
-        Option::create(['content' => 'A y B son correctas', 'question_id' => 378, 'score' => 1]);
-        Option::create(['content' => 'Disminuir el estrés oxidativo', 'question_id' => 379, 'score' => 0]);
-        Option::create(['content' => 'Evitar la aparición de productos de glucosilación avanzada', 'question_id' => 379, 'score' => 0]);
-        Option::create(['content' => 'Lograr un óptimo control glucémico', 'question_id' => 379, 'score' => 1]);
-        Option::create(['content' => 'Tratar sintomatológicamente al paciente', 'question_id' => 379, 'score' => 0]);
-        Option::create(['content' => 'Formación de productos finales de glucosilación avanzada (AGEs)', 'question_id' => 380, 'score' => 0]);
-        Option::create(['content' => 'Estrés oxidativo', 'question_id' => 380, 'score' => 0]);
-        Option::create(['content' => 'Hipersecreción de angiotensina 2', 'question_id' => 380, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 380, 'score' => 1]);
-        Option::create(['content' => 'Presencia de microalbuminuria, disminución de la función glomerular e hipertensión arterial secundaria', 'question_id' => 381, 'score' => 1]);
-        Option::create(['content' => 'Incremento de la tasa de filtración glomerular, presencia de proteinuria y poliuria', 'question_id' => 381, 'score' => 0]);
-        Option::create(['content' => 'Enuresis, fibrosis glomerular e incremento en la función glomerular', 'question_id' => 381, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 381, 'score' => 0]);
-        Option::create(['content' => 'Filtrado glomerular gravemente disminuido (15-29 mL/min/1.73m2)', 'question_id' => 382, 'score' => 0]);
-        Option::create(['content' => 'Falla renal (<15 mL/min/1.73m2 o diálisis', 'question_id' => 382, 'score' => 1]);
-        Option::create(['content' => 'Filtrado glomerular moderadamente disminuido (30-59 mL/min/1.73m2)', 'question_id' => 382, 'score' => 0]);
-        Option::create(['content' => 'A y B son correctas', 'question_id' => 382, 'score' => 0]);
-        Option::create(['content' => 'Isostenuria, nicturia y hematuria', 'question_id' => 383, 'score' => 0]);
-        Option::create(['content' => 'Orina con características espumosas', 'question_id' => 383, 'score' => 0]);
-        Option::create(['content' => 'Disminución del volumen urinario y edema facial', 'question_id' => 383, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 383, 'score' => 1]);
-        Option::create(['content' => 'Creatinina sérica', 'question_id' => 384, 'score' => 0]);
-        Option::create(['content' => 'Depuración e creatinina en orina de 24 horas con proteinuria', 'question_id' => 384, 'score' => 0]);
-        Option::create(['content' => 'Índice de albúmina y creatinina', 'question_id' => 384, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 384, 'score' => 1]);
-        Option::create(['content' => 'Hiperglucemia, hipertensión, dieta alta en proteína, obesidad, dislipidemia, hiperuricemia', 'question_id' => 385, 'score' => 1]);
-        Option::create(['content' => 'Malformaciones estructurales, periodos de hipoglucemia, desnutrición, tabaquismo', 'question_id' => 385, 'score' => 0]);
-        Option::create(['content' => 'Edad, sedentarismo, dieta hipoproteica, sexo masculino, factores raciales', 'question_id' => 385, 'score' => 0]);
-        Option::create(['content' => 'Alguna guía de EUA, p.ej. JNC 7, “JNC-8”, ASH', 'question_id' => 386, 'score' => 1]);
-        Option::create(['content' => 'Alguna guía europea, p.ej. de la ESC/ESH ', 'question_id' => 386, 'score' => 0]);
-        Option::create(['content' => 'La NOM de Hipertensión 2009 y sus derivados', 'question_id' => 386, 'score' => 0]);
-        Option::create(['content' => 'En mi calidad de experto, las guías y/o normas no me atañen', 'question_id' => 386, 'score' => 0]);
-        Option::create(['content' => 'Ninguna opción refleja mi preferencia', 'question_id' => 386, 'score' => 0]);
-        Option::create(['content' => 'Alguna guía de EUA, p.ej. de la ADA, el American College of Endocrinology (ACE) o la Endocrine Society (ES)', 'question_id' => 387, 'score' => 0]);
-        Option::create(['content' => 'Alguna otra guía europea (EASD), latinoamericana (ALAD) o internacional (IDF)', 'question_id' => 387, 'score' => 1]);
-        Option::create(['content' => 'La NOM de Diabetes 2010 o algún documento de la Sociedad Mexicana de Nutrición y Endocrinología (SMNE)', 'question_id' => 387, 'score' => 0]);
-        Option::create(['content' => 'Yo no me hago cargo de la atención de la DM', 'question_id' => 387, 'score' => 0]);
-        Option::create(['content' => 'Es una propuesta inadecuada', 'question_id' => 388, 'score' => 0]);
-        Option::create(['content' => 'La considero totalmente equivocada', 'question_id' => 388, 'score' => 0]);
-        Option::create(['content' => 'No conozco ese documento, necesito revisarlo', 'question_id' => 388, 'score' => 1]);
-        Option::create(['content' => 'El Síndrome Metabólico es una condición de riesgo alto per se, independientemente del número y severidad de los componentes presentes (NOM Dislipidemias 2012)', 'question_id' => 389, 'score' => 1]);
-        Option::create(['content' => 'Se requiere tener un cierto número y/o severidad de los componentes para considerar al Síndrome Metabólico como un equivalente de riesgo alto', 'question_id' => 389, 'score' => 0]);
-        Option::create(['content' => 'El Síndrome Metabólico es una condición pre-mórbida que no puede ser diagnosticada (criterio de la OMS), y por ende tampoco puede considerarse una condición de riesgo', 'question_id' => 389, 'score' => 0]);
-        Option::create(['content' => 'Presencia de obesidad abdominal, dislipidemia aterogénica (triglicéridos elevados con colesterol de las HDL bajo) y glucosa de ayuno alterada, en paciente con nivel de presión arterial “normal alto” (presión sistólica entre 130-139 y diastólica entre 85-8', 'question_id' => 390, 'score' => 1]);
-        Option::create(['content' => 'Hipertensión Arterial estadio o grado 2 (presión sistólica 140-159 y/o presión diastólica de 100-109 mmHg) a pesar de tratamiento médico con dos fármacos', 'question_id' => 390, 'score' => 0]);
-        Option::create(['content' => 'Presencia de retinopatía leve en paciente con Hipertensión Arterial de grado o estadio 2', 'question_id' => 390, 'score' => 0]);
-        Option::create(['content' => 'Colesterol de las LDL entre 160 y 189 mg/dL en paciente obeso, con Hipertensión Arterial estadio o grado 1', 'question_id' => 390, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 390, 'score' => 0]);
-        Option::create(['content' => 'Presencia de Hipertensión Arterial estadio o grado 3 (presión sistólica de 180 o más y/o presión diastólica de 110 mmHg o mayor, aún en ausencia de otros factores de riesgo cardiovascular', 'question_id' => 391, 'score' => 0]);
-        Option::create(['content' => 'Presencia de hipercolesterolemia primaria con niveles de colesterol total de 300 mg/dL o mayor, en pacientes sin Diabetes Mellitus, Hipertensión Arterial ni Tabaquismo ', 'question_id' => 391, 'score' => 1]);
-        Option::create(['content' => 'Presencia de Hipertensión Arterial con filtración glomerular estimada entre 30 y 59 mL/min/1.73 m2', 'question_id' => 391, 'score' => 0]);
-        Option::create(['content' => 'Presencia de signos electrocardiográficos de hipertrofia ventricular izquierda en paciente con Hipertensión Arterial controlada', 'question_id' => 391, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 391, 'score' => 0]);
-        Option::create(['content' => 'En las mujeres se mantiene sin cambios entre los 20 y 40 años de edad y a partir de ahí sube abruptamente', 'question_id' => 392, 'score' => 0]);
-        Option::create(['content' => 'En las mujeres se eleva lentamente entre los 20 y 50 años y a partir de ahí se eleva más rápidamente', 'question_id' => 392, 'score' => 1]);
-        Option::create(['content' => 'En las mujeres se va elevando de forma constante desde los 20 a los 70 años', 'question_id' => 392, 'score' => 0]);
-        Option::create(['content' => 'En los hombres se mantiene sin cambios entre los 20 y 50 años y a partir de ahí se eleva más rápidamente', 'question_id' => 392, 'score' => 0]);
-        Option::create(['content' => 'En los hombres se eleva rápidamente entre los 40 y 50 años y después permanece estable', 'question_id' => 392, 'score' => 0]);
-        Option::create(['content' => 'En los hombres se eleva constantemente entre las edades de 20 y 80 años', 'question_id' => 393, 'score' => 0]);
-        Option::create(['content' => 'En las mujeres se eleva constantemente entre las edades de 20 y 80 años de edad', 'question_id' => 393, 'score' => 0]);
-        Option::create(['content' => 'Tanto en hombres como mujeres se observa una disminución progresiva a partir de los 60 a 70 años de edad', 'question_id' => 393, 'score' => 1]);
-        Option::create(['content' => 'En hombres se observa una disminución progresiva a partir de los 60 a 70 años de edad, lo cual no sucede en mujeres', 'question_id' => 393, 'score' => 0]);
-        Option::create(['content' => 'En mujeres se observa una disminución progresiva a partir de los 60 a 70 años de edad, lo cual no sucede en hombres', 'question_id' => 393, 'score' => 0]);
-        Option::create(['content' => 'Factores neurohumorales', 'question_id' => 394, 'score' => 0]);
-        Option::create(['content' => 'Alteraciones de membrana', 'question_id' => 394, 'score' => 0]);
-        Option::create(['content' => 'Sistema Renina Angiotensina Aldosterona', 'question_id' => 394, 'score' => 0]);
-        Option::create(['content' => 'Disfunción Endotelial', 'question_id' => 394, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 394, 'score' => 1]);
-        Option::create(['content' => 'Infarto del Miocardio', 'question_id' => 395, 'score' => 0]);
-        Option::create(['content' => 'Angina de Pecho', 'question_id' => 395, 'score' => 0]);
-        Option::create(['content' => 'Muerte Súbita ', 'question_id' => 395, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad Vascular Cerebral', 'question_id' => 395, 'score' => 1]);
-        Option::create(['content' => 'Enfermedad Arterial Periférica', 'question_id' => 395, 'score' => 0]);
-        Option::create(['content' => 'La edad y sexo de la persona', 'question_id' => 396, 'score' => 0]);
-        Option::create(['content' => 'El grado o magnitud de la Hipertensión Arterial', 'question_id' => 396, 'score' => 0]);
-        Option::create(['content' => 'La coexistencia de otros factores de riesgo cardiovascular arteriosclerótico', 'question_id' => 396, 'score' => 0]);
-        Option::create(['content' => 'El daño orgánico subclínico producido por la misma Hipertensión y otros factores de riesgo cardiovascular arteriosclerótico', 'question_id' => 396, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 396, 'score' => 1]);
-        Option::create(['content' => 'Lo más importante es llevar las cifras de presión arterial a las metas de control recomendadas', 'question_id' => 397, 'score' => 0]);
-        Option::create(['content' => 'Lo más importante es el tipo de medicamento anti-hipertensivo utilizado para alcanzar las metas de control recomendadas', 'question_id' => 397, 'score' => 0]);
-        Option::create(['content' => 'Lo más importante es el control integral de todos los factores mayores de riesgo cardiovascular presentes en cada caso particular', 'question_id' => 397, 'score' => 1]);
-        Option::create(['content' => 'La reducción de eventos cardiovasculares de tipo coronario es mayor conforme menor es la cifra de presión arterial diastólica alcanzada, hasta valores de 50 mmHg de presión diastólica', 'question_id' => 397, 'score' => 0]);
-        Option::create(['content' => 'La prescripción de más de un medicamento anti-hipertensivo solo está indicada en pacientes con alto riesgo de presentar enfermedad cardiovascular arteriosclerótica', 'question_id' => 397, 'score' => 0]);
-        Option::create(['content' => 'La tabla de cálculo de riesgo GLOBORISK', 'question_id' => 398, 'score' => 0]);
-        Option::create(['content' => 'La tabla de cálculo de riesgo SCORE', 'question_id' => 398, 'score' => 0]);
-        Option::create(['content' => 'La ecuación de cálculo de riesgo cardiovascular total de Framingham', 'question_id' => 398, 'score' => 0]);
-        Option::create(['content' => 'La calculadora de riesgo cardiovascular total del American College of Cardiology Foundation y la American Heart Association del año 2013', 'question_id' => 398, 'score' => 0]);
-        Option::create(['content' => 'Ninguna opción es correcta', 'question_id' => 398, 'score' => 1]);
-        Option::create(['content' => 'Con riesgo cardiovascular bajo', 'question_id' => 399, 'score' => 0]);
-        Option::create(['content' => 'Con riesgo cardiovascular moderado', 'question_id' => 399, 'score' => 0]);
-        Option::create(['content' => 'Con riesgo cardiovascular alto', 'question_id' => 399, 'score' => 0]);
-        Option::create(['content' => 'Con riesgo cardiovascular muy alto', 'question_id' => 399, 'score' => 1]);
-        Option::create(['content' => 'Con riesgo cardiovascular extremo', 'question_id' => 399, 'score' => 0]);
-        Option::create(['content' => 'Riesgo bajo', 'question_id' => 400, 'score' => 0]);
-        Option::create(['content' => 'Riesgo moderado', 'question_id' => 400, 'score' => 0]);
-        Option::create(['content' => 'Riesgo alto', 'question_id' => 400, 'score' => 1]);
-        Option::create(['content' => 'Riesgo muy alto', 'question_id' => 400, 'score' => 0]);
-        Option::create(['content' => 'Riesgo extremo', 'question_id' => 400, 'score' => 0]);
-        Option::create(['content' => 'Riesgo coronario sólido, fatal y no fatal', 'question_id' => 401, 'score' => 0]);
-        Option::create(['content' => 'Riesgo coronario extendido, fatal y no fatal', 'question_id' => 401, 'score' => 0]);
-        Option::create(['content' => 'Riesgo de eventos coronarios y cerebrovasculares fatales', 'question_id' => 401, 'score' => 1]);
-        Option::create(['content' => 'Riesgo de eventos coronarios y cerebrovasculares fatales y no fatales', 'question_id' => 401, 'score' => 0]);
-        Option::create(['content' => 'Riesgo de eventos fatales y no fatales coronarios, cerebrovasculares, de insuficiencia cardiaca y enfermedad arterial periférica ', 'question_id' => 401, 'score' => 0]);
-        Option::create(['content' => 'Presencia de obesidad abdominal, dislipidemia aterogénica (triglicéridos elevados con colesterol de las HDL bajo) y glucosa de ayuno alterada, en paciente con nivel de presión arterial “normal alto” (presión sistólica entre 130-139 y diastólica entre 85-8', 'question_id' => 402, 'score' => 1]);
-        Option::create(['content' => 'Hipertensión Arterial estadio o grado 2 (presión sistólica 140-159 y/o presión diastólica de 100-109 mmHg) a pesar de tratamiento médico con dos fármacos', 'question_id' => 402, 'score' => 0]);
-        Option::create(['content' => 'Presencia de retinopatía leve en paciente con Hipertensión Arterial de grado o estadio 2', 'question_id' => 402, 'score' => 0]);
-        Option::create(['content' => 'Colesterol de las LDL entre 160 y 189 mg/dL en paciente obeso, con Hipertensión Arterial estadio o grado 1', 'question_id' => 402, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 402, 'score' => 0]);
-        Option::create(['content' => 'Presencia de Hipertensión Arterial estadio o grado 3 (presión sistólica de 180 o más y/o presión diastólica de 110 mmHg o mayor, aún en ausencia de otros factores de riesgo cardiovascular', 'question_id' => 403, 'score' => 0]);
-        Option::create(['content' => 'Presencia de hipercolesterolemia primaria con niveles de colesterol total de 300 mg/dL o mayor, en pacientes sin Diabetes Mellitus, Hipertensión Arterial ni Tabaquismo ', 'question_id' => 403, 'score' => 0]);
-        Option::create(['content' => 'Presencia de Hipertensión Arterial con filtración glomerular estimada entre 30 y 59 mL/min/1.73 m2', 'question_id' => 403, 'score' => 0]);
-        Option::create(['content' => 'Presencia de signos electrocardiográficos de hipertrofia ventricular izquierda en paciente con Hipertensión Arterial controlada', 'question_id' => 403, 'score' => 0]);
-        Option::create(['content' => 'Todas las opciones son ciertas', 'question_id' => 403, 'score' => 1]);
-        Option::create(['content' => 'Al menos una hora', 'question_id' => 404, 'score' => 1]);
-        Option::create(['content' => 'dos horas o mas', 'question_id' => 404, 'score' => 0]);
-        Option::create(['content' => 'quince minutos', 'question_id' => 404, 'score' => 0]);
-        Option::create(['content' => 'No necesita descansar', 'question_id' => 404, 'score' => 0]);
-        Option::create(['content' => '15 mm Hg', 'question_id' => 405, 'score' => 0]);
-        Option::create(['content' => '20 a 30 mm Hg', 'question_id' => 405, 'score' => 0]);
-        Option::create(['content' => 'Tomar la medición hasta perder el pulso radial y aumentar 15 mmHG', 'question_id' => 405, 'score' => 1]);
-        Option::create(['content' => 'Hasta perder el pulso radial', 'question_id' => 405, 'score' => 0]);
-        Option::create(['content' => '200 mmHg', 'question_id' => 405, 'score' => 0]);
-        Option::create(['content' => '15 mm Hg cada 20 segundos', 'question_id' => 406, 'score' => 1]);
-        Option::create(['content' => 'Al menos 1 minuto', 'question_id' => 406, 'score' => 0]);
-        Option::create(['content' => '30 mm Hg cada 20 segundos', 'question_id' => 406, 'score' => 0]);
-        Option::create(['content' => '40 mmHg cada 15 segundos', 'question_id' => 406, 'score' => 0]);
-        Option::create(['content' => '10 mm Hg', 'question_id' => 407, 'score' => 0]);
-        Option::create(['content' => '20 mmHg', 'question_id' => 407, 'score' => 1]);
-        Option::create(['content' => '15 mmHg', 'question_id' => 407, 'score' => 0]);
-        Option::create(['content' => '30 mmHg', 'question_id' => 407, 'score' => 0]);
-        Option::create(['content' => '10 min', 'question_id' => 408, 'score' => 0]);
-        Option::create(['content' => '15 min', 'question_id' => 408, 'score' => 1]);
-        Option::create(['content' => '20 mins', 'question_id' => 408, 'score' => 0]);
-        Option::create(['content' => '25 min', 'question_id' => 408, 'score' => 0]);
-        Option::create(['content' => 'Visualmente esta presionada por la capsula del estetoscopio', 'question_id' => 409, 'score' => 1]);
-        Option::create(['content' => 'Está centrada y no interfiere con la auscultación ', 'question_id' => 409, 'score' => 0]);
-        Option::create(['content' => 'En la parte más robusta tres o cuatro centímetros arriba del codo', 'question_id' => 410, 'score' => 1]);
-        Option::create(['content' => 'Arriba del codo un centímetro', 'question_id' => 410, 'score' => 0]);
-        Option::create(['content' => 'En donde ajuste bien el baumanometro independientemente de su posición', 'question_id' => 410, 'score' => 0]);
-        Option::create(['content' => 'No verificar que el paciente este bien posicionado', 'question_id' => 411, 'score' => 1]);
-        Option::create(['content' => 'tomar la presión del paciente con ropa puesta', 'question_id' => 411, 'score' => 0]);
-        Option::create(['content' => 'No dejar descansar al paciente ', 'question_id' => 411, 'score' => 0]);
-        Option::create(['content' => 'La pérdida de escucha del segundo latido', 'question_id' => 412, 'score' => 1]);
-        Option::create(['content' => 'La pérdida de escucha del primer latido', 'question_id' => 412, 'score' => 0]);
-        Option::create(['content' => 'El escuchar un primer latido ', 'question_id' => 412, 'score' => 0]);
-        Option::create(['content' => 'El escuchar un ruido auscultatorio y no reportarlo', 'question_id' => 412, 'score' => 0]);
-        Option::create(['content' => 'Verificar que la dosis es la adecuada. Ajustar dosis , el paciente puede identificar sintomatología asociada o la ausencia de esta. ', 'question_id' => 413, 'score' => 1]);
-        Option::create(['content' => 'Continuar con la vigilancia estrecha del familiar del paciente', 'question_id' => 413, 'score' => 0]);
-        Option::create(['content' => 'Seguimiento del paciente a su enfermedad que le permita ajustar su dosis. ', 'question_id' => 413, 'score' => 0]);
-        Option::create(['content' => 'Al menos una hora', 'question_id' => 414, 'score' => 1]);
-        Option::create(['content' => 'dos horas o mas', 'question_id' => 414, 'score' => 0]);
-        Option::create(['content' => 'quince minutos', 'question_id' => 414, 'score' => 0]);
-        Option::create(['content' => 'No necesita descansar', 'question_id' => 414, 'score' => 0]);
-        Option::create(['content' => '15 mm Hg', 'question_id' => 415, 'score' => 0]);
-        Option::create(['content' => '20 a 30 mm Hg', 'question_id' => 415, 'score' => 0]);
-        Option::create(['content' => 'Tomar la medición hasta perder el pulso radial y aumentar 15 mmHG', 'question_id' => 415, 'score' => 1]);
-        Option::create(['content' => 'Hasta perder el pulso radial', 'question_id' => 415, 'score' => 0]);
-        Option::create(['content' => '200 mmHg', 'question_id' => 415, 'score' => 0]);
-        Option::create(['content' => '15 mm Hg cada 20 segundos', 'question_id' => 416, 'score' => 1]);
-        Option::create(['content' => 'Al menos 1 minuto', 'question_id' => 416, 'score' => 0]);
-        Option::create(['content' => '30 mm Hg cada 20 segundos', 'question_id' => 416, 'score' => 0]);
-        Option::create(['content' => '40 mmHg cada 15 segundos', 'question_id' => 416, 'score' => 0]);
-        Option::create(['content' => '10 mm Hg', 'question_id' => 417, 'score' => 0]);
-        Option::create(['content' => '20 mmHg', 'question_id' => 417, 'score' => 1]);
-        Option::create(['content' => '15 mmHg', 'question_id' => 417, 'score' => 0]);
-        Option::create(['content' => '30 mmHg', 'question_id' => 417, 'score' => 0]);
-        Option::create(['content' => '10 min', 'question_id' => 418, 'score' => 0]);
-        Option::create(['content' => '15 min', 'question_id' => 418, 'score' => 1]);
-        Option::create(['content' => '20 mins', 'question_id' => 418, 'score' => 0]);
-        Option::create(['content' => '25 min', 'question_id' => 418, 'score' => 0]);
-        Option::create(['content' => 'Visualmente esta presionada por la capsula del estetoscopio', 'question_id' => 419, 'score' => 1]);
-        Option::create(['content' => 'Está centrada y no interfiere con la auscultación ', 'question_id' => 419, 'score' => 0]);
-        Option::create(['content' => 'En la parte más robusta tres o cuatro centímetros arriba del codo', 'question_id' => 420, 'score' => 1]);
-        Option::create(['content' => 'Arriba del codo un centímetro', 'question_id' => 420, 'score' => 0]);
-        Option::create(['content' => 'En donde ajuste bien el baumanometro independientemente de su posición', 'question_id' => 420, 'score' => 0]);
-        Option::create(['content' => 'No verificar que el paciente este bien posicionado', 'question_id' => 421, 'score' => 1]);
-        Option::create(['content' => 'tomar la presión del paciente con ropa puesta', 'question_id' => 421, 'score' => 0]);
-        Option::create(['content' => 'No dejar descansar al paciente ', 'question_id' => 421, 'score' => 0]);
-        Option::create(['content' => 'La pérdida de escucha del segundo latido', 'question_id' => 422, 'score' => 1]);
-        Option::create(['content' => 'La pérdida de escucha del primer latido', 'question_id' => 422, 'score' => 0]);
-        Option::create(['content' => 'El escuchar un primer latido ', 'question_id' => 422, 'score' => 0]);
-        Option::create(['content' => 'El escuchar un ruido auscultatorio y no reportarlo', 'question_id' => 422, 'score' => 0]);
-        Option::create(['content' => 'Verificar que la dosis es la adecuada. Ajustar dosis , el paciente puede identificar sintomatología asociada o la ausencia de esta. ', 'question_id' => 423, 'score' => 1]);
-        Option::create(['content' => 'Continuar con la vigilancia estrecha del familiar del paciente', 'question_id' => 423, 'score' => 0]);
-        Option::create(['content' => 'Seguimiento del paciente a su enfermedad que le permita ajustar su dosis. ', 'question_id' => 423, 'score' => 0]);
-        Option::create(['content' => 'TRUE', 'question_id' => 424, 'score' => 1]);
-        Option::create(['content' => 'FALSE', 'question_id' => 424, 'score' => 0]);
-        Option::create(['content' => 'PAS 1.46 mmHg y PAD 0.54 mmHg', 'question_id' => 425, 'score' => 1]);
-        Option::create(['content' => 'PAS 2.5 mmHg y PAD 1.2 mmHg', 'question_id' => 425, 'score' => 0]);
-        Option::create(['content' => 'PAS 1.0 mmHg y PAD 0.3 mmHg', 'question_id' => 425, 'score' => 0]);
-        Option::create(['content' => 'sopas en paquetes, caldo en cubos o polvo', 'question_id' => 426, 'score' => 1]);
-        Option::create(['content' => 'Pescado congelado', 'question_id' => 426, 'score' => 0]);
-        Option::create(['content' => 'Verduras congeladas', 'question_id' => 426, 'score' => 0]);
-        Option::create(['content' => 'De 7-10 g/día ( 8.75-25 gr. Sal /día)', 'question_id' => 427, 'score' => 0]);
-        Option::create(['content' => 'De 3-6 g/día ( 7.5-15 gr sal/día)', 'question_id' => 427, 'score' => 1]);
-        Option::create(['content' => 'De 1.5-3 g/día ( 3.75- 7.5 gr sal día).', 'question_id' => 427, 'score' => 0]);
-        Option::create(['content' => 'Resistencia Periférica a la insulina', 'question_id' => 428, 'score' => 1]);
-        Option::create(['content' => 'Perdida de sodio en túbulo proximal', 'question_id' => 428, 'score' => 0]);
-        Option::create(['content' => 'alteración de la bomba Na/K en el miocardio', 'question_id' => 428, 'score' => 0]);
-        Option::create(['content' => 'Disminución de la actividad simpática', 'question_id' => 429, 'score' => 1]);
-        Option::create(['content' => 'Incremento en la PCR as', 'question_id' => 429, 'score' => 0]);
-        Option::create(['content' => 'Aumento de las resistencias periféricas ', 'question_id' => 429, 'score' => 0]);
-        Option::create(['content' => 'Reducir la dieta 400 kCal/ día', 'question_id' => 430, 'score' => 0]);
-        Option::create(['content' => 'Cambio de hábitos y conducta alimentaria', 'question_id' => 430, 'score' => 1]);
-        Option::create(['content' => 'Eliminar las grasas de la dieta', 'question_id' => 430, 'score' => 0]);
-        Option::create(['content' => 'Pastelillos con harina integral y poca azúcar', 'question_id' => 431, 'score' => 0]);
-        Option::create(['content' => 'Fruta fresca', 'question_id' => 431, 'score' => 1]);
-        Option::create(['content' => 'Una copa de vino', 'question_id' => 431, 'score' => 0]);
-        Option::create(['content' => '3 cigarrillos fumados el último mes', 'question_id' => 432, 'score' => 0]);
-        Option::create(['content' => '1 cigarrillos fumados en el último mes', 'question_id' => 432, 'score' => 0]);
-        Option::create(['content' => 'un cigarrillo/día en los últimos seis meses', 'question_id' => 432, 'score' => 1]);
-        Option::create(['content' => '500', 'question_id' => 433, 'score' => 0]);
-        Option::create(['content' => '850', 'question_id' => 433, 'score' => 0]);
-        Option::create(['content' => 'más de 4000', 'question_id' => 433, 'score' => 1]);
-        Option::create(['content' => '10', 'question_id' => 434, 'score' => 0]);
-        Option::create(['content' => '25', 'question_id' => 434, 'score' => 0]);
-        Option::create(['content' => '43', 'question_id' => 434, 'score' => 1]);
-        Option::create(['content' => 'vasopresina, aldosterona y cortisol', 'question_id' => 435, 'score' => 1]);
-        Option::create(['content' => 'Sodio, cadmio, CHDL', 'question_id' => 435, 'score' => 0]);
-        Option::create(['content' => 'Potasio, CHDL, Níquel.', 'question_id' => 435, 'score' => 0]);
-        Option::create(['content' => 'FALSE', 'question_id' => 436, 'score' => 0]);
-        Option::create(['content' => 'TRUE', 'question_id' => 436, 'score' => 1]);
-        Option::create(['content' => '5-10 mmHg', 'question_id' => 437, 'score' => 1]);
-        Option::create(['content' => '2-6 mmHg', 'question_id' => 437, 'score' => 0]);
-        Option::create(['content' => '6-8 mmHg', 'question_id' => 437, 'score' => 0]);
-        Option::create(['content' => 'PAS -5.6 mmHg, PAD 8.0 mmHg', 'question_id' => 438, 'score' => 0]);
-        Option::create(['content' => 'PAS 4.3 mmHg, PAD 5.5 mmHg', 'question_id' => 438, 'score' => 0]);
-        Option::create(['content' => 'PAS 8.3 mmHg, PAD 6.8 mmHg', 'question_id' => 438, 'score' => 1]);
-        Option::create(['content' => '0.36', 'question_id' => 439, 'score' => 1]);
-        Option::create(['content' => '0.2', 'question_id' => 439, 'score' => 0]);
-        Option::create(['content' => '0.15', 'question_id' => 439, 'score' => 0]);
-        Option::create(['content' => '<130/70', 'question_id' => 440, 'score' => 0]);
-        Option::create(['content' => '<150/90', 'question_id' => 440, 'score' => 0]);
-        Option::create(['content' => '<140/90', 'question_id' => 440, 'score' => 1]);
-        Option::create(['content' => '>20mmHg PAS ó >10mmHg PAD de la meta', 'question_id' => 441, 'score' => 1]);
-        Option::create(['content' => '> 30 mmHg PAS ó 15mmHg PAD de la meta', 'question_id' => 441, 'score' => 0]);
-        Option::create(['content' => '> 15 mmHg PAS ó 20 mmHg PAD', 'question_id' => 441, 'score' => 0]);
-        Option::create(['content' => 'Diurético de ASA+ Calcio antagonista', 'question_id' => 442, 'score' => 0]);
-        Option::create(['content' => 'BSRAA+ Calcio antagonista', 'question_id' => 442, 'score' => 1]);
-        Option::create(['content' => 'ARA+IECA', 'question_id' => 442, 'score' => 0]);
-        Option::create(['content' => 'Disminución de casos nuevos de diabetes', 'question_id' => 443, 'score' => 1]);
-        Option::create(['content' => 'Reducción de los niveles séricos de K', 'question_id' => 443, 'score' => 0]);
-        Option::create(['content' => 'ideales para el paciente con Angina de pecho', 'question_id' => 443, 'score' => 0]);
-        Option::create(['content' => 'La progresión de una enfermedad', 'question_id' => 444, 'score' => 0]);
-        Option::create(['content' => '2 o más enfermedades de un mismo aparato o sistema', 'question_id' => 444, 'score' => 0]);
-        Option::create(['content' => 'La presencia de una o más enfermedades además de la enfermedad o trastorno primario', 'question_id' => 444, 'score' => 1]);
-        Option::create(['content' => 'El agravamiento de una condición pre.existente en un paciente crónicamente enfermo', 'question_id' => 444, 'score' => 0]);
-        Option::create(['content' => '0.15', 'question_id' => 445, 'score' => 0]);
-        Option::create(['content' => '0.2', 'question_id' => 445, 'score' => 0]);
-        Option::create(['content' => '0.3', 'question_id' => 445, 'score' => 1]);
-        Option::create(['content' => '0.4', 'question_id' => 445, 'score' => 0]);
-        Option::create(['content' => 'Bajo', 'question_id' => 446, 'score' => 0]);
-        Option::create(['content' => 'Intermedio', 'question_id' => 446, 'score' => 0]);
-        Option::create(['content' => 'Alto', 'question_id' => 446, 'score' => 1]);
-        Option::create(['content' => 'Muy alto', 'question_id' => 446, 'score' => 0]);
-        Option::create(['content' => 'Colesterol LDL', 'question_id' => 447, 'score' => 1]);
-        Option::create(['content' => 'Colesterol HDL', 'question_id' => 447, 'score' => 0]);
-        Option::create(['content' => 'Colesterol total', 'question_id' => 447, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos', 'question_id' => 447, 'score' => 0]);
-        Option::create(['content' => '0.2', 'question_id' => 448, 'score' => 0]);
-        Option::create(['content' => '0.4', 'question_id' => 448, 'score' => 0]);
-        Option::create(['content' => '0.6', 'question_id' => 448, 'score' => 0]);
-        Option::create(['content' => '0.8', 'question_id' => 448, 'score' => 1]);
-        Option::create(['content' => 'Proteinuria ', 'question_id' => 449, 'score' => 1]);
-        Option::create(['content' => 'Edema ', 'question_id' => 449, 'score' => 0]);
-        Option::create(['content' => 'Aliento urémico', 'question_id' => 449, 'score' => 0]);
-        Option::create(['content' => 'Elevación de la relación BUN/Creatinina', 'question_id' => 449, 'score' => 0]);
-        Option::create(['content' => '< 130/80 mmHg', 'question_id' => 450, 'score' => 0]);
-        Option::create(['content' => '< 140/90 mmHg', 'question_id' => 450, 'score' => 1]);
-        Option::create(['content' => '< 150/90 mmHg', 'question_id' => 450, 'score' => 0]);
-        Option::create(['content' => '120/80 mmHg', 'question_id' => 450, 'score' => 0]);
-        Option::create(['content' => 'Calcioantagonistas y diuréticos', 'question_id' => 451, 'score' => 1]);
-        Option::create(['content' => 'Betabloqueadores y calcioantagonistas', 'question_id' => 451, 'score' => 0]);
-        Option::create(['content' => 'Bloqueadores del receptor de angiotensina ', 'question_id' => 451, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores de la enzima convertidora de angiotensina', 'question_id' => 451, 'score' => 0]);
-        Option::create(['content' => 'Aliskireno ', 'question_id' => 452, 'score' => 0]);
-        Option::create(['content' => 'Indapamida ', 'question_id' => 452, 'score' => 0]);
-        Option::create(['content' => 'Calcioantagonistas dihidropiridinicos', 'question_id' => 452, 'score' => 0]);
-        Option::create(['content' => 'Calcioantagonistas no dihidropiridinicos', 'question_id' => 452, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 453, 'score' => 0]);
-        Option::create(['content' => 'Falso ', 'question_id' => 453, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 454, 'score' => 1]);
-        Option::create(['content' => 'Falso ', 'question_id' => 454, 'score' => 0]);
-        Option::create(['content' => '< 130/80 mmHg', 'question_id' => 455, 'score' => 0]);
-        Option::create(['content' => '< 140/90 mmHg', 'question_id' => 455, 'score' => 1]);
-        Option::create(['content' => '< 150/90 mmHg', 'question_id' => 455, 'score' => 0]);
-        Option::create(['content' => '120/80 mmHg', 'question_id' => 455, 'score' => 0]);
-        Option::create(['content' => '30-60 mL/min/1.73 m2 ', 'question_id' => 456, 'score' => 0]);
-        Option::create(['content' => '15-30 mL/min/1.73m2 ', 'question_id' => 456, 'score' => 1]);
-        Option::create(['content' => '< 15 mL/min/1.73m2', 'question_id' => 456, 'score' => 0]);
-        Option::create(['content' => '60-80 mL/min/1.73m2', 'question_id' => 456, 'score' => 0]);
-        Option::create(['content' => 'Indicador del control hipertensivo', 'question_id' => 457, 'score' => 1]);
-        Option::create(['content' => 'Un epifenómeno ', 'question_id' => 457, 'score' => 0]);
-        Option::create(['content' => 'Es indicador de aterosclerosis carotídea', 'question_id' => 457, 'score' => 0]);
-        Option::create(['content' => 'Marcador de envejecimiento vascular acelerado', 'question_id' => 457, 'score' => 0]);
-        Option::create(['content' => 'Cierto', 'question_id' => 458, 'score' => 1]);
-        Option::create(['content' => 'Falso ', 'question_id' => 458, 'score' => 0]);
-        Option::create(['content' => 'Bajo', 'question_id' => 459, 'score' => 0]);
-        Option::create(['content' => 'Moderado', 'question_id' => 459, 'score' => 0]);
-        Option::create(['content' => 'Alto ', 'question_id' => 459, 'score' => 0]);
-        Option::create(['content' => 'Muy alto', 'question_id' => 459, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 460, 'score' => 0]);
-        Option::create(['content' => 'Falso ', 'question_id' => 460, 'score' => 1]);
-        Option::create(['content' => 'Diuréticos ', 'question_id' => 461, 'score' => 0]);
-        Option::create(['content' => 'Calcioantagonistas ', 'question_id' => 461, 'score' => 0]);
-        Option::create(['content' => 'Betabloqueadores', 'question_id' => 461, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores de la ECA', 'question_id' => 461, 'score' => 1]);
-        Option::create(['content' => 'Bloqueadores del receptor de angiotensina', 'question_id' => 461, 'score' => 0]);
-        Option::create(['content' => '> 160 mmHg de TAS o > 100 mmHg de TAD', 'question_id' => 462, 'score' => 1]);
-        Option::create(['content' => '> 140 mmHg de TAS o > 80 mmHg de TAD', 'question_id' => 462, 'score' => 0]);
-        Option::create(['content' => '> 180 mmHg de TAS o > 100 mmHg de TAD', 'question_id' => 462, 'score' => 0]);
-        Option::create(['content' => '> 135 mmHg de TAS o > 85 mmHg de TAD', 'question_id' => 462, 'score' => 0]);
-        Option::create(['content' => 'Diuréticos + inhibidores de la ECA', 'question_id' => 463, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores de la ECA + calcioantagonistas ', 'question_id' => 463, 'score' => 0]);
-        Option::create(['content' => 'Bloqueadores del receptor de angiotensina + calcioantagonistas', 'question_id' => 463, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores de la ECA + bloqueadores del receptor de angiotensina', 'question_id' => 463, 'score' => 1]);
-        Option::create(['content' => 'Son casi tan importantes como las trasmisibles', 'question_id' => 464, 'score' => 0]);
-        Option::create(['content' => 'Empiezan a ser en la actualidad más importantes que las trasmisibles', 'question_id' => 464, 'score' => 0]);
-        Option::create(['content' => 'Son mucho más importantes en la actualidad que las trasmisibles ', 'question_id' => 464, 'score' => 1]);
-        Option::create(['content' => 'Desde luego que la prioridad de salud actual es el SIDA, que es una enfermedad trasmisible', 'question_id' => 464, 'score' => 0]);
-        Option::create(['content' => 'Nunca serán tan importantes como las enfermedades trasmisibles', 'question_id' => 464, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad mediana, de fácil diagnóstico, controlable, con muy buenos resultados a largo plazo', 'question_id' => 465, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad primordial, de fácil diagnóstico, controlable, con muy buenos resultados a largo plazo ', 'question_id' => 465, 'score' => 1]);
-        Option::create(['content' => 'Es un problema de salud de prioridad primordial, de diagnóstico difícil, controlable, con muy buenos resultados a largo plazo', 'question_id' => 465, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad mediana, de diagnóstico complicado, controlable, con muy buenos resultados a largo plazo', 'question_id' => 465, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad alta, de fácil diagnóstico, controlable, con resultados a largo plazo no demostrados.', 'question_id' => 465, 'score' => 0]);
-        Option::create(['content' => 'Insuficiencia renal', 'question_id' => 466, 'score' => 0]);
-        Option::create(['content' => 'Infarto del miocardio', 'question_id' => 466, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad Vascular Cerebral', 'question_id' => 466, 'score' => 1]);
-        Option::create(['content' => 'Angina de pecho', 'question_id' => 466, 'score' => 0]);
-        Option::create(['content' => 'Muerte súbita', 'question_id' => 466, 'score' => 0]);
-        Option::create(['content' => 'Un proceso progresivo para el resto de la vida', 'question_id' => 467, 'score' => 1]);
-        Option::create(['content' => 'Un problema temporal secundario al estrés', 'question_id' => 467, 'score' => 0]);
-        Option::create(['content' => 'Una serie de sucesos repetitivos', 'question_id' => 467, 'score' => 0]);
-        Option::create(['content' => 'Una condición aleatoria', 'question_id' => 467, 'score' => 0]);
-        Option::create(['content' => 'Un proceso estable', 'question_id' => 467, 'score' => 0]);
-        Option::create(['content' => 'El control de las cifras cuando se encuentren altas', 'question_id' => 468, 'score' => 0]);
-        Option::create(['content' => 'El alcance de determinadas metas de presión', 'question_id' => 468, 'score' => 0]);
-        Option::create(['content' => 'La prevención de infartos cardiacosas', 'question_id' => 468, 'score' => 0]);
-        Option::create(['content' => 'La prevención de Enfermedad Vascular Cerebral', 'question_id' => 468, 'score' => 0]);
-        Option::create(['content' => 'El aumento del tiempo de vida con calidad', 'question_id' => 468, 'score' => 1]);
-        Option::create(['content' => 'Problemas económicos', 'question_id' => 469, 'score' => 0]);
-        Option::create(['content' => 'Problemas de actitud de las autoridades', 'question_id' => 469, 'score' => 0]);
-        Option::create(['content' => 'Calidad de los medicamentos', 'question_id' => 469, 'score' => 0]);
-        Option::create(['content' => 'Problemas de educación de médicos y pacientes', 'question_id' => 469, 'score' => 1]);
-        Option::create(['content' => 'Baja aplicación de las modificaciones al estilo de vida', 'question_id' => 469, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del paciente para cumplir con las metas que el mismo se impone', 'question_id' => 470, 'score' => 1]);
-        Option::create(['content' => 'A la capacidad del paciente para adquirir sus medicamentos', 'question_id' => 470, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad de los medicamentos para alcanzar las metas', 'question_id' => 470, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del Médico para lograr la adherencia del paciente', 'question_id' => 470, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del paciente para determinar el tratamiento mejor para el', 'question_id' => 470, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente medicamentos', 'question_id' => 471, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente modificaciones al estilo de vida', 'question_id' => 471, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente modificaciones al estilo de vida y medicamentos', 'question_id' => 471, 'score' => 0]);
-        Option::create(['content' => 'Elaborar un plan estratégico de vida para el paciente', 'question_id' => 471, 'score' => 1]);
-        Option::create(['content' => 'Advertir al paciente de los riesgos que corre al abandonar el tratamiento', 'question_id' => 471, 'score' => 0]);
-        Option::create(['content' => 'El porciento de tiempo que el paciente sigue las indicaciones del médico', 'question_id' => 472, 'score' => 1]);
-        Option::create(['content' => 'La capacidad de un medicamento para controlar al paciente', 'question_id' => 472, 'score' => 0]);
-        Option::create(['content' => 'La capacidad del paciente para entender su tratamiento', 'question_id' => 472, 'score' => 0]);
-        Option::create(['content' => 'El empoderamiento del médico', 'question_id' => 472, 'score' => 0]);
-        Option::create(['content' => 'El empoderamiento del paciente', 'question_id' => 472, 'score' => 0]);
-        Option::create(['content' => 'Hasta el control satisfactorio de la presión', 'question_id' => 473, 'score' => 0]);
-        Option::create(['content' => 'Por los periodos en los que el paciente tenga elevada la presión', 'question_id' => 473, 'score' => 0]);
-        Option::create(['content' => 'Solo por los periodos en los que el paciente se encuentre en riesgo', 'question_id' => 473, 'score' => 0]);
-        Option::create(['content' => 'El único tratamiento que ha mostrado beneficios es el de las crisis hipertensivas', 'question_id' => 473, 'score' => 0]);
-        Option::create(['content' => 'Por el resto de la vida del paciente ', 'question_id' => 473, 'score' => 1]);
-        Option::create(['content' => 'Son casi tan importantes como las trasmisibles', 'question_id' => 474, 'score' => 0]);
-        Option::create(['content' => 'Empiezan a ser en la actualidad más importantes que las trasmisibles', 'question_id' => 474, 'score' => 0]);
-        Option::create(['content' => 'Son mucho más importantes en la actualidad que las trasmisibles ', 'question_id' => 474, 'score' => 1]);
-        Option::create(['content' => 'Desde luego que la prioridad de salud actual es el SIDA, que es una enfermedad trasmisible', 'question_id' => 474, 'score' => 0]);
-        Option::create(['content' => 'Nunca serán tan importantes como las enfermedades trasmisibles', 'question_id' => 474, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad mediana, de fácil diagnóstico, controlable, con muy buenos resultados a largo plazo', 'question_id' => 475, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad primordial, de fácil diagnóstico, controlable, con muy buenos resultados a largo plazo ', 'question_id' => 475, 'score' => 1]);
-        Option::create(['content' => 'Es un problema de salud de prioridad primordial, de diagnóstico difícil, controlable, con muy buenos resultados a largo plazo', 'question_id' => 475, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad mediana, de diagnóstico complicado, controlable, con muy buenos resultados a largo plazo', 'question_id' => 475, 'score' => 0]);
-        Option::create(['content' => 'Es un problema de salud de prioridad alta, de fácil diagnóstico, controlable, con resultados a largo plazo no demostrados.', 'question_id' => 475, 'score' => 0]);
-        Option::create(['content' => 'Insuficiencia renal', 'question_id' => 476, 'score' => 0]);
-        Option::create(['content' => 'Infarto del miocardio', 'question_id' => 476, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad Vascular Cerebral', 'question_id' => 476, 'score' => 1]);
-        Option::create(['content' => 'Angina de pecho', 'question_id' => 476, 'score' => 0]);
-        Option::create(['content' => 'Muerte súbita', 'question_id' => 476, 'score' => 0]);
-        Option::create(['content' => 'Un proceso progresivo para el resto de la vida', 'question_id' => 477, 'score' => 1]);
-        Option::create(['content' => 'Un problema temporal secundario al estrés', 'question_id' => 477, 'score' => 0]);
-        Option::create(['content' => 'Una serie de sucesos repetitivos', 'question_id' => 477, 'score' => 0]);
-        Option::create(['content' => 'Una condición aleatoria', 'question_id' => 477, 'score' => 0]);
-        Option::create(['content' => 'Un proceso estable', 'question_id' => 477, 'score' => 0]);
-        Option::create(['content' => 'El control de las cifras cuando se encuentren altas', 'question_id' => 478, 'score' => 0]);
-        Option::create(['content' => 'El alcance de determinadas metas de presión', 'question_id' => 478, 'score' => 0]);
-        Option::create(['content' => 'La prevención de infartos cardiacosas', 'question_id' => 478, 'score' => 0]);
-        Option::create(['content' => 'La prevención de Enfermedad Vascular Cerebral', 'question_id' => 478, 'score' => 0]);
-        Option::create(['content' => 'El aumento del tiempo de vida con calidad', 'question_id' => 478, 'score' => 1]);
-        Option::create(['content' => 'Problemas económicos', 'question_id' => 479, 'score' => 0]);
-        Option::create(['content' => 'Problemas de actitud de las autoridades', 'question_id' => 479, 'score' => 0]);
-        Option::create(['content' => 'Calidad de los medicamentos', 'question_id' => 479, 'score' => 0]);
-        Option::create(['content' => 'Problemas de educación de médicos y pacientes', 'question_id' => 479, 'score' => 1]);
-        Option::create(['content' => 'Baja aplicación de las modificaciones al estilo de vida', 'question_id' => 479, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del paciente para cumplir con las metas que el mismo se impone', 'question_id' => 480, 'score' => 1]);
-        Option::create(['content' => 'A la capacidad del paciente para adquirir sus medicamentos', 'question_id' => 480, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad de los medicamentos para alcanzar las metas', 'question_id' => 480, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del Médico para lograr la adherencia del paciente', 'question_id' => 480, 'score' => 0]);
-        Option::create(['content' => 'A la capacidad del paciente para determinar el tratamiento mejor para el', 'question_id' => 480, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente medicamentos', 'question_id' => 481, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente modificaciones al estilo de vida', 'question_id' => 481, 'score' => 0]);
-        Option::create(['content' => 'Prescribir correctamente modificaciones al estilo de vida y medicamentos', 'question_id' => 481, 'score' => 0]);
-        Option::create(['content' => 'Elaborar un plan estratégico de vida para el paciente', 'question_id' => 481, 'score' => 1]);
-        Option::create(['content' => 'Advertir al paciente de los riesgos que corre al abandonar el tratamiento', 'question_id' => 481, 'score' => 0]);
-        Option::create(['content' => 'El porciento de tiempo que el paciente sigue las indicaciones del médico', 'question_id' => 482, 'score' => 1]);
-        Option::create(['content' => 'La capacidad de un medicamento para controlar al paciente', 'question_id' => 482, 'score' => 0]);
-        Option::create(['content' => 'La capacidad del paciente para entender su tratamiento', 'question_id' => 482, 'score' => 0]);
-        Option::create(['content' => 'El empoderamiento del médico', 'question_id' => 482, 'score' => 0]);
-        Option::create(['content' => 'El empoderamiento del paciente', 'question_id' => 482, 'score' => 0]);
-        Option::create(['content' => 'Hasta el control satisfactorio de la presión', 'question_id' => 483, 'score' => 0]);
-        Option::create(['content' => 'Por los periodos en los que el paciente tenga elevada la presión', 'question_id' => 483, 'score' => 0]);
-        Option::create(['content' => 'Solo por los periodos en los que el paciente se encuentre en riesgo', 'question_id' => 483, 'score' => 0]);
-        Option::create(['content' => 'El único tratamiento que ha mostrado beneficios es el de las crisis hipertensivas', 'question_id' => 483, 'score' => 0]);
-        Option::create(['content' => 'Por el resto de la vida del paciente ', 'question_id' => 483, 'score' => 1]);
-        Option::create(['content' => 'Del 25% al 30%', 'question_id' => 484, 'score' => 1]);
-        Option::create(['content' => 'Del 31% al 35%', 'question_id' => 484, 'score' => 0]);
-        Option::create(['content' => 'Del 36% al 40%', 'question_id' => 484, 'score' => 0]);
-        Option::create(['content' => 'Del 41% al 45%', 'question_id' => 484, 'score' => 0]);
-        Option::create(['content' => 'Edad.', 'question_id' => 485, 'score' => 0]);
-        Option::create(['content' => 'Inmovilización.', 'question_id' => 485, 'score' => 0]);
-        Option::create(['content' => 'Punción lumbar anestésica.', 'question_id' => 485, 'score' => 1]);
-        Option::create(['content' => 'Uso de anticonceptivos.', 'question_id' => 485, 'score' => 0]);
-        Option::create(['content' => 'Cáncer', 'question_id' => 485, 'score' => 0]);
-        Option::create(['content' => 'Síndrome postrombótico.', 'question_id' => 486, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión arterial sistémica.', 'question_id' => 486, 'score' => 1]);
-        Option::create(['content' => 'Hipertensión arterial pulmonar.', 'question_id' => 486, 'score' => 0]);
-        Option::create(['content' => 'Choque obstructivo.', 'question_id' => 486, 'score' => 0]);
-        Option::create(['content' => 'Si', 'question_id' => 487, 'score' => 0]);
-        Option::create(['content' => 'No', 'question_id' => 487, 'score' => 1]);
-        Option::create(['content' => 'Antes del internamiento de los enfermos', 'question_id' => 488, 'score' => 0]);
-        Option::create(['content' => 'Antes y durante el internamiento de los enfermos.', 'question_id' => 488, 'score' => 0]);
-        Option::create(['content' => 'Solo durante el internamiento de los enfermos', 'question_id' => 488, 'score' => 0]);
-        Option::create(['content' => 'Entre el internamiento y posterior al internamiento de los enfermos.', 'question_id' => 488, 'score' => 1]);
-        Option::create(['content' => 'Si', 'question_id' => 489, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 489, 'score' => 0]);
-        Option::create(['content' => 'Catéter venoso central en extremidad superior.', 'question_id' => 490, 'score' => 0]);
-        Option::create(['content' => 'Catéter venoso central en extremidad inferior.', 'question_id' => 490, 'score' => 0]);
-        Option::create(['content' => 'Uso de anticonceptivos.', 'question_id' => 490, 'score' => 0]);
-        Option::create(['content' => 'Cirugía de < de 2 horas.', 'question_id' => 490, 'score' => 1]);
-        Option::create(['content' => 'Cirugía de > 4 horas.', 'question_id' => 490, 'score' => 0]);
-        Option::create(['content' => 'Broncoaspiración.', 'question_id' => 491, 'score' => 0]);
-        Option::create(['content' => 'ETV.', 'question_id' => 491, 'score' => 1]);
-        Option::create(['content' => 'Neumonía asociada a ventilación mecánica.', 'question_id' => 491, 'score' => 0]);
-        Option::create(['content' => 'Infecciones del torrente sanguíneo relacionadas a catéteres.', 'question_id' => 491, 'score' => 0]);
-        Option::create(['content' => 'Si', 'question_id' => 492, 'score' => 0]);
-        Option::create(['content' => 'No', 'question_id' => 492, 'score' => 1]);
-        Option::create(['content' => 'Tumor adenocarcinoma.', 'question_id' => 493, 'score' => 0]);
-        Option::create(['content' => 'Tumor de células escamosas.', 'question_id' => 493, 'score' => 0]);
-        Option::create(['content' => 'Trombocitosis.', 'question_id' => 493, 'score' => 0]);
-        Option::create(['content' => 'Pneumonectomía.', 'question_id' => 493, 'score' => 1]);
-        Option::create(['content' => 'Si', 'question_id' => 494, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 494, 'score' => 0]);
-        Option::create(['content' => '16 horas antes y 16 horas después.', 'question_id' => 495, 'score' => 0]);
-        Option::create(['content' => '16 horas antes y 12 horas después.', 'question_id' => 495, 'score' => 0]);
-        Option::create(['content' => '12 horas antes y 16 horas después.', 'question_id' => 495, 'score' => 0]);
-        Option::create(['content' => '12 horas antes y 12 horas después.', 'question_id' => 495, 'score' => 1]);
-        Option::create(['content' => 'Superior.', 'question_id' => 496, 'score' => 1]);
-        Option::create(['content' => 'Similar.', 'question_id' => 496, 'score' => 0]);
-        Option::create(['content' => 'Inferior.', 'question_id' => 496, 'score' => 0]);
-        Option::create(['content' => 'Uso de fondaparinux.', 'question_id' => 497, 'score' => 1]);
-        Option::create(['content' => 'HBPM.', 'question_id' => 497, 'score' => 0]);
-        Option::create(['content' => 'Uso de medias de compresión graduada.', 'question_id' => 497, 'score' => 0]);
-        Option::create(['content' => 'Nuevos anticoagulantes orales.', 'question_id' => 497, 'score' => 0]);
-        Option::create(['content' => 'Si', 'question_id' => 498, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 498, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 499, 'score' => 0]);
-        Option::create(['content' => 'Desfibrinogenia', 'question_id' => 499, 'score' => 0]);
-        Option::create(['content' => 'Cirugía menor de 2 h', 'question_id' => 499, 'score' => 0]);
-        Option::create(['content' => 'Venas varicosas', 'question_id' => 499, 'score' => 0]);
-        Option::create(['content' => 'Rosasea', 'question_id' => 499, 'score' => 1]);
-        Option::create(['content' => 'Grupo sanguíneo O', 'question_id' => 500, 'score' => 1]);
-        Option::create(['content' => 'Factor V de Leiben positivo', 'question_id' => 500, 'score' => 0]);
-        Option::create(['content' => 'Inhibidor lupico', 'question_id' => 500, 'score' => 0]);
-        Option::create(['content' => 'Deficiencia Antitrombina', 'question_id' => 500, 'score' => 0]);
-        Option::create(['content' => 'Homocisteinemia', 'question_id' => 500, 'score' => 0]);
-        Option::create(['content' => '5%', 'question_id' => 501, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 501, 'score' => 0]);
-        Option::create(['content' => '1.5%', 'question_id' => 501, 'score' => 1]);
-        Option::create(['content' => '12%', 'question_id' => 501, 'score' => 0]);
-        Option::create(['content' => 'Cierto', 'question_id' => 502, 'score' => 0]);
-        Option::create(['content' => 'Falso', 'question_id' => 502, 'score' => 1]);
-        Option::create(['content' => 'Cierto', 'question_id' => 503, 'score' => 0]);
-        Option::create(['content' => 'Falso', 'question_id' => 503, 'score' => 1]);
-        Option::create(['content' => 'Si', 'question_id' => 504, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 504, 'score' => 0]);
-        Option::create(['content' => 'Catéter venoso central en extremidad superior.', 'question_id' => 505, 'score' => 0]);
-        Option::create(['content' => 'Catéter venoso central en extremidad inferior.', 'question_id' => 505, 'score' => 0]);
-        Option::create(['content' => 'Uso de anticonceptivos.', 'question_id' => 505, 'score' => 0]);
-        Option::create(['content' => 'Cirugía de < de 2 horas.', 'question_id' => 505, 'score' => 1]);
-        Option::create(['content' => 'Cirugía de > 4 horas.', 'question_id' => 505, 'score' => 0]);
-        Option::create(['content' => 'Broncoaspiración.', 'question_id' => 506, 'score' => 0]);
-        Option::create(['content' => 'ETV.', 'question_id' => 506, 'score' => 1]);
-        Option::create(['content' => 'Neumonía asociada a ventilación mecánica.', 'question_id' => 506, 'score' => 0]);
-        Option::create(['content' => 'Infecciones del torrente sanguíneo relacionadas a catéteres.', 'question_id' => 506, 'score' => 0]);
-        Option::create(['content' => 'Si', 'question_id' => 507, 'score' => 0]);
-        Option::create(['content' => 'No', 'question_id' => 507, 'score' => 1]);
-        Option::create(['content' => 'Tumor adenocarcinoma.', 'question_id' => 508, 'score' => 0]);
-        Option::create(['content' => 'Tumor de células escamosas.', 'question_id' => 508, 'score' => 0]);
-        Option::create(['content' => 'Trombocitosis.', 'question_id' => 508, 'score' => 0]);
-        Option::create(['content' => 'Pneumonectomía.', 'question_id' => 508, 'score' => 1]);
-        Option::create(['content' => 'Si', 'question_id' => 509, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 509, 'score' => 0]);
-        Option::create(['content' => '16 horas antes y 16 horas después.', 'question_id' => 510, 'score' => 0]);
-        Option::create(['content' => '16 horas antes y 12 horas después.', 'question_id' => 510, 'score' => 0]);
-        Option::create(['content' => '12 horas antes y 16 horas después.', 'question_id' => 510, 'score' => 0]);
-        Option::create(['content' => '12 horas antes y 12 horas después.', 'question_id' => 510, 'score' => 1]);
-        Option::create(['content' => 'Superior.', 'question_id' => 511, 'score' => 1]);
-        Option::create(['content' => 'Similar.', 'question_id' => 511, 'score' => 0]);
-        Option::create(['content' => 'Inferior.', 'question_id' => 511, 'score' => 0]);
-        Option::create(['content' => 'Uso de fondaparinux.', 'question_id' => 512, 'score' => 1]);
-        Option::create(['content' => 'HBPM.', 'question_id' => 512, 'score' => 0]);
-        Option::create(['content' => 'Uso de medias de compresión graduada.', 'question_id' => 512, 'score' => 0]);
-        Option::create(['content' => 'Nuevos anticoagulantes orales.', 'question_id' => 512, 'score' => 0]);
-        Option::create(['content' => 'Si', 'question_id' => 513, 'score' => 1]);
-        Option::create(['content' => 'No', 'question_id' => 513, 'score' => 0]);
-        Option::create(['content' => 'Obesidad e inmovilización prolongada', 'question_id' => 514, 'score' => 0]);
-        Option::create(['content' => 'Genero', 'question_id' => 514, 'score' => 0]);
-        Option::create(['content' => 'Raza', 'question_id' => 514, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 514, 'score' => 0]);
-        Option::create(['content' => 'Todos los anteriores', 'question_id' => 514, 'score' => 1]);
-        Option::create(['content' => 'FDA', 'question_id' => 515, 'score' => 0]);
-        Option::create(['content' => 'The Joint Comission', 'question_id' => 515, 'score' => 0]);
-        Option::create(['content' => 'SOMETH', 'question_id' => 515, 'score' => 0]);
-        Option::create(['content' => 'SSA', 'question_id' => 515, 'score' => 0]);
-        Option::create(['content' => 'B, c y d son correctas', 'question_id' => 515, 'score' => 1]);
-        Option::create(['content' => 'Miembros inferiores', 'question_id' => 516, 'score' => 1]);
-        Option::create(['content' => 'Miembros superiores', 'question_id' => 516, 'score' => 0]);
-        Option::create(['content' => 'Extremidad superior en terapia intensiva', 'question_id' => 516, 'score' => 0]);
-        Option::create(['content' => 'Procedimientos quirúrgicos, trauma, patologías oncológicas o inmovilización prolongada', 'question_id' => 517, 'score' => 1]);
-        Option::create(['content' => 'Procedimientos quirúrgicos, viajes largos de dos horas', 'question_id' => 517, 'score' => 0]);
-        Option::create(['content' => 'Procedimientos quirúrgicos menores, patologías oncológicas', 'question_id' => 517, 'score' => 0]);
-        Option::create(['content' => 'La mayoría cursan asintomáticas', 'question_id' => 518, 'score' => 0]);
-        Option::create(['content' => 'Dolor y entumecimiento local del miembro afectado', 'question_id' => 518, 'score' => 0]);
-        Option::create(['content' => 'Calor Local y eritema', 'question_id' => 518, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para la deambulación y edema', 'question_id' => 518, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 518, 'score' => 1]);
-        Option::create(['content' => 'Dimero D', 'question_id' => 519, 'score' => 0]);
-        Option::create(['content' => 'Ultrasonografía', 'question_id' => 519, 'score' => 0]);
-        Option::create(['content' => 'Exploración física es suficiente', 'question_id' => 519, 'score' => 0]);
-        Option::create(['content' => 'A y B', 'question_id' => 519, 'score' => 1]);
-        Option::create(['content' => 'B y c', 'question_id' => 519, 'score' => 0]);
-        Option::create(['content' => 'Hidratación', 'question_id' => 520, 'score' => 0]);
-        Option::create(['content' => 'Deambulación temprana', 'question_id' => 520, 'score' => 0]);
-        Option::create(['content' => 'Profilaxis: medias antiembólicas (9 a 12 mmHg)', 'question_id' => 520, 'score' => 0]);
-        Option::create(['content' => 'Heparina y cumarínicos: anticoagulantes más empleados', 'question_id' => 520, 'score' => 0]);
-        Option::create(['content' => 'Todos los anteriores', 'question_id' => 520, 'score' => 1]);
-        Option::create(['content' => 'Medias anti embolicas', 'question_id' => 521, 'score' => 0]);
-        Option::create(['content' => 'Deambulación temprana', 'question_id' => 521, 'score' => 0]);
-        Option::create(['content' => 'Uso de medias de compresión', 'question_id' => 521, 'score' => 0]);
-        Option::create(['content' => 'Heparina', 'question_id' => 521, 'score' => 0]);
-        Option::create(['content' => 'A y b', 'question_id' => 521, 'score' => 1]);
-        Option::create(['content' => 'INR diariamente', 'question_id' => 522, 'score' => 0]);
-        Option::create(['content' => 'INR cada cuatro semanas', 'question_id' => 522, 'score' => 1]);
-        Option::create(['content' => 'INR cada dos semanas', 'question_id' => 522, 'score' => 0]);
-        Option::create(['content' => 'TP, TPT semanalmente', 'question_id' => 522, 'score' => 0]);
-        Option::create(['content' => '10 días', 'question_id' => 523, 'score' => 0]);
-        Option::create(['content' => '7 días', 'question_id' => 523, 'score' => 0]);
-        Option::create(['content' => '4-6 semanas', 'question_id' => 523, 'score' => 1]);
-        Option::create(['content' => '1 semana', 'question_id' => 523, 'score' => 0]);
-        Option::create(['content' => 'indefinido', 'question_id' => 523, 'score' => 0]);
-        Option::create(['content' => 'Obesidad e inmovilización prolongada', 'question_id' => 524, 'score' => 0]);
-        Option::create(['content' => 'Genero', 'question_id' => 524, 'score' => 0]);
-        Option::create(['content' => 'Raza', 'question_id' => 524, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 524, 'score' => 0]);
-        Option::create(['content' => 'Todos los anteriores', 'question_id' => 524, 'score' => 1]);
-        Option::create(['content' => 'FDA', 'question_id' => 525, 'score' => 0]);
-        Option::create(['content' => 'The Joint Comission', 'question_id' => 525, 'score' => 0]);
-        Option::create(['content' => 'SOMETH', 'question_id' => 525, 'score' => 0]);
-        Option::create(['content' => 'SSA', 'question_id' => 525, 'score' => 0]);
-        Option::create(['content' => 'B, c y d son correctas', 'question_id' => 525, 'score' => 1]);
-        Option::create(['content' => 'Miembros inferiores', 'question_id' => 526, 'score' => 1]);
-        Option::create(['content' => 'Miembros superiores', 'question_id' => 526, 'score' => 0]);
-        Option::create(['content' => 'Extremidad superior en terapia intensiva', 'question_id' => 526, 'score' => 0]);
-        Option::create(['content' => 'Procedimientos quirúrgicos, trauma, patologías oncológicas o inmovilización prolongada', 'question_id' => 527, 'score' => 1]);
-        Option::create(['content' => 'Procedimientos quirúrgicos, viajes largos de dos horas', 'question_id' => 527, 'score' => 0]);
-        Option::create(['content' => 'Procedimientos quirúrgicos menores, patologías oncológicas', 'question_id' => 527, 'score' => 0]);
-        Option::create(['content' => 'La mayoría cursan asintomáticas', 'question_id' => 528, 'score' => 0]);
-        Option::create(['content' => 'Dolor y entumecimiento local del miembro afectado', 'question_id' => 528, 'score' => 0]);
-        Option::create(['content' => 'Calor Local y eritema', 'question_id' => 528, 'score' => 0]);
-        Option::create(['content' => 'Dificultad para la deambulación y edema', 'question_id' => 528, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 528, 'score' => 1]);
-        Option::create(['content' => '10%', 'question_id' => 529, 'score' => 0]);
-        Option::create(['content' => '15%', 'question_id' => 529, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 529, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 529, 'score' => 1]);
-        Option::create(['content' => '0.5%', 'question_id' => 530, 'score' => 0]);
-        Option::create(['content' => '1.5%', 'question_id' => 530, 'score' => 1]);
-        Option::create(['content' => '15%', 'question_id' => 530, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 530, 'score' => 0]);
-        Option::create(['content' => 'S=98% E=91%', 'question_id' => 531, 'score' => 0]);
-        Option::create(['content' => 'S=90% E=91%', 'question_id' => 531, 'score' => 0]);
-        Option::create(['content' => 'S=83% E=96%', 'question_id' => 531, 'score' => 1]);
-        Option::create(['content' => 'S=78% E=80%', 'question_id' => 531, 'score' => 0]);
-        Option::create(['content' => 'S=76% E=75%', 'question_id' => 531, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 532, 'score' => 0]);
-        Option::create(['content' => '12%', 'question_id' => 532, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 532, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 532, 'score' => 0]);
-        Option::create(['content' => '28%', 'question_id' => 532, 'score' => 0]);
-        Option::create(['content' => 'Normal / No diagnóstica.', 'question_id' => 533, 'score' => 0]);
-        Option::create(['content' => 'Alta probabilidad/ No diagnóstica.', 'question_id' => 533, 'score' => 0]);
-        Option::create(['content' => 'Normal/ Alta probabilidad.', 'question_id' => 533, 'score' => 1]);
-        Option::create(['content' => 'Solo en la normal.', 'question_id' => 533, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 534, 'score' => 0]);
-        Option::create(['content' => '15%', 'question_id' => 534, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 534, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 534, 'score' => 1]);
-        Option::create(['content' => '0,5%', 'question_id' => 535, 'score' => 0]);
-        Option::create(['content' => '1.5%', 'question_id' => 535, 'score' => 1]);
-        Option::create(['content' => '15%', 'question_id' => 535, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 535, 'score' => 0]);
-        Option::create(['content' => 'S=98% E=91%', 'question_id' => 536, 'score' => 0]);
-        Option::create(['content' => 'S=90% E=91%', 'question_id' => 536, 'score' => 0]);
-        Option::create(['content' => 'S=83% E=96%', 'question_id' => 536, 'score' => 1]);
-        Option::create(['content' => 'S=78% E=80%', 'question_id' => 536, 'score' => 0]);
-        Option::create(['content' => 'S=76% E=75%', 'question_id' => 536, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 537, 'score' => 0]);
-        Option::create(['content' => '12%', 'question_id' => 537, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 537, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 537, 'score' => 0]);
-        Option::create(['content' => '28%', 'question_id' => 537, 'score' => 0]);
-        Option::create(['content' => 'Normal / No diagnóstica.', 'question_id' => 538, 'score' => 0]);
-        Option::create(['content' => 'Alta probabilidad/ No diagnóstica.', 'question_id' => 538, 'score' => 0]);
-        Option::create(['content' => 'Normal/ Alta probabilidad.', 'question_id' => 538, 'score' => 1]);
-        Option::create(['content' => 'Solo en la normal.', 'question_id' => 538, 'score' => 0]);
-        Option::create(['content' => 'Solo PESI C III.IV / sPESI > 1.', 'question_id' => 539, 'score' => 0]);
-        Option::create(['content' => 'Disfunción ventricular derecha y biomarcadores cardíacos.', 'question_id' => 539, 'score' => 0]);
-        Option::create(['content' => 'PESI C III-IV / sPESI > 1, disfunción ventricular derecha y biomarcadores cardiacos.', 'question_id' => 539, 'score' => 1]);
-        Option::create(['content' => 'Estado de choque/ hipotensión sistémica y biomarcadores cardiacos.', 'question_id' => 539, 'score' => 0]);
-        Option::create(['content' => 'Solo disfunción ventricular derecha.', 'question_id' => 539, 'score' => 0]);
-        Option::create(['content' => 'Fibrinolisis Inmediata.', 'question_id' => 540, 'score' => 0]);
-        Option::create(['content' => 'Anticoagulación parenteral con heparina no fraccionada/ enoxaparina.', 'question_id' => 540, 'score' => 1]);
-        Option::create(['content' => 'Dabigatran.', 'question_id' => 540, 'score' => 0]);
-        Option::create(['content' => 'Rivaroxaban.', 'question_id' => 540, 'score' => 0]);
-        Option::create(['content' => 'Edoxaban.', 'question_id' => 540, 'score' => 0]);
-        Option::create(['content' => 'Solo en las primeras 12 horas.', 'question_id' => 541, 'score' => 0]);
-        Option::create(['content' => 'En las primeras 24 horas.', 'question_id' => 541, 'score' => 0]);
-        Option::create(['content' => 'En la primera semana.', 'question_id' => 541, 'score' => 0]);
-        Option::create(['content' => 'Hasta 14 días de la presentación de los síntomas.', 'question_id' => 541, 'score' => 1]);
-        Option::create(['content' => 'Fibrinolisis: 2.0 – 6.3% - Heparina: 0.2 – 1.5%', 'question_id' => 542, 'score' => 1]);
-        Option::create(['content' => 'Fibrinolisis: 1.2 – 8.4% - Heparina: 0.8 – 2.5%', 'question_id' => 542, 'score' => 0]);
-        Option::create(['content' => 'Fibrinolisis: 4.0 – 8.3% - Heparina: 0.9 – 2.4%', 'question_id' => 542, 'score' => 0]);
-        Option::create(['content' => 'Fibrinolisis: 0.5 – 2.7% - Heparina: 1.9 – 3.5%', 'question_id' => 542, 'score' => 0]);
-        Option::create(['content' => 'Heparina no fraccionada.', 'question_id' => 543, 'score' => 1]);
-        Option::create(['content' => 'Heparina de bajo peso molecular (Enoxaparina).', 'question_id' => 543, 'score' => 0]);
-        Option::create(['content' => 'Fondapariniux.', 'question_id' => 543, 'score' => 0]);
-        Option::create(['content' => 'No debe iniciarse posterior al uso de rtPA.', 'question_id' => 543, 'score' => 0]);
-        Option::create(['content' => 'Rivaroxaban.', 'question_id' => 543, 'score' => 0]);
-        Option::create(['content' => 'Segundo lugar', 'question_id' => 544, 'score' => 0]);
-        Option::create(['content' => 'Tercer lugar después de los Accidentes y la Diabetes Mellitus', 'question_id' => 544, 'score' => 0]);
-        Option::create(['content' => 'Primer Lugar', 'question_id' => 544, 'score' => 1]);
-        Option::create(['content' => 'Han aumentado más en las mujeres, pero no en jóvenes y sus efectos en la población general no son significativos', 'question_id' => 544, 'score' => 0]);
-        Option::create(['content' => 'Ninguna es correcta', 'question_id' => 544, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 545, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 545, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión Arterial', 'question_id' => 545, 'score' => 0]);
-        Option::create(['content' => 'Homocisteína', 'question_id' => 545, 'score' => 1]);
-        Option::create(['content' => 'Obesidad', 'question_id' => 545, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en párpados', 'question_id' => 546, 'score' => 1]);
-        Option::create(['content' => 'Depósitos de glicosamin glicanos en la córnea', 'question_id' => 546, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en la boca', 'question_id' => 546, 'score' => 0]);
-        Option::create(['content' => 'Manchas rojas en ojos nariz y boca', 'question_id' => 546, 'score' => 0]);
-        Option::create(['content' => 'Lesiones pre-cancerosas de la piel', 'question_id' => 546, 'score' => 0]);
-        Option::create(['content' => 'La Diabetes Mellitus en la población estudiada disminuyó', 'question_id' => 547, 'score' => 0]);
-        Option::create(['content' => 'La Hipertensión y la Dislipidemia No modificaron su prevalencia', 'question_id' => 547, 'score' => 0]);
-        Option::create(['content' => 'La población incluida con Cardiopatía Isquémica mostró un IMC mayor a 32', 'question_id' => 547, 'score' => 0]);
-        Option::create(['content' => 'El Porcentaje de ACTP-Primaria en el IAM aumentó a más del triple', 'question_id' => 547, 'score' => 0]);
-        Option::create(['content' => 'Se redujo el tiempo de isquemia de 360 min. En R-II vs. 200 min en R-III', 'question_id' => 547, 'score' => 1]);
-        Option::create(['content' => 'Matriz subendotelial', 'question_id' => 548, 'score' => 0]);
-        Option::create(['content' => 'Lamina elástica interna', 'question_id' => 548, 'score' => 0]);
-        Option::create(['content' => 'Ausencia de células inflamatorias', 'question_id' => 548, 'score' => 1]);
-        Option::create(['content' => 'Capa Fibrosa', 'question_id' => 548, 'score' => 0]);
-        Option::create(['content' => 'Células apoptósicas subendoteliales', 'question_id' => 548, 'score' => 0]);
-        Option::create(['content' => 'Segundo lugar', 'question_id' => 549, 'score' => 0]);
-        Option::create(['content' => 'Tercer lugar después de los Accidentes y la Diabetes Mellitus', 'question_id' => 549, 'score' => 0]);
-        Option::create(['content' => 'Primer Lugar', 'question_id' => 549, 'score' => 1]);
-        Option::create(['content' => 'Han aumentado más en las mujeres, pero no en jóvenes y sus efectos en la población general no son significativos', 'question_id' => 549, 'score' => 0]);
-        Option::create(['content' => 'Ninguna es correcta', 'question_id' => 549, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 550, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 550, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión Arterial', 'question_id' => 550, 'score' => 0]);
-        Option::create(['content' => 'Homocisteína', 'question_id' => 550, 'score' => 1]);
-        Option::create(['content' => 'Obesidad', 'question_id' => 550, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en párpados', 'question_id' => 551, 'score' => 1]);
-        Option::create(['content' => 'Depósitos de glicosamin glicanos en la córnea', 'question_id' => 551, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en la boca', 'question_id' => 551, 'score' => 0]);
-        Option::create(['content' => 'Manchas rojas en ojos nariz y boca', 'question_id' => 551, 'score' => 0]);
-        Option::create(['content' => 'Lesiones pre-cancerosas de la piel', 'question_id' => 551, 'score' => 0]);
-        Option::create(['content' => 'La Diabetes Mellitus en la población estudiada disminuyó', 'question_id' => 552, 'score' => 0]);
-        Option::create(['content' => 'La Hipertensión y la Dislipidemia No modificaron su prevalencia', 'question_id' => 552, 'score' => 0]);
-        Option::create(['content' => 'La población incluida con Cardiopatía Isquémica mostró un IMC mayor a 32', 'question_id' => 552, 'score' => 0]);
-        Option::create(['content' => 'El Porcentaje de ACTP-Primaria en el IAM aumentó a más del triple', 'question_id' => 552, 'score' => 0]);
-        Option::create(['content' => 'Se redujo el tiempo de isquemia de 360 min. En R-II vs. 200 min en R-III', 'question_id' => 552, 'score' => 1]);
-        Option::create(['content' => 'Matriz subendotelial', 'question_id' => 553, 'score' => 0]);
-        Option::create(['content' => 'Lamina elástica interna', 'question_id' => 553, 'score' => 0]);
-        Option::create(['content' => 'Ausencia de células inflamatorias', 'question_id' => 553, 'score' => 1]);
-        Option::create(['content' => 'Capa Fibrosa', 'question_id' => 553, 'score' => 0]);
-        Option::create(['content' => 'Células apoptósicas subendoteliales', 'question_id' => 553, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 554, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 554, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 555, 'score' => 0]);
-        Option::create(['content' => 'Falso', 'question_id' => 555, 'score' => 1]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 556, 'score' => 0]);
-        Option::create(['content' => 'Falso', 'question_id' => 556, 'score' => 1]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 557, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 557, 'score' => 0]);
-        Option::create(['content' => '15 min', 'question_id' => 558, 'score' => 1]);
-        Option::create(['content' => '60 min', 'question_id' => 558, 'score' => 0]);
-        Option::create(['content' => '120 min', 'question_id' => 558, 'score' => 0]);
-        Option::create(['content' => '3 Hrs', 'question_id' => 558, 'score' => 0]);
-        Option::create(['content' => '5 Hrs', 'question_id' => 558, 'score' => 0]);
-        Option::create(['content' => '30 min', 'question_id' => 559, 'score' => 0]);
-        Option::create(['content' => '40 min', 'question_id' => 559, 'score' => 0]);
-        Option::create(['content' => '70 min', 'question_id' => 559, 'score' => 0]);
-        Option::create(['content' => '120 min', 'question_id' => 559, 'score' => 1]);
-        Option::create(['content' => '240 min', 'question_id' => 559, 'score' => 0]);
-        Option::create(['content' => 'Fibrinógeno', 'question_id' => 560, 'score' => 0]);
-        Option::create(['content' => 'ADP', 'question_id' => 560, 'score' => 0]);
-        Option::create(['content' => 'Tromboxano A2', 'question_id' => 560, 'score' => 0]);
-        Option::create(['content' => 'Anti-Trombina III', 'question_id' => 560, 'score' => 1]);
-        Option::create(['content' => 'Cangrelor', 'question_id' => 561, 'score' => 0]);
-        Option::create(['content' => 'Ticagrelor', 'question_id' => 561, 'score' => 0]);
-        Option::create(['content' => 'Clopidogrel', 'question_id' => 561, 'score' => 0]);
-        Option::create(['content' => 'Eptifibatide', 'question_id' => 561, 'score' => 1]);
-        Option::create(['content' => 'Prasugrel', 'question_id' => 561, 'score' => 0]);
-        Option::create(['content' => 'Glicoproteina I B-beta IX-V', 'question_id' => 562, 'score' => 0]);
-        Option::create(['content' => 'Receptor Activador de Proteasa -1 (PAR-1)', 'question_id' => 562, 'score' => 1]);
-        Option::create(['content' => 'P2Y12', 'question_id' => 562, 'score' => 0]);
-        Option::create(['content' => 'GP IIb/IIIa', 'question_id' => 562, 'score' => 0]);
-        Option::create(['content' => 'Tromboxano A1', 'question_id' => 562, 'score' => 0]);
-        Option::create(['content' => 'Prasugrel 10 mg/dia', 'question_id' => 563, 'score' => 0]);
-        Option::create(['content' => 'Ticagrelor 180 mg/dia', 'question_id' => 563, 'score' => 1]);
-        Option::create(['content' => 'Clopidogrel 75 mg/dia', 'question_id' => 563, 'score' => 0]);
-        Option::create(['content' => 'Aspirina 81-100 mg /dia', 'question_id' => 563, 'score' => 0]);
-        Option::create(['content' => 'Dosis bajas de aspirina no mejoraron la eficacia', 'question_id' => 564, 'score' => 0]);
-        Option::create(['content' => 'Dosis altas de aspirina no mejoraron la eficacia', 'question_id' => 564, 'score' => 1]);
-        Option::create(['content' => 'Ninguna dosis aportó beneficio y eficacia', 'question_id' => 564, 'score' => 0]);
-        Option::create(['content' => 'Dosis mayores a 3 gr al dia mejoraron la eficacia', 'question_id' => 564, 'score' => 0]);
-        Option::create(['content' => 'Fibrinógeno', 'question_id' => 565, 'score' => 0]);
-        Option::create(['content' => 'ADP', 'question_id' => 565, 'score' => 0]);
-        Option::create(['content' => 'Tromboxano A2', 'question_id' => 565, 'score' => 0]);
-        Option::create(['content' => 'Anti-Trombina III', 'question_id' => 565, 'score' => 1]);
-        Option::create(['content' => 'Cangrelor', 'question_id' => 566, 'score' => 0]);
-        Option::create(['content' => 'Ticagrelor', 'question_id' => 566, 'score' => 0]);
-        Option::create(['content' => 'Clopidogrel', 'question_id' => 566, 'score' => 0]);
-        Option::create(['content' => 'Eptifibatide', 'question_id' => 566, 'score' => 1]);
-        Option::create(['content' => 'Prasugrel', 'question_id' => 566, 'score' => 0]);
-        Option::create(['content' => 'Glicoproteina I B-beta IX-V', 'question_id' => 567, 'score' => 0]);
-        Option::create(['content' => 'Receptor Activador de Proteasa -1 (PAR-1)', 'question_id' => 567, 'score' => 1]);
-        Option::create(['content' => 'P2Y12', 'question_id' => 567, 'score' => 0]);
-        Option::create(['content' => 'GP IIb/IIIa', 'question_id' => 567, 'score' => 0]);
-        Option::create(['content' => 'Tromboxano A1', 'question_id' => 567, 'score' => 0]);
-        Option::create(['content' => 'Prasugrel 10 mg/dia', 'question_id' => 568, 'score' => 0]);
-        Option::create(['content' => 'Ticagrelor 180 mg/dia', 'question_id' => 568, 'score' => 1]);
-        Option::create(['content' => 'Clopidogrel 75 mg/dia', 'question_id' => 568, 'score' => 0]);
-        Option::create(['content' => 'Aspirina 81-100 mg /dia', 'question_id' => 568, 'score' => 0]);
-        Option::create(['content' => 'Dosis bajas de aspirina no mejoraron la eficacia', 'question_id' => 569, 'score' => 0]);
-        Option::create(['content' => 'Dosis altas de aspirina no mejoraron la eficacia', 'question_id' => 569, 'score' => 1]);
-        Option::create(['content' => 'Ninguna dosis aportó beneficio y eficacia', 'question_id' => 569, 'score' => 0]);
-        Option::create(['content' => 'Dosis mayores a 3 gr al dia mejoraron la eficacia', 'question_id' => 569, 'score' => 0]);
-        Option::create(['content' => 'Inactiva reversiblemente al receptor P2Y12', 'question_id' => 570, 'score' => 1]);
-        Option::create(['content' => 'Presenta respuesta variable', 'question_id' => 570, 'score' => 0]);
-        Option::create(['content' => 'No actúa en otras vías de activación plaquetaria', 'question_id' => 570, 'score' => 0]);
-        Option::create(['content' => 'Es el única Tienopiridina aprobada para usar con Terapia Lítica en IAM con E-ST', 'question_id' => 570, 'score' => 0]);
-        Option::create(['content' => 'Ninguna es verdadera', 'question_id' => 570, 'score' => 0]);
-        Option::create(['content' => 'La población incluida fue mas de 19,000 pacientes', 'question_id' => 571, 'score' => 0]);
-        Option::create(['content' => 'Incluyó pacientes con Enfermedad arterial periférica, Cardiopatía isquémica y Enfermedad vascular cerebral', 'question_id' => 571, 'score' => 0]);
-        Option::create(['content' => 'El Clopidogrel vs. Aspirina aportó significativa reducción del riesgo', 'question_id' => 571, 'score' => 1]);
-        Option::create(['content' => 'Todas son correctas', 'question_id' => 571, 'score' => 0]);
-        Option::create(['content' => 'Incluyó pacientes con IAM con Elevación del ST', 'question_id' => 572, 'score' => 1]);
-        Option::create(['content' => 'Prasugrel mostró reducción de los puntos finales primarios', 'question_id' => 572, 'score' => 0]);
-        Option::create(['content' => 'La mortalidad total no mostró diferencia significativa entre Prasugrel y Clopidogrel', 'question_id' => 572, 'score' => 0]);
-        Option::create(['content' => 'El Prasugrel mostró reducción de eventos isquémicos con mayor frecuencia de hemorragias', 'question_id' => 572, 'score' => 0]);
-        Option::create(['content' => 'Incluyó pacientes post ACTP con mas de 500 pacientes', 'question_id' => 573, 'score' => 1]);
-        Option::create(['content' => 'Comparó pacientes tratados con Clopidogrel vs. Ticagrelor', 'question_id' => 573, 'score' => 0]);
-        Option::create(['content' => 'Comparó warfarina +Clopidogrel + aspirina Vs. Warfarina + Clopidogrel', 'question_id' => 573, 'score' => 0]);
-        Option::create(['content' => 'La aspirina resultó responsable del exceso de hemorragias en uno de los grupos comparativos', 'question_id' => 573, 'score' => 0]);
-        Option::create(['content' => 'La warfarina + Clopidogrel mostró reducción de hemorragias totales Vs- Warfarina + Aspirina + Clopidogrel', 'question_id' => 573, 'score' => 0]);
-        Option::create(['content' => 'Se clasifican en Sintéticos y Anticuerpos monoclonales murínicos (Abxicimab)', 'question_id' => 574, 'score' => 0]);
-        Option::create(['content' => 'La vida media del Abciximab es de 12 hrs a 14 dias', 'question_id' => 574, 'score' => 0]);
-        Option::create(['content' => 'La vida media de los Sintéticos es de 2-3 hrs', 'question_id' => 574, 'score' => 0]);
-        Option::create(['content' => 'La antigenicidad se presenta principalmente con los sintéticos', 'question_id' => 574, 'score' => 1]);
-        Option::create(['content' => 'La recuperación de la función plaquetaria es lenta con Abciximab y rápida con los sintéticos (tirofibán-eptifibatide-lamifibán)', 'question_id' => 574, 'score' => 0]);
-        Option::create(['content' => 'La inhibición de la agregación plaquetaria es moderada con Clopidogrel y alta con Ticagrelor y Prasugrel', 'question_id' => 575, 'score' => 0]);
-        Option::create(['content' => 'El inicio de acción es lento con Clopidogrel y rápido con Prasugrel y Ticagrelor', 'question_id' => 575, 'score' => 1]);
-        Option::create(['content' => 'La bioactivación es simple con simple con Clopidogrel y compleja con Ticagrelor y Prasugrel', 'question_id' => 575, 'score' => 0]);
-        Option::create(['content' => 'El Clopidogrel ha mostrado diferencias genéticas Vs. Prasugrel y Ticagrelor', 'question_id' => 575, 'score' => 0]);
-        Option::create(['content' => 'Segundo lugar', 'question_id' => 576, 'score' => 0]);
-        Option::create(['content' => 'Tercer lugar después de los Accidentes y la Diabetes Mellitus', 'question_id' => 576, 'score' => 0]);
-        Option::create(['content' => 'Primer Lugar', 'question_id' => 576, 'score' => 1]);
-        Option::create(['content' => 'Han aumentado más en las mujeres, pero no en jóvenes y sus efectos en la población general no son significativos', 'question_id' => 576, 'score' => 0]);
-        Option::create(['content' => 'Ninguna es correcta', 'question_id' => 576, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 577, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 577, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión Arterial', 'question_id' => 577, 'score' => 0]);
-        Option::create(['content' => 'Homocisteína', 'question_id' => 577, 'score' => 1]);
-        Option::create(['content' => 'Obesidad', 'question_id' => 577, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en párpados', 'question_id' => 578, 'score' => 1]);
-        Option::create(['content' => 'Depósitos de glicosamin glicanos en la córnea', 'question_id' => 578, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en la boca', 'question_id' => 578, 'score' => 0]);
-        Option::create(['content' => 'Manchas rojas en ojos nariz y boca', 'question_id' => 578, 'score' => 0]);
-        Option::create(['content' => 'Lesiones pre-cancerosas de la piel', 'question_id' => 578, 'score' => 0]);
-        Option::create(['content' => 'La Diabetes Mellitus en la población estudiada disminuyó', 'question_id' => 579, 'score' => 0]);
-        Option::create(['content' => 'La Hipertensión y la Dislipidemia No modificaron su prevalencia', 'question_id' => 579, 'score' => 0]);
-        Option::create(['content' => 'La población incluida con Cardiopatía Isquémica mostró un IMC mayor a 32', 'question_id' => 579, 'score' => 0]);
-        Option::create(['content' => 'El Porcentaje de ACTP-Primaria en el IAM aumentó a más del triple', 'question_id' => 579, 'score' => 0]);
-        Option::create(['content' => 'Se redujo el tiempo de isqumemia de 360 min. En R-II vs. 200 min en R-III', 'question_id' => 579, 'score' => 1]);
-        Option::create(['content' => 'Matriz subendotelial', 'question_id' => 580, 'score' => 0]);
-        Option::create(['content' => 'Lamina elástica interna', 'question_id' => 580, 'score' => 0]);
-        Option::create(['content' => 'Ausencia de células inflamatorias', 'question_id' => 580, 'score' => 1]);
-        Option::create(['content' => 'Capa Fibrosa', 'question_id' => 580, 'score' => 0]);
-        Option::create(['content' => 'Células apoptósicas subendoteliales', 'question_id' => 580, 'score' => 0]);
-        Option::create(['content' => 'Segundo lugar', 'question_id' => 581, 'score' => 0]);
-        Option::create(['content' => 'Tercer lugar después de los Accidentes y la Diabetes Mellitus', 'question_id' => 581, 'score' => 0]);
-        Option::create(['content' => 'Primer Lugar', 'question_id' => 581, 'score' => 1]);
-        Option::create(['content' => 'Han aumentado más en las mujeres, pero no en jóvenes y sus efectos en la población general no son significativos', 'question_id' => 581, 'score' => 0]);
-        Option::create(['content' => 'Ninguna es correcta', 'question_id' => 581, 'score' => 0]);
-        Option::create(['content' => 'Tabaquismo', 'question_id' => 582, 'score' => 0]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 582, 'score' => 0]);
-        Option::create(['content' => 'Hipertensión Arterial', 'question_id' => 582, 'score' => 0]);
-        Option::create(['content' => 'Homocisteína', 'question_id' => 582, 'score' => 1]);
-        Option::create(['content' => 'Obesidad', 'question_id' => 582, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en párpados', 'question_id' => 583, 'score' => 1]);
-        Option::create(['content' => 'Depósitos de glicosamin glicanos en la córnea', 'question_id' => 583, 'score' => 0]);
-        Option::create(['content' => 'Lesiones de contenido lipídico en la boca', 'question_id' => 583, 'score' => 0]);
-        Option::create(['content' => 'Manchas rojas en ojos nariz y boca', 'question_id' => 583, 'score' => 0]);
-        Option::create(['content' => 'Lesiones pre-cancerosas de la piel', 'question_id' => 583, 'score' => 0]);
-        Option::create(['content' => 'La Diabetes Mellitus en la población estudiada disminuyó', 'question_id' => 584, 'score' => 0]);
-        Option::create(['content' => 'La Hipertensión y la Dislipidemia No modificaron su prevalencia', 'question_id' => 584, 'score' => 0]);
-        Option::create(['content' => 'La población incluida con Cardiopatía Isquémica mostró un IMC mayor a 32', 'question_id' => 584, 'score' => 0]);
-        Option::create(['content' => 'El Porcentaje de ACTP-Primaria en el IAM aumentó a más del triple', 'question_id' => 584, 'score' => 0]);
-        Option::create(['content' => 'Se redujo el tiempo de isqumemia de 360 min. En R-II vs. 200 min en R-III', 'question_id' => 584, 'score' => 1]);
-        Option::create(['content' => 'Matriz subendotelial', 'question_id' => 585, 'score' => 0]);
-        Option::create(['content' => 'Lamina elástica interna', 'question_id' => 585, 'score' => 0]);
-        Option::create(['content' => 'Ausencia de células inflamatorias', 'question_id' => 585, 'score' => 1]);
-        Option::create(['content' => 'Capa Fibrosa', 'question_id' => 585, 'score' => 0]);
-        Option::create(['content' => 'Células apoptósicas subendoteliales', 'question_id' => 585, 'score' => 0]);
-        Option::create(['content' => 'Post cirugía cardiaca', 'question_id' => 586, 'score' => 0]);
-        Option::create(['content' => 'Trombosis del stent', 'question_id' => 586, 'score' => 0]);
-        Option::create(['content' => 'Procedimiento intervencionista', 'question_id' => 586, 'score' => 1]);
-        Option::create(['content' => 'a.	Muerte súbita', 'question_id' => 586, 'score' => 0]);
-        Option::create(['content' => 'Desbalance isquemia demanda', 'question_id' => 587, 'score' => 0]);
-        Option::create(['content' => 'Espontáneo ruptura-erosión – nódulo calcificado', 'question_id' => 587, 'score' => 0]);
-        Option::create(['content' => 'Procedimiento intervencionista', 'question_id' => 587, 'score' => 0]);
-        Option::create(['content' => 'Post-cirugía cardiaca', 'question_id' => 587, 'score' => 0]);
-        Option::create(['content' => 'Trombosis del stent', 'question_id' => 587, 'score' => 1]);
-        Option::create(['content' => '15 min.', 'question_id' => 588, 'score' => 1]);
-        Option::create(['content' => '60 min.', 'question_id' => 588, 'score' => 0]);
-        Option::create(['content' => '120 min.', 'question_id' => 588, 'score' => 0]);
-        Option::create(['content' => '3 Hrs.', 'question_id' => 588, 'score' => 0]);
-        Option::create(['content' => '5 Hrs.', 'question_id' => 588, 'score' => 0]);
-        Option::create(['content' => '30 min.', 'question_id' => 589, 'score' => 0]);
-        Option::create(['content' => '40 min.', 'question_id' => 589, 'score' => 0]);
-        Option::create(['content' => '70 min.', 'question_id' => 589, 'score' => 0]);
-        Option::create(['content' => '120 min.', 'question_id' => 589, 'score' => 1]);
-        Option::create(['content' => '240 min.', 'question_id' => 589, 'score' => 0]);
-        Option::create(['content' => 'Repolarización Precoz Benigna', 'question_id' => 590, 'score' => 0]);
-        Option::create(['content' => 'BRIHH', 'question_id' => 590, 'score' => 0]);
-        Option::create(['content' => 'Pre-exitación', 'question_id' => 590, 'score' => 0]);
-        Option::create(['content' => 'Peri-Miocarditis', 'question_id' => 590, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 590, 'score' => 1]);
-        Option::create(['content' => 'Epidemias crónicas no transmisibles', 'question_id' => 591, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas no transmisibles', 'question_id' => 591, 'score' => 1]);
-        Option::create(['content' => 'Entidad común no tratada', 'question_id' => 591, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas transmisibles', 'question_id' => 591, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades cardiovasculares', 'question_id' => 592, 'score' => 0]);
-        Option::create(['content' => 'Diabetes y Cáncer', 'question_id' => 592, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas respiratorias y diabetes', 'question_id' => 592, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades cardiovasculares, diabetes, cáncer y enfermedades crónicas respiratorias', 'question_id' => 592, 'score' => 1]);
-        Option::create(['content' => 'Menos del 50%', 'question_id' => 593, 'score' => 0]);
-        Option::create(['content' => 'Más del 50%', 'question_id' => 593, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 593, 'score' => 1]);
-        Option::create(['content' => 'No se ha establecido un porcentaje', 'question_id' => 593, 'score' => 0]);
-        Option::create(['content' => '22.5%', 'question_id' => 594, 'score' => 1]);
-        Option::create(['content' => '43.6%', 'question_id' => 594, 'score' => 0]);
-        Option::create(['content' => '31.4%', 'question_id' => 594, 'score' => 0]);
-        Option::create(['content' => '12.5%', 'question_id' => 594, 'score' => 0]);
-        Option::create(['content' => '31.4%', 'question_id' => 595, 'score' => 0]);
-        Option::create(['content' => '65.2%', 'question_id' => 595, 'score' => 1]);
-        Option::create(['content' => '54.1%', 'question_id' => 595, 'score' => 0]);
-        Option::create(['content' => '22.5%', 'question_id' => 595, 'score' => 0]);
-        Option::create(['content' => '100%', 'question_id' => 596, 'score' => 0]);
-        Option::create(['content' => '80%', 'question_id' => 596, 'score' => 1]);
-        Option::create(['content' => '60%', 'question_id' => 596, 'score' => 0]);
-        Option::create(['content' => '40%', 'question_id' => 596, 'score' => 0]);
-        Option::create(['content' => 'Epidemias crónicas no transmisibles', 'question_id' => 597, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas no transmisibles', 'question_id' => 597, 'score' => 1]);
-        Option::create(['content' => 'Entidad común no tratada', 'question_id' => 597, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas transmisibles', 'question_id' => 597, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades cardiovasculares', 'question_id' => 598, 'score' => 0]);
-        Option::create(['content' => 'Diabetes y Cáncer', 'question_id' => 598, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades crónicas respiratorias y diabetes', 'question_id' => 598, 'score' => 0]);
-        Option::create(['content' => 'Enfermedades cardiovasculares, diabetes, cáncer y enfermedades crónicas respiratorias', 'question_id' => 598, 'score' => 1]);
-        Option::create(['content' => '2 veces más propenso', 'question_id' => 599, 'score' => 0]);
-        Option::create(['content' => '3 veces más propenso', 'question_id' => 599, 'score' => 0]);
-        Option::create(['content' => '4 veces más propenso', 'question_id' => 599, 'score' => 1]);
-        Option::create(['content' => '5 veces más propenso', 'question_id' => 599, 'score' => 0]);
-        Option::create(['content' => 'Menos del 50%', 'question_id' => 600, 'score' => 0]);
-        Option::create(['content' => 'Más del 50%', 'question_id' => 600, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 600, 'score' => 1]);
-        Option::create(['content' => 'No se ha establecido un porcentaje', 'question_id' => 600, 'score' => 0]);
-        Option::create(['content' => '22.5%', 'question_id' => 601, 'score' => 1]);
-        Option::create(['content' => '43.6%', 'question_id' => 601, 'score' => 0]);
-        Option::create(['content' => '31.4%', 'question_id' => 601, 'score' => 0]);
-        Option::create(['content' => '12.5%', 'question_id' => 601, 'score' => 0]);
-        Option::create(['content' => '31.4%', 'question_id' => 602, 'score' => 0]);
-        Option::create(['content' => '65.2%', 'question_id' => 602, 'score' => 1]);
-        Option::create(['content' => '54.1%', 'question_id' => 602, 'score' => 0]);
-        Option::create(['content' => '22.5%', 'question_id' => 602, 'score' => 0]);
-        Option::create(['content' => 'Colesterol elevado, inactividad física y dieta', 'question_id' => 603, 'score' => 0]);
-        Option::create(['content' => 'Contaminación ambiental, IMC elevado y glucosa alta', 'question_id' => 603, 'score' => 0]);
-        Option::create(['content' => 'Glucosa alta, IMC elevado e hipertensión', 'question_id' => 603, 'score' => 1]);
-        Option::create(['content' => 'Tabaquismo, inactividad física y glucosa alta', 'question_id' => 603, 'score' => 0]);
-        Option::create(['content' => 'Tamizaje de escrutinio', 'question_id' => 604, 'score' => 0]);
-        Option::create(['content' => 'Estratificación de riesgos', 'question_id' => 604, 'score' => 0]);
-        Option::create(['content' => 'Tratamientos específicos oportunos', 'question_id' => 604, 'score' => 0]);
-        Option::create(['content' => 'Política antitabaco', 'question_id' => 604, 'score' => 1]);
-        Option::create(['content' => 'Regulación de alimentos', 'question_id' => 605, 'score' => 0]);
-        Option::create(['content' => 'Promoción de la salud general', 'question_id' => 605, 'score' => 0]);
-        Option::create(['content' => 'Tamizaje o escrutinio', 'question_id' => 605, 'score' => 1]);
-        Option::create(['content' => 'Fortificación', 'question_id' => 605, 'score' => 0]);
-        Option::create(['content' => '<70mg/dl', 'question_id' => 606, 'score' => 0]);
-        Option::create(['content' => '<100mg/dl', 'question_id' => 606, 'score' => 0]);
-        Option::create(['content' => '100-130 mg/dl', 'question_id' => 606, 'score' => 1]);
-        Option::create(['content' => '130-150mg/dl', 'question_id' => 606, 'score' => 0]);
-        Option::create(['content' => '5%', 'question_id' => 607, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 607, 'score' => 1]);
-        Option::create(['content' => '35%', 'question_id' => 607, 'score' => 0]);
-        Option::create(['content' => '50%.', 'question_id' => 607, 'score' => 0]);
-        Option::create(['content' => 'Diabetes', 'question_id' => 608, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad cardiovascular ateroesclerosa', 'question_id' => 608, 'score' => 1]);
-        Option::create(['content' => 'EPOC', 'question_id' => 608, 'score' => 0]);
-        Option::create(['content' => 'Neumonía', 'question_id' => 608, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 609, 'score' => 0]);
-        Option::create(['content' => '27%', 'question_id' => 609, 'score' => 0]);
-        Option::create(['content' => '40%', 'question_id' => 609, 'score' => 1]);
-        Option::create(['content' => '57%', 'question_id' => 609, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 610, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 610, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 610, 'score' => 1]);
-        Option::create(['content' => '70%', 'question_id' => 610, 'score' => 0]);
-        Option::create(['content' => '<70mg/dl', 'question_id' => 611, 'score' => 0]);
-        Option::create(['content' => '<100mg/dl', 'question_id' => 611, 'score' => 0]);
-        Option::create(['content' => '100-130 mg/dl', 'question_id' => 611, 'score' => 1]);
-        Option::create(['content' => '130-150mg/dl', 'question_id' => 611, 'score' => 0]);
-        Option::create(['content' => '5%', 'question_id' => 612, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 612, 'score' => 1]);
-        Option::create(['content' => '35%', 'question_id' => 612, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 612, 'score' => 0]);
-        Option::create(['content' => 'tabaquismo', 'question_id' => 613, 'score' => 0]);
-        Option::create(['content' => 'sexo masculino', 'question_id' => 613, 'score' => 0]);
-        Option::create(['content' => 'edad >60', 'question_id' => 613, 'score' => 1]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 613, 'score' => 0]);
-        Option::create(['content' => 'Diabetes', 'question_id' => 614, 'score' => 0]);
-        Option::create(['content' => 'Enfermedad cardiovascular ateroesclerosa', 'question_id' => 614, 'score' => 1]);
-        Option::create(['content' => 'EPOC', 'question_id' => 614, 'score' => 0]);
-        Option::create(['content' => 'Neumonía', 'question_id' => 614, 'score' => 0]);
-        Option::create(['content' => 'simvastatina 30mg', 'question_id' => 615, 'score' => 0]);
-        Option::create(['content' => 'Pravastatina 40-80mg', 'question_id' => 615, 'score' => 0]);
-        Option::create(['content' => 'atorvastatina 40-80mg', 'question_id' => 615, 'score' => 0]);
-        Option::create(['content' => 'rosuvastatina 20-40mg.', 'question_id' => 615, 'score' => 0]);
-        Option::create(['content' => 'La tercera y cuarta son correctas', 'question_id' => 615, 'score' => 1]);
-        Option::create(['content' => '6%', 'question_id' => 616, 'score' => 1]);
-        Option::create(['content' => '12%', 'question_id' => 616, 'score' => 0]);
-        Option::create(['content' => '18%', 'question_id' => 616, 'score' => 0]);
-        Option::create(['content' => '24%', 'question_id' => 616, 'score' => 0]);
-        Option::create(['content' => '7%', 'question_id' => 617, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 617, 'score' => 1]);
-        Option::create(['content' => '27%', 'question_id' => 617, 'score' => 0]);
-        Option::create(['content' => '40%', 'question_id' => 617, 'score' => 0]);
-        Option::create(['content' => '17%', 'question_id' => 618, 'score' => 0]);
-        Option::create(['content' => '27%', 'question_id' => 618, 'score' => 0]);
-        Option::create(['content' => '40%', 'question_id' => 618, 'score' => 1]);
-        Option::create(['content' => '57%', 'question_id' => 618, 'score' => 0]);
-        Option::create(['content' => 'Inhibidores de la PCSK9.', 'question_id' => 619, 'score' => 1]);
-        Option::create(['content' => 'Ácidos grasos omega 3.', 'question_id' => 619, 'score' => 0]);
-        Option::create(['content' => 'L-carnitina', 'question_id' => 619, 'score' => 0]);
-        Option::create(['content' => 'Bezafibrato', 'question_id' => 619, 'score' => 0]);
-        Option::create(['content' => 'Regresión de la placa de ateroma en un 10% en caso de uso de atorvastatina 40mg', 'question_id' => 620, 'score' => 0]);
-        Option::create(['content' => 'Regresión de la placa de ateroma en un 46.3% en caso de uso de pravastatina 40mg', 'question_id' => 620, 'score' => 0]);
-        Option::create(['content' => 'Regresión de la paca de ateroma de un 25.2% en caso de uso de atorvastatina 80mg', 'question_id' => 620, 'score' => 0]);
-        Option::create(['content' => 'Regresión de la placa de ateroma de un 46.3% en caso de uso de atorvastatina 80mg', 'question_id' => 620, 'score' => 1]);
-        Option::create(['content' => '10-20mg/dl', 'question_id' => 621, 'score' => 1]);
-        Option::create(['content' => '20-40mg/dl', 'question_id' => 621, 'score' => 0]);
-        Option::create(['content' => '40-60mg/dl', 'question_id' => 621, 'score' => 0]);
-        Option::create(['content' => '80mg/dl', 'question_id' => 621, 'score' => 0]);
-        Option::create(['content' => '<70 mg/dl', 'question_id' => 622, 'score' => 0]);
-        Option::create(['content' => '<100mg/dl', 'question_id' => 622, 'score' => 0]);
-        Option::create(['content' => '100-150mg/dl', 'question_id' => 622, 'score' => 1]);
-        Option::create(['content' => '150-200mg/dl', 'question_id' => 622, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 623, 'score' => 1]);
-        Option::create(['content' => '40%', 'question_id' => 623, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 623, 'score' => 0]);
-        Option::create(['content' => '70%', 'question_id' => 623, 'score' => 0]);
-        Option::create(['content' => 'simvastatina 20mg + ezetimibe 10 mg', 'question_id' => 624, 'score' => 1]);
-        Option::create(['content' => 'pitavastatina 2 mg', 'question_id' => 624, 'score' => 0]);
-        Option::create(['content' => 'pravastatina 80 mg', 'question_id' => 624, 'score' => 0]);
-        Option::create(['content' => 'lovastatina 80 mg', 'question_id' => 624, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 625, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 625, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 625, 'score' => 1]);
-        Option::create(['content' => '70%', 'question_id' => 625, 'score' => 0]);
-        Option::create(['content' => 'lovastatina', 'question_id' => 626, 'score' => 0]);
-        Option::create(['content' => 'atorvastatina', 'question_id' => 626, 'score' => 0]);
-        Option::create(['content' => 'rosuvastatina', 'question_id' => 626, 'score' => 0]);
-        Option::create(['content' => 'pravastatina', 'question_id' => 626, 'score' => 1]);
-        Option::create(['content' => 'Uso de la tecnología y la herbolaria para la producción de nuevos medicamentos', 'question_id' => 627, 'score' => 0]);
-        Option::create(['content' => 'Uso de organismos vivos para la producción de compuesto-producto de interés', 'question_id' => 627, 'score' => 1]);
-        Option::create(['content' => 'Ciencia de la medicina que estudia a la tecnología', 'question_id' => 627, 'score' => 0]);
-        Option::create(['content' => 'Rama de la medicina basada en el estudios de organismos vivos y sus funciones', 'question_id' => 627, 'score' => 0]);
-        Option::create(['content' => 'Alemania produce glicerina por fermentación para la fabricación de nitrogloicerina', 'question_id' => 628, 'score' => 0]);
-        Option::create(['content' => 'Se usa el ADN recombinante para la creación de la primera proteína humana fabricada en una bacteria: somatostatina', 'question_id' => 628, 'score' => 0]);
-        Option::create(['content' => 'La cerveza usada por los sumerios y babilonios', 'question_id' => 628, 'score' => 0]);
-        Option::create(['content' => 'Creación de la primera computadora en 1938', 'question_id' => 628, 'score' => 1]);
-        Option::create(['content' => 'Plegamiento de proteínas', 'question_id' => 629, 'score' => 0]);
-        Option::create(['content' => 'Purificación', 'question_id' => 629, 'score' => 0]);
-        Option::create(['content' => 'Glicosilación', 'question_id' => 629, 'score' => 1]);
-        Option::create(['content' => 'Transcripción', 'question_id' => 629, 'score' => 0]);
-        Option::create(['content' => 'Región Fab', 'question_id' => 630, 'score' => 1]);
-        Option::create(['content' => 'Región FC', 'question_id' => 630, 'score' => 0]);
-        Option::create(['content' => 'Cadena pesada', 'question_id' => 630, 'score' => 0]);
-        Option::create(['content' => 'Cadena ligera', 'question_id' => 630, 'score' => 0]);
-        Option::create(['content' => 'Administración oral, eliminación hepática o renal, vida media corta', 'question_id' => 631, 'score' => 0]);
-        Option::create(['content' => 'Administración parenteral, vida media larga, presenta interacciones', 'question_id' => 631, 'score' => 0]);
-        Option::create(['content' => 'Puede presentar inmunogenicidad, administración parenteral y vida media larga', 'question_id' => 631, 'score' => 1]);
-        Option::create(['content' => 'Eliminación por endocitosis o fagocitosis, especificidad buena y su manufactura es por síntesis química', 'question_id' => 631, 'score' => 0]);
-        Option::create(['content' => 'Uso de la tecnología y la herbolaria para la producción de nuevos medicamentos', 'question_id' => 632, 'score' => 0]);
-        Option::create(['content' => 'Uso de organismos vivos para la producción de compuesto-producto de interés', 'question_id' => 632, 'score' => 1]);
-        Option::create(['content' => 'Ciencia de la medicina que estudia a la tecnología', 'question_id' => 632, 'score' => 0]);
-        Option::create(['content' => 'Rama de la medicina basada en el estudios de organismos vivos y sus funciones', 'question_id' => 632, 'score' => 0]);
-        Option::create(['content' => '5,800 KDa', 'question_id' => 633, 'score' => 0]);
-        Option::create(['content' => '30,400 KDa', 'question_id' => 633, 'score' => 0]);
-        Option::create(['content' => '146,000 KDa', 'question_id' => 633, 'score' => 1]);
-        Option::create(['content' => '180 KDa', 'question_id' => 633, 'score' => 0]);
-        Option::create(['content' => 'Alemania produce glicerina por fermentación para la fabricación de nitrogloicerina', 'question_id' => 634, 'score' => 0]);
-        Option::create(['content' => 'Se usa el ADN recombinante para la creación de la primera proteína humana fabricada en un bacteria: somatostatina', 'question_id' => 634, 'score' => 0]);
-        Option::create(['content' => 'La cerveza usada por los sumerios y babilonios', 'question_id' => 634, 'score' => 0]);
-        Option::create(['content' => 'Creación de la primera computadora en 1938', 'question_id' => 634, 'score' => 1]);
-        Option::create(['content' => 'Reactor químico y síntesis in vivo', 'question_id' => 635, 'score' => 0]);
-        Option::create(['content' => 'Purificación y reactor químico', 'question_id' => 635, 'score' => 0]);
-        Option::create(['content' => 'Células vivas y purificación de proteínas', 'question_id' => 635, 'score' => 1]);
-        Option::create(['content' => 'Transcripción y reacciones químicas', 'question_id' => 635, 'score' => 0]);
-        Option::create(['content' => 'Plegamiento de proteínas', 'question_id' => 636, 'score' => 0]);
-        Option::create(['content' => 'Purificación', 'question_id' => 636, 'score' => 0]);
-        Option::create(['content' => 'Glucosilación', 'question_id' => 636, 'score' => 1]);
-        Option::create(['content' => 'Transcripción', 'question_id' => 636, 'score' => 0]);
-        Option::create(['content' => 'Región Fab', 'question_id' => 637, 'score' => 1]);
-        Option::create(['content' => 'Región FC', 'question_id' => 637, 'score' => 0]);
-        Option::create(['content' => 'Cadena pesada', 'question_id' => 637, 'score' => 0]);
-        Option::create(['content' => 'Cadena ligera', 'question_id' => 637, 'score' => 0]);
-        Option::create(['content' => 'Administración oral, eliminación hepática o renal, vida media corta', 'question_id' => 638, 'score' => 0]);
-        Option::create(['content' => 'Administración parenteral, vida media larga, presenta interacciones', 'question_id' => 638, 'score' => 0]);
-        Option::create(['content' => 'Puede presentar inmunogenicidad, administración parenteral y vida media larga', 'question_id' => 638, 'score' => 1]);
-        Option::create(['content' => 'Eliminación por endocitosis o fagocitosis, especificidad buena y su manufactura es por síntesis química', 'question_id' => 638, 'score' => 0]);
-        Option::create(['content' => 'Recombinación somática', 'question_id' => 639, 'score' => 1]);
-        Option::create(['content' => 'Transcripción de genes', 'question_id' => 639, 'score' => 0]);
-        Option::create(['content' => 'Glicosilación genética', 'question_id' => 639, 'score' => 0]);
-        Option::create(['content' => 'Flexibilidad de genes', 'question_id' => 639, 'score' => 0]);
-        Option::create(['content' => 'Receptor', 'question_id' => 640, 'score' => 0]);
-        Option::create(['content' => 'Ligando', 'question_id' => 640, 'score' => 0]);
-        Option::create(['content' => 'Epítope', 'question_id' => 640, 'score' => 1]);
-        Option::create(['content' => 'Receptor transmembrana', 'question_id' => 640, 'score' => 0]);
-        Option::create(['content' => 'Cosecha de mABs murinos', 'question_id' => 641, 'score' => 0]);
-        Option::create(['content' => 'Humanización de anticuerpos murinos', 'question_id' => 641, 'score' => 0]);
-        Option::create(['content' => 'Phage display', 'question_id' => 641, 'score' => 1]);
-        Option::create(['content' => 'Transfección genética', 'question_id' => 641, 'score' => 0]);
-        Option::create(['content' => 'Falta de adherencia, efectos secundarios e interacciones medicamentosas', 'question_id' => 642, 'score' => 1]);
-        Option::create(['content' => 'Desventajas socioeconómicas, dificultad para la administración y difícil dosificación', 'question_id' => 642, 'score' => 0]);
-        Option::create(['content' => 'Alto costo, no hay sustento clínico, falta de adherencia', 'question_id' => 642, 'score' => 0]);
-        Option::create(['content' => 'Efectos secundarios, no se encuentra en el cuadro básico, alta posibilidad de interacciones medicamentosas', 'question_id' => 642, 'score' => 0]);
-        Option::create(['content' => '42% en niveles de 100-125 mg/dL', 'question_id' => 643, 'score' => 0]);
-        Option::create(['content' => '44% en niveles de 75 a 100 mg/dl', 'question_id' => 643, 'score' => 0]);
-        Option::create(['content' => '64% en niveles menores de 50 mg/dL', 'question_id' => 643, 'score' => 1]);
-        Option::create(['content' => '49% en niveles menores de 75 mg/dL', 'question_id' => 643, 'score' => 0]);
-        Option::create(['content' => 'APOB', 'question_id' => 644, 'score' => 0]);
-        Option::create(['content' => 'HMGCR', 'question_id' => 644, 'score' => 0]);
-        Option::create(['content' => 'PCSK9', 'question_id' => 644, 'score' => 1]);
-        Option::create(['content' => 'SREBP', 'question_id' => 644, 'score' => 0]);
-        Option::create(['content' => '<70 mg/dL', 'question_id' => 645, 'score' => 0]);
-        Option::create(['content' => '<100 mg/dL', 'question_id' => 645, 'score' => 0]);
-        Option::create(['content' => '<45 mg/dL', 'question_id' => 645, 'score' => 0]);
-        Option::create(['content' => '<55 mg/dL', 'question_id' => 645, 'score' => 1]);
-        Option::create(['content' => 'Muy alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas que no llega a metas de C-LDL', 'question_id' => 646, 'score' => 0]);
-        Option::create(['content' => 'Muy alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas + ezetimiba', 'question_id' => 646, 'score' => 0]);
-        Option::create(['content' => 'Muy alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas + ezetimiba que no llega a metas de C-LDL o que requiere reducir ˃50%', 'question_id' => 646, 'score' => 1]);
-        Option::create(['content' => 'Alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas + ezetimiba que no llega a metas de C-LDL', 'question_id' => 646, 'score' => 0]);
-        Option::create(['content' => 'Falta de adherencia, efectos secundarios e interacciones medicamentosas', 'question_id' => 647, 'score' => 1]);
-        Option::create(['content' => 'Desventajas socioeconómicas, dificultad para la administración y difícil dosificación', 'question_id' => 647, 'score' => 0]);
-        Option::create(['content' => 'Alto costo, no hay sustento clínico, falta de adherencia', 'question_id' => 647, 'score' => 0]);
-        Option::create(['content' => 'Efectos secundarios, no se encuentra en el cuadro básico, alta posibilidad de interacciones medicamentosas', 'question_id' => 647, 'score' => 0]);
-        Option::create(['content' => '42% en niveles de 100-125 mg/dL', 'question_id' => 648, 'score' => 0]);
-        Option::create(['content' => '44% en niveles de 75 a 100 mg/dl', 'question_id' => 648, 'score' => 0]);
-        Option::create(['content' => '64% en niveles menores de 50 mg/dL', 'question_id' => 648, 'score' => 1]);
-        Option::create(['content' => '49% en niveles menores de 75 mg/dL', 'question_id' => 648, 'score' => 0]);
-        Option::create(['content' => 'APOB', 'question_id' => 649, 'score' => 0]);
-        Option::create(['content' => 'HMGCR', 'question_id' => 649, 'score' => 0]);
-        Option::create(['content' => 'PCSK9', 'question_id' => 649, 'score' => 1]);
-        Option::create(['content' => 'SREBP', 'question_id' => 649, 'score' => 0]);
-        Option::create(['content' => '<70 mg/dL', 'question_id' => 650, 'score' => 0]);
-        Option::create(['content' => '<100 mg/dL', 'question_id' => 650, 'score' => 0]);
-        Option::create(['content' => '<45 mg/dL', 'question_id' => 650, 'score' => 0]);
-        Option::create(['content' => '<55 mg/dL', 'question_id' => 650, 'score' => 1]);
-        Option::create(['content' => 'Riesgo CV moderado en tratamiento con estatinas a dosis máximas toleradas que no llega a metas de C-LDL', 'question_id' => 651, 'score' => 0]);
-        Option::create(['content' => 'Muy alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas + ezetimiba', 'question_id' => 651, 'score' => 0]);
-        Option::create(['content' => 'Muy alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas ± ezetimiba que no llega a metas de C-LDL o que requiere reducir ˃50%', 'question_id' => 651, 'score' => 1]);
-        Option::create(['content' => 'Alto riesgo CV, en tratamiento con estatinas a dosis máximas toleradas + ezetimiba', 'question_id' => 651, 'score' => 0]);
-        Option::create(['content' => 'Bloquean la unión del LDL con el receptor', 'question_id' => 652, 'score' => 0]);
-        Option::create(['content' => 'Inhiben la liberación de PCSK9', 'question_id' => 652, 'score' => 0]);
-        Option::create(['content' => 'Inhiben la unión de la PCSK9 al receptor', 'question_id' => 652, 'score' => 1]);
-        Option::create(['content' => 'Eliminan el LDL', 'question_id' => 652, 'score' => 0]);
-        Option::create(['content' => '50%-60%', 'question_id' => 653, 'score' => 1]);
-        Option::create(['content' => '70%', 'question_id' => 653, 'score' => 0]);
-        Option::create(['content' => '65%', 'question_id' => 653, 'score' => 0]);
-        Option::create(['content' => '<50%', 'question_id' => 653, 'score' => 0]);
-        Option::create(['content' => '22%', 'question_id' => 654, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 654, 'score' => 0]);
-        Option::create(['content' => '15%', 'question_id' => 654, 'score' => 1]);
-        Option::create(['content' => '10%', 'question_id' => 654, 'score' => 0]);
-        Option::create(['content' => 'Consenso ANCAM 2017, CENETEC 2016', 'question_id' => 655, 'score' => 1]);
-        Option::create(['content' => 'Guías Europeas', 'question_id' => 655, 'score' => 0]);
-        Option::create(['content' => 'Guías Canadienses', 'question_id' => 655, 'score' => 0]);
-        Option::create(['content' => 'Guías Americanas', 'question_id' => 655, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 656, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 656, 'score' => 0]);
-        Option::create(['content' => 'Cáncer', 'question_id' => 657, 'score' => 0]);
-        Option::create(['content' => 'Eventos cardiovasculares', 'question_id' => 657, 'score' => 1]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 657, 'score' => 0]);
-        Option::create(['content' => 'Traumatismo', 'question_id' => 657, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 658, 'score' => 0]);
-        Option::create(['content' => '48%', 'question_id' => 658, 'score' => 0]);
-        Option::create(['content' => '44%', 'question_id' => 658, 'score' => 0]);
-        Option::create(['content' => '66%', 'question_id' => 658, 'score' => 1]);
-        Option::create(['content' => 'Agregar terapia con iPCSK9', 'question_id' => 659, 'score' => 1]);
-        Option::create(['content' => 'Incrementar aún más la dosis de estatina', 'question_id' => 659, 'score' => 0]);
-        Option::create(['content' => 'LDL aféresis', 'question_id' => 659, 'score' => 0]);
-        Option::create(['content' => 'Terapia expectante', 'question_id' => 659, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 660, 'score' => 0]);
-        Option::create(['content' => '70%', 'question_id' => 660, 'score' => 0]);
-        Option::create(['content' => '79%', 'question_id' => 660, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 660, 'score' => 0]);
-        Option::create(['content' => 'Alirocumab, rituximab, evolocumab', 'question_id' => 661, 'score' => 0]);
-        Option::create(['content' => 'Alirocumab, evolocumab y bococizumab', 'question_id' => 661, 'score' => 1]);
-        Option::create(['content' => 'Evolocumab, Canakinumab, alirocumab', 'question_id' => 661, 'score' => 0]);
-        Option::create(['content' => 'Trastuzumab, ubituximab, alirocumab', 'question_id' => 661, 'score' => 0]);
-        Option::create(['content' => 'Cáncer', 'question_id' => 662, 'score' => 0]);
-        Option::create(['content' => 'Eventos cardiovasculares', 'question_id' => 662, 'score' => 1]);
-        Option::create(['content' => 'Diabetes Mellitus', 'question_id' => 662, 'score' => 0]);
-        Option::create(['content' => 'Traumatismo', 'question_id' => 662, 'score' => 0]);
-        Option::create(['content' => '66%', 'question_id' => 663, 'score' => 0]);
-        Option::create(['content' => '44%', 'question_id' => 663, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 663, 'score' => 1]);
-        Option::create(['content' => '46%', 'question_id' => 663, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 664, 'score' => 0]);
-        Option::create(['content' => '48%', 'question_id' => 664, 'score' => 0]);
-        Option::create(['content' => '44%', 'question_id' => 664, 'score' => 0]);
-        Option::create(['content' => '66%', 'question_id' => 664, 'score' => 1]);
-        Option::create(['content' => 'Agregar terapia con iPCSK9.', 'question_id' => 665, 'score' => 1]);
-        Option::create(['content' => 'Incrementar aún más la dosis de estatina', 'question_id' => 665, 'score' => 0]);
-        Option::create(['content' => 'LDL aféresis', 'question_id' => 665, 'score' => 0]);
-        Option::create(['content' => 'Terapia expectante', 'question_id' => 665, 'score' => 0]);
-        Option::create(['content' => '50.6%', 'question_id' => 666, 'score' => 1]);
-        Option::create(['content' => '60%', 'question_id' => 666, 'score' => 0]);
-        Option::create(['content' => '40%', 'question_id' => 666, 'score' => 0]);
-        Option::create(['content' => '70%', 'question_id' => 666, 'score' => 0]);
-        Option::create(['content' => '57%', 'question_id' => 667, 'score' => 0]);
-        Option::create(['content' => '51.5%', 'question_id' => 667, 'score' => 1]);
-        Option::create(['content' => '50.6%', 'question_id' => 667, 'score' => 0]);
-        Option::create(['content' => '65%', 'question_id' => 667, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 668, 'score' => 0]);
-        Option::create(['content' => '70%', 'question_id' => 668, 'score' => 0]);
-        Option::create(['content' => '79%', 'question_id' => 668, 'score' => 1]);
-        Option::create(['content' => '25%', 'question_id' => 668, 'score' => 0]);
-        Option::create(['content' => 'Número de pacientes que presentaron muerte por evento cardiovascular, infarto al miocardio, evento cerebrovascular, hospitalización por angina y revascularización', 'question_id' => 669, 'score' => 1]);
-        Option::create(['content' => 'Porcentaje de disminución en el C-LDL en la semana 24', 'question_id' => 669, 'score' => 0]);
-        Option::create(['content' => 'Número de pacientes hospitalizados por angina de pecho y revascularización', 'question_id' => 669, 'score' => 0]);
-        Option::create(['content' => 'Número de pacientes con muerte cardiovascular', 'question_id' => 669, 'score' => 0]);
-        Option::create(['content' => 'Alirocumab, rituximab, evolocumab', 'question_id' => 670, 'score' => 0]);
-        Option::create(['content' => 'Alirocumab, evolocumab y bococizumab', 'question_id' => 670, 'score' => 1]);
-        Option::create(['content' => 'Evolocumab, canakinumab, alirocumab', 'question_id' => 670, 'score' => 0]);
-        Option::create(['content' => 'Trastuzumab, ubituximab, alirocumab', 'question_id' => 670, 'score' => 0]);
-        Option::create(['content' => 'Hipercolesterolemia familiar, pacientes de alto riesgo', 'question_id' => 671, 'score' => 0]);
-        Option::create(['content' => 'Pacientes con DM y alto riesgo cardiovascular', 'question_id' => 671, 'score' => 0]);
-        Option::create(['content' => 'Pacientes con intolerancia a las estatinas', 'question_id' => 671, 'score' => 0]);
-        Option::create(['content' => 'Hipercolesterolemia familiar, alto riesgo cardiovascular e intolerancia a estatinas', 'question_id' => 671, 'score' => 1]);
-        Option::create(['content' => 'Doble', 'question_id' => 672, 'score' => 1]);
-        Option::create(['content' => 'Triple', 'question_id' => 672, 'score' => 0]);
-        Option::create(['content' => 'No hay incremento', 'question_id' => 672, 'score' => 0]);
-        Option::create(['content' => 'Cuádruple', 'question_id' => 672, 'score' => 0]);
-        Option::create(['content' => 'Angina estable, IM no fatal, EVC', 'question_id' => 673, 'score' => 0]);
-        Option::create(['content' => 'IM no fatal, falla cardíaca, enfermedad arterial periférica', 'question_id' => 673, 'score' => 1]);
-        Option::create(['content' => 'Hemorragia intracraneal, aneurisma abdominal', 'question_id' => 673, 'score' => 0]);
-        Option::create(['content' => 'IM fatal, angina inestable', 'question_id' => 673, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos normales, C-HDL alto, LDL elevado', 'question_id' => 674, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos elevados, C-HDL normal, LDL pequeñas y densas', 'question_id' => 674, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos elevados, C-HDL bajo, LDL pequeñas y densas', 'question_id' => 674, 'score' => 1]);
-        Option::create(['content' => 'C-LDL elevado, LP(a) elevada, CT normal', 'question_id' => 674, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 675, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 675, 'score' => 0]);
-        Option::create(['content' => 'Reducción de C-LDL después de 24 semanas de tratamiento con alirocumab', 'question_id' => 676, 'score' => 1]);
-        Option::create(['content' => 'Evaluar la eficacia y seguridad de alirocumab en pacientes tratados con insulina con DMT1 o DMT2 con alto riesgo cardiovascular que no alcanzan las metas recomendadas de control de C-LDL', 'question_id' => 676, 'score' => 0]);
-        Option::create(['content' => 'Reducción de C-no-HDL después de 24 semanas de tratamiento con alirocumab', 'question_id' => 676, 'score' => 0]);
-        Option::create(['content' => 'Demostrar interacción con insulina y alirocumab', 'question_id' => 676, 'score' => 0]);
-        Option::create(['content' => 'Doble', 'question_id' => 677, 'score' => 1]);
-        Option::create(['content' => 'Triple', 'question_id' => 677, 'score' => 0]);
-        Option::create(['content' => 'No hay incremento', 'question_id' => 677, 'score' => 0]);
-        Option::create(['content' => 'Cuádruple', 'question_id' => 677, 'score' => 0]);
-        Option::create(['content' => 'Aumento en la concentración plasmática de las HDL', 'question_id' => 678, 'score' => 0]);
-        Option::create(['content' => 'Aumento en la concentración plasmática de las LDL', 'question_id' => 678, 'score' => 0]);
-        Option::create(['content' => 'Quilomicrones sin cambios o ligeramente aumentadas en el plasma', 'question_id' => 678, 'score' => 0]);
-        Option::create(['content' => 'Disminución en la concentración plasmática de las HDL', 'question_id' => 678, 'score' => 1]);
-        Option::create(['content' => 'Angina estable, IM no fatal, EVC', 'question_id' => 679, 'score' => 0]);
-        Option::create(['content' => 'IM no fatal, falla cardÍaca, enfermedad arterial periférica', 'question_id' => 679, 'score' => 1]);
-        Option::create(['content' => 'Hemorragia intracraneal, aneurisma abdominal', 'question_id' => 679, 'score' => 0]);
-        Option::create(['content' => 'IM fatal, angina inestable', 'question_id' => 679, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos normales, C-HDL alto, LDL elevado', 'question_id' => 680, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos elevados, C-HDL normal, LDL pequeñas y densas', 'question_id' => 680, 'score' => 0]);
-        Option::create(['content' => 'Triglicéridos elevados, C-HDL bajo, LDL pequeñas y densas', 'question_id' => 680, 'score' => 1]);
-        Option::create(['content' => 'C-LDL elevado, Lp(a) elevada, CT normal', 'question_id' => 680, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 681, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 681, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 682, 'score' => 0]);
-        Option::create(['content' => '50%', 'question_id' => 682, 'score' => 0]);
-        Option::create(['content' => '28%', 'question_id' => 682, 'score' => 1]);
-        Option::create(['content' => '15%', 'question_id' => 682, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 683, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 683, 'score' => 0]);
-        Option::create(['content' => 'Reducción de C-LDL después de 24 semanas de tratamiento con alirocumab', 'question_id' => 684, 'score' => 1]);
-        Option::create(['content' => 'Evaluar la eficacia y seguridad de alirocumab en pacientes tratados con insulina con DM-1 o DM-2 con alto riesgo cardiovascular que no alcanzan las metas recomendadas de control de C-LDL', 'question_id' => 684, 'score' => 0]);
-        Option::create(['content' => 'Reducción de C-no-HDL después de 24 semanas de tratamiento con alirocumab', 'question_id' => 684, 'score' => 0]);
-        Option::create(['content' => 'Demostrar interacción con insulina y alirocumab', 'question_id' => 684, 'score' => 0]);
-        Option::create(['content' => '< 40 años', 'question_id' => 685, 'score' => 1]);
-        Option::create(['content' => '40-75 años', 'question_id' => 685, 'score' => 0]);
-        Option::create(['content' => '> 75 años', 'question_id' => 685, 'score' => 0]);
-        Option::create(['content' => '<70', 'question_id' => 686, 'score' => 0]);
-        Option::create(['content' => '<55', 'question_id' => 686, 'score' => 1]);
-        Option::create(['content' => '<100', 'question_id' => 686, 'score' => 0]);
-        Option::create(['content' => '<80', 'question_id' => 686, 'score' => 0]);
-        Option::create(['content' => 'Su prevalencia es mayor en México que en otros países', 'question_id' => 687, 'score' => 0]);
-        Option::create(['content' => 'La mayoría de los casos tienen concentraciones de colesterol mayores de 300 mg/dl', 'question_id' => 687, 'score' => 1]);
-        Option::create(['content' => 'Su prevalencia es independiente de factores socioeconómicos', 'question_id' => 687, 'score' => 0]);
-        Option::create(['content' => 'Su prevalencia es mayor en personas con diabetes', 'question_id' => 687, 'score' => 0]);
-        Option::create(['content' => 'Su presencia debe ser buscada en todo individuo mayor de 20 años', 'question_id' => 687, 'score' => 0]);
-        Option::create(['content' => 'El porcentaje de los casos que requieren tratamiento farmacológico depende del riesgo cardiovascular subyacente del paciente', 'question_id' => 688, 'score' => 0]);
-        Option::create(['content' => 'El creciente uso de estatinas ha disminuido la mortalidad atribuible a la hipercolesterolemia familiar', 'question_id' => 688, 'score' => 1]);
-        Option::create(['content' => 'La mayoría de los casos que reciben tratamiento farmacológico logran la adherencia a largo plazo', 'question_id' => 688, 'score' => 0]);
-        Option::create(['content' => 'El tratamiento farmacológico está indicado en menos de la mitad de las personas con hipercolesterolemia familiar', 'question_id' => 688, 'score' => 0]);
-        Option::create(['content' => 'La edad de inicio del tratamiento farmacológico es a los 40 años', 'question_id' => 688, 'score' => 0]);
-        Option::create(['content' => 'PCSK9', 'question_id' => 689, 'score' => 0]);
-        Option::create(['content' => 'Receptor LDL', 'question_id' => 689, 'score' => 0]);
-        Option::create(['content' => 'Apolipoproteina B', 'question_id' => 689, 'score' => 0]);
-        Option::create(['content' => 'A y B', 'question_id' => 689, 'score' => 0]);
-        Option::create(['content' => 'A, B y C', 'question_id' => 689, 'score' => 1]);
-        Option::create(['content' => 'Lipoproteina de muy baja densidad', 'question_id' => 690, 'score' => 0]);
-        Option::create(['content' => 'Lipoproteina de densidad intermedia', 'question_id' => 690, 'score' => 0]);
-        Option::create(['content' => 'Lipoproteina de baja densidad', 'question_id' => 690, 'score' => 1]);
-        Option::create(['content' => 'Remanentes de quilomicrones', 'question_id' => 690, 'score' => 0]);
-        Option::create(['content' => 'Quilomicrones', 'question_id' => 690, 'score' => 0]);
-        Option::create(['content' => 'Hipertrigliceridemia con concentraciones normales de colesterol', 'question_id' => 691, 'score' => 0]);
-        Option::create(['content' => 'Quilomicronemia', 'question_id' => 691, 'score' => 0]);
-        Option::create(['content' => 'Hipertrigliceridemia con concentraciones bajas de colesterol HDL', 'question_id' => 691, 'score' => 0]);
-        Option::create(['content' => 'Hiperlipidemia mixta', 'question_id' => 691, 'score' => 0]);
-        Option::create(['content' => 'Hipercolesterolemia severa con concentraciones normales o moderadamente altas de triglicéridos', 'question_id' => 691, 'score' => 1]);
-        Option::create(['content' => 'Adultos mayores de 20 años', 'question_id' => 692, 'score' => 0]);
-        Option::create(['content' => 'Exclusivamente en personas con diabetes', 'question_id' => 692, 'score' => 0]);
-        Option::create(['content' => 'Exclusivamente en sobrevivientes de un infarto del miocardio', 'question_id' => 692, 'score' => 0]);
-        Option::create(['content' => 'Familiares de los casos con hipercolesterolemia familiar', 'question_id' => 692, 'score' => 1]);
-        Option::create(['content' => 'Pacientes bajo un evento de estres agudo', 'question_id' => 692, 'score' => 0]);
-        Option::create(['content' => 'Arco corneal', 'question_id' => 693, 'score' => 0]);
-        Option::create(['content' => 'Artritis', 'question_id' => 693, 'score' => 1]);
-        Option::create(['content' => 'Soplos carotideos', 'question_id' => 693, 'score' => 0]);
-        Option::create(['content' => 'Intensidad de los pulsos en los miembros inferiores', 'question_id' => 693, 'score' => 0]);
-        Option::create(['content' => 'Xantomas tendinosos', 'question_id' => 693, 'score' => 0]);
-        Option::create(['content' => 'Hiperlipidemia familiar combinada', 'question_id' => 694, 'score' => 0]);
-        Option::create(['content' => 'Disbetalipoproteinemia', 'question_id' => 694, 'score' => 0]);
-        Option::create(['content' => 'Hipercolesterolemia poligenica', 'question_id' => 694, 'score' => 0]);
-        Option::create(['content' => 'Hipotiroidismo', 'question_id' => 694, 'score' => 0]);
-        Option::create(['content' => 'Hipercolesterolemia familiar', 'question_id' => 694, 'score' => 1]);
-        Option::create(['content' => 'Dorso de las manos', 'question_id' => 695, 'score' => 0]);
-        Option::create(['content' => 'Rodillas', 'question_id' => 695, 'score' => 0]);
-        Option::create(['content' => 'Codos', 'question_id' => 695, 'score' => 0]);
-        Option::create(['content' => 'Talon de Aquiles', 'question_id' => 695, 'score' => 1]);
-        Option::create(['content' => 'Palma de las manos', 'question_id' => 695, 'score' => 0]);
-        Option::create(['content' => 'Muy alto riesgo', 'question_id' => 696, 'score' => 0]);
-        Option::create(['content' => 'Alto riesgo', 'question_id' => 696, 'score' => 1]);
-        Option::create(['content' => 'Riesgo intermedio', 'question_id' => 696, 'score' => 0]);
-        Option::create(['content' => 'Riesgo bajo', 'question_id' => 696, 'score' => 0]);
-        Option::create(['content' => 'No es posible clasificar su riesgo por lo heterogeneo del padecimiento', 'question_id' => 696, 'score' => 0]);
-        Option::create(['content' => 'Sobre-estima la incidencia en poblaciones de riesgo bajo', 'question_id' => 697, 'score' => 0]);
-        Option::create(['content' => 'No toma en cuenta la concentración de colesterol HDL en su estimación', 'question_id' => 697, 'score' => 0]);
-        Option::create(['content' => 'No puede ser estimado el riesgo a más de 5 años', 'question_id' => 697, 'score' => 0]);
-        Option::create(['content' => 'Solo es útil para predecir la incidencia del infarto del miocardio', 'question_id' => 697, 'score' => 0]);
-        Option::create(['content' => 'Tienen una imprecisión alta por lo que no son recomendadas por las Guías Europeas', 'question_id' => 697, 'score' => 1]);
-        Option::create(['content' => 'Menor de 50 mg/dl', 'question_id' => 698, 'score' => 0]);
-        Option::create(['content' => 'Menor de 70 mg/dl', 'question_id' => 698, 'score' => 1]);
-        Option::create(['content' => 'Menor de 100 mg/dl', 'question_id' => 698, 'score' => 0]);
-        Option::create(['content' => 'Menor de 130 mg/dl', 'question_id' => 698, 'score' => 0]);
-        Option::create(['content' => 'Menor de 160 mg/dl', 'question_id' => 698, 'score' => 0]);
-        Option::create(['content' => '>50% del valor inicial', 'question_id' => 699, 'score' => 1]);
-        Option::create(['content' => '>40% del valor inicial', 'question_id' => 699, 'score' => 0]);
-        Option::create(['content' => '>30% del valor inicial', 'question_id' => 699, 'score' => 0]);
-        Option::create(['content' => '>20% del valor inicial', 'question_id' => 699, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores', 'question_id' => 699, 'score' => 0]);
-        Option::create(['content' => 'Menor de 190 mg/dl', 'question_id' => 700, 'score' => 0]);
-        Option::create(['content' => 'Menor de 160 mg/dl', 'question_id' => 700, 'score' => 0]);
-        Option::create(['content' => 'Menor de 130 mg/dl', 'question_id' => 700, 'score' => 0]);
-        Option::create(['content' => 'Menor de 100 mg/dl', 'question_id' => 700, 'score' => 1]);
-        Option::create(['content' => 'Menor de 50 mg/dl', 'question_id' => 700, 'score' => 0]);
-        Option::create(['content' => 'Pravastatina 20 mg/día', 'question_id' => 701, 'score' => 0]);
-        Option::create(['content' => 'Bezafibrato 400 mg/día', 'question_id' => 701, 'score' => 0]);
-        Option::create(['content' => 'Rosuvastatina 40 mg/día', 'question_id' => 701, 'score' => 1]);
-        Option::create(['content' => 'Simvastatina 10 mg/día + Bezafibrato 400 mg/día', 'question_id' => 701, 'score' => 0]);
-        Option::create(['content' => 'Simvastatina 10 mg/día + Bezafibrato 400 mg/día + Acido nicotínico 2 g/día', 'question_id' => 701, 'score' => 0]);
-        Option::create(['content' => 'CK >4×, <10× del LSN síntomas (±) o CK >10×, <40× LSN síntomas (±)', 'question_id' => 702, 'score' => 0]);
-        Option::create(['content' => 'CK> 40 x LSN con síntomas musculares y deterioro de la función renal', 'question_id' => 702, 'score' => 0]);
-        Option::create(['content' => 'CK normal con síntomas o CK elevada (<4× LSN)', 'question_id' => 702, 'score' => 1]);
-        Option::create(['content' => 'Ninguna de las anteriores', 'question_id' => 702, 'score' => 0]);
-        Option::create(['content' => 'Mialgias', 'question_id' => 703, 'score' => 0]);
-        Option::create(['content' => 'Calambres', 'question_id' => 703, 'score' => 0]);
-        Option::create(['content' => 'Debilidad muscular', 'question_id' => 703, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 703, 'score' => 1]);
-        Option::create(['content' => 'Con al menos 3 estatinas', 'question_id' => 704, 'score' => 0]);
-        Option::create(['content' => 'Una vez excluidos otros factores de riesgo', 'question_id' => 704, 'score' => 1]);
-        Option::create(['content' => 'Únicamente con dosis altas de estatinas', 'question_id' => 704, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 704, 'score' => 0]);
-        Option::create(['content' => 'Como un síndrome clínico caracterizado por la incapacidad de tolerar al menos 2 estatinas', 'question_id' => 705, 'score' => 1]);
-        Option::create(['content' => 'Como un síndrome clínico caracterizado por la incapacidad de tolerar al menos 3 estatinas', 'question_id' => 705, 'score' => 0]);
-        Option::create(['content' => 'Como un síndrome clínico caracterizado por la incapacidad de tolerar al menos 1 estatina', 'question_id' => 705, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores', 'question_id' => 705, 'score' => 0]);
-        Option::create(['content' => 'Rosuvastatina 5 mg o atorvastatina 10 mg', 'question_id' => 706, 'score' => 0]);
-        Option::create(['content' => 'Simvastatina 10 mg o lovastatina 20 mg', 'question_id' => 706, 'score' => 0]);
-        Option::create(['content' => 'Pravastatina 40 mg o fluvastatina 40 mg', 'question_id' => 706, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 706, 'score' => 1]);
-        Option::create(['content' => 'Incremento del 62% en la mortalidad cardiovascular', 'question_id' => 707, 'score' => 1]);
-        Option::create(['content' => 'No hubo incremento en la mortalidad cardiovascular', 'question_id' => 707, 'score' => 0]);
-        Option::create(['content' => 'Incremento del 25% de riesgo en falla cardíaca', 'question_id' => 707, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores', 'question_id' => 707, 'score' => 0]);
-        Option::create(['content' => 'La incidencia de síntomas musculares correlaciona a mayor intensidad de la estatina', 'question_id' => 708, 'score' => 0]);
-        Option::create(['content' => 'La mayor incidencia fue del 18% con Simvastatina a dosis de 40-80 mg/día', 'question_id' => 708, 'score' => 0]);
-        Option::create(['content' => 'El mayor riesgo para síntomas musculares fue el antecedente de miopatía asociada a cualquier otro hipolipemiante', 'question_id' => 708, 'score' => 0]);
-        Option::create(['content' => 'Todas las anteriores', 'question_id' => 708, 'score' => 1]);
-        Option::create(['content' => 'Insuficiencia hepática', 'question_id' => 709, 'score' => 0]);
-        Option::create(['content' => 'Sexo masculino', 'question_id' => 709, 'score' => 1]);
-        Option::create(['content' => 'Insuficiencia renal', 'question_id' => 709, 'score' => 0]);
-        Option::create(['content' => 'Hipotiroidismo', 'question_id' => 709, 'score' => 0]);
-        Option::create(['content' => 'C-LDL <70 mg/dL y C-No-HDL <100 mg/dL', 'question_id' => 710, 'score' => 1]);
-        Option::create(['content' => 'C-LDL <100 mg/dL y C-No-HDL <130 mg/dL', 'question_id' => 710, 'score' => 0]);
-        Option::create(['content' => 'C-LDL <55 mg/dL y C-No-HDL <80 mg/dL', 'question_id' => 710, 'score' => 0]);
-        Option::create(['content' => 'Ninguna de las anteriores', 'question_id' => 710, 'score' => 0]);
-        Option::create(['content' => '10%', 'question_id' => 711, 'score' => 0]);
-        Option::create(['content' => '20%', 'question_id' => 711, 'score' => 0]);
-        Option::create(['content' => '30%', 'question_id' => 711, 'score' => 0]);
-        Option::create(['content' => '15%', 'question_id' => 711, 'score' => 1]);
-        Option::create(['content' => '47%', 'question_id' => 712, 'score' => 1]);
-        Option::create(['content' => '57%', 'question_id' => 712, 'score' => 0]);
-        Option::create(['content' => '37%', 'question_id' => 712, 'score' => 0]);
-        Option::create(['content' => '27%', 'question_id' => 712, 'score' => 0]);
-        Option::create(['content' => 'Pacientes con riesgo CV moderado, alto o muy alto', 'question_id' => 713, 'score' => 0]);
-        Option::create(['content' => 'Pacientes con síntomas musculares por intolerancia a las estatinas', 'question_id' => 713, 'score' => 0]);
-        Option::create(['content' => 'Los pacientes fueron aleatorizados a recibir en un grupo, recibieron alirocumab 75 mg cada 2 semanas incrementando la dosis a 150 mg cada 2 semanas si no se alcanzaba la meta de control y en otro Ezetimiba a dosis de 10 mg/día', 'question_id' => 713, 'score' => 0]);
-        Option::create(['content' => 'Pacientes con riesgo bajo e intolerantes a estatinas', 'question_id' => 713, 'score' => 1]);
-        Option::create(['content' => '24%', 'question_id' => 714, 'score' => 0]);
-        Option::create(['content' => '34%', 'question_id' => 714, 'score' => 0]);
-        Option::create(['content' => '44%', 'question_id' => 714, 'score' => 0]);
-        Option::create(['content' => '14%', 'question_id' => 714, 'score' => 1]);
-        Option::create(['content' => '45%', 'question_id' => 715, 'score' => 1]);
-        Option::create(['content' => '55%', 'question_id' => 715, 'score' => 0]);
-        Option::create(['content' => '35%', 'question_id' => 715, 'score' => 0]);
-        Option::create(['content' => '25%', 'question_id' => 715, 'score' => 0]);
-        Option::create(['content' => 'Verdadero', 'question_id' => 716, 'score' => 1]);
-        Option::create(['content' => 'Falso', 'question_id' => 716, 'score' => 0]);
-
+        /** Imágenes de las farmacias */
+        $attach325 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/logoFarmaciasBenavides.png', 'name' => 'logoFarmaciasBenavides.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 7, "attachment_id" => $attach325->id]);
+        $attach326 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/Logo_FarmaciasdelAhorro.png', 'name' => 'Logo_FarmaciasdelAhorro.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 8, "attachment_id" => $attach326->id]);
+        $attach327 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/Logo_YZA.png', 'name' => 'Logo_YZA.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 9, "attachment_id" => $attach327->id]);
+        $attach328 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/Logo_San_Pablo.png', 'name' => 'Logo_San_Pablo.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 10, "attachment_id" => $attach328->id]);
+        $attach329 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/Logo_FRAGUA.png', 'name' => 'Logo_FRAGUA.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 11, "attachment_id" => $attach329->id]);
+        $attach330 = Attachment::create(['type' => 'main_img', 'url' => 'storage/farmacias/logosFarmacias/logoFarmaciaNadro.png', 'name' => 'logoFarmaciaNadro.png', 'mimetype' => 'image/png']);
+        AscriptionAttachment::create(["ascription_id" => 12, "attachment_id" => $attach330->id]);
+        
+        Expert::create(['name' => 'Dr. Alejandro Jiménez Genchi', 'slug' => str_slug('Dr. Alejandro Jiménez Genchi'), 'summary' => '<ul>
+        <li>Clínica de Sue&ntilde;o</li>
+        <li>Médico Psiquiatra, Maestro en Psiquiatría</li>
+        <li>Investigador nivel II, Sistema Nacional de Investigadores</li>
+        <li>Instituto Nacional de Psiquiatría Ramón de la Fuente</li>
+        </ul>']);
+        Expert::create(['name' => 'Dr. Edilberto Peña de León', 'slug' => str_slug('Dr. Edilberto Peña de León'), 'summary' => '<ul>
+        <li>
+        Neuropsiquiatra
+        </li>
+        <li>
+        Maestro en Ciencias Médicas
+        </li>
+        <li>
+        Director de Investigación</li>
+        <li>
+        Instituto de Neurociencias, Investigación y Desarrollo Emocional
+        </li>
+        </ul>']);
+        Expert::create(['name' => 'Dr. Rafael Solano', 'slug' => str_slug('Dr. Rafael Solano'), 'summary' => '<ul>
+        <li>
+        Ginecología y Obstetricia
+        </li>
+        <li>
+        Urología Ginecológica
+        </li>
+        <li>
+        Doctor en Ciencias
+        </li>
+        </ul>']);
+        Expert::create(['name' => 'Dr. Jorge Aldrete', 'slug' => str_slug('Dr. Jorge Aldrete'), 'summary' => '<ul>
+        <li>Médico internista e investigador clínico</li>
+        <li>Editor e investigador principal en Paracelsus, S. A.</li>
+        <li>Expresidente del Colegio de Medicina Interna de México (2016)</li>
+        </ul>']);
+        Expert::create(['name' => 'Dra. Patricia Mehner Karam', 'slug' => str_slug('Dra. Patricia Mehner Karam'), 'summary' => '<p>Médica Cirujana certificada como Médico General, candidata a examen de grado académico para obtener el título de maestría en Nutriología Aplicada, especialista en Obesidad y Comorbilidades, educadora en Diabetes certificada, cursando actualmente el curso de entrenadores en diabetes de la Clínica Joslin.</p>
+        <p>Dedicada a la práctica clínica de consulta privada desde hace 20 a&ntilde;os, a la docencia en varios diplomados de formación de Educadores en Diabetes en la República Mexicana desde hace 19 a&ntilde;os y en la maestría de Heridas y Estomas en la UP desde hace 6 a&ntilde;os.</p>
+        <p>Miembro de la <em>Professional Section</em> de la American Diabetes Association. Asesora, voluntaria y conferencista de Instituciones Nacionales e Internacionales dedicadas a la atención de la salud y la Diabetes.</p>
+        <p>Miembro fundador del Consejo Nacional de Educadores en Diabetes, A.C. (CONED), Secretaria de Exámenes, Presidenta y actualmente parte del Consejo Consultivo del CONED. Forma parte del Consejo Consultivo Médico de la Asociación Mexicana de Diabetes. Participa activamente como consultora y ha representado a la Federación Mexicana de Diabetes para la actualización de la NOM de dislipidemias y de hipertensión arterial.</p>']);
+        Expert::create(['name' => 'Dr. Oscar Lozano Castañeda', 'slug' => str_slug('Dr. Oscar Lozano Castañeda'), 'summary' => '<p>El Dr. Oscar Lozano Castañeda es especialista en Endocrinología egresado del Consejo Mexicano de Endocrinología. Atiende a sus pacientes en el Hospital Ángeles Lomas ubicado en el municipio Huixquilucan de Degollado en el Estado de México.</p>
+        <p>Educación<br/>1955 - Licenciatura como Médico Cirujano<br/>2001 - Especialidad en Endocrinología</p><p>Estudió en:<br/>Consejo Mexicano de Endocrinología<br/>UNAM - Universidad Nacional Autónoma de México</p><p>Especialidades:<br/>Endocrinología</p>']);
+        Expert::create(['name' => 'Dra. Maria Guadalupe Castro Martínez', 'slug' => str_slug('Dra. Maria Guadalupe Castro Martínez'), 'summary' => '<p>Licenciatura de Médico Cirujano. Escuela Mexicana de Medicina. Universidad la Salle, Promedio obtenido 9.7, graduada con Mención Honorífica.</p><p>Especialidad de Medicina Interna. Hospital General. CMN .IMSS.</p><p>Primera mujer como Jefe de Residentes del Curso de la Especialidad en Medicina Interna. CMN.IMSS.</p><p>Certificación  vigente de Medicina Interna.</p>']);
+        Expert::create(['name' => 'Dr. J. Abel Ramírez Estudillo', 'slug' => str_slug('Dr. J. Abel Ramírez Estudillo'), 'summary' => '<p>El Dr. Ramírez Estudillo es un destacado Oftalmólogo con más de 20 años de experiencia. Egresó de la Universidad Nacional Autónoma de México (UNAM) como Médico Cirujano para posteriormente realizar la Especialidad en Oftalmología en esta misma institución. Entre los padecimientos que trata se encuentran: Retinopatía Diabética, Desprendimiento de Retina, Trauma Ocular, Catarata, Degeneración Macular, Oclusiones Vasculares de la Retina, entre otros.</p>
+        <p>Experiencia profesional<br>• Más de 20 años de experiencia<br>• Oftalmólogo. Hospital Ángeles Metropolitano</p>
+        <p>Logros académicos destacados<br>• Médico Cirujano. Universidad Nacional Autónoma de México (UNAM). México, Distrito Federal. 1998<br>• Especialidad. Oftalmología. UNAM. México, Distrito Federal. 2005</p>']);
+        Expert::create(['name' => 'Dr. Antonio González Chávez', 'slug' => str_slug('Dr. Antonio González Chávez'), 'summary' => '<p>Esp. Medicina Interna <br>Coordinador del Grupo de Estudio Mexicano del Síndrome Metabólico<br>Ex – Presidente de la Federación Mexicana de Diabetes (FMD)<br>Ex – Presidente del Colegio de Medicina Interna de México (CMIM)<br>Ex – Presidente de la Sociedad Médica del Hospital General de México<br>Ex – Delegado 2007-2010 de la Asociación Latinoamericana de Diabetes (ALAD)<br>Jefe del Servicio de Medicina Interna del Hospital General de México<br>Investigador de los Institutos de Salud<br>Profesor Universitario de la Facultad de Medicina de la UNAM<br>FELLOW American College of Physicians</p>']);
+        Expert::create(['name' => 'Dr. Guillermo Fanghänel Salmón', 'slug' => str_slug('Dr. Guillermo Fanghänel Salmón'), 'summary' => '<p>El Dr. Fanghänel nace en la Ciudad de Culiacán, Sin., el 25 de abril de 1945, realiza sus estudios profesionales en la Facultad de Medicina de la Universidad Nacional Autónoma de México, egresando con mención honorífica. Realiza su primera especialidad en Medicina Interna en el Hospital General de México, en los años de 1970-1974, concluyendo como residente de quinto año con mención de distinción. En 1974 ingresa al Instituto Nacional de la Nutrición "Salvador Zubirán", donde realiza su segunda especialidad en Nutrición y Endocrinología, egresando en 1976 con mención honorífica. En 1976 ingresa como médico de base al Servicio de Medicina Interna en el Hospital General de México.</p><p>Durante 1976 y 1977 es profesor titular del Curso de Introducción a la Especialidad en la Universidad Autónoma de México. En 1977 funda la Dirección General de Enseñanza de la Secretaría de Salubridad y Asistencia, hoy Secretaría de Salud, puesto que desempeña hasta 1978. Tiene a su cargo durante esta época diseñar, estructurar y realizar el primer examen para aspirantes a la residencia médica del país. En 1978 regresa al Hospital General de México y tiene la oportunidad de fundar el Servicio de Endocrinología en la Unidad 404B antes pabellón 29, siendo jefe de este departamento hasta el momento actual. Durante 1983-1985 fue Director de Investigación en el Hospital General de México. En 1985 y 1986 realizó un Posgrado en la Universidad de Tulane en Nueva Orleans a cargo del Dr. Andrew V Schally, premio Nobel en Medicina.</p>']);
+        Expert::create(['name' => 'Dr. Rafael Campuzano Rodríguez ', 'slug' => str_slug('Dr. Rafael Campuzano Rodríguez '), 'summary' => '<p>
+        Secretario de la Sociedad Mexicana de Nutrición y Endocrinología.
+        <br />
+        Secretario del Consejo Mexicano de Endocrinología.
+        </p>']);
+        Expert::create(['name' => 'Dr. Fernando Javier Lavalle González', 'slug' => str_slug('Dr. Fernando Javier Lavalle González'), 'summary' => '<p>
+        Profesor del Facultad de Medicina de la UANL: Endocrinología, Medicina Interna y Nutrición.
+        <br />
+        Coordinador de Enseñanza de pre y Pos Grado del Servicio de Endrocrinología, Hospital Universitario, UANL.
+        <br />
+        Coordinador de la Clínica de Diabetes del Hospital Universitario “Dr. José E. González” UANL.
+        <br />
+        Endocrinólogo del Hospital Regional de Monterrey del ISSSTE.
+        <br />
+        Coordinador del Grupo de Políticas de Tratamiento para la Diabetes de la Norma Oficial Mexicana.
+        <br />
+        Coordinador Estatal del Programa de Alimentación Saludable y Actividad Física para la Prevención de la Obesidad y Sobrepeso.        
+        </p>']);
+        Expert::create(['name' => 'Dr. René Rodríguez Gutiérrez', 'slug' => str_slug('Dr. René Rodríguez Gutiérrez'), 'summary' => '<p>
+        Assistant Professor of Medicine. Mayo Clinic Medical School, Mayo Clinic, Rochester,
+        International Research Collaborator. Division of Endocrinology, Diabetes, Metabolism and Nutrition. Knowledge and Evaluation Research Unit. Mayo Clinic Medical School.
+        <br />
+        Profesor de Medicina. Facultad de Medicina y Hospital Universitario “Dr. Jose E.
+        Gonzalez”, Universidad Autonoma de Nuevo Leon. Monterrey, Mexico. 2016-
+        Presente.
+        <br />
+        Miembro Sistema Nacional de Investigadores Nivel 1. Sistema Nacional de
+        Investigadores, Consejo Nacional de Ciencia y Tecnología (CONACYT).
+        </p>']);
+        Expert::create(['name' => 'Dr. Guillermo  González Gálvez', 'slug' => str_slug('Dr. Guillermo  González Gálvez'), 'summary' => '<p>Investigador principal desde 1998 en más de 120 ensayos clínicos fase II, III y IV en el área de diabetes, obesidad, dislipidemia, hipertensión, seguridad cardiovascular de nuevos medicamentos para diabetes y problemas endocrinológicos.</p>']);
+        Expert::create(['name' => 'Dr. Luis Alcocer Díaz Barreiro', 'slug' => str_slug('Dr. Luis Alcocer Díaz Barreiro'), 'summary' => '<p><b>Actualmente</b></p>
+        <dl>
+        <dd>Director General Instituto Mexicano de Salud Cardiovascular.</dd>
+        <dd>Vicepresidente Interamerican Society of Hypertension</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano, Facultad de Medicina, Universidad Nacional Autónoma de México</dd>
+        <dd>Cardiólogo. Certificado por el Consejo Mexicano de Cardiología</dd>
+        <dd>Maestro en Administración de Hospitales y Salud Pública. IESAP</dd>
+        <dd>Miembro titular. Sociedad Mexicana de Cardiología. 1969.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Publicación de libros, capítulos, monografías y revistas médicas</dd>
+        <dd>Docencia, cursos y congresos (978)  </dd>
+        <dd>Tesis dirigidas y asesor de tesis de Postgrado </dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Carlos Fernández Barros', 'slug' => str_slug('Dr. Carlos Fernández Barros'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>El Dr. Carlos Leonardo Fernández Barros es actualmente Delegado en Coahuila del Capítulo México de Latinamerican Society of Hypertension (LASH) y trabaja actualmente como Cardiólogo Clínico en el Hospital Los ángeles de la Ciudad de Torreón, Coahuila, México.</dd></dl>
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Licenciatura en la Facultad de Medicina de la UNAM.</dd>
+        <dd>Estudios de postgrado de Medicina Interna en el Instituto Nacional de ciencias Médicas y Nutrición &quot;Salvador Zubirán&quot;. </dd>
+        <dd>Estudios de Cardiología en el Instituto Nacional de Cardiología &quot;Ignacio Chávez&quot; en Destacado como Jefe de Médicos Residentes y Certificado por el Consejo Mexicano de Cardiología desde 1984.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Vocal de la Sociedad Mexicana de Cardiología. </dd>
+        <dd>Coordinador del Capítulo de Lípidos de la AMPAC.</dd>
+        <dd>Publicación de libros y artículos científicos en revistas indexadas.</dd>
+        <dd>Participación en múltiples congresos nacionales e internacionales con funciones de asistente y ponente.</dd>
+        <dd>Ponente en diversas Sociedades Médicas como la Sociedad de Endocrinología y Nutrición y el Colegio de Medicina Interna de México.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. José Z. Parra Carrillo', 'slug' => str_slug('Dr. José Z. Parra Carrillo'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>Profesor Extraordinario de Nefrología Clínica en la Facultad de Medicina de la Universidad de Guadalajara.</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Estudios Médico Cirujano y Partero. Facultad de Medicina, Universidad de Guadalajara.</dd>
+        <dd>Nefrólogo. Hospital General del Centro Médico Nacional, IMSS. </dd>
+        <dd>Post-Doctoral Research Fellow in Hypertension. College of Physicians and Surgeons, Columbia University. </dd>
+        <dd>Maestría en Ciencias Médicas, Orientación Medicina. Universidad de Guadalajara.</dd>
+        <dd>Doctorado en Ciencias de la Salud, Orientación Investigación Clínica. Universidad de Guadalajara.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Autor o coautor de 180 publicaciones en Revistas Médicas Nacionales e Internacionales y libros médicos</dd>
+        <dd>Reconocimiento al Mérito, por las contribuciones al Campo Clínico de la Hipertensión Arterial. Sociedad Mexicana para el Estudio de la Hipertensión arterial y Consejo Mexicano Contra la Hipertensión. México, D.F.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Manuel Duarte Vega', 'slug' => str_slug('Dr. Manuel Duarte Vega'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>Moderador o ponente en reuniones científicas en el extranjero en los últimos 3 a&ntilde;os (12 eventos)</dd>
+        <dd>Moderador o ponente en reuniones científicas en México en los últimos 3 a&ntilde;os (150 eventos)</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Egresado de la Facultad de medicina en la Universidad de Guadalajara, con especialidad en Medicina Interna en el Hospital Civil de Guadalajara</dd>
+        </dl>
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Investigador en estudios clínicos fase III y IV (En total 6 estudios en los últimos cinco a&ntilde;os) como: EXAMINE, INDAGA Y SAVOR.</dd>
+        <dd>Catedrático de la Facultad de Medicina Universidad de Guadalajara, Postgrado en Medicina Interna Hospital Civil Juan I. Menchaca.</dd>
+        <dd>Miembro de la Guía de tratamiento: HAS de la NOM</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Antonio Magaña Serrano', 'slug' => str_slug('Dr. Antonio Magaña Serrano'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>Jefe de la División de Educación en Salud. Hospital de Cardiología, Centro Médico Nacional Siglo XXI, Instituto Mexicano del Seguro Social.</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Pregrado: Facultad de Medicina, UNAM.</dd>
+        <dd>Postgrado: Residencia en Medicina Interna (2 a&ntilde;os) Hospital de especialidades, Centro Médico Nacional Siglo XXI.</dd>
+        <dd>Curso de especialización en Cardiología (3 a&ntilde;os) Hospital de Cardiología, Centro Médico Nacional Siglo XXI.</dd>
+        <dd>Maestría en Administración con enfoque en Factor Humano. UVM, Campus San ángel.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Cardiólogo adscrito a la clínica de Insuficiencia Cardiaca y Trasplante Cardiaco. Hospital de Cardiología, Centro Médico Nacional Siglo XXI.</dd>
+        <dd>Consultorio privado, 1999.</dd>
+        <dd>Miembro Activo A de la Asociación Médica, Centro Médico ABC.</dd>
+        <dd>Profesor titular de Cardiología. Universidad Anáhuac México Norte.</dd>
+        <dd>Miembro del Task Force para la generación de las 1<sup>st</sup> Latin American Guidelines for the Diagnosis and Treatment of Acute Heart Failure, 2005.</dd>
+        <dd>Publicación de artículos en revistas indizadas. </dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Enrique Díaz y Díaz', 'slug' => str_slug('Dr. Enrique Díaz y Díaz'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>Consulta privada, Hospital &Aacute;ngeles del Pedregal.</dd>
+        <dd>Hospital de Cardiología, CMN SIGLO XXI IMSS: Jefe de Servicio de Hospitalización de Cardiología Adultos</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Universidad del Valle de México Campus San ángel. Maestría en Administración con dirección del Factor Humano.</dd>
+        <dd>Maestría de Postgrado de Formación no presencial en Teoría Cardiovascular.</dd>
+        <dd>Diplomado de Investigación Clínica. Dirección de Prestaciones Médicas. Coordinación de Educación en Salud. IMSS</dd>
+        <dd>Especialidad de Cardiología.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>CONFERENCIAS IMPARTIDAS Y ATENDIDAS (351).</dd>
+        <dd>Profesor en el XI Curso Nacional de Aterosclerosis Coronaria y I Curso de Cardiología para Médicos Generales y Familiares.</dd>
+        <dd>Profesor en el Curso &quot;Las Normas Oficiales Mexicanas&quot; en la Escuela Superior de Medicina del Instituto Politecnico Nacional.</dd>
+        <dd>European Society of Cardiology Congress 2014. 30 August to 3 September 2013, Barcelona, Espa&ntilde;a.</dd>
+        <dd>Asistente al XI Curso Nacional de Aterosclerosis Coronaria y I Curso de Cardiología para Médicos Generales y Familiares.</dd>
+        <dd>Profesor Titular del curso de Nosología Cardiovascular de la Facultad Mexicana de Medicina de la Universidad La Salle desde enero 2013.</dd>
+        <dd>Presidente del capítulo de hipertensión arterial sistémica de la asociación nacional de cardiólogos de México. Bienio 2004 - 2006</dd>
+        <dd>Publicaciones (30)</dd>
+        <dd>Díaz y Díaz E. y Durán Oliver S. &quot;El corazón. una glándula endocrina&quot; Revista Médica de La Salle No.1 enero-marzo 1987:21-28</dd>']);
+        Expert::create(['name' => 'Dr. Marco Antonio Ramos Corrales', 'slug' => str_slug('Dr. Marco Antonio Ramos Corrales'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>Consulta privada.</dd>
+        <dd>Jefe de la Unidad Coronaria. UMAE. Hospital de Especialidades del Centro Médico Nacional &quot;La Raza&quot;. Instituto Mexicano del Seguro Social.</dd>
+        </dl>        
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Médico Cirujano y Partero. Facultad de Medicina. Universidad de Guadalajara.</dd>
+        <dd>RESIDENCIA MEDICINA INTERNA. Hospital General. Centro Médico &quot;La Raza&quot;. Instituto Mexicano del Seguro Social.</dd>
+        <dd>RESIDENCIA EN CARDIOLOGIA. Hospital General. Centro Médico &quot;La Raza&quot;. Instituto Mexicano del Seguro Social.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Diploma por Actuación Meritoria en el Subinternado.</dd>
+        <dd>Obtención de la Plaza de Jefe de Departamento Clínico. Dirección Médica. Instituto Mexicano del Seguro Social.</dd>
+        <dd>Experiencia en investigación clínica Internacional y Nacional.</dd>
+        <dd>Tutor de Tesis de Postgrado.</dd>
+        <dd>Labores Docentes.</dd>
+        <dd>Conferencias en cursos monográficos, jornadas médicas y simposios.</dd>
+        <dd>Trabajos presentados y publicados en congresos, Libros y Revistas especializadas.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Ricardo Martínez Zubieta', 'slug' => str_slug('Dr. Ricardo Martínez Zubieta'), 'summary' => '<p><b>Actualmente</b></p>
+        <dl>
+        <dd>Jefe de la Unidad de Terapia Intensiva “Alberto Villazón Sahagún” del Hospital Español de México. 1985 – 2011.</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Licenciatura: Escuela de Medicina de la Universidad Autónoma de Puebla.</dd>
+        <dd>Doctorado: Hospital Español de México.</dd>
+        <dd>Maestría: Administración de Organizaciones de la Salud, Universidad La Salle, México.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Más de 30 trabajos publicados en Libros y Revistas.</dd>
+        <dd>Más de 20 trabajos presentados en Congresos Nacionales e Internacionales.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Raúl Izaguirre &Aacute;vila', 'slug' => str_slug('Dr. Raúl Izaguirre &Aacute;vila'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>Jefe del Departamento de Hematología. Instituto Nacional de Cardiología Ignacio Chávez.</dd></dl>        
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Título de Médico Cirujano por la Facultad de Medicina de Tampico. Universidad Autónoma de Tamaulipas.</dd>
+        <dd>Especialista en Medicina Interna. Centro Médico La Raza. IMSS. </dd>
+        <dd>Especialista en Hematología. Instituto Nacional de la Nutrición.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Presidente de la Sociedad Mexicana de Hemostasia y Trombosis (SOMETH) 2016-2018. </dd>
+        <dd>Miembro del Sistema Nacional de Investigadores, Nivel 1.</dd>
+        <dd>Investigador Titular A de los Institutos Nacional de Salud.</dd>
+        <dd>Presidente de la Agrupación Mexicana para el Estudio de la Hematología (1995-1997).</dd>
+        <dd>Consejero por México de la International Society of Hematology (1992-1998).</dd>
+        <dd>Miembro del consejo Mexicano de Hematología (1998-2001).</dd>
+        <dd>Miembro del Comité Internacional de Control de Calidad en Coagulación de la Federación Internacional de Bioquímica Clínica.</dd>
+        <dd>Más de 50 artículos publicados en revistas nacionales e internacionales.</dd>
+        <dd>Premio Luis Sánchez Medal Otorgado en la AMEH por las Sociedades de Hematología de Uruguay y Puerto Rico.</dd>
+        <dd>Premio Luis Sánchez Medal 2009 otorgado en la AMEH por la Sociedad Argentina de Hematología.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Eulo Lupi', 'slug' => str_slug('Dr. Eulo Lupi'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>Es Director de la Línea de Servicio Cardiovascular del Centro Médico ABC.</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano egresado por la Escuela Médico Militar de México con especialización en Cardiología por la UNAM.</dd>
+        <dd>Completó su formación con una beca de investigación Meakins-Christie Laboratories of the Departament of Medicine, McGill University Clinic. Royal Victoria Hospital. Montreal, Canadá.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Durante sus más de 40 años de trayectoria profesional, ha tenido una amplísima actividad institucional destacando su labor en el Instituto Nacional de Cardiología Ignacio Chávez, donde llegó a ser Jefe del Departamento de Urgencias y Unidad Coronaria.</dd>
+        <dd>Expresidente del Consejo Mexicano de Cardiología también ostentó, entre otros muchos, el cargo de Subdirector de Investigación Clínica del Instituto Nacional de Cardiología.</dd>
+        <dd>Recibió el Premio Salvador Aceves al Maestro Distinguido por la Sociedad Mexicana de Cardiología, en 2003.</dd>
+        <dd>Ha practicado la docencia en muchos ámbitos.</dd>
+        <dd>En su histórico como conferencista se acumulan más de 1.000 participaciones en conferencias nacionales y 100 a nivel internacional como profesor invitado.</dd>
+        <dd>Ha colaborado en más de 170 publicaciones de producción científica y cuenta con 2 libros propios. Tiene más de 1200 citas de trabajos publicados y ha formado parte de varias investigaciones científicas.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Úrsulo Juárez-Herrera', 'slug' => str_slug('Dr. Úrsulo Juárez-Herrera'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>Docencia dentro del Programa de Residentes UNAM-Pregrado. Curso de Cardiología a nivel Pregrado, Universidad La Salle.</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano. Universidad La Salle, Facultad Mexicana de Medicina.</dd>
+        <dd>Posgrado de Medicina Interna. Centro Hospitalario “20 de noviembre ISSSTE”.</dd>
+        <dd>Especialista en Cardiología del Instituto Nacional de Cardiología Ignacio Chávez.</dd>
+        <dd>Fellow in Coronary Care Unit. Brigham and Women´s Hospital. Harvard Medical School. Boston, Massachusetts.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Coautor de 8 Libros.</dd>
+        <dd>36 artículos publicados, a partir de 1992 a la fecha, en Revistas Médicas Científicas Nacionales e Internacionales.</dd>
+        <dd>Publicación de 25 capítulos en libros de la Especialidad de Cardiología.</dd>
+        <dd>Mención Honorífica en Medicina Interna Hospital “20 de noviembre”, ISSSTE.</dd>
+        <dd>Premio Investigación Clínica "Ignacio Chávez". Sociedad Mexicana de Cardiología. XXII Congreso Nacional de Cardiología. Cancún, QR.</dd>
+        <dd>Archievement Award. Reconocimiento por participar en el Protocolo EXTRACT- TIMI 25 Trial.</dd>
+        <dd>Premio al mejor trabajo publicado en la Revista Archivos de Cardiología de México. XXVIII Congreso Mexicano de Cardiología.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Marco Antonio Peña Duque', 'slug' => str_slug('Dr. Marco Antonio Peña Duque'), 'summary' => '<dl>
+        <dd>Miembro titular de ANCAM, SMC, SOCIMA, SOLACI.</dd>
+        <dd>Cardiólogo clínico e intervencionista egresado del Instituto Nacional de Cardiología.</dd>
+        <dd>Certificado por el Consejo Mexicano de Cardiología.</dd>
+        <dd>Jefe del Departamento de Hemodinámica del Instituo Nacionald e Cardiología Ignacio Chávez.</dd>
+        <dd>Miembro numerario de la Academia Nacional de Medicina de México.</dd>
+        <dd>Miembro del Sistema Nacional de Investigadores (SNI) nivel 1.</dd>
+        <dd>Investigador de los Institutos Nacionales de Salud Nivel C.</dd>
+        <dd>Autor o co-autor de 60 trabajos publciados en revistas nacionales o internacionales.</dd>
+        <dd>Profesor titular del curso de Cardiología Intervencionista del Instituto Nacional de Cardiología.</dd>
+        <dd>Presidente de la Sociedad Mexicana de Cardiología 2014-2016.</dd>
+        <dd>Presidente del Consejo Mexicano de Cardiología 2017-2019.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Simón Barquera', 'slug' => str_slug('Dr. Simón Barquera'), 'summary' => '<p><b>Actualmente</b></p>
+        <dl>
+        <dd>El Dr. Simon Barquera actualmente funge como Presidente del Colegio de Profesores de Nutrición (2006 -) y como Director del área de Investigación en Políticas y Programas de Nutrición (2009-) en el Instituto Nacional de Salud Pública (INSP).</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico cirujano (Universidad Autónoma Metropolitana Xochimilco, Ciudad de México 1988-1994) con grados de maestría (1994-96) y doctorado (1997-2005) en Nutrición Aplicada y Epidemiología Nutricional (Escuela Friedman de Ciencias y Políticas de la Nutrición, Universidad de Tufts, Boston).</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Cuenta con más de 251 publicaciones y 6,265 citas a sus publicaciones (h-index: 39, h-index desde 2012: 33, i10-index: 83, RG score: 41.88 (marzo 2017 fuente: Google Schoolar/ResearchGate.Net).</dd>
+        <dd>Ha sido reconocido como Investigador Nacional Nivel III por el Consejo Nacional de Ciencia y Tecnología, miembro de la Academia Nacional de Medicina (2006-) y miembro de la Academia Mexicana de Ciencias (2007).</dd>
+        <dd>Recibió el premio Fred L. Soper (2003) a la excelencia en literatura médica.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Erick Alexanderson Rosas', 'slug' => str_slug('Dr. Erick Alexanderson Rosas'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>El Dr. Erick Alexanderson Rosas es actualmente Jefe del Departamento de Cardiología Nuclear del Instituto Nacional de Cardiología Ignacio Chávez y Profesor de pregrado de Fisiología cardiovascular, Facultad de Medicina, UNAM desde octubre 1980.</dd></dl>
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Médico general de Facultad de Medicina C.U., U.N.A.M México, D. F. 6 a&ntilde;os 1979-85.</dd>
+        <dd>Especialidad: Medicina Interna del Hospital de Especialidades. Centro Médico Nacional Siglo XXI, IMSS, 1987-89 y Cardiología en el Instituto Nacional de Cardiología &quot;Ignacio Chávez&quot;, 1989-92. </dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Premio Jorge Rosenkranz a la mejor Investigación en el área clínica, 2010. </dd>
+        <dd>Representante de México del Consejo Internacional de la American Society of Nuclear Cardiology.</dd>
+        <dd>Nombrado Gobernador para México del American College of Cardiology para el periodo de abril de 2011 a marzo de 2014.</dd>
+        <dd>Nombrado Presidente del Capítulo Mexicano del American College of Cardiology en 2011.</dd>
+        <dd>Coordinador del capítulo Latinoamericano de la Society of Cardiovascular Computed Tomography.</dd>
+        <dd>Miembro del Comité Científico Internacional de la American Society of Nuclear Cardiology</dd>
+        </dl>']);
+        Expert::create(['name' => 'Mireya López Gamboa', 'slug' => str_slug('Mireya López Gamboa'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>La Dra. Mireya Lopez Gamboia se desempe&ntilde;a actualmente como Directora Operativo de Pharma Research Organization SA de CV y es Responsable del Centro Institucional del Farmacovigilancia en Instituto Nacional de Cancerología.</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano con Doctorado en Ciencias en la Especialidad de Farmacología Médica y Molecular y Post-Doctorado en Farmacovigilancia del primer medicamento biotecnológico.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Directora del proceso de certificación por la ISO:27001-2013 para los procesos de farmacovigilancia y tecnovigilancia de Pro Pharma Research Organization SA de CV.</dd>
+        <dd>Directora del proceso de certificación por la ISO:9001-2015 del sistema de gestión de calidad de Pro Pharma Research Organization SA de CV.</dd>
+        <dd>Fundadora de empresa mexicana especializada en servicios de farmacovigilancia y tecnovigilancia Pro Pharma Research Organization.</dd>
+        <dd>Gestor y responsable técnico de proyectos ante CONACYT para desarrollo de proyectos en materia de tecnología, innovación en el área de farmacovigilancia.</dd>
+        <dd>Gestión para obtención de 6 certificados de registros de derechos de autor por los softwares de farmacovigilancia y tecnovigilancia.</dd>
+        <dd>Reconocimiento como autora de 3 softwares en 3 versiones diferentes para procesos de farmacovigilancia y tecnovigilancia.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Carlos L. Fernández Barros', 'slug' => str_slug('Dr. Carlos L. Fernández Barros'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>El Dr. Carlos Leonardo Fernández Barros es actualmente Delegado en Coahuila del Capítulo México de Latinamerican Society of Hypertension (LASH) y trabaja actualmente como Cardiólogo Clínico en el Hospital Los ángeles de la Ciudad de Torreón, Coahuila, México.</dd></dl>
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Licenciatura en la Facultad de Medicina de la UNAM.</dd>
+        <dd>Estudios de postgrado de Medicina Interna en el Instituto Nacional de ciencias Médicas y Nutrición &quot;Salvador Zubirán&quot;. </dd>
+        <dd>Estudios de Cardiología en el Instituto Nacional de Cardiología &quot;Ignacio Chávez&quot; en Destacado como Jefe de Médicos Residentes y Certificado por el Consejo Mexicano de Cardiología desde 1984.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Vocal de la Sociedad Mexicana de Cardiología. </dd>
+        <dd>Coordinador del Capítulo de Lípidos de la AMPAC.</dd>
+        <dd>Publicación de libros y artículos científicos en revistas indexadas.</dd>
+        <dd>Participación en múltiples congresos nacionales e internacionales con funciones de asistente y ponente.</dd>
+        <dd>Ponente en diversas Sociedades Médicas como la Sociedad de Endocrinología y Nutrición y el Colegio de Medicina Interna de México.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Armando García-Castillo', 'slug' => str_slug('Dr. Armando García-Castillo'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>El Dr. Armando García - Castillo se desempe&ntilde;a actualmente como Director de Hemodinamia en el Doctors Hospital de Monterrey, Nuevo León.</dd>
+        </dl>
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano, egresado de la Facultad de Medicina de la Universidad Autónoma de Coahuila, en Torreón Coahuila.</dd>
+        <dd>Residencia de Medicina Interna en el Hospital de Especialidades No 71 I.M.S.S. Torreón Coahuila.</dd>
+        <dd>Residencia de Cardiología en el Hospital de Cardiología del Centro Médico Nacional I.M.S.S. México, D.F. </dd>
+        <dd>Subespecialidad en Hemodinámica en el Hospital de Cardiología del Centro Médico Nacional I.M.S.S. México, D.F.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Beca para adiestramiento en los Laboratorios de Fisiología y Farmacología, en la Unidad de Investigaciones Biomédicas del Noreste en Monterrey, Nuevo León (6 meses 1981).</dd>
+        <dd>Tercer lugar general en aprovechamiento académico durante la Carrera de Médico Cirujano en la Facultad de Medicina de Torreón Coahuila.</dd>
+        <dd>Primer Lugar Nacional durante la Residencia de Cardiología (1987 - 1989).</dd>
+        <dd>Certificado (Board) por el Consejo Mexicano de Cardiología (1989).</dd>
+        <dd>Recertificado por el Consejo Mexicano de Cardiología (1995).</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Carlos Felipe Barrera-Ramírez. FAAC', 'slug' => str_slug('Dr. Carlos Felipe Barrera-Ramírez. FAAC'), 'summary' => '<p><b>Actualmente: </b></p>
+        <dl>
+        <dd>El Dr. Carlos Felipe Barrera-Ramírez es actualmente Director de la sala de Hemodinamia del Centro Hospitalario La Concepción, Saltillo. Coahuila, México.</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano la Universidad Nacional Autónoma de México, campus Ciudad Universitaria con reconocimiento universitario por un Servicio Social de Honor.</dd>
+        <dd>Postgrado en Medicina Interna en el Instituto Nacional de Ciencias Médicas y de la Nutrición Salvador Zubirán de 1995 a 1998.</dd>
+        <dd>Postgrado en Cardiología, egresado del Instituto Nacional de Cardiología Ignacio Chávez donde obtuvo el título en febrero del 2001.</dd>
+        <dd>Cardiología Intervencionista en el Hospital Clínico de San Carlos de Madrid, Espa&ntilde;a, bajo la tutela del Dr. Carlos Macaya en el periodo 2001 a 2003.</dd>
+        </dl>        
+        <p><b>Destacado:</b></p>
+        <dl>
+        <dd>Miembro titular de ANCAM, SMC, SOCIMA, SOLACI.</dd>
+        <dd>Investigación en el área de las enfermedades de la fosforilación oxidativa en el Instituto Nacional de Ciencias Médicas y de la Nutrición Salvador Zubirán de 1996 a 2001.</dd>
+        <dd>Investigaciones sobre clopidogrel, agregación plaquetaria en relación con el intervencionismo coronario en el Hospital Clínico de San Carlos, Madrid, Espa&ntilde;a 2001-2003.</dd>
+        <dd>Finalista por el premio &quot;Investigador joven Dr. Ignacio Chávez&quot;, Sociedad Interamericana de Cardiología, Ciudad de Buenos Aires, Argentina 1999; trabajo: &quot;Afección cardiaca en síndrome de Kearns-Sayre&quot;.</dd>
+        <dd>Finalista a la mejor comunicación del XXXVIII Congreso de la Sociedad Espa&ntilde;ola de Cardiología como la mejor comunicación con el trabajo: &quot;Función plaquetaria en pacientes con escasa respuesta al tratamiento antiplaquetario tras implantación de un stent coronario&quot;.</dd>
+        <dd>Finalista para el premio Investigador Joven &quot;Ignacio Chávez&quot; en el Congreso Interamericano de Cardiología en 1999 en la Cd. de Buenos Aires. </dd>
+        <dd>Premio al mejor trabajo de investigación presentado en la reunión anual de la Sociedad de Cardiología Intervencionista de México (SOCIME), México 2004.</dd>
+        <dd>Premio al mejor trabajo mexicano de investigación científica en el Congreso Anual de Cardiología Internacional, (CADECI), en Guadalajara 2011. www.http://cadeci.org.mx/.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Carlos A. Aguilar Saúlinas', 'slug' => str_slug('Dr. Carlos A. Aguilar Saúlinas'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>Es subjefe del Departamento de Endocrinología y Metabolismo del Instituto Nacional de Ciencias Médicas y Nutrición desde 1996.</dd>
+        </dl>        
+        <p><b>Estudios: </b></p>
+        <dl>
+        <dd>Médico especialista en Medicina Interna y Endocrinología, egresado del Instituto Nacional de Ciencias Médicas y Nutrición. Doctorado en Investigación Médica. Realizó una estancia de investigación (1992-1994) en Washington University, School of Medicine (St Louis MO, EUA) sobre el estudio del metabolismo de las lipoproteinas, bajo la tutoría del Dr Gustav Schonfeld.</dd>
+        </dl>        
+        <p><b>Destacado: </b></p>
+        <dl>
+        <dd>Participar en la identificación de nuevos genes involucrados en la fisiopatología de la hiperlipidemia familiar combinada y en la diabetes tipo 2.</dd>
+        <dd>Ser parte del equipo que llevó a cabo el primer escrutinio completo del genoma dise&ntilde;ado para identificar los genes determinantes de la concentración de los lípidos sanguíneos en mexicanos.</dd>
+        <dd>Colaborar en la identificación de la variante R230C del transportador ABC-A1 como determinante de la concentración de colesterol HDL en mexicanos.</dd>
+        <dd>Contribuir a la descripción de la epidemiología de la diabetes, de las dislipidemias y del síndrome metabólico en las Encuestas Nacionales de Salud de 1994, 2000, 2006 y 2012.</dd>
+        <dd>Participar en el grupo que hizo posible la certificación del Instituto Nacional de Ciencias Médicas y Nutricion ante la AAHRPP (Association for Accreditation for Human Research Protection Programs) por apego a las buenas prácticas clínicas en la investigación (2013).</dd>
+        <dd>Formar parte del comité organizador del &quot;Centro de Atención Integral del Paciente con Diabetes&quot; del Instituto Nacional de Ciencias Médicas y Nutricion (2013).</dd>
+        <dd>Ser parte del equipo que llevó a cabo el primer escrutinio completo del genoma dise&ntilde;ado para identificar los genes asociados a la diabetes tipo 2 en mexicanos (Estudio SIGMA) (2013).</dd>
+        <dd>Es autor o editor de 8 libros (&quot;Dislipidemias: De lo Clínico a lo Molecular&quot; y &quot;Manual de terapéutica médica y procedimientos de urgencia del Instituto Nacional de Ciencias Médicas y Nutrición&quot; entre otros).</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Humberto &Aacute;lvarez', 'slug' => str_slug('Dr. Humberto &Aacute;lvarez'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>El Dr. Humberto Alvarez es actualmente tiene su práctica privada en el Hospital Puerta de Hierro, Zapopan, Jalisco., México.</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Médico Cirujano Partero egresado de la Facultad de Medicina de la Universidad de Guadalajara. </dd>
+        <dd>Internal Medicine Fellow. Hospital General de Zona No. 89, INSTITUTO MEXICANO DEL SEGURO SOCIAL., Guadalajara, Jalisco, México.</dd>
+        <dd>Postgrado en Cardiología en el HOSPITAL DE CARDIOLOGIA DEL CENTRO MEDICO NACIONAL SIGLO XXI, IMSS, UNIVERSIDAD NACIONAL AUTONOMA DE MEXICO. Ciudad de México.</dd>
+        </dl>        
+        <p><b>Destacado</b></p>
+        <dl>
+        <dd>Miembro de:</dd>
+        <dd>Asociación Nacional de Cardiólogos de México (ANCAM)</dd>
+        <dd>Colegio de Cardiólogos de Jalisco, S.C.</dd>
+        <dd>Sociedad Mexicana de Ecocardiografía</dd>
+        <dd>American Society of Hypertension Inc.</dd>
+        <dd>Sociedad Nacional de Ecocardiografía de México</dd>
+        <dd>European Society Cardiology, ESC </dd>
+        <dd>Asociación Mexicana para la Prevención de la Aterosclerosis y sus Complicaciones. AMPAC</dd>
+        <dd>The American Society for Preventive Cardiology</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. Juan Carlos Garnica Cuéllar', 'slug' => str_slug('Dr. Juan Carlos Garnica Cuéllar'), 'summary' => '<p><b>Actualmente:</b></p>
+        <dl>
+        <dd>El Dr. Juan Carlos Garnica Cuéllar es Médico Adscrito al Departamento Clínico de Endocrinología del Hospital de Especialidades del CMN La Raza. Coordinador del proceso de actualización en el área de endocrinología de las guías de práctica clínica a cargo del Centro Nacional de Excelencia Tecnológica en Salud (CENETEC). Asesor en la Secretaria de Salud para el proceso de actualización del documento de trabajo de la NOM -015-SSA2-2010, Para la prevención, detección, diagnóstico, tratamiento y control de la Diabetes Mellitus.</dd>
+        </dl>        
+        <p><b>Estudios:</b></p>
+        <dl>
+        <dd>Licenciatura en Médico Cirujano. En la universidad Anáhuac. Generación 1999-2004. </dd>
+        <dd>Especialista en Endocrinología. Certificado por el Consejo Mexicano de Endocrinología, A.C.</dd>
+        <dd>Subespecialista en Biología de la Reproducción Humana. Residencia en el Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán.</dd>
+        <dd>Maestría en Administración de Organizaciones de la Salud. Universidad La Salle.</dd>
+        </dl>        
+        <p><b>Destacado</b></p>
+        <dl>
+        <dd>Miembro de:</dd>
+        <dd>Speaker en el área de Tiroides para Armstrong. (2010 -2012).</dd>
+        <dd>Speaker de insulinas y antagonistas de PCSK9 con Sanofi (agosto 2015. A la fecha).</dd>
+        <dd>Socio titular en la sociedad mexicana de nutrición y endocrinología A.C desde el 2009.</dd>
+        <dd>Socio adscrito de la American Association of Clinical Endocrinologists. AACE desde el 2008.</dd>
+        <dd>Socio Activo de la Asociación de Postgraduados en Endocrinología.</dd>
+        </dl>']);
+        Expert::create(['name' => 'Dr. José de Jesús Flores Rivera', 'slug' => str_slug('Dr. José de Jesús Flores Rivera'), 'summary' => '<p>El doctor José de Jesús Flores Rivera es médico internista con especialidad en Neurología, enfocando su labor al estudio y atención de la esclerosis múltiple y enfermedades desmielinizantes. Se ha interesado en los procedimientos de Neuroinmunología e investigación clínica. 
+        </p><p>Su preparación académica ha sido en la Universidad Autónoma de Puebla, la Universidad Nacional Autónoma de México (UNAM) y la Universidad Autónoma de Barcelona.
+        Pertenece al Colegio de Medicina Interna de México, al American College of Physicians, al Consejo Mexicano de Neurología y a la Academia Mexicana de Neurología.
+        Actualmente, es Subidrector del Instituto Nacional de Neurología y Neurocirugía Manuel Velasco.
+        </p>']);
+        Expert::create(['name' => 'Dra. Verónica Rivas Alonso', 'slug' => str_slug('Dra. Verónica Rivas Alonso'), 'summary' => '<ul>
+        <li>Coordinadora de la Clínica de Esclerosis Múltiple, Instituto Nacional de Neurología,
+        2016.
+        </li>
+        <li>Médico Adscrito Clínica de Enfermedades Desmielinizantes, Instituto Nacional de
+        Neurología y Neurocirugía.
+        </li>
+        <li>Médico Adjunto, Curso Alta Especialidad en Esclerosis Múltiple, Instituto Nacional de
+        Neurología y Neurocirugía.</li>
+        <li>Unidad de Neurociencias, Hospital “Médica Sur”</li>
+        <li>Miembro de la Sociedad de Médicos, Hospital Médica Sur</li>
+        <li>Miembro Activo Academia Mexicana de Neurología.</li>
+        <li>Miembro de la Asociación Mexicana de Neurólogos Egresados del INNN (AMEINNN).</li>
+        <li>Miembro de la Asociación de Neurólogos Egresados del IMSS (ANIMSS).</li>
+        </ul>']);
     }
 }

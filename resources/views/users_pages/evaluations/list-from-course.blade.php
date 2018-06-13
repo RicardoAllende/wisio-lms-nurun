@@ -17,8 +17,14 @@ Evaluacion
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
               <div class="col s6">
-                  <h4 class="categoria-evaluacion">EVALUACIONES</h4>
-                  <p>Elija el curso del que desea consultar sus evaluaciones:</p>
+                    <h4 class="categoria-evaluacion">EVALUACIONES</h4>
+                    <p>Elija el curso del que desea consultar sus evaluaciones:</p>
+                    <select name="course_slug" id="course_slug">
+                        @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
+                        @foreach($coursesController->getCourses($ascription->slug) as $course)
+                            <option value="{{$course->id}}"> {{$course->name}} </option>
+                        @endforeach
+                    </select>
               </div>
               <div class="col s6">
                 <div class="card white">
@@ -165,5 +171,9 @@ Evaluacion
 
 <script>
   cambiarItem("evaluaciones");
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+  
 </script>
 @stop

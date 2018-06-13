@@ -22,27 +22,32 @@
                         <h5>Plantillas para certificado</h5>
                     </div>
                     <div class="ibox-content">
+                      @if($templates->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
                           <tr>
                             <th>#</th>
                             <th>Nombre</th>
-                            <th>Acciones</th>
+                            <th>Descarga de prueba</th>
                           </tr>
                         </thead>
-                        <tbody>@php $i=1; @endphp
+                        <tbody> @php $i=1; @endphp
                             @foreach($templates as $template)
                             <tr>
-                              <td><a href="{{ route('templates.show', $template->id) }}">{{ $i }}</a></td> @php $i++; @endphp
+                              <td><a href="{{ route('templates.show', $template->id) }}">{{ $i }}</a></td> 
                               <td><a href="{{ route('templates.show', $template->id) }}">{{ $template->name }}</a></td>
-                              <td>{{ $template->created_at }}</td>
+                              <td><a href="{{ route('test.download.certificate') }}">Certificado de prueba</a></td>
+                              @php $i++; @endphp
                             </tr>
                             @endforeach
                             
                         </tbody>
                       </table>
                       </div>
+                      @else
+                      <h3>Aún no existen plantillas</h3>
+                      @endif
                     </div>
                     <div class="ibox-footer">
                       
@@ -51,17 +56,11 @@
               </div>
       </div>
 </div>
-
-                        
-
-
 @endsection
 
 @section('scripts')
-
 <script src="/js/sweetalert2.min.js"></script>
 <script src="/js/method_delete_f.js"></script>
-
 @endsection
 
 @section('styles')

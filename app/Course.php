@@ -169,12 +169,15 @@ class Course extends Model
         return $result;
     }
 
-    public function attachUser($user_id, $avg, $status){
+    public function attachUser($user_id, $avg){
         if(User::find($user_id) == null){ return false; }
         if($this->users->contains($user_id)){
-            $this->users()->detach($user_id);
+            $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
+            $pivot->score = $avg;
+            $pivot->status = $status;
+            $pivot->save();
         }
-        $this->users()->attach($user_id, ['score' => $avg, 'status'=> $status]);
+        $this->users()->attach($user_id, ['score' => $avg]);
     }
 
     public function usersAvg(){
@@ -196,8 +199,26 @@ class Course extends Model
         if($user == null){ return false; }
         $avg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
             ->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
-        $this->attachUser($user_id, $avg, 0);
+        if($avg == null){
+            return false;
+        }else{
+            $this->attachUser($user_id, $avg);
+        }
         return true;
+    }
+
+    public function userAvg($user_id){
+        $evaluations = $this->finalEvaluations()->pluck('id');
+        return DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user_id)
+        ->whereIn('evaluation_id', $evaluations)->groupBy('evaluation_id')->get()->avg('score');
+    }
+
+    public function calculateAvgAllUsers(){
+        $users = User::all();
+        foreach($users as $user){
+            $this->calculateAvgForUser($user->id);
+        }
+        return "Function end";
     }
 
     public function numModules(){

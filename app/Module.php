@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Module extends Model
 {
@@ -40,6 +41,14 @@ class Module extends Model
 
     public function finalEvaluations(){
         return $this->hasMany('App\Evaluation')->where('type', config('constants.evaluations.final'));
+    }
+
+    public function hasDiagnosticEvaluation(){
+        if ($this->evaluations->where('type', config('constants.evaluations.diagnostic'))->count() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function hasFinalEvaluation(){
@@ -132,6 +141,42 @@ class Module extends Model
     public function attachUser($user_id, $avg, $status){
         if(User::find($user_id) == null ){ return false; }
         $this->users()->attach($user_id, ['score' => $avg, 'status' => $status]);
+    }
+
+    /** Functions only for migrations */
+    // public function verifyUser($user){
+    //     $evaluation = $this->finalEvaluations->first();
+    //     if($evaluation == null){ return false; }
+    //     if($user->hasThisEvaluationCompleted($evaluation->id)){
+    //         $this->users()->attach($user_id);
+    //     }
+    // }
+
+    // public function verifyAllUsers(){
+    //     $users = User::all();
+    //     foreach($users as $user){
+    //         verifyUser($user);
+    //     }
+    //     return "Función terminada";
+    // }
+
+    public function calculateUserAvg($user){
+        $finalEvaluations = $this->finalEvaluations()->pluck('id');
+        $moduleAvg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user->id)
+        ->whereIn('evaluation_id', $finalEvaluations)->groupBy('evaluation_id')->get()->avg('score');
+        if($moduleAvg == null){
+            return false;
+        }else{
+            $this->users()->attach($user->id, ['score' => $moduleAvg]);
+        }
+    }
+
+    public function calculateAvg(){
+        $users = User::all();
+        foreach($users as $user){
+            $this->calculateUserAvg($user);
+        }
+        return "Función terminada";
     }
 
 }

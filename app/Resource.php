@@ -27,7 +27,7 @@ class Resource extends Model
     }
 
     public function url(){
-        return $this->attachment->url;
+        return '/'.$this->attachment->url;
     }
 
 }

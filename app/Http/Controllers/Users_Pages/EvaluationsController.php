@@ -32,9 +32,10 @@ class EvaluationsController extends Controller
         $numModules = $course->modules->count();
         $completedModules = $user->completedModulesOfCourse($course->id);
         $modulesAdvance = number_format($completedModules / $numModules * 100, 2);
-        $evaluations = $course->evaluations();
+        // $evaluations = $course->evaluations();
+        $evaluations = $course->finalEvaluations();
         $numEvaluations = $evaluations->count();
-        $completedEvaluations = $user->completedEvaluationsForCourse($course->id);
+        $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
         if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
@@ -116,6 +117,9 @@ class EvaluationsController extends Controller
         // echo "Promedio del módulo: {$moduleAvg} <br>";
         $course->calculateAvgForUser($user_id);
         $ascription = Ascription::whereSlug($ascription_slug)->first();
+        // if($evaluation->isDiagnosticEvaluation()){
+        //     return view()
+        // }
         return view('users_pages/evaluations/result', 
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
             'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
@@ -178,12 +182,50 @@ class EvaluationsController extends Controller
         }
     }
 
+    /**
+     * Return 'true' if module has evaluation and user hasn´t done that evaluation yet
+     * else returns 'false'
+     */
     public function checkDiagnosticEvaluation($module_id){
-
+        $module = Module::find($module_id);
+        if($module == null){
+            return "no";
+        }
+        if($module->hasDiagnosticEvaluation()){
+            $user = Auth::user();
+            // Expecting only one evaluation
+            $evaluation = $user->diagnosticEvaluations()->first();
+            if($user->hasThisEvaluationCompleted($evaluation)){
+                return "no";
+            }else{
+                return "yes";
+            }
+        }else{
+            return "no";
+        }
     }
 
+    /**
+     * Return 'true' if module has evaluation and user hasn´t done that evaluation yet
+     * else returns 'false'
+     */
     public function checkFinalEvaluation($module_id){
-        
+        $module = Module::find($module_id);
+        if($module == null){
+            return "no";
+        }
+        if($module->hasDiagnosticEvaluation()){
+            $user = Auth::user();
+            // Expecting only one evaluation
+            $evaluation = $user->diagnosticEvalautions()->first();
+            if($user->hasThisEvaluationCompleted($evaluation)){
+                return "no";
+            }else{
+                return "yes";
+            }
+        }else{
+            return "no";
+        }
     }
 
 }

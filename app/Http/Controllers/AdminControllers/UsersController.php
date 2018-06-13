@@ -32,6 +32,7 @@ class UsersController extends Controller
             }
             $role = Role::where('name', $type)->pluck('id');
             $users = User::whereIn('role_id', $role)->get();
+            return $users;
         }else{
             $users = User::all();
         }

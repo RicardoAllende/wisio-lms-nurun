@@ -86,4 +86,11 @@ class CoursesController extends Controller
         return view('users_pages.funciona', compact('ascription'));
     }
 
+    public function getCourses($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null){ return collect(); }
+        $user = Auth::user();
+        return $user->coursesFromAscription($ascription);
+    }
+
 }
