@@ -324,7 +324,7 @@ function printResources(resources){
       var contendiv = '';
       switch(String(resources[0]['type'])) {
         case 'video':
-            contendiv += '<video width="100%" controls id="video"><source src="/'+resources[0]['url']+'" type="video/mp4"></video>';
+            contendiv += '<video width="100%" controls id="video"><source src="'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
             var vide = document.getElementById('video');
 
