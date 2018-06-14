@@ -16,12 +16,12 @@ Actualizacion de información
 </div>
 
 <div class="row">
-  {!! Form::open(['route' => ['student.update.request'], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
+  {{ ($user->last_profile_update == '') ? 'Por favor, complete/verifique si su información correcta' : '' }}
+  {!! Form::model($user, ['route' => ['student.update.request'], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
       {!! Form::email('email', $user->email ,['class'=>'form-control','placeholder'=>'Correo electrónico', 'id'=> 'email', 'required' => '', 'readonly' => '']) !!}
-
     </div>
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('gender', 'Género:',['class'=>'control-label col-sm-2']); !!}
@@ -72,8 +72,15 @@ Actualizacion de información
       {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'required' => '']) !!}
     </div>
 
+    <div class="reg col s12 l6 offset-l3">
+      {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
+      <input type="password" name="password" id="password" class="form-control" placeholder="Escriba aquí su contraseña, si no desea cambiarla, deje este campo vacío">
+    </div>
+
+    <div class="reg col s12 l8 offset-l3">
+      <input type="submit" id="validate" class="btnAcademia" value="Actualizar información" >
+    </div>
   </div>
-  <input type="submit" id="validate" class="btnAcademia" value="Actualizar información" >
   {!! Form::close() !!}
 </div>
 @endsection

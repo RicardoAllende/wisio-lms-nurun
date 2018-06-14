@@ -20,11 +20,8 @@ class Student
             $user = Auth::user();
             if($user->isStudent()){
                 return $next($request);
-            }else{
-                return redirect()->route('permission.denied');
             }
-        }else{
-            return redirect('/');
         }
+        return redirect('/');
     }
 }

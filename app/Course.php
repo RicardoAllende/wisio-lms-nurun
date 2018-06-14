@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Ascription;
-use App\RecommendedCourse;
 use App\AscriptionCourse;
 use Illuminate\Support\Facades\DB;
 
@@ -32,18 +31,6 @@ class Course extends Model
 
     public function getImgAttribute(){
         return $this->getMainImgUrl();
-    }
-
-    public function likes(){
-        return RecommendedCourse::where('course_id', $this->id)->count();
-    }
-
-    public function recommended(){
-        return $this->hasMany('App\RecommendedCourse');
-    }
-
-    public function specialties(){
-        return $this->belongsToMany('App\Specialty');
     }
 
     public function hasModules(){

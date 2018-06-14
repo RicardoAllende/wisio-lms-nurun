@@ -184,7 +184,7 @@ function hasEvDiag(idMod){
 
 function getEvDiag(idMod){
 
-  $('#modalEvDiag .modal-content').html('hola');
+  $('#modalEvDiag .modal-content').html('Aquí se muestra la evaluación diagnóstica, estamos trabajando en ello');
   $('#modalEvDiag').modal({
     dismissible: false
   });

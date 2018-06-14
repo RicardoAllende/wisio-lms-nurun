@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CertificateTemplate extends Model
 {
     protected $fillable = [
-        'name', 'attachment_id'
+        'name', 'view_name'
     ];
 
     public function courses(){
@@ -19,14 +19,6 @@ class CertificateTemplate extends Model
             return true;
         }
         return false;
-    }
-
-    public function attachment(){
-        return $this->belongsTo('App\Attachment');
-    }
-
-    public function url(){
-        return $this->attachment->url;
     }
 
 }

@@ -26,20 +26,23 @@ class UserController extends Controller
         $user->postal_code = $request->postal_code;
         $user->city = $request->city;
         $user->address = $request->address;
+        if($request->filled('password')){
+            $user->password = bcrypt($request->password);
+        }
         $dateTime = \Carbon\Carbon::now()->toDateTimeString();
         $user->last_profile_update = $dateTime;
         $user->save();
         if(session()->has('ascription_slug')){
             $slug = session('ascription_slug');
             if(Ascription::whereSlug($slug)->first() != null){
-                return redirect()->route('student.home', $slug);
+                return redirect()->route('student.home', $slug)->with('msj', 'Su información ha sido actualizada');
             }
         }
         if($user->hasDifferentAscriptions()){
-            return redirect()->route('student.select.ascription');
+            return redirect()->route('student.select.ascription')->with('msj', 'Su información ha sido actualizada');
         }
         $ascription = $user->ascription();
-        return redirect()->route('student.home', $ascription->slug);
+        return redirect()->route('student.home', $ascription->slug)->with('msj', 'Su información ha sido actualizada');
     }
 
     public function selectAscription(){

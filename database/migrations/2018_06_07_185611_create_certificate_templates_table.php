@@ -16,8 +16,7 @@ class CreateCertificateTemplatesTable extends Migration
         Schema::create('certificate_templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->integer('attachment_id')->unsigned()->nullable();
-            $table->foreign('attachment_id')->references('id')->on('attachments');
+            $table->string('view_name')->nullable();
             $table->timestamps();
         });
     }

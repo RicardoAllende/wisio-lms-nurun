@@ -51,6 +51,13 @@
             </div>
 
             <div class="form-group">
+                {!! Form::label('cedula', 'Cédula profesional:',['class'=>'control-label col-sm-2']); !!}
+                <div class="col-sm-10"> 
+                  {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Cédula profesional']) !!}
+                </div>
+            </div>
+
+            <div class="form-group">
               {!! Form::label('ascription_id', 'Adscripción o farmacia a la que pertenece:',['class'=>'control-label col-sm-2']); !!}
               <div class="col-sm-10">
               <select name="ascription_id" id="ascription_id" class="form-control" required>

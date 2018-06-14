@@ -19,11 +19,27 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
-            if($user->isStudent()){
+            $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+            $user->last_access = $dateTime;
+            $user->save();
+            if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }
-            if($user->isAdmin()){
-                return redirect()->route('student.home', $user->ascriptionSlug());
+            if($user->isStudent()){
+                if($user->last_profile_update == ''){
+                    return redirect()->route('student.update');
+                }
+                if(session()->has('ascription_slug')){
+                    $slug = session('ascription_slug');
+                    if(Ascription::whereSlug($slug)->first() != null){
+                        return redirect()->route('student.home', $slug);
+                    }
+                }
+                if($user->hasDifferentAscriptions()){
+                    return redirect()->route('student.select.ascription');
+                }
+                $ascription = $user->ascription();
+                return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');
         }

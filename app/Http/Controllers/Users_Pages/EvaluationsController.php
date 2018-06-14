@@ -32,8 +32,8 @@ class EvaluationsController extends Controller
         $numModules = $course->modules->count();
         $completedModules = $user->completedModulesOfCourse($course->id);
         $modulesAdvance = number_format($completedModules / $numModules * 100, 2);
-        // $evaluations = $course->evaluations();
-        $evaluations = $course->finalEvaluations();
+        $evaluations = $course->evaluations();
+        // $evaluations = $course->finalEvaluations();
         $numEvaluations = $evaluations->count();
         $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();

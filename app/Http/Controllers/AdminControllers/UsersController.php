@@ -23,7 +23,6 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index(){
         if (isset($_GET['type'])) {
             $type = $_GET['type'];
@@ -32,7 +31,6 @@ class UsersController extends Controller
             }
             $role = Role::where('name', $type)->pluck('id');
             $users = User::whereIn('role_id', $role)->get();
-            // return $users;
         }else{
             $users = User::all();
         }
@@ -145,6 +143,7 @@ class UsersController extends Controller
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->is_pharmacy = $request->is_pharmacy;
+        $user->cedula = $request->cedula;
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;

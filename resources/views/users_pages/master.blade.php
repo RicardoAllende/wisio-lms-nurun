@@ -29,7 +29,7 @@
             </div>
             <div class="col l6 hide-on-med-and-down right-align ">
                 <a href="" class="links">Contacto</a>
-                <a href="" class="links">Editar Perfil</a>
+                <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
             </div >
           </div>
 

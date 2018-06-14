@@ -53,23 +53,6 @@ class LoginController extends Controller
                 return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');
-
-
-            $user = Auth::user();
-            if($user->isAdmin()){
-                return redirect()->route('admin.dashboard');
-            }
-            if($user->isStudent()){
-                if($user->last_profile_update == ''){
-                    return redirect()->route('student.update');
-                }
-                if($user->hasDifferentAscriptions()){
-                    return redirect()->route('student.select.ascription');
-                }
-                $ascription = $user->ascription();
-                return redirect()->route('student.home', $ascription->slug);
-            }
-
         }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
@@ -92,7 +75,7 @@ class LoginController extends Controller
             }
             return redirect('/');
         } else {
-            return back()->with('error','Verifique sus datos');
+            return back()->withInput()->with('error', 'Verifique sus datos');
         }
     }
 

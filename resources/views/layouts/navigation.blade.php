@@ -65,9 +65,9 @@
                     <li class="">
                         <a href="{{ route('experts.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Expertos</span></a>
                     </li>
-                    <li class="">
-                        <a href="{{ route('templates.index') }}"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Plantillas para certificados</span></a>
-                    </li>
+                    {{-- <li class="">
+                        <a href="{{ route('templates.indx') }}"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Plantillas para certificados</span></a>
+                    </li> --}}
                 @endif
                 @if (Auth::user()->isStudent())
                     <li class="">
