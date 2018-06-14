@@ -292,6 +292,18 @@ a.links{
   cursor: pointer;
 }
 
+.upscase{
+  text-transform: uppercase;
+}
+
+.smalltext{
+  font-size: .8rem;
+}
+
+.consulta{
+  padding: 10px;
+}
+
 .iconcourseshow {
     position: relative;
     font-size: 2rem;

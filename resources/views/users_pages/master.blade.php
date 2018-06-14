@@ -8,7 +8,7 @@
       <title>Academia Sanofi | @yield('title')</title>
 
       <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.min.css')}}"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.css')}}"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/iconsAcademia.css')}}" />
 
@@ -28,8 +28,13 @@
               @yield('breadcrumbs')
             </div>
             <div class="col l6 hide-on-med-and-down right-align ">
+              @if (Auth::check())
                 <a href="" class="links">Contacto</a>
                 <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
+              @else
+              <a href="" class="links">Compartir</a>
+              <a class="links">Imprimir</a>
+              @endif
             </div >
           </div>
 
