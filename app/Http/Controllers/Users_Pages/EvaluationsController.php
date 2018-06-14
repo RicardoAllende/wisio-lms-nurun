@@ -40,7 +40,7 @@ class EvaluationsController extends Controller
         if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages/evaluations/list-from-course',
-        compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance', 
+        compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance',
         'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance',
         'ascription_slug', 'courseSlug', 'ascription'));
     }
@@ -90,7 +90,7 @@ class EvaluationsController extends Controller
         // echo "Promedio: {$evaluationAverage} <br>";
         // echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
 
-        
+
         $module = $evaluation->module;
         $course = $module->course;
         $finalEvaluations = $module->finalEvaluations->pluck('id');
@@ -120,7 +120,7 @@ class EvaluationsController extends Controller
         // if($evaluation->isDiagnosticEvaluation()){
         //     return view()
         // }
-        return view('users_pages/evaluations/result', 
+        return view('users_pages/evaluations/result',
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
             'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
         );
@@ -144,7 +144,7 @@ class EvaluationsController extends Controller
             $questions = $evaluation->questions;
             foreach ($questions as $question) {
                 echo '<div class="mySlides row">
-                    <h6>'.$question->content.'</h6>';
+                    <h6>'.$question->name.'</h6>';
                 echo '<div class="col s9">';
                 foreach($question->options as $option){
                     echo '

@@ -4,6 +4,26 @@ Curso {{ $course->name }}
 @extends('users_pages.master')
 @section('extracss')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+<style>
+    .circle-selected, .circle-dot:hover {
+    background-color: #8F6EAA;
+    }
+    .purple-text{
+    color: #8F6EAA;
+    }
+    .circle-dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    }
+    .circle-not-selected{
+    background-color: #e9e9e9;
+    }
+</style>
 @stop
 
 @section('breadcrumbs')
@@ -33,7 +53,13 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
-                  <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}">
+                 <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" data-eva="{{ $module->hasDiagnosticEvaluation() }}"
+                  @foreach($module->evaluations as $evaluation)
+                  @if($evaluation->type == "d")
+                    data-evi="{{ $evaluation->id }}"
+                  @endif
+                  @endforeach
+                  >
                   <div class="row valign-wrapper">
                       <div class="col s4">
                         <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"> <!-- notice the "circle" class -->
@@ -98,12 +124,15 @@ Curso {{ $course->name }}
 <script src="/js/plugins/tincan/tincan.js" type="text/javascript"></script>
 <script src="/js/js_users_pages/tincanConnector.js" type="text/javascript"></script>
 <script>
+    var urlDrawForm = "{{ route('draw.evaluation.form', [$ascription->slug, $course->slug, '']) }}";
+</script>
+<script>
   cambiarItem("cursos");
   $('.modal').modal({
     dismissible: false
   });
 
-  
+
 
   var student_data = {
     name: '{{ Auth::user()->full_name }}',

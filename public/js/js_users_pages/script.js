@@ -84,7 +84,7 @@ function showSlidesE(n){
   var i;
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("circle-dot");
-  console.log("Se encontraron " + dots.length);
+  //console.log("Se encontraron " + dots.length);
   if(slides.length > 0){
     if (n > slides.length) {slideIndex = 1}
     if (n < 1) {slideIndex = slides.length}
@@ -128,10 +128,10 @@ for (i = 0; i < coll.length; i++) {
 
       if(this.getAttribute('data-module')){
         idModuleGlobal = this.getAttribute('data-module');
-        if(hasEvDiag(idModuleGlobal)){
-          getEvDiag(idModuleGlobal);
+        if(this.getAttribute('data-eva') == '1'){
+          getEvDiag(this.getAttribute('data-evi'));
         } else {
-          getResourcesModules(idModuleGlobal)
+          getResourcesModules()
         }
         ;
       } else if(this.getAttribute('data-eval')){
@@ -178,17 +178,21 @@ function closeModule(){
 
 }
 
-function hasEvDiag(idMod){
-  return true;
-}
 
-function getEvDiag(idMod){
+function getEvDiag(idEv){
+  var formUrl = urlDrawForm + '/' + idEv;
 
-  $('#modalEvDiag .modal-content').html('Aquí se muestra la evaluación diagnóstica, estamos trabajando en ello');
-  $('#modalEvDiag').modal({
-    dismissible: false
-  });
-  $('#modalEvDiag').modal('open');
+  sendAjax('get',formUrl,'', function(response){
+      if(response != null){
+        $('#modalEvDiag .modal-content').html(response);
+        $('#modalEvDiag').modal({
+          dismissible: false
+        });
+        $('#modalEvDiag').modal('open');
+      }
+    });
+  //$('#modalEvDiag .modal-content').html('Aquí se muestra la evaluación diagnóstica, estamos trabajando en ello');
+
 
 }
 

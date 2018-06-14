@@ -1,4 +1,4 @@
-<div id="modalEvDiag" class="modal bottom-sheet">
+<div id="modalEvDiag" class="modal">
     <a class="modal-action modal-close waves-effect waves-light btn-small cerrarModal" style="color:white !important;" onclick="closeModEvDiag();">X</a>
     <div class="modal-content">
 
