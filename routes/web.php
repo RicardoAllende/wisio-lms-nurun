@@ -128,3 +128,12 @@ Route::group(['middleware' => ['auth']], function () {
  */
 Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
+
+Route::get('send', function(){
+	$data = ['name' => 'Sigue el siguiente enlace para cambiar tu contraseña'];
+	Mail::send('email', $data, function($message){
+		$message->from('no-reply@subitus.com', 'Curso laravel');
+		$message->to('ricardo.allende.p@gmail.com')->subject('Correo de prueba');
+	});
+	return "Email enviado";
+});

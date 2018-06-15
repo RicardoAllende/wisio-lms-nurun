@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => env('MAIL_ENCRYPTION', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,5 +119,7 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
+    'pretend' => false,
 
 ];
