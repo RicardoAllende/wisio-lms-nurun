@@ -1,16 +1,11 @@
-/**********************/
-/*
-Color principal #4a62ae
-Color secundario #6281e1
-Color fondo #4b63ad
-Color footer #0b1f5b
-*/
-/**********************/
+:root {
+  --main-font-color: #2157A1;
+  --main-line-color: #2157A1;
+  --main-font-btn-color: #8F6EAA;
+  --main-bg-btn-color: #f2f2f2;
+  --main-sub-a-color: #BCBC1C;
 
-
-/* Importar fuentes */
-
-
+}
 
 /* General */
 body{
@@ -58,6 +53,7 @@ p {
 
 .img-navbar-desktop{
     width: 150px;
+    max-height: 50px;
     position: absolute;
     top: 20px;
     left: 25px;
@@ -69,42 +65,42 @@ p {
 }
 
 .menu-desktop ul li{
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 30px;
     padding-left: 40px;
 }
 
 .menu-desktop ul li a{
-    color: #4a62ae;
+    color: var(--main-font-color);
     font-size: 0.9em !important;
 
 }
 .menu-mobile ul li{
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
     padding-left: 40px;
 }
 
 .menu-mobile ul li a{
-    color: #4a62ae;
+    color: #000;
     font-size: 0.9em !important;
 
 }
 
 
 .activo{
-    color: #BCBC1C!important;
+    color: var(--main-sub-a-color) !important;
     text-decoration: underline;
-    text-decoration-color: #BCBC1C;
+    text-decoration-color: var(--main-sub-a-color);
 }
 
 .line{
-    border: 0.5px solid #2157A1;
+    border: 0.5px solid var(--main-line-color);
 }
 
 .linem{
-    border: 0.5px solid #2157A1;
+    border: 0.5px solid var(--main-line-color);
     width: 60%;
     padding-left: 20%;
 }
@@ -183,7 +179,7 @@ nav a {
     color: #4a62ae;
 }
 a.links{
-  color: #9078a3;
+  color: var(--main-font-color);
   font-size: .8rem;
   text-decoration: underline;
   padding-left: 1rem;
@@ -193,17 +189,17 @@ a.links{
   padding-top: .5rem;
 }
 .breadcrumb{
-  color: #9078a3;
+  color: var(--main-font-color);
   font-size: .8rem;
 }
 .breadcrumb:before{
-  color: #9078a3;
+  color: var(--main-font-color);
   font-size: .8rem;
   padding-top: 3px;
 }
 
 .breadcrumb:last-child {
-    color: #7c43ab;
+    color: var(--main-font-color);
 }
 /* row contenido */
 .contenido{
@@ -217,6 +213,9 @@ a.links{
   padding-top: 2rem;
 }
 
+.typeCon{
+  font-size: 0.8rem;
+}
 /*****************/
 /* seccion inicio */
 .img-principal{
@@ -231,7 +230,7 @@ a.links{
 }
 
 .copyright {
-    color: #2157A1;
+    color: var(--main-font-color);
     font-size: .8rem;
 }
 
@@ -250,7 +249,7 @@ a.links{
     font-weight: 600;
     font-size: 1rem;
     text-align: left;
-    color: #2157A1 !important;
+    color: var(--main-font-color) !important;
     text-transform: uppercase;
     margin-top: 0 !important;
 }
@@ -345,12 +344,12 @@ a.links{
 }
 
 .user{
-    color: #2157A1 !important;
+    color: var(--main-font-color) !important;
     text-transform: uppercase;
     margin-left: 1rem;
 }
 .cursoview {
-    color: #2157A1 !important;
+    color: var(--main-font-color) !important;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
@@ -358,7 +357,7 @@ a.links{
 }
 
 .cursoev{
-    color: #2157A1 !important;
+    color: var(--main-font-color); !important;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
@@ -386,9 +385,19 @@ a.links{
 /*******************/
 
 
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+    background-color: #8F6EAA;
+}
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {
+    border: 2px solid #8F6EAA;
+}
 
 
+.dropdown-content li > a, .dropdown-content li > span {
 
+  color: #8F6EAA;
+
+}
 
 /******************/
 /* seccion academia */
@@ -424,7 +433,7 @@ a.links{
     top:50px;
     left: 20px;
     text-transform: uppercase;
-    color:#2157A1;
+    color:var(--main-font-color);
     font-size: 1.1em;
     padding-top: 40px;
 }
@@ -433,7 +442,7 @@ a.links{
     font-weight: 700;
     left: 20px;
     text-transform: uppercase;
-    color:inherit;
+    color:var(--main-font-color);
     font-size: 1rem;
     padding-top: 20px;
 
@@ -477,7 +486,7 @@ a.links{
   -moz-appearance: none !important;
   appearance: none !important;
   color: #8F6EAA !important;
-  background-color: #f2f2f2;
+  background-color: var(--main-bg-btn-color);
   padding: 10px;
   text-transform: uppercase;
   border-width: 0px;
@@ -486,7 +495,7 @@ a.links{
 }
 
 .btnAcademia:focus{
-  background-color: #f2f2f2;
+  background-color: var(--main-bg-btn-color);
 }
 .registro{
   padding: 5px;
@@ -495,7 +504,7 @@ a.links{
 }
 
 .registro a{
-  color: #8F6EAA !important;
+  color: var(--main-font-btn-color) !important;
   padding: 10px;
 }
 
@@ -505,12 +514,12 @@ a.links{
     font-size: 0.8em;
     margin-left: -3px;
     width: 75%;
-    color: #8F6EAA;
+    color: var(--main-font-btn-color);
 
 }
 
 .leer-mas a{
-    color: #8F6EAA;
+    color: var(--main-font-btn-color);
     width: 70%;
 }
 
@@ -561,7 +570,7 @@ a.links{
     width: 50%;
     text-transform: uppercase;
     font-size: 0.8em;
-    color: #8F6EAA;
+    color: var(--main-font-color);
 }
 
 .leer-masmodulos_50 {
@@ -570,15 +579,15 @@ a.links{
     width: 50%;
     text-transform: uppercase;
     font-size: 0.8em;
-    color: #8F6EAA;
+    color: var(--main-font-color);
 }
 
 .leer-masmodulos a{
-    color: #8F6EAA;
+    color: var(--main-font-btn-color);
 }
 
 .leer-masmodulos_50 a{
-    color: #8F6EAA;
+    color: var(--main-font-btn-color);
 }
 
 /* Expertos  */
@@ -586,7 +595,7 @@ a.links{
 .expertostitulo {
     font-weight: 700;
     text-transform: uppercase;
-    color:#2157A1;
+    color:var(--main-font-color);;
     font-size: 1rem;
 }
 
@@ -639,7 +648,7 @@ a.links{
     text-align: left;
     outline: none;
     font-size: 15px;
-    color: #8F6EAA;
+    color: var(--main-font-color);
 }
 
 .activeMod, .collapsiblemod:hover {
@@ -670,7 +679,7 @@ a.links{
     overflow: hidden;
     transition: max-height 0.4s ease-out;
     background-color: #fff;
-    border: 1px solid #8F6EAA;
+    border: 1px solid var(--main-font-btn-color);
     display: none;
     margin-left: .8rem !important;
     padding-bottom: 1rem !important;
@@ -709,7 +718,7 @@ a.links{
     color:inherit;
     font-size: 1.1em;
     padding-top: 20px;
-    color: #8F6EAA;
+    color: var(--main-font-color);
 }
 
 .text-funciona{
@@ -728,6 +737,7 @@ a.links{
 .mySlides {
   display: none;
   padding: 2%;
+  min-height: 400px;
 }
 
 /* Next & previous buttons */
@@ -769,7 +779,8 @@ a.links{
 
 /* Add a background color to the active dot/circle */
 .activeFunciona, .dot:hover {
-  color: #8F6EAA;
+  color: var(--main-font-color);
+  text-decoration: none;
 }
 
 i.material-icons.prefix.active{

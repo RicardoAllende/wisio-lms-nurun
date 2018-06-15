@@ -16,7 +16,19 @@
          <div class="nav-wrapper">
 
             <a href="#" data-activates="mobile-demo" class="button-collapse" id="btnMenu"><i class="material-icons">menu</i></a>
+
+            @if(Auth::check())
+             @if($ascription->slug != 'academia-mc')
+               <a href="#!" class="brand-logo"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
+             @else
+               <a href="#!" class="brand-logo"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+             @endif
+
+            @else
              <a href="#!" class="brand-logo"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+            @endif
+
+
              <div class="menu-mobile">
               <ul class="side-nav" id="mobile-demo">
                 <li><a href="#!">Inicio</a></li>

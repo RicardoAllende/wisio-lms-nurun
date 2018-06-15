@@ -35,7 +35,6 @@
             <div class="row">
               <div class="col s12 center">
                 <p>¿Olvido la contraseña? Haga <a class="upscase">Click Aqui</a> para crear una nueva</p>
-                <p>Sí no recuerda el correo registrado, haga <a class="upscase">Click Aqui</a></p>
                 <br>
                 <br>
                 <hr class="line"/>

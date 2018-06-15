@@ -35,7 +35,7 @@ Experto {{ $expert->name }}
             </div>
             <div class="expertosparticipacion">
               <p class="upper">Resumen:</p>
-              <p class="resumen">{{ $expert->summary }}</p>
+              <div class="resumen">{!! $expert->summary !!}</div>
             </div>
 
         </div>
