@@ -24,6 +24,9 @@ Curso {{ $course->name }}
     background-color: #e9e9e9;
     }
 </style>
+<script>
+var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
+</script>
 @stop
 
 @section('breadcrumbs')

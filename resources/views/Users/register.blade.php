@@ -197,7 +197,22 @@ Registro
 <script>
 $(document).ready(function() {
   $('select').material_select();
+
+  $("form input:radio").click(function() {
+    switch($(this).val()){
+      case 'Privada':
+        $('.typeCon').html('- Blog para médicos <br>- Cursos en línea <br>- Calendario de eventos <br>- Materiales de apoyo en consulta<br>- Muestras médicas en casa <br>- Vademecum Sanofi <br>');
+      break;
+      case 'Pública':
+        $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
+      break;
+      case 'Mixta':
+        $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
+      break;
+    }
+  });
 });
+
 </script>
 @stop
 @section('extracss')
