@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Ascription;
 use Illuminate\Support\Facades\Auth;
 use App\State;
+use App\User;
+use App\Role;
 
 class UserController extends Controller
 {
@@ -58,6 +60,38 @@ class UserController extends Controller
 
     public function getAllStates(){
         return State::all();
+    }
+
+    public function store(Request $request){
+        $input = $request->input();
+        $email = $request->email;
+        if(User::whereEmail($email)->count() > 0 ){ // Email exists
+            return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
+        }
+        $cedula = $request->cedula;
+        if(User::whereCedula($cedula)->count() > 0 ){ // Cédula exists
+            return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
+        }
+        $user = User::create($input);
+        $user->lastname = $request->paterno.' '.$request->materno;
+        $user->password = bcrypt($request->password);
+        $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
+        $ascription = null;
+        $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+        $user->last_access = $dateTime;
+        if($request->filled('seccion')){
+            $ascription = Ascription::whereCode($request->seccion)->first();
+        }
+        if($ascription == null){
+            $ascription = Ascription::first();  // Academia Sanofi
+        }
+        $user->ascriptions()->attach($ascription->id);
+        $user->save();
+        $email = $user->email;
+        $password = $request->password;
+        if(Auth::attempt(compact('email', 'password'))){
+            return redirect('/');
+        }
     }
 
 }

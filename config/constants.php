@@ -75,7 +75,7 @@ return [
         'ascription' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'module' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'evaluation' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
-        'category' => 'http://1.bp.blogspot.com/-rGg7seQMfgY/T526kIHkhkI/AAAAAAAAADU/efzshZ8OsEY/s1600/concepto-robado.gif',
+        'category' => '/img/nervioso.png',
         'calendar' => '/img/default-calendar.jpg',
         'certificate' => '/storage/ascriptions/certificado.jpg'
     ],

@@ -49,7 +49,14 @@
                             <div class="form-group">
                                 {!! Form::label('is_pharmacy', 'Tipo de adscripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal', '2' => 'Diplomado'], null, ['class' => 'form-control']) !!}
+                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal'], null, ['class' => 'form-control']) !!}
+                              </div>
+                            </div>
+
+                            <div class="form-group">
+                                {!! Form::label('code', 'Código de la adscripción',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                                {!! Form::text('code', null, ['class' => 'form-control', 'placeholder' => 'Código de la adscripción (es usado también en el registro)', 'required' => '']) !!}
                               </div>
                             </div>
 

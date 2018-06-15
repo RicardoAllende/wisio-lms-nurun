@@ -64,14 +64,13 @@ Registro
       <div class="row">
         <h6 class="upscase">Sexo</h6>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="genero" type="radio" id="hombre"  />
+          <input class="with-gap" name="gender" type="radio" id="hombre" value="m"  />
           <label for="hombre">Hombre</label>
 
         </div>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="genero" type="radio" id="mujer"  />
+          <input class="with-gap" name="gender" type="radio" id="mujer" value="f" />
           <label for="mujer">Mujer</label>
-
         </div>
       </div>
     </div>
@@ -110,11 +109,11 @@ Registro
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
           <div class="reg col s6">
-            <input class="with-gap" name="consulta" type="radio" id="privado"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Privada"  />
             <label for="privado">Privado</label><br><br>
-            <input class="with-gap" name="consulta" type="radio" id="publica"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Pública"  />
             <label for="publica">Pública</label><br><br>
-            <input class="with-gap" name="consulta" type="radio" id="mixta"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Mixta"  />
             <label for="mixta">Mixta</label><br><br>
           </div>
           <div class="reg col s6">
@@ -129,42 +128,14 @@ Registro
           {!! Form::number('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '']) !!}
         </div>
         <div class="col s6">
-          {!! Form::label('state', 'Estado:',['class'=>'control-label col-sm-2']); !!}
-          <select name="estado">
-              <option value="no">Seleccione uno...</option>
-              <option value="Aguascalientes">Aguascalientes</option>
-              <option value="Baja California">Baja California</option>
-              <option value="Baja California Sur">Baja California Sur</option>
-              <option value="Campeche">Campeche</option>
-              <option value="Chiapas">Chiapas</option>
-              <option value="Chihuahua">Chihuahua</option>
-              <option value="Cdmx">Ciudad de México</option>
-              <option value="Coahuila">Coahuila</option>
-              <option value="Colima">Colima</option>
-              <option value="Durango">Durango</option>
-              <option value="Estado de México">Estado de México</option>
-              <option value="Guanajuato">Guanajuato</option>
-              <option value="Guerrero">Guerrero</option>
-              <option value="Hidalgo">Hidalgo</option>
-              <option value="Jalisco">Jalisco</option>
-              <option value="Michoacán">Michoacán</option>
-              <option value="Morelos">Morelos</option>
-              <option value="Nayarit">Nayarit</option>
-              <option value="Nuevo León">Nuevo León</option>
-              <option value="Oaxaca">Oaxaca</option>
-              <option value="Puebla">Puebla</option>
-              <option value="Querétaro">Querétaro</option>
-              <option value="Quintana Roo">Quintana Roo</option>
-              <option value="San Luis Potosí">San Luis Potosí</option>
-              <option value="Sinaloa">Sinaloa</option>
-              <option value="Sonora">Sonora</option>
-              <option value="Tabasco">Tabasco</option>
-              <option value="Tamaulipas">Tamaulipas</option>
-              <option value="Tlaxcala">Tlaxcala</option>
-              <option value="Veracruz">Veracruz</option>
-              <option value="Yucatán">Yucatán</option>
-              <option value="Zacatecas">Zacatecas</option>
-          </select>
+          {!! Form::label('state_id', 'Estado:',['class'=>'control-label col-sm-2']); !!}
+            <select name="state_id" id="state_id" required>
+                <option value="">Seleccione un estado</option>
+                @inject('usersController','App\Http\Controllers\Users_Pages\UserController')
+                @foreach($usersController->getAllStates() as $state)
+                    <option value="{{$state->id}}"> {{$state->name}} </option>
+                @endforeach
+            </select>
         </div>
 
 
@@ -201,9 +172,14 @@ Registro
     </div>
     <div class="row">
       <div class="col s12 l5 offset-l2 center">
+            @if(isset($_GET['CODIGO']))
+                <input type="hidden" name="code" value="{{ $_GET['CODIGO'] }}">
+            @endif
+            @if(isset($_GET['SECCION']))
+                <input type="hidden" name="seccion" value="{{ $_GET['SECCION'] }}">
+            @endif
         <input type="submit" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
         {!! Form::close() !!}
-          <!-- <button id="validate" class="btnAcademia" >Validar cédula</button> -->
       </div>
     </div>
 
@@ -222,42 +198,6 @@ Registro
 $(document).ready(function() {
   $('select').material_select();
 });
-  $('#validate').click(function (){
-    var route = "{{ route('get.response', '') }}";
-    if( $('#cedula').val() != '' ){
-      route += '/' + $('#cedula').val();
-      $.ajax({
-        url: route,
-        method: 'get',
-        success: function(result){
-          var json = JSON.parse(result);
-          var numFound = json.response.numFound;
-          if (numFound == 1 ){
-            var registro = json.response.docs[0];
-            var nombre = registro.nombre;
-            var paterno = registro.paterno;
-            var materno = registro.materno;
-            if(nombre.toLowerCase() == $('#nombre').val().toLowerCase()  &&
-            paterno.toLowerCase() == $('#paterno').val().toLowerCase()   &&
-            materno.toLowerCase() == $('#materno').val().toLowerCase()){
-              alertify.success('Verificación exitosa');
-              $('#cedula').prop('readonly', true);
-              $('#nombre').prop('readonly', true);
-              $('#paterno').prop('readonly', true);
-              $('#materno').prop('readonly', true);
-              $('#btnSubmit').show();
-              $('#adicionales').show();
-              $('#validate').hide();
-            }else{
-              alertify.error('Los datos no coinciden, verifíquelos');
-            }
-          }else{
-            alertify.error('Cédula profesional no encontrada');
-          }
-        }
-      });
-    }
-  });
 </script>
 @stop
 @section('extracss')

@@ -3,13 +3,13 @@
 Route::get('/', 'HomeController@index')->name('welcome');	// Acá se pondrá la página inicial, con ruta a login
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
-Route::get('/registro', function () { return view('Users\check-valid-user'); } )->name('register');
+Route::get('/registro', function () { return view('Users\register'); } )->name('register')->middleware('guest');
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
 // Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
-Route::post('/register-user', 'AdminControllers\UsersController@store')->name('public.register')->middleware('guest');
+Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 
 Route::group(['middleware' => ['auth']], function () {
 

@@ -18,7 +18,7 @@ class CreateAscriptionsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
-            $table->string('code')->nullable();
+            $table->string('code')->nullable()->unique();
             $table->boolean('has_constancy')->default(false); // If it's a 'diplomado'
             $table->boolean('is_pharmacy')->default(false);
             $table->boolean('is_main_ascription')->default(false); // Academia-mc, or paec méxico. It's public

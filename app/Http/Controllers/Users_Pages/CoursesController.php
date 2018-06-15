@@ -75,11 +75,12 @@ class CoursesController extends Controller
         if($request->status){
             $save = $user->setModuleComplete($request->module_id);
         }
-        if($save){
-            return "Módulo completado";
-        }else{
-            return "Módulo incompleto, revise las evaluaciones";
-        }
+        return $user->progressInModule($module->id);
+        // if($save){
+        //     return "Módulo completado";
+        // }else{
+        //     return "Módulo incompleto, revise las evaluaciones";
+        // }
     }
 
     public function howItWorks($ascription_slug){

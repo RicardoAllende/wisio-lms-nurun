@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Module extends Model
 {
@@ -43,10 +44,33 @@ class Module extends Model
         return $this->hasMany('App\Evaluation')->where('type', config('constants.evaluations.final'));
     }
 
+    public function diagnosticEvaluations(){
+        return $this->hasMany('App\Evaluation')->where('type', config('constants.evaluations.diagnostic'));
+    }
+
     public function hasDiagnosticEvaluation(){
         if ($this->evaluations->where('type', config('constants.evaluations.diagnostic'))->count() > 0) {
             return true;
         } else {
+            return false;
+        }
+    }
+
+    public function hasDiagnosticEvaluationForUser(){
+        if(Auth::check()){
+            $user = Auth::user();
+        }else{
+            return false;
+        }
+        if($this->hasDiagnosticEvaluation()){
+            // Expecting only one evaluation
+            $evaluation = $this->diagnosticEvaluations->first();
+            if($user->hasThisEvaluationCompleted($evaluation->id)){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
             return false;
         }
     }

@@ -113,6 +113,12 @@ class AscriptionsController extends Controller
                     return back()->withErrors(['error' => 'El slug ya existe']);
                 }
             }
+            if($ascription->code != $request->code){
+                if(Ascription::whereCode($request->code)->count() > 0){
+                    return back()->withErrors(['error' => 'Código utilizado en otra farmacia']);
+                }
+            }
+            $ascription->code = $request->code;
             $ascription->slug = $slug;
             $ascription->is_pharmacy = $request->is_pharmacy;
             $ascription->has_constancy = $request->has_constancy;

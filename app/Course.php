@@ -161,7 +161,7 @@ class Course extends Model
         if($this->users->contains($user_id)){
             $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
             $pivot->score = $avg;
-            $pivot->status = $status;
+            // $pivot->status = $status;
             $pivot->save();
         }
         $this->users()->attach($user_id, ['score' => $avg]);

@@ -53,7 +53,7 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
-                 <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" data-eva="{{ $module->hasDiagnosticEvaluation() }}"
+                 <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" data-eva="{{ $module->hasDiagnosticEvaluationForUser() }}"
                   @foreach($module->evaluations as $evaluation)
                   @if($evaluation->type == "d")
                     data-evi="{{ $evaluation->id }}"

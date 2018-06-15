@@ -129,11 +129,14 @@ for (i = 0; i < coll.length; i++) {
       if(this.getAttribute('data-module')){
         idModuleGlobal = this.getAttribute('data-module');
         if(this.getAttribute('data-eva') == '1'){
+          // alert('Con evaluación diagnóstica');
+          this.setAttribute('data-eva', '0');
+          // this.attr('data-eva', '0');
           getEvDiag(this.getAttribute('data-evi'));
         } else {
-          getResourcesModules()
+          // alert('Sin evaluación diagnóstica');
+          getResourcesModules(idModuleGlobal);
         }
-        ;
       } else if(this.getAttribute('data-eval')){
         isEval = true;
         idEval = this.getAttribute('data-eval');

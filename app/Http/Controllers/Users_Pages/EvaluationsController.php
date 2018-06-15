@@ -32,8 +32,8 @@ class EvaluationsController extends Controller
         $numModules = $course->modules->count();
         $completedModules = $user->completedModulesOfCourse($course->id);
         $modulesAdvance = number_format($completedModules / $numModules * 100, 2);
-        $evaluations = $course->evaluations();
-        // $evaluations = $course->finalEvaluations();
+        // $evaluations = $course->evaluations();
+        $evaluations = $course->finalEvaluations();
         $numEvaluations = $evaluations->count();
         $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
@@ -117,9 +117,12 @@ class EvaluationsController extends Controller
         // echo "Promedio del módulo: {$moduleAvg} <br>";
         $course->calculateAvgForUser($user_id);
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        // if($evaluation->isDiagnosticEvaluation()){
-        //     return view()
-        // }
+        if($evaluation->isDiagnosticEvaluation()){
+            return view('users_pages/evaluations/diagnostic-result',
+                compact('numQuestions', 'summatory', 'evaluation', 'ascription',
+                'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
+            );
+        }
         return view('users_pages/evaluations/result',
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
             'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
@@ -133,7 +136,10 @@ class EvaluationsController extends Controller
         }
 
         if(Auth::user()->hasAnotherAttemptInEvaluation($evaluation->id)){
-            echo '<form action="'.route('grade.evaluation', Auth::user()->ascriptionSlug()).'" method="post">';
+            if($evaluation->isDiagnosticEvaluation()){
+                echo '<h4>Evaluación diagnóstica</h4>';
+            }
+            echo '<form action="'.route('grade.evaluation', Auth::user()->ascriptionSlug()).'" id="formulario_evaluacion" method="post">';
             echo csrf_field();
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
             echo '<div class="row pad-left3">
@@ -177,6 +183,27 @@ class EvaluationsController extends Controller
                 </div></form><!-- End pad-left3 -->
                 <script>currentSlideE(1)</script>
                 ';
+            if($evaluation->isDiagnosticEvaluation()){
+                echo '<script>
+                $( "#formulario_evaluacion" ).submit(function( event ) {
+                    event.preventDefault();
+                    $("#btnOmitir").html("Comenzar módulo");
+                    var actionForm = $("#formulario_evaluacion").attr("action");
+                    var questions = $("#formulario_evaluacion").serializeArray();
+                    $.ajax({
+                        url: actionForm,
+                        method: "post",
+                        data: questions,
+                        success: function(result){
+                            $("#modalEvDiag .modal-content").html(result);
+                        },
+                        error: function(error){
+                          console.log(error)
+                        }
+                    });
+                  });
+                </script>';
+            }
         }else{
             echo '<h3>Ya no puede hacer esta evaluación nuevamente</h3>';
         }
