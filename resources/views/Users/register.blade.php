@@ -109,11 +109,11 @@ Registro
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
           <div class="reg col s6">
-            <input class="with-gap" name="consultation_type" type="radio" value="Privada"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Privada" id="privado" />
             <label for="privado">Privado</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="Pública"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Pública" id="publica" />
             <label for="publica">Pública</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="Mixta"  />
+            <input class="with-gap" name="consultation_type" type="radio" value="Mixta" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
           <div class="reg col s6">
