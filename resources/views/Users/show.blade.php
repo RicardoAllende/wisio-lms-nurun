@@ -75,11 +75,13 @@
                                 <label>Tipo de consulta</label>
                                 {{ $user->consultation_type }}
                             </li>
+                            @if($user->specialty != null)
                             <li>
                                 <span class="fa fa-book m-r-xs"></span>
                                 <label>Especialidad: </label>
                                 {{ $user->specialty->name }}
                             </li>
+                            @endif
                         </ul>
                     </div> 
                 </div>

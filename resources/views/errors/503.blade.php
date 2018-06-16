@@ -1,47 +1,39 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <title>Be right back.</title>
+<head>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        <style>
-            html, body {
-                height: 100%;
-            }
+   <title>Academia Sanofi | 404</title>
 
-            body {
-                margin: 0;
-                padding: 0;
-                width: 100%;
-                color: #B0BEC5;
-                display: table;
-                font-weight: 100;
-                font-family: 'Lato', sans-serif;
-            }
+   <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.css')}}"  media="screen,projection"/>
+   <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
+   <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/iconsAcademia.css')}}" />
 
-            .container {
-                text-align: center;
-                display: table-cell;
-                vertical-align: middle;
-            }
 
-            .content {
-                text-align: center;
-                display: inline-block;
-            }
 
-            .title {
-                font-size: 72px;
-                margin-bottom: 40px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="content">
-                <div class="title">Be right back.</div>
-            </div>
-        </div>
-    </body>
+</head>
+
+<body>
+  <div class="row" style="padding: 3%;">
+      <div class="col s8 l10">
+        <hr class="line"/>
+      </div>
+      <div class="col s4 l2">
+        <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
+      </div>
+
+      <div class="col s12 center" style="color: #3360C1; font-size: 3em;">
+        <h4>ERROR</h4>
+        <h1>503</h1>
+        <h5>Recurso no disponible</h5>
+        <br>
+      </div>
+      <center><a href="{{ route('login')}}">Volver al Inicio <span class="icon-registrese iconbtn"></span></a></center>
+  </div>
+
+
+</body>
+
 </html>
