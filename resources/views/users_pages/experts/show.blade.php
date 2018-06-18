@@ -13,7 +13,7 @@ Experto {{ $expert->name }}
 
 <div class="row pad-left3">
 
-     <h2 class="recientes">Experto</h2>
+     <h4 class="tits">Experto</h4>
 
   <div class="col s12">
      <div class="card z-depth-0 white ">

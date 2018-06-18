@@ -10,6 +10,7 @@ Curso {{ $course->name }}
     }
     .purple-text{
     color: #8F6EAA;
+    cursor: pointer;
     }
     .circle-dot {
     cursor: pointer;

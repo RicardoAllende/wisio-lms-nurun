@@ -150,7 +150,7 @@ for (i = 0; i < coll.length; i++) {
     } else {
        var enrol = confirm("Deseas inscribirte al curso para ver los videos");
        if(enrol){
-         
+         window.location = ""
        }
     }
 

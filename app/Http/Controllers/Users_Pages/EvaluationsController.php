@@ -23,7 +23,7 @@ class EvaluationsController extends Controller
         if($ascription == null) { return redirect()->route('student.home', $user->ascriptionSlug()); }
         $courses = $user->courses;
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        return view('Users_Pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
+        return view('users_pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
     public function showEvaluationsFromCourse($ascription_slug, $courseSlug){

@@ -12,7 +12,7 @@ Cómo funciona
 
 <!-- Slider como funciona -->
         <div class="row pad-left3">
-               <h2 class="recientes">¿Cómo funciona?</h2>
+               <h4 class="tits">¿Cómo funciona?</h4>
             <!-- Slideshow container -->
                 <div class="row ">
                     <div class="card white slideshow-container col s12 l8">

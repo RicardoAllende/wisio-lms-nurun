@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <div class="row" style="padding: 3%;">
+  <div class="row">
       <div class="col s8 l10">
         <hr class="line"/>
       </div>
@@ -24,13 +24,15 @@
         <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
       </div>
 
-      <div class="col s12 center" style="color: #3360C1; font-size: 2em;">
+      <div class="col s12 center">
         <h4>ERROR</h4>
-        <h2>PERMISO DENEGADO</h2>
-        <h5>NO TIENE PERMISO PARA ACCEDER A ESTA SECCIÓN</h5>
+        <h1>404</h1>
+        <h5>PARECE QUE TE HAS PERDIDO</h5>
         <br>
+        <br>
+        <a href="{{ route('login')}}">Volver al Inicio <span class="icon-registrese iconbtn"></span></a>
       </div>
-      <center><a href="{{ route('login')}}">Volver al Inicio <span class="icon-registrese iconbtn"></span></a></center>
+
   </div>
 
 

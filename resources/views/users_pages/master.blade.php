@@ -25,7 +25,9 @@
           <!-- Logo academia -->
           <div class="row breads">
             <div class="col s12 l6">
-              @yield('breadcrumbs')
+              @if (Auth::check())
+                @yield('breadcrumbs')
+              @endif
             </div>
             <div class="col l6 hide-on-med-and-down right-align ">
               @if (Auth::check())
@@ -55,10 +57,10 @@
           @include('users_pages.footer')
 
       </div>
-      <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-      <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('/js/jquery-3.1.0.min.js') }}"></script>
+      <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js') }}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
-      <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>
+      <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js') }}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
 

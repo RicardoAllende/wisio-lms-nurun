@@ -34,7 +34,7 @@ class ExpertsController extends Controller
             $experts = Expert::all();
         }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        return view('Users_Pages/experts.list', compact('experts', 'name', 'specialty', 'ascription'));
+        return view('users_pages/experts.list', compact('experts', 'name', 'specialty', 'ascription'));
     }
 
   public function listModules($ascription_slug, $expert_slug){
@@ -49,7 +49,7 @@ class ExpertsController extends Controller
   {
       $expert = Expert::where('slug', $expert_slug)->first();
       $ascription = Ascription::whereSlug($ascription_slug)->first();
-      return view('Users_Pages/experts.show', compact('expert', 'ascription'));
+      return view('users_pages/experts.show', compact('expert', 'ascription'));
   }
 
   public function getSpecialties(){

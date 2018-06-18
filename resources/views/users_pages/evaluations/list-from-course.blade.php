@@ -17,7 +17,7 @@ Evaluacion
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
               <div class="col s6">
-                    <h4 class="categoria-evaluacion">EVALUACIONES</h4>
+                    <h4 class="tits">EVALUACIONES</h4>
                     <p>Elija el curso del que desea consultar sus evaluaciones:</p>
                     <select name="course_slug" id="course_slug">
                         @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
@@ -30,8 +30,11 @@ Evaluacion
                 <div class="card white">
                   <div class="row">
                       <h6 class="cursoev">{{ $course->name }}</h6>
-                      <span class="categoria-evaluacion">{{ $course->category->name }}</span>
-                      <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+                      <div class="right">
+                        <span class="categoria-evaluacion">{{ $course->category->name }}</span>
+                        <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+                      </div>
+
                   </div>
                   <div class="card-content">
                       <div class="row center">
@@ -41,13 +44,13 @@ Evaluacion
                           <div class="col s3">Estado</div>
                       </div>
                       <div class="row center">
-                          <div class="col s3">Módulo</div>
+                          <div class="col s3 textMods">Módulo</div>
                           <div class="col s3">{{ $numModules }}</div>
                           <div class="col s3">{{ $completedModules }}</div>
                           <div class="col s3">{{ $modulesAdvance }} % </div>
                       </div>
                       <div class="row center">
-                          <div class="col s3">Evaluaciones</div>
+                          <div class="col s3 textMods">Evaluaciones</div>
                           <div class="col s3">{{ $numEvaluations }}</div>
                           <div class="col s3">{{ $completedEvaluations }}</div>
                           <div class="col s3">{{ $evaluationsAdvance }}</div>
@@ -145,6 +148,7 @@ Evaluacion
     }
     .purple-text{
     color: #8F6EAA;
+    cursor: pointer;
     }
     .circle-dot {
     cursor: pointer;
