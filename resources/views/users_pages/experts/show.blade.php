@@ -15,14 +15,14 @@ Experto {{ $expert->name }}
 
      <h4 class="tits">Experto</h4>
 
-  <div class="col s12">
+  <div class="col s9 offset-s1">
      <div class="card z-depth-0 white ">
-        <div class="card-content expertoscard">
+        <div class="card-content ">
           <div class="row valign-wrapper">
-              <div class="col s4">
+              <div class="col s3">
                 <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
               </div>
-             <div class="col s8 expertostitulo ">{{ $expert->name}}</div>
+             <div class="col s9 expertostitulo">{{ $expert->name}}</div>
             </div>
 
             <div class="expertosparticipacion">

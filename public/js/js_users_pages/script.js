@@ -176,6 +176,7 @@ function closeModule(){
     sendStatus(stat,modActive);
     stat = false;
   }
+  $('.chip').html('Video - de -');
   isEval= false;
   modActive.classList.toggle("activeMod");
   if(isMob){
@@ -326,8 +327,10 @@ function printResources(resources){
       };
       vide.onplay = function() {
         videoPlaying = vide;
+
         //console.log(resources);
         //console.log(vide.src);
+        $('.chip').html('Video '+(contVid+1)+' de '+arrVideo.length);
         tincan.sendStatement(
           {
               actor: {
@@ -386,6 +389,7 @@ function printResources(resources){
             };
             vide.onplay = function() {
               videoPlaying = vide;
+              $('.chip').html('Video 1 de 1');
             };
             vide.onpause = function() {
 
@@ -419,6 +423,7 @@ function printResources(resources){
     }
 
     //console.log(refs);
+
     $("#"+content.id+" #name_module").text(resources[0]['name_module']);
     $("#"+content.id+" #references").html(refs);
     openModule();

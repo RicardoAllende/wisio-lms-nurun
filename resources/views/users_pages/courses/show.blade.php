@@ -85,6 +85,9 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h6 class="cursoview">Módulo</h6><br/>
               <h6 class="cursoview" id="name_module"></h6><br/>
+              <div class="chip" >
+                Video - de -
+              </div>
               <div id="content">
 
               </div>
@@ -100,6 +103,9 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h6 class="cursoview">Módulo</h6><br/>
               <h6 class="cursoview" id="name_module"></h6><br/>
+              <div class="chip">
+                Video - de -
+              </div>
               <div id="content">
 
               </div>
@@ -114,6 +120,9 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h6 class="cursoview">Módulo</h6><br/>
               <h6 class="cursoview" id="name_module"></h6><br/>
+              <div class="chip">
+                Video - de -
+              </div>
               <div id="content">
 
               </div>
@@ -137,7 +146,7 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
     dismissible: false
   });
 
-
+ $('.chips').material_chip();
 
   var student_data = {
     name: '{{ Auth::user()->full_name }}',
