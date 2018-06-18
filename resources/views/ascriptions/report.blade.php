@@ -50,10 +50,10 @@
                 @if($users->count() > 0)
                     <center id="loading"><img src="/css/loading.gif"alt=""></center>
                     <div class="table-responsive" id="userList" style="display:none;">
-                    <table class="table table-striped table-bordered table-hover dataTables">
+                    <table class="table table-striped table-bordered table-hover">
                     <thead>
                         <tr>
-                        <th>#</th> @php $i = 1; @endphp
+                        <!--<th>#</th>--> @php $i = 1; @endphp
                         <th>Correo electrónico</th>
                         <th>Nombre</th>
                         <th>Apellidos</th>
@@ -68,7 +68,7 @@
                     <tbody>
                         @foreach($users as $user)
                         <tr>
-                            <td>{{$i}}</td>@php $i++; @endphp
+                            <!--<td>{{$i}}</td>-->@php $i++; @endphp
                             <td><a href="{{ route('show.user.report' , $user->id) }}">{{$user->email}}</a></td>
                             <td>{{ $user->firstname }}</td>
                             <td>{{ $user->lastname }}</td>
@@ -82,6 +82,7 @@
                         @endforeach
                     </tbody>
                     </table>
+                {{ $users->links() }}
                 </div>
                 @else
                     <h3>Sin usuarios</h3>

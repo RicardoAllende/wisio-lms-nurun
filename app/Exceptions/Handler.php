@@ -61,9 +61,6 @@ class Handler extends ExceptionHandler
                 case '503':
                     return response()->view('errors.503', [], 503);
                 break;
-                default:
-                    return $this->renderHttpException($exception);
-                break;
             }
         }
         return parent::render($request, $exception);

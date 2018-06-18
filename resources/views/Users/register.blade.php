@@ -172,11 +172,11 @@ Registro
     </div>
     <div class="row">
       <div class="col s12 l5 offset-l2 center">
-            @if(isset($_GET['CODIGO']))
-                <input type="hidden" name="code" value="{{ $_GET['CODIGO'] }}">
+            @if(isset($ascription))
+                <input type="hidden" name="seccion" value="{{ $ascription->slug }}">
             @endif
-            @if(isset($_GET['SECCION']))
-                <input type="hidden" name="seccion" value="{{ $_GET['SECCION'] }}">
+            @if(isset($code))
+                <input type="hidden" name="code" value="{{ $code }}">
             @endif
         <input type="submit" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
         {!! Form::close() !!}
@@ -212,7 +212,46 @@ $(document).ready(function() {
     }
   });
 });
-
+$(document).ready(function() {
+  $('select').material_select();
+});
+  // $('#validate').click(function (){
+  //   var route = "{{ route('get.response', '') }}";
+  //   if( $('#cedula').val() != '' ){
+  //     route += '/' + $('#cedula').val();
+  //     $.ajax({
+  //       url: route,
+  //       method: 'get',
+  //       success: function(result){
+  //         var json = JSON.parse(result);
+  //         var numFound = json.response.numFound;
+  //         if (numFound == 1 ){
+  //           var registro = json.response.docs[0];
+  //           var nombre = registro.nombre;
+  //           var paterno = registro.paterno;
+  //           var materno = registro.materno;
+  //           if(nombre.toLowerCase() == $('#nombre').val().toLowerCase()  &&
+  //           paterno.toLowerCase() == $('#paterno').val().toLowerCase()   &&
+  //           materno.toLowerCase() == $('#materno').val().toLowerCase()){
+  //             alertify.success('Verificación exitosa');
+  //             $('#cedula').prop('readonly', true);
+  //             $('#nombre').prop('readonly', true);
+  //             $('#paterno').prop('readonly', true);
+  //             $('#materno').prop('readonly', true);
+  //             $('#btnSubmit').show();
+  //             $('#adicionales').show();
+  //             $('#validate').hide();
+  //           }else{
+  //             alertify.error('Los datos no coinciden, verifíquelos');
+  //           }
+  //         }else{
+  //           alertify.error('Cédula profesional no encontrada');
+  //         }
+  //       }
+  //     });
+  //   }
+  // });
+</script>
 </script>
 @stop
 @section('extracss')

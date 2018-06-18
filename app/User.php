@@ -33,8 +33,11 @@ class User extends Authenticatable
         'last_access',
         'enabled',
         'role_id',
+        'is_validated',
         'code'
     ];
+
+    // protected $appends = ['ascription'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -342,12 +345,19 @@ class User extends Authenticatable
     public function setModuleComplete($module_id){
         $module = Module::find($module_id);
         if ($module == null) { return false; }
-        if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
-            return false;
-        }
         if($this->modules->contains($module_id)){
             $this->modules()->detach($module_id);
             // ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
+        }
+        if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
+            $evaluation_id = $module->finalEvaluations->first()->id;
+            if($this->hasThisEvaluationCompleted($evaluation_id)){
+                $this->modules()->attach($module_id, ['status'=>1]);
+                $this->tryToSetCourseComplete($module->course->id);
+                return true;
+            }
+            $this->modules()->attach($module_id, ['status' => 0]);
+            return false;
         }
         $this->modules()->attach($module_id, ['status'=>1]);
         $this->tryToSetCourseComplete($module->course->id);
@@ -508,5 +518,9 @@ class User extends Authenticatable
     public function getFullNameAttribute() {
         return $this->firstname . ' ' . $this->lastname;
     }
+
+    // public function getAscriptionAttribute(){
+    //     return "Adscripción a la cual pertence";
+    // }
 
 }

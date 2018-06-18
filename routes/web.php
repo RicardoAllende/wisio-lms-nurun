@@ -3,7 +3,7 @@
 Route::get('/', 'HomeController@index')->name('welcome');	// Acá se pondrá la página inicial, con ruta a login
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
-Route::get('/registro', function () { return view('Users\register'); } )->name('register')->middleware('guest');
+Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
@@ -122,11 +122,15 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
+// Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
+
+Route::get('/documento', 'AdminControllers\UsersController@downloadUsers');
+
+
 /**
  *
  * For visitors, they can see the public courses
  */
-Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 
 Route::get('send', function(){
@@ -136,4 +140,10 @@ Route::get('send', function(){
 		$message->to('ricardo.allende.p@gmail.com')->subject('Correo de prueba');
 	});
 	return "Email enviado";
+});
+
+Route::group([ 'prefix' => '/{ascription_slug}'], function () {
+	Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');
+	Route::get('/registro', 'AscriptionController@registerForm')->name('show.register.form.pharmacy');
+	Route::get('/registro/{code}', 'AscriptionController@registerFormWithCode')->name('show.register.form.pharmacy.with.code');
 });

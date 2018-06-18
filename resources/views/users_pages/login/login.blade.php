@@ -33,7 +33,7 @@ Login
 
             </div>
              <div class="col s12 l6" id="img1">
-               <img src="img/img1.JPG" class="img-principal">
+               <img src="/img/img1.JPG" class="img-principal">
             </div>
 
 

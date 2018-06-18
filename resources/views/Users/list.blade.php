@@ -34,7 +34,7 @@
                         @if($users->count() > 0)
                           <center id="loading"><img src="/css/loading.gif"alt=""></center>
                           <div class="table-responsive" id="userList" style="display:none;">
-                            <table class="table table-striped table-bordered table-hover dataTables">
+                            <table class="table table-striped table-bordered table-hover">
                             <thead>
                               <tr>
                                 <th>#</th> @php $i = 1; @endphp
@@ -44,6 +44,7 @@
                                 <th>Activo</th>
                                 <th>Adscripción</th><!-- De momento considerando una adscripción por usuario, pero en bd se permiten varias-->
                                 <th>Fecha de inscripción</th>
+                                <th>Cédula profesional</th>
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -59,6 +60,7 @@
                                     @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
                                   </td>
                                   <td>{{ $user->created_at }}</td>
+                                  <td>{{ $user->cedula }}</td>
                                   <td>
                                     @if($user->hasAdvance())
                                       @if($user->enabled == 1 )
@@ -85,7 +87,7 @@
                       
                     </div>
                     <div class="ibox-footer">
-                       <!--$users->links()-->
+                       {{ $users->links() }}
                     </div>
                 </div>
               </div>

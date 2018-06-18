@@ -15,6 +15,7 @@ use App\AscriptionUser;
 use App\Role;
 use App\Course;
 use App\CourseUser;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsersController extends Controller
 {
@@ -30,9 +31,9 @@ class UsersController extends Controller
                 $type = [config('constants.roles.doctor')];
             }
             $role = Role::where('name', $type)->pluck('id');
-            $users = User::whereIn('role_id', $role)->get();
+            $users = User::whereIn('role_id', $role)->paginate(15);
         }else{
-            $users = User::all();
+            $users = User::paginate(15);
         }
         return view('Users/list', compact('users'));
     }
@@ -229,7 +230,7 @@ class UsersController extends Controller
 
     public function showReportAllUsers(){
         $role = Role::where('name', config('constants.roles.doctor') )->pluck('id'); // doctors
-        $users = User::whereIn('role_id', $role)->get();
+        $users = User::whereIn('role_id', $role)->paginate(15);
         return view('users/report-all', compact('users'));
     }
 
@@ -266,6 +267,18 @@ class UsersController extends Controller
         if($user ==null) { return back()->withErrors(['Error' => 'Error al buscar usuario']); }
         $user->ascriptions()->detach($ascription_id);
         return back();
+    }
+
+    public function downloadUsers(){
+        $data = User::take(50)->get()->toArray();
+        return Excel::create('laravelcode', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download('xlsx');
+        return Excel::download(new App\Exports\Users, 'invoices.xlsx');
+        return "Función para descargar usuarios descargar usuarios";
     }
 
 }

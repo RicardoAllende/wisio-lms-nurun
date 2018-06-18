@@ -1,5 +1,4 @@
 <!-- Cursos recientes -->
-@inject('newest','App\Http\Controllers\AdminControllers\CoursesController')
          <div class="row cf pad-left3 pad-right2">
             <div class="col s6 l9">
                <hr class="line2"/>
@@ -10,7 +9,7 @@
             <div class="row">
 
 
-              @foreach($newest->newestCourses() as $course)
+              @foreach($courses as $course)
               <div class="col s6 l3">
                  <div class="card card-academia z-depth-0">
                     <div class="card-content">
@@ -36,7 +35,7 @@
                 @if(Auth::check())
                   <a href="{{ route('student.own.courses',Auth::user()->ascription()->slug )}}">Ver todos los cursos</a>
                 @else
-                  <a href="{{ route('public.courses' )}}">Ver todos los cursos</a>
+                  <a href="{{ route('login')}}">Ver todos los cursos</a>
                 @endif
                   <hr class="line4"/>
               </div>

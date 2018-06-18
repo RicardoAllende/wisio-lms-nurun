@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile_phone')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('city')->nullable();
-            // $table->string('state')->nullable();
+            $table->boolean('is_validated')->default(true); // Cédula
             $table->string('address')->nullable();
             $table->string('cedula')->nullable();
             $table->string('code')->nullable();

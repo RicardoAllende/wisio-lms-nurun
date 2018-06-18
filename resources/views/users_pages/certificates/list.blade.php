@@ -25,7 +25,7 @@ Certificados
                 <img src="{{ $certificate->getMainImgUrl() }}" class="circle" alt="{{ $certificate->name }}">
                 <span class="title">{{ $certificate->name }}</span>
                 <p>Fecha de obtención: {{ $certificate->pivot->updated_at }}</p>
-                <a href="#descargando-diploma" class="btnAcademia secondary-content">Descargar</a>
+                <a href="{{ route('test.download.certificate') }}" class="btnAcademia secondary-content">Descargar</a>
             </li>
         @endforeach
         </ul>

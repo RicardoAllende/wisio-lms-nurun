@@ -44,8 +44,8 @@ class CoursesController extends Controller
 
     public function recommendations($ascription_slug)
     {
-        $courses = Course::all();
         $ascription = Ascription::whereSlug($ascription_slug)->first();
+        $courses = $ascription->courses;
         return view('users_pages/courses.home',compact('courses', 'ascription'));
     }
 

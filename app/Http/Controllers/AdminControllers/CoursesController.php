@@ -135,7 +135,6 @@ class CoursesController extends Controller
         $course->end_date = $request->end_date;
         $course->minimum_score = $request->minimum_score;
         $course->support_email = $request->support_email;
-        $course->is_public = $request->is_public;
         $course->slug = str_slug($request->slug);
         $course->category_id = $request->category_id;
         if($request->filled('has_constancy')){
@@ -216,11 +215,6 @@ class CoursesController extends Controller
         foreach($images as $image){
             $image->delete();
         }
-    }
-
-    public function newestCourses(){
-      $courses = Course::where('is_public', 1)->orderBy('created_at','desc')->limit(5)->get();
-      return $courses;
     }
 
     public function disableCourse($course_id){

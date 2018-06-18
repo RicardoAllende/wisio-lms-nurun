@@ -27,7 +27,7 @@
                         @if($users->count() > 0)
                           <center id="loading"><img src="/css/loading.gif"alt=""></center>
                           <div class="table-responsive" id="userList" style="display:none;">
-                            <table class="table table-striped table-bordered table-hover dataTables">
+                            <table class="table table-striped table-bordered table-hover">
                             <thead>
                               <tr>
                                 <th>#</th> @php $i = 1; @endphp
@@ -54,13 +54,14 @@
                                   <td>{{ $user->mobile_phone }}</td>
                                   <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
                                   <td>@if($user->hasAscriptions()) {{ $user->ascription()->name }} @endif</td>
-                                  <td>{{ ($user->hasDiplomado()) ? $user->firstDiplomado()->name : "No inscrito" }}</td>
+                                  <td>{{ ($user->hasDiplomados()) ? $user->firstDiplomado()->name : "No inscrito" }}</td>
                                   <td>{{ $user->created_at }}</td>
                                   <td>{{ $user->last_access }}</td>
                                   </tr>
                                 @endforeach
                             </tbody>
                           </table>
+                          {{ $users->links() }}
                         </div>
                       @else
                         <h3>Sin usuarios</h3>

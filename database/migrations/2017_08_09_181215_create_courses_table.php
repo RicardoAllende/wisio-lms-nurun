@@ -24,7 +24,7 @@ class CreateCoursesTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->boolean('is_public')->default(true);
+            // $table->boolean('is_public')->default(true);
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();

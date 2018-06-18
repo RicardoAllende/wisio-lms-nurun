@@ -195,7 +195,7 @@ class AscriptionsController extends Controller
     public function showReport($ascription_id){
         $ascription = Ascription::find($ascription_id);
         if($ascription == null) { return redirect()->route('list.ascriptions.report'); }
-        $users = $ascription->users;
+        $users = $ascription->users()->paginate(15);
         return view('ascriptions/report', compact('ascription', 'users'));
     }
 

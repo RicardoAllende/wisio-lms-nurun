@@ -21,7 +21,6 @@ class Course extends Model
         'enabled',
         'start_date',
         'end_date',
-        'is_public',
         'category_id',
         'support_email',
         'certificate_template_id'
@@ -221,9 +220,10 @@ class Course extends Model
     }
 
     public function template(){  // Return an image to make a certificate
-        $image = $this->certificate_template;
-        if($image == null) { return config('constants.default_images.certificate'); }
-        return "/".$image->url();
+        $template = $this->certificate_template;
+        if($template != null){
+            return $template->view_name;
+        }
     }
 
 }
