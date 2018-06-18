@@ -152,6 +152,10 @@ p {
     padding-right: 2rem;
 }
 
+.pad2{
+  padding: 1rem;
+}
+
 /* nav mobile */
 nav i, nav [class^="mdi-"], nav [class*="mdi-"], nav i.material-icons {
 

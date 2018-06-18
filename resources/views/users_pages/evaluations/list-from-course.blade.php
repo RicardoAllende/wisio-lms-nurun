@@ -166,6 +166,7 @@ Evaluacion
 
 <script>
     var urlDrawForm = "{{ route('draw.evaluation.form', [$ascription->slug, $courseSlug, '']) }}";
+    var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
 </script>
 
 @endsection

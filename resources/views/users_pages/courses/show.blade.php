@@ -39,6 +39,7 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
 @section('body')
 @include('users_pages.courses.modal')
 @include('users_pages.courses.modalEvDiag')
+@include('users_pages.courses.modalInscripcion')
 <div class="row pad-left3">
           <div class="pad-left1">
             <h5 class="cursoview">{{ $course->name }}</h5>
