@@ -2,7 +2,7 @@
 
      <div class="navbar-desktop hide-on-med-and-down">
        @if(Auth::check())
-        @if(!$ascription->isPharmacy())
+        @if($ascription->isPharmacy())
           <img class="img-navbar-desktop" src="{{ $ascription->getMainImgUrl() }}">
         @else
           <img class="img-navbar-desktop" src="{{ asset('img/logo-navbar.png')}}">
@@ -14,7 +14,7 @@
         <div class="menu-desktop">
 
                  @if(Auth::check())
-                 @if(!$ascription->isPharmacy())
+                 @if($ascription->isPharmacy())
                    <ul>
                  @else
                    <ul>
@@ -48,7 +48,7 @@
 
 
               @if(Auth::check())
-                @if(!$ascription->isPharmacy())
+                @if($ascription->isPharmacy())
 
                   @else
 
