@@ -112,7 +112,6 @@ class LoginController extends Controller
         if( $reset != null){ // It exists
             $email = $reset->email;
             $user = User::whereEmail($email)->first();
-            // DB::statement('DELETE FROM password_resets where email = "'.$email.'"');
             return view('users_pages.login.newPassword', compact('user', 'email', 'token'));
         }else{
             return redirect('/')->with('error', 'Su código para reestablecer contraseña no es válido');
@@ -130,6 +129,7 @@ class LoginController extends Controller
         if($user != null){
             $user->password = bcrypt($newPassword);
             $user->save();
+            DB::statement('DELETE FROM password_resets where email = "'.$email.'"');
             $credentials = $request->only('email', 'password');
             Auth::attempt($credentials);
             return redirect('/');
@@ -145,8 +145,8 @@ class LoginController extends Controller
         return $token;
     }
 
-    public function example(){
-        Mail::to("ricardo.allende.p@gmail.com")->send(new ResetPasswordEmail( "www.google.com.mx" ));
-        return "Email enviado";
-    }
+    // public function example(){
+    //     Mail::to("ricardo.allende.p@gmail.com")->send(new ResetPasswordEmail( "www.google.com.mx" ));
+    //     return "Email enviado";
+    // }
 }

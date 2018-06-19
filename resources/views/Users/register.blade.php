@@ -24,8 +24,10 @@ Registro
       {!! Form::label('em', 'Correo Electrónico:' )!!}
       {!! Form::text('email',null,['class'=>'','placeholder'=>'Correo electrónico personal', 'required' => '', 'id' => 'email' ]) !!}
       <span class="smalltext">Servirá como nombre de usuario.</span><br><br>
-      {!! Form::label('pass', 'Contraseña:' )!!}
-      {!! Form::password('password',null,['class'=>'','placeholder'=>'Contraseña', 'required' => '', 'id' => 'password' ]) !!}
+      {!! Form::label('password', 'Contraseña:' )!!}
+      <input type="password" name="password" id="passwd" placeholder="Contraseña" required>
+      <meter max="4" id="password-strength-meter" style="width:100%;"></meter>
+      <p id="password-strength-text"></p>
       <span class="smalltext">Su contraseña debe contener al menos:<br>
         -Una mayúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Un caracter Especialidad <br>
         -Una minúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -8 caracteres minimo<br>
@@ -192,12 +194,13 @@ Registro
 @stop
 
 @section('extrajs')
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js.map"></script>
+<!--<script src="/js/password_length.js"></script>-->
 <script src="/js/alertify.min.js"></script>
 <script>
 $(document).ready(function() {
   $('select').material_select();
-
   $("form input:radio").click(function() {
     switch($(this).val()){
       case 'Privada':
@@ -212,50 +215,83 @@ $(document).ready(function() {
     }
   });
 });
-$(document).ready(function() {
-  $('select').material_select();
+
+var strength = {
+    0: "Insegura",
+    1: "Contraseña insegura",
+    2: "Contraseña poco segura",
+    3: "Contraseña segura",
+    4: "Contraseña muy segura"
+};
+var password = document.getElementById('passwd');
+var meter = document.getElementById('password-strength-meter');
+var text = document.getElementById('password-strength-text');
+
+// $('#passwd').change(function(){
+//   alert('Cambió');
+// });
+password.addEventListener('input', function() {
+  // alert('Input');
+    var val = password.value;
+    var result = zxcvbn(val);
+
+    // Update the password strength meter
+    meter.value = result.score;
+
+    // Update the text indicator
+    if (val !== "") {
+        text.innerHTML = "Longitud: " + strength[result.score]; 
+    } else {
+        text.innerHTML = "";
+    }
 });
-  // $('#validate').click(function (){
-  //   var route = "{{ route('get.response', '') }}";
-  //   if( $('#cedula').val() != '' ){
-  //     route += '/' + $('#cedula').val();
-  //     $.ajax({
-  //       url: route,
-  //       method: 'get',
-  //       success: function(result){
-  //         var json = JSON.parse(result);
-  //         var numFound = json.response.numFound;
-  //         if (numFound == 1 ){
-  //           var registro = json.response.docs[0];
-  //           var nombre = registro.nombre;
-  //           var paterno = registro.paterno;
-  //           var materno = registro.materno;
-  //           if(nombre.toLowerCase() == $('#nombre').val().toLowerCase()  &&
-  //           paterno.toLowerCase() == $('#paterno').val().toLowerCase()   &&
-  //           materno.toLowerCase() == $('#materno').val().toLowerCase()){
-  //             alertify.success('Verificación exitosa');
-  //             $('#cedula').prop('readonly', true);
-  //             $('#nombre').prop('readonly', true);
-  //             $('#paterno').prop('readonly', true);
-  //             $('#materno').prop('readonly', true);
-  //             $('#btnSubmit').show();
-  //             $('#adicionales').show();
-  //             $('#validate').hide();
-  //           }else{
-  //             alertify.error('Los datos no coinciden, verifíquelos');
-  //           }
-  //         }else{
-  //           alertify.error('Cédula profesional no encontrada');
-  //         }
-  //       }
-  //     });
-  //   }
-  // });
-</script>
+
 </script>
 @stop
 @section('extracss')
-<link rel="stylesheet" href="/css/alertify.core.css">
-<link rel="stylesheet" href="/css/alertify.bootstrap.css">
-<link rel="stylesheet" href="/css/alertify.default.css">
+  <link rel="stylesheet" href="/css/alertify.core.css">
+  <link rel="stylesheet" href="/css/alertify.bootstrap.css">
+  <link rel="stylesheet" href="/css/alertify.default.css">
+  <link rel="stylesheet" href="/css/hsimp.jquery.css">
+  <style>
+    meter {
+        /* Reset the default appearance */            
+        margin: 0 auto 1em;
+        width: 100%;
+        height: .5em;
+        
+        /* Applicable only to Firefox */
+        background: none;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    meter::-webkit-meter-bar {
+        background: none;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    meter[value="0"]::-webkit-meter-optimum-value,
+    meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+    meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
+    meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+    meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
+    meter[value="1"]::-moz-meter-bar,
+    meter[value="1"]::-moz-meter-bar { background: red; }
+    meter[value="2"]::-moz-meter-bar { background: yellow; }
+    meter[value="3"]::-moz-meter-bar { background: orange; }
+    meter[value="4"]::-moz-meter-bar { background: green; }
+
+    .feedback {
+        color: #9ab;
+        font-size: 90%;
+        padding: 0 .25em;
+        font-family: Courgette, cursive;
+        margin-top: 1em;
+    }
+
+    meter::-webkit-meter-optimum-value {
+      transition: width .4s ease-out;
+    }
+  </style>
 @endsection

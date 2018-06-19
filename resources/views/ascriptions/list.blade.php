@@ -32,7 +32,6 @@
                             <th>#</th>
                             <th>Adscripción</th>
                             <th>Slug</th>
-                            <th>Código</th>
                             <th>Descripción</th>
                             <th>Estado</th>
                             <th>Cantidad de cursos</th>
@@ -47,7 +46,6 @@
                               <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $i }}</a></td>@php $i++; @endphp
                               <td><a href="{{ route('ascriptions.show' , $ascription->id) }}">{{ $ascription->name }}</a></td>
                               <td>{{ $ascription->slug }}</td>
-                              <td>{{ $ascription->code }}</td>
                               <td>{{ $ascription->description }}</td>
                               <td>
                               {{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>

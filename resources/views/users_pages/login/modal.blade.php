@@ -42,7 +42,11 @@
                 <p>¿Aún no se ha registrado?</p>
                 <br>
                 <div class="col s12 aprender-mas">
-                  <a href="{{ route('register')}}">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                    @if(isset($ascription))
+                        <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                    @else
+                        <a href="{{ route('register')}}">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                    @endif
 
                </div>
               </div>
