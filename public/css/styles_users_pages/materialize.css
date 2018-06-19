@@ -4424,31 +4424,31 @@ nav .input-field label.active i {
 @font-face {
   font-family: "Lato";
   src: local(Lato Thin), url("../fonts/Lato/Lato-Hairline.ttf") format("ttf");
-  font-weight: 100;
+
 }
 
 @font-face {
   font-family: "Lato";
   src: local(Lato Light), url("../fonts/Lato/Lato-Light.ttf") format("ttf");
-  font-weight: 300;
+  font-weight: bold;
 }
 
 @font-face {
   font-family: "Lato";
   src: local(Lato Regular),  url("../fonts/Lato/Lato-Regular.ttf") format("ttf");
-  font-weight: 400;
+  font-weight: regular;
 }
 
 @font-face {
   font-family: "Lato";
-  src: local(Lato Medium),  url("../fonts/Lato/Lato-Black.ttf") format("ttf");
-  font-weight: 500;
+  src: local(Lato Black),  url("../fonts/Lato/Lato-Black.ttf") format("ttf");
+  font-weight: black;
 }
 
 @font-face {
   font-family: "Lato";
   src: local(Lato Bold),  url("../fonts/Lato/Lato-Bold.ttf") format("ttf");
-  font-weight: 700;
+  font-weight: bold;
 }
 
 a {

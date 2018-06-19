@@ -17,7 +17,7 @@ Evaluacion
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
               <div class="col s6">
-                    <h4 class="tits">EVALUACIONES</h4>
+                    <h1 class="tits">EVALUACIONES</h1>
                     <p>Elija el curso del que desea consultar sus evaluaciones:</p>
                     <select name="course_slug" id="course_slug">
                         @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
@@ -78,9 +78,9 @@ Evaluacion
                             <img src="{{ $evaluation->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </div>
                         <div class="col s8">
-                            <span class="titulo-academia2">
+                            <h5 class="titulos-modulo">
                             {{ $evaluation->name }} <br>
-                            </span>
+                          </h5>
                             <div class="modulos">
                             @if($user->hasThisEvaluationCompleted($evaluation->id))
                                 <i class="material-icons">check_box</i> EVALUACIÓN

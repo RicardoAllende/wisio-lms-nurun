@@ -34,8 +34,8 @@
                 <a href="" class="links">Contacto</a>
                 <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
               @else
-              <a href="" class="links">Compartir</a>
-              <a class="links">Imprimir</a>
+              <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a>
+              <a class="links">Imprimir <i class="tiny material-icons">local_printshop</i></a>
               @endif
             </div >
           </div>
@@ -48,7 +48,7 @@
                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
               </div>
               @if (Auth::check())
-                <p class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</p>
+                <h4 class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</h4>
               @endif
           </div>
 

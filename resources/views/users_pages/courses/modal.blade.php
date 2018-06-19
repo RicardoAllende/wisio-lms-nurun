@@ -2,8 +2,8 @@
     <a class="waves-effect waves-light btn-small cerrarModal" style="color:white !important;" onclick="closeModule();">X</a>
     <div class="modal-content">
         <div class="modal-header">
-          <h6 class="cursoview">Módulo</h6><br/>
-          <h6 class="cursoview" id="name_module"></h6><br/>
+          <h2 class="cursoview">Módulo</h2>
+          <h2 class="cursoview" id="name_module"></h2><br/>
         </div>
         <div class="chip">
           Video - de -

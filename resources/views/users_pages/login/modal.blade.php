@@ -3,7 +3,7 @@
     <a class="waves-effect waves-light btn-small cerrarModal modal-close" style="color:white !important;">X</a>
     <div class="modal-content">
         <div class="modal-header center">
-            <h5 class="center upscase ">Ingreso</h5>
+            <h3 class="center ingreso">Ingreso</h3>
 
         </div>
         <br>
@@ -34,7 +34,7 @@
             </div>
             <div class="row">
               <div class="col s12 center">
-                <p>¿Olvido la contraseña? Haga <a class="upscase">Click Aqui</a> para crear una nueva</p>
+                <p>¿Olvido la contraseña? Haga <a class="upscase linkM">Click Aqui</a> para crear una nueva</p>
                 <br>
                 <br>
                 <hr class="line"/>

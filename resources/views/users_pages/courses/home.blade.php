@@ -23,7 +23,7 @@ Inicio
                <div class="card-content cursoscard">
                   <span class="categoria-academia">{{ $course->category->name }}</span>
                  <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
-                  <div class="titulo-academia2"> {{ $course->name }}</div>
+                  <h4 class="titulo-academia2"> {{ $course->name }}</h4>
                    <div class="modulos">{{ $course->modules->count() }} módulos</div>
                   <div class="leer-masmodulos_50">
                   @if(Auth::check())

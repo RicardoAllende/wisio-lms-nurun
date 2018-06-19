@@ -53,10 +53,10 @@
                   @else
 
                   @endif
-                <li class="registro"><a href="{{ route('logout') }}"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>
+                <li class="registro"><a href="{{ route('logout') }}" class="btnAcademia"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>
               @else
                 <li><a href="#!">Medicamentos</a></li>
-                <li class="registro"><a href="#modal1" class="modal-trigger"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/<br>Registro</span></a></li>
+                <li class="registro"><a href="#modal1" class="modal-trigger btnAcademia"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/<br>Registro</span></a></li>
               @endif
 
            </ul>

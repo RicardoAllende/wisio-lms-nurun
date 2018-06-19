@@ -15,7 +15,7 @@
                     <div class="card-content">
                        <span class="categoria-academia">{{ $course->category->name }}</span>
                       <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
-                       <span class="titulo-academia"> {{ $course->name }} </span>
+                       <h4 class="titulo-academia"> {{ $course->name }} </h4>
                        <div class="leer-mas">
                          @if(Auth::check())
                            <a href="{{ route('student.show.course',[$ascription->slug,$course->slug]) }}">Ver más</a>

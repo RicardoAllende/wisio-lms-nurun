@@ -1,48 +1,60 @@
 :root {
   --main-font-color: #2157A1;
-  --main-line-color: #2157A1;
+  --main-line-color: #525ca3;
   --main-font-btn-color: #8F6EAA;
+  --main-back-color: #727fa8;
+  --main-select-font-color: #596066;
   --main-bg-btn-color: #f2f2f2;
   --main-sub-a-color: #BCBC1C;
+  --second-line-back-color: #f9f9f9;
   --second-font-color: #596066;
+  --btn-hover-color: #c7b1da;
 
 }
 
 /* General */
 body{
     font-family: "Lato";
-    background-color: #f9f9f9;
+    background-color: var(--second-line-back-color);
     overflow-x: hidden !important;
     letter-spacing: 1px;
 }
 
 h1{
-    letter-spacing: 4px;
-    font-weight: 600;
-    font-size: 3em;
+    font-size: 35px;
     text-transform: uppercase;
+    font-weight: black;
 }
 
-p {
+h2{
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
 
+h3{
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: regular;
+}
+
+h4{
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h5{
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--main-font-btn-color);
 }
 
 
-/* colores */
-.cp{
-    color: #4a62ae !important;
+.cf {
+  background-color: var(--main-line-color);
 }
-
-.cf{
-    background-color: #727FA8 !important;
-    padding-top: 2rem;
-}
-
-.fp{
-    background-color: #fff !important;
-}
-
-
 
 /* navbar-desktop */
 .navbar-desktop{
@@ -66,7 +78,7 @@ p {
 }
 
 .menu-desktop ul li{
-    font-weight: 700;
+    font-weight: bold;
     text-transform: uppercase;
     margin-bottom: 30px;
     padding-left: 40px;
@@ -74,7 +86,7 @@ p {
 
 .menu-desktop ul li a{
     color: var(--main-font-color);
-    font-size: 0.9em !important;
+    
 
 }
 .menu-mobile ul li{
@@ -84,7 +96,7 @@ p {
 }
 
 .menu-mobile ul li a{
-    color: #000;
+    color: var(--main-select-font-color);
     font-size: 0.9em !important;
 
 }
@@ -184,27 +196,42 @@ nav a {
     color: #4a62ae;
 }
 a.links{
-  color: var(--main-font-color);
-  font-size: .8rem;
+  text-transform: uppercase;
+  color: var(--main-select-font-color);
+  font-size: 11px;
+  font-weight: regular;
   text-decoration: underline;
   padding-left: 1rem;
+  cursor: pointer;
+}
+
+a.linkM{
+  text-transform: uppercase;
+  color: var(--main-select-font-color);
+  font-size: 11px;
+  font-weight: regular;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .breads{
   padding-top: .5rem;
 }
 .breadcrumb{
-  color: var(--main-font-color);
-  font-size: .8rem;
+  text-transform: uppercase;
+  color: var(--main-select-font-color);
+  font-size: 11px;
+  font-weight: regular;
 }
 .breadcrumb:before{
-  color: var(--main-font-color);
-  font-size: .8rem;
+  color: var(--main-select-font-color);
+  font-size: 11px;
   padding-top: 3px;
 }
 
 .breadcrumb:last-child {
-    color: var(--main-font-color);
+  text-transform: uppercase;
+    color: var(--main-font-btn-color);
 }
 /* row contenido */
 .contenido{
@@ -246,19 +273,17 @@ a.links{
 .cursos a{
     color: #fff;
     text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
 
 }
 .tits{
-  font-weight: 600;
   text-align: left;
   color: var(--main-font-color) !important;
   text-transform: uppercase;
   margin-top: 0 !important;
 }
 .recientes{
-    letter-spacing: 1px;
-    font-weight: 600;
-    font-size: 1rem;
     text-align: left;
     color: var(--main-font-color) !important;
     text-transform: uppercase;
@@ -357,24 +382,29 @@ a.links{
 .user{
     color: var(--main-font-color) !important;
     text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
     margin-left: 1rem;
 }
 .cursoview {
     color: var(--main-font-color) !important;
     text-transform: uppercase;
-    font-weight: 700;
     display: inline-block;
     padding-right: 10px;
 }
 
 .cursoev{
-    color: var(--main-font-color); !important;
+    color: var(--main-font-color) !important;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
     padding: 10px;
 }
 
+.ingreso {
+  color: var(--main-font-color) !important;
+  text-transform: uppercase;
+}
 
 
 #references{
@@ -398,7 +428,7 @@ a.links{
 
 .dropdown-content li > a, .dropdown-content li > span {
 
-  color: #8F6EAA;
+  color: var(--main-select-font-color);
 
 }
 
@@ -435,35 +465,42 @@ a.links{
 .categoria-modulos {
     color: var(--second-font-color);
     text-transform: uppercase;
-    font-size: 0.8em;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: regular;
     display: inline-block;
 }
 
 .titulo-academia{
-    font-weight: 700;
     position: absolute;
     top:50px;
     left: 20px;
     text-transform: uppercase;
     color:var(--main-font-color);
-    font-size: 1.1em;
     padding-top: 40px;
 }
 
 .titulo-academia2{
-    font-weight: 700;
     left: 20px;
     text-transform: uppercase;
     color:var(--main-font-color);
-    font-size: 1rem;
     padding-top: 20px;
 
 }
 
+.titulos-modulo {
+  left: 20px;
+  text-transform: uppercase;
+  color:var(--main-font-btn-color);
+  font-size: 16;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
 .modulos{
     padding: 3% 0 3% 0;
-    color: #000;
+    color: var(--main-select-font-color);
+    font-size: 12px;
+    font-weight: regular;
 }
 
 .acept{
@@ -509,14 +546,19 @@ a.links{
   background-color: var(--main-bg-btn-color);
   padding: 10px;
   text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
   border-width: 0px;
   border-style: none;
   border-color: none;
 }
 
-.btnAcademia:focus{
-  background-color: var(--main-bg-btn-color);
+.btnAcademia:hover{
+  color: var(--btn-hover-color) !important;
+  background-color: #fff !important;
 }
+
+
 .registro{
   padding: 5px;
   text-transform: uppercase;
@@ -539,6 +581,8 @@ a.links{
 }
 
 .leer-mas a{
+  font-size: 14px;
+  font-weight: bold;
     color: var(--main-font-btn-color);
     width: 70%;
 }
@@ -582,6 +626,10 @@ a.links{
 .moduloslista {
     padding: 5px 0 5px 0;
     height: 200px;
+    font-size: 14px;
+    font-weight: regular;
+    color: var(--main-select-font-color);
+
 }
 
 .leer-masmodulos {
@@ -589,7 +637,8 @@ a.links{
     bottom: 20px;
     width: 50%;
     text-transform: uppercase;
-    font-size: 0.8em;
+    font-size: 14px;
+    font-weight: bold;
     color: var(--main-font-color);
 }
 
@@ -598,7 +647,8 @@ a.links{
     bottom: 50px;
     width: 50%;
     text-transform: uppercase;
-    font-size: 0.8em;
+    font-size: 14px;
+    font-weight: bold;
     color: var(--main-font-color);
 }
 
@@ -621,7 +671,7 @@ a.links{
 
 .expertosparticipacion{
     padding: 3% 0 3% 0;
-    color: #000;
+    color: var(--main-select-font-color);
     font-size: 0.8rem;
 }
 
@@ -658,7 +708,7 @@ a.links{
 }
 
 .negro{
-    color: #000 !important;
+    color: var(--main-select-font-color) !important;
 }
 
 .collapsiblemod {
@@ -674,7 +724,7 @@ a.links{
 }
 
 .activeMod, .collapsiblemod:hover {
-    background-color: #8F6EAA;
+    background-color: var(--btn-hover-color);
     color: #fff;
 }
 
@@ -745,7 +795,7 @@ a.links{
 
 .text-funciona{
     padding: 3% 0 3% 0;
-    color: #000;
+    color: var(--main-select-font-color);
 }
 
 
@@ -894,6 +944,28 @@ i.material-icons.prefix.active{
 
 @media only screen and (max-width: 600px) {
 
+
+  h1{
+      font-size: 25px;
+      text-transform: uppercase;
+      font-weight: black;
+  }
+
+  h3{
+      font-size: 18px;
+      text-transform: uppercase;
+      font-weight: regular;
+  }
+
+  h4{
+      font-size: 16px;
+      text-transform: uppercase;
+      font-weight: bold;
+  }
+
+img.responsive-img {
+  max-height: 70px;
+}
 
     .card-noticias{
     height: 160px !important;

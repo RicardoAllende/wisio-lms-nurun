@@ -42,7 +42,7 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
 @include('users_pages.courses.modalInscripcion')
 <div class="row pad-left3">
           <div class="pad-left1">
-            <h5 class="cursoview">{{ $course->name }}</h5>
+            <h2 class="cursoview">{{ $course->name }}</h2>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
             <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
             </div>
@@ -70,9 +70,9 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
                         <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"> <!-- notice the "circle" class -->
                       </div>
                       <div class="col s8">
-                        <span class="titulo-academia2">
+                        <h5 class="titulos-modulo">
                           {{ $module->name }}
-                        </span>
+                        </h5>
                           <div class="modulos">{!! Auth::user()->progressInModule($module->id) !!}</div>
                       </div>
                     </div>
@@ -83,14 +83,17 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
           <?php $cont = 0; $mod++; ?>
           <div class="col s12 content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
-              <h6 class="cursoview">Módulo</h6><br/>
-              <h6 class="cursoview" id="name_module"></h6><br/>
+              <h2 class="cursoview">Módulo</h2>
+              <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip" >
                 Video - de -
               </div>
               <div id="content">
 
               </div>
+              <h5 class="titulos-modulo">
+                Referencias
+              </h5>
               <div id="references">
 
               </div>
@@ -101,14 +104,17 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
           @if($course->modules->count() <= 3)
           <div class="col s12 content" id="mod1">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
-              <h6 class="cursoview">Módulo</h6><br/>
-              <h6 class="cursoview" id="name_module"></h6><br/>
+              <h2 class="cursoview">Módulo</h2>
+              <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip">
                 Video - de -
               </div>
               <div id="content">
 
               </div>
+              <h5 class="titulos-modulo">
+                Referencias
+              </h5>
               <div id="references">
 
               </div>
@@ -118,14 +124,18 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
           <?php $cont = 0; $mod++; ?>
           <div class="col s12 content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
-              <h6 class="cursoview">Módulo</h6><br/>
-              <h6 class="cursoview" id="name_module"></h6><br/>
+              <h2 class="cursoview">Módulo</h2>
+              <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip">
                 Video - de -
               </div>
+
               <div id="content">
 
               </div>
+              <h5 class="titulos-modulo">
+                Referencias
+              </h5>
               <div id="references">
 
               </div>

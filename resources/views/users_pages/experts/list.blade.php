@@ -10,7 +10,7 @@ Expertos
 
 @section('body')
   <div class="row pad-left3">
-    <h4 class="tits">Expertos</h4>
+    <h1 class="tits">Expertos</h1>
     <div class="row">
       <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">

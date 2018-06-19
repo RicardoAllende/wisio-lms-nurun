@@ -19,13 +19,13 @@
 
             @if(Auth::check())
              @if($ascription->slug != 'academia-mc')
-               <a href="#!" class="brand-logo"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
+               <a href="#!" class="brand-logo center"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
              @else
-               <a href="#!" class="brand-logo"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+               <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
              @endif
 
             @else
-             <a href="#!" class="brand-logo"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+             <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
             @endif
 
 
