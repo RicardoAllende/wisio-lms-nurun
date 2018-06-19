@@ -8,6 +8,7 @@
       <title>Academia Sanofi | @yield('title')</title>
 
       <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.css')}}"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/iconsAcademia.css')}}" />
