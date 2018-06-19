@@ -16,7 +16,7 @@ Login
                   >INICIE SESIÓN <span class="icon-sesion iconbtn"></span></a>
                </div>
                 <div class="col s12 l6">
-                  <a href="{{ route('register')}}" class="btnAcademia">REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+                  <a href="{{ route('register')}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
 
                </div>
                 </div>
