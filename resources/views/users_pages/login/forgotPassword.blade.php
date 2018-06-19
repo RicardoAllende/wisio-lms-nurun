@@ -23,7 +23,7 @@ Olvidó su contraseña
     si lo encontramos en la base de datos, posteriormente,
     recibirá un correo electrónico con un enlace para restablecer su contraseña:</p>
 </div>
-  <form method="post" action="" class="form-horizontal">
+<form method="post" action="{{ route('send.reset.password.link') }}" class="form-horizontal">
   	<!-- CSRF Token -->
   	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -32,7 +32,6 @@ Olvidó su contraseña
   		<label class="control-label" for="email">Email</label>
   		<div class="controls">
   			<input type="text" name="email" id="email" value="" />
-
   		</div>
   	</div>
 
@@ -40,7 +39,6 @@ Olvidó su contraseña
   	<div class="reg col s12 l5 offset-l2">
   		<div class="controls">
   			<a class="btnAcademia" href="{{ route('login') }}">Cancelar</a>
-
   			<button type="submit" class="btnAcademia">Buscar</button>
   		</div>
   	</div>

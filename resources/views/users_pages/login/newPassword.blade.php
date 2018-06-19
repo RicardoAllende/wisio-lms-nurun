@@ -21,17 +21,15 @@ Nueva contraseña
   <div class="reg col s12 l5 offset-l2">
   <p>Ingrese la nueva contraseña para reestablecerla:</p>
 </div>
-  <form method="post" action="" class="form-horizontal">
-  	<!-- CSRF Token -->
+	<form method="post" action="{{ route('request.set.new.password') }}" class="form-horizontal">
   	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
-  	<!-- Email -->
   	<div class="reg col s12 l5 offset-l2">
       <div class="control-group">
 		<label class="control-label" for="password">Contraseña nueva</label>
 		<div class="controls">
 			<input type="password" name="password" id="password" value="" />
-
+			<input type="hidden" name="email" value="{{ $user->email }}">
 		</div>
 	</div>
 
@@ -50,8 +48,6 @@ Nueva contraseña
 	<div class="control-group">
 		<div class="controls">
 			<button type="submit" class="btnAcademia">Actualizar Contraseña</button>
-
-			<a href="" class="btnAcademia">Cancelar</a>
 		</div>
 	</div>
   	</div>

@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Support\Facades\Mail;
+use App\PasswordReset;
+use App\Mail\ResetPasswordEmail;
+use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
 {
@@ -90,17 +95,15 @@ class LoginController extends Controller
         $email = $request->email;
         if(User::whereEmail($email)->count() == 1){
             $token = $this->createToken();
-            foreach(PasswordReset::whereEmail($email)->get() as $reset){
-                $reset->delete();
-            }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+            DB::statement('DELETE FROM password_resets where email = "'.$email.'"');
             PasswordReset::create(['email' => $email, 'token' => $token, 'created_at' => $dateTime]);
-            // Función de envío de correo
+            $token = route('set.new.password', $token);
+            Mail::to("ricardo.allende.p@gmail.com")->send(new ResetPasswordEmail( $token ));
             return back()->with('msj', 
             'Se le ha enviado un correo electrónico con el link para reestablecer su contraseña, verifique su correo no deseado en caso de que no lo encuentre');
-
         }else{
-            // User doesn't exist
+            return back()->with('error', 'Su correo no se encuentra inscrito en la plataforma');
         }
     }
 
@@ -108,29 +111,42 @@ class LoginController extends Controller
         $reset = PasswordReset::whereToken($token)->first();
         if( $reset != null){ // It exists
             $email = $reset->email;
-            // return view('form-reset-password', compact('email'));
+            $user = User::whereEmail($email)->first();
+            // DB::statement('DELETE FROM password_resets where email = "'.$email.'"');
+            return view('users_pages.login.newPassword', compact('user', 'email', 'token'));
         }else{
-            return redirect()->with('msj', 'Su código para reestablecer contraseña no es válido');
+            return redirect('/')->with('error', 'Su código para reestablecer contraseña no es válido');
         }
     }
 
     public function setNewPassword(Request $request){
         $newPassword = $request->password;
+        $confirmPassword = $request->password_confirm;
+        if($newPassword != $confirmPassword){
+            return back()->withInput()->with('error', 'Sus contraseñas no coinciden');
+        }
         $email = $request->email;
-        User::whereEmail($email)->first();
+        $user = User::whereEmail($email)->first();
         if($user != null){
             $user->password = bcrypt($newPassword);
             $user->save();
             $credentials = $request->only('email', 'password');
             Auth::attempt($credentials);
             return redirect('/');
+        }else{
+            return back()->withInput()->with('error', 'Hubo un error, inténtelo de nuevo o contacte con soporte@paecmexico.com');
         }
     }
 
     public function createToken(){
         // do{
-        $token = Uuid::generate()->string;;
+        $token = \Uuid::generate()->string;;
         // }while(PasswordReset::whereToken($token)->count() > 0);
         return $token;
+    }
+
+    public function example(){
+        Mail::to("ricardo.allende.p@gmail.com")->send(new ResetPasswordEmail( "www.google.com.mx" ));
+        return "Email enviado";
     }
 }

@@ -34,7 +34,7 @@
             </div>
             <div class="row">
               <div class="col s12 center">
-                <p>¿Olvido la contraseña? Haga <a class="upscase linkM">Click Aqui</a> para crear una nueva</p>
+              <p>¿Olvidó la contraseña? Haga <a class="upscase linkM" href="{{ route('forgot.password') }}" >click Aquí</a> para crear una nueva</p>
                 <br>
                 <br>
                 <hr class="line"/>
