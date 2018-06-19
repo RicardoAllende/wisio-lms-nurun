@@ -86,7 +86,7 @@ h5{
 
 .menu-desktop ul li a{
     color: var(--main-font-color);
-    
+
 
 }
 .menu-mobile ul li{
@@ -263,7 +263,8 @@ a.linkM{
 
 .copyright {
     color: var(--main-font-color);
-    font-size: .8rem;
+    font-size: 12px;
+    font-weight: regular;
 }
 
 /*****************/
@@ -688,9 +689,14 @@ a.linkM{
 /* footer */
 .ff{
     background-color: #0b1f5b !important;
-    font-size: .8rem;
+    font-size: 12px;
+    font-weight: black;
     bottom: 0;
 
+}
+
+.ff2{
+  font-weight: regular;
 }
 
 .ff a{

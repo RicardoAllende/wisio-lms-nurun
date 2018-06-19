@@ -20,7 +20,7 @@
            </div>
 
            <div class="row" style="margin-bottom: 0;">
-             <div class="col offset-m1"></div>
+             <div class="col offset-m1 ff2"></div>
              <div class="col s12 m3 center white-text">
               <p>No. Reg. XXXXXXXXXXXX</p>
               </div>
