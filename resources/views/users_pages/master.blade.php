@@ -67,13 +67,13 @@
       @if(session()->has('msj'))
       <script>
         var toastHTML = "{{ session('msj') }}"
-        Materialize.toast(toastHTML,3000,'acept')
+        Materialize.toast(toastHTML,4000,'acept')
       </script>
       @endif
       @if(session()->has('error'))
       <script>
         var toastHTML = "{{ session('error') }}"
-        Materialize.toast(toastHTML,3000,'error')
+        Materialize.toast(toastHTML,4000,'error')
       </script>
       @endif
 

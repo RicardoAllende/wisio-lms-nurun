@@ -17,15 +17,10 @@
 
             <a href="#" data-activates="mobile-demo" class="button-collapse" id="btnMenu"><i class="material-icons">menu</i></a>
 
-            @if(Auth::check())
-             @if($ascription->slug != 'academia-mc')
-               <a href="#!" class="brand-logo center"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
-             @else
-               <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
-             @endif
-
+            @if(isset($ascription))
+              <a href="#!" class="brand-logo center"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
             @else
-             <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+              <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
             @endif
 
 

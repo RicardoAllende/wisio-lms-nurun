@@ -144,14 +144,14 @@ Route::post('reset-password', 'LoginController@setNewPassword')->name('request.s
 // Route::get('/nueva-contrasena', function(){  return view('users_pages.login.newPassword');  });
 // Route::get('/email-contrasena', function(){  return view('email.recoverPassword');  });
 
-Route::get('send', function(){
-	$data = ['name' => 'Sigue el siguiente enlace para cambiar tu contraseña'];
-	Mail::send('email', $data, function($message){
-		$message->from('no-reply@subitus.com', 'Curso laravel');
-		$message->to('ricardo.allende.p@gmail.com')->subject('Correo de prueba');
-	});
-	return "Email enviado";
-});
+// Route::get('send', function(){
+// 	$data = ['name' => 'Sigue el siguiente enlace para cambiar tu contraseña'];
+// 	Mail::send('email', $data, function($message){
+// 		$message->from('no-reply@subitus.com', 'Curso laravel');
+// 		$message->to('ricardo.allende.p@gmail.com')->subject('Correo de prueba');
+// 	});
+// 	return "Email enviado";
+// });
 
 // Route::get('/mailing', 'LoginController@example');
 

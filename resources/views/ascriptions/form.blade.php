@@ -54,13 +54,6 @@
                             </div>
 
                             <div class="form-group">
-                                {!! Form::label('code', 'Código de la adscripción',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10">
-                                {!! Form::text('code', null, ['class' => 'form-control', 'placeholder' => 'Código de la adscripción (es usado también en el registro)', 'required' => '']) !!}
-                              </div>
-                            </div>
-
-                            <div class="form-group">
                                 {!! Form::label('has_constancy', '¿Es un diplomado?',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
                                 {!! Form::select('has_constancy', ['0' => 'No', '1' => 'Sí'], null, ['class' => 'form-control']) !!}
