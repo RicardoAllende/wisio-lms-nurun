@@ -16,7 +16,7 @@ Cursos
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix" >search</i>
-          <input id="search" name="s" value="{{ $search }}" type="text" placeholder="Nombre del curso">
+          <input id="search" name="s" value="{{ $search }}" type="text" placeholder="Nombre del curso o especialidad">
           <!-- <div class="search-wrapper card">
             <input id="search" type="text" placeholder="Nombre del curso"><i class="material-icons">search</i>
           </div> -->
