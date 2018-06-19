@@ -4421,7 +4421,7 @@ nav .input-field label.active i {
   }
 }
 
-@font-face {
+/* @font-face {
   font-family: "Lato";
   src: local(Lato Thin), url("../fonts/Lato/Lato-Hairline.ttf") format("ttf");
 
@@ -4449,7 +4449,7 @@ nav .input-field label.active i {
   font-family: "Lato";
   src: local(Lato Bold),  url("../fonts/Lato/Lato-Bold.ttf") format("ttf");
   font-weight: bold;
-}
+} */
 
 a {
   text-decoration: none;
