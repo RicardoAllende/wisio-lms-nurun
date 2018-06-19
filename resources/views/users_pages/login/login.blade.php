@@ -16,7 +16,12 @@ Login
                   >INICIE SESIÓN <span class="icon-sesion iconbtn"></span></a>
                </div>
                 <div class="col s12 l6">
-                  <a href="{{ route('register')}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+
+                  @if(isset($ascription))
+                    <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+                  @else
+                    <a href="{{ route('register')}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+                  @endif
 
                </div>
                 </div>
