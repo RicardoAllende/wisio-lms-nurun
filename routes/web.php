@@ -57,7 +57,13 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/categories','AdminControllers\CategoriesController');
 		Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
 		Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
-		Route::resource('/users','AdminControllers\UsersController');
+		
+		Route::resource('/users', 'AdminControllers\UsersController');
+
+		Route::get('/get-users-data', 'AdminControllers\UsersController@getUsersDataAdmin')->name('get.users.data.admin'); // Datatables Facade
+		Route::get('/get-users-data-for-ascription/{ascription_id}', 'AdminControllers\UsersController@getUsersDataAdminForAscription')->name('get.users.data.admin.ascription'); // Datatables Facade
+		// Route::get('/get-users-data-for-ascription', 'AdminControllers\UsersController@getUsersForReport')->name('get.users.for.ascription');
+
 		Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
 		Route::resource('/options','AdminControllers\OptionsController');
 		Route::resource('/questions', 'AdminControllers\QuestionsController');
@@ -124,8 +130,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 // Route::get('/cursos', 'Users_Pages\CoursesController@publicCourses')->name('public.courses');
 
-Route::get('/documento', 'AdminControllers\UsersController@downloadUsers');
-
 
 /**
  *
@@ -133,8 +137,12 @@ Route::get('/documento', 'AdminControllers\UsersController@downloadUsers');
  */
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 Route::get('/recuperar-contrasena', function(){  return view('users_pages.login.forgotPassword');  })->name('forgot.password');
-Route::get('/nueva-contrasena', function(){  return view('users_pages.login.newPassword');  });
-Route::get('/email-contrasena', function(){  return view('email.recoverPassword');  });
+
+Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink')->name('send.reset.password.link');
+Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');
+Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
+// Route::get('/nueva-contrasena', function(){  return view('users_pages.login.newPassword');  });
+// Route::get('/email-contrasena', function(){  return view('email.recoverPassword');  });
 
 Route::get('send', function(){
 	$data = ['name' => 'Sigue el siguiente enlace para cambiar tu contraseña'];
@@ -144,6 +152,8 @@ Route::get('send', function(){
 	});
 	return "Email enviado";
 });
+
+// Route::get('/mailing', 'LoginController@example');
 
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
 	Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');

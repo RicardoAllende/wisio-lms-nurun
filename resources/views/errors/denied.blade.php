@@ -35,5 +35,8 @@
 
 
 </body>
-
+<script>
+  // Automatic redirect
+  setTimeout(function(){ window.location = "{{ url('/') }}"; }, 2000);  
+</script>
 </html>

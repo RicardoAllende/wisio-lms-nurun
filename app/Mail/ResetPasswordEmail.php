@@ -7,18 +7,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ExampleEmail extends Mailable
+class ResetPasswordEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    public $token;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -28,6 +29,7 @@ class ExampleEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('soporte@paecmexico.com')
+        ->view('email.recoverPassword', ['token' => $this->token]);
     }
 }

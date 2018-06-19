@@ -48,7 +48,7 @@
                 </div>
 
                 @if($users->count() > 0)
-                    <center id="loading"><img src="/css/loading.gif"alt=""></center>
+                   <center id="loading"><img src="/css/loading.gif"alt=""></center>
                     <div class="table-responsive" id="userList" style="display:none;">
                     <table class="table table-striped table-bordered table-hover">
                     <thead>

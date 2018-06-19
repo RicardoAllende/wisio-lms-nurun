@@ -79,8 +79,10 @@ class UserController extends Controller
         $ascription = null;
         $dateTime = \Carbon\Carbon::now()->toDateTimeString();
         $user->last_access = $dateTime;
+        $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+        $user->last_profile_update = $dateTime;
         if($request->filled('seccion')){
-            $ascription = Ascription::whereCode($request->seccion)->first();
+            $ascription = Ascription::whereSlug($request->seccion)->first();
         }
         if($ascription == null){
             $ascription = Ascription::first();  // Academia Sanofi

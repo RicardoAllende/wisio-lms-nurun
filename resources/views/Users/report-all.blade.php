@@ -25,12 +25,11 @@
                     <div class="ibox-content">
                       <br>
                         @if($users->count() > 0)
-                          <center id="loading"><img src="/css/loading.gif"alt=""></center>
-                          <div class="table-responsive" id="userList" style="display:none;">
-                            <table class="table table-striped table-bordered table-hover">
+                          <div class="table-responsive" id="userList">
+                            <table class="table table-striped table-bordered table-hover" id="users-table">
                             <thead>
                               <tr>
-                                <th>#</th> @php $i = 1; @endphp
+                                <th>Ver</th> @php $i = 1; @endphp
                                 <th>Correo electrónico</th>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
@@ -43,25 +42,8 @@
                                 <th>Último acceso al sistema</th>
                               </tr>
                             </thead>
-                            <tbody>
-                                @foreach($users as $user)
-                                  <tr>
-                                  <td>{{$i}}</td>@php $i++; @endphp
-                                  <td><a href="{{ route('show.user.report' , $user->id) }}">{{$user->email}}</a></td>
-                                  <td>{{ $user->firstname }}</td>
-                                  <td>{{ $user->lastname }}</td>
-                                  <td>{{ $user->cedula }}</td>
-                                  <td>{{ $user->mobile_phone }}</td>
-                                  <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                  <td>@if($user->hasAscriptions()) {{ $user->ascription()->name }} @endif</td>
-                                  <td>{{ ($user->hasDiplomados()) ? $user->firstDiplomado()->name : "No inscrito" }}</td>
-                                  <td>{{ $user->created_at }}</td>
-                                  <td>{{ $user->last_access }}</td>
-                                  </tr>
-                                @endforeach
-                            </tbody>
                           </table>
-                          {{ $users->links() }}
+                          
                         </div>
                       @else
                         <h3>Sin usuarios</h3>
@@ -83,8 +65,29 @@
   <script src="/js/method_delete_f.js"></script>
   <script>
   $( document ).ready(function() {
-    $('#userList').show();
-    $('#loading').hide();
+    $('#users-table').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excelHtml5', 'pdf', 'print'
+        ],
+        ajax: "{{ route('get.users.data.admin') }}",
+        columns: [
+            {data: 'userLink'},
+            {data: 'email'},
+            {data: 'firstname'},
+            {data: 'lastname'},
+            {data: 'cedula'},
+            {data: 'mobile_phone'},
+            {data: 'status'},
+            {data: 'ascription_name'},
+            {data: 'diplomados'},
+            {data: 'created_at'},
+            {data: 'last_access'},
+        ]
+    });
   });
   </script>
 @endsection

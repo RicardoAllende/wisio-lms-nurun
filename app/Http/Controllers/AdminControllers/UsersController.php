@@ -16,6 +16,7 @@ use App\Role;
 use App\Course;
 use App\CourseUser;
 use Maatwebsite\Excel\Facades\Excel;
+use DataTables;
 
 class UsersController extends Controller
 {
@@ -279,6 +280,93 @@ class UsersController extends Controller
         })->download('xlsx');
         return Excel::download(new App\Exports\Users, 'invoices.xlsx');
         return "Función para descargar usuarios descargar usuarios";
+    }
+
+    public function getUsersDataAdmin(){
+        return \DataTables::of(User::query())
+        ->addColumn('userLink', function ($user) {
+            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
+        })
+        ->addColumn('status', function ($user) {
+            $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+            return  $status; 
+        })
+        ->addColumn('full_name', function ($user) {
+            return $user->firstname.' '.$user->lastname; 
+        })
+        ->addColumn('ascription_name', function ($user) {
+            if($user->hasAscriptions()){
+                return $user->ascription()->name; 
+            }
+            return "";
+        })
+        ->addColumn('diplomados', function ($user) {
+            $names = '';
+            if($user->hasDiplomados()){
+                foreach($user->diplomados as $diploma){
+                    $names .= $diploma->name." ";
+                }
+            }
+            return "";
+        })
+        ->addColumn('actions', function ($user) {
+            if ($user->hasAdvance()) {
+                if($user->enabled == 1){
+                    return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+                }else{
+                    return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
+                }
+            } else {
+                $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
+                    <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
+                    <a class="btn btn-danger btn_delete">Eliminar</a>
+                  </form>';
+                return $var;
+            }
+            
+        })
+        ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name', 'diplomados'])
+        ->make(true);
+    }
+
+    public function getUsersDataAdminForAscription($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        if($ascription == null){
+            return false;
+        }
+        $users = $ascription->users;
+        return \DataTables::of($users)
+        ->addColumn('userLink', function ($user) {
+            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
+        })
+        ->addColumn('status', function ($user) {
+            $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+            return  $status; 
+        })
+        // ->addColumn('completedCourses', function ($user) {
+        //     return $user->completedCourses()->count();
+        // })
+        ->addColumn('full_name', function ($user) {
+            return $user->firstname.' '.$user->lastname; 
+        })
+        ->addColumn('actions', function ($user) {
+            if ($user->hasAdvance()) {
+                if($user->enabled == 1){
+                    return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+                }else{
+                    return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
+                }
+            } else {
+                $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
+                    <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
+                    <a class="btn btn-danger btn_delete">Eliminar</a>
+                  </form>';
+                return $var;
+            }
+            
+        })
+        ->rawColumns(['namelink', 'status', 'actions', 'userLink'])
+        ->make(true);
     }
 
 }
