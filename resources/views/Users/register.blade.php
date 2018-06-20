@@ -186,7 +186,7 @@ Registro
     </div>
 
 
-
+<a class="btnAcademiaFloat waves-effect waves-light " id="moreData" onclick="scrollWin();"><i class="material-icons">arrow_drop_down</i></a>
   </div>
 
 
@@ -245,7 +245,20 @@ password.addEventListener('input', function() {
         text.innerHTML = "";
     }
 });
+function scrollWin() {
+  console.log($(document).height()+" - "+($(window).height() + $(window).scrollTop() + 200))
+  if($(document).height() > ($(window).height() + $(window).scrollTop() + 200)){
+    //console.log($(document).height+" - "+$(window).height() + $(window).scrollTop)
+    window.scrollBy(0, 300);
+    if($(document).height() <= ($(window).height() + $(window).scrollTop() + 200)){
+      $('#moreData').hide();
+    }
+  } else {
+    $('#moreData').hide();
+    console.log("llego al final")
+  }
 
+}
 </script>
 @stop
 @section('extracss')

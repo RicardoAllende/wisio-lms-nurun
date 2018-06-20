@@ -22,7 +22,7 @@
                 @else
                   <li><a href="{{ route('show.pharmacy.landing.page', $ascription->slug) }}" id="cursos">Cursos</a></li>
                 @endif
-                <li><a href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Expertos</a></li>
+                <li><a href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
                 @if(Auth::check())
                   <li><a href="{{ route('student.list.evaluations', $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                   <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>

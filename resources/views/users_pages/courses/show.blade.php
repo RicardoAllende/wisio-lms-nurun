@@ -46,7 +46,7 @@ Curso {{ $course->name }}
           <div class="pad-left1">
             <h2 class="cursoview">{{ $course->name }}</h2>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
-            <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+            <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"/></div>
           </div>
 
           <div class="col s6 l9">
@@ -56,25 +56,28 @@ Curso {{ $course->name }}
              <h2 class="recientes">Módulos</h2>
           </div>
           @if( ! Auth::check() ) <?php /* Section for guests */ ?>
+            <div class="row">
             @foreach($course->modules as $module)
-              <div class="col s12 l4 ">
+              <div class="col s12 l4">
                 <div class="card z-depth-0 white">
-                    <div class="card-content">
-                    <div class="row valign-wrapper">
-                        <div class="col s4">
-                          <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg">
+                    <div class="card-content modOut">
+                      <div class="row valign-wrapper">
+                          <div class="col s4">
+                            <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"/>
+                          </div>
+                          <div class="col s8">
+                            <h5 class="titulos-modulo">
+                              {{ $module->name }}
+                            </h5>
+                          </div>
                         </div>
-                        <div class="col s8">
-                          <h5 class="titulos-modulo">
-                            {{ $module->name }}
-                          </h5>
-                            <div class="modulos"></div>
-                        </div>
-                      </div>
                     </div>
                 </div>
               </div>
+
+
             @endforeach <?php /* End section for guests */ ?>
+          </div>
           @else
           <?php $cont=0; $mod=0; ?>
           @foreach($course->modules as $module)
@@ -165,8 +168,9 @@ Curso {{ $course->name }}
               </div>
           </div>
           @endif
-    </div>
+
     @endif <?php /* End if auth */ ?>
+    </div>
 @stop
 @section('extrajs')
 <script src="/js/plugins/tincan/tincan.js" type="text/javascript"></script>
@@ -187,12 +191,14 @@ Curso {{ $course->name }}
     name: '{{ Auth::user()->full_name }}',
     email: '{{ Auth::user()->email }}'
   };
-  @endif
 
   var myAgent = new TinCan.Agent (
     {
         mbox: "mailto:" + student_data.email
     }
 );
+  @endif
+
+
 </script>
 @stop

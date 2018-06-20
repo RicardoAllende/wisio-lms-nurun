@@ -65,7 +65,7 @@ class Module extends Model
         if($this->hasDiagnosticEvaluation()){
             // Expecting only one evaluation
             $evaluation = $this->diagnosticEvaluations->first();
-            if( ! $evaluations->hasQuestions()){
+            if( ! $evaluation->hasQuestions()){
                 return false;
             }
             if($user->hasThisEvaluationCompleted($evaluation->id)){
@@ -123,7 +123,7 @@ class Module extends Model
         } else {
             return false;
         }
-        
+
     }
 
     public function hasMainImg(){
@@ -150,7 +150,7 @@ class Module extends Model
         } else {
             return false;
         }
-        
+
     }
 
     public function attachExpert($expert_id){

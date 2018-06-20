@@ -35,7 +35,7 @@
                 <a href="" class="links">Contacto</a>
                 <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
               @else
-              <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a>
+              <!-- <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a> -->
               <a class="links">Imprimir <i class="tiny material-icons">local_printshop</i></a>
               @endif
             </div >
