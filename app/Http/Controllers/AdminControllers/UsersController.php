@@ -310,19 +310,19 @@ class UsersController extends Controller
             return "";
         })
         ->addColumn('actions', function ($user) {
-            if ($user->hasAdvance()) {
+            // if ($user->hasAdvance()) {
                 if($user->enabled == 1){
                     return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
                 }else{
                     return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
                 }
-            } else {
-                $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
-                    <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
-                    <a class="btn btn-danger btn_delete">Eliminar</a>
-                  </form>';
-                return $var;
-            }
+            // } else {
+            //     $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
+            //         <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
+            //         <a class="btn btn-danger btn_delete">Eliminar</a>
+            //       </form>';
+            //     return $var;
+            // }
             
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name', 'diplomados'])

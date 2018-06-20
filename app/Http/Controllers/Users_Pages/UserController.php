@@ -50,7 +50,8 @@ class UserController extends Controller
     public function selectAscription(){
         $user = Auth::user();
         $ascriptions = $user->allAscriptions;
-        return view('users_pages/courses/diplomado', compact('ascriptions', 'user'));
+        $ascription = $user->allAscriptions->first();
+        return view('users_pages/courses/diplomado', compact('ascriptions', 'user', 'ascription'));
     }
 
     public function setTemporalAscription($ascription_slug){

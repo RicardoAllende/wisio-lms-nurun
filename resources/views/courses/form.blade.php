@@ -46,21 +46,21 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            {!! Form::label('descripcion', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción del curso', 'required'=>'']) !!}
+                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción del curso']) !!}
                             </div>
                           </div>
                           <div class="form-group">
                             {!! Form::label('start_date', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::date('start_date',null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::date('start_date',null,['class'=>'form-control']) !!}
                             </div>
                           </div>
                           <div class="form-group">
                             {!! Form::label('end_date', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::date('end_date',null,['class'=>'form-control', 'required'=>'']) !!}
+                              {!! Form::date('end_date',null,['class'=>'form-control']) !!}
                             </div>
                           </div>
 

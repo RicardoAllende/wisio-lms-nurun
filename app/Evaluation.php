@@ -30,6 +30,13 @@ class Evaluation extends Model
     	return $this->hasMany('App\Question');
     }
 
+    public function hasQuestions(){
+        if ($this->questions->count() > 0) {
+            return true;
+        }
+        return false;
+    }
+
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
     }

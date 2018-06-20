@@ -146,7 +146,7 @@ class CoursesController extends Controller
             $id = $request->certificate_template_id;
             $template = CertificateTemplate::find($id);
             if($template != null){
-                $course->$request->certificate_template_id;
+                $course->certificate_template_id = $request->certificate_template_id;
             }
         }
         if($request->filled('attachment')){

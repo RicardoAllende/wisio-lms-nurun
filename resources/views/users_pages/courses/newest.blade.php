@@ -17,10 +17,8 @@
                       <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                        <h4 class="titulo-academia"> {{ $course->name }} </h4>
                        <div class="leer-mas">
-                         @if(Auth::check())
-                           <a href="{{ route('student.show.course',[$ascription->slug,$course->slug]) }}">Ver más</a>
-                         @else
-                           <a href="{{ route('student.show.course',['invitado',$course->slug]) }}">Ver más</a>
+                         @if(isset($ascription))
+                          <a href="{{ route('student.show.course',[$ascription->slug, $course->slug]) }}">Ver más</a>
                          @endif
                            <hr class="line3"/>
                        </div>

@@ -65,6 +65,9 @@ class Module extends Model
         if($this->hasDiagnosticEvaluation()){
             // Expecting only one evaluation
             $evaluation = $this->diagnosticEvaluations->first();
+            if( ! $evaluations->hasQuestions()){
+                return false;
+            }
             if($user->hasThisEvaluationCompleted($evaluation->id)){
                 return false;
             }else{

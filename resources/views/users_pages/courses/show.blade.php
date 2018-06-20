@@ -26,7 +26,9 @@ Curso {{ $course->name }}
     }
 </style>
 <script>
-var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
+  @if( isset($user) )
+    var isEnrolled = {{ ($user->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
+  @endif
 </script>
 @stop
 
@@ -37,15 +39,15 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
 @stop
 
 @section('body')
-@include('users_pages.courses.modal')
-@include('users_pages.courses.modalEvDiag')
-@include('users_pages.courses.modalInscripcion')
-<div class="row pad-left3">
+  @include('users_pages.courses.modal')
+  @include('users_pages.courses.modalEvDiag')
+  @include('users_pages.courses.modalInscripcion')
+  <div class="row pad-left3">
           <div class="pad-left1">
             <h2 class="cursoview">{{ $course->name }}</h2>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
             <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
-            </div>
+          </div>
 
           <div class="col s6 l9">
              <hr class="line"/>
@@ -53,17 +55,39 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
           <div class="col s6 l3">
              <h2 class="recientes">Módulos</h2>
           </div>
+          @if( ! Auth::check() ) <?php /* Section for guests */ ?>
+            @foreach($course->modules as $module)
+              <div class="col s12 l4 ">
+                <div class="card z-depth-0 white">
+                    <div class="card-content">
+                    <div class="row valign-wrapper">
+                        <div class="col s4">
+                          <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg">
+                        </div>
+                        <div class="col s8">
+                          <h5 class="titulos-modulo">
+                            {{ $module->name }}
+                          </h5>
+                            <div class="modulos"></div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            @endforeach <?php /* End section for guests */ ?>
+          @else
           <?php $cont=0; $mod=0; ?>
           @foreach($course->modules as $module)
           <?php $cont++; ?>
           <div class="col s12 l4 ">
              <div class="card z-depth-0 white">
                  <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" data-eva="{{ $module->hasDiagnosticEvaluationForUser() }}"
-                  @foreach($module->evaluations as $evaluation)
-                  @if($evaluation->type == "d")
-                    data-evi="{{ $evaluation->id }}"
+                  @if($module->hasDiagnosticEvaluation())
+                    <?php $evaluation = $module->diagnosticEvaluations->first(); ?>
+                    @if($evaluation->hasQuestions())
+                      data-evi="{{ $evaluation->id }}"
+                    @endif
                   @endif
-                  @endforeach
                   >
                   <div class="row valign-wrapper">
                       <div class="col s4">
@@ -141,8 +165,8 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
               </div>
           </div>
           @endif
-        </div>
-
+    </div>
+    @endif <?php /* End if auth */ ?>
 @stop
 @section('extrajs')
 <script src="/js/plugins/tincan/tincan.js" type="text/javascript"></script>
@@ -158,10 +182,12 @@ var isEnrolled = {{ (Auth::user()->isEnrolledInCourse($course->id) == false )? 0
 
  $('.chips').material_chip();
 
+  @if(Auth::check())
   var student_data = {
     name: '{{ Auth::user()->full_name }}',
     email: '{{ Auth::user()->email }}'
   };
+  @endif
 
   var myAgent = new TinCan.Agent (
     {

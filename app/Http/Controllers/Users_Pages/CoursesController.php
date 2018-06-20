@@ -38,7 +38,10 @@ class CoursesController extends Controller
         $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return view('users_pages/courses.list'); }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        //dd($course->modules->id);
+        if(Auth::check()){
+            $user = Auth::user();
+            return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
+        }
         return view('users_pages/courses.show',compact('course', 'ascription'));
     }
 

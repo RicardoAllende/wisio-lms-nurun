@@ -78,6 +78,13 @@ class Ascription extends Model
         }
     }
 
+    public function isMainAscription(){
+        if($this->is_main_ascription == 1){
+            return true;
+        }
+        return false;
+    }
+
     public function students(){
         $studentRole = Role::where('name', config('constants.roles.doctor'))->first();
         return $this->users->where('role_id', $studentRole->id);
