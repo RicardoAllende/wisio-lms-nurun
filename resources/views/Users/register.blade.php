@@ -27,7 +27,7 @@ Registro
       {!! Form::label('password', 'Contraseña:' )!!}
       <input type="password" name="password" id="passwd" placeholder="Contraseña" required>
       <meter max="4" id="password-strength-meter" style="width:100%;"></meter>
-      <p id="password-strength-text"></p>
+      <span class="smalltextright" id="password-strength-text"></span><br>
       <span class="smalltext">Su contraseña debe contener al menos:<br>
         -Una mayúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Un caracter Especialidad <br>
         -Una minúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -8 caracteres minimo<br>
@@ -217,11 +217,11 @@ $(document).ready(function() {
 });
 
 var strength = {
-    0: "Insegura",
-    1: "Contraseña insegura",
-    2: "Contraseña poco segura",
-    3: "Contraseña segura",
-    4: "Contraseña muy segura"
+    0: "Muy débil",
+    1: "Débil",
+    2: "Poco Débil",
+    3: "Fuerte",
+    4: "Muy Fuerte"
 };
 var password = document.getElementById('passwd');
 var meter = document.getElementById('password-strength-meter');
@@ -240,7 +240,7 @@ password.addEventListener('input', function() {
 
     // Update the text indicator
     if (val !== "") {
-        text.innerHTML = "Longitud: " + strength[result.score]; 
+        text.innerHTML = strength[result.score];
     } else {
         text.innerHTML = "";
     }
@@ -255,11 +255,11 @@ password.addEventListener('input', function() {
   <link rel="stylesheet" href="/css/hsimp.jquery.css">
   <style>
     meter {
-        /* Reset the default appearance */            
+        /* Reset the default appearance */
         margin: 0 auto 1em;
         width: 100%;
         height: .5em;
-        
+
         /* Applicable only to Firefox */
         background: none;
         background-color: rgba(0,0,0,0.1);
@@ -271,16 +271,16 @@ password.addEventListener('input', function() {
     }
 
     meter[value="0"]::-webkit-meter-optimum-value,
-    meter[value="1"]::-webkit-meter-optimum-value { background: red; }
-    meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
-    meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
-    meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+    meter[value="1"]::-webkit-meter-optimum-value { background: #f9f9f9; }
+    meter[value="2"]::-webkit-meter-optimum-value { background: #f3f4f4; }
+    meter[value="3"]::-webkit-meter-optimum-value { background: #c7b1d4; }
+    meter[value="4"]::-webkit-meter-optimum-value { background: #8f6eaa; }
 
     meter[value="1"]::-moz-meter-bar,
-    meter[value="1"]::-moz-meter-bar { background: red; }
-    meter[value="2"]::-moz-meter-bar { background: yellow; }
-    meter[value="3"]::-moz-meter-bar { background: orange; }
-    meter[value="4"]::-moz-meter-bar { background: green; }
+    meter[value="1"]::-moz-meter-bar { background: #f9f9f9; }
+    meter[value="2"]::-moz-meter-bar { background: #f3f4f4; }
+    meter[value="3"]::-moz-meter-bar { background: #c7b1d4; }
+    meter[value="4"]::-moz-meter-bar { background: #8f6eaa; }
 
     .feedback {
         color: #9ab;

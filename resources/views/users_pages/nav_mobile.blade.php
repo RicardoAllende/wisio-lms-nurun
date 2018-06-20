@@ -30,7 +30,7 @@
                 <hr class="linem"/>
                 <li><a href="#!">¿Qué es un médico con sentido?</a></li>
                 <hr class="linem"/>
-                <li><a href="#!">Noticias</a></li>
+                <li><a href="#!">Contenido Médico</a></li>
                 <hr class="linem"/>
 
                    @if(Auth::check())
@@ -38,7 +38,7 @@
                     <ul class="submenu">
                      <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
                      <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Expertos</a></li>
+                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
                      <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
                      <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
                    @else
@@ -46,7 +46,7 @@
                     <ul class="submenu">
                      <li ><a href="{{ route('student.funciona', 'invitado') }}" id="funcionaMob">¿Cómo funciona?</a></li>
                      <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="cursosMob">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertosMob">Expertos</a></li>
+                     <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertosMob">Profesores</a></li>
                      <li ><a href="{{ route('student.list.evaluations' , 'invitado') }}" id="evaluacionesMob">Evaluaciones</a></li>
                    @endif
 

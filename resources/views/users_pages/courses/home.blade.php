@@ -11,10 +11,10 @@ Inicio
 
 
 <div class="row pad-left3">
-          <div class="col s6 l9">
+          <div class="col s4 l9">
              <hr class="line"/>
           </div>
-          <div class="col s6 l3">
+          <div class="col s8 l3">
              <h2 class="recientes">cursos recomendados</h2>
           </div>
           @foreach($courses as $course)

@@ -336,6 +336,11 @@ a.linkM{
   font-size: .8rem;
 }
 
+.smalltextright{
+  font-size: .8rem;
+  text-align: right !important;
+}
+
 .consulta{
   padding: 10px;
 }
