@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection as Collection;
 use App\Ascription;
+use App\Course;
 
 class User extends Authenticatable
 {
@@ -18,8 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'firstname',
-        'lastname', 
-        'email', 
+        'lastname',
+        'email',
         'password',
         'birthday',
         'gender',
@@ -247,7 +248,7 @@ class User extends Authenticatable
 
     public function role(){
         return $this->belongsTo("App\Role");
-    } 
+    }
 
     public function isStudent(){
         return $this->hasRole(config('constants.roles.doctor'));
@@ -531,5 +532,44 @@ class User extends Authenticatable
     // public function getAscriptionAttribute(){
     //     return "Adscripción a la cual pertence";
     // }
+
+    public function getRecommendationsAttribute() {
+
+        $userTags = collect();
+        $recommendedCourses = collect();
+        // Get all tags from assigned courses
+        foreach($this->courses as $course) {
+            foreach($course->tags as $tag) {
+                $userTags->push($tag);
+            }
+        }
+
+        // Sort results by tag
+        $userTags = $userTags->groupBy('tag');
+
+        $userTags->transform(function($item, $key) {
+            $item['qty'] = $item->count();
+            $item['tag'] = $key;
+            return $item;
+        });
+
+        // Get all courses "tag_score"
+        $existenCourses = Course::whereNotIn('id', $this->courses->pluck('id'))->get();
+        foreach($existenCourses as $course) {
+            $tag_score = 0;
+            foreach($course->tags as $tag) {
+                foreach($userTags as $userTag) {
+                    if($userTag['tag'] == $tag->tag) {
+                        $tag_score += $userTag['qty'];
+                    }
+                }
+            }
+            $course->tag_score = $tag_score;
+            $recommendedCourses->push($course);
+        }
+
+        return $recommendedCourses->sortByDesc('tag_score')->take(5);
+
+    }
 
 }

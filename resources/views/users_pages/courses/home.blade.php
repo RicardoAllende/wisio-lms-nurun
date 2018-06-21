@@ -9,7 +9,7 @@ Inicio
 
 @section('body')
 
-
+ @if(Auth::check())
 <div class="row pad-left3">
           <div class="col s4 l9">
              <hr class="line"/>
@@ -17,7 +17,7 @@ Inicio
           <div class="col s8 l3">
              <h2 class="recientes">cursos recomendados</h2>
           </div>
-          @foreach($courses as $course)
+          @foreach(Auth::user()->recommendations as $course)
           <div class="col s12 l4 ">
             <div class="card z-depth-0 white ">
                <div class="card-content cursoscard">
@@ -45,7 +45,7 @@ Inicio
             </div>
           </div>
           @endforeach
-
+          @endif
        </div>
 
 
