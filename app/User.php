@@ -529,10 +529,6 @@ class User extends Authenticatable
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    // public function getAscriptionAttribute(){
-    //     return "Adscripción a la cual pertence";
-    // }
-
     public function getRecommendationsAttribute() {
 
         $userTags = collect();
