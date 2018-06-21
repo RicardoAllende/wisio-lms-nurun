@@ -101,7 +101,7 @@ class User extends Authenticatable
             if($module->hasFinalEvaluation()){
                 $finalEvaluation = $module->finalEvaluations()->first();
                 if($this->hasThisEvaluationCompleted($finalEvaluation->id)){
-                    return '<i class="material-icons">check_box</i> EVALUACIÃ“N';
+                    return '<i class="material-icons">check_box</i> EVALUACIÓN';
                 }
             }
             if($this->hasCompletedTheModule($module->id)){
@@ -177,7 +177,7 @@ class User extends Authenticatable
 
     public function progressInEvaluation($evaluation_id){
         $evaluation = Evaluation::find($evaluation_id);
-        if ($evaluation == null) { return "Evaluation doesnÂ´t exist"; }
+        if ($evaluation == null) { return "Evaluation doesn´t exist"; }
     }
 
     public function ascriptions(){  // Return ascriptions that aren't 'diplomados'
