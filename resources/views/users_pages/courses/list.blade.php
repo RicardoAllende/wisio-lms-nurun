@@ -11,7 +11,7 @@ Cursos
 @section('body')
 <div class="row pad-left3">
 
-  <div class="row">
+  <div class="row hide-on-med-and-down">
     <form class="col s12 l4" id="searchForm">
       <div class="row">
         <div class="input-field col s12">
@@ -31,6 +31,33 @@ Cursos
       <button id="sendform" class="btnAcademia waves-effect waves-light">Buscar</button>
       <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
     </div>
+
+
+  </div>
+
+  <div class="row hide-on-large-only">
+    <form class="col s12 l4" id="searchForm">
+      <div class="row">
+        <div class="col s8">
+          <!-- <i class="material-icons prefix" >search</i> -->
+          <input id="search" name="s" value="{{ $search }}" type="text" placeholder="Nombre del curso o especialidad">
+
+
+        </div>
+        <div class="col s1">
+          <button id="sendformM" class="btnAcademia waves-effect waves-light"><i class="material-icons" >search</i></button>
+        </div>
+        <div class="col s1" style="margin-left:20px;">
+          <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" ><i class="material-icons sufix">cached</i></a>
+        </div>
+        <!-- <i class="material-icons sufix">subdirectory_arrow_left</i> -->
+      </div>
+    </form><br>
+
+    <!-- <div class="col s12">
+      <button id="sendform" class="btnAcademia waves-effect waves-light">Buscar</button>
+      <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
+    </div> -->
 
 
   </div>
@@ -80,7 +107,7 @@ Cursos
 @stop
 @section('extrajs')
 <script>
-$("#sendform").click(function(){
+$("#sendform","#sendformM").click(function(){
   if($('#search').val() != ''){
     $('#searchForm').submit();
   }
