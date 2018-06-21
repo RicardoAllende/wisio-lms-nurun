@@ -513,7 +513,7 @@ class User extends Authenticatable
     }
 
     public function getRecommendationsAttribute() {
-        
+
         $userTags = collect();
         $recommendedCourses = collect();
         // Get all tags from assigned courses
