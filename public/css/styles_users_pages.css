@@ -908,6 +908,27 @@ i.material-icons.prefix.active{
 }
 
 
+@media only screen and (min-width:993px) and (max-width:1193px){
+
+  .leer-masmodulos {
+      width: 50%;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--main-font-color);
+  }
+
+  .leer-masmodulos_50 {
+      padding-bottom: 20px;
+      width: 50%;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--main-font-color);
+  }
+
+}
+
 /* media query */
 @media only screen and (max-width: 992px) {
     .contenido{
@@ -944,6 +965,28 @@ i.material-icons.prefix.active{
     will-change: opacity;
 }
 
+.btnAcademiaMobi{
+  padding-bottom: 50px !important;
+  text-align: center;
+}
+
+.mods {
+    height: 250px;
+}
+.leer-masmodulos {
+    width: 100%;
+
+}
+
+.leer-masmodulos_50 {
+
+    width: 100%;
+
+}
+
+.titulo-academia2 {
+    padding-top: 40px;
+}
 
 }
 
@@ -981,19 +1024,25 @@ i.material-icons.prefix.active{
 
 
   h1{
-      font-size: 25px;
+      font-size: 25px !important;
       text-transform: uppercase;
       font-weight: black;
   }
 
+  h2{
+      font-size: 18px !important;
+      text-transform: uppercase;
+      font-weight: bold;
+  }
+
   h3{
-      font-size: 18px;
+      font-size: 18px !important;
       text-transform: uppercase;
       font-weight: regular;
   }
 
   h4{
-      font-size: 16px;
+      font-size: 16px !important;
       text-transform: uppercase;
       font-weight: bold;
   }
@@ -1049,6 +1098,17 @@ img.responsive-img {
 .pad-left3{
     padding-left: 1rem;
     padding-right: 1rem;
+}
+.fontMob{
+  font-size: 10px;
+  padding: 12px !important;
+}
+
+.textFuncionaMob{
+  margin: 0px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: var(--main-select-font-color);
 }
 
 }

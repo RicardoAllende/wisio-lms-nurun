@@ -12,7 +12,7 @@ Cursos
 <div class="row pad-left3">
 
   <div class="row">
-    <form class="col s4" id="searchForm">
+    <form class="col s12 l4" id="searchForm">
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix" >search</i>
@@ -27,7 +27,7 @@ Cursos
       </div>
     </form><br>
 
-    <div class="col s6">
+    <div class="col s12">
       <button id="sendform" class="btnAcademia waves-effect waves-light">Buscar</button>
       <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
     </div>
@@ -42,14 +42,14 @@ Cursos
     <h2 class="recientes">cursos</h2>
   </div>
   @forelse($courses as $course)
-  <div class="col s12 l4 ">
+  <div class="col s6 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
           <span class="categoria-academia">{{ $course->category->name }}</span>
          <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
            <div class="modulos">{{ $course->modules->count() }} módulos</div>
-              <div  class="moduloslista valign-wrapper">
+              <div  class="moduloslista valign-wrapper hide-on-med-and-down">
 
                     <ol>
                       @foreach($course->modules->slice(0,3) as $module)

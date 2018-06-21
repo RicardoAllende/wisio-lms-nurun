@@ -14,10 +14,10 @@ Expertos
     <div class="row">
       <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">
-          <div class="input-field col s6 l4">
+          <div class="input-field col s12 l4">
             <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
           </div>
-          <div class="input-field col s6 l4">
+          <div class="input-field col s12 l4">
             <select name="specialty" id="specialty">
               @if($specialty != '')
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
@@ -30,7 +30,7 @@ Expertos
               @endforeach
             </select>
           </div>
-          <div class="input-field col s6">
+          <div class="input-field col s12">
             <button id="submit" class="btnAcademia waves-effect waves-light">Buscar</button>
             <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
             <!--<i class="material-icons prefix" id="submit">search</i>

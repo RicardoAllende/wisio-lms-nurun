@@ -24,7 +24,7 @@ Evaluaciones
          <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
            <div class="modulos">{{ $course->evaluations()->count() }} evaluaciones</div>
-              <div  class="moduloslista valign-wrapper">
+              <div  class="moduloslista valign-wrapper hide-on-med-and-down">
 
                     <ol>
                       @foreach($course->evaluations()->slice(0,2) as $evaluation)
@@ -33,7 +33,7 @@ Evaluaciones
                     </ol>
               </div >
           <div class="leer-masmodulos_50">
-            <a href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Ver todas las evaluaciones</a>
+            <a href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Ver evaluaciones</a>
             <hr class="line3"/>
           </div>
        </div>

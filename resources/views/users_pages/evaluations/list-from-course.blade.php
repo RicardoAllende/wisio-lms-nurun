@@ -16,7 +16,7 @@ Evaluacion
           <div class="pad-left1">
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
-              <div class="col s6">
+              <div class="col s12 l6">
                     <h1 class="tits">EVALUACIONES</h1>
                     <p>Elija el curso del que desea consultar sus evaluaciones:</p>
                     <select name="course_slug" id="course_slug">
@@ -26,17 +26,19 @@ Evaluacion
                         @endforeach
                     </select>
               </div>
-              <div class="col s6">
+              <div class="col s12 l6">
                 <div class="card white">
                   <div class="row">
+                    <div class="col s6">
                       <h6 class="cursoev">{{ $course->name }}</h6>
-                      <div class="right">
+                    </div>
+                      <div class="col s6 right">
                         <span class="categoria-evaluacion">{{ $course->category->name }}</span>
                         <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                       </div>
 
                   </div>
-                  <div class="card-content">
+                  <div class="card-content fontMob">
                       <div class="row center">
                           <div class="col s3"></div>
                           <div class="col s3">Total</div>

@@ -4,15 +4,15 @@
         @if(isset($ascription))
           <img class="img-navbar-desktop" src="{{ $ascription->getMainImgUrl() }}">
         @else
-          <img class="img-navbar-desktop" src="{{ asset('img/logo-navbar.png')}}">
+          <img class="img-navbar-desktop" src="{{ asset('img/logo_Academia.png')}}">
         @endif
         <div class="menu-desktop">
 
             <ul>
               @if( $ascription->isMainAscription() )
-                <li><a href="#!">Inicio</a></li>
+                <!-- <li><a href="#!">Inicio</a></li>
                 <li><a href="#!">¿Qué es un médico con sentido?</a></li>
-                <li><a href="#!">Contenido Médico</a></li>
+                <li><a href="#!">Contenido Médico</a></li> -->
               @endif
               <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
               <ul class="submenu">
@@ -29,7 +29,7 @@
                   <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                 @endif
               </ul>
-              <li><a href="#!">Medicamentos</a></li>
+              <!-- <li><a href="#!">Medicamentos</a></li> -->
               @if(Auth::check())
                 <li class="registro">
                   <a href="{{ route('logout') }}" class="btnAcademia">

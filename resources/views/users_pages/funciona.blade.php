@@ -18,20 +18,37 @@ Cómo funciona
                     <div class="card white slideshow-container col s12 l8">
 
                       <!-- Full-width slides/quotes -->
-                      <div class="mySlides row">
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                      <div class="mySlides">
+                        <div class="row hide-on-med-and-down">
+                          <div class="col s3 center">
+                              <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                          </div>
+                          <div class="col s9">
+                            <span class="titulo-funciona">
+                              Registro
+                            </span>
+                          <p class="text-funciona">Ingrese a la página web www.paecmexico.com regístrese con el folio único indicado en la invitación al programa. Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+                          </div>
                         </div>
-                        <div class="col s9">
-                          <span class="titulo-funciona">
-                            Registro
-                          </span>
-                        <p class="text-funciona">Ingrese a la página web www.paecmexico.com regístrese con el folio único indicado en la invitación al programa. Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+
+                        <div class="row hide-on-large-only">
+                          <h3 class="titulo-funciona">Registro</h3>
+                          <div class="col s3 center">
+                              <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                          </div>
+                          <div class="col s9">
+                          <p class="textFuncionaMob">Ingrese a la página web www.paecmexico.com <br><br> regístrese con el folio único indicado en la invitación al programa.</p>
+                          </div>
+                          <div class="col s12">
+                          <p class="text-funciona">Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+                          </div>
                         </div>
+
 
                       </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -43,8 +60,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">CLAVE ÚNICA</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Al completar el formato de registro</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona"> Deberá proporcionar un nombre de usuario y contraseña de su elección para ser identificado dentro del Programa, los cuales no deben sobrepasar los 10 caracteres.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -56,8 +87,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">Confirmación</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">El sistema le indicará que su registro se ha llevado a cabo con éxito.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Usted puede solicitar en cualquier momento el nombre de usuario y la contraseña con que se registró dando clic en la sección Inicio, y a continuación en Olvidé mi nombre de usuario y contraseña.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -69,8 +114,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">Página web</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Una vez registrado podrá ingresar a la página utilizando su nombre de usuario y contraseña seleccionados.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Esto le permitirá acceder tanto al material de estudio disponible en nuestra sección Módulos, como a las Evaluaciones.<br><br>La información sobre los ponentes y la duración de cada módulo podrá ser consultada en la sección de Expertos y Calendario, respectivamente.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -82,8 +141,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">El programa</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">El Programa se compone de varios módulos, cada uno de un mes de duración. Al inicio del curso se realizará un examen diagnóstico que no tendrá efectos en el resultado, pues funcionará como punto base para comparar la evaluación de cada participante.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Para poder ver los resultados, será necesario consultar la sección Evaluaciones. Es importante resaltar que el material de estudio sólo podrá descargarse en el periodo asignado.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -95,8 +168,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">Evaluaciones</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Para finalizar cada módulo será necesario completar una evaluación que estará disponible durante la última semana del mes, las 24 horas del día.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Al concluir el examen se mostrará el número de respuestas correctas y la calificación adquirida.<br><br>Es importante que consulte las fechas en la sección Calendario, ya que sólo se podrá presentar el examen en el periodo establecido, no habrá períodos extraordinarios.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -108,8 +195,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">Calificaciones</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Las calificaciones de cada módulo se mostrarán de manera inmediata al concluir el examen.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">El sistema brinda la posibilidad de realizar por segunda vez el examen con la finalidad de mejorar la calificación, esto sólo podrá efectuarse si el usuario da clic en la opción Realizar nuevamente que aparecerá después de concluir la evaluación y obtener el grado final.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -121,8 +222,22 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">E-mailings</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Usted recibirá comunicados vía e-mailing de manera periódica con relación al Programa.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Por lo que le solicitamos que revise con frecuencia el correo electrónico que utilizó durante el registro y verífique, si es necesario, la carpeta de correo no deseado.</p>
+                        </div>
+                      </div>
+                    </div>
 
-                    <div class="mySlides row">
+                    <div class="mySlides">
+                      <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
@@ -134,10 +249,33 @@ Cómo funciona
                         </div>
 
                       </div>
+                      <div class="row hide-on-large-only">
+                        <h3 class="titulo-funciona">Servicio de soporte técnico</h3>
+                        <div class="col s3 center">
+                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        </div>
+                        <div class="col s9">
+                        <p class="textFuncionaMob">Si tiene problemas para navegar en la página no dude en contactar a nuestro equipo de servicio técnico.</p>
+                        </div>
+                        <div class="col s12">
+                        <p class="text-funciona">Que le brindará atención de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o mediante el correo electrónico soporte@paecmexico.com</p>
+                        </div>
+                      </div>
+                    </div>
 
 
                     </div>
+                    <div class="row hide-on-large-only">
+                        <div class="col s6 l3 leer-mas prev">
+                             <hr class="line3"/>
+                            <a class="" onclick="plusSlides(-1)">anterior</a>
+                         </div>
+                        <div class="col s6 l3 offset-l3 leer-mas next">
+                            <a class="" onclick="plusSlides(1)">siguiente</a>
+                             <hr class="line3"/>
+                         </div>
 
+                    </div>
                     <div class="dot-container col s12 l4">
                       <span class="dot"  onclick="currentSlide(1)">Registro</span><br>
                       <span class="dot"  onclick="currentSlide(2)">Clave única</span> <br>
@@ -150,7 +288,7 @@ Cómo funciona
                       <span class="dot"  onclick="currentSlide(9)">Servicio de soporte técnico</span><br>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row hide-on-med-and-down">
                     <div class="col s6 l3 leer-mas prev">
                          <hr class="line3"/>
                         <a class="" onclick="plusSlides(-1)">anterior</a>

@@ -72,7 +72,7 @@ return [
         'expert' => 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png',
         'user' => 'https://www.library.caltech.edu/sites/default/files/styles/headshot/public/default_images/user.png',
         'course' => 'https://www.capacityacademy.com/uploads/6/4/8/3/6483237/_________667043846.png',
-        'ascription' => '/img/logo-navbar.png',
+        'ascription' => '/img/logo_Academia.png',
         'module' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'evaluation' => 'https://i1.wp.com/www.forotuxpan.com/wp-content/uploads/2012/07/salud-mujer-visita-al-ginecologo-privado.jpg?resize=1280%2C640',
         'category' => '/img/nervioso.png',

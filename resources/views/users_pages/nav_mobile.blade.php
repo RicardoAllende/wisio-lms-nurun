@@ -18,20 +18,20 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse" id="btnMenu"><i class="material-icons">menu</i></a>
 
             @if(isset($ascription))
-              <a href="#!" class="brand-logo center"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
+              <a href="#!" class="brand-logo right"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
             @else
-              <a href="#!" class="brand-logo center"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+              <a href="#!" class="brand-logo right"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
             @endif
 
 
              <div class="menu-mobile">
               <ul class="side-nav" id="mobile-demo">
-                <li><a href="#!">Inicio</a></li>
+                <!-- <li><a href="#!">Inicio</a></li>
                 <hr class="linem"/>
                 <li><a href="#!">¿Qué es un médico con sentido?</a></li>
                 <hr class="linem"/>
                 <li><a href="#!">Contenido Médico</a></li>
-                <hr class="linem"/>
+                <hr class="linem"/> -->
 
                    @if(Auth::check())
                    <li><a href="{{ route('student.home', $ascription->slug) }}" id="homeMob">Academia MC</a></li>
@@ -51,8 +51,8 @@
                    @endif
 
                  </ul>
-                 <hr class="linem"/>
-                <li><a href="#!">Medicamentos</a></li>
+                 <!-- <hr class="linem"/> -->
+                <!-- <li><a href="#!">Medicamentos</a></li> -->
                 <hr class="linem"/>
                 @if(Auth::check())
                   <li class="registro"><a href="{{ route('logout') }}"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>

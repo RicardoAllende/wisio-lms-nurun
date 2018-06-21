@@ -11,7 +11,7 @@ Inicio
 
         @if(Auth::check())
         <div class="row pad-left3">
-          <div class="col s6 l9">
+          <div class="col s4 l9">
              <hr class="line"/>
           </div>
           <div class="col s8 l3">
