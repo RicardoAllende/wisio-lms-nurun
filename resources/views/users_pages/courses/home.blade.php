@@ -9,8 +9,8 @@ Inicio
 
 @section('body')
 
-@if(Auth::check())
-<div class="row pad-left3">
+        @if(Auth::check())
+        <div class="row pad-left3">
           <div class="col s6 l9">
              <hr class="line"/>
           </div>
@@ -46,7 +46,7 @@ Inicio
           </div>
           @endforeach
           @endif
-          
+
        </div>
 
 
