@@ -104,6 +104,8 @@ class User extends Authenticatable
                 $finalEvaluation = $module->finalEvaluations()->first();
                 if($this->hasThisEvaluationCompleted($finalEvaluation->id)){
                     return '<i class="material-icons">check_box</i> EVALUACIÓN';
+                }else{
+                    return 'Visto, evaluación pendiente';
                 }
             }
             if($this->hasCompletedTheModule($module->id)){
@@ -349,17 +351,18 @@ class User extends Authenticatable
             $this->modules()->detach($module_id);
             // ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
         }
-        if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
-            $evaluation_id = $module->finalEvaluations->first()->id;
-            if($this->hasThisEvaluationCompleted($evaluation_id)){
-                $this->modules()->attach($module_id, ['status'=>1]);
-                $this->tryToSetCourseComplete($module->course->id);
-                return true;
-            }
-            $this->modules()->attach($module_id, ['status' => 0]);
-            return false;
-        }
-        $this->modules()->attach($module_id, ['status'=>1]);
+        $this->modules()->attach($module_id, ['status' => 1]);
+        // if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
+        //     $evaluation_id = $module->finalEvaluations->first()->id;
+        //     if($this->hasThisEvaluationCompleted($evaluation_id)){
+        //         $this->modules()->attach($module_id, ['status'=>1]);
+        //         $this->tryToSetCourseComplete($module->course->id);
+        //         return true;
+        //     }
+        //     $this->modules()->attach($module_id, ['status' => 0]);
+        //     return false;
+        // }
+        // $this->modules()->attach($module_id, ['status'=>1]);
         $this->tryToSetCourseComplete($module->course->id);
         return true;
     }
@@ -377,6 +380,12 @@ class User extends Authenticatable
     public function completedModulesOfCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return 0; }
+        return $this->completedModules->whereIn('id', $course->modules->pluck('id'));
+    }
+
+    public function numCompletedModulesOfCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return 0; }
         return $this->completedModules->whereIn('id', $course->modules->pluck('id'))->count();
     }
 
@@ -384,7 +393,7 @@ class User extends Authenticatable
         $course = Course::find($course_id);
         if($course == null){ return false; }
         $numModules = $course->modules->count();
-        if($numModules == $this->completedModulesOfCourse($course_id)){
+        if($numModules == $this->numCompletedModulesOfCourse($course_id)){
             return true;
         }else{
             return false;

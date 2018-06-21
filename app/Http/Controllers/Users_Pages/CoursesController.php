@@ -74,10 +74,9 @@ class CoursesController extends Controller
         $module = Module::find($request->module_id);
         $user = Auth::user();
         $save = null;
-
-        if($request->status){
+        // if($request->status){
             $save = $user->setModuleComplete($request->module_id);
-        }
+        // }
         return $user->progressInModule($module->id);
         // if($save){
         //     return "Módulo completado";

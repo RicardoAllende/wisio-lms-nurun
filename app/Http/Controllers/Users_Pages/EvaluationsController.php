@@ -30,19 +30,46 @@ class EvaluationsController extends Controller
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
         $numModules = $course->modules->count();
+        $numCompletedModules = $user->numCompletedModulesOfCourse($course->id);
+        $modulesAdvance = number_format($numCompletedModules / $numModules * 100, 2);
         $completedModules = $user->completedModulesOfCourse($course->id);
-        $modulesAdvance = number_format($completedModules / $numModules * 100, 2);
         // $evaluations = $course->evaluations();
-        $evaluations = $course->finalEvaluations();
-        $numEvaluations = $evaluations->count();
+        // $evaluations = $course->finalEvaluations();
+        $evaluations = collect();
+        // dd($completedModules);
+        foreach($completedModules as $module){
+            // dd($module->finalEvaluations()->first());
+            if($module->hasFinalEvaluation()){
+                $evaluations->push($module->finalEvaluations->first());
+            }
+            // $evaluations = $evaluations->concat($module->finalEvaluations->first());
+        }
+        // dd($evaluations);
+        $numEvaluations = $course->finalEvaluations()->count();
         $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
         if($enrollment == null){ $evaluationsAdvance = '-'; } else { $evaluationsAdvance = $enrollment->score; }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages/evaluations/list-from-course',
-        compact('user', 'course', 'numModules', 'completedModules', 'modulesAdvance',
+        compact('user', 'course', 'numModules', 'numCompletedModules', 'modulesAdvance',
         'numEvaluations', 'completedEvaluations', 'evaluations', 'evaluationsAdvance',
         'ascription_slug', 'courseSlug', 'ascription'));
+    }
+
+    public function showFinalEvaluation($ascription_slug, $course_slug, $module_id){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null)  return redirect('/');
+        $course = Course::whereSlug($course_slug)->first();
+        if($course == null) return redirect('/');
+        $user = Auth::user();
+        $module = Module::find($module_id);
+        $evaluation = $module->finalEvaluations->first();
+        if($evaluation == null){
+            return back();
+        }
+        if($module == null) return redirect()->route('show.evaluation.course', [$ascription_slug, $course_slug]);
+        return view('users_pages.evaluations.final-evaluation', 
+        compact('ascription', 'course', 'evaluation', 'user', 'module'));
     }
 
     public function gradeEvaluation($ascription_slug, Request $request){
@@ -139,7 +166,7 @@ class EvaluationsController extends Controller
             if($evaluation->isDiagnosticEvaluation()){
                 echo '<h4>Evaluación diagnóstica</h4>';
             }
-            echo '<form action="'.route('grade.evaluation', Auth::user()->ascriptionSlug()).'" id="formulario_evaluacion" method="post">';
+            echo '<form action="'.route('grade.evaluation', $ascription_slug).'" id="formulario_evaluacion" method="post">';
             echo csrf_field();
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
             echo '<div class="row pad-left3">

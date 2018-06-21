@@ -28,6 +28,7 @@ Curso {{ $course->name }}
 <script>
   @if( isset($user) )
     var isEnrolled = {{ ($user->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
+    var urlFinal = "{{ route('show.evaluation', [$ascription->slug, $course->slug, '*']) }}";
   @endif
 </script>
 @stop
@@ -83,15 +84,19 @@ Curso {{ $course->name }}
           @foreach($course->modules as $module)
           <?php $cont++; ?>
           <div class="col s12 l4 ">
-             <div class="card z-depth-0 white">
-                 <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" data-eva="{{ $module->hasDiagnosticEvaluationForUser() }}"
-                  @if($module->hasDiagnosticEvaluation())
-                    <?php $evaluation = $module->diagnosticEvaluations->first(); ?>
-                    @if($evaluation->hasQuestions())
-                      data-evi="{{ $evaluation->id }}"
-                    @endif
-                  @endif
-                  >
+              <div class="card z-depth-0 white">
+                  <div class="card-content collapsiblemod" id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" 
+                   data-eva="{{ $module->hasDiagnosticEvaluationForUser() }}"
+                   @if($module->hasDiagnosticEvaluation())
+                     <?php $evaluation = $module->diagnosticEvaluations->first(); ?>
+                     @if($evaluation->hasQuestions())
+                       data-evi="{{ $evaluation->id }}"
+                     @endif
+                   @endif
+                   @if($module->hasFinalEvaluation())
+                   data-final="1" data-final-i="{{ $module->id }}"
+                   @endif
+                   >
                   <div class="row valign-wrapper">
                       <div class="col s4">
                         <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"> <!-- notice the "circle" class -->

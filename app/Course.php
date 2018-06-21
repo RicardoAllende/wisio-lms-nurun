@@ -162,8 +162,9 @@ class Course extends Model
             $pivot->score = $avg;
             // $pivot->status = $status;
             $pivot->save();
+        }else{
+            $this->users()->attach($user_id, ['score' => $avg]);
         }
-        $this->users()->attach($user_id, ['score' => $avg]);
     }
 
     public function usersAvg(){

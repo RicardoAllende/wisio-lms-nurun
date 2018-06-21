@@ -111,6 +111,8 @@ var idModuleGlobal = null;
 var isMob = false;
 var isEval = false;
 var stat = false;
+var hasFEvaluation = false;
+var idFEvaluation = 0;
 
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
@@ -126,6 +128,14 @@ for (i = 0; i < coll.length; i++) {
           content = document.getElementById('modalMod');
         } else {
           content = document.getElementById('mod'+this.getAttribute('data-id'));
+        }
+
+        if(this.getAttribute('data-final')){
+          if(this.getAttribute('data-final') == '1'){
+            hasFEvaluation = true;
+            idFEvaluation = this.getAttribute('data-final-i');
+            nextUrl = urlFinal.replace('*', idFEvaluation);
+          }
         }
 
         if(this.getAttribute('data-module')){
@@ -173,9 +183,13 @@ function closeModule(){
 
   if(!isEval){
     sendDataLrs();
-    sendStatus(stat,modActive);
+    if(stat){ //Módulo terminado
+      alert('Enviando estado del módulo terminado');
+      sendStatus('1', modActive);
+    }
     stat = false;
   }
+  hasFEvaluation = false;
   $('.chip').html('Video - de -');
   isEval= false;
   modActive.classList.toggle("activeMod");
@@ -584,8 +598,20 @@ function cambiarItem(item){
 }
 
 function MsjVideoFinish(){
-  var toastHTML = "Se han concluido todos los videos";
-  Materialize.toast(toastHTML,5000,'acept');
+  sendStatus('1', modActive);
+  if(hasFEvaluation){
+    var toastHTML = "Módulo completado, redirigiendo a evaluación final";
+    Materialize.toast(toastHTML,4000,'acept')
+    nextUrl = urlFinal.replace('*', idFEvaluation);
+    setTimeout(redirectTo(nextUrl), 5000);
+  }else{
+    var toastHTML = "Módulo completado";
+    Materialize.toast(toastHTML,5000,'acept');
+  }
+}
+
+function redirectTo(route){
+  window.location.href = route;
 }
 
 function sendAjax(method_,url_,data_,callback){

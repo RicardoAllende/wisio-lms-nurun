@@ -22,7 +22,7 @@ Evaluacion
                     <select name="course_slug" id="course_slug">
                         @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
                         @foreach($coursesController->getCourses($ascription->slug) as $course)
-                            <option value="{{$course->id}}"> {{$course->name}} </option>
+                            <option value="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}"> {{$course->name}} </option>
                         @endforeach
                     </select>
               </div>
@@ -46,7 +46,7 @@ Evaluacion
                       <div class="row center">
                           <div class="col s3 textMods">Módulo</div>
                           <div class="col s3">{{ $numModules }}</div>
-                          <div class="col s3">{{ $completedModules }}</div>
+                          <div class="col s3">{{ $numCompletedModules }}</div>
                           <div class="col s3">{{ $modulesAdvance }} % </div>
                       </div>
                       <div class="row center">
@@ -178,6 +178,8 @@ Evaluacion
   $(document).ready(function() {
     $('select').material_select();
   });
-
+    $('#course_slug').change(function(){
+        window.location.href = $(this).val();
+    });
 </script>
 @stop

@@ -109,7 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
 			->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js, if it changes you must update the script.js
 		Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 
-		Route::get('/evaluacion/{course_id}/{evaluation_id}', 'Users_Pages\EvaluationsController@showEvaluation')
+		Route::get('/{course_id}/{module_id}/evaluacion-final', 'Users_Pages\EvaluationsController@showFinalEvaluation')
 		->name('show.evaluation'); // Final evaluations
 
 		Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
