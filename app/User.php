@@ -182,7 +182,7 @@ class User extends Authenticatable
 
     public function progressInEvaluation($evaluation_id){
         $evaluation = Evaluation::find($evaluation_id);
-        if ($evaluation == null) { return "Evaluation doesn´t exist"; }
+        if ($evaluation == null) { return "Evaluation doesn�t exist"; }
     }
 
     public function ascriptions(){  // Return ascriptions that aren't 'diplomados'

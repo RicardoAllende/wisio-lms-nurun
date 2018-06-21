@@ -85,6 +85,12 @@ Route::group(['middleware' => ['auth']], function () {
 			Route::get('/user/{user_id}', 'AdminControllers\UsersController@showReport')->name('show.user.report');
 		});
 
+
+		// API Tags
+		Route::post('/api/tags/create', 'AdminControllers\TagsController@store');
+		Route::post('/api/tags/detach', 'AdminControllers\TagsController@detach');
+		Route::post('/api/tags/attach', 'AdminControllers\TagsController@attach');
+
 	});
 
 	Route::get('/search-experts/{search}', 'AdminControllers\ExpertsController@searchByName')->name('search.experts');
