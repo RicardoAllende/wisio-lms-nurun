@@ -101,7 +101,7 @@ class User extends Authenticatable
             if($module->hasFinalEvaluation()){
                 $finalEvaluation = $module->finalEvaluations()->first();
                 if($this->hasThisEvaluationCompleted($finalEvaluation->id)){
-                    return '<i class="material-icons">check_box</i> EVALUACI�N';
+                    return '<i class="material-icons">check_box</i> EVALUACIÓN';
                 }else{
                     return 'Visto, evaluación pendiente';
                 }
