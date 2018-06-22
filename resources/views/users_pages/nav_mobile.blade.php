@@ -41,6 +41,7 @@
                      <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
                      <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
                      <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
+                     <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                    @else
                    <li><a href="{{ route('student.home', 'invitado') }}" id="home">Academia MC</a></li>
                     <ul class="submenu">
@@ -48,6 +49,7 @@
                      <li ><a href="{{ route('student.own.courses' , 'invitado') }}" id="cursosMob">Cursos</a></li>
                      <li ><a href="{{ route('student.show.experts' , 'invitado') }}" id="expertosMob">Profesores</a></li>
                      <li ><a href="{{ route('student.list.evaluations' , 'invitado') }}" id="evaluacionesMob">Evaluaciones</a></li>
+
                    @endif
 
                  </ul>

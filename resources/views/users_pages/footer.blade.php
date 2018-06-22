@@ -6,7 +6,7 @@
                <a href="#">Términos de uso </a>
              </div>
              <div class="col s12 l2 center lineh">
-               <a href="#">Aviso de privacidad </a>
+               <a href="{{ route('student.privacity') }}">Aviso de privacidad </a>
             </div>
              <div class="col s12 l2 center lineh">
                <a href="#">Aviso de farmacovigilancia </a>

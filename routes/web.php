@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::resource('/categories','AdminControllers\CategoriesController');
 		Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
 		Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
-		
+
 		Route::resource('/users', 'AdminControllers\UsersController');
 
 		Route::get('/get-users-data', 'AdminControllers\UsersController@getUsersDataAdmin')->name('get.users.data.admin'); // Datatables Facade
@@ -145,17 +145,18 @@ Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLin
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 // Route::get('/nueva-contrasena', function(){  return view('users_pages.login.newPassword');  });
 // Route::get('/email-contrasena', function(){  return view('email.recoverPassword');  });
-
+Route::get('/privacidad', function(){  return view('users_pages.legals.privacidad');  })->name('student.privacity');
 // Route::get('/mailing', 'LoginController@example');
 
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
 	Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');
-	
+
 	Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course');
 	Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
 	Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
 	Route::get('/como-funciona', 'Users_Pages\CoursesController@howItWorks')->name('student.funciona');
+
 
 	Route::get('/registro', 'AscriptionController@registerForm')->name('show.register.form.pharmacy');
 	Route::get('/registro/{code}', 'AscriptionController@registerFormWithCode')->name('show.register.form.pharmacy.with.code');

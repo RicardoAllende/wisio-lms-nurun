@@ -931,6 +931,7 @@ i.material-icons.prefix.active{
 
 /* media query */
 @media only screen and (max-width: 992px) {
+
     .contenido{
     position: absolute;
     left: 0px;
@@ -939,7 +940,7 @@ i.material-icons.prefix.active{
 
 
     nav .brand-logo {
-    width: 50%;
+    width: 30%;
 
     }
 
@@ -988,6 +989,21 @@ i.material-icons.prefix.active{
     padding-top: 40px;
 }
 
+.aprender-mas{
+    text-align: center;
+
+}
+
+.sesion{
+    margin-top: 5%;
+}
+
+
+.lineh {
+border-left:0px;
+padding-top:15px !important;
+}
+
 }
 
 
@@ -1003,25 +1019,12 @@ i.material-icons.prefix.active{
 
 }
 
-@media only screen and (max-width: 992px) {
-    .aprender-mas{
-        text-align: center;
-
-    }
-
-    .sesion{
-        margin-top: 5%;
-    }
-
-
-.lineh {
-    border-left:0px;
-    padding-top:15px !important;
-}
-}
 
 @media only screen and (max-width: 600px) {
+  nav .brand-logo {
+  width: 50%;
 
+  }
 
   h1{
       font-size: 25px !important;
