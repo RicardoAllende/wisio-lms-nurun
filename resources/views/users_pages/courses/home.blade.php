@@ -35,7 +35,7 @@ Inicio
                   </div>
                  <div class="leer-masmodulos">
                     @if(Auth::user()->isEnrolledInCourse($course->id))
-                      Inscrito
+                      <a href="#">Inscrito</a>
                     @else
                       <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
                     @endif

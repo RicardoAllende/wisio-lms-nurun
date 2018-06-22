@@ -21,10 +21,13 @@ Evaluacion
                     <p>Elija el curso del que desea consultar sus evaluaciones:</p>
                     <select name="course_slug" id="course_slug">
                         @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
-                        @foreach($coursesController->getCourses($ascription->slug) as $course)
-                            <option value="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}"> {{$course->name}} </option>
+                        @foreach($coursesController->getCourses($ascription->slug) as $courseOption)
+                            <option value="{{ route('show.evaluation.course', [$ascription->slug, $courseOption->slug]) }}"> {{$courseOption->name}} </option>
                         @endforeach
                     </select>
+                    @if($user->hasCertificateForCourse($course->id))
+                        <a target="_blank" class="btnAcademia" href="{{ route('download.certificate.of.course', $course->slug) }}">Descargar Certificado</a>
+                    @endif
               </div>
               <div class="col s12 l6">
                 <div class="card white">

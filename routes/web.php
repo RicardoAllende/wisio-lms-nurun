@@ -122,6 +122,8 @@ Route::group(['middleware' => ['auth']], function () {
 		Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
 	});
 
+	Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
+
 	Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf')->name('test.download.certificate');
 
 	Route::get('/module-has-diagnostic-evaluation/{module_id}', 'Users_Pages\EvaluationsController@checkDiagnosticEvaluation')->name('check.diagnostic.evaluation.availability');

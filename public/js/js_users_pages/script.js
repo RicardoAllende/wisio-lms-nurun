@@ -184,7 +184,7 @@ function closeModule(){
   if(!isEval){
     sendDataLrs();
     if(stat){ //Módulo terminado
-      alert('Enviando estado del módulo terminado');
+      // alert('Enviando estado del módulo terminado');
       sendStatus('1', modActive);
     }
     stat = false;

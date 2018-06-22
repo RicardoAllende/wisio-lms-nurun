@@ -80,8 +80,10 @@ class User extends Authenticatable
         $courses = $this->completedCourses;
         $result = collect();
         foreach ($courses as $course) {
-            if($course->pivot->score >= $course->minimum_score){
-                $result->push($course);
+            if($this->hasCompletedEvaluationsFromCourse($course->id)){
+                if($course->pivot->score >= $course->minimum_score){
+                    $result->push($course);
+                }
             }
         }
         return $result;
@@ -277,7 +279,6 @@ class User extends Authenticatable
         if($this->hasCourses()){
             return true;
         }
-        // Another advances
     }
 
     public function specialty(){
@@ -350,20 +351,8 @@ class User extends Authenticatable
         if ($module == null) { return false; }
         if($this->modules->contains($module_id)){
             $this->modules()->detach($module_id);
-            // ModuleUser::where('user_id', $this->id)->where('module_id', $module_id)->first();
         }
         $this->modules()->attach($module_id, ['status' => 1]);
-        // if($module->hasFinalEvaluation()){ // To complete the module, the user must do the evaluation
-        //     $evaluation_id = $module->finalEvaluations->first()->id;
-        //     if($this->hasThisEvaluationCompleted($evaluation_id)){
-        //         $this->modules()->attach($module_id, ['status'=>1]);
-        //         $this->tryToSetCourseComplete($module->course->id);
-        //         return true;
-        //     }
-        //     $this->modules()->attach($module_id, ['status' => 0]);
-        //     return false;
-        // }
-        // $this->modules()->attach($module_id, ['status'=>1]);
         $this->tryToSetCourseComplete($module->course->id);
         return true;
     }
@@ -402,11 +391,13 @@ class User extends Authenticatable
     }
 
     public function tryToSetCourseComplete($course_id){
-        $course = Course::find($course_id);
-        if($course == null){ return false; }
         if($this->hasCompletedTheModulesOfCourse($course_id)){
             $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
-            if($pivot == null) { return false; }
+            if($pivot == null) {
+                // return false; 
+                $this->courses()->attach($course_id, ['status' => 1]);
+                return true;
+            }
             $pivot->status = 1;
             $pivot->save();
             return true;
@@ -566,6 +557,26 @@ class User extends Authenticatable
 
         return $recommendedCourses->sortByDesc('tag_score')->take(5);
 
+    }
+
+    public function hasCompletedEvaluationsFromCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        foreach($course->finalEvaluations() as $evaluation){
+            if( ! $this->hasThisEvaluationCompleted($evaluation->id) ){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function hasCertificateForCourse($course_id){
+        foreach($this->approvedCourses() as $approved){
+            if($approved->id == $course_id){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

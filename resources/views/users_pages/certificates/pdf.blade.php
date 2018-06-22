@@ -81,14 +81,16 @@
 <body>
 
     <div >
-      <img src="{{ asset('img/cert_1_sanofi.png')}}" width="1024px" height="750px">
-      <div id="nombre1">JULIA ALEJANDRA CHÁVEZ ZAPATA</div>
-      <div id="curso1">Prevención de Lavado de Dinero</div>
-      <div id="dia1">9</div>
-      <div id="mes1">11</div>
-      <div id="dia2">9</div>
-      <div id="mes2">12</div>
-      <div id="anio">2017</div>
+        <img src="{{ asset('img/cert_1_sanofi.png')}}" width="1024px" height="750px">
+        <div id="nombre1">
+            {{ (isset($user)) ? $user->fullname : 'JULIA ALEJANDRA CHÁVEZ ZAPATA' }}
+        </div>
+        <div id="curso1">{{ (isset($course)) ? $course->name : 'PAEC Trombosis' }}</div>
+        <div id="dia1">9</div>
+        <div id="mes1">11</div>
+        <div id="dia2">9</div>
+        <div id="mes2">12</div>
+        <div id="anio">2017</div>
     </div>
 </body>
 </html>
