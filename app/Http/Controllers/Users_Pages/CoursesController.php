@@ -49,7 +49,8 @@ class CoursesController extends Controller
     {
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         $courses = $ascription->courses;
-        return view('users_pages/courses.home',compact('courses', 'ascription'));
+        $recommendations = Auth::user()->recommendations($ascription);
+        return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations'));
     }
 
     public function enrollment($ascription_slug,$user_id, $course_id)
