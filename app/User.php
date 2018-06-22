@@ -520,7 +520,7 @@ class User extends Authenticatable
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    public function getRecommendationsAttribute() {
+    public function recommendations(Ascription $ascription) {
 
         $userTags = collect();
         $recommendedCourses = collect();
@@ -541,7 +541,13 @@ class User extends Authenticatable
         });
 
         // Get all courses "tag_score"
-        $existenCourses = Course::whereNotIn('id', $this->courses->pluck('id'))->get();
+        //$existenCourses = Course::whereNotIn('id', $this->courses->pluck('id'))->get();
+        $assignedIds = $this->courses->pluck('id');
+        $existenCourses = $ascription->courses;
+        $existenCourses = $existenCourses->reject(function($value, $key) use ($assignedIds) {
+            return $assignedIds->contains($value->id);
+        });
+        //dd($existenCourses, $assignedIds);
         foreach($existenCourses as $course) {
             $tag_score = 0;
             foreach($course->tags as $tag) {

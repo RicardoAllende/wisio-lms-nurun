@@ -17,7 +17,8 @@ Inicio
           <div class="col s8 l3">
              <h2 class="recientes">cursos recomendados</h2>
           </div>
-          @foreach(Auth::user()->recommendations as $course)
+          @if($recommendations->count() > 0)
+          @foreach($recommendations as $course)
           <div class="col s12 l4 ">
             <div class="card z-depth-0 white ">
                <div class="card-content cursoscard">
@@ -45,6 +46,11 @@ Inicio
             </div>
           </div>
           @endforeach
+          @else
+            <div class="col s12 14">
+              No hay cursos disponibles para recomendarte en este momento.
+            </div>
+          @endif
           @endif
 
        </div>
