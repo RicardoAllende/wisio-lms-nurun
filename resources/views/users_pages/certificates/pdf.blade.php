@@ -26,7 +26,7 @@
         #dia1{
             position: fixed;
             top: 368px;
-            left: 300px;
+            left: 295px;
             font-size: 16pt;
             color: #396db6;
         }
@@ -86,11 +86,16 @@
             {{ (isset($user)) ? $user->fullname : 'JULIA ALEJANDRA CHÁVEZ ZAPATA' }}
         </div>
         <div id="curso1">{{ (isset($course)) ? $course->name : 'PAEC Trombosis' }}</div>
-        <div id="dia1">9</div>
-        <div id="mes1">11</div>
-        <div id="dia2">9</div>
-        <div id="mes2">12</div>
-        <div id="anio">2017</div>
+        <?
+            $di = new DateTime($pivot->created_at);
+            $df = new DateTime($pivot->updated_at);
+
+          ?>
+        <div id="dia1">{{ $di->format('d') }}</div>
+        <div id="mes1">{{ $di->format('m') }}</div>
+        <div id="dia2">{{ $df->format('d') }}</div>
+        <div id="mes2">{{ $df->format('m') }}</div>
+        <div id="anio">20{{ $df->format('y') }}</div>
     </div>
 </body>
 </html>
