@@ -86,7 +86,7 @@
             {{ (isset($user)) ? $user->fullname : 'JULIA ALEJANDRA CHÁVEZ ZAPATA' }}
         </div>
         <div id="curso1">{{ (isset($course)) ? $course->name : 'PAEC Trombosis' }}</div>
-        <?
+        <?php
             $di = new DateTime($pivot->created_at);
             $df = new DateTime($pivot->updated_at);
 
