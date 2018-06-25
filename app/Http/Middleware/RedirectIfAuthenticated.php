@@ -19,6 +19,10 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
+            if($user->enabled == 0){
+                Auth::logout();
+                return back()->with('error', 'Usuario deshabilitado');
+            }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();
@@ -43,7 +47,6 @@ class RedirectIfAuthenticated
             }
             return redirect('/');
         }
-
         return $next($request);
     }
 }

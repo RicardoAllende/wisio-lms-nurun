@@ -148,8 +148,9 @@ Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLin
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 
 Route::get('/curso', function(){
-App\Course::first()->setCourseComplete();
-return "Terminado";
+  $i = 8;
+  App\Course::find($i)->setCourseComplete();
+  return "Terminado $i";
 });
 
 // Public routes for guests

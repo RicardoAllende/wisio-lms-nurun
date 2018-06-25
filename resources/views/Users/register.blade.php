@@ -66,12 +66,12 @@ Registro
       <div class="row">
         <h6 class="upscase">Sexo</h6>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="gender" type="radio" id="hombre" value="m"  />
+          <input class="with-gap" name="gender" type="radio" id="hombre" value="1"  />
           <label for="hombre">Hombre</label>
 
         </div>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="gender" type="radio" id="mujer" value="f" />
+          <input class="with-gap" name="gender" type="radio" id="mujer" value="2" />
           <label for="mujer">Mujer</label>
         </div>
       </div>

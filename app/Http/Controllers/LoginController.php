@@ -38,6 +38,7 @@ class LoginController extends Controller
             $user = Auth::user();
             if($user->enabled == 0){
                 Auth::logout();
+                return back()->with('error', 'Usuario deshabilitado');
             }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
@@ -67,6 +68,7 @@ class LoginController extends Controller
             $user = Auth::user();
             if($user->enabled == 0){
                 Auth::logout();
+                return back()->with('error', 'Usuario deshabilitado');
             }
             session(['info' => $user->email]);
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
