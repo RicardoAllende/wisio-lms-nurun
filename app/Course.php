@@ -116,7 +116,7 @@ class Course extends Model
     }
 
     public function modules(){
-    	return $this->hasMany('App\Module');
+    	return $this->hasMany('App\Module')->orderBy('sort');
     }
 
     public function attachments(){
@@ -237,6 +237,24 @@ class Course extends Model
             }
         }
         return "Función terminada";
+    }
+
+    public function setDatesUser($user){
+        $dates = $user->finalEvaluationsFromCourse($this);
+        $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $this->id)->first();
+        if($pivot == null){ return false; }
+        $pivot->created_at = $dates['start'];
+        $pivot->updated_at = $dates['end'];
+        $pivot->save();
+        return true;
+    }
+
+    public function setDates(){
+        $users = $this->users;
+        foreach($users as $user){
+            $this->setDatesUser($user);
+        }
+        return true;
     }
 
 }
