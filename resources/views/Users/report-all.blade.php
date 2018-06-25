@@ -24,7 +24,6 @@
                     </div>
                     <div class="ibox-content">
                       <br>
-                        @if($users->count() > 0)
                           <div class="table-responsive" id="userList">
                             <table class="table table-striped table-bordered table-hover" id="users-table">
                             <thead>
@@ -39,21 +38,15 @@
                                 <th>Adscripción</th>
                                 <th>Diplomado</th>
                                 <th>Fecha de inscripción</th>
+                                <th>Código del promotor de ventas</th>
                                 <th>Último acceso al sistema</th>
                               </tr>
                             </thead>
                           </table>
                           
                         </div>
-                      @else
-                        <h3>Sin usuarios</h3>
-                      @endif
-                      
-                      
                     </div>
-                    <div class="ibox-footer">
-                       <!--$users->links()-->
-                    </div>
+                    <div class="ibox-footer"></div>
                 </div>
               </div>
       </div>
@@ -62,7 +55,6 @@
 
 @section('scripts')
   <script src="/js/sweetalert2.min.js"></script>
-  <script src="/js/method_delete_f.js"></script>
   <script>
   $( document ).ready(function() {
     $('#users-table').DataTable({
@@ -85,6 +77,7 @@
             {data: 'ascription_name'},
             {data: 'diplomados'},
             {data: 'created_at'},
+            {data: 'refered_code'},
             {data: 'last_access'},
         ]
     });

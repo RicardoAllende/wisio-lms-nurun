@@ -43,6 +43,7 @@
                                 <th>Adscripción</th>
                                 <th>Fecha de inscripción</th>
                                 <th>Cédula profesional</th>
+                                <th>Código del promotor de ventas</th>
                                 <th>Acciones</th>
                               </tr>
                             </thead>
@@ -79,6 +80,7 @@
                 {data: 'ascription_name'},
                 {data: 'created_at'},
                 {data: 'professional_license'},
+                {data: 'refered_code'},
                 {data: 'actions'},
             ]
         });
