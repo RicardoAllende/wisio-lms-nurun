@@ -48,6 +48,7 @@ class CoursesController extends Controller
     public function recommendations($ascription_slug)
     {
         $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null) { return redirect('/'); }
         $courses = $ascription->courses;
         $recommendations = Auth::user()->recommendations($ascription);
         return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations'));
@@ -55,14 +56,14 @@ class CoursesController extends Controller
 
     public function enrollment($ascription_slug,$user_id, $course_id)
     {
-      $course = Course::find($course_id);
-
-      $enrol = $course->enrolUser($user_id);
-      if($enrol){
-        return back()->with('msj', 'Se realizó exitosamente la inscripción');
-      } else {
-        return back()->with('msj', 'No se pudo inscribir');
-      }
+        $course = Course::find($course_id);
+        if($course == null) { return back(); }
+        $enrol = $course->enrolUser($user_id);
+        if($enrol){
+            return back()->with('msj', 'Se realizó exitosamente la inscripción');
+        } else {
+            return back()->with('msj', 'No se pudo inscribir');
+        }
     }
 
     public function publicCourses(){

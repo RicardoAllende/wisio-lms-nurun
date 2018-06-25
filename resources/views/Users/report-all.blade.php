@@ -79,7 +79,7 @@
             {data: 'email'},
             {data: 'firstname'},
             {data: 'lastname'},
-            {data: 'cedula'},
+            {data: 'professional_license'},
             {data: 'mobile_phone'},
             {data: 'status'},
             {data: 'ascription_name'},

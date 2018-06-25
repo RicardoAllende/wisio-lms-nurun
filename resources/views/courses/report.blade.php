@@ -22,54 +22,47 @@
                     </div>
                     <div class="ibox-content">
                       <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables">
+                        <table class="table table-striped table-bordered table-hover" id="users-table" >
                         <thead>
                             <tr>
-                                <th>#</th> @php $i = 1; @endphp
                                 <th>Correo electrónico</th>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
-                                <th>Activo</th>
+                                <th>Cédula profesional</th>
                                 <th>Calificación</th>
-                                <th>Fecha de inscripción</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>@php $i=1; @endphp
-                            @foreach($users as $user)
-                                <tr>
-                                  <td>{{$i}}</td>@php $i++; @endphp
-                                  <td><a href="{{ route('users.show' , $user->id) }}">{{$user->email}}</a></td>
-                                  <td>{{ $user->firstname }}</td>
-                                  <td>{{ $user->lastname }}</td>
-                                  <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                  <td> {{ $user->scoreInCourse($course->id) }} </td>
-                                  <td>{{ $user->pivot->created_at }}</td>
-                                  <td>
-                                    @if($user->hasAdvance())
-                                      @if($user->enabled == 1 )
-                                        <a href="{{ route('disable.user', $user->id) }}" class="btn btn-danger btn-round" >Deshabilitar</a>
-                                      @else
-                                        <a href="{{ route('enable.user', $user->id) }}" class="btn btn-info btn-round" >Habilitar</a>
-                                      @endif
-                                    @else
-                                      {!! Form::open(['method'=>'DELETE','route'=>['users.destroy',$user->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                        <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
-                                      {!! Form::close() !!}
-                                    @endif
-                                  </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
                       </table>
                       </div>
                       
                     </div>
-                    <div class="ibox-footer">
-                      
-                    </div>
+                    <div class="ibox-footer"></div>
                 </div>
               </div>
       </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+  $( document ).ready(function() {
+    $('#users-table').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excelHtml5', 'pdf', 'print'
+        ],
+        ajax: "{{ route('get.users.for.course', $course->id) }}",
+        columns: [
+            {data: 'email'},
+            {data: 'firstname'},
+            {data: 'lastname'},
+            {data: 'professional_license'},
+            {data: 'grade'},
+        ]
+    });
+  });
+</script>
 @endsection

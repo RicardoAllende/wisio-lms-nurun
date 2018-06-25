@@ -29,13 +29,13 @@ class User extends Authenticatable
         'city',
         'state_id',
         'address',
-        'cedula',
+        'professional_license',
         'consultation_type',
         'last_access',
         'enabled',
         'role_id',
         'is_validated',
-        'code'
+        'refered_code'
     ];
 
     // protected $appends = ['ascription'];

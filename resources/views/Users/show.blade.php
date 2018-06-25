@@ -39,7 +39,7 @@
                 <div class="col-sm-9">
                     <div class="widget-head-color-box navy-bg p-lg">
                         <h2>
-                            @if($user->gender != null)<span class="{{ ($user->gender == 'M') ? 'fa fa-male' : 'fa fa-female' }}"></span>@endif
+                            {{$user->gender}}
                             {{ $user->firstname }} {{ $user->lastname }}
                         </h2>
                         <ul class="list-unstyled m-t-md">
@@ -58,7 +58,7 @@
                             <li>
                                 <span class="fa fa-home m-r-xs"></span>
                                 <label>Dirección:</label>
-                                {{ $user->city }}, {{ $user->state }}, {{ $user->postal_code }}, {{ $user->address }}
+                                {{ $user->city }}, {{ $user->state }}, {{ $user->zip }}, {{ $user->address }}
                             </li>
                             <li>
                                 <span class="fa fa-mobile-phone m-r-xs"></span>
@@ -68,7 +68,7 @@
                             <li>
                                 <span class="fa fa-address-card-o m-r-xs"></span>
                                 <label>Cédula profesional:</label>
-                                {{ $user->cedula }}
+                                {{ $user->professional_license }}
                             </li>
                             <li>
                                 <span class="fa fa-plus-circle m-r-xs"></span>

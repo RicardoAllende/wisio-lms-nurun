@@ -38,7 +38,7 @@ Inicio
                     @if(Auth::user()->isEnrolledInCourse($course->id))
                       <a href="#">Inscrito</a>
                     @else
-                      <a href="{{ route('student.enrol.course', [Auth::user()->ascription()->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
+                      <a href="{{ route('student.enrol.course', [$ascription->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
                     @endif
                     <hr class="line3"/>
                   </div>

@@ -94,8 +94,8 @@ Registro
       <div class="reg col s12 l5 offset-l2">
 
         <div class="reg col s12 l6">
-          {!! Form::label('cedula', 'Cédula:' )!!}
-          {!! Form::number('cedula',null,['class'=>'','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'cedula' ]) !!}
+          {!! Form::label('professional_license', 'Cédula:' )!!}
+          {!! Form::number('professional_license',null,['class'=>'','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'professional_license' ]) !!}
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
@@ -111,11 +111,11 @@ Registro
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
           <div class="reg col s6">
-            <input class="with-gap" name="consultation_type" type="radio" value="Privada" id="privado" />
+            <input class="with-gap" name="consultation_type" type="radio" value="1" id="privado" />
             <label for="privado">Privado</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="Pública" id="publica" />
+            <input class="with-gap" name="consultation_type" type="radio" value="2" id="publica" />
             <label for="publica">Pública</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="Mixta" id="mixta" />
+            <input class="with-gap" name="consultation_type" type="radio" value="3" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
           <div class="reg col s6">
@@ -178,7 +178,7 @@ Registro
                 <input type="hidden" name="seccion" value="{{ $ascription->slug }}">
             @endif
             @if(isset($code))
-                <input type="hidden" name="code" value="{{ $code }}">
+                <input type="hidden" name="refered_code" value="{{ $code }}">
             @endif
         <input type="submit" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
         {!! Form::close() !!}

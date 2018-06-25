@@ -126,4 +126,10 @@ class EvaluationsController extends Controller
             $image->delete();
         }
     }
+
+    public function emptyEvaluations(){
+        $evaluations = Evaluation::all();
+        return view('empty-evaluations', compact('evaluations'));
+    }
+
 }

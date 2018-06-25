@@ -78,7 +78,7 @@
                 {data: 'status'},
                 {data: 'ascription_name'},
                 {data: 'created_at'},
-                {data: 'cedula'},
+                {data: 'professional_license'},
                 {data: 'actions'},
             ]
         });

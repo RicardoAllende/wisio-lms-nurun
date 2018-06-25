@@ -12,6 +12,14 @@ use App\Role;
 
 class UserController extends Controller
 {
+
+    public $tokenUrl = "https://dev.cedula.nurun.com.mx/api/v1/token?";
+    public $client_id = "client_id=3";
+    public $client_secret = "client_secret=Wpa2BbV4tNY69V5BOuWJALJxbvc2uLc9N7jd5Cqz";
+    public $licenseService = "http://dev.cedula.nurun.com.mx/api/v1/license-number/";
+    public $apiMessage = "";
+    public $sepServicesAreDown = false;
+
     public function updateInformation(){
         $user = Auth::user();
         $ascription = $user->ascription();
@@ -25,7 +33,7 @@ class UserController extends Controller
         $user->specialty_id = $request->specialty_id;
         $user->consultation_type = $request->consultation_type;
         $user->mobile_phone = $request->mobile_phone;
-        $user->postal_code = $request->postal_code;
+        $user->zip = $request->zip;
         $user->city = $request->city;
         $user->address = $request->address;
         if($request->filled('password')){
@@ -70,10 +78,20 @@ class UserController extends Controller
             return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
         }
         $cedula = $request->cedula;
+        $is_validated = true;
         if(User::whereCedula($cedula)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
+        if( ! $this->verifyProfessionalLicense($cedula, $request->firstname, $request->paterno, $request->materno) ){
+            if( $this->sepServicesAreDown ){
+                $is_validated = false;
+            }else{
+                $this->sepServicesAreDown = false;
+                return back()->withInput()->with('error', 'Cédula no validada');
+            }
+        }
         $user = User::create($input);
+        $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
         $user->password = bcrypt($request->password);
         $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
@@ -95,6 +113,96 @@ class UserController extends Controller
         if(Auth::attempt(compact('email', 'password'))){
             return redirect('/');
         }
+    }
+
+    public function verifyProfessionalLicense($license, $name, $middlename, $lastname){
+        $accessToken = $this->getAccessToken();
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $this->licenseService.$license,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer ".$accessToken,
+                "Cache-Control: no-cache",
+                "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return false;
+        }
+        $jsonResponse = json_decode($response);
+        if(isset($jsonResponse->{'results'})){
+            $numResults = $jsonResponse->{'results'};
+            if($numResults == '1'){
+                $license = $jsonResponse->{'licenses'};
+                $license = $license[0];
+                $licenseName = $license->{'name'};
+                $licenseMiddleName = $license->{'middle_name'};
+                $licenseLastName = $license->{'last_name'};
+                $license_type = $license->{'license_type'};
+                if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
+                    $this->apiMessage = "El nombre no coincide";
+                    dd('Nombre');
+                    return false;
+                }
+                if(mb_strtoupper($middlename) != mb_strtoupper($licenseMiddleName)){
+                    $this->apiMessage = "El nombre no coincide con el registrado en la cédula profesional";
+                    dd('Paterno');
+                    return false;
+                }
+                if( mb_strtoupper($lastname) != mb_strtoupper($licenseLastName) ){
+                    $this->apiMessage = "Su apellido materno no coincide con el registrado en la cédula profesional";
+                    dd('Materno con función strnatcasecmp');
+                    return false;
+                }
+                if(mb_strtoupper($license_type) != 'C1'){
+                    // $this->apiMessage = "Su cédula no es del tipo ";
+                    return false;
+                }
+                // dd("Devolviendo true");
+                return true;
+
+            }else{
+                return false;
+            }
+        }
+
+        if(isset($jsonResponse->{'message'})){
+            $message = $jsonResponse->{'message'};
+            if($message == 'Unauthenticated.'){
+
+            }
+            $this->sepServicesAreDown = true;
+        }
+        return false;
+    }
+
+    public function getAccessToken(){
+        $tokenUrl = $this->tokenUrl.$this->client_id."&".$this->client_secret;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $tokenUrl);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        $result = json_decode($output);
+        if(isset($result->{'access_token'})){
+            return $token = $result->{'access_token'};
+        }
+        return "-";
     }
 
 }

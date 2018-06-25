@@ -58,8 +58,8 @@ Actualizacion de información
     </div>
 
     <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('postal_code', 'Código postal:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::number('postal_code',null,['class'=>'form-control','placeholder'=>'Código Postal', 'required' => '']) !!}
+      {!! Form::label('zip', 'Código postal:',['class'=>'control-label col-sm-2']); !!}
+      {!! Form::number('zip',null,['class'=>'form-control','placeholder'=>'Código Postal', 'required' => '']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">

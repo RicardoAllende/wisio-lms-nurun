@@ -31,7 +31,7 @@
             <div class="row">
               <div class="col s12 l4 offset-l4 center cursos">
                 @if(Auth::check())
-                  <a href="{{ route('student.own.courses',Auth::user()->ascription()->slug )}}">Ver todos los cursos</a>
+                  <a href="{{ route('student.own.courses',$ascription->slug )}}">Ver todos los cursos</a>
                 @else
                   <a href="{{ route('login')}}">Ver todos los cursos</a>
                 @endif

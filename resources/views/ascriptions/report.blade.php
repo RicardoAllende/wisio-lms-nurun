@@ -47,46 +47,23 @@
                     </div>
                 </div>
 
-                @if($users->count() > 0)
-                   <center id="loading"><img src="/css/loading.gif"alt=""></center>
-                    <div class="table-responsive" id="userList" style="display:none;">
-                    <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                        <!--<th>#</th>--> @php $i = 1; @endphp
-                        <th>Correo electrónico</th>
-                        <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Cédula profesional</th>
-                        <th>Teléfono móvil</th>
-                        <th>Activo</th>
-                        <th>Número de cursos terminados</th>
-                        <th>Último acceso al sistema</th>
-                        <th>Fecha de inscripción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($users as $user)
-                        <tr>
-                            <!--<td>{{$i}}</td>-->@php $i++; @endphp
-                            <td><a href="{{ route('show.user.report' , $user->id) }}">{{$user->email}}</a></td>
-                            <td>{{ $user->firstname }}</td>
-                            <td>{{ $user->lastname }}</td>
-                            <td>{{ $user->cedula }}</td>
-                            <td>{{ $user->mobile_phone }}</td>
-                            <td>{{ ($user->enabled == 1) ? 'Sí' : 'No' }}</td>
-                            <td>{{ $user->numCompletedCoursesOfAscription($ascription->id) }}</td>
-                            <td>{{ $user->last_access }}</td>
-                            <td>{{ $user->created_at }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                   
+                    <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Correo electrónico</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Cédula profesional</th>
+                                <th>Teléfono móvil</th>
+                                <th>Activo</th>
+                                <th>Número de cursos terminados</th>
+                                <th>Último acceso al sistema</th>
+                            </tr>
+                        </thead>
                     </table>
-                {{ $users->links() }}
                 </div>
-                @else
-                    <h3>Sin usuarios</h3>
-                @endif
 
             
             </div>
@@ -98,8 +75,28 @@
 @section('scripts')
 <script>
   $( document ).ready(function() {
-    $('#userList').show();
-    $('#loading').hide();
+    // $('#userList').show();
+    // $('#loading').hide();
+    $('#users-table').DataTable({
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excelHtml5', 'pdf', 'print'
+        ],
+        ajax: "{{ route('get.users.data.admin.ascription', $ascription->id) }}",
+        columns: [
+            {data: 'email'},
+            {data: 'firstname'},
+            {data: 'lastname'},
+            {data: 'professional_license'},
+            {data: 'mobile_phone'},
+            {data: 'status'},
+            {data: 'numCompletedCoursesInModule'},
+            {data: 'last_access'},
+        ]
+    });
   });
 </script>
 @endsection

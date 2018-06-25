@@ -31,54 +31,22 @@
                     </div>
                     <div class="ibox-content">
                       <br>
-                        @if($users->count() > 0)
-                          <center id="loading"><img src="/css/loading.gif"alt=""></center>
-                          <div class="table-responsive" id="userList" style="display:none;">
-                            <table class="table table-striped table-bordered table-hover dataTables">
+                          <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="users-table">
                             <thead>
                               <tr>
-                                <th>#</th> @php $i = 1; @endphp
                                 <th>Correo electrónico</th>
                                 <th>Nombre</th>
                                 <th>Apellidos</th>
                                 <th>Cédula profesional</th>
                                 <th>Activo</th>
-                                <th>Adscripción</th>
                                 <th>Acciones</th>
                               </tr>
                             </thead>
-                            <tbody>
-                                @foreach($users as $user)
-                                <tr>
-                                  <td>{{$i}}</td>@php $i++; @endphp
-                                  <td><a href="{{ route('users.show' , $user->id) }}">{{$user->email}}</a></td>
-                                  <td>{{ $user->firstname }}</td>
-                                  <td>{{ $user->lastname }}</td>
-                                  <td>{{ $user->cedula }}</td>
-                                  <td>{{ ($user->enabled == 1) ? 'Activo' : 'Inactivo' }}</td>
-                                  <td>@if($user->hasAscriptions()){{ $user->ascriptions->first()->name }}
-                                    @else <a href="{{route('users.edit', $user->id)}}" > Asignar a alguna adscripción </a> @endif
-                                  </td>
-                                  <td>
-                                    @if($user->isEnrolledInDiplomado($ascription->id))
-                                        <a href="{{ route('detach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-danger btn-round" >Quitar del diplomado</a>
-                                    @else
-                                        <a href="{{ route('attach.user.to.diplomado', [$ascription->id, $user->id]) }}" class="btn btn-success btn-round" >Inscribir al diplomado</a>
-                                    @endif
-                                  </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
                           </table>
                         </div>
-                      @else
-                        <h3>Sin usuarios</h3>
-                      @endif
-                      
-                      
                     </div>
                     <div class="ibox-footer">
-                       <!--$users->links()-->
                     </div>
                 </div>
               </div>
@@ -91,8 +59,24 @@
   <script src="/js/method_delete_f.js"></script>
   <script>
   $( document ).ready(function() {
-    $('#userList').show();
-    $('#loading').hide();
+    $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excelHtml5', 'pdf', 'print'
+            ],
+            ajax: "{{ route('get.users.for.ascription.enrollment', $ascription->id) }}",
+            columns: [
+                {data: 'email'},
+                {data: 'firstname'},
+                {data: 'lastname'},
+                {data: 'professional_license'},
+                {data: 'status'},
+                {data: 'enrollment'},
+            ]
+    });
   });
   </script>
 @endsection

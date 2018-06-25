@@ -17,6 +17,9 @@ class HomeController extends Controller
         // $courses = Course::orderBy('created_at','desc')->limit(5)->get();
         if(Auth::check()){
             $user = Auth::user();
+            if($user->enabled == 0){
+                Auth::logout();
+            }
             if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }
@@ -44,4 +47,25 @@ class HomeController extends Controller
     {
         return view('home/minor');
     }
+
+    public function privacity($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.legals.privacidad', compact('ascription'));
+    }
+
+    public function terms($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.legals.terminosycondiciones', compact('ascription'));
+    }
+    
+    public function pharmacovigilance($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.legals.farmacovigilancia', compact('ascription'));
+    }
+
+    public function twitterTerms($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.legals.twitter', compact('ascription'));
+    }
+
 }

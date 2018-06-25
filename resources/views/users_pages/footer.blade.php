@@ -3,19 +3,19 @@
            <div class="row" style="margin-bottom: 0;">
              <div class="col offset-l1"></div>
             <div class="col s12 l2 center">
-               <a href="#">Términos de uso </a>
-             </div>
-             <div class="col s12 l2 center lineh">
-               <a href="{{ route('student.privacity') }}">Aviso de privacidad </a>
+              <a href="{{ route('student.terms', $ascription->slug) }}">Términos de uso </a>
             </div>
-             <div class="col s12 l2 center lineh">
-               <a href="#">Aviso de farmacovigilancia </a>
+            <div class="col s12 l2 center lineh">
+              <a href="{{ route('student.terms', $ascription->slug) }}">Aviso de privacidad </a>
             </div>
-             <div class="col s12 l2 center lineh">
-               <a href="#">Términos de uso Twitter </a>
+            <div class="col s12 l2 center lineh">
+             <a href="{{ route('student.pharmacovigilance', $ascription->slug) }}">Aviso de farmacovigilancia </a>
             </div>
-             <div class="col s12 l2 center lineh">
-               <a href="#">Mapa de sitio </a>
+            <div class="col s12 l2 center lineh">
+              <a href="{{ route('student.twitter.terms', $ascription->slug) }}">Términos de uso Twitter </a>
+            </div>
+            <div class="col s12 l2 center lineh">
+              <a href="#">Mapa de sitio </a>
             </div>
            </div>
 

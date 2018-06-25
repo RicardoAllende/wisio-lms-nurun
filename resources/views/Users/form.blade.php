@@ -51,9 +51,9 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('cedula', 'Cédula profesional:',['class'=>'control-label col-sm-2']); !!}
+                {!! Form::label('professional_license', 'Cédula profesional:',['class'=>'control-label col-sm-2']); !!}
                 <div class="col-sm-10"> 
-                  {!! Form::text('cedula',null,['class'=>'form-control','placeholder'=>'Cédula profesional']) !!}
+                  {!! Form::text('professional_license',null,['class'=>'form-control','placeholder'=>'Cédula profesional']) !!}
                 </div>
             </div>
 

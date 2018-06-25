@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <h3><strong>Nombre: {{ $user->firstname }} {{ $user->lastname }}  </strong></h3>
-                    <p>Cédula profesional: {{ $user->cedula }} </p>
+                    <p>Cédula profesional: {{ $user->professional_license }} </p>
                     <p>Fecha de nacimiento: {{ $user->birthday }} </p>
                     <p>@if($user->gender != null)<span class="{{ ($user->gender == 'M') ? 'fa fa-male' : 'fa fa-female' }}"></span>@endif </p>
                     <p>Teléfono móvil: {{ $user->mobile_phone }}</p>

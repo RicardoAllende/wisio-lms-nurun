@@ -37,6 +37,5 @@ class AscriptionController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
         return view('Users/register', compact('ascription', 'code'));
-        return "Nuevo usuario para la adscripción ".$ascription_slug." que llega con el código ".$code;
     }
 }

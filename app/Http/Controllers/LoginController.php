@@ -34,8 +34,11 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if(Auth::check()){
+        if(Auth::check()){ // If user is registered
             $user = Auth::user();
+            if($user->enabled == 0){
+                Auth::logout();
+            }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();
@@ -62,6 +65,9 @@ class LoginController extends Controller
         }
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            if($user->enabled == 0){
+                Auth::logout();
+            }
             session(['info' => $user->email]);
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
@@ -76,7 +82,7 @@ class LoginController extends Controller
                 if($user->hasDifferentAscriptions()){
                     return redirect()->route('student.select.ascription');
                 }
-                $ascription = $user->ascription();
+                $ascription = $user->allAscriptions->first();
                 return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');

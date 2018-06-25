@@ -189,6 +189,9 @@ class Module extends Model
 
     public function calculateUserAvg($user){
         $finalEvaluations = $this->finalEvaluations()->pluck('id');
+        if(EvaluationUser::where('user_id', $user->id)->whereIn('evaluation_id', $finalEvaluations)->count() < 1){
+            return false;
+        }
         $moduleAvg = DB::table('evaluation_user')->select(DB::raw('max(score) as score'))->where('user_id', $user->id)
         ->whereIn('evaluation_id', $finalEvaluations)->groupBy('evaluation_id')->get()->avg('score');
         if($moduleAvg == null){

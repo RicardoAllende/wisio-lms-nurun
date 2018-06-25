@@ -67,8 +67,8 @@ class UsersController extends Controller
                     ['Error' => "Email repetido, ya existe un usuario con ese email"]
                 );
             }
-            $cedula = $request->cedula;
-            if(User::whereCedula($cedula)->count() > 0 ){ // Cédula exists
+            $professional_license = $request->professional_license;
+            if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
                 return back()->withInput()->withErrors(
                     ['Error' => "Cédula repetida, ya existe un usuario con esa cédula"]
                 );
@@ -145,7 +145,7 @@ class UsersController extends Controller
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->is_pharmacy = $request->is_pharmacy;
-        $user->cedula = $request->cedula;
+        $user->professional_license = $request->professional_license;
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;
@@ -182,19 +182,6 @@ class UsersController extends Controller
             $user->save();
         }
         return back();
-    }
-
-    /**
-     * Returns the response from the url
-     */
-    public function getResponse($query){
-        $ch = curl_init();
-        $url = "http://search.sep.gob.mx/solr/cedulasCore/select?&wt=json&q=".$query;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        echo $output;
     }
 
     public function disableUser($user_id){
@@ -270,18 +257,6 @@ class UsersController extends Controller
         return back();
     }
 
-    public function downloadUsers(){
-        $data = User::take(50)->get()->toArray();
-        return Excel::create('laravelcode', function($excel) use ($data) {
-            $excel->sheet('mySheet', function($sheet) use ($data)
-            {
-                $sheet->fromArray($data);
-            });
-        })->download('xlsx');
-        return Excel::download(new App\Exports\Users, 'invoices.xlsx');
-        return "Función para descargar usuarios descargar usuarios";
-    }
-
     public function getUsersDataAdmin(){
         return \DataTables::of(User::query())
         ->addColumn('userLink', function ($user) {
@@ -310,31 +285,25 @@ class UsersController extends Controller
             return "";
         })
         ->addColumn('actions', function ($user) {
-            // if ($user->hasAdvance()) {
-                if($user->enabled == 1){
-                    return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
-                }else{
-                    return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
-                }
-            // } else {
-            //     $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
-            //         <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
-            //         <a class="btn btn-danger btn_delete">Eliminar</a>
-            //       </form>';
-            //     return $var;
-            // }
-            
+            if($user->enabled == 1){
+                return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+            }else{
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
+            }            
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name', 'diplomados'])
         ->make(true);
     }
 
-    public function getUsersDataAdminForAscription($ascription_id){
+    public $ascription_id;
+
+    public function getDataForAscription($ascription_id){
+        $this->ascription_id = $ascription_id;
         $ascription = Ascription::find($ascription_id);
         if($ascription == null){
             return false;
         }
-        $users = $ascription->users;
+        $users = $ascription->users();
         return \DataTables::of($users)
         ->addColumn('userLink', function ($user) {
             return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
@@ -343,11 +312,8 @@ class UsersController extends Controller
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
             return  $status; 
         })
-        // ->addColumn('completedCourses', function ($user) {
-        //     return $user->completedCourses()->count();
-        // })
-        ->addColumn('full_name', function ($user) {
-            return $user->firstname.' '.$user->lastname; 
+        ->addColumn('numCompletedCoursesInModule', function ($user) {
+            return $user->numCompletedCoursesOfAscription($this->ascription_id);
         })
         ->addColumn('actions', function ($user) {
             if ($user->hasAdvance()) {
@@ -366,6 +332,48 @@ class UsersController extends Controller
             
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink'])
+        ->make(true);
+    }
+
+    public $diplomaId;
+
+    public function getDataForAscriptionEnrollment($ascription_id){
+        $this->diplomaId = $ascription_id;
+        
+        return \DataTables::of(User::query())
+        ->addColumn('status', function ($user) {
+            $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+            return  $status; 
+        })
+        ->addColumn('enrollment', function ($user) {
+            if($user->isEnrolledInDiplomado($this->diplomaId)){
+                return '<a href="'.route('detach.user.to.diplomado', [$this->diplomaId, $user->id]).'" class="btn btn-danger btn-round" >Quitar del diplomado</a>';
+            }else{
+                return '<a href="'.route('attach.user.to.diplomado', [$this->diplomaId, $user->id]).'" class="btn btn-success btn-round" >Inscribir al diplomado</a>';
+            }            
+        })
+        ->rawColumns(['status', 'enrollment', 'userLink'])
+        ->make(true);
+    }
+
+    public $course_id;
+
+    public function getDataForCourse($course_id){
+        $this->course_id = $course_id;
+        $course = Ascription::find($course_id);
+        if($course == null){
+            return false;
+        }
+        $users = $course->users();
+        return \DataTables::of($users)
+        ->addColumn('grade', function ($user){
+            return $user->scoreInCourse($this->course_id);
+        })
+        ->addColumn('status', function ($user) {
+            $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+            return  $status; 
+        })
+        ->rawColumns(['status', 'grade'])
         ->make(true);
     }
 

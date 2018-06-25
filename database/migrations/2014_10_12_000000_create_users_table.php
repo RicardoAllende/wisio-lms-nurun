@@ -16,20 +16,20 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             // $table->string('username')->unique()->nullable();
-            $table->string('firstname')->nullable();
-            $table->string('lastname')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('password')->default(bcrypt('secret'));
+            $table->string('firstname', 50)->nullable();
+            $table->string('lastname', 50)->nullable();
+            $table->string('email', 50)->unique();
+            $table->string('password', 70)->default(bcrypt('secret'));
             $table->date('birthday')->nullable();
-            $table->string('gender', 1)->nullable(); // M or F
-            $table->string('mobile_phone')->nullable();
-            $table->string('postal_code')->nullable();
-            $table->string('city')->nullable();
+            $table->enum('gender', ['Hombre', 'Mujer'])->nullable(); // M or F
+            $table->string('mobile_phone', 15)->nullable();
+            $table->string('zip', 5)->nullable();
+            $table->string('city', 50)->nullable();
             $table->boolean('is_validated')->default(true); // Cédula
-            $table->string('address')->nullable();
-            $table->string('cedula')->nullable();
-            $table->string('code')->nullable();
-            $table->string('consultation_type')->nullable();
+            $table->string('address', 100)->nullable();
+            $table->string('professional_license', 10)->nullable();
+            $table->string('refered_code', 15)->nullable();
+            $table->enum('consultation_type', ['Privada', 'Pública', 'Mixta'])->nullable();
             $table->timestamp('last_access')->nullable();
             $table->timestamp('last_profile_update')->nullable();
             $table->boolean('enabled')->default(true);
