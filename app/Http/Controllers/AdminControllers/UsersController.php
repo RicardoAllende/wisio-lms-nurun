@@ -305,15 +305,18 @@ class UsersController extends Controller
         }
         $users = $ascription->users();
         return \DataTables::of($users)
+        ->addColumn('numCompletedCoursesOfAscription', function ($user) {
+            $doctor = User::find($user->user_id);
+            if($doctor == null){ return 0; }
+            return User::find($user->user_id)->numCompletedCoursesOfAscription($this->ascription_id);
+            return $user->user_id;
+        })
         ->addColumn('userLink', function ($user) {
-            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
+            return '<a href="' . route('users.show', $user->user_id) .'">'.$user->user_id.'</button>'; 
         })
         ->addColumn('status', function ($user) {
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
             return  $status; 
-        })
-        ->addColumn('numCompletedCoursesInModule', function ($user) {
-            return $user->numCompletedCoursesOfAscription($this->ascription_id);
         })
         ->addColumn('actions', function ($user) {
             if($user->enabled == 1){
@@ -322,7 +325,7 @@ class UsersController extends Controller
                 return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
             }
         })
-        ->rawColumns(['namelink', 'status', 'actions', 'userLink'])
+        ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'numCompletedCoursesOfAscription'])
         ->make(true);
     }
 
@@ -358,6 +361,9 @@ class UsersController extends Controller
         $users = $course->users();
         return \DataTables::of($users)
         ->addColumn('grade', function ($user){
+            $doctor = User::find($user->user_id);
+            if($doctor == null){ return 0; }
+            return $doctor->scoreInCourse($this->course_id);
             return $user->scoreInCourse($this->course_id);
         })
         ->addColumn('status', function ($user) {

@@ -111,11 +111,11 @@ Registro
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
           <div class="reg col s6">
-            <input class="with-gap" name="consultation_type" type="radio" value="1" id="privado" />
+            <input class="with-gap" name="consultation_type" type="radio" value="1" data-value="privada" id="privado" />
             <label for="privado">Privado</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="2" id="publica" />
+            <input class="with-gap" name="consultation_type" type="radio" value="2" data-value="publica" id="publica" />
             <label for="publica">Pública</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="3" id="mixta" />
+            <input class="with-gap" name="consultation_type" type="radio" value="3" data-value="mixta" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
           <div class="reg col s6">
@@ -206,14 +206,14 @@ Registro
 $(document).ready(function() {
   $('select').material_select();
   $("form input:radio").click(function() {
-    switch($(this).val()){
-      case 'Privada':
+    switch($(this).data('value')){
+      case 'privada':
         $('.typeCon').html('- Blog para médicos <br>- Cursos en línea <br>- Calendario de eventos <br>- Materiales de apoyo en consulta<br>- Muestras médicas en casa <br>- Vademecum Sanofi <br>');
       break;
-      case 'Pública':
+      case 'publica':
         $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
       break;
-      case 'Mixta':
+      case 'mixta':
         $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
       break;
     }

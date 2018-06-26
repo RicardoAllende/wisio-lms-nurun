@@ -3,7 +3,6 @@
 @section('title','Usuarios')
 @section('cta')
   <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Usuario</a>
-  <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Reiniciar avance</a>
 @endsection
 
 @if($user->hasAscriptions())

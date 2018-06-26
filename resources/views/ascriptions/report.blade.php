@@ -93,7 +93,7 @@
             {data: 'professional_license'},
             {data: 'mobile_phone'},
             {data: 'status'},
-            {data: 'numCompletedCoursesInModule'},
+            {data: 'numCompletedCoursesOfAscription'},
             {data: 'last_access'},
         ]
     });
