@@ -59,7 +59,8 @@ class ModulesController extends Controller
     {
         $module = Module::create([
             'name' => $request->name, 'description' => $request->description,
-            'course_id' => $request->course_id
+            'course_id' => $request->course_id,
+            'sort' => $request->sort
         ]);
 
         if($request->filled('attachment')){
@@ -127,6 +128,7 @@ class ModulesController extends Controller
         $module->name = $request->name;
         $module->description = $request->description;
         $module->course_id = $request->course_id;
+        $module->sort = $request->sort;
         $module->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');

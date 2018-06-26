@@ -25,7 +25,7 @@ Actualizacion de información
     </div>
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('gender', 'Género:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::select('gender', ['' => 'Seleccionar género', 'F' => 'Femenino', 'M' => 'Masculino'], null, ['class' => '', 'required' => '']) !!}
+      {!! Form::select('gender', ['' => 'Seleccionar género', '2' => 'Femenino', '1' => 'Masculino'], null, ['class' => '', 'required' => '']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
@@ -39,7 +39,7 @@ Actualizacion de información
     </div>
     <div class="reg col s12 l6 offset-l3">
         {!! Form::label('consultation_type', 'Tipo de consulta:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::select('consultation_type', ['' => 'Tipo de consulta', 'Pública' => 'Pública', 'Privada' => 'Privada', 'Ambas' => 'Ambas'], null, ['class' => '', 'required' => '']) !!}
+      {!! Form::select('consultation_type', ['' => 'Tipo de consulta', '1' => 'Pública', '2' => 'Privada', '3' => 'Mixta'], null, ['class' => '', 'required' => '']) !!}
 
     </div>
     <div class="reg col s12 l6 offset-l3">

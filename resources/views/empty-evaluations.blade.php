@@ -8,11 +8,16 @@
 </head>
 <body>
     @foreach($evaluations as $evaluation)
-        <ol>
+        <ul>
         @if( ! $evaluation->hasQuestions())
-            <li>Evaluación sin preguntas{{$evaluation->name}}</li>
+            <li>'{{$evaluation->name}}': pertenece al módulo: '{{ $evaluation->module->name }}' del curso: '{{ $evaluation->module->course->name }}'</li>
         @endif
-        </ol>
+        </ul>
+    @endforeach
+    @foreach($evaluations as $evaluation)
+        @if( ! $evaluation->hasQuestions())
+            Evaluation::find({{$evaluation->id}})->delete()<br>
+        @endif
     @endforeach
 </body>
 </html>

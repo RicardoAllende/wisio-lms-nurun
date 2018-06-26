@@ -129,7 +129,7 @@ class UsersController extends Controller
         //$user = User::find($id);
         $ascriptions = Ascription::All();
         $roles = Role::All();
-        return view('Users/form',compact('user', 'ascriptions'));
+        return view('Users/form',compact('user', 'ascriptions', 'roles'));
     }
 
     /**
@@ -144,8 +144,8 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
-        $user->is_pharmacy = $request->is_pharmacy;
         $user->professional_license = $request->professional_license;
+        $user->role_id = $request->role_id;
         $user->save();
         if($request->filled('ascription_id')){
             $ascription_id = $request->ascription_id;
@@ -196,7 +196,7 @@ class UsersController extends Controller
     public function enableUser($user_id){
         $user = User::find($user_id);
         if($user != null){
-            $user->enabled = 0;
+            $user->enabled = 1;
             $user->save();
         }
         return back();
@@ -288,7 +288,7 @@ class UsersController extends Controller
             if($user->enabled == 1){
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
             }else{
-                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
             }            
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name', 'diplomados'])
@@ -316,20 +316,11 @@ class UsersController extends Controller
             return $user->numCompletedCoursesOfAscription($this->ascription_id);
         })
         ->addColumn('actions', function ($user) {
-            if ($user->hasAdvance()) {
-                if($user->enabled == 1){
-                    return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
-                }else{
-                    return '<a href="'.route('enable.user', $user->id).'" class="btn btn-danger btn-round" >Habilitar</a>';
-                }
-            } else {
-                $var = '<form method="POST" action="'.route('users.destroy', $user->id).'" accept-charset="UTF-8" style="display:inline;">
-                    <input name="_method" type="hidden" value="DELETE">'.csrf_field().'
-                    <a class="btn btn-danger btn_delete">Eliminar</a>
-                  </form>';
-                return $var;
+            if($user->enabled == 1){
+                return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+            }else{
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
             }
-            
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink'])
         ->make(true);
@@ -360,7 +351,7 @@ class UsersController extends Controller
 
     public function getDataForCourse($course_id){
         $this->course_id = $course_id;
-        $course = Ascription::find($course_id);
+        $course = Course::find($course_id);
         if($course == null){
             return false;
         }

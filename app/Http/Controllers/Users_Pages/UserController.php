@@ -77,12 +77,13 @@ class UserController extends Controller
         if(User::whereEmail($email)->count() > 0 ){ // Email exists
             return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
         }
-        $cedula = $request->cedula;
+        $professional_license = $request->professional_license;
         $is_validated = true;
-        if(User::whereCedula($cedula)->count() > 0 ){ // Cédula exists
+        if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        if( ! $this->verifyProfessionalLicense($cedula, $request->firstname, $request->paterno, $request->materno) ){
+        $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
+        if( ! $response ){
             if( $this->sepServicesAreDown ){
                 $is_validated = false;
             }else{
@@ -155,24 +156,20 @@ class UserController extends Controller
                 $license_type = $license->{'license_type'};
                 if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
                     $this->apiMessage = "El nombre no coincide";
-                    dd('Nombre');
                     return false;
                 }
                 if(mb_strtoupper($middlename) != mb_strtoupper($licenseMiddleName)){
                     $this->apiMessage = "El nombre no coincide con el registrado en la cédula profesional";
-                    dd('Paterno');
                     return false;
                 }
                 if( mb_strtoupper($lastname) != mb_strtoupper($licenseLastName) ){
                     $this->apiMessage = "Su apellido materno no coincide con el registrado en la cédula profesional";
-                    dd('Materno con función strnatcasecmp');
                     return false;
                 }
                 if(mb_strtoupper($license_type) != 'C1'){
                     // $this->apiMessage = "Su cédula no es del tipo ";
                     return false;
                 }
-                // dd("Devolviendo true");
                 return true;
 
             }else{

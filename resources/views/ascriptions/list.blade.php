@@ -37,7 +37,6 @@
                             <th>Cantidad de cursos</th>
                             <th>Usuarios</th>
                             <th>Tipo de adscripción</th>
-                            <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>@php $i=1; @endphp
@@ -52,7 +51,7 @@
                               <td>{{ $ascription->courses->count() }}</td>
                               <td>{{ $ascription->users->count() }}</td>
                               <td>{{ ($ascription->type()) }}</td>
-                              <td>
+                              <!--<td>
                                 @if($ascription->hasRelations())
                                   @if($ascription->enabled == 1)
                                     <a href="{{ route('disable.ascription', $ascription->id) }}" class='btn btn-danger'>Deshabilitar</a>
@@ -64,7 +63,7 @@
                                     <a class='btn btn-danger btn_delete'>Eliminar</a>
                                   {!! Form::close() !!}
                                 @endif
-                              </td>
+                              </td>-->
                               </tr>
                             @endforeach
                             

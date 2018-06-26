@@ -13,6 +13,7 @@ class Module extends Model
         'name',
         'description',
         'previous',
+        'sort',
         'course_id'
     ];
 
@@ -169,23 +170,6 @@ class Module extends Model
         if(User::find($user_id) == null ){ return false; }
         $this->users()->attach($user_id, ['score' => $avg, 'status' => $status]);
     }
-
-    /** Functions only for migrations */
-    // public function verifyUser($user){
-    //     $evaluation = $this->finalEvaluations->first();
-    //     if($evaluation == null){ return false; }
-    //     if($user->hasThisEvaluationCompleted($evaluation->id)){
-    //         $this->users()->attach($user_id);
-    //     }
-    // }
-
-    // public function verifyAllUsers(){
-    //     $users = User::all();
-    //     foreach($users as $user){
-    //         verifyUser($user);
-    //     }
-    //     return "Función terminada";
-    // }
 
     public function calculateUserAvg($user){
         $finalEvaluations = $this->finalEvaluations()->pluck('id');

@@ -41,6 +41,13 @@
                               {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required'=>'']) !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('sort', 'Orden:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::number('sort',null,['class'=>'form-control','placeholder'=>'Orden']) !!}
+                            </div>
+                          </div>
                           
                           <div class="form-group">
                             {!! Form::label('course', 'Curso:',['class'=>'control-label col-sm-2']); !!}

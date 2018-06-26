@@ -50,7 +50,7 @@
                                 Sin especialidades
                               @endforelse
                               </td>
-                              <td>{{ $expert->summary }}</td>
+                              <td>{!! $expert->summary !!}</td>
                               <td>
                                   {!! Form::open(['method'=>'DELETE','route'=>['experts.destroy',$expert->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                      <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
