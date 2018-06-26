@@ -60,8 +60,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Módulo</th>
-                                        <th>Fecha de inicio</th>
-                                        <th>Fecha de fin</th>
+                                        <th>Editar módulo</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -71,8 +70,7 @@
                                         <tr>
                                         <td><a href="{{ route('modules.show', $module->id) }}">{{ $i }}</a></td>
                                         <td><a href="{{ route('modules.show', $module->id) }}">{{ $module->name }}</a></td>
-                                        <td>{{ $module->start_date }}</td>
-                                        <td>{{ $module->end_date }}</td>
+                                        <td><a href="{{ route('modules.edit', $module->id) }}" class="btn btn-primary" >Editar</a></td>
                                         <td>
                                             {!! Form::open(['method'=>'DELETE','route'=>['ascriptions.destroy',$module->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                                 <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
@@ -87,7 +85,7 @@
                         @else
                             <h3><strong>Este curso aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
                         @endif
-                            <a href="{{ route('modules.create').'?course_id='.$course->id }}" class="btn btn-info btn-round">Crear módulo</a>
+                            <a href="{{ route('modules.create').'?course_id='.$course->id }}" class="btn btn-primary btn-round">Crear módulo</a>
                     </div>
                     <div class="col-lg-3">
                         {{-- Inicia Tag Cloud --}}

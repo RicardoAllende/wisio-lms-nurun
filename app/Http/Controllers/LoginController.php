@@ -148,7 +148,7 @@ class LoginController extends Controller
 
     public function createToken(){
         // do{
-        $token = \Uuid::generate()->string;;
+        $token = \Uuid::generate()->string;
         // }while(PasswordReset::whereToken($token)->count() > 0);
         return $token;
     }

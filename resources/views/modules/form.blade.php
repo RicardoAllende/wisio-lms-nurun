@@ -38,7 +38,7 @@
                           <div class="form-group">
                             {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción', 'required'=>'']) !!}
+                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción']) !!}
                             </div>
                           </div>
 
