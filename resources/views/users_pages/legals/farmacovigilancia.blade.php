@@ -15,7 +15,7 @@ Aviso de farmacovigilancia
   </div>
 
         <div class="row ">
-            <div class="card white col s12 l8">
+            <div class="card white col s12">
               <p class="text-funciona">
 
                 <h5>AVISO DE FARMACOVIGILANCIA</h5>

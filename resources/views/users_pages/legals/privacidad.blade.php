@@ -14,7 +14,7 @@ Aviso de privacidad
   </div>
 
         <div class="row ">
-            <div class="card white col s12 l8">
+            <div class="card white col s12">
               <p class="text-funciona">
                 1. En cumplimiento a lo establecido en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (en lo sucesivo la “Ley”), y su respectivo Reglamento, Sanofi-Aventis de México, S.A. de C.V. con domicilio en Av. Universidad No. 1738 Col. Coyoacán, México D.F. es el “responsable” de los datos personales que nos proporcione, por lo que hace de su conocimiento el presente Aviso de Privacidad a fin de que conozca cómo se recabarán, usarán, almacenarán y, en general, tratarán sus datos personales.<br><br>
                 Los datos personales que Sanofi pudiera tratar, es decir, obtener, usar, transferir o almacenar son los siguientes:<br>

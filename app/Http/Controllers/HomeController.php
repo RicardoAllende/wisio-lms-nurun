@@ -57,7 +57,7 @@ class HomeController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages.legals.terminosycondiciones', compact('ascription'));
     }
-    
+
     public function pharmacovigilance($ascription_slug){
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages.legals.farmacovigilancia', compact('ascription'));
@@ -68,4 +68,8 @@ class HomeController extends Controller
         return view('users_pages.legals.twitter', compact('ascription'));
     }
 
+    public function siteMap($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        return view('users_pages.legals.sitemap', compact('ascription'));
+    }
 }

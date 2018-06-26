@@ -11,9 +11,9 @@ Route::get('/denied', function(){  return view('errors.denied');  })->middleware
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
-  
+
   Route::get('/logout','LoginController@userLogout')->name("logout");
-  
+
   Route::get('empty-evaluations', 'AdminControllers\EvaluationsController@emptyEvaluations')->middleware('admin');
   Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/categories','AdminControllers\CategoriesController');
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
     Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
-    
+
     Route::resource('/users', 'AdminControllers\UsersController');
 
     /** Datatables facade by yajra */
@@ -144,6 +144,7 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/terminos-de-uso', 'HomeController@terms')->name('student.terms');
   Route::get('/aviso-de-farmacovigilancia', 'HomeController@pharmacovigilance')->name('student.pharmacovigilance');
   Route::get('/terminos-de-uso-twitter', 'HomeController@twitterTerms')->name('student.twitter.terms');
+  Route::get('/mapa-del-sitio', 'HomeController@siteMap')->name('student.sitemap');
 
   Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');
 

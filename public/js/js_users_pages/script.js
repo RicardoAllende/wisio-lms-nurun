@@ -288,7 +288,7 @@ function printResources(resources){
         videoSource = '' + arrVideo[0];
         videoStart = 0;
 
-        contendiv += '<video width="100%" controls id="video">';
+        contendiv += '<video width="100%" controls id="video" controlsList="nodownload">';
         contendiv += '<source src="'+ videoSource +'" type="video/mp4">';
         contendiv += '</video>';
         tincanActivityId = arrVideo[0];
@@ -314,7 +314,9 @@ function printResources(resources){
               bookmarkVideoContent = result.contents;
               videoSource = bookmarkVideoContent.split('|')[0];
               videoStart = bookmarkVideoContent.split('|')[1];
-              vide.src = videoSource;
+              vidSrc = videoSource.split('storage/');
+              //console.log(vidSrc);
+              vide.src = '/storage/'+vidSrc[1];;
               vide.currentTime = videoStart;
             }
           }
@@ -369,7 +371,7 @@ function printResources(resources){
       var contendiv = '';
       switch(String(resources[0]['type'])) {
         case 'video':
-            contendiv += '<video width="100%" controls id="video"><source src="'+resources[0]['url']+'" type="video/mp4"></video>';
+            contendiv += '<video width="100%" controls id="video" controlsList="nodownload"><source src="'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
             var vide = document.getElementById('video');
 
@@ -386,7 +388,9 @@ function printResources(resources){
                   bookmarkVideoContent = result.contents;
                   videoSource = bookmarkVideoContent.split('|')[0];
                   videoStart = bookmarkVideoContent.split('|')[1];
-                  vide.src = videoSource;
+                  vidSrc = videoSource.split('storage/');
+                  //console.log(vidSrc[1]);
+                  vide.src = '/storage/'+vidSrc[1];
                   vide.currentTime = videoStart;
                 }
               }

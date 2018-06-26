@@ -15,7 +15,7 @@ Términos y condiciones
   </div>
 
         <div class="row ">
-            <div class="card white col s12 l8">
+            <div class="card white col s12">
               <p class="text-funciona" id="inicio">
                 Esta página describe las instrucciones legales que rigen el uso de  este sitio. Al consultar este sitio usted se acepta cumplirá sin reserva, los presentes términos y condiciones. Debido a que éstos pueden modificarse en algunas ocasiones y sin previo aviso, se recomienda su consulta de manera regular.
                 <br><br>

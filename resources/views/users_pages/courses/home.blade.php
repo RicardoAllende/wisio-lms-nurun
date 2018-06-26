@@ -15,7 +15,7 @@ Inicio
              <hr class="line"/>
           </div>
           <div class="col s8 l3">
-             <h2 class="recientes">cursos recomendados</h2>
+             <h2 class="recientes">cursos</h2>
           </div>
           @if($recommendations->count() > 0)
           @foreach($recommendations as $course)
@@ -48,7 +48,7 @@ Inicio
           @endforeach
           @else
             <div class="col s12 14">
-              No hay cursos disponibles para recomendarte en este momento.
+              No hay cursos disponibles para recomendarte en este momento, ve a la seccion <a href="{{ route('student.own.courses', $ascription->slug) }}">Mis cursos</a> para ver los cursos disponibles.
             </div>
           @endif
           @endif

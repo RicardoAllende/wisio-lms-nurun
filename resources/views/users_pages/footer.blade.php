@@ -6,7 +6,7 @@
               <a href="{{ route('student.terms', $ascription->slug) }}">Términos de uso </a>
             </div>
             <div class="col s12 l2 center lineh">
-              <a href="{{ route('student.terms', $ascription->slug) }}">Aviso de privacidad </a>
+              <a href="{{ route('student.privacity', $ascription->slug) }}">Aviso de privacidad </a>
             </div>
             <div class="col s12 l2 center lineh">
              <a href="{{ route('student.pharmacovigilance', $ascription->slug) }}">Aviso de farmacovigilancia </a>
@@ -15,17 +15,17 @@
               <a href="{{ route('student.twitter.terms', $ascription->slug) }}">Términos de uso Twitter </a>
             </div>
             <div class="col s12 l2 center lineh">
-              <a href="#">Mapa de sitio </a>
+              <a href="{{ route('student.sitemap', $ascription->slug) }}">Mapa de sitio </a>
             </div>
            </div>
 
            <div class="row" style="margin-bottom: 0;">
              <div class="col offset-m1 ff2"></div>
              <div class="col s12 m3 center white-text">
-              <p>No. Reg. XXXXXXXXXXXX</p>
+              <p>No. Reg. 183300202C0726</p>
               </div>
               <div class="col s12 m3 center white-text">
-              <p>Teléfono: 01800 123 4141</p>
+              <!-- <p>Teléfono: 01 55 5484 4400</p> -->
               </div>
               <div class="col s12 m3 center white-text">
               <p>Mayo 2018</p>

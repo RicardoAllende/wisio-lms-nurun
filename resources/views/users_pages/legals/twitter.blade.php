@@ -15,7 +15,7 @@ Términos de uso Twitter
   </div>
 
         <div class="row ">
-            <div class="card white col s12 l8">
+            <div class="card white col s12">
               <p class="text-funciona" id="inicio">
                 Aquí encontrará los Términos de uso que rigen su interacción con @sanofimx (en lo sucesivo, y que referido como "Términos" dentro de la biografía). Estas Condiciones complementan los términos de Twitter con respecto a las interacciones, por lo que se especifica que las interacciones también deberán cumplir con los términos de Twitter. Al interactuar con @sanofimx se considera que está de acuerdo en cumplir con estos términos.
                 <br><br>@sanofimx Es operado por Sanofi Mexico dirigido al público en México. Si usted no está dentro de la audiencia geográfica indicada, por favor no interactuar con @sanofimx.
