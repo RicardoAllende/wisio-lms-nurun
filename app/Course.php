@@ -99,6 +99,10 @@ class Course extends Model
         return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
     }
 
+    public function usersNot(){
+        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score')->withTimeStamps();
+    }
+
     public function failedUsers(){
         return $this->users->count() - $this->approvedUsers->count();
     }
@@ -240,7 +244,7 @@ class Course extends Model
     }
 
     public function setDatesUser($user){
-        $dates = $user->finalEvaluationsFromCourse($this);
+        $dates = $user->finalEvaluationsFromCourse($this->id);
         $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $this->id)->first();
         if($pivot == null){ return false; }
         $pivot->created_at = $dates['start'];
@@ -249,10 +253,28 @@ class Course extends Model
         return true;
     }
 
+    public function setDateUser($user){
+        $dates = $user->initialDate($this->id);
+        $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $this->id)->first();
+        if($pivot == null){ return false; }
+        $pivot->created_at = $dates;
+        // $pivot->updated_at = $dates['end'];
+        $pivot->save();
+        return true;
+    }
+
     public function setDates(){
         $users = $this->users;
         foreach($users as $user){
             $this->setDatesUser($user);
+        }
+        return true;
+    }
+
+    public function setInitialDate(){
+        $users = $this->usersNot;
+        foreach($users as $user){
+            $this->setDateUser($user);
         }
         return true;
     }

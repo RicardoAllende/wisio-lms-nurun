@@ -585,7 +585,9 @@ class User extends Authenticatable
         return false;
     }
     
-    public function finalEvaluationsFromCourse($course){
+    public function finalEvaluationsFromCourse($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
         $finalEvaluations = $course->finalEvaluations();
         $count = 0;
         $evaluations = collect();
@@ -597,8 +599,21 @@ class User extends Authenticatable
         $start = EvaluationUser::where('user_id', $this->id)->whereIn('evaluation_id', $evaluations)->min('created_at');
         $end = EvaluationUser::where('user_id', $this->id)->whereIn('evaluation_id', $evaluations)->max('updated_at');
         return compact('start', 'end');
-        return "El resultado es: {$valor} y {$valor2} ";
-        return $evaluations;
+    }
+
+    public function initialDate($course_id){
+        $course = Course::find($course_id);
+        if($course == null){ return false; }
+        $finalEvaluations = $course->finalEvaluations();
+        $count = 0;
+        $evaluations = collect();
+        foreach($finalEvaluations as $evaluation){
+            if($this->hasThisEvaluationCompleted($evaluation->id)){
+                $evaluations->push($evaluation->id);
+            }
+        }
+        $start = EvaluationUser::where('user_id', $this->id)->whereIn('evaluation_id', $evaluations)->min('created_at');
+        return $start;
     }
 
 }

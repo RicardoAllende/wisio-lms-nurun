@@ -85,6 +85,25 @@ class Ascription extends Model
         return false;
     }
 
+    public function experts(){
+        return Expert::find($this->expertsIds());
+    }
+
+    public function expertIds(){
+        $courses = $this->courses;
+        $expert_ids = array();
+        foreach($courses as $course){
+            $modules = $course->modules;
+            foreach($modules as $module){
+                $experts = $module->experts;
+                foreach($experts as $expert){
+                    array_push($expert_ids, $expert->id);
+                }
+            }
+        }
+        return $expert_ids = array_unique($expert_ids);
+    }
+
     public function students(){
         $studentRole = Role::where('name', config('constants.roles.doctor'))->first();
         return $this->users->where('role_id', $studentRole->id);
