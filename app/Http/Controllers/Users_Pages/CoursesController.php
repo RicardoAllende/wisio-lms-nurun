@@ -73,11 +73,11 @@ class CoursesController extends Controller
         }
     }
 
-    public function publicCourses(){
-        $courses = Course::whereIsPublic(1)->get();
-        return view('users_pages/courses.list',compact('courses'));
-        return $courses;
-    }
+    // public function publicCourses(){
+    //     $courses = Course::whereIsPublic(1)->get();
+    //     return view('users_pages/courses.list',compact('courses'));
+    //     return $courses;
+    // }
 
     public function saveProgressModule(Request $request){
         $module = Module::find($request->module_id);

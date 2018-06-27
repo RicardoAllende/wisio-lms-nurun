@@ -616,4 +616,50 @@ class User extends Authenticatable
         return $start;
     }
 
+    /**
+     * @param $course is a Course object
+     */
+    public function lastAdvanceInCourse($course_id){
+        $pivot = CourseUser::where('course_id')->where('user_id', $this->id)->first();
+        if($pivot == null){
+            return null;
+        }
+        return $pivot->updated_at;
+    }
+
+    public function notifications(){
+        return $this->hasMany('App\Notification');
+    }
+
+    public function monthReminderNotifications(){
+        return $this->notifications()->where('type', 2)->get();
+    }
+
+    public function numOfMonthReminderNotifications(){
+        return $this->notifications()->where('type', 2)->count();        
+    }
+
+    public function weekReminderNotifications(){
+        return $this->notifications()->where('type', 3)->get();
+    }
+
+    public function numOfWeekReminderNotifications(){
+        return $this->notifications()->where('type', 3)->count();        
+    }
+
+    public function newCourseNotifications(){
+        return $this->notifications()->where('type', 1)->get();
+    }
+
+    public function numOfNewCourseNotifications(){
+        return $this->notifications()->where('type', 1)->count();        
+    }
+
+    public function courseCompletionNotifications(){
+        return $this->notifications()->where('type', 4)->get();
+    }
+
+    public function numOfCourseCompletionNotifications(){
+        return $this->notifications()->where('type', 4)->count();        
+    }
 }

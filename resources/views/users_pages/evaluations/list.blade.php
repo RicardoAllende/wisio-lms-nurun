@@ -16,14 +16,14 @@ Evaluaciones
   <div class="col s6 l7">
     <h2 class="recientes">Elija un curso para mostrar sus evaluaciones</h2>
   </div>
-  @foreach($courses as $course)
+  @forelse($courses as $course)
   <div class="col s12 l4 ">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
           <span class="categoria-academia">{{ $course->category->name }}</span>
          <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
-           <div class="modulos">{{ $course->evaluations()->count() }} evaluaciones</div>
+           <div class="modulos">{{ $course->finalEvaluations()->count() }} evaluaciones</div>
               <div  class="moduloslista valign-wrapper hide-on-med-and-down">
 
                     <ol>
@@ -39,7 +39,11 @@ Evaluaciones
        </div>
     </div>
   </div>
-  @endforeach
+  @empty
+<br><br><br>
+  <h3>Aún no está inscrito en ningún curso</h3>
+<br><br>
+  @endforelse
 </div>
 @stop
 @section('extrajs')

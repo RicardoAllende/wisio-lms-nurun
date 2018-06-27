@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Course;
 use App\User;
 use App\Ascription;
+use App\Notification;
 
 class CronMailing extends Command
 {
@@ -44,24 +45,12 @@ class CronMailing extends Command
     public function handle()
     {
         $courses = Course::all();
-        foreach(Course::all() as $course){
+        foreach(Course::cursor() as $course){
             $users = $course->usersIncomplete()->cursor();
             foreach($users as $user){
-                
+                $user->lastAdvanceInCourse($course->id);
             }
         }
-    }
-
-    public function lastAdvanceInCourse($course){ // returns date
-
-    }
-
-    public function numOfMonthReminders($user){
-
-    }
-
-    public function numOfWeekReminders($user){
-
     }
 
     public function sendNewCourseNotification($email, $token){

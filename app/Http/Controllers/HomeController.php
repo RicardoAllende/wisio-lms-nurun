@@ -11,10 +11,12 @@ class HomeController extends Controller
     {
         $ascription = Ascription::whereIsMainAscription(1)->first();
         if($ascription == null){
-            return "Hubo un error con la información en la base de datos, por favor contacte al administrador del sistema";
+            $ascription = Ascription::first();
+            if($ascription == null){
+                return "Hubo un error con la información en la base de datos, por favor contacte al administrador del sistema";
+            }
         }
         $courses = $ascription->courses; // Academia mc
-        // $courses = Course::orderBy('created_at','desc')->limit(5)->get();
         if(Auth::check()){
             $user = Auth::user();
             if($user->enabled == 0){
