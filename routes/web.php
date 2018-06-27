@@ -1,5 +1,7 @@
 <?php
 
+use App\Course;
+
 Route::get('/', 'HomeController@index')->name('welcome');
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
@@ -104,7 +106,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/cursos/{course_slug}/module/get_resources','Users_Pages\ModulesController@getResources');
 
     Route::get('/evaluaciones-de-cursos', 'Users_Pages\EvaluationsController@showCourses')->name('student.list.evaluations');
-    Route::get('/evaluaciones/{course_id}', 'Users_Pages\EvaluationsController@showEvaluationsFromCourse')->name('show.evaluation.course');
+    Route::get('/evaluaciones/{course_slug}', 'Users_Pages\EvaluationsController@showEvaluationsFromCourse')->name('show.evaluation.course');
     Route::get('/evaluaciones/{course_id}/draw-form/{evaluation_id}', 'Users_Pages\EvaluationsController@drawForm')
       ->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js, if it changes you must update the script.js
     Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
@@ -137,6 +139,17 @@ Route::get('/recuperar-contrasena', function(){  return view('users_pages.login.
 Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink')->name('send.reset.password.link');
 Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
+
+Route::get('/cursor', function(){
+  // $courses = Course::cursor();
+  foreach(Course::cursor() as $course){
+    echo "Curso {$course->id}: {$course->name}<br>";
+    $modules = $course->modules()->cursor();
+    foreach($modules as $module){
+      echo  "Módulo {$module->id}: {$module->name}<br>";
+    }
+  }
+});
 
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {

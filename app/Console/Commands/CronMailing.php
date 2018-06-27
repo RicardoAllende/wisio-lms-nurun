@@ -9,6 +9,9 @@ use App\Ascription;
 
 class CronMailing extends Command
 {
+    public $maxMonthReminders = 2;
+    public $maxWeekReminders = 4;
+
     /**
      * The name and signature of the console command.
      *
@@ -41,8 +44,40 @@ class CronMailing extends Command
     public function handle()
     {
         $courses = Course::all();
-        // foreach(){
-
-        // }
+        foreach(Course::all() as $course){
+            $users = $course->usersIncomplete()->cursor();
+            foreach($users as $user){
+                
+            }
+        }
     }
+
+    public function lastAdvanceInCourse($course){ // returns date
+
+    }
+
+    public function numOfMonthReminders($user){
+
+    }
+
+    public function numOfWeekReminders($user){
+
+    }
+
+    public function sendNewCourseNotification($email, $token){
+
+    }
+
+    public function sendMonthReminderNotification($email, $token){
+
+    }
+
+    public function sendWeekReminderNotification($email, $token){
+
+    }
+
+    public function sendCourseCompletion($email, $token){
+
+    }
+
 }

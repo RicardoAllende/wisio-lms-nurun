@@ -49,12 +49,12 @@ Curso {{ $course->name }}
             <span class="categoria-modulos">{{ $course->category->name }}</span>
             <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"/></div>
           </div>
-
+          
           <div class="col s6 l9">
-             <hr class="line"/>
+            <hr class="line"/>
           </div>
           <div class="col s6 l3">
-             <h2 class="recientes">Módulos</h2>
+            <h2 class="recientes">Módulos</h2>
           </div>
           @if( ! Auth::check() ) <?php /* Section for guests */ ?>
             <div class="row">

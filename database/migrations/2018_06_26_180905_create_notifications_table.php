@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('course_id')->unsigned();
             $table->enum('type', ['new_course', 'month_reminder', 'week_reminder', 'course_completion']);
+            $table->boolean('viewed')->default(false);
             $table->boolean('accessed')->default(false);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('course_id')->references('id')->on('courses');

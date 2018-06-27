@@ -38,6 +38,13 @@ class CoursesController extends Controller
         $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return view('users_pages/courses.list'); }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
+        $user = Auth::user();
+        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+        if($pivot != null){ // User not enrolled
+            $now = \Carbon\Carbon::now()->toDateTimeString();
+            $pivot->updated_at = $now;
+            $pivot->save();
+        }
         if(Auth::check()){
             $user = Auth::user();
             return view('users_pages/courses.show',compact('course', 'ascription', 'user'));

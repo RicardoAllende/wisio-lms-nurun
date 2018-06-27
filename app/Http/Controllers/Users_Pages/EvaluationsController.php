@@ -26,25 +26,29 @@ class EvaluationsController extends Controller
         return view('users_pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
-    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){
+    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){ // It shows final evaluations
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
+        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+        if($pivot != null){ // User not enrolled
+            $now = \Carbon\Carbon::now()->toDateTimeString();
+            $pivot->updated_at = $now;
+            $pivot->save();
+        }
         $numModules = $course->modules->count();
         $numCompletedModules = $user->numCompletedModulesOfCourse($course->id);
         $modulesAdvance = number_format($numCompletedModules / $numModules * 100, 2);
+        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
         $completedModules = $user->completedModulesOfCourse($course->id);
         // $evaluations = $course->evaluations();
         // $evaluations = $course->finalEvaluations();
         $evaluations = collect();
-        // dd($completedModules);
         foreach($completedModules as $module){
             // dd($module->finalEvaluations()->first());
             if($module->hasFinalEvaluation()){
                 $evaluations->push($module->finalEvaluations->first());
             }
-            // $evaluations = $evaluations->concat($module->finalEvaluations->first());
         }
-        // dd($evaluations);
         $numEvaluations = $course->finalEvaluations()->count();
         $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
