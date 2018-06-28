@@ -27,7 +27,7 @@ Cómo funciona
                             <span class="titulo-funciona">
                               Registro
                             </span>
-                          <p class="text-funciona">Ingrese a la página web www.paecmexico.com regístrese con el folio único indicado en la invitación al programa. Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+                          <p class="text-funciona">Ingrese a la página web www.academia.mx regístrese con el folio único indicado en la invitación al programa. Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
                           </div>
                         </div>
 
@@ -37,7 +37,7 @@ Cómo funciona
                               <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                           </div>
                           <div class="col s9">
-                          <p class="textFuncionaMob">Ingrese a la página web www.paecmexico.com <br><br> regístrese con el folio único indicado en la invitación al programa.</p>
+                          <p class="textFuncionaMob">Ingrese a la página web www.academia.mx <br><br> regístrese con el folio único indicado en la invitación al programa.</p>
                           </div>
                           <div class="col s12">
                           <p class="text-funciona">Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>

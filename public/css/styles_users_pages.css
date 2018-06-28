@@ -692,6 +692,8 @@ a.linkM{
     padding: 3% 0 3% 0;
     color: var(--main-select-font-color);
     font-size: 0.8rem;
+    overflow: hidden;
+    max-height: 200px;
 }
 
 .upper{

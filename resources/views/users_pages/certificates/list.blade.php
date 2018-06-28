@@ -30,8 +30,9 @@ Certificados
         @endforeach
         </ul>
     @else
-        <h5>Sin diplomas disponibles para descargar, si concluyó algún curso y requiere constancia,
-        póngase en contacto con <a href="mailto:{{ config('constants.support_email') }}">{{ config('constants.support_email') }}</a></h5>
+        <!-- <h5>Sin diplomas disponibles para descargar, si concluyó algún curso y requiere constancia,
+        póngase en contacto con <a href="mailto:{{ config('constants.support_email') }}">{{ config('constants.support_email') }}</a></h5> -->
+        <h5>Sin diplomas disponibles para descargar</h5>
     @endif
 </div>
 @stop

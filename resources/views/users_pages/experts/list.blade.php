@@ -5,12 +5,12 @@ Expertos
 
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
-  <a href="{{ route('student.show.experts' , $ascription->slug) }}" class="breadcrumb">Expertos</a>
+  <a href="{{ route('student.show.experts' , $ascription->slug) }}" class="breadcrumb">profesores</a>
 @stop
 
 @section('body')
   <div class="row pad-left3">
-    <h1 class="tits">Expertos</h1>
+    <h1 class="tits">Profesores</h1>
     <div class="row hide-on-med-and-down">
       <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">
@@ -76,14 +76,14 @@ Expertos
     </div>
 
     @foreach($experts as $expert)
-    <div class="col s12 l3 ">
+    <div class="col s12 m4 l3 ">
                <div class="card z-depth-0 white">
                   <div class="card-content expertoscard">
                      <div class="expertostitulo center">{{ $expert->name }}</div>
-                      <div class="col s8 offset-s2 center">
+                      <div class="col s8  offset-s2 center">
                           <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </div>
-                      <div class="expertosparticipacion">
+                      <div class="col s12 expertosparticipacion">
                         <p class="upper center">Participa en:</p>
                         <ul class="browser-default ">
                             @foreach($expert->modules->slice(0,5) as $module)

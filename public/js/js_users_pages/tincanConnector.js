@@ -2,9 +2,9 @@ var tincan = new TinCan (
     {
         recordStores: [
             {
-                endpoint: "https://nurun-ll.subitus.com/data/xAPI",
-                username: "13613e2cdbc88ac86f4372a2709edb543475b403",
-                password: "7f47b0ca9167971379d123cf99aff463fe452f7c",
+                endpoint: "http://dev.academia.nurun.com.mx:3000/data/xAPI",
+                username: "a39b3e5b3ad82a2a842245cee1675b55d5df6d9a",
+                password: "81dc9a49b036f5b896afd97a7fcdb748849ca383",
                 allowFail: false
             }
         ]
@@ -13,9 +13,9 @@ var tincan = new TinCan (
 
 var lrs = new TinCan.LRS(
     {
-        endpoint: "https://nurun-ll.subitus.com/data/xAPI",
-        username: "13613e2cdbc88ac86f4372a2709edb543475b403",
-        password: "7f47b0ca9167971379d123cf99aff463fe452f7c",
+        endpoint: "http://dev.academia.nurun.com.mx:3000/data/xAPI",
+        username: "a39b3e5b3ad82a2a842245cee1675b55d5df6d9a",
+        password: "81dc9a49b036f5b896afd97a7fcdb748849ca383",
         allowFail: false
     }
 );

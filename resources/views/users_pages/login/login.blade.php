@@ -8,7 +8,7 @@ Login
 
             <div class="col s12 l6 aux-padding">
 
-               <p class="negro">Academia es un espacio dedicado de Sanofi para brindar educación médica continua. En este espacio podrá encontrar capacitación y certificación constante, disponible las 24 horas del día. Todos nuestros cursos son avalados por CONAMEGE</p>
+               <p class="negro">Academia es una plataforma de Sanofi dedicada a brindar educación médica continua en línea. En este espacio usted podrá encontrar capacitación constante, disponible en cualquier momento y en cualquier lugar. Todos nuestros cursos están avalados por algunas de las asociaciones médicas más importantes del país</p>
 
                 <div class="row sesion">
                     <div class="col s12 l6 btnAcademiaMobi">
@@ -25,7 +25,7 @@ Login
 
                </div>
                 </div>
-                <div class="row sesion hide-on-med-and-down">
+                <!-- <div class="row sesion hide-on-med-and-down">
                     <div class="col s12 l6">
                   <a href="#!" class="btnAcademia">VER MÁS <span class="icon-mas iconbtn"></span></a>
 
@@ -34,7 +34,7 @@ Login
 
 
                </div>
-                </div>
+                </div> -->
 
             </div>
              <div class="col s12 l6" id="img1">

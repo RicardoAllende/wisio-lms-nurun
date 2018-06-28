@@ -25,7 +25,7 @@
               <p>No. Reg. 183300202C0726</p>
               </div>
               <div class="col s12 m3 center white-text">
-              <!-- <p>Teléfono: 01 55 5484 4400</p> -->
+              <p>SAMX.SA.18.06.0879</p>
               </div>
               <div class="col s12 m3 center white-text">
               <p>Mayo 2018</p>
