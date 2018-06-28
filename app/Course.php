@@ -99,7 +99,7 @@ class Course extends Model
         return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
     }
 
-    public function usersIncomplete(){
+    public function incompleteUsers(){
         return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score')->withTimeStamps();
     }
 
@@ -272,7 +272,7 @@ class Course extends Model
     }
 
     public function setInitialDate(){
-        $users = $this->usersIncomplete;
+        $users = $this->incompleteUsers;
         foreach($users as $user){
             $this->setDateUser($user);
         }

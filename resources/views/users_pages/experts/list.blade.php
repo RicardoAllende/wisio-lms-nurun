@@ -86,8 +86,8 @@ Expertos
                       <div class="col s12 expertosparticipacion">
                         <p class="upper center">Participa en:</p>
                         <ul class="browser-default ">
-                            @foreach($expert->modules->slice(0,5) as $module)
-                            <li>{{ $module->name }}</li>
+                            @foreach($expert->modulesName() as $module)
+                            <li>{{ $module }}</li>
                             @endforeach
                         </ul>
                       </div>

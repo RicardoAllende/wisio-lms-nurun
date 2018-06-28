@@ -22,7 +22,7 @@ Registro
     <div class="reg col s12 l5 offset-l2">
       <h6 class="upscase center">Usuario y contraseña</h6>
       {!! Form::label('em', 'Correo Electrónico:' )!!}
-      {!! Form::text('email',null,['class'=>'','placeholder'=>'Correo electrónico personal', 'required' => '', 'id' => 'email' ]) !!}
+      {!! Form::email('email',null,['class'=>'','placeholder'=>'Correo electrónico personal', 'required' => '', 'id' => 'email' ]) !!}
       <span class="smalltext">Servirá como nombre de usuario.</span><br><br>
       {!! Form::label('password', 'Contraseña:' )!!}
       <input type="password" name="password" id="passwd" placeholder="Contraseña" required>

@@ -14,7 +14,7 @@
                     <div class="form-group">
                         {!! Form::label('email_label', 'Email:',['class'=>'control-label col-sm-2']); !!}
                         <div class="col-sm-10">
-                            {!! Form::text('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'required'=>'']) !!}
+                            {!! Form::email('email',null,['class'=>'form-control','placeholder'=>'Correo electrónico', 'required'=>'']) !!}
                         </div>
                     </div>
                     <div class="form-group">

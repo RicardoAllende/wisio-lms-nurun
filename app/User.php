@@ -129,12 +129,24 @@ class User extends Authenticatable
     }
 
     public function availableCourses(){
-        $ascription = $this->ascriptions->first();
-        if($ascription == null){
-            $empty = collect();
-            return $empty;
+        $ids = collect();
+        $ascriptions = $this->allAscriptions;
+        foreach($ascriptions as $ascription){
+            $array = $ascription->courses()->pluck('courses.id');
+            $ids = $ids->concat($array);
         }
-        return $ascription->courses;
+        $ids = $ids->unique();
+        return Course::find($ids);
+    }
+
+    public function hasAvailableAnotherCourse(){
+        $ids = $this->availableCourses()->pluck('id');
+        foreach($ids as $id){
+            if( ! $this->isEnrolledInCourse($course)){
+                return $course;
+            }
+        }
+        return false;
     }
 
     public function hasAvailableEvaluation($evaluation_id){
@@ -500,12 +512,6 @@ class User extends Authenticatable
         }else{
             return false;
         }
-
-        // if ($this->hasAscription() && $this->hasDiplomados()) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
     }
 
     public function isEnrolledInDiplomado($ascription_id){
@@ -616,11 +622,8 @@ class User extends Authenticatable
         return $start;
     }
 
-    /**
-     * @param $course is a Course object
-     */
     public function lastAdvanceInCourse($course_id){
-        $pivot = CourseUser::where('course_id')->where('user_id', $this->id)->first();
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
         if($pivot == null){
             return null;
         }
@@ -631,35 +634,57 @@ class User extends Authenticatable
         return $this->hasMany('App\Notification');
     }
 
+    public function hasNotifications(){
+        if($this->notifications()->count() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function hasNotificationsFromCourse($course_id){
+        if($this->notifications()->where('course_id', $course_id)->count() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function lastNotificationFromCourse($course_id){
+        return $this->notifications()->where('course_id', $course_id)->orderBy('updated_at', 'desc')->first();
+    }
+
     public function monthReminderNotifications(){
         return $this->notifications()->where('type', 2)->get();
     }
 
-    public function numOfMonthReminderNotifications(){
-        return $this->notifications()->where('type', 2)->count();        
+    public function numMonthReminderNotifications($course_id){ // Not viewed notifications
+        return $this->notifications()->where('type', 2)->where('viewed', 0)->where('course_id', $course_id)->where('viewed', 0)->count();        
+    }
+
+    public function monthReminderNotificationsOfCourse($course_id){
+        return $this->notifications()->where('course_id', $course_id)->get();
     }
 
     public function weekReminderNotifications(){
         return $this->notifications()->where('type', 3)->get();
     }
 
-    public function numOfWeekReminderNotifications(){
-        return $this->notifications()->where('type', 3)->count();        
+    public function numWeekReminderNotifications($course_id){ // Not viewed notifications
+        return $this->notifications()->where('type', 3)->where('course_id', $course_id)->count();
     }
 
     public function newCourseNotifications(){
         return $this->notifications()->where('type', 1)->get();
     }
 
-    public function numOfNewCourseNotifications(){
-        return $this->notifications()->where('type', 1)->count();        
+    public function numNewCourseNotifications($course_id){
+        return $this->notifications()->where('type', 1)->where('course_id', $course_id)->count();
     }
 
     public function courseCompletionNotifications(){
         return $this->notifications()->where('type', 4)->get();
     }
 
-    public function numOfCourseCompletionNotifications(){
-        return $this->notifications()->where('type', 4)->count();        
+    public function numCourseCompletionNotifications($course_id){
+        return $this->notifications()->where('type', 4)->where('course_id', $course_id)->count();
     }
 }
