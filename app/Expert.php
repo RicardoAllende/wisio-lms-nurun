@@ -18,6 +18,10 @@ class Expert extends Model
     	return $this->belongsToMany('App\Module');
     }
 
+    public function modulesName(){
+        return $this->modules()->take(4)->pluck('name')->unique();
+    }
+
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
     }

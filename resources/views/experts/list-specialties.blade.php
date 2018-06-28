@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title','Módulos')
+@section('title','Especialidades')
 @section('cta')
-  <a href="{{route('specialties.create')}}?expert_id={{$expert->id}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Módulo</a>
+  <a href="{{route('specialties.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Especialidad</a>
 @endsection
 
 @section('subtitle')

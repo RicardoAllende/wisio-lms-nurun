@@ -3,7 +3,7 @@ Olvidó su contraseña
 @stop
 @extends('users_pages.master')
 @section('breadcrumbs')
-  <a href="{{ route('student.home', 'invitado') }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
   <a class="breadcrumb">Recuperar Contraseña</a>
 @stop
 
