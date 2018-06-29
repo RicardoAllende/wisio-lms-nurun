@@ -27,7 +27,10 @@ Cómo funciona
                             <span class="titulo-funciona">
                               Registro
                             </span>
-                          <p class="text-funciona">Ingrese a la página web www.academia.mx regístrese con el folio único indicado en la invitación al programa. Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+                          <p class="text-funciona">Ingrese sus datos y comience a hacer uso de las herramientas que Médico ConSentido de Sanofi tiene preparadas para usted.
+                            <br><br>Registro – Es necesario contar previamente con una cuenta de correo personal para crear una que le permita el acceso a los cursos de Academia.
+                            <br><br>Se permite sólo una cuenta por usuario.
+                          </p>
                           </div>
                         </div>
 
@@ -37,10 +40,13 @@ Cómo funciona
                               <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                           </div>
                           <div class="col s9">
-                          <p class="textFuncionaMob">Ingrese a la página web www.academia.mx <br><br> regístrese con el folio único indicado en la invitación al programa.</p>
+                          <p class="textFuncionaMob">Ingrese sus datos y comience a hacer uso de las herramientas que Médico ConSentido de Sanofi tiene preparadas para usted.</p>
                           </div>
                           <div class="col s12">
-                          <p class="text-funciona">Con esto, usted creará una nueva cuenta y así podrá tener acceso a los beneficios del curso.<br><br>Es necesario contar previamente con una dirección personal de e-mail.<br><br>Sólo está permitido una dirección de correo por usuario, a las personas identificadas con un doble registro se les permitirá el acceso sólo con una cuenta que será considerada como única.</p>
+                          <p class="text-funciona">Registro – Es necesario contar previamente con una cuenta de correo personal para crear una que le permita el acceso a los cursos de Academia.
+                          <br><br>Se permite sólo una cuenta por usuario.
+
+                          </p>
                           </div>
                         </div>
 
@@ -56,7 +62,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             CLAVE ÚNICA
                           </span>
-                        <p class="text-funciona">Al completar el formato de registro, deberá proporcionar un nombre de usuario y contraseña de su elección para ser identificado dentro del Programa, los cuales no deben sobrepasar los 10 caracteres.</p>
+                        <p class="text-funciona">Una vez completado el registro, deberá proporcionar usuario y contraseña menor a 10 caracteres. </p>
                         </div>
 
                       </div>
@@ -66,10 +72,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Al completar el formato de registro</p>
+                        <p class="textFuncionaMob">Una vez completado el registro</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona"> Deberá proporcionar un nombre de usuario y contraseña de su elección para ser identificado dentro del Programa, los cuales no deben sobrepasar los 10 caracteres.</p>
+                        <p class="text-funciona"> Deberá proporcionar usuario y contraseña menor a 10 caracteres. </p>
                         </div>
                       </div>
                     </div>
@@ -83,7 +89,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             Confirmación
                           </span>
-                        <p class="text-funciona">El sistema le indicará que su registro se ha llevado a cabo con éxito.<br><br>Usted puede solicitar en cualquier momento el nombre de usuario y la contraseña con que se registró dando clic en la sección Inicio, y a continuación en Olvidé mi nombre de usuario y contraseña.</p>
+                        <p class="text-funciona">Queda registrado exitosamente.<br><br> Puede consultar su registro nuevamente en Olvidé mi nombre de usuario y contraseña.</p>
                         </div>
 
                       </div>
@@ -93,10 +99,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">El sistema le indicará que su registro se ha llevado a cabo con éxito.</p>
+                        <p class="textFuncionaMob">Queda registrado exitosamente.</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Usted puede solicitar en cualquier momento el nombre de usuario y la contraseña con que se registró dando clic en la sección Inicio, y a continuación en Olvidé mi nombre de usuario y contraseña.</p>
+                        <p class="text-funciona">Puede consultar su registro nuevamente en Olvidé mi nombre de usuario y contraseña.</p>
                         </div>
                       </div>
                     </div>
@@ -110,7 +116,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             Página web
                           </span>
-                        <p class="text-funciona">Una vez registrado podrá ingresar a la página utilizando su nombre de usuario y contraseña seleccionados.<br><br>Esto le permitirá acceder tanto al material de estudio disponible en nuestra sección Módulos, como a las Evaluaciones.<br><br>La información sobre los ponentes y la duración de cada módulo podrá ser consultada en la sección de Expertos y Calendario, respectivamente.</p>
+                        <p class="text-funciona">Con su usuario y contraseña puede comenzar a utilizar el material de estudio disponible en Módulos y Evaluaciones.</p>
                         </div>
 
                       </div>
@@ -120,10 +126,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Una vez registrado podrá ingresar a la página utilizando su nombre de usuario y contraseña seleccionados.</p>
+                        <p class="textFuncionaMob">Con su usuario y contraseña</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Esto le permitirá acceder tanto al material de estudio disponible en nuestra sección Módulos, como a las Evaluaciones.<br><br>La información sobre los ponentes y la duración de cada módulo podrá ser consultada en la sección de Expertos y Calendario, respectivamente.</p>
+                        <p class="text-funciona">Puede comenzar a utilizar el material de estudio disponible en Módulos y Evaluaciones.</p>
                         </div>
                       </div>
                     </div>
@@ -137,7 +143,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             El programa
                           </span>
-                        <p class="text-funciona">El Programa se compone de varios módulos, cada uno de un mes de duración. Al inicio del curso se realizará un examen diagnóstico que no tendrá efectos en el resultado, pues funcionará como punto base para comparar la evaluación de cada participante.<br><br>Para poder ver los resultados, será necesario consultar la sección Evaluaciones. Es importante resaltar que el material de estudio sólo podrá descargarse en el periodo asignado.</p>
+                        <p class="text-funciona">Módulos con duración de un mes, donde se realizan exámenes diagnóstico al inicio, y una evaluación completa al concluirlos.</p>
                         </div>
 
                       </div>
@@ -147,10 +153,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">El Programa se compone de varios módulos, cada uno de un mes de duración. Al inicio del curso se realizará un examen diagnóstico que no tendrá efectos en el resultado, pues funcionará como punto base para comparar la evaluación de cada participante.</p>
+                        <p class="textFuncionaMob">Módulos con duración de un mes</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Para poder ver los resultados, será necesario consultar la sección Evaluaciones. Es importante resaltar que el material de estudio sólo podrá descargarse en el periodo asignado.</p>
+                        <p class="text-funciona">Donde se realizan exámenes diagnóstico al inicio, y una evaluación completa al concluirlos.</p>
                         </div>
                       </div>
                     </div>
@@ -164,7 +170,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             Evaluaciones
                           </span>
-                        <p class="text-funciona">Para finalizar cada módulo será necesario completar una evaluación que estará disponible durante la última semana del mes, las 24 horas del día.<br><br>Al concluir el examen se mostrará el número de respuestas correctas y la calificación adquirida.<br><br>Es importante que consulte las fechas en la sección Calendario, ya que sólo se podrá presentar el examen en el periodo establecido, no habrá períodos extraordinarios.</p>
+                        <p class="text-funciona">Al finalizar cada módulo se llevará a cabo una evaluación que estará disponible la última semana del mes, las 24 horas del día.</p>
                         </div>
 
                       </div>
@@ -174,10 +180,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Para finalizar cada módulo será necesario completar una evaluación que estará disponible durante la última semana del mes, las 24 horas del día.</p>
+                        <p class="textFuncionaMob">Al finalizar cada módulo</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Al concluir el examen se mostrará el número de respuestas correctas y la calificación adquirida.<br><br>Es importante que consulte las fechas en la sección Calendario, ya que sólo se podrá presentar el examen en el periodo establecido, no habrá períodos extraordinarios.</p>
+                        <p class="text-funciona">Se llevará a cabo una evaluación que estará disponible la última semana del mes, las 24 horas del día.</p>
                         </div>
                       </div>
                     </div>
@@ -191,7 +197,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             Calificaciones
                           </span>
-                        <p class="text-funciona">Las calificaciones de cada módulo se mostrarán de manera inmediata al concluir el examen.<br><br>El sistema brinda la posibilidad de realizar por segunda vez el examen con la finalidad de mejorar la calificación, esto sólo podrá efectuarse si el usuario da clic en la opción Realizar nuevamente que aparecerá después de concluir la evaluación y obtener el grado final.</p>
+                        <p class="text-funciona">Las calificaciones se mostrarán inmeditamente al concluir el examen, y se brinda la posibilidad de presentarlo una segunda vez para mejorar la calificación.</p>
                         </div>
 
                       </div>
@@ -201,10 +207,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Las calificaciones de cada módulo se mostrarán de manera inmediata al concluir el examen.</p>
+                        <p class="textFuncionaMob">Las calificaciones se mostrarán inmeditamente al concluir el examen</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">El sistema brinda la posibilidad de realizar por segunda vez el examen con la finalidad de mejorar la calificación, esto sólo podrá efectuarse si el usuario da clic en la opción Realizar nuevamente que aparecerá después de concluir la evaluación y obtener el grado final.</p>
+                        <p class="text-funciona">Y se brinda la posibilidad de presentarlo una segunda vez para mejorar la calificación.</p>
                         </div>
                       </div>
                     </div>
@@ -218,7 +224,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             E-mailings
                           </span>
-                        <p class="text-funciona">Usted recibirá comunicados vía e-mailing de manera periódica con relación al Programa, por lo que le solicitamos que revise con frecuencia el correo electrónico que utilizó durante el registro y verífique, si es necesario, la carpeta de correo no deseado.</p>
+                        <p class="text-funciona">Recibirá comunicados vía E-mailing con información necesaria del programa.</p>
                         </div>
 
                       </div>
@@ -228,10 +234,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Usted recibirá comunicados vía e-mailing de manera periódica con relación al Programa.</p>
+                        <p class="textFuncionaMob">Recibirá comunicados vía E-mailing</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Por lo que le solicitamos que revise con frecuencia el correo electrónico que utilizó durante el registro y verífique, si es necesario, la carpeta de correo no deseado.</p>
+                        <p class="text-funciona">Con información necesaria del programa.</p>
                         </div>
                       </div>
                     </div>
@@ -245,7 +251,7 @@ Cómo funciona
                           <span class="titulo-funciona">
                             Servicio de soporte técnico
                           </span>
-                        <p class="text-funciona">Si tiene problemas para navegar en la página no dude en contactar a nuestro equipo de servicio técnico, que le brindará atención de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o mediante el correo electrónico soporte@paecmexico.com</p>
+                        <p class="text-funciona">Si tiene problemas de navegación en el sitio puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o al correo soporte@academia.mx</p>
                         </div>
 
                       </div>
@@ -255,10 +261,10 @@ Cómo funciona
                             <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
-                        <p class="textFuncionaMob">Si tiene problemas para navegar en la página no dude en contactar a nuestro equipo de servicio técnico.</p>
+                        <p class="textFuncionaMob">Si tiene problemas de navegación en el sitio</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Que le brindará atención de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o mediante el correo electrónico soporte@paecmexico.com</p>
+                        <p class="text-funciona">Puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o al correo soporte@academia.mx</p>
                         </div>
                       </div>
                     </div>
