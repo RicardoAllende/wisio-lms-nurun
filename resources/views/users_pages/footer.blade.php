@@ -28,7 +28,7 @@
               <p>SAMX.SA.18.06.0879</p>
               </div>
               <div class="col s12 m3 center white-text">
-              <p>Mayo 2018</p>
+              <p>Julio 2018</p>
               </div>
             </div>
          </div>
