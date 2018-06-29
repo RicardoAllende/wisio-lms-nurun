@@ -28,9 +28,9 @@ Experto {{ $expert->name }}
             <div class="expertosparticipacion">
               <p class="upper">Participa en:</p>
               <ul class="browser-default">
-                  <li>Introduccion</li>
-                  <li>Creación de plan estratégico para hipertensión</li>
-                  <li>Caso clínico: Entrevista Dr. Alcocer y Dr. Figueroa</li>
+                @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $link)
+                  <li>{!! $link !!}</li>
+                @endforeach
               </ul>
             </div>
             <div class="expertosparticipacion">

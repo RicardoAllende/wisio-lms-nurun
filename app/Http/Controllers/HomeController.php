@@ -7,6 +7,8 @@ use App\Ascription;
 
 class HomeController extends Controller
 {
+    public $notificationTokenName = "notification";
+
     public function index()
     {
         $ascription = Ascription::whereIsMainAscription(1)->first();
@@ -29,18 +31,16 @@ class HomeController extends Controller
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }
-                if(session()->has('ascription_slug')){
-                    $slug = session('ascription_slug');
-                    if(Ascription::whereSlug($slug)->first() != null){
-                        return redirect()->route('student.home', $slug);
-                    }
-                }
                 if($user->hasDifferentAscriptions()){
                     return redirect()->route('student.select.ascription');
                 }
                 $ascription = $user->ascription();
                 return redirect()->route('student.home', $ascription->slug);
             }
+        }
+        if(isset($_GET[$this->notificationTokenName])){
+            $notification = $_GET[$this->notificationTokenName];
+            return view('users_pages/login/login', compact('courses', 'notification', 'ascription'));
         }
         return view('users_pages/login/login', compact('courses', 'ascription'));
     }

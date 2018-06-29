@@ -60,14 +60,14 @@ class CronMailing extends Command
                             if($lastNotification->type == 'month_reminder'){
                                 $monthAgo = Carbon::now()->submonth();
                                 if($timestampLastNotification->gt($monthAgo)){
-                                    $this->sendMonthReminderNotification($email, $course);
+                                    $this->sendMonthReminderNotification($user->email, $course);
                                 }
                             }else if($lastNotification->type == 'week_reminder'){
                                 $numWeekReminders = $user->numWeekReminderNotifications($course->id);
                                 if($numWeekReminders < $this->maxWeekReminders){
                                     $weekAgo = Carbon::now()->subweek();
                                     if($timestampLastNotification->gt($weekAgo)){
-                                        $this->sendWeekReminderNotification();
+                                        $this->sendWeekReminderNotification($user->mobile_phone, $course->id);
                                     }
                                 }else{
                                     $this->addToListOfUsersToCall($user->id);
@@ -81,7 +81,7 @@ class CronMailing extends Command
                         }else{ // Doctor didn't follow the link
                             $numMonthReminders = $user->numMonthReminderNotifications($course->id);
                             if($numMonthReminders < $this->maxMonthReminders){
-                                $this->sendMonthReminderNotification($email, $course);
+                                $this->sendMonthReminderNotification($user->email, $course);
                             }else{
                                 // $this->sendWeekReminderNotification($user->mobile_phone, $route);
                             }
@@ -103,16 +103,20 @@ class CronMailing extends Command
     }
 
     public function sendMonthReminderNotification($email, $course){
-
+        $token = \Uuid::generate()->string;
+        FakerMail::create(['email' => $email, 'type' => 'month_reminder', 'link' => route('login')."?notification=".$token]);
+        return;
     }
 
-    public function sendWeekReminderNotification($mobilePhone, $token){ // Function Sends a sms
+    public function sendWeekReminderNotification($mobilePhone, $course){ // This function sends a sms
+        $token = \Uuid::generate()->string;
+        FakerMail::create(['email' => $email, 'type' => 'week_reminder', 'link' => route('login')."?notification=".$token]);
         return;
 
         $sms = AWS::createClient('sns');
         $sms->publish([
                 'Message' => 'Hello, This is just a test Message',
-                'PhoneNumber' => $phone_number,	
+                'PhoneNumber' => $mobilePhone,
                 'MessageAttributes' => [
                     'AWS.SNS.SMS.SMSType'  => [
                         'DataType'    => 'String',
@@ -127,7 +131,9 @@ class CronMailing extends Command
     }
 
     public function sendRecommendation(){
-
+        $token = \Uuid::generate()->string;
+        FakerMail::create(['email' => $email, 'type' => 'recommendation', 'link' => route('login')."?notification=".$token]);
+        return;
     }
 
     public function addToListOfUsersToCall($user_id){

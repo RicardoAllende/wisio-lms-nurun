@@ -86,7 +86,12 @@ class Ascription extends Model
     }
 
     public function experts(){
-        return Expert::find($this->expertsIds());
+        return Expert::find($this->expertIds());
+    }
+
+    public function specialties(){ // From experts
+        $specialties = ExpertSpecialty::whereIn('expert_id', $this->expertIds())->select('specialty_id')->get();
+        return Specialty::find($specialties);
     }
 
     public function expertIds(){
@@ -101,7 +106,7 @@ class Ascription extends Model
                 }
             }
         }
-        return $expert_ids = array_unique($expert_ids);
+        return array_unique($expert_ids);
     }
 
     public function students(){

@@ -9,6 +9,8 @@ use App\Course;
 use App\Module;
 use App\Category;
 use App\Ascription;
+use App\Tag;
+use App\CourseTag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\AttachmentCourse;
@@ -22,14 +24,32 @@ class CoursesController extends Controller
     public function index($ascription_slug)
     {
         $search = "";
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null){
+            return redirect('/');
+        }
         $user = Auth::user();
+        $courses = $user->coursesFromAscription($ascription);
         if (isset($_GET['s'])) {
             $search = $_GET['s'];
-            $courses = $user->courses()->where('name','like','%'.$search.'%')->get();
-        }else{
-            $courses = $user->courses;
+            if($search != ''){
+                $coursesId = $user->coursesIdFromAscription($ascription);
+                $courses = Course::where('name', 'like', '%'.$search.'%')->whereIn('id', $coursesId)->get();
+                if($courses->isEmpty()){
+                    $categories = Category::where('name', 'like', '%'.$search.'%')->pluck('id');
+                    $coursesByCategory = Course::whereIn('id', $coursesId)->whereIn('category_id', $categories)->get();
+                    if($coursesByCategory->isEmpty()){
+                        $tags = Tag::where('tag', 'like', '%'.$search.'%')->pluck('id');
+                        if($tags->isNotEmpty()){
+                            $ids = CourseTag::whereIn('tag_id', $tags)->whereIn('course_id', $coursesId)->pluck('course_id');
+                            $courses = Course::find($ids);
+                        }
+                    }else{
+                        $courses = $coursesByCategory;
+                    }
+                }
+            }
         }
-        $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages/courses/list',compact('courses', 'search', 'ascription'));
     }
 
@@ -38,15 +58,14 @@ class CoursesController extends Controller
         $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return view('users_pages/courses.list'); }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
-        $user = Auth::user();
-        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-        if($pivot != null){ // User not enrolled
-            $now = \Carbon\Carbon::now()->toDateTimeString();
-            $pivot->updated_at = $now;
-            $pivot->save();
-        }
         if(Auth::check()){
             $user = Auth::user();
+            $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+            if($pivot != null){ // User not enrolled
+                $now = \Carbon\Carbon::now()->toDateTimeString();
+                $pivot->updated_at = $now;
+                $pivot->save();
+            }
             return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
         }
         return view('users_pages/courses.show',compact('course', 'ascription'));
@@ -73,25 +92,12 @@ class CoursesController extends Controller
         }
     }
 
-    // public function publicCourses(){
-    //     $courses = Course::whereIsPublic(1)->get();
-    //     return view('users_pages/courses.list',compact('courses'));
-    //     return $courses;
-    // }
-
     public function saveProgressModule(Request $request){
         $module = Module::find($request->module_id);
         $user = Auth::user();
         $save = null;
-        // if($request->status){
-            $save = $user->setModuleComplete($request->module_id);
-        // }
+        $save = $user->setModuleComplete($request->module_id);
         return $user->progressInModule($module->id);
-        // if($save){
-        //     return "Módulo completado";
-        // }else{
-        //     return "Módulo incompleto, revise las evaluaciones";
-        // }
     }
 
     public function howItWorks($ascription_slug){

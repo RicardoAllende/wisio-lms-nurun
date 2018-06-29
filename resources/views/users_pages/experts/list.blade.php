@@ -24,8 +24,7 @@ Expertos
               @else
                 <option value="">Filtrar por especialidad</option>
               @endif
-              @inject('controller','App\Http\Controllers\Users_Pages\ExpertsController')
-              @foreach($controller->getSpecialties() as $specialty)
+              @foreach($ascription->specialties() as $specialty)
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
@@ -60,8 +59,8 @@ Expertos
               @else
                 <option value="">Filtrar por especialidad</option>
               @endif
-              @inject('controller','App\Http\Controllers\Users_Pages\ExpertsController')
-              @foreach($controller->getSpecialties() as $specialty)
+              
+              @foreach($ascription->specialties() as $specialty)
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
@@ -86,9 +85,9 @@ Expertos
                       <div class="col s12 expertosparticipacion">
                         <p class="upper center">Participa en:</p>
                         <ul class="browser-default ">
-                            @foreach($expert->modulesName() as $module)
-                            <li>{{ $module }}</li>
-                            @endforeach
+                          @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $module)
+                          <li>{!! $module !!}</li>
+                          @endforeach
                         </ul>
                       </div>
 

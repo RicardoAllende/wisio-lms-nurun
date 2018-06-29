@@ -20,9 +20,12 @@
                     <div class="form-group">
                     {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
                     <div class="col-sm-10">
-                        {!! Form::password('password',['class'=>'form-control','placeholder'=>'Contraseña']) !!}
+                        {!! Form::password('password',['class'=>'form-control','placeholder'=>'Contraseña', 'required' => '']) !!}
                     </div>
                     </div>
+                    @if(isset($notification))
+                    <input type="hidden" name="notification" value="{{$notification}}">
+                    @endif
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10 center">
                             {!! Form::submit('Continuar',['class'=>'btnAcademia ','id'=>'guardar']) !!}

@@ -15,9 +15,9 @@ class CreateFakerMailsTable extends Migration
     {
         Schema::create('faker_mails', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('mail');
-            $table->string('tipe');
-            $table->string('link');
+            $table->string('email')->nullable();
+            $table->string('type')->nullable();
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }

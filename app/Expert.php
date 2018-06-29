@@ -18,6 +18,19 @@ class Expert extends Model
     	return $this->belongsToMany('App\Module');
     }
 
+    public function modulesFromAscription($ascription_id, $ascription_slug){
+        $modules = $this->modules;
+        $links = collect();
+        foreach($modules as $module){
+            $course = $module->course;
+            if($course->belongsToAscription($ascription_id)){
+                $link = $module->name." <a href='".route('student.show.course', [$ascription_slug, $course->slug])."' class='upscase linkM'>(".$course->name.")</a>";
+                $links->push($link);
+            }
+        }
+        return $links;
+    }
+
     public function modulesName(){
         return $this->modules()->take(4)->pluck('name')->unique();
     }

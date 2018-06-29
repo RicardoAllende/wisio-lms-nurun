@@ -8,8 +8,7 @@ Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse'
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
-
-// Route::get('/login', function(){ return view('login/login'); })->name("form.login")->middleware('guest');
+Route::get('/mailing', 'FakerMailController@sendEmail');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
@@ -162,7 +161,7 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');
 
   Route::get('/cursos/{course_slug}', 'Users_Pages\CoursesController@show')->name('student.show.course');
-  Route::get('/expertos','Users_Pages\ExpertsController@index')->name('student.show.experts');
+  Route::get('/profesores','Users_Pages\ExpertsController@index')->name('student.show.experts');
   Route::get('/ver-experto/{expert_slug}','Users_Pages\ExpertsController@show')->name('student.show.expert');
   Route::get('/como-funciona', 'Users_Pages\CoursesController@howItWorks')->name('student.funciona');
 
