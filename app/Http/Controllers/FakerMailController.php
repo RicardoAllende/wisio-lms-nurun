@@ -10,10 +10,11 @@ use App\Notification;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\FakerMail;
+use App\Mail\Test;
+use AWS;
 
 class FakerMailController extends Controller
 {
-
     public function sendEmail(){
         $courses = Course::all();
             // echo "<style>table {
@@ -48,7 +49,7 @@ class FakerMailController extends Controller
                                 $monthAgo = Carbon::now()->submonth(); // 30 days ago
                                 if($timestampLastNotification->gt($monthAgo)){
                                     // echo "Enviando recordatorio mensual a {$user->email} <br>";
-                                    $this->sendMonthReminderNotification($user->email, $course->id);
+                                    $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
                                 }
                             }else if($lastNotification->type == 'week_reminder'){
                                 $numWeekReminders = $user->numWeekReminderNotifications($course->id);
@@ -71,7 +72,7 @@ class FakerMailController extends Controller
                         }else{ // Doctor didn't follow the link
                             $numMonthReminders = $user->numMonthReminderNotifications($course->id);
                             if($numMonthReminders < $this->maxMonthReminders){
-                                $this->sendMonthReminderNotification($user->email, $course);
+                                $this->sendMonthReminderNotification($user->email, $user->id,  $course);
                             }else{
                                 // $this->sendWeekReminderNotification($user->mobile_phone, $route);
                             }
@@ -83,7 +84,7 @@ class FakerMailController extends Controller
                 }else{ // First Notification
                     $monthAgo = Carbon::now()->submonth(); // 30 days ago
                     if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                        $this->sendMonthReminderNotification($user->email, $course->id);
+                        $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
                     }
                         // if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
                         //     echo "<tr>";
@@ -109,10 +110,11 @@ class FakerMailController extends Controller
             }
         }
         // echo "</table>";
-        echo "Función terminada";
+        dd(Carbon::now());
+        echo "Función terminada ";
     }
 
-    public function sendMonthReminderNotification($email, $course_id){
+    public function sendMonthReminderNotification($email, $user_id,  $course_id){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
         return true;
@@ -129,7 +131,7 @@ class FakerMailController extends Controller
 
         $sms = AWS::createClient('sns');
         $sms->publish([
-                'Message' => 'Hello, This is just a test Message',
+                'Message' => 'Mensaje de prueba desde enviado por el sistema academia mc',
                 'PhoneNumber' => $mobilePhone,
                 'MessageAttributes' => [
                     'AWS.SNS.SMS.SMSType'  => [
@@ -153,4 +155,54 @@ class FakerMailController extends Controller
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 3]);
     }
+
+    public function sendTestEmail(){
+        $email = "ricardo.allende.p@gmail.com";
+        Mail::to($email)->send(new Test());
+        echo "Email enviado a {$email} <br>";
+        $email = "ricardo.allende@subitus.com";
+        Mail::to($email)->send(new Test());
+        echo "Email enviado a {$email} <br>";
+        $email = "richard.kuishi@gmail.com";
+        Mail::to($email)->send(new Test());
+        echo "Email enviado a {$email} <br>";
+        return "Test sendTestEmail terminado";
+    }
+
+    public function sendTestEmailTo($email){
+        Mail::to($email)->send(new Test());
+        echo "Email enviado a {$email} <br>";
+        return "Test sendTestEmailTo terminado";
+    }
+
+    public function sendTestSMS(){
+        $mobilePhone = "5525731520";
+        $sms = AWS::createClient('sns');
+        $sms->publish([
+                'Message' => 'Mensaje de prueba enviado por el sistema academia mc',
+                'PhoneNumber' => $mobilePhone,
+                'MessageAttributes' => [
+                    'AWS.SNS.SMS.SMSType'  => [
+                        'DataType'    => 'String',
+                        'StringValue' => 'Transactional',
+                     ]
+            	 ],
+              ]);
+        return "Mensaje enviado a {$mobilePhone}";
+    }
+
+    public function sendTestSMSTo($mobilePhone){
+        $sms = AWS::createClient('sns');
+        $sms->publish([
+                'Message' => 'Mensaje de prueba enviado por el sistema academia mc',
+                'PhoneNumber' => $mobilePhone,
+                'MessageAttributes' => [
+                    'AWS.SNS.SMS.SMSType'  => [
+                        'DataType'    => 'String',
+                        'StringValue' => 'Transactional',
+                     ]
+            	 ],
+              ]);
+    }
+
 }

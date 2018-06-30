@@ -26,17 +26,18 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        if (isset($_GET['type'])) {
-            $type = $_GET['type'];
-            if ($type == 'doctors') {
-                $type = [config('constants.roles.doctor')];
-            }
-            $role = Role::where('name', $type)->pluck('id');
-            $users = User::whereIn('role_id', $role)->paginate(15);
-        }else{
-            $users = User::paginate(15);
-        }
-        return view('Users/list', compact('users'));
+        return view('Users/list');
+        // if (isset($_GET['type'])) {
+        //     $type = $_GET['type'];
+        //     if ($type == 'doctors') {
+        //         $type = [config('constants.roles.doctor')];
+        //     }
+        //     $role = Role::where('name', $type)->pluck('id');
+        //     $users = User::whereIn('role_id', $role)->paginate(15);
+        // }else{
+        //     $users = User::paginate(15);
+        // }
+        // return view('Users/list', compact('users'));
     }
 
     /**

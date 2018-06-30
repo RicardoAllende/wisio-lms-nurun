@@ -50,17 +50,23 @@ class LoginController extends Controller
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }
-                if(session()->has('ascription_slug')){
-                    $slug = session('ascription_slug');
-                    if(Ascription::whereSlug($slug)->first() != null){
-                        return redirect()->route('student.home', $slug);
-                    }
+                $ascription =  $user->ascription;
+                if($ascription == null){
+                    Auth::logout();
+                    return back()->with('error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email'));
                 }
-                if($user->hasDifferentAscriptions()){
-                    return redirect()->route('student.select.ascription');
-                }
-                $ascription = $user->ascription();
                 return redirect()->route('student.home', $ascription->slug);
+                // if(session()->has('ascription_slug')){
+                //     $slug = session('ascription_slug');
+                //     if(Ascription::whereSlug($slug)->first() != null){
+                //         return redirect()->route('student.home', $slug);
+                //     }
+                // }
+                // if($user->hasDifferentAscriptions()){
+                //     return redirect()->route('student.select.ascription');
+                // }
+                // $ascription = $user->ascription();
+                // return redirect()->route('student.home', $ascription->slug);
             }
             return redirect('/');
         }
@@ -77,16 +83,30 @@ class LoginController extends Controller
             if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }
-            if($user->isStudent()){
+            if($user->isStudent()){;
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }
-                if($user->hasDifferentAscriptions()){
-                    return redirect()->route('student.select.ascription');
+                $ascription =  $user->ascription;
+                if($ascription == null){
+                    Auth::logout();
+                    return back()->with(
+                        'error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email'
+                    ));
                 }
-                $ascription = $user->allAscriptions->first();
                 return redirect()->route('student.home', $ascription->slug);
+                // if($user->last_profile_update == ''){
+                //     return redirect()->route('student.update');
+                // }
+                // if($user->hasDifferentAscriptions()){
+                //     return redirect()->route('student.select.ascription');
+                // }
+                // $ascription = $user->allAscriptions->first();
+                // return redirect()->route('student.home', $ascription->slug);
             }
+
+            // User has an invalid role
+            Auth::logout();
             return redirect('/');
         } else {
             return back()->withInput()->with('error', 'Verifique sus datos');

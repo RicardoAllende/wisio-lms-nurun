@@ -123,6 +123,27 @@ class Course extends Model
     	return $this->hasMany('App\Module')->orderBy('sort');
     }
 
+    public function modulesForUser($user){
+        $modulesId = $this->modules()->pluck('id');
+        $modules = collect();
+        foreach($modulesId as $moduleId){
+            if($user->hasCompletedTheModule($moduleId)){
+                $modules->push(Module::find($moduleId));
+                $lastModuleId = $moduleId;
+            }
+        }
+        if(isset($lastModuleId)){
+            if($modulesId->last() != $lastModuleId){
+                $i = $modulesId->search($lastModuleId);
+                $i = $modulesId[$i + 1];
+                $modules->push(Module::find($i));
+            }
+        }else{
+            $modules->push(Module::find($modulesId->first()));
+        }
+        return $modules;
+    }
+
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
     }

@@ -81,7 +81,7 @@ Curso {{ $course->name }}
           </div>
           @else
           <?php $cont=0; $mod=0; ?>
-          @foreach($course->modules as $module)
+          @foreach($course->modulesForUser($user) as $module)
           <?php $cont++; ?>
           <div class="col s12 l4 ">
               <div class="card z-depth-0 white">
@@ -93,7 +93,7 @@ Curso {{ $course->name }}
                        data-evi="{{ $evaluation->id }}"
                      @endif
                    @endif
-                   @if($module->hasFinalEvaluation())
+                   @if($module->hasFinalEvaluationForUser($user))
                    data-final="1" data-final-i="{{ $module->id }}"
                    @endif
                    >

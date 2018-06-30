@@ -447,6 +447,15 @@ function printResources(resources){
     openModule();
   } else {
     $("#"+content.id+" #references").html("Este módulo aún no tiene recursos disponibles, contacte a su administrador.");
+    sendAjax('post',window.location +'/save_progress_module',{
+      module_id: idModuleGlobal,
+      status: 1,
+      _token: $('meta[name="csrf-token"]').attr('content')
+    }, function(response){
+      if(response != null){
+        $('#'+mod.id+" div div .modulos").text(response);
+      }
+    });
     openModule();
   }
 
@@ -611,6 +620,8 @@ function MsjVideoFinish(){
   }else{
     var toastHTML = "Módulo completado";
     Materialize.toast(toastHTML,5000,'acept');
+    console.log('Recargando la página');
+    window.location.href = window.location.href;
   }
 }
 

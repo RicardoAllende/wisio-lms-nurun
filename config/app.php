@@ -181,6 +181,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Aws\Laravel\AwsServiceProvider::class,
 
     ],
 
@@ -236,6 +237,7 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Uuid' => Webpatser\Uuid\Uuid::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'AWS' => Aws\Laravel\AwsFacade::class,
     ],
 
 ];

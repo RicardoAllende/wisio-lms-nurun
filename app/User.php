@@ -211,37 +211,41 @@ class User extends Authenticatable
         if ($evaluation == null) { return "Evaluation doesn�t exist"; }
     }
 
-    public function ascriptions(){  // Return ascriptions that aren't 'diplomados'
-        return $this->belongsToMany('App\Ascription')->where('has_constancy', 0)->withTimestamps();
-    }
-
-    public function diplomados(){
-        return $this->belongsToMany('App\Ascription')->where('has_constancy', 1)->withPivot('score', 'status')->withTimestamps();
-    }
-
-    public function allAscriptions(){
-        return $this->belongsToMany('App\Ascription')->withPivot('score', 'status')->withTimestamps();
-    }
-
-    public function normalAscriptions(){
-        return $this->ascriptions->where('has_constancy', 0); // Not diplomat
-    }
-
-    public function hasAscriptions(){
-        if ($this->ascriptions->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // public function ascriptions(){  // Return ascriptions that aren't 'diplomados'
+    //     return $this->belongsToMany('App\Ascription')->where('has_constancy', 0)->withTimestamps();
+    // }
 
     public function ascription(){
-        if($this->hasAscriptions()){
-            return $this->ascriptions->first();
-        }else{
-            return null;
-        }
+        return $this->belongsTo('App\Ascription');
     }
+
+    // public function diplomados(){
+    //     return $this->belongsToMany('App\Ascription')->where('has_constancy', 1)->withPivot('score', 'status')->withTimestamps();
+    // }
+
+    // public function allAscriptions(){
+    //     return $this->belongsToMany('App\Ascription')->withPivot('score', 'status')->withTimestamps();
+    // }
+
+    // public function normalAscriptions(){
+    //     return $this->ascriptions->where('has_constancy', 0); // Not diplomat
+    // }
+
+    // public function hasAscriptions(){
+    //     if ($this->ascriptions->count() > 0) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+
+    // public function ascription(){
+    //     if($this->hasAscriptions()){
+    //         return $this->ascriptions->first();
+    //     }else{
+    //         return null;
+    //     }
+    // }
 
     public function attachments()
     {
@@ -264,13 +268,13 @@ class User extends Authenticatable
         }
     }
 
-    public function hasAscription(){
-        if ($this->ascriptions->count() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // public function hasAscription(){
+    //     if ($this->ascriptions->count() > 0) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     public function role(){
         return $this->belongsTo("App\Role");
@@ -335,12 +339,23 @@ class User extends Authenticatable
     /**
      * Return true if the course is related to his ascription.
      */
+    // public function hasAvailableCourse($course_id){
+    //     $course = Course::find($course_id);
+    //     if($course == null ){
+    //         return false;
+    //     }
+    //     $ascription = $this->ascription();
+    //     if ($ascription == null) {
+    //         return false;
+    //     }
+    //     return $ascription->courses->contains($course_id);
+    // }
     public function hasAvailableCourse($course_id){
         $course = Course::find($course_id);
         if($course == null ){
             return false;
         }
-        $ascription = $this->ascription();
+        $ascription = $this->ascription;
         if ($ascription == null) {
             return false;
         }
@@ -491,21 +506,21 @@ class User extends Authenticatable
         return $this->evaluations->contains($evaluation_id);
     }
 
-    public function enrolInDiplomado($ascription_id){
-        $ascripton = Ascription::find($ascription_id);
-        if($ascription == null) { return false; }
-        if($ascription->hasConstancy == 0){ return false; } // Not a diplomado
-        $this->ascriptions()->attach($ascription_id);
-        return true;
-    }
+    // public function enrolInDiplomado($ascription_id){
+    //     $ascripton = Ascription::find($ascription_id);
+    //     if($ascription == null) { return false; }
+    //     if($ascription->hasConstancy == 0){ return false; } // Not a diplomado
+    //     $this->ascriptions()->attach($ascription_id);
+    //     return true;
+    // }
 
-    public function hasDiplomados(){
-        if($this->diplomados->count() > 0){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    // public function hasDiplomados(){
+    //     if($this->diplomados->count() > 0){
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 
     public function numCompletedCoursesOfAscription($ascription_id){
         $ascription = Ascription::find($ascription_id);
@@ -514,25 +529,25 @@ class User extends Authenticatable
         return $this->completedCourses()->whereIn('courses.id', $ascriptionCourses)->count();
     }
 
-    public function firstDiplomado(){
-        return $this->diplomados->first(); // Null if user doesn't have
-    }
+    // public function firstDiplomado(){
+    //     return $this->diplomados->first(); // Null if user doesn't have
+    // }
 
-    public function hasDifferentAscriptions(){
-        if($this->allAscriptions->count() > 1){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    // public function hasDifferentAscriptions(){
+    //     if($this->allAscriptions->count() > 1){
+    //         return true;
+    //     }else{
+    //         return false;
+    //     }
+    // }
 
-    public function isEnrolledInDiplomado($ascription_id){
-        return $this->diplomados->contains($ascription_id);
-    }
+    // public function isEnrolledInDiplomado($ascription_id){
+    //     return $this->diplomados->contains($ascription_id);
+    // }
 
-    public function firstAscription(){
-        return $this->allAscriptions->first();
-    }
+    // public function firstAscription(){
+    //     return $this->allAscriptions->first();
+    // }
 
     public function getFullNameAttribute() {
         return $this->firstname . ' ' . $this->lastname;

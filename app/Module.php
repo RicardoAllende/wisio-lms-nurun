@@ -87,6 +87,16 @@ class Module extends Model
         }
     }
 
+    public function hasFinalEvaluationForUser($user){
+        if($this->hasFinalEvaluation()){
+            $finalEvaluation = $this->finalEvaluations()->first();
+            $id = $finalEvaluation->id;
+            return $user->hasAnotherAttemptInEvaluation($id);
+        }
+        // return "Default";
+        return false;
+    }
+
     public function hasResources(){
         if ($this->resources->count() > 0) {
             return true;

@@ -8,6 +8,12 @@ Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse'
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
+
+Route::get('/send-email', 'FakerMailController@sendTestEmail');
+Route::get('/send-email-to/{email}', 'FakerMailController@sendTestEmailTo');
+Route::get('/send-sms', 'FakerMailController@sendTestSMS');
+Route::get('/send-sms-to/{phone}', 'FakerMailController@sendTestSMSTo');
+
 Route::get('/mailing', 'FakerMailController@sendEmail');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');

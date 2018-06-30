@@ -27,8 +27,11 @@ class Ascription extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withTimestamps();
+        return $this->hasMany('App\User');
     }
+    // public function users(){
+    //     return $this->belongsToMany('App\User')->withTimestamps();
+    // }
 
     public function hasCourses(){
         if ($this->courses->count() > 0) {
