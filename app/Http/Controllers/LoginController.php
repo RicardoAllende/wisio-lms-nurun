@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\PasswordReset;
 use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\DB;
+use App\Notification;
 
 class LoginController extends Controller
 {
@@ -17,12 +18,12 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        // $courses = Course::orderBy('created_at','desc')->limit(5)->get();
-        // return view('users_pages/login/login', compact('courses'));
-        return view('users_pages/login/login');
-    }
+    // public function index()
+    // {
+    //     // $courses = Course::orderBy('created_at','desc')->limit(5)->get();
+    //     // return view('users_pages/login/login', compact('courses'));
+    //     return view('users_pages/login/login');
+    // }
 
     /**
      * Handle an authentication attempt.
@@ -76,14 +77,14 @@ class LoginController extends Controller
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
             }
-            session(['info' => $user->email]);
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();
             if($user->isAdmin()){
                 return redirect()->route('admin.dashboard');
             }
-            if($user->isStudent()){;
+            if($user->isStudent()){
+
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }

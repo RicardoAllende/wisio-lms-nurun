@@ -18,9 +18,8 @@ class FakerMailController extends Controller
 
     public $maxMonthReminders = 2; // max: 2 mails
     public $maxWeekReminders = 4; // max: 4 mails
-
+    
     public function sendEmail(){
-        $courses = Course::all();
         $weekAgo = Carbon::now()->subweek();
         $monthAgo = Carbon::now()->submonth(); // 30 days ago
         echo "Week ago = {$weekAgo}, Month ago = {$monthAgo} <br>";
@@ -38,38 +37,38 @@ class FakerMailController extends Controller
                         if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
                             echo "Tiene notificación anterior, CON avance<br>";
                             if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
-                                echo "Enviando nuevo mail a {$user->email}, está teniendo avance <br>";
+                                $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);                            
+                                // echo "Enviando nuevo mail a {$user->email}, está teniendo avance <br>";
                             }
                         }else{ // Doctor didn't hñave advance
-                            // echo "Tiene notificación anterior, SIN avance<br>";
-                            if($lastNotification->viewed == 1){
-                                echo "Ubicación 66<br>";
-                                
-                                // $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
-                                // echo "Enviando nuevo mail a {$user->mail}, está teniendo avance <br>";
-                            }else{
-                                if($notificationType == 'month_reminder'){
-                                    if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                        $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
-                                        if($numMonthReminders <= $this->maxMonthReminders){
-                                            echo "Seending line 55<br>";
-                                            $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
-                                        }else{
-                                            echo "Seendig in line 57<br>";
-                                            $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $course->id);
-                                        }
+                            // echo "Tiene notificación anterior, SIN avance<br>";    
+                            if($notificationType == 'month_reminder'){
+                                // echo "Mensual  {$user->id}<br>";
+                                if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
+                                    $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
+                                    if($numMonthReminders < $this->maxMonthReminders){
+                                        // echo "Seending line 55<br>";
+                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);
+                                    }else{
+                                        // echo "Seendig in line 57<br>";
+                                        $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
                                     }
-                                }elseif($notificationType == 'week_reminder'){
-                                    if($timestampLastNotification->lt($weekAgo)){ // More than 1 month without advance, month remind
-                                        $numWeekReminders = $user->numWeekReminderNotifications($course->id);
-                                        if($numWeekReminders <= $this->maxWeekReminders){
-                                            echo "Total: {$numWeekReminders}, máximo: {$this->maxWeekReminders} <br>";
-                                            $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $course->id);
-                                        }else{
-                                            echo "Agregando a la lista de personas por llamar<br>";
-                                            $this->addToListOfUsersToCall($user->id, $course->id);
-                                        }
+                                }
+                            }elseif($notificationType == 'week_reminder'){
+                                echo "Semanal {$user->id}<br>";
+                                $numWeekReminders = $user->numWeekReminderNotifications($course->id);
+                                if($timestampLastNotification->lt($weekAgo)){ // More than 1 week without advance, month remind
+                                    echo "Notificación semanal";
+                                    if($numWeekReminders < $this->maxWeekReminders){
+                                        echo "Total: {$numWeekReminders}, máximo: {$this->maxWeekReminders} <br>";
+                                        $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
+                                    }else{
+                                        echo "Agregando a la lista de personas por llamar<br>";
+                                        $this->addToListOfUsersToCall($user->id, $course->id);
+                                    }
+                                }else{
+                                    if($numWeekReminders == $this->maxWeekReminders){
+                                        $this->addToListOfUsersToCall($user->id, $course->id);
                                     }
                                 }
                             }
@@ -77,7 +76,7 @@ class FakerMailController extends Controller
                     }else{ // First Notification
                         // echo "No tiene notificación<br>";
                         if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                            $this->sendMonthReminderNotification($user->email, $user->id,  $course->id);
+                            $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);
                         }
                     }
                 }else{
@@ -86,23 +85,23 @@ class FakerMailController extends Controller
 
             }
         }
-        // echo "</table>";
         dd(Carbon::now());
-        echo "Función terminada ";
     }
 
-    public function sendMonthReminderNotification($email, $user_id,  $course_id){
+    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
-        return true;
+        $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
+        return $urlLogin;
         FakerMail::create(['email' => $email, 'type' => 'month_reminder', 'link' => route('login')."?notification=".$token]);
         return true;
     }
 
-    public function sendWeekReminderNotification($mobilePhone, $user_id,  $course_id){ // This function sends a sms
+    public function sendWeekReminderNotification($mobilePhone, $user_id, $ascription_name, $course_id){ // This function sends a sms
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 3]);
-        return true;
+        $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
+        return $urlLogin;
         FakerMail::create(['email' => $email, 'type' => 'week_reminder', 'link' => route('login')."?notification=".$token]);
         return;
 
@@ -119,7 +118,7 @@ class FakerMailController extends Controller
               ]);
     }
 
-    public function sendRecommendation(){
+    public function sendRecommendation($user){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 1]);
         return true;

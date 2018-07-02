@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Ascription;
 use App\Course;
 use Illuminate\Support\Facades\Auth;
+use App\Notification;
 
 class AscriptionController extends Controller
 {
@@ -16,10 +17,6 @@ class AscriptionController extends Controller
         if($ascription == null){
             return "Hubo un error con la información en la base de datos, por favor contacte al administrador del sistema";
         }
-        if(isset($_GET[$this->notificationTokenName])){
-            $notification = $_GET[$this->notificationTokenName];
-            return view('Users/register', compact('ascription', 'notification'));
-        }
         return view('Users/register', compact('ascription'));
     }
 
@@ -27,6 +24,22 @@ class AscriptionController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
         $courses = $ascription->courses;
+        return view('users_pages/login/login', compact('courses', 'ascription'));
+    }
+
+    public function login($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null) { return redirect('/'); }
+        $courses = $ascription->courses;
+        if(isset($_GET[$this->notificationTokenName])){
+            $notification = $_GET[$this->notificationTokenName];
+            $notification = Notification::whereCode($notification)->first();
+            if($notification != null){
+                $notification->viewed = 1;
+                $notification->save();
+                return view('users_pages/login/login', compact('courses', 'ascription', 'notification'));
+            }
+        }
         return view('users_pages/login/login', compact('courses', 'ascription'));
     }
 

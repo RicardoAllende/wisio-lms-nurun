@@ -96,13 +96,7 @@ class UsersController extends Controller
                 );
             }
             $user = User::create($input);
-            $user->save();
-            $userId = $user->id;
-            if($request->filled('ascription_id')){
-                $ascription_id = $request->ascription_id;
-                $user->attachAscription($ascription_id);
-            }
-            return redirect()->route('users.show',$userId);
+            return redirect()->route('users.show',$user->id);
         }catch(Exception $e){
             return back()->withInput()->withError('Existió un error al crear el usuario');
         }

@@ -158,6 +158,7 @@ Route::get('/cursor', function(){
 
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
+  Route::get('/login', 'AscriptionController@login')->name('ascription.login');
   Route::get('/aviso-de-privacidad', 'HomeController@privacity')->name('student.privacity');
   Route::get('/terminos-de-uso', 'HomeController@terms')->name('student.terms');
   Route::get('/aviso-de-farmacovigilancia', 'HomeController@pharmacovigilance')->name('student.pharmacovigilance');

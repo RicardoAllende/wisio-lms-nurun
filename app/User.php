@@ -35,7 +35,8 @@ class User extends Authenticatable
         'enabled',
         'role_id',
         'is_validated',
-        'refered_code'
+        'refered_code',
+        'ascription_id'
     ];
 
     // protected $appends = ['ascription'];
@@ -168,30 +169,6 @@ class User extends Authenticatable
             }
         }
         return false;
-    }
-
-    public function detachNormalAscriptions(){
-        $ascriptions = $this->normalAscriptions();
-        foreach($ascriptions as $ascription){
-            $this->ascriptions()->detach($ascription->id);
-        }
-    }
-
-    public function attachAscription($ascription_id){
-        $ascription = Ascription::find($ascription_id);
-        if($ascription == null){ return false; }
-        $this->detachNormalAscriptions();
-        $this->ascriptions()->attach($ascription_id);
-        return true;
-    }
-
-    public function belongsToAscription($ascription_id){
-        $rows = AscriptionUser::where('ascription_id', $ascription_id)->where('user_id', $this->id)->count();
-        if($rows > 0){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     public function evaluations(){
@@ -730,6 +707,13 @@ class User extends Authenticatable
 
     public function hasCallNotification(){
         if($this->notifications()->where('type', 4)->count()){
+            return true;
+        }
+        return false;
+    }
+
+    public function hasCallNotificationForCourse($course_id){
+        if($this->notifications()->where('type', 4)->where('course_id', $course_id)->count() > 0){
             return true;
         }
         return false;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use Illuminate\Support\Facades\Auth;
 use App\Ascription;
+use App\Notification;
 
 class HomeController extends Controller
 {
@@ -40,7 +41,12 @@ class HomeController extends Controller
         }
         if(isset($_GET[$this->notificationTokenName])){
             $notification = $_GET[$this->notificationTokenName];
-            return view('users_pages/login/login', compact('courses', 'notification', 'ascription'));
+            $notification = Notification::whereCode($notification)->first();
+            if($notification != null){
+                $notification->viewed = 1;
+                $notification->save();
+                return view('users_pages/login/login', compact('courses', 'ascription', 'notification'));
+            }
         }
         return view('users_pages/login/login', compact('courses', 'ascription'));
     }

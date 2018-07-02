@@ -44,7 +44,6 @@
                     <li class="">
                         <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Adscripciones</span></a>
                     </li>
-                    <li><a href="{{ route('list.diplomados') }}"><i class="fa fa-certificate" ></i><span>Diplomados</span> </a></li>
                     <li class="">
                         <a href="{{ route('categories.index') }}"><i class="fa fa-folder"></i> <span class="nav-label">Categorías</span></a>
                     </li>
@@ -66,20 +65,6 @@
                     {{-- <li class="">
                         <a href="{{ route('templates.indx') }}"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Plantillas para certificados</span></a>
                     </li> --}}
-                @endif
-                @if (Auth::user()->isStudent())
-                    <li class="">
-                        <a href=""><i class="fa fa-laptop"></i> <span class="nav-label">Mis cursos</span></a>
-                    </li>
-                    <li class="">
-                        <a href=""><i class="fa fa-user-circle"></i> <span class="nav-label">Actualizar datos</span></a>
-                    </li>
-                    <li class="">
-                        <a href=""><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Certificados</span></a>
-                    </li>
-                    <li class="">
-                        <a href=""><i class="fa fa-files-o"></i> <span class="nav-label">Recomendaciones de cursos</span></a>
-                    </li>
                 @endif
                 <li class="">
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> <span class="nav-label">Cerrar sesión</span></a>

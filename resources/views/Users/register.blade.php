@@ -181,9 +181,6 @@ Registro
                 <input type="hidden" name="refered_code" value="{{ $code }}">
             @endif
         <input type="submit" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
-        @if(isset($notification))
-          <input type="hidden" name="notification" value="{{ $notification }}">
-        @endif
 
         {!! Form::close() !!}
       </div>
