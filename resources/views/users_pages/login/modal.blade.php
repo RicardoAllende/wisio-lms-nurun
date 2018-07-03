@@ -24,7 +24,7 @@
                     </div>
                     </div>
                     @if(isset($notification))
-                    <input type="hidden" name="notification" value="{{$notification}}">
+                    <input type="hidden" name="notification" value="{{$notification->code}}">
                     @endif
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10 center">

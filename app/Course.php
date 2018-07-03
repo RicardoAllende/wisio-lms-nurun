@@ -23,6 +23,7 @@ class Course extends Model
         'end_date',
         'category_id',
         'support_email',
+        'has_diploma',
         'certificate_template_id'
     ];
 
@@ -92,24 +93,20 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps();
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps();
     }
 
     public function approvedUsers(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
     }
 
     public function incompleteUsers(){
-        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score')->withTimeStamps();
+        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps();
     }
 
     public function failedUsers(){
         return $this->users->count() - $this->approvedUsers->count();
     }
-
-    // public function enrolledUsers(){
-    //     return $this->belongsToMany('App\User')->wherePivot('status', config('constants.status.not_attemped'))->withPivot('status', 'score');
-    // }
 
     public function resources(){
     	return $this->hasMany('App\Resource');
@@ -120,29 +117,33 @@ class Course extends Model
     }
 
     public function modules(){
-    	return $this->hasMany('App\Module')->orderBy('sort');
+    	return $this->hasMany('App\Module')->where('modules.is_for_diploma', 0)->orderBy('sort');
     }
 
-    public function modulesForUser($user){
-        $modulesId = $this->modules()->pluck('id');
-        $modules = collect();
-        foreach($modulesId as $moduleId){
-            if($user->hasCompletedTheModule($moduleId)){
-                $modules->push(Module::find($moduleId));
-                $lastModuleId = $moduleId;
-            }
-        }
-        if(isset($lastModuleId)){
-            if($modulesId->last() != $lastModuleId){
-                $i = $modulesId->search($lastModuleId);
-                $i = $modulesId[$i + 1];
-                $modules->push(Module::find($i));
-            }
-        }else{
-            $modules->push(Module::find($modulesId->first()));
-        }
-        return $modules;
+    public function modulesForDiplomado(){
+        return $this->hasMany('App\Module')->where('modules.is_for_diploma', 1)->orderBy('sort');
     }
+
+    // public function modulesForUser($user){
+    //     $modulesId = $this->modules()->pluck('id');
+    //     $modules = collect();
+    //     foreach($modulesId as $moduleId){
+    //         if($user->hasCompletedTheModule($moduleId)){
+    //             $modules->push(Module::find($moduleId));
+    //             $lastModuleId = $moduleId;
+    //         }
+    //     }
+    //     if(isset($lastModuleId)){
+    //         if($modulesId->last() != $lastModuleId){
+    //             $i = $modulesId->search($lastModuleId);
+    //             $i = $modulesId[$i + 1];
+    //             $modules->push(Module::find($i));
+    //         }
+    //     }else{
+    //         $modules->push(Module::find($modulesId->first()));
+    //     }
+    //     return $modules;
+    // }
 
     public function attachments(){
         return $this->belongsToMany('App\Attachment');

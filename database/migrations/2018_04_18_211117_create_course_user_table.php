@@ -19,6 +19,8 @@ class CreateCourseUserTable extends Migration
             $table->integer('course_id')->unsigned();
             $table->float('score', 10,5)->nullable();
             $table->boolean('status')->default(false);
+            $table->float('score_in_diplomado', 10,5)->nullable();
+            $table->boolean('enrolled_in_diplomado')->default(false);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

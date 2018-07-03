@@ -3,8 +3,10 @@
 @section('title','Curso '.$course->name)
 @section('cta')
   <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Curso</a>
-  <a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>
-  <!--<a href="" class="btn btn-primary "><i class='fa fa-edit'></i>Agregar manual</a>-->
+  <!--<a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>-->
+  @if($course->has_diploma)
+    <a href="" class="btn btn-primary">Módulos del diplomado</a>
+  @endif
 @endsection
 
 @section('subtitle')
@@ -19,7 +21,6 @@
 @endsection
 
 @section('content')
-
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-12">
@@ -160,17 +161,40 @@
         </div>
     </div>
 </div>
-
 @endsection
-@section('extrajs')
-<script>
-    $(document).ready(function() {
-        $('#form-tag').on('submit', function(e) {
-            e.preventDefault();
-            if($('#tag').val() != '') {
-                $.post('/admin/api/tags/create', {
+
+@section('scripts')
+    <script src="/js/sweetalert2.min.js"></script>
+    <script src="/js/method_delete_f.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#form-tag').on('submit', function(e) {
+                e.preventDefault();
+                if($('#tag').val() != '') {
+                    $.post('/admin/api/tags/create', {
+                        '_token': '{!! csrf_token() !!}',
+                        tag: $('#tag').val(),
+                        course: {{ $course->id }}
+                    }).done(function(response) {
+                        if(response == 'ok') {
+                            swal("¡Listo!", "Se guardó y asignó correctamente la etiqueta al curso.", "success").then((value) => {
+                                window.location.reload();
+                            });
+                        } else {
+                            swal("¡Ups!", "No pudimos guardar la etiqueta. Intenta nuevamente.", "error");
+                        }
+                    });
+                }
+            });
+    
+            $('.tag-item-attach').on('click', function(e) {
+                e.preventDefault();
+                var tagElement = $(this);
+    
+                console.log($(this).data('tag'));
+                $.post('/admin/api/tags/attach', {
                     '_token': '{!! csrf_token() !!}',
-                    tag: $('#tag').val(),
+                    tag: $(this).data('tag'),
                     course: {{ $course->id }}
                 }).done(function(response) {
                     if(response == 'ok') {
@@ -178,54 +202,37 @@
                             window.location.reload();
                         });
                     } else {
-                        swal("¡Ups!", "No pudimos guardar la etiqueta. Intenta nuevamente.", "error");
+                        swal("¡Ups!", "No pudimos asignar la etiqueta. Intenta nuevamente.", "error");
                     }
-                });
-            }
-        });
-
-        $('.tag-item-attach').on('click', function(e) {
-            e.preventDefault();
-            var tagElement = $(this);
-
-            console.log($(this).data('tag'));
-            $.post('/admin/api/tags/attach', {
-                '_token': '{!! csrf_token() !!}',
-                tag: $(this).data('tag'),
-                course: {{ $course->id }}
-            }).done(function(response) {
-                if(response == 'ok') {
-                    swal("¡Listo!", "Se guardó y asignó correctamente la etiqueta al curso.", "success").then((value) => {
-                        window.location.reload();
-                    });
-                } else {
+                }).fail(function() {
                     swal("¡Ups!", "No pudimos asignar la etiqueta. Intenta nuevamente.", "error");
-                }
-            }).fail(function() {
-                swal("¡Ups!", "No pudimos asignar la etiqueta. Intenta nuevamente.", "error");
+                });
             });
-        });
-
-
-        $('.tag-item').on('click', function(e) {
-            e.preventDefault();
-            var tagElement = $(this);
-
-            console.log($(this).data('tag'));
-            $.post('/admin/api/tags/detach', {
-                '_token': '{!! csrf_token() !!}',
-                tag: $(this).data('tag'),
-                course: {{ $course->id }}
-            }).done(function(response) {
-                if(response == 'ok') {
-                   tagElement.parent().hide();
-                } else {
+    
+    
+            $('.tag-item').on('click', function(e) {
+                e.preventDefault();
+                var tagElement = $(this);
+    
+                console.log($(this).data('tag'));
+                $.post('/admin/api/tags/detach', {
+                    '_token': '{!! csrf_token() !!}',
+                    tag: $(this).data('tag'),
+                    course: {{ $course->id }}
+                }).done(function(response) {
+                    if(response == 'ok') {
+                        tagElement.parent().hide();
+                    } else {
+                        swal("¡Ups!", "No pudimos quitar la etiqueta. Intenta nuevamente.", "error");
+                    }
+                }).fail(function() {
                     swal("¡Ups!", "No pudimos quitar la etiqueta. Intenta nuevamente.", "error");
-                }
-            }).fail(function() {
-                swal("¡Ups!", "No pudimos quitar la etiqueta. Intenta nuevamente.", "error");
+                });
             });
         });
-    });
-</script>
+    </script>
+@endsection
+
+@section('styles')
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

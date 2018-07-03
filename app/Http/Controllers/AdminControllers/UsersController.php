@@ -17,6 +17,7 @@ use App\Course;
 use App\CourseUser;
 use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
+use App\Notification;
 
 class UsersController extends Controller
 {
@@ -223,35 +224,6 @@ class UsersController extends Controller
         return view('users/report', compact('user'));
     }
 
-    // public function listUsersToEnrolDiplomado(){
-    //     $doctorRole = Role::where('name', config('constants.roles.doctor'))->pluck('id');
-    //     $users = User::whereIn('role_id', $doctorRole)->get();
-    //     return view('diplomado/list-users-to-enrol', compact('users'));
-    // }
-
-    // public function attachUserToDiplomado($ascription_id, $user_id){
-    //     $ascription = Ascription::find($ascription_id);
-    //     if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el identificador de la adscripción']); }
-    //     if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, hubo un error de carga']); }
-    //     $user = User::find($user_id);
-    //     if($user == null){ return back()->withErrors(['Error' => 'Error al encontrar al usuario']); }
-    //     if( ! $user->diplomados->contains($ascription_id)){
-    //         $user->diplomados()->attach($ascription_id);
-    //     }
-    //     $courses = $ascription->courses;
-    //     foreach($courses as $course){
-    //         $course->enrolUser($user->id);
-    //     }
-    //     return back();
-    // }
-
-    // public function detachUserForDiplomado($ascription_id, $user_id){
-    //     $user = User::find($user_id);
-    //     if($user ==null) { return back()->withErrors(['Error' => 'Error al buscar usuario']); }
-    //     $user->ascriptions()->detach($ascription_id);
-    //     return back();
-    // }
-
     public function getUsersDataAdmin(){
         return \DataTables::of(User::query())
         ->addColumn('userLink', function ($user) {
@@ -272,15 +244,6 @@ class UsersController extends Controller
             }
             return "";
         })
-        // ->addColumn('diplomados', function ($user) {
-        //     $names = '';
-        //     if($user->hasDiplomados()){
-        //         foreach($user->diplomados as $diploma){
-        //             $names .= $diploma->name." ";
-        //         }
-        //     }
-        //     return "";
-        // })
         ->addColumn('actions', function ($user) {
             if($user->enabled == 1){
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
@@ -291,6 +254,83 @@ class UsersController extends Controller
         ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name'])
         ->make(true);
     }
+
+    public function getDataForNotifications(){
+        // $users = User::take(10);
+        return \DataTables::of(User::query())
+        ->addColumn('userLink', function ($user) {
+            // dd($user);
+            $user = User::find($user->id);
+            $hasNotification =  $user->hasNotifications();
+            if($hasNotification){
+                return '<a href="' . route('show.notifications.for.user', $user->email) .'">Ver</button>'; 
+            }
+            return "Sin notificaciones";
+        })
+        ->addColumn('numMonthReminders', function ($user) {
+            $user = User::find($user->id);
+            return $user->numAllMonthReminderNotifications(); 
+        })
+        ->addColumn('numWeekReminders', function ($user) {
+            $user = User::find($user->id);
+            return  $user->numAllWeekReminderNotifications(); 
+        })
+        ->addColumn('firstNotification', function ($user) {
+            $user = User::find($user->id);
+            return $user->dateFirstNotification(); 
+        })
+        ->addColumn('lastNotification', function ($user) {
+            $user = User::find($user->id);
+            return $user->dateLastNotification(); 
+        })
+        ->addColumn('actions', function ($user) {
+            $user = User::find($user->id);
+            if($user->enabled == 1){
+                return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+            }else{
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
+            }            
+        })
+        ->rawColumns(['userLink', 'actions', 'numMonthReminders', 'numWeedReminders', 'firstNotification', 'lastNotification'])
+        ->make(true);
+    }
+
+    public function getUsersCallList(){
+        $queryBuilder = Notification::whereType(4)->whereViewed(0);
+        return \DataTables::of($queryBuilder)
+        ->addColumn('phone_number', function ($notification) {
+            return $notification->user->mobile_phone;
+        })
+        ->addColumn('full_name', function ($notification) {
+            return $notification->user->full_name;
+        })
+        ->addColumn('professional_license', function ($notification) {
+            return $notification->user->professional_license;
+        })
+        ->addColumn('course_name', function ($notification) {
+            return $notification->course->name;
+        })
+        ->addColumn('check', function ($notification) {
+            return '<a href="'.route('check.notification', $notification->id).'" class="btn btn-primary btn-round"><span class="glyphicon glyphicon-check"></span></a>'; 
+        })
+        ->addColumn('actions', function ($notification) {
+            $user = $notification->user;
+            if($user->enabled == 1){
+                return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+            }else{
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
+            }    
+        })
+        ->addColumn('first_notification', function ($notification) {
+            $user = $notification->user;
+            return $user->dateFirstNotification();
+            $user->dateFirstNotification($course_id);
+        })
+        ->rawColumns(['phone_number', 'full_name', 'check', 'professional_license', 'course_name', 'actions', 'first_notification'])
+        ->make(true);
+    }
+
+
 
     public $ascription_id;
 

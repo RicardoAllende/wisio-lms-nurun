@@ -359,6 +359,10 @@ a.linkM{
   background-color: #8F6EAA;
 }
 
+.moduleimg-disabled{
+    background-color: #ABB2B9;
+}
+
 .iconmodule {
     font-size: 1.5rem;
     display: inline-block;
@@ -749,6 +753,18 @@ a.linkM{
     color: var(--main-font-color);
 }
 
+.collapsiblemod-disabled {
+    cursor: no-drop;;
+    padding: 10px !important;
+    width: 100%;
+    height: 150px;
+    border: none;
+    text-align: left;
+    outline: none;
+
+    color: #ABB2B9;
+}
+
 .modOut{
   padding: 10px !important;
   width: 100%;
@@ -763,6 +779,10 @@ a.linkM{
 .activeMod, .collapsiblemod:hover {
     background-color: var(--btn-hover-color);
     color: #fff;
+}
+
+.collapsiblemod-disabled:hover{
+    background-color: #e9e9e9;
 }
 
 .active .titulo-academia2{

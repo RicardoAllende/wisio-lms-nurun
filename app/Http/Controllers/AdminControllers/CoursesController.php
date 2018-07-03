@@ -76,7 +76,6 @@ class CoursesController extends Controller
             }
         }
         return redirect()->route('courses.show', $course_id);
-        //dd($course);
     }
 
     /**
@@ -137,11 +136,7 @@ class CoursesController extends Controller
         $course->support_email = $request->support_email;
         $course->slug = str_slug($request->slug);
         $course->category_id = $request->category_id;
-        if($request->filled('has_constancy')){
-            $has_constancy = 1;
-        }else{
-            $has_constancy = 0;
-        }
+        $course->has_constancy = $request->has_constancy;
         if($request->filled('certificate_template_id')){
             $id = $request->certificate_template_id;
             $template = CertificateTemplate::find($id);
@@ -154,7 +149,7 @@ class CoursesController extends Controller
             $this->dropImgAttachments($course);
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
-        $course->has_constancy = $has_constancy;
+        $course->has_diploma = $request->has_diploma;
         $course->save();
         return redirect()->route('courses.show', $course_id);
     }
@@ -260,6 +255,15 @@ class CoursesController extends Controller
         if($course == null) { return redirect()->route('list.courses.report'); }
         $users = $course->users;
         return view('courses/report', compact('course', 'users'));
+    }
+
+    public function mail(){
+        echo env('MAIL_DRIVER').'<br>';
+        echo env('MAIL_HOST').'<br>';
+        echo env('MAIL_PORT').'<br>';
+        echo env('MAIL_USERNAME').'<br>';
+        echo env('MAIL_PASSWORD').'<br>';
+        echo env('MAIL_ENCRYPTION').'<br>';
     }
 
 }

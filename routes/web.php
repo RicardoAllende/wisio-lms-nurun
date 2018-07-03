@@ -53,9 +53,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/modules', 'AdminControllers\ModulesController');
     Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
     Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
+    Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.users.for.course');
     Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
     Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
-    Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
+    // Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
+    Route::get('/mail', 'AdminControllers\CoursesController@mail')->name('mail');
     Route::get('/courses/relate-to-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@relateToAscription')
       ->name('relate.course.to.ascription');
     Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
@@ -65,14 +67,23 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
     Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
 
+    Route::group(['prefix' => '/notifications'], function(){
+      Route::get('/call-list', 'AdminControllers\NotificationsController@callList')->name('call.list');
+      Route::get('/users', 'AdminControllers\NotificationsController@listUsers')->name('notifications.list.users');
+      Route::get('/check-notification/{notification_id}', 'AdminControllers\NotificationsController@checkNotification')->name('check.notification'); // Call
+      Route::get('/user/{user_email}', 'AdminControllers\NotificationsController@listNotifications')->name('show.notifications.for.user');
+    });
+
     Route::resource('/users', 'AdminControllers\UsersController');
 
     /** Datatables facade by yajra */
-    Route::get('/get-users-data', 'AdminControllers\UsersController@getUsersDataAdmin')->name('get.users.data.admin'); // Datatables Facade
-    Route::get('/get-users-data-for-ascription/{ascription_id}', 'AdminControllers\UsersController@getDataForAscription')->name('get.users.data.admin.ascription'); // Datatables Facade
+    Route::get('/get-users-data', 'AdminControllers\UsersController@getUsersDataAdmin')->name('get.users.data.admin');
+    Route::get('/get-users-data-for-ascription/{ascription_id}', 'AdminControllers\UsersController@getDataForAscription')->name('get.users.data.admin.ascription');
     Route::get('/get-users-data-for-course/{ascription_id}', 'AdminControllers\UsersController@getDataForCourse')->name('get.users.for.course');
     Route::get('/get-users-data-for-ascription-enrollment/{ascription_id}', 'AdminControllers\UsersController@getDataForAscriptionEnrollment')
     ->name('get.users.for.ascription.enrollment');
+    Route::get('/get-data-for-notification', 'AdminControllers\UsersController@getDataForNotifications')->name('get.users.for.notification');
+    Route::get('/get-users-call-list', 'AdminControllers\UsersController@getUsersCallList')->name('get.users.call.list');
 
     Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
     Route::resource('/options','AdminControllers\OptionsController');

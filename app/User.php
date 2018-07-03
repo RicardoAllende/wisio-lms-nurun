@@ -51,7 +51,7 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimestamps();
     }
 
     public function coursesFromAscription(Ascription $ascription){
@@ -65,7 +65,13 @@ class User extends Authenticatable
     }
 
     public function modules(){
-        return $this->belongsToMany('App\Module')->withPivot('id', 'status', 'score')->withTimestamps();
+        return $this->belongsToMany('App\Module')->wherePivot('is_for_diploma', 0)
+                    ->withPivot('id', 'status', 'score')->withTimestamps();
+    }
+
+    public function diplomaModules(){
+        return $this->belongsToMany('App\Module')->wherePivot('is_for_diploma', 1)
+                    ->withPivot('id', 'status', 'score')->withTimestamps();
     }
 
     public function completedModules(){
@@ -75,7 +81,7 @@ class User extends Authenticatable
 
     public function completedCourses(){
         return $this->belongsToMany('App\Course')->wherePivot('status', 1)
-        ->withPivot('id', 'status', 'score')->withTimestamps();
+        ->withPivot('id', 'status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimestamps();
     }
 
     public function resources(){
@@ -383,6 +389,46 @@ class User extends Authenticatable
         }
     }
 
+    public function moduleInList($course, $module_id){
+        $modulesId = $course->modules()->pluck('id');
+        $modules = collect();
+        foreach($modulesId as $moduleId){
+            if($this->hasCompletedTheModule($moduleId)){
+                $modules->push($moduleId);
+                $lastModuleId = $moduleId;
+            }
+        }
+        if(isset($lastModuleId)){
+            if($modulesId->last() != $lastModuleId){
+                $i = $modulesId->search($lastModuleId);
+                $modules->push($modulesId[$i + 1]);
+            }
+        }else{
+            $modules->push($modulesId->first());
+        }
+        return $modules->contains($module_id);        
+    }
+
+    public function diplomaModuleInList($course, $module_id){
+        $modulesId = $course->modulesForDiplomado()->pluck('id');
+        $modules = collect();
+        foreach($modulesId as $moduleId){
+            if($this->hasCompletedTheModule($moduleId)){
+                $modules->push($moduleId);
+                $lastModuleId = $moduleId;
+            }
+        }
+        if(isset($lastModuleId)){
+            if($modulesId->last() != $lastModuleId){
+                $i = $modulesId->search($lastModuleId);
+                $modules->push($modulesId[$i + 1]);
+            }
+        }else{
+            $modules->push($modulesId->first());
+        }
+        return $modules->contains($module_id);        
+    }
+
     public function completedModulesOfCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return 0; }
@@ -398,12 +444,30 @@ class User extends Authenticatable
     public function hasCompletedTheModulesOfCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return false; }
-        $numModules = $course->modules->count();
-        if($numModules == $this->numCompletedModulesOfCourse($course_id)){
-            return true;
-        }else{
+        $modules = $course->modules()->pluck('id');
+        foreach($modules as $module){
+            if( ! $this->hasCompletedTheModule($module)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function isEnrolledInDiplomado($course_id){
+        $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id);
+        if($pivot == null){
             return false;
         }
+        $course = Course::find($course_id);
+        if($course == null){
+            return false;
+        }
+        if( ! $course->has_diploma){
+            return false;
+        }
+        // if($pivot->){
+
+        // }
     }
 
     public function tryToSetCourseComplete($course_id){
@@ -483,48 +547,12 @@ class User extends Authenticatable
         return $this->evaluations->contains($evaluation_id);
     }
 
-    // public function enrolInDiplomado($ascription_id){
-    //     $ascripton = Ascription::find($ascription_id);
-    //     if($ascription == null) { return false; }
-    //     if($ascription->hasConstancy == 0){ return false; } // Not a diplomado
-    //     $this->ascriptions()->attach($ascription_id);
-    //     return true;
-    // }
-
-    // public function hasDiplomados(){
-    //     if($this->diplomados->count() > 0){
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
-    // }
-
     public function numCompletedCoursesOfAscription($ascription_id){
         $ascription = Ascription::find($ascription_id);
         if($ascription == null) { return 0; }
         $ascriptionCourses = $ascription->courses->pluck('id');
         return $this->completedCourses()->whereIn('courses.id', $ascriptionCourses)->count();
     }
-
-    // public function firstDiplomado(){
-    //     return $this->diplomados->first(); // Null if user doesn't have
-    // }
-
-    // public function hasDifferentAscriptions(){
-    //     if($this->allAscriptions->count() > 1){
-    //         return true;
-    //     }else{
-    //         return false;
-    //     }
-    // }
-
-    // public function isEnrolledInDiplomado($ascription_id){
-    //     return $this->diplomados->contains($ascription_id);
-    // }
-
-    // public function firstAscription(){
-    //     return $this->allAscriptions->first();
-    // }
 
     public function getFullNameAttribute() {
         return $this->firstname . ' ' . $this->lastname;
@@ -659,6 +687,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Notification');
     }
 
+    public function numNotifications(){
+        return $this->notifications()->count();
+    }
+
     public function hasNotifications(){
         if($this->notifications()->count() > 0){
             return true;
@@ -681,6 +713,10 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 2)->get();
     }
 
+    public function numAllMonthReminderNotifications(){
+        return $this->notifications()->where('type', 2)->count();
+    }
+
     public function numMonthReminderNotifications($course_id){ // Not viewed notifications
         return $this->notifications()->where('type', 2)->where('viewed', 0)->where('course_id', $course_id)->where('viewed', 0)->count();        
     }
@@ -697,6 +733,10 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 3)->where('course_id', $course_id)->count();
     }
 
+    public function numAllWeekReminderNotifications(){ // Not viewed notifications
+        return $this->notifications()->where('type', 3)->count();
+    }
+
     public function recommendationNotifications($course_id){
         return $this->notifications()->where('type', 1)->where('course_id', $course_id)->get();
     }
@@ -706,7 +746,7 @@ class User extends Authenticatable
     }
 
     public function hasCallNotification(){
-        if($this->notifications()->where('type', 4)->count()){
+        if($this->notifications()->where('type', 4)->whereViewed(0)->count()){
             return true;
         }
         return false;
@@ -717,6 +757,14 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function dateFirstNotification(){
+        return $this->notifications()->min('created_at');
+    }
+
+    public function dateLastNotification(){
+        return $this->notifications()->max('created_at');
     }
 
 }

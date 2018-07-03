@@ -115,58 +115,62 @@ var hasFEvaluation = false;
 var idFEvaluation = 0;
 
 for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-      //console.log(isEnrolled);
-    if(isEnrolled){
-      if(!blockViewModule){
-        blockViewModule = true;
-        modActive = this;
-        modActive.classList.toggle("activeMod");
-
-        if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
-          isMob = true;
-          content = document.getElementById('modalMod');
-        } else {
-          content = document.getElementById('mod'+this.getAttribute('data-id'));
-        }
-
-        if(this.getAttribute('data-final')){
-          if(this.getAttribute('data-final') == '1'){
-            hasFEvaluation = true;
-            idFEvaluation = this.getAttribute('data-final-i');
-            nextUrl = urlFinal.replace('*', idFEvaluation);
-          }
-        }
-
-        if(this.getAttribute('data-module')){
-          idModuleGlobal = this.getAttribute('data-module');
-          if(this.getAttribute('data-eva') == '1'){
-            // alert('Con evaluación diagnóstica');
-            this.setAttribute('data-eva', '0');
-            // this.attr('data-eva', '0');
-            getEvDiag(this.getAttribute('data-evi'));
+  if(coll[i].getAttribute('data-disabled')){
+    // Módulo deshabilitado, no tendrá funcionalidad
+  }else{
+    coll[i].addEventListener("click", function() {
+        //console.log(isEnrolled);
+      if(isEnrolled){
+        if(!blockViewModule){
+          blockViewModule = true;
+          modActive = this;
+          modActive.classList.toggle("activeMod");
+  
+          if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
+            isMob = true;
+            content = document.getElementById('modalMod');
           } else {
-            // alert('Sin evaluación diagnóstica');
-            getResourcesModules(idModuleGlobal);
+            content = document.getElementById('mod'+this.getAttribute('data-id'));
           }
-        } else if(this.getAttribute('data-eval')){
-          isEval = true;
-          idEval = this.getAttribute('data-eval');
-          getQuestionsEval(idEval);
-          openModule();
+  
+          if(this.getAttribute('data-final')){
+            if(this.getAttribute('data-final') == '1'){
+              hasFEvaluation = true;
+              idFEvaluation = this.getAttribute('data-final-i');
+              nextUrl = urlFinal.replace('*', idFEvaluation);
+            }
+          }
+  
+          if(this.getAttribute('data-module')){
+            idModuleGlobal = this.getAttribute('data-module');
+            if(this.getAttribute('data-eva') == '1'){
+              // alert('Con evaluación diagnóstica');
+              this.setAttribute('data-eva', '0');
+              // this.attr('data-eva', '0');
+              getEvDiag(this.getAttribute('data-evi'));
+            } else {
+              // alert('Sin evaluación diagnóstica');
+              getResourcesModules(idModuleGlobal);
+            }
+          } else if(this.getAttribute('data-eval')){
+            isEval = true;
+            idEval = this.getAttribute('data-eval');
+            getQuestionsEval(idEval);
+            openModule();
+          }
+  
         }
-
+      } else {
+        $('#modalInsc').modal({
+          dismissible: false,
+        });
+        $('#modalInsc').modal('open');
       }
-    } else {
-      $('#modalInsc').modal({
-        dismissible: false,
-      });
-      $('#modalInsc').modal('open');
-    }
-
-
-
-  });
+  
+  
+  
+    });
+  }
 }
 
 function openModule(){

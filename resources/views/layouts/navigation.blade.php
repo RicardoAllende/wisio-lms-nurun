@@ -62,9 +62,14 @@
                     <li class="">
                         <a href="{{ route('experts.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Expertos</span></a>
                     </li>
-                    {{-- <li class="">
-                        <a href="{{ route('templates.indx') }}"><i class="fa fa-file-pdf-o"></i> <span class="nav-label">Plantillas para certificados</span></a>
-                    </li> --}}
+                    <li>
+                        <a href=""><i class="glyphicon glyphicon-calendar"></i> <span class="nav-label">Notificaciones</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="{{ route('notifications.list.users') }}">Usuarios con notificaciones</a></li>
+                            <li><a href="{{ route('call.list')}}">Lista de usuarios por llamar</a></li>
+                            <!--<li><a href="#">Configuraciones</a></li>-->
+                        </ul>
+                    </li>
                 @endif
                 <li class="">
                     <a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> <span class="nav-label">Cerrar sesión</span></a>

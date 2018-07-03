@@ -17,13 +17,10 @@ return [
     |
     */
 
-    'region' => env('AWS_REGION', 'us-east-1'),
+    'region' => 'us-east-1',
     'version' => 'latest',
     'credentials' => [
         'key'    => 'AKIAJMPN43VHQTTN4EMQ',
         'secret' => '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',
-    ],
-    'ua_append' => [
-        'L5MOD/' . AwsServiceProvider::VERSION,
     ],
 ];

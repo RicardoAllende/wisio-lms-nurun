@@ -10,6 +10,8 @@ use App\PasswordReset;
 use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\DB;
 use App\Notification;
+use App\Course;
+use App\Ascription;
 
 class LoginController extends Controller
 {
@@ -57,18 +59,9 @@ class LoginController extends Controller
                     return back()->with('error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email'));
                 }
                 return redirect()->route('student.home', $ascription->slug);
-                // if(session()->has('ascription_slug')){
-                //     $slug = session('ascription_slug');
-                //     if(Ascription::whereSlug($slug)->first() != null){
-                //         return redirect()->route('student.home', $slug);
-                //     }
-                // }
-                // if($user->hasDifferentAscriptions()){
-                //     return redirect()->route('student.select.ascription');
-                // }
-                // $ascription = $user->ascription();
-                // return redirect()->route('student.home', $ascription->slug);
             }
+            // User has an invalid role
+            Auth::logout();
             return redirect('/');
         }
         if (Auth::attempt($credentials)) {
@@ -84,7 +77,32 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if($user->isStudent()){
-
+                if($request->filled('notification')){
+                    $notification = $request->notification;
+                    $notification = Notification::whereCode($notification)->first();
+                    if($notification != null){
+                        if($notification->user_id == $user->id){
+                            switch($notification->type){
+                                case 'recommendation':
+    
+                                break;
+                                case 'month_reminder':
+                                case 'week_reminder':
+                                    $course = Course::find($notification->course_id);
+                                    if($course == null){ return redirect('/'); }
+                                    $ascription = $user->ascription;
+                                    if($ascription == null){ return redirect('/'); }
+                                    $notification->accessed = 1;
+                                    $notification->save();
+                                    return redirect()->route('student.show.course', [$ascription->slug, $course->slug]);
+                                break;
+                                case 'call':
+    
+                                break;
+                            }
+                        }
+                    }
+                }
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }
@@ -96,14 +114,6 @@ class LoginController extends Controller
                     ));
                 }
                 return redirect()->route('student.home', $ascription->slug);
-                // if($user->last_profile_update == ''){
-                //     return redirect()->route('student.update');
-                // }
-                // if($user->hasDifferentAscriptions()){
-                //     return redirect()->route('student.select.ascription');
-                // }
-                // $ascription = $user->allAscriptions->first();
-                // return redirect()->route('student.home', $ascription->slug);
             }
 
             // User has an invalid role

@@ -16,7 +16,7 @@ Actualizacion de información
 </div>
 
 <div class="row">
-  {{ ($user->last_profile_update == '') ? 'Por favor, complete/verifique si su información correcta' : '' }}
+  {{ ($user->last_profile_update == '') ? 'Por favor, complete/actualice su información' : '' }}
   {!! Form::model($user, ['route' => ['student.update.request'], 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
     <div class="reg col s12 l6 offset-l3">
