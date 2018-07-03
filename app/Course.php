@@ -120,7 +120,7 @@ class Course extends Model
     	return $this->hasMany('App\Module')->where('modules.is_for_diploma', 0)->orderBy('sort');
     }
 
-    public function modulesForDiplomado(){
+    public function modulesForDiplomat(){
         return $this->hasMany('App\Module')->where('modules.is_for_diploma', 1)->orderBy('sort');
     }
 

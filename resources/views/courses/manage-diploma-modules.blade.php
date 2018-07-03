@@ -2,10 +2,10 @@
 
 @section('title','Curso '.$course->name)
 @section('cta')
-  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulos</a>
+  <a href="{{ route('modules.create', 'forDiplomat='.$course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulo</a>
   <!--<a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>-->
   @if($course->has_diploma)
-    <a href="{{ route('manage.diploma.modules', $course->id) }}" class="btn btn-primary">Módulos del diplomado</a>
+    <a href="" class="btn btn-primary">Módulos del diplomado</a>
   @endif
 @endsection
 
@@ -24,35 +24,9 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-lg-12">
-            <div class="widget-head-color-box navy-bg p-lg text-center">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="m-b-md">
-                            <h2 class="font-bold no-margins">
-                                {{$course->name}}
-                            </h2>
-                            <small>{{ ($course->category != null) ? "Categoría ".$course->category->name : '' }}</small>
-                        </div>
-                        <img src="{{$course->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
-                    </div>
-                    <div class="col-lg-6"><br><br>
-                        <p>Email de resolución de dudas: {{ $course->support_email }}</p>
-                        <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
-                        <p>{{ $course->modules->count() }} módulos</p>
-                        <p>Slug: {{ $course->slug }}</p>
-                        <p>Evaluaciones finales: {{ $course->finalEvaluations()->count() }}</p>
-                        <h4 class="media-heading">Descripción del curso</h4>
-                        <p>{{$course->description}}.</p>
-                        <p>Fecha de inicio: {{ $course->start_date }}</p>
-                        <p> Fecha de término: {{ $course->end_date }}</p>
-                    </div>
-                </div>
-                        
-            </div>
-
             <div class="ibox float-e-margins">
                 <div class="row">
-                    <div class="col-lg-9">
+                    <div class="col-lg-12">
                         <h3>Información de los módulos</h3>
                         @if ($course->hasModules())
                         <div class="table-responsive">
@@ -89,77 +63,12 @@
                             <a href="{{ route('modules.create').'?course_id='.$course->id }}" class="btn btn-primary btn-round">Crear módulo</a>
                     </div>
                     <div class="col-lg-3">
-                        {{-- Inicia Tag Cloud --}}
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Tag Cloud</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        @if(count($course->tags) > 0)
-                                        <ul class="tag-list" style="padding: 0;">
-                                            @foreach($course->tags as $tag)
-                                            <li>
-                                                <a href class="tag-item" data-tag="{{ $tag->id }}"><i class="fa fa-times"></i> {{ $tag->tag }}</a>
-                                            </li>
-                                            @endforeach
-                                        </ul>
-                                        @else
-                                        El curso no tiene etiquetas
-                                        @endif
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-primary btn-block btn-sm m-t-sm" data-toggle="modal" data-target="#modal-tags">
-                                    Asigna una etiqueta
-                                </button>
-        
-                            </div>
-                        </div>
-                        {{-- Termina Tag Cloud --}}
+                        
                     </div>
                 </div>
             </div>
         </div>
 	</div>
-</div>
-<div class="modal inmodal" id="modal-tags" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-    <div class="modal-content animated fadeIn">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <i class="fa fa-tag modal-icon"></i>
-                <h4 class="modal-title">Asingación de Etiquetas</h4>
-                <small class="font-bold">Selecciona las etiquetas que quieras asignar al curso o crea una nueva etiqueta en la parte inferior.</small>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul class="tag-list" style="padding: 0;">
-                            @foreach(\App\Tag::all() as $tag)
-                            <li>
-                                <a href class="tag-item-attach" data-tag="{{ $tag->id }}"><i class="fa fa-tag"></i> {{ $tag->tag }}</a>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-lg-8 text-left">
-                        <form action="" class="form-inline" id="form-tag">
-                            <input type="text" class="form-control" name="tag" id="tag" placeholder="Escribe nueva etiqueta">
-                            <button type="submit" class="btn btn-primary" id="create-tag">Crear y Asignar</button>
-                        </form>
-                    </div>
-                    <div class="col-lg-4">
-                        <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
 

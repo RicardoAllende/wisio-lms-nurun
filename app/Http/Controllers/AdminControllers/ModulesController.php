@@ -41,6 +41,12 @@ class ModulesController extends Controller
             }
         }
         $courses = Course::all();
+        if(isset($_GET['forDiplomat'])){
+            $id = $_GET['forDiplomat'];
+            $forDiplomat = "Para diplomado";
+            $course = Course::find($forDiplomat);
+            return view('modules/form', compact('course', 'courses', 'forDiplomat'));
+        }
         // For create a course and relate to a expert
         if(isset($_GET['expert_id'])){
             $expert_id = $_GET['expert_id'];

@@ -266,4 +266,15 @@ class CoursesController extends Controller
         echo env('MAIL_ENCRYPTION').'<br>';
     }
 
+    public function manageDiplomaModules($course_id){
+        $course = Course::find($course_id);
+        if($course == null){
+            return redirect()->route('courses.index');
+        }
+        if( ! $course->has_diploma){
+            return redirect('courses.index')->withErrors(['error' => "El diplomado {$course->name} no ofrece diploma, cambie su configuración e inténtelo de nuevo"]);
+        }
+        return view('courses.manage-diploma-modules', compact('course'));
+    }
+
 }

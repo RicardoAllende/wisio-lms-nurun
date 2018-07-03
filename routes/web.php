@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
       ->name('relate.course.to.ascription');
     Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
       ->name('dissociate.course.of.ascription');
+  Route::get('/courses/{course_id}/manage-diplomat', 'AdminControllers\CoursesController@manageDiplomaModules')->name('manage.diploma.modules');
     Route::resource('/courses','AdminControllers\CoursesController');
     Route::resource('/categories','AdminControllers\CategoriesController');
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
