@@ -23,6 +23,8 @@ class CreateDiplomaCoursesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('course_id')->references('id')->on('courses');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('diploma_template')->unsigned();
+            $table->integer('certificate_template')->
             $table->string('code');
             $table->enum('type', ['diploma', 'conamege']);
             $table->timestamps();
