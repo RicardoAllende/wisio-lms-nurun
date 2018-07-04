@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/modules', 'AdminControllers\ModulesController');
     Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
     Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
-    Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.users.for.course');
+    Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.modules.for.course');
     Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
     Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
     // Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
       Route::get('/call-list', 'AdminControllers\NotificationsController@callList')->name('call.list');
       Route::get('/users', 'AdminControllers\NotificationsController@listUsers')->name('notifications.list.users');
       Route::get('/check-notification/{notification_id}', 'AdminControllers\NotificationsController@checkNotification')->name('check.notification'); // Call
-      Route::get('/user/{user_email}', 'AdminControllers\NotificationsController@listNotifications')->name('show.notifications.for.user');
+      Route::get('/user/{user_email}', 'AdminControllers\NotificationsController@listUserNotifications')->name('show.notifications.for.user');
     });
 
     Route::resource('/users', 'AdminControllers\UsersController');
@@ -90,10 +90,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/options','AdminControllers\OptionsController');
     Route::resource('/questions', 'AdminControllers\QuestionsController');
 
-    Route::get('/list-users-for-diplomado/{ascription_id}', 'AdminControllers\AscriptionsController@listUsersForDiplomado')->name('list.users.for.diplomado');
-    Route::get('/attach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@attachUserToDiplomado')->name('attach.user.to.diplomado');
-    Route::get('/detach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@detachUserForDiplomado')->name('detach.user.to.diplomado');
-    Route::get('/diplomados', 'AdminControllers\AscriptionsController@listDiplomados')->name('list.diplomados');
+    // Route::get('/list-users-for-diplomado/{ascription_id}', 'AdminControllers\AscriptionsController@listUsersForDiplomado')->name('list.users.for.diplomado');
+    // Route::get('/attach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@attachUserToDiplomado')->name('attach.user.to.diplomado');
+    // Route::get('/detach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@detachUserForDiplomado')->name('detach.user.to.diplomado');
+    // Route::get('/diplomados', 'AdminControllers\AscriptionsController@listDiplomados')->name('list.diplomados');
 
     Route::Resource('/templates', 'AdminControllers\CertificateTemplatesController');
 
@@ -115,6 +115,8 @@ Route::group(['middleware' => ['auth']], function () {
 
   });
 
+  Route::get('/inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@enrolUserInDiplomat')->name('enrol.user.in.diplomat');
+  Route::get('/no-inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@notEnrolUserInDiplomat')->name('not.enrol.user.in.diplomat');
   Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
     Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
     Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');

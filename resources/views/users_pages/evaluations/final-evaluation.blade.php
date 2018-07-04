@@ -17,6 +17,7 @@ Evaluacion
         </div>
         <div class="col s6 l6">
             <h2 class="recientes">Evaluación final del módulo: {{ $module->name }}</h2>
+            <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="btnAcademia" >Ver módulos de nuevo</a>
         </div>
         <div id="evaluation-div"></div>
     </div>

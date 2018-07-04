@@ -43,9 +43,14 @@ class ModulesController extends Controller
         $courses = Course::all();
         if(isset($_GET['forDiplomat'])){
             $id = $_GET['forDiplomat'];
-            $forDiplomat = "Para diplomado";
-            $course = Course::find($forDiplomat);
-            return view('modules/form', compact('course', 'courses', 'forDiplomat'));
+            $diplomat = 1;
+            $course = Course::find($id);
+            if($course == null){
+                return back()->withErrors([
+                    'error' => "El curso no fue encontrado"
+                ]);
+            }
+            return view('modules/form', compact('course', 'diplomat'));
         }
         // For create a course and relate to a expert
         if(isset($_GET['expert_id'])){
@@ -66,7 +71,8 @@ class ModulesController extends Controller
         $module = Module::create([
             'name' => $request->name, 'description' => $request->description,
             'course_id' => $request->course_id,
-            'sort' => $request->sort
+            'sort' => $request->sort,
+            'is_for_diploma' => $request->is_for_diploma
         ]);
 
         if($request->filled('attachment')){

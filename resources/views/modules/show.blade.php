@@ -3,7 +3,7 @@
 @section('title','Módulo: '.$module->name)
 @section('cta')
   <a href="{{ route('modules.edit', $module->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Módulo</a>
-  <a href="{{ route('list.experts.for.module', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
+  <a href="{{ route('manage.diploma.modules', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
   <a href="{{ route('references.index', $module->id) }}" class="btn btn-primary" >Administrar referencias</a>
 @endsection
 
@@ -13,7 +13,11 @@
             <a href="{{ route('courses.index') }}">Cursos</a>
         </li>
         <li>
-            <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+            @if($module->is_for_diploma)
+                <a href="{{ route('manage.diploma.modules', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+            @else
+                <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
+            @endif
         </li>
         <li>
             {{ $module->name }}
@@ -37,10 +41,11 @@
                             <small>Nombre del módulo</small>
                         </div>
                         <img src="{{$module->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del módulo">
+                        @if($module->is_for_diploma)
                         <div>
-                            <span>{{ $module->evaluations->count() }} inscritos</span> |
-                            <span>{{ $timesPassed }} médicos terminaron el curso</span> |
+                            Módulo del diplomado
                         </div>
+                        @endif
                     </div>
                     <div class="col-lg-6">
                         <h2>Expertos</h2><br>  

@@ -14,6 +14,7 @@ class Module extends Model
         'description',
         'previous',
         'sort',
+        'is_for_diploa',
         'course_id'
     ];
 

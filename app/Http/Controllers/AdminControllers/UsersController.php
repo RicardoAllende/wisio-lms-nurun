@@ -263,7 +263,7 @@ class UsersController extends Controller
             $user = User::find($user->id);
             $hasNotification =  $user->hasNotifications();
             if($hasNotification){
-                return '<a href="' . route('show.notifications.for.user', $user->email) .'">Ver</button>'; 
+                return '<a href="' . route('show.notifications.for.user', $user->email) .'">Ver notificaciones</button>'; 
             }
             return "Sin notificaciones";
         })

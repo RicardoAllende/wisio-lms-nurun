@@ -20,9 +20,6 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>{{ (isset($module)) ? 'Editar módulo' : 'Crear módulo' }}</h5>
-                        @if(isset($forDiplomat))
-                          <h1>{{ $forDiplomat }}</h1>
-                        @endif
                     </div>
                     <div class="ibox-content">
                       <div class="row ">
@@ -51,6 +48,16 @@
                             </div>
                           </div>
                           
+                          @if(isset($diplomat))
+                          <div class="form-group">
+                            {!! Form::label('diplomat', 'Tipo de módulo:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::label('diplomat', 'Este módulo se está creando para diplomado',['class'=>'form-control']); !!}
+                            </div>
+                          </div>
+                          <input type="hidden" name="is_for_diploma" value="1">
+                          @endif
+
                           <div class="form-group">
                             {!! Form::label('course', 'Curso:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
@@ -58,7 +65,7 @@
                               <input type="hidden" name="course_id" value="{{$course->id}}">
                               <input type="text" class="form-control" disabled value="{{ $course->name }}">
                             @else
-                              <select name="course_id" id="course_id" class="form-control">
+                            <select name="course_id" id="course_id" class="form-control">
                                 @if(isset($module))
                                   <option value="{{ $module->course->id }}">{{ $module->course->name }} (actual)</option>
                                 @else
@@ -67,7 +74,7 @@
                                 @foreach($courses as $course)
                                   <option value="{{ $course->id }}">{{ $course->name }}</option>
                                 @endforeach
-                                </select>
+                              </select>
                             @endif
                             </div>
                           </div>

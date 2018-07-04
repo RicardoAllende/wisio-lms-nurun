@@ -49,14 +49,7 @@
                             <div class="form-group">
                                 {!! Form::label('is_pharmacy', 'Tipo de adscripción:',['class'=>'control-label col-sm-2']); !!}
                               <div class="col-sm-10">
-                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Principal'], null, ['class' => 'form-control']) !!}
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                                {!! Form::label('has_constancy', '¿Es un diplomado?',['class'=>'control-label col-sm-2']); !!}
-                              <div class="col-sm-10">
-                                {!! Form::select('has_constancy', ['0' => 'No', '1' => 'Sí'], null, ['class' => 'form-control']) !!}
+                                {!! Form::select('is_pharmacy', ['1' => 'Farmacia', '0' => 'Academia'], null, ['class' => 'form-control']) !!}
                               </div>
                             </div>
 

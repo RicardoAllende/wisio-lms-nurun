@@ -272,7 +272,9 @@ class CoursesController extends Controller
             return redirect()->route('courses.index');
         }
         if( ! $course->has_diploma){
-            return redirect('courses.index')->withErrors(['error' => "El diplomado {$course->name} no ofrece diploma, cambie su configuración e inténtelo de nuevo"]);
+            return redirect('courses.index')->withErrors(
+                ['error' => "El diplomado {$course->name} no ofrece diploma, cambie su configuración e inténtelo de nuevo"]
+            );
         }
         return view('courses.manage-diploma-modules', compact('course'));
     }

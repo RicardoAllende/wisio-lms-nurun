@@ -40,7 +40,7 @@ class AscriptionsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['name', 'description', 'slug', 'has_constancy']);
+        $input = $request->only(['name', 'description', 'slug']);
         $name = $request->name;
         $description = $request->description;
         $slug = str_slug($request->slug);
@@ -115,7 +115,6 @@ class AscriptionsController extends Controller
             }
             $ascription->slug = $slug;
             $ascription->is_pharmacy = $request->is_pharmacy;
-            $ascription->has_constancy = $request->has_constancy;
             $ascription->save();
             if($request->filled('attachment')){
                 $attach_id = $request->input('attachment');
@@ -193,10 +192,10 @@ class AscriptionsController extends Controller
         return view('ascriptions/report', compact('ascription', 'users'));
     }
 
-    public function listDiplomados(){
-        $ascriptions = Ascription::where('has_constancy', 1)->get(); // Diplomados
-        return view('diplomados/list', compact('ascriptions'));
-    }
+    // public function listDiplomados(){
+    //     $ascriptions = Ascription::where('has_constancy', 1)->get(); // Diplomados
+    //     return view('diplomados/list', compact('ascriptions'));
+    // }
 
     public function listUsersForDiplomado($ascription_id){
         $ascription = Ascription::find($ascription_id);

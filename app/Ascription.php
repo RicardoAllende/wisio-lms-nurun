@@ -11,10 +11,7 @@ class Ascription extends Model
         'name',
         'slug',
         'description',
-        'has_constancy',
         'is_pharmacy',
-        'maximum_attemps',
-        'minimum_score',
         'enabled'
     ];
 
@@ -134,18 +131,7 @@ class Ascription extends Model
         return false;
     }
 
-    public function isDiplomado(){
-        if ($this->has_constancy == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function type(){
-        if($this->isDiplomado()){
-            return "Diplomado";
-        }
         if($this->isPharmacy()){
             return "Farmacia";
         }

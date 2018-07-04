@@ -34,11 +34,32 @@ class Course extends Model
     }
 
     public function hasModules(){
-        if($this->modules->count() > 0){
+        if($this->modules()->count() > 0){
             return true;
         }else{
             return false;
         }
+    }
+
+    public function hasDiplomaModules(){
+        if($this->modulesForDiplomat()->count() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function invitationForDiploma($user_id){
+        if($this->has_diploma == 0){
+            return false;
+        }
+        $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
+        if($pivot == null){
+            return false;
+        }
+        if($pivot->enrolled_in_diplomado){
+            return false;
+        }
+        return ! $pivot->asked_for_diploma;
     }
 
     public function evaluations(){
@@ -93,15 +114,15 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps();
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps();
     }
 
     public function approvedUsers(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
     }
 
     public function incompleteUsers(){
-        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimeStamps();
+        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps();
     }
 
     public function failedUsers(){
@@ -123,27 +144,6 @@ class Course extends Model
     public function modulesForDiplomat(){
         return $this->hasMany('App\Module')->where('modules.is_for_diploma', 1)->orderBy('sort');
     }
-
-    // public function modulesForUser($user){
-    //     $modulesId = $this->modules()->pluck('id');
-    //     $modules = collect();
-    //     foreach($modulesId as $moduleId){
-    //         if($user->hasCompletedTheModule($moduleId)){
-    //             $modules->push(Module::find($moduleId));
-    //             $lastModuleId = $moduleId;
-    //         }
-    //     }
-    //     if(isset($lastModuleId)){
-    //         if($modulesId->last() != $lastModuleId){
-    //             $i = $modulesId->search($lastModuleId);
-    //             $i = $modulesId[$i + 1];
-    //             $modules->push(Module::find($i));
-    //         }
-    //     }else{
-    //         $modules->push(Module::find($modulesId->first()));
-    //     }
-    //     return $modules;
-    // }
 
     public function attachments(){
         return $this->belongsToMany('App\Attachment');

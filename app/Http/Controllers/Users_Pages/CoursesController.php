@@ -17,6 +17,7 @@ use App\AttachmentCourse;
 use App\AscriptionCourse;
 use App\CategoryCourse;
 use App\CourseUser;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class CoursesController extends Controller
@@ -90,6 +91,31 @@ class CoursesController extends Controller
         } else {
             return back()->with('msj', 'No se pudo inscribir');
         }
+    }
+
+    public function enrolUserInDiplomat($email, $course_slug){
+        $user = User::whereEmail($email)->first();
+        if($user == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+        $course = Course::whereSlug($course_slug)->first();
+        if($course == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+        if($pivot == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+        $pivot->asked_for_diploma = 1;
+        $pivot->enrolled_in_diplomado = 1;
+        $pivot->save();
+        return back()->with('msj', 'Inscripción en el diplomado realizada correctamente');
+    }
+
+    public function notEnrolUserInDiplomat($email, $course_slug){
+        $user = User::whereEmail($email)->first();
+        if($user == null){ return back(); }
+        $course = Course::whereSlug($course_slug)->first();
+        if($course == null){ return back(); }
+        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+        if($pivot == null){ return back(); }
+        $pivot->asked_for_diploma = 1;
+        $pivot->save();
+        return back();
     }
 
     public function saveProgressModule(Request $request){

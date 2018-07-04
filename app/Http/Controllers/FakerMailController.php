@@ -136,12 +136,10 @@ class FakerMailController extends Controller
 
     public function sendTestEmail(){
         $email = "ricardo.allende.p@gmail.com";
+        // from is in Test class
         Mail::to($email)->send(new Test());
         echo "Email enviado a {$email} <br>";
         $email = "ricardo.allende@subitus.com";
-        Mail::to($email)->send(new Test());
-        echo "Email enviado a {$email} <br>";
-        $email = "richard.kuishi@gmail.com";
         Mail::to($email)->send(new Test());
         echo "Email enviado a {$email} <br>";
         return "Test sendTestEmail terminado";

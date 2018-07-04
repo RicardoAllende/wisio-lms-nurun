@@ -27,6 +27,9 @@
                   <li><a href="{{ route('student.list.evaluations', $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                   <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
                   <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
+                  @if(Auth::user()->hasEnrollmentsInDiploma())
+                    <!--<li><a href="" id="menuCertificados">Diplomas</a></li>-->
+                  @endif
                 @endif
               </ul>
               <!-- <li><a href="#!">Medicamentos</a></li> -->

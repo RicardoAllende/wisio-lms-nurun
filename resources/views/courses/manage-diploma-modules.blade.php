@@ -3,10 +3,6 @@
 @section('title','Curso '.$course->name)
 @section('cta')
   <a href="{{ route('modules.create', 'forDiplomat='.$course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulo</a>
-  <!--<a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>-->
-  @if($course->has_diploma)
-    <a href="" class="btn btn-primary">Módulos del diplomado</a>
-  @endif
 @endsection
 
 @section('subtitle')
@@ -27,8 +23,8 @@
             <div class="ibox float-e-margins">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3>Información de los módulos</h3>
-                        @if ($course->hasModules())
+                        <h3>Módulos pertenecientes al diplomado</h3>
+                        @if ($course->hasDiplomaModules())
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover dataTables">
                                 <thead>
@@ -41,7 +37,7 @@
                                 </thead>
                                 <tbody>
                                     @php $i=1; @endphp
-                                    @foreach($course->modules as $module) 
+                                    @foreach($course->modulesForDiplomat as $module) 
                                         <tr>
                                         <td><a href="{{ route('modules.show', $module->id) }}">{{ $i }}</a></td>
                                         <td><a href="{{ route('modules.show', $module->id) }}">{{ $module->name }}</a></td>
@@ -58,9 +54,9 @@
                             </table>
                         </div>
                         @else
-                            <h3><strong>Este curso aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
+                        <h3><strong>Este diplomado aún no tiene módulos asignados, ¿desea agregar alguno?</strong></h3><br>
                         @endif
-                            <a href="{{ route('modules.create').'?course_id='.$course->id }}" class="btn btn-primary btn-round">Crear módulo</a>
+                        <a href="{{ route('modules.create', 'forDiplomat='.$course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulo</a>
                     </div>
                     <div class="col-lg-3">
                         

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AdminControllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+use App\Notification;
 
 class NotificationsController extends Controller
 {
@@ -27,4 +29,14 @@ class NotificationsController extends Controller
     public function callList(){
         return view('notifications.report.call-list');
     }
+
+    public function listUserNotifications($email){
+        $user = User::whereEmail($email)->first();
+        if($user == null){
+            return back()->withErrors(['error' =>'Problemas al encontrar usuario']);
+        }
+        $notifications = $user->notifications;
+        return view('notifications.report.user-notifications', compact('notifications', 'user'));
+    }
+
 }

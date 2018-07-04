@@ -33,6 +33,7 @@
                             <th>Curso</th>
                             <th>Descripción</th>
                             <th>Evaluaciones</th>
+                            <th>Tipo</th>
                             <th>Acciones</th>
                           </tr>
                         </thead>
@@ -44,6 +45,7 @@
                               <td><a href="{{route('courses.show', $module->course->id) }}">{{ $module->course->name }}</a>  </td>
                               <td>{{ $module->description }}</td>
                               <td>{{ $module->evaluations->count() }}</td>
+                              <td>{{ ($module->is_for_diploma) ? 'Módulo para diplomado' : '' }}</td>
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['modules.destroy',$module->id],'style'=>'display:inline;']) !!}
                                     <!--{!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}-->
