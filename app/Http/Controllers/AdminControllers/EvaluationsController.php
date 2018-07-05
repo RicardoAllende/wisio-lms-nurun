@@ -99,6 +99,7 @@ class EvaluationsController extends Controller
         $evaluation->name = $request->name;
         $evaluation->description = $request->description;
         $evaluation->maximum_attempts = $request->maximum_attempts;
+        $evaluation->type = $request->type;
         $evaluation->save();
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
@@ -173,6 +174,8 @@ class EvaluationsController extends Controller
             $attach_id = $request->input('attachment');
             AttachmentEvaluation::create(['attachment_id' => $attach_id, 'evaluation_id' => $evaluation->id]);
         }
+        $evaluation->type = 's';
+        $evaluation->save();
         // $course = Course::find($course_id);
         // if($course == null){
         //     return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
@@ -196,7 +199,8 @@ class EvaluationsController extends Controller
         if($course == null){
             return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
         }
-        return redirect()->route("evaluations.show", $id);
+        return redirect()->route("show.diploma.evaluation", [$course_id, $evaluation->id]);
+        // return redirect()->route("evaluations.show", $id);
     }
 
 }

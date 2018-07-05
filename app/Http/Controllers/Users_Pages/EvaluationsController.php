@@ -76,6 +76,25 @@ class EvaluationsController extends Controller
         compact('ascription', 'course', 'evaluation', 'user', 'module'));
     }
 
+    public function showFinalEvaluationForDiploma($ascription_slug, $course_slug){
+        $course = Course::whereSlug($course_slug)->first();
+        if($course == null) return redirect('/');
+        if($course->has_diploma){
+            $evaluation = $course->diplomaEvaluation;
+            if($evaluation == null){
+                return back()->with('error', 'Esta evaluación no está disponible por el momento');
+            }
+        }
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null)  return redirect('/');
+        $user = Auth::user();
+        if( ! $user->isEnrolledInCourse($course->id)){
+            return back();
+        }
+        dd($evaluation);
+        return view('users_pages.evaluations.final-evaluation-diploma',compact('course', 'ascription', 'user', 'evaluation'));
+    }
+
     public function gradeEvaluation($ascription_slug, Request $request){
         $attempt_id = $request->attempt_id;
         $evaluation_id = $request->evaluation_id;
@@ -121,6 +140,13 @@ class EvaluationsController extends Controller
         // echo "Promedio: {$evaluationAverage} <br>";
         // echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
 
+        if($evaluation->isDiplomaEvaluation()){
+            $course = $evaluation->course;
+            $courseEnrollment = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+            $courseEnrollment->score_in_diplomado = $evaluationAverage;
+            $courseEnrollment->save();
+            return $courseEnrollment;
+        }
 
         $module = $evaluation->module;
         $course = $module->course;
@@ -163,7 +189,12 @@ class EvaluationsController extends Controller
     public function drawForm($ascription_slug, $courseSlug, $evaluation_id){
         $evaluation = Evaluation::find($evaluation_id);
         if ($evaluation == null) {
-            return "Hubo un error, contacte con el administrador ".config('constants.support_email');
+            echo "Hubo un error, contacte con el administrador ".config('constants.support_email');
+            return;
+        }
+        if($evaluation->questions()->count() == 0){
+            echo "<br><br><h2 class='recientes'> Esta evaluación está en mantenimiento, por favor contacte con ".config('constants.support_email')." <h2><br><br>";
+            return;
         }
 
         if(Auth::user()->hasAnotherAttemptInEvaluation($evaluation->id)){
@@ -264,8 +295,8 @@ class EvaluationsController extends Controller
     }
 
     /**
-     * Return 'true' if module has evaluation and user hasn´t done that evaluation yet
-     * else returns 'false'
+     * Return 'yes' if module has evaluation and user hasn´t done that evaluation yet
+     * else returns 'no'
      */
     public function checkFinalEvaluation($module_id){
         $module = Module::find($module_id);

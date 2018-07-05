@@ -18,6 +18,9 @@ Curso {{ $course->name }}
             <h2 class="cursoview">{{ $course->name }}</h2>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
             <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"/></div>
+            <a href="{{ route('diploma.final.evaluation', [$ascription->slug, $course->slug]) }}" class="btnAcademia">
+            Iniciar evaluación final del diplomado
+            </a>
           </div>
           
           <div class="col s6 l9">
@@ -198,22 +201,6 @@ Curso {{ $course->name }}
   $('.modal').modal({
     dismissible: false
   });
-
-  @if(isset($evaluation))
-  var strange = 1;
-  @endif
-
-  /*
-  {{-- if(invite && hasFinished){
-    if(confirm('Este curso tiene un diplomado disponible, ¿desea inscribirse en él?')){
-      var urlEnrolDiploma = "{{ route('enrol.user.in.diplomat', [$user->email, $course->slug]) }}";
-      window.location.href = urlEnrolDiploma;
-    }else{
-      var urlEnrolDiploma = "{{ route('not.enrol.user.in.diplomat', [$user->email, $course->slug]) }}";
-      window.location.href = urlEnrolDiploma;
-    }
-  } --}}
-  */
 
  $('.chips').material_chip();
 

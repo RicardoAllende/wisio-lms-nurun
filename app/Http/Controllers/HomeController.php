@@ -32,10 +32,7 @@ class HomeController extends Controller
                 if($user->last_profile_update == ''){
                     return redirect()->route('student.update');
                 }
-                if($user->hasDifferentAscriptions()){
-                    return redirect()->route('student.select.ascription');
-                }
-                $ascription = $user->ascription();
+                $ascription = $user->ascription;
                 return redirect()->route('student.home', $ascription->slug);
             }
         }

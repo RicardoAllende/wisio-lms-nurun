@@ -7,9 +7,15 @@
 
 @section('subtitle')
     <ol class="breadcrumb">
+        @if($question->evaluation->isDiplomaEvaluation())
+        <li>
+            <a href="{{ route('courses.show', $question->evaluation->course->id) }}">Módulo: {{ $question->evaluation->course->name }}</strong></a>
+        </li>
+        @else
         <li>
             <a href="{{ route('modules.show', $question->evaluation->module->id) }}">Módulo: {{ $question->evaluation->module->name }}</strong></a>
         </li>
+        @endif
         <li>
             <a href="{{ route('evaluations.show', $question->evaluation->id) }}">Evaluación: {{ $question->evaluation->name }}</strong></a>
         </li>

@@ -140,6 +140,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/{course_id}/{module_id}/evaluacion-final', 'Users_Pages\EvaluationsController@showFinalEvaluation')
     ->name('show.evaluation'); // Final evaluations
 
+    Route::get('/{course_slug}/evaluacion-final-diplomado', 'Users_Pages\EvaluationsController@showFinalEvaluationForDiploma')
+    ->name('diploma.final.evaluation');
+
     Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
     Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
   });

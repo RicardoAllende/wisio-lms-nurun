@@ -51,7 +51,7 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimestamps();
+        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score', 'score_in_diplomado')->withTimestamps();
     }
 
     public function coursesFromAscription(Ascription $ascription){

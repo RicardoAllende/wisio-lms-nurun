@@ -9,6 +9,6 @@ class CourseUser extends Model
     protected $table = 'course_user';
     protected $fillable = [
         'user_id','course_id', 'status', 'score','created_at',
-        'updated_at', 'score_in_diplomado', 'enrolled_in_diplomado'
+        'updated_at', 'score_in_diplomado'
     ];
 }
