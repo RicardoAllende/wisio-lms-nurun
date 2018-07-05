@@ -67,6 +67,18 @@ class CoursesController extends Controller
                 $pivot->updated_at = $now;
                 $pivot->save();
             }
+            if($user->hasCourseComplete($course->id)){
+                if($user->scoreInCourse($course->id) >= $course->minimum_score ){
+                    if($user->hasCompletedEvaluationsFromCourse($course->id)){
+                        if($course->has_diploma){
+                            $evaluation = $course->diplomaEvaluation;
+                            if($evaluation != null){
+                                return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                            }
+                        }
+                    }
+                }
+            }
             return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
         }
         return view('users_pages/courses.show',compact('course', 'ascription'));
@@ -93,30 +105,30 @@ class CoursesController extends Controller
         }
     }
 
-    public function enrolUserInDiplomat($email, $course_slug){
-        $user = User::whereEmail($email)->first();
-        if($user == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-        $course = Course::whereSlug($course_slug)->first();
-        if($course == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-        if($pivot == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-        $pivot->asked_for_diploma = 1;
-        $pivot->enrolled_in_diplomado = 1;
-        $pivot->save();
-        return back()->with('msj', 'Inscripción en el diplomado realizada correctamente');
-    }
+    // public function enrolUserInDiplomat($email, $course_slug){
+    //     $user = User::whereEmail($email)->first();
+    //     if($user == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+    //     $course = Course::whereSlug($course_slug)->first();
+    //     if($course == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+    //     $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+    //     if($pivot == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
+    //     $pivot->asked_for_diploma = 1;
+    //     $pivot->enrolled_in_diplomado = 1;
+    //     $pivot->save();
+    //     return back()->with('msj', 'Inscripción en el diplomado realizada correctamente');
+    // }
 
-    public function notEnrolUserInDiplomat($email, $course_slug){
-        $user = User::whereEmail($email)->first();
-        if($user == null){ return back(); }
-        $course = Course::whereSlug($course_slug)->first();
-        if($course == null){ return back(); }
-        $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-        if($pivot == null){ return back(); }
-        $pivot->asked_for_diploma = 1;
-        $pivot->save();
-        return back();
-    }
+    // public function notEnrolUserInDiplomat($email, $course_slug){
+    //     $user = User::whereEmail($email)->first();
+    //     if($user == null){ return back(); }
+    //     $course = Course::whereSlug($course_slug)->first();
+    //     if($course == null){ return back(); }
+    //     $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+    //     if($pivot == null){ return back(); }
+    //     $pivot->asked_for_diploma = 1;
+    //     $pivot->save();
+    //     return back();
+    // }
 
     public function saveProgressModule(Request $request){
         $module = Module::find($request->module_id);

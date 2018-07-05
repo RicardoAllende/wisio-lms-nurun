@@ -24,6 +24,13 @@ Route::group(['middleware' => ['auth']], function () {
   Route::get('empty-evaluations', 'AdminControllers\EvaluationsController@emptyEvaluations')->middleware('admin');
   Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
+
+    Route::get('/courses/{course_id}/diploma-evaluation/{evaluation_id}', 'AdminControllers\EvaluationsController@showDiplomaEvaluation')->name('show.diploma.evaluation');
+    Route::get('/courses/{course_id}/create-evaluation-for-diploma', 'AdminControllers\EvaluationsController@createFinalEvaluation')->name('create.diploma.evaluation');
+    Route::get('/courses/{course_id}/evaluation-for-diploma/{evaluation_id}/edit', 'AdminControllers\EvaluationsController@editFinalEvaluation')->name('edit.diploma.evaluation');
+    Route::post('/courses/{course_id}/store-evaluation-for-diploma', 'AdminControllers\EvaluationsController@storeFinalEvaluation')->name('store.diploma.evaluation');
+    Route::post('/courses/{course_id}/update-evaluation-for-diploma', 'AdminControllers\EvaluationsController@updateFinalEvaluation')->name('update.diploma.evaluation');
+
     Route::post('/attachments/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
     Route::get('/modules/{module}/manage-experts/', 'AdminControllers\ModulesController@listExperts')->name('list.experts.for.module');
     Route::get('/modules/{module}/resources/{resource}/change-weight/{new_weight}', 'AdminControllers\ResourcesController@changeWeight')
@@ -43,7 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/enable-user/{user_id}', 'AdminControllers\UsersController@enableUser')->name('enable.user');
     Route::get('/disable-course/{course_id}', 'AdminControllers\CoursesController@disableCourse')->name('disable.course');
     Route::get('/enablecourse/{course_id}', 'AdminControllers\CoursesController@enableCourse')->name('enable.course');
-    Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');
+    Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');  
     Route::post('/upload-resource', 'AdminControllers\ResourcesController@uploadResource')->name('upload.resource');
     Route::resource('modules/{module_id}/resources', 'AdminControllers\ResourcesController');
     Route::resource('modules/{module}/references', 'AdminControllers\ReferencesController');
@@ -53,7 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/modules', 'AdminControllers\ModulesController');
     Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
     Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
-    Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.modules.for.course');
+    // Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.modules.for.course');
     Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
     Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
     // Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
@@ -62,7 +69,7 @@ Route::group(['middleware' => ['auth']], function () {
       ->name('relate.course.to.ascription');
     Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
       ->name('dissociate.course.of.ascription');
-  Route::get('/courses/{course_id}/manage-diplomat', 'AdminControllers\CoursesController@manageDiplomaModules')->name('manage.diploma.modules');
+  // Route::get('/courses/{course_id}/manage-diplomat', 'AdminControllers\CoursesController@manageDiplomaModules')->name('manage.diploma.modules');
     Route::resource('/courses','AdminControllers\CoursesController');
     Route::resource('/categories','AdminControllers\CategoriesController');
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
@@ -115,8 +122,8 @@ Route::group(['middleware' => ['auth']], function () {
 
   });
 
-  Route::get('/inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@enrolUserInDiplomat')->name('enrol.user.in.diplomat');
-  Route::get('/no-inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@notEnrolUserInDiplomat')->name('not.enrol.user.in.diplomat');
+  // Route::get('/inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@enrolUserInDiplomat')->name('enrol.user.in.diplomat');
+  // Route::get('/no-inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@notEnrolUserInDiplomat')->name('not.enrol.user.in.diplomat');
   Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
     Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
     Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');

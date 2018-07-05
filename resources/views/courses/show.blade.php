@@ -2,11 +2,14 @@
 
 @section('title','Curso '.$course->name)
 @section('cta')
-  <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulos</a>
-  <!--<a href="{{ route('list.users.for.course', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Inscribir usuarios</a>-->
-  @if($course->has_diploma)
-    <a href="{{ route('manage.diploma.modules', $course->id) }}" class="btn btn-primary">Módulos del diplomado</a>
-  @endif
+    <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulos</a>
+    @if($course->has_diploma)
+        @if($course->hasDiplomaEvaluation())
+            <a href="{{ route('show.diploma.evaluation', [$course->id, $course->diplomaEvaluation->id]) }}" class="btn btn-primary">Ver evaluación final</a>
+        @else
+            <a href="{{ route('create.diploma.evaluation', $course->id) }}" class="btn btn-primary">Crear evaluación final</a>
+        @endif
+    @endif
 @endsection
 
 @section('subtitle')

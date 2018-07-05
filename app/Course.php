@@ -41,26 +41,6 @@ class Course extends Model
         }
     }
 
-    public function hasDiplomaModules(){
-        if($this->modulesForDiplomat()->count() > 0){
-            return true;
-        }
-        return false;
-    }
-
-    public function invitationForDiploma($user_id){
-        if($this->has_diploma == 0){
-            return false;
-        }
-        $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
-        if($pivot == null){
-            return false;
-        }
-        if($pivot->enrolled_in_diplomado){
-            return false;
-        }
-        return ! $pivot->asked_for_diploma;
-    }
 
     public function evaluations(){
         $modules = $this->modules;
@@ -114,15 +94,15 @@ class Course extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps();
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado')->withTimeStamps();
     }
 
     public function approvedUsers(){
-        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
+        return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
     }
 
     public function incompleteUsers(){
-        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'asked_for_diploma')->withTimeStamps();
+        return $this->belongsToMany('App\User')->wherePivot('status', 0)->withPivot('status', 'score', 'score_in_diplomado')->withTimeStamps();
     }
 
     public function failedUsers(){
@@ -138,11 +118,7 @@ class Course extends Model
     }
 
     public function modules(){
-    	return $this->hasMany('App\Module')->where('modules.is_for_diploma', 0)->orderBy('sort');
-    }
-
-    public function modulesForDiplomat(){
-        return $this->hasMany('App\Module')->where('modules.is_for_diploma', 1)->orderBy('sort');
+    	return $this->hasMany('App\Module')->orderBy('sort');
     }
 
     public function attachments(){
@@ -251,6 +227,17 @@ class Course extends Model
         if($template != null){
             return $template->view_name;
         }
+    }
+
+    public function diplomaEvaluation(){
+        return $this->hasOne('App\Evaluation');
+    }
+
+    public function hasDiplomaEvaluation(){
+        if($this->diplomaEvaluation){
+            return true;
+        }
+        return false;
     }
 
     public function setCourseComplete(){

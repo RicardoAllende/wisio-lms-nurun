@@ -2,21 +2,36 @@
 
 @section('title','Evaluación '.$evaluation->name)
 @section('cta')
-  <a href="{{ route('evaluations.edit', $evaluation->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+    @if($evaluation->isDiplomaEvaluation())
+        <a href="{{ route('edit.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+    @else
+        <a href="{{ route('evaluations.edit', $evaluation->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+    @endif
 @endsection
 
 @section('subtitle')
-    <ol class="breadcrumb">
-        <li>
-            <a href="{{ route('courses.show', $evaluation->module->course->name) }}">Curso: {{ $evaluation->module->course->name }} </strong></a>
-        </li>
-        <li>
-            <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{ $evaluation->module->name }} </strong></a>
-        </li>
-        <li class="active" >
-            {{ $evaluation->name }}
-        </li>
-    </ol>
+    @if($evaluation->isDiplomaEvaluation())
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ route('courses.show', $evaluation->course->name) }}">Curso: {{ $evaluation->course->name }}</a>
+            </li>
+            <li class="active" >
+                Evaluación final del diplomado: {{ $evaluation->name }}
+            </li>
+        </ol>
+    @else
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ route('courses.show', $evaluation->module->course->name) }}">Curso: {{ $evaluation->module->course->name }}</a>
+            </li>
+            <li>
+                <a href="{{ route('modules.show', $evaluation->module->id) }}"> Módulo: {{ $evaluation->module->name }}</a>
+            </li>
+            <li class="active" >
+                {{ $evaluation->name }}
+            </li>
+        </ol>
+    @endif
 @endsection
 
 @section('content')
@@ -40,9 +55,13 @@
                 <br><br><br>
                     <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} </p>
                     <p> Intentos permitidos: {{ $evaluation->maximum_attempts }}</p>
+                    @if($evaluation->isDiplomaEvaluation())
+                    <span>Pertenece al módulo: {{ $evaluation->course->name }}</span> |
+                    @else
                     <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
-                    <span>Contiene {{ $evaluation->questions->count() }} preguntas</span> |
-                    <span>{{ $approved }} Veces aprobado</span>
+                    @endif
+                    <span>Contiene {{ $evaluation->questions->count() }} preguntas</span>
+                    @if(isset($approved)) | <span>{{ $approved }} Veces aprobado</span> @endif
                 </div>
                 
             </div>
@@ -93,7 +112,7 @@
                 @else
                 <h3><strong>Esta evaluación aún no tiene preguntas, ¿desea agregar alguna?</strong></h3><br>
                 @endif
-                <a href=" {{ route('questions.create') }}?evaluation_id={{$evaluation->id}}" class="btn btn-info">Agregar pregunta</a>
+                <a href=" {{ route('questions.create') }}?evaluation_id={{$evaluation->id}}" class="btn btn-primary">Agregar pregunta</a>
             </div>
         </div>
       </div>

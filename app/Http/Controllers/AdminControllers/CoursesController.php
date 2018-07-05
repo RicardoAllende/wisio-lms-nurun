@@ -88,6 +88,11 @@ class CoursesController extends Controller
     {
         $course = Course::find($id);
         if($course == null){ return redirect()->route('courses.index'); }
+        if($course->has_diploma){
+            if(! $course->hasDiplomaEvaluation()){
+                return redirect()->route('create.diploma.evaluation', $course->id);
+            }
+        }
         return view('courses/show',compact('course'));
     }
 

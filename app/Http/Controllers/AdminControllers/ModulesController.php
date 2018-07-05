@@ -71,8 +71,7 @@ class ModulesController extends Controller
         $module = Module::create([
             'name' => $request->name, 'description' => $request->description,
             'course_id' => $request->course_id,
-            'sort' => $request->sort,
-            'is_for_diploma' => $request->is_for_diploma
+            'sort' => $request->sort
         ]);
 
         if($request->filled('attachment')){

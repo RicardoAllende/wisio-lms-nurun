@@ -8,6 +8,7 @@ use App\Evaluation;
 use App\Module;
 use App\EvaluationUser;
 use App\AttachmentEvaluation;
+use App\Course;
 
 class EvaluationsController extends Controller
 {
@@ -130,6 +131,72 @@ class EvaluationsController extends Controller
     public function emptyEvaluations(){
         $evaluations = Evaluation::all();
         return view('empty-evaluations', compact('evaluations'));
+    }
+
+    public function createFinalEvaluation($course_id){
+        $course = Course::find($course_id);
+        if($course == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        }
+        return view('evaluations.form-final', compact('course'));
+    }
+
+    public function showDiplomaEvaluation($course_id, $evaluation_id){
+        $course = Course::find($course_id);
+        if($course == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        }
+        $evaluation = Evaluation::find($evaluation_id);
+        if($evaluation == null){
+            return back()->withErrors(['error' => 'No se encontró la evaluación']);
+        }
+        return view('evaluations.show', compact('evaluation', 'course'));
+    }
+
+    public function editFinalEvaluation($course_id, $evaluation_id){
+        $course = Course::find($course_id);
+        if($course == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        }
+        $evaluation = Evaluation::find($evaluation_id);
+        if($evaluation == null){
+            return back()->withErrors(['error' => 'No se encontró la evaluación']);
+        }
+        return view('evaluations.form-final', compact('course', 'evaluation'));
+    }
+
+    public function storeFinalEvaluation(Request $request, $course_id){
+        $input = $request->input();
+        // dd($input);
+        $evaluation = Evaluation::create($input);
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            AttachmentEvaluation::create(['attachment_id' => $attach_id, 'evaluation_id' => $evaluation->id]);
+        }
+        // $course = Course::find($course_id);
+        // if($course == null){
+        //     return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        // }
+        return redirect()->route("show.diploma.evaluation", [$course_id, $evaluation->id]);
+    }
+
+    public function updateFinalEvaluation(Request $request, $course_id, $id){
+        $evaluation = Evaluation::find($id);
+        if($evaluation == null){ return redirect()->route('evaluations.index'); }
+        $evaluation->name = $request->name;
+        $evaluation->description = $request->description;
+        $evaluation->maximum_attempts = $request->maximum_attempts;
+        $evaluation->save();
+        if($request->filled('attachment')){
+            $attach_id = $request->input('attachment');
+            $this->dropImgAttachments($evaluation);
+            AttachmentEvaluation::create(['attachment_id' => $attach_id, 'evaluation_id' => $evaluation->id]);
+        }
+        $course = Course::find($course_id);
+        if($course == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        }
+        return redirect()->route("evaluations.show", $id);
     }
 
 }

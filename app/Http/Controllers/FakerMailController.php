@@ -9,7 +9,7 @@ use App\Ascription;
 use App\Notification;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use App\FakerMail;
+// use App\FakerMail;
 use App\Mail\Test;
 use AWS;
 
@@ -89,7 +89,7 @@ class FakerMailController extends Controller
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
         $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
         return $urlLogin;
-        FakerMail::create(['email' => $email, 'type' => 'month_reminder', 'link' => route('login')."?notification=".$token]);
+        // FakerMail::create(['email' => $email, 'type' => 'month_reminder', 'link' => route('login')."?notification=".$token]);
         return true;
     }
 
@@ -98,7 +98,7 @@ class FakerMailController extends Controller
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 3]);
         $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
         return $urlLogin;
-        FakerMail::create(['email' => $email, 'type' => 'week_reminder', 'link' => route('login')."?notification=".$token]);
+        // FakerMail::create(['email' => $email, 'type' => 'week_reminder', 'link' => route('login')."?notification=".$token]);
         return;
 
         $sms = AWS::createClient('sns');
@@ -119,7 +119,7 @@ class FakerMailController extends Controller
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 1]);
         return true;
         $token = \Uuid::generate()->string;
-        FakerMail::create(['email' => $email, 'type' => 'recommendation', 'link' => route('login')."?notification=".$token]);
+        // FakerMail::create(['email' => $email, 'type' => 'recommendation', 'link' => route('login')."?notification=".$token]);
         return;
     }
 

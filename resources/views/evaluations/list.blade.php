@@ -28,7 +28,7 @@
                           <tr>
                             <th>#</th>@php $i=1; @endphp
                             <th>Evaluación</th>
-                            <th>Módulo</th>
+                            <th>Módulo/Curso</th>
                             <th>Tipo</th>
                             <th>Fecha de creación</th>
                             <th>Acciones</th>
@@ -36,18 +36,30 @@
                         </thead>
                         <tbody>
                             @foreach($evaluations as $evaluation)
-                              <tr>
-                              <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td> @php $i++; @endphp
-                              <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
-                              <td><a href="{{ route('modules.show', $evaluation->module->id) }}">{{ $evaluation->module->name }}</a></td>
-                              <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
-                              <td>{{ $evaluation->created_at }}</td>
-                              <td>
-                                  {!! Form::open(['method'=>'delete','route'=>['evaluations.destroy',$evaluation->id],'style'=>'display:inline;']) !!}
-                                    {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                    <!--<a href="{{route('evaluations.destroy',$evaluation->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
-                                  {!! Form::close() !!}
-                              </td>
+                              <tr>@php $i++; @endphp
+                                @if($evaluation->isDiplomaEvaluation())
+                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $i }}</a></td> 
+                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $evaluation->name }}</a></td>
+                                  <td><a href="{{ route('courses.show', $evaluation->course->id) }}">{{ $evaluation->course->name }}</a></td>
+                                  <td>Evaluación final de diplomado</td>
+                                  <td>{{ $evaluation->created_at }}</td>
+                                  <td>
+                                      <a href="{{route('evaluations.create')}}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+                                  </td>
+                                @else
+                                  <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td>
+                                  <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
+                                  <td><a href="{{ route('modules.show', $evaluation->module->id) }}">{{ $evaluation->module->name }}</a></td>
+                                  <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
+                                  <td>{{ $evaluation->created_at }}</td>
+                                  <td>
+                                      {!! Form::open(['method'=>'delete','route'=>['evaluations.destroy',$evaluation->id],'style'=>'display:inline;']) !!}
+                                        {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
+                                        <!--<a href="{{route('evaluations.destroy',$evaluation->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
+                                      {!! Form::close() !!}
+                                  </td>
+                                @endif
+                                @php $i++; @endphp
                               </tr>
                             @endforeach
                         </tbody>

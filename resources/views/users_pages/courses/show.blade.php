@@ -182,7 +182,6 @@ Curso {{ $course->name }}
     @if( isset($user) )
       var isEnrolled = {{ ($user->isEnrolledInCourse($course->id) == false )? 0 : 1 }};
       var hasFinished = {{ ($user->hasCourseComplete($course->id)) ? 1 : 0 }};
-      var invite = {{ ($course->invitationForDiploma($user->id)) ? 1 : 0 }};
       var urlFinal = "{{ route('show.evaluation', [$ascription->slug, $course->slug, '*']) }}";
     @endif
   </script>
@@ -200,7 +199,12 @@ Curso {{ $course->name }}
     dismissible: false
   });
 
-  /*if(invite && hasFinished){
+  @if(isset($evaluation))
+  var strange = 1;
+  @endif
+
+  /*
+  {{-- if(invite && hasFinished){
     if(confirm('Este curso tiene un diplomado disponible, ¿desea inscribirse en él?')){
       var urlEnrolDiploma = "{{ route('enrol.user.in.diplomat', [$user->email, $course->slug]) }}";
       window.location.href = urlEnrolDiploma;
@@ -208,7 +212,8 @@ Curso {{ $course->name }}
       var urlEnrolDiploma = "{{ route('not.enrol.user.in.diplomat', [$user->email, $course->slug]) }}";
       window.location.href = urlEnrolDiploma;
     }
-  }*/
+  } --}}
+  */
 
  $('.chips').material_chip();
 

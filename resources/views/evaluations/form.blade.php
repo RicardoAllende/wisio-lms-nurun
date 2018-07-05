@@ -16,7 +16,7 @@
           </li>
       </ol>
   @endsection
- @else
+@else
   @section('subtitle')
       <ol class="breadcrumb">
           <li>
@@ -27,7 +27,7 @@
           </li>
       </ol>
   @endsection
- @endif
+@endif
 
 @section('content')
 <div class="wrapper wrapper-content animated fadeInRight">

@@ -13,11 +13,7 @@
             <a href="{{ route('courses.index') }}">Cursos</a>
         </li>
         <li>
-            @if($module->is_for_diploma)
-                <a href="{{ route('manage.diploma.modules', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
-            @else
-                <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
-            @endif
+            <a href="{{ route('courses.show', $module->course->id) }}">Curso: <strong>{{ $module->course->name }}</strong></a>
         </li>
         <li>
             {{ $module->name }}
