@@ -35,13 +35,13 @@
               <!-- <li><a href="#!">Medicamentos</a></li> -->
               @if(Auth::check())
                 <li class="registro">
-                  <a href="{{ route('logout') }}" class="btnAcademia">
+                  <a href="{{ route('logout') }}" class="btnAcademiaL">
                     <span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span>
                   </a>
                 </li>
               @else
                 <li class="registro">
-                  <a href="#modal1" class="modal-trigger btnAcademia">
+                  <a href="#modal1" class="modal-trigger btnAcademiaL">
                     <span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/<br>Registro</span>
                   </a>
                 </li>

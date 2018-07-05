@@ -10,8 +10,9 @@
       <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/materialize.css')}}"  media="screen,projection"/>
-      <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
       <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages/iconsAcademia.css')}}" />
+      <link type="text/css" rel="stylesheet" href="{{ asset('/css/styles_users_pages.css')}}" />
+
 
       @yield('extracss')
 
@@ -24,6 +25,7 @@
      <!-- Contenido -->
       <div class="row contenido">
           <!-- Logo academia -->
+
           <div class="row breads">
             <div class="col s12 l6">
               @if (Auth::check())
@@ -53,11 +55,14 @@
               @endif
           </div>
 
+
+
           @yield('body')
           @include('users_pages.calendario.modal')
-          @include('users_pages.footer')
+
 
       </div>
+      @include('users_pages.footer')
       <script type="text/javascript" src="{{ asset('/js/jquery-3.1.0.min.js') }}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js') }}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>

@@ -77,7 +77,7 @@ return [
         'module' => 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Sanofi.svg/1200px-Sanofi.svg.png',
         'evaluation' => 'https://i1.wp.com/www.forotuxpan.com/wp-content/uploads/2012/07/salud-mujer-visita-al-ginecologo-privado.jpg?resize=1280%2C640',
         'category' => '/img/nervioso.png',
-        'calendar' => '/img/default-calendar.jpg',
+        'calendar' => '/img/default-calendar.png',
         'certificate' => '/storage/ascriptions/certificado.jpg'
     ],
 

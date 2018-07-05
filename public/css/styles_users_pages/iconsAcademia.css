@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?a4kexv');
-  src:  url('fonts/icomoon.eot?a4kexv#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?a4kexv') format('truetype'),
-    url('fonts/icomoon.woff?a4kexv') format('woff'),
-    url('fonts/icomoon.svg?a4kexv#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?xjt11e');
+  src:  url('fonts/icomoon.eot?xjt11e#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?xjt11e') format('truetype'),
+    url('fonts/icomoon.woff?xjt11e') format('woff'),
+    url('fonts/icomoon.svg?xjt11e#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-bt_derecha .path1:before {
+  content: "\e908";
+  color: rgb(144, 110, 170);
+}
+.icon-bt_derecha .path2:before {
+  content: "\e909";
+  margin-left: -0.876953125em;
+  color: rgb(145, 112, 170);
+}
+.icon-bt_derecha .path3:before {
+  content: "\e90a";
+  margin-left: -0.876953125em;
+  color: rgb(144, 110, 170);
+}
+.icon-bt_derecha .path4:before {
+  content: "\e90b";
+  margin-left: -0.876953125em;
+  color: rgb(145, 112, 170);
+}
 .icon-cardiologia:before {
   content: "\e900";
   color: #49a48c;

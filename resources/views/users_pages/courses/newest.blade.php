@@ -1,5 +1,5 @@
 <!-- Cursos recientes -->
-         <div class="row cf pad-left3 pad-right2">
+         <div class="row cf pad-left3 pad-right2 padtop15">
             <div class="col s6 l9">
                <hr class="line2"/>
             </div>

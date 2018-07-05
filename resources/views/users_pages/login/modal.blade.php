@@ -28,7 +28,11 @@
                     @endif
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10 center">
-                            {!! Form::submit('Continuar',['class'=>'btnAcademia ','id'=>'guardar']) !!}
+                            <div>
+
+                            </div>
+                            {!! Form::submit('Continuar',['class'=>'btnAcademia padright','id'=>'guardar']) !!}
+                            <span class="icon-bt_derecha iconbtncontinuar"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
                         </div>
                     </div>
                 {!! Form::close() !!}
@@ -44,14 +48,22 @@
                 <br>
                 <p>¿Aún no se ha registrado?</p>
                 <br>
-                <div class="col s12 aprender-mas">
+                <div class="col s12 aprender-mas hide-on-small-only">
                     @if(isset($ascription))
-                        <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                        <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
                     @else
-                        <a href="{{ route('register')}}">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                        <a href="{{ route('register')}}" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
                     @endif
 
                </div>
+               <div class="col s12 aprender-mas hide-on-med-and-up">
+                   @if(isset($ascription))
+                       <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" >Crear cuenta <span class="icon-registrese iconbtn"></span></a>
+                   @else
+                       <a href="{{ route('register')}}" >Crear cuenta <span class="icon-registrese iconbtn"></span></a>
+                   @endif
+
+              </div>
               </div>
 
             </div>

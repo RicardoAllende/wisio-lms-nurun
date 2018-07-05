@@ -21,7 +21,7 @@ Cómo funciona
                       <div class="mySlides">
                         <div class="row hide-on-med-and-down">
                           <div class="col s3 center">
-                              <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                              <img src="{{ asset('img/funciona/registro.png')}}" class="responsive-img">
                           </div>
                           <div class="col s9">
                             <span class="titulo-funciona">
@@ -36,10 +36,10 @@ Cómo funciona
 
                         <div class="row hide-on-large-only">
                           <h3 class="titulo-funciona">Registro</h3>
-                          <div class="col s3 center">
-                              <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                          <div class="col s4 center">
+                              <img src="{{ asset('img/funciona/registro.png')}}" class="responsive-img">
                           </div>
-                          <div class="col s9">
+                          <div class="col s8">
                           <p class="textFuncionaMob">Ingrese sus datos y comience a hacer uso de las herramientas que Médico ConSentido de Sanofi tiene preparadas para usted.</p>
                           </div>
                           <div class="col s12">
@@ -56,7 +56,7 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/clave-unica.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -68,10 +68,10 @@ Cómo funciona
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">CLAVE ÚNICA</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/clave-unica.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Una vez completado el registro</p>
                         </div>
                         <div class="col s12">
@@ -83,7 +83,7 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/confirmacion.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -95,10 +95,10 @@ Cómo funciona
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">Confirmación</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/confirmacion.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Queda registrado exitosamente.</p>
                         </div>
                         <div class="col s12">
@@ -110,7 +110,7 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/web.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -122,10 +122,10 @@ Cómo funciona
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">Página web</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/web.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Con su usuario y contraseña</p>
                         </div>
                         <div class="col s12">
@@ -137,23 +137,23 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/programa.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
                             El programa
                           </span>
-                        <p class="text-funciona">Módulos con duración de un mes, donde se realizan exámenes diagnóstico al inicio, y una evaluación completa al concluirlos.</p>
+                        <p class="text-funciona">Módulos donde se realizan exámenes diagnóstico al inicio, y una evaluación completa al concluirlos.</p>
                         </div>
 
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">El programa</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/programa.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
-                        <p class="textFuncionaMob">Módulos con duración de un mes</p>
+                        <div class="col s8">
+                        <p class="textFuncionaMob">Módulos</p>
                         </div>
                         <div class="col s12">
                         <p class="text-funciona">Donde se realizan exámenes diagnóstico al inicio, y una evaluación completa al concluirlos.</p>
@@ -164,26 +164,26 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/evaluaciones.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
                             Evaluaciones
                           </span>
-                        <p class="text-funciona">Al finalizar cada módulo se llevará a cabo una evaluación que estará disponible la última semana del mes, las 24 horas del día.</p>
+                        <p class="text-funciona">Al finalizar cada módulo se llevará a cabo una evaluación que estará disponible las 24 horas del día.</p>
                         </div>
 
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">Evaluaciones</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/evaluaciones.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Al finalizar cada módulo</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Se llevará a cabo una evaluación que estará disponible la última semana del mes, las 24 horas del día.</p>
+                        <p class="text-funciona">Se llevará a cabo una evaluación que estará disponible las 24 horas del día.</p>
                         </div>
                       </div>
                     </div>
@@ -191,7 +191,7 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/calificaciones.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -203,10 +203,10 @@ Cómo funciona
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">Calificaciones</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/calificaciones.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Las calificaciones se mostrarán inmeditamente al concluir el examen</p>
                         </div>
                         <div class="col s12">
@@ -218,7 +218,7 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/emailing.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
@@ -230,10 +230,10 @@ Cómo funciona
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">E-mailings</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/emailing.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Recibirá comunicados vía E-mailing</p>
                         </div>
                         <div class="col s12">
@@ -245,26 +245,26 @@ Cómo funciona
                     <div class="mySlides">
                       <div class="row hide-on-med-and-down">
                         <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                            <img src="{{ asset('img/funciona/servicio-soporte.png')}}" class="responsive-img">
                         </div>
                         <div class="col s9">
                           <span class="titulo-funciona">
                             Servicio de soporte técnico
                           </span>
-                        <p class="text-funciona">Si tiene problemas de navegación en el sitio puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o al correo soporte@academia.mx</p>
+                        <p class="text-funciona">Si tiene problemas de navegación en el sitio puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea +52 55 548444 ext 4321 o al correo soporte@academia.mx</p>
                         </div>
 
                       </div>
                       <div class="row hide-on-large-only">
                         <h3 class="titulo-funciona">Servicio de soporte técnico</h3>
-                        <div class="col s3 center">
-                            <img src="{{ asset('img/img1.JPG')}}" class="responsive-img">
+                        <div class="col s4 center">
+                            <img src="{{ asset('img/funciona/servicio-soporte.png')}}" class="responsive-img">
                         </div>
-                        <div class="col s9">
+                        <div class="col s8">
                         <p class="textFuncionaMob">Si tiene problemas de navegación en el sitio</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea 01 800 2867 532 o al correo soporte@academia.mx</p>
+                        <p class="text-funciona">Puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea +52 55 548444 ext 4321 o al correo soporte@academia.mx</p>
                         </div>
                       </div>
                     </div>

@@ -4,7 +4,7 @@ Login
 @extends('users_pages.master')
 @section('body')
 <!-- Home sin login -->
-         <div class="row pad-left3">
+         <div class="row pad-left">
 
             <div class="col s12 l6 aux-padding">
 
@@ -38,13 +38,14 @@ Login
 
             </div>
              <div class="col s12 l6" id="img1">
-               <img src="/img/img1.JPG" class="img-principal">
+               <img src="/img/img1.jpg" class="img-principal">
             </div>
 
 
          </div>
-         @include('users_pages.login.modal')
+
          @include('users_pages.courses.newest')
+         @include('users_pages.login.modal')
 @stop
 @section('extrajs')
 <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>

@@ -1,7 +1,7 @@
 <!-- navbar mobile -->
        <div class="row sizefont hide-on-large-only">
             <div class="col s2 l1">
-              <span id="font-downMob">-A</span>
+              <span id="font-downMob">-A</span>&nbsp;&nbsp;
               <span id="font-upMob">A+</span>
             </div>
             <div class="col s8 l10">

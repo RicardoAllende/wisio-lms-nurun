@@ -9,6 +9,7 @@
   --second-line-back-color: #f9f9f9;
   --second-font-color: #596066;
   --btn-hover-color: #c7b1da;
+  --main-footer-color: #0B3B7C;
 
 }
 
@@ -18,6 +19,7 @@ body{
     background-color: var(--second-line-back-color);
     overflow-x: hidden !important;
     letter-spacing: 1px;
+    height: 100%;
 }
 
 h1{
@@ -53,7 +55,7 @@ h5{
 
 
 .cf {
-  background-color: var(--main-line-color);
+  background-color: var(--main-back-color);
 }
 
 /* navbar-desktop */
@@ -149,6 +151,10 @@ h5{
     margin-top: 30%;
 }
 
+.padtop15{
+  padding-top: 15px !important;
+}
+
 .pad-left1{
     padding-left: 1rem;
 }
@@ -158,6 +164,15 @@ h5{
 .pad-left3{
     padding-left: 4rem;
     padding-right: 4rem;
+}
+
+#img1{
+  padding-right: 0px !important;
+}
+
+.pad-left{
+    padding-left: 4rem;
+    margin-bottom: -5px !important;
 }
 
 .pad-right2{
@@ -236,13 +251,22 @@ a.linkM{
 /* row contenido */
 .contenido{
     position: absolute;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin-bottom: 115px;
     left: 200px;
     width: calc(100% - 200px);
 
 }
 
+
 .padtop {
   padding-top: 2rem;
+}
+
+.padright{
+  padding-right: 50px !important;
 }
 
 .typeCon{
@@ -376,6 +400,18 @@ a.linkM{
 
 }
 
+.iconbtncontinuar {
+  position: relative;
+  top: -5px;
+  font-size: 2rem;
+  margin-left: -35px !important;
+
+}
+
+/* a span.iconbtn:hover:before {
+  color: var(--btn-hover-color) !important;
+} */
+
 .ingresar {
   font-size: 0.8rem;
   padding-left:3%;
@@ -416,6 +452,36 @@ a.linkM{
   text-transform: uppercase;
 }
 
+.select-dropdown.dropdown-content li:hover {
+    background-color: #8f6eaa;
+    color: #fff !important;
+}
+.dropdown-content li > a, .dropdown-content li > span:hover{
+    color: #fff !important;
+}
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #8f6eaa;
+    -webkit-box-shadow: 0 1px 0 0 #8f6eaa;
+    box-shadow: 0 1px 0 0 #8f6eaa;
+}
+
+[type="checkbox"]:checked + label:before {
+    top: -4px;
+    left: -5px;
+    width: 12px;
+    height: 22px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #8f6eaa;
+    border-bottom: 2px solid #8f6eaa;
+    -webkit-transform: rotate(40deg);
+    transform: rotate(40deg);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+}
 
 #references{
   margin-bottom: 15px;
@@ -563,9 +629,24 @@ a.linkM{
   border-color: none;
 }
 
+.btnAcademiaL{
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  color: var(--main-font-btn-color) !important;
+  padding: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  border-width: 0px;
+  border-style: none;
+  border-color: none;
+}
+
 .btnAcademia:hover{
   color: var(--btn-hover-color) !important;
   background-color: #fff !important;
+  border: 1px solid var(--btn-hover-color);
 }
 
 .btnAcademiaFloat {
@@ -711,12 +792,20 @@ a.linkM{
 
 
 /* footer */
+.footer{
+  background-color: var(--second-line-back-color);
+  position: fixed;
+  left: 200px;
+  bottom: 0px;
+  height: 135px;
+  width: calc(100% - 200px);
+  margin-bottom: 0px;
+}
+
 .ff{
-    background-color: #0b1f5b !important;
+    background-color: var(--main-footer-color) !important;
     font-size: 12px;
     font-weight: black;
-    bottom: 0;
-
 }
 
 .ff2{
@@ -847,7 +936,7 @@ a.linkM{
     color:inherit;
     font-size: 1.1em;
     padding-top: 20px;
-    color: var(--main-font-color);
+    color:  #8F6EAA;
 }
 
 .text-funciona{
@@ -953,7 +1042,17 @@ i.material-icons.prefix.active{
 
 /* media query */
 @media only screen and (max-width: 992px) {
+  #font-down{
+    font-size: 1.2rem;
+    font-weight:700;
+    cursor: pointer;
+  }
 
+  #font-up{
+    font-size: 1.5rem;
+    font-weight:700;
+    cursor: pointer;
+  }
     .contenido{
     position: absolute;
     left: 0px;
@@ -1043,6 +1142,62 @@ padding-top:15px !important;
 
 
 @media only screen and (max-width: 600px) {
+
+  #moreData{
+    position: fixed !important;
+    bottom: 5px !important;
+    right: 5px !important;
+  }
+
+  .footer .ff .row{
+    padding-top: 15px !important;
+  }
+
+  #font-down{
+    font-size: 1.2rem;
+    font-weight:700;
+    cursor: pointer;
+  }
+
+  #font-up{
+    font-size: 1.5rem;
+    font-weight:700;
+    cursor: pointer;
+  }
+
+  .categoria-academia{
+      position: absolute;
+      top:10px;
+      left: 5px;
+      width: 80%;
+      text-transform: uppercase;
+      text-align:right;
+      color: var(--second-font-color);
+      font-size: 0.8em;
+      font-weight: 600;
+      display: inline-block;
+  }
+
+  .iconcourse {
+      position: absolute;
+      font-size: 1.5rem;
+      top:0px;
+      right: 5%;
+      width: 10%;
+      padding-left: 5px;
+      display: inline-block;
+
+  }
+
+  .titulo-academia{
+      position: absolute;
+      top:50px;
+      left: 10px;
+      text-transform: uppercase;
+      color:var(--main-font-color);
+      padding-top: 40px;
+  }
+
   nav .brand-logo {
   width: 50%;
 
