@@ -60,9 +60,9 @@
           @yield('body')
           @include('users_pages.calendario.modal')
 
-
+          @include('users_pages.footer')
       </div>
-      @include('users_pages.footer')
+
       <script type="text/javascript" src="{{ asset('/js/jquery-3.1.0.min.js') }}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js') }}"></script>
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
