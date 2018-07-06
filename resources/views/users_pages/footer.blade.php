@@ -1,5 +1,5 @@
 <!-- footer -->
-<footer class="row footer">
+<footer class="footer">
   <div class="ff">
     <div class="row" style="margin-bottom: 0; padding-top:5px;">
       <div class="col offset-l1"></div>

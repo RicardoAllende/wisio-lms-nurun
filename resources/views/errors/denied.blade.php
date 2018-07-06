@@ -24,9 +24,9 @@
         <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
       </div>
 
-      <div class="col s12 center" style="color: #3360C1; font-size: 2em;">
-        <h4>ERROR</h4>
-        <h2>PERMISO DENEGADO</h2>
+      <div class="col s12 center" >
+        <h4 style="color: #3360C1; font-size: 5em; font-weight:900;">ERROR</h4>
+        <h2 style="color: #3360C1; font-size: 5em; font-weight:900;">PERMISO DENEGADO</h2>
         <h5>NO TIENE PERMISO PARA ACCEDER A ESTA SECCIÓN</h5>
         <br>
       </div>
@@ -37,6 +37,6 @@
 </body>
 <script>
   // Automatic redirect
-  setTimeout(function(){ window.location = "{{ url('/') }}"; }, 2000);  
+  setTimeout(function(){ window.location = "{{ url('/') }}"; }, 2000);
 </script>
 </html>

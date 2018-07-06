@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class DownloadCertificateController extends Controller
 {
     public function downloadPdf(Request $request){
-      $view = \View::make('users_pages.certificates.pdf')->render();
+      $view = \View::make('users_pages.certificates.insomnio')->render();
       $pdf = \App::make('dompdf.wrapper');
       $pdf->setPaper('A4','landscape');
       $pdf->loadHTML($view);
@@ -63,6 +63,6 @@ class DownloadCertificateController extends Controller
         return back('Hubo un problema con la creación de su diploma, por favor contacte con '.config('constants.support_email'));
       }
 
-      
+
     }
 }

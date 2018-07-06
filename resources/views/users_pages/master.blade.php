@@ -23,45 +23,51 @@
      @include('users_pages.nav_desktop')
 
      <!-- Contenido -->
-      <div class="row contenido">
-          <!-- Logo academia -->
+     <div id="contenedor">
+       <div class="contenido">
+           <!-- Logo academia -->
 
-          <div class="row breads">
-            <div class="col s12 l6">
-              @if (Auth::check())
-                @yield('breadcrumbs')
-              @endif
-            </div>
-            <div class="col l6 hide-on-med-and-down right-align ">
-              @if (Auth::check())
-                <a href="" class="links">Contacto</a>
-                <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
-              @else
-              <!-- <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a> -->
-              <a class="links">Imprimir <i class="tiny material-icons">local_printshop</i></a>
-              @endif
-            </div >
-          </div>
+           <div class="row breads">
+             <div class="col s12 l6">
+               @if (Auth::check())
+                 @yield('breadcrumbs')
+               @endif
+             </div>
+             <div class="col l6 hide-on-med-and-down right-align ">
+               @if (Auth::check())
+                 <a href="" class="links">Contacto</a>
+                 <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
+               @else
+               <!-- <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a> -->
+               <a class="links">Imprimir <i class="tiny material-icons">local_printshop</i></a>
+               @endif
+             </div >
+           </div>
 
-          <div class="row">
-              <div class="col s8 l10">
-                <hr class="line"/>
-              </div>
-              <div class="col s4 l2">
-                <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
-              </div>
-              @if (Auth::check())
-                <h4 class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</h4>
-              @endif
-          </div>
+           <div class="row">
+               <div class="col s8 l10">
+                 <hr class="line"/>
+               </div>
+               <div class="col s4 l2">
+                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
+               </div>
+               @if (Auth::check())
+                 <h4 class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</h4>
+               @endif
+           </div>
 
 
 
-          @yield('body')
-          @include('users_pages.calendario.modal')
+           @yield('body')
+           @include('users_pages.calendario.modal')
 
-          @include('users_pages.footer')
-      </div>
+
+       </div>
+       @include('users_pages.footer')
+     </div>
+
+
+
 
       <script type="text/javascript" src="{{ asset('/js/jquery-3.1.0.min.js') }}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/materialize.min.js') }}"></script>
