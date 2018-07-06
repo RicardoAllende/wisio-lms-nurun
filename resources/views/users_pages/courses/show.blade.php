@@ -24,7 +24,7 @@ Curso {{ $course->name }}
               </a>
             @endif
           </div>
-          
+
           <div class="col s6 l9">
             <hr class="line"/>
           </div>
@@ -60,8 +60,8 @@ Curso {{ $course->name }}
           <?php $cont++; ?>
           <div class="col s12 l4 ">
               <div class="card z-depth-0 white">
-                  <div @if($user->moduleInList($course, $module->id) ) class="card-content collapsiblemod" @else class="card-content collapsiblemod-disabled" data-disabled="1" @endif 
-                     id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}" 
+                  <div @if($user->moduleInList($course, $module->id) ) class="card-content collapsiblemod" @else class="card-content collapsiblemod-disabled" data-disabled="1" @endif
+                     id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}"
                    data-eva="{{ $module->hasDiagnosticEvaluationForUser() }}"
                    @if($module->hasDiagnosticEvaluation())
                      <?php $evaluation = $module->diagnosticEvaluations->first(); ?>

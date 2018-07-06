@@ -247,7 +247,7 @@ password.addEventListener('input', function() {
     }
 });
 function scrollWin() {
-  console.log($(document).height()+" - "+($(window).height() + $(window).scrollTop() + 200))
+
   if($(document).height() > ($(window).height() + $(window).scrollTop() + 200)){
     //console.log($(document).height+" - "+$(window).height() + $(window).scrollTop)
     window.scrollBy(0, 300);

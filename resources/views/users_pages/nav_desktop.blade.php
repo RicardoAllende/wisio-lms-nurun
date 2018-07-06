@@ -2,9 +2,9 @@
 
      <div class="navbar-desktop hide-on-med-and-down">
         @if(isset($ascription))
-          <img class="img-navbar-desktop" src="{{ $ascription->getMainImgUrl() }}">
+          <a href="{{ route('student.home', $ascription->slug) }}"><img class="img-navbar-desktop" src="{{ $ascription->getMainImgUrl() }}"></a>
         @else
-          <img class="img-navbar-desktop" src="{{ asset('img/logo_Academia.png')}}">
+          <a href="{{ route('student.home', $ascription->slug) }}"><img class="img-navbar-desktop" src="{{ asset('img/logo_Academia.png')}}"></a>
         @endif
         <div class="menu-desktop">
 
@@ -25,7 +25,7 @@
                 <li><a href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
                 @if(Auth::check())
                   <li><a href="{{ route('student.list.evaluations', $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
-                  <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
+                  <!-- <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li> -->
                   <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                 @endif
               </ul>

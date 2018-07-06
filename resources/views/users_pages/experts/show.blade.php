@@ -33,7 +33,7 @@ Experto {{ $expert->name }}
                 @endforeach
               </ul>
             </div>
-            <div class="expertosparticipacion">
+            <div class="expertosparticipacion2">
               <p class="upper">Resumen:</p>
               <div class="resumen">{!! $expert->summary !!}</div>
             </div>

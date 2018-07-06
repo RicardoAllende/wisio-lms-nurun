@@ -15,6 +15,8 @@ $(".button-collapse").sideNav({
 /*Cambia el tamaño de fuente */
 var donde = $('body');
   var sizeFuenteOriginal = donde.css('font-size');
+  var contUp = 0;
+  var contDown = 0;
 
   // Resetear Font Size
   $(".resetearFont").click(function(){
@@ -23,21 +25,44 @@ var donde = $('body');
 
   // Aumentar Font Size
   $("#font-up,#font-upMob").click(function(){
+    contUp++;
   	var sizeFuenteActual = donde.css('font-size');
  	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
     var sizeFuenteNuevo = sizeFuenteActualNum*1.2;
-	donde.css('font-size', sizeFuenteNuevo);
+    if(contUp < 4){
+      donde.css('font-size', sizeFuenteNuevo);
+    }
+
 	return false;
   });
 
   // Disminuir Font Size
   $("#font-down,#font-downMob").click(function(){
+    contDown++;
   	var sizeFuenteActual = donde.css('font-size');
  	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
     var sizeFuenteNuevo = sizeFuenteActualNum*0.8;
-	donde.css('font-size', sizeFuenteNuevo);
+    if(contDown < 4){
+      donde.css('font-size', sizeFuenteNuevo);
+    }
+
 	return false;
   });
+
+/*funciones para el footer siempre abajo*/
+checkfooter();
+
+$(window).resize(function(){
+    checkfooter();
+});
+
+function checkfooter(){
+  if($(".contenido").height() < ( $(window).height() - $('footer').height())) {
+    console.log( ( $(window).height() - $('footer').height()) - $(".contenido").height() );
+    $(".contenido").height( $(".contenido").height() + (( $(window).height() - $('footer').height()) - $(".contenido").height()) );
+  }
+}
+
 
 /*funciones para presentar los slides de como funciona y evaluaciones*/
 var slideIndex = 1;
@@ -125,14 +150,14 @@ for (i = 0; i < coll.length; i++) {
           blockViewModule = true;
           modActive = this;
           modActive.classList.toggle("activeMod");
-  
+
           if(jQuery.browser.mobile || screen.width <= 992 || window.innerWidth <= 992){
             isMob = true;
             content = document.getElementById('modalMod');
           } else {
             content = document.getElementById('mod'+this.getAttribute('data-id'));
           }
-  
+
           if(this.getAttribute('data-final')){
             if(this.getAttribute('data-final') == '1'){
               hasFEvaluation = true;
@@ -140,7 +165,7 @@ for (i = 0; i < coll.length; i++) {
               nextUrl = urlFinal.replace('*', idFEvaluation);
             }
           }
-  
+
           if(this.getAttribute('data-module')){
             idModuleGlobal = this.getAttribute('data-module');
             if(this.getAttribute('data-eva') == '1'){
@@ -158,7 +183,7 @@ for (i = 0; i < coll.length; i++) {
             getQuestionsEval(idEval);
             openModule();
           }
-  
+
         }
       } else {
         $('#modalInsc').modal({
@@ -166,9 +191,9 @@ for (i = 0; i < coll.length; i++) {
         });
         $('#modalInsc').modal('open');
       }
-  
-  
-  
+
+
+
     });
   }
 }

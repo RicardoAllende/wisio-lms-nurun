@@ -98,7 +98,7 @@ h5{
 }
 
 .menu-mobile ul li a{
-    color: var(--main-select-font-color);
+    color: var(--main-font-color);
     font-size: 0.9em !important;
 
 }
@@ -266,7 +266,7 @@ a.linkM{
 .footer{
   background-color: var(--second-line-back-color);
   width: 100%;
-  height: 150px;
+  height: 130px;
   margin: 0 auto ;
 
 }
@@ -315,6 +315,7 @@ a.linkM{
     color: var(--main-font-color);
     font-size: 12px;
     font-weight: regular;
+    margin: 5px 0 !important;
 }
 
 /*****************/
@@ -570,6 +571,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     font-size: 12px;
     font-weight: regular;
     display: inline-block;
+    word-break: keep-all;
 }
 
 .titulo-academia{
@@ -677,7 +679,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 .btnAcademiaFloat {
   position: fixed;
-  bottom: 200px;
+  bottom: 50px;
   right: 50px;
   padding: 10px;
   background-color: var(--main-font-btn-color) !important;
@@ -805,6 +807,14 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     font-size: 0.8rem;
     overflow: hidden;
     max-height: 200px;
+}
+
+.expertosparticipacion2{
+    padding: 3% 0 3% 0;
+    color: var(--main-select-font-color);
+    font-size: 0.8rem;
+    overflow: hidden;
+
 }
 
 .upper{
@@ -957,7 +967,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .mySlides {
   display: none;
   padding: 2%;
-  min-height: 400px;
+
 }
 
 /* Next & previous buttons */
@@ -1055,7 +1065,7 @@ i.material-icons.prefix.active{
     font-weight:700;
     cursor: pointer;
   }
-    .contenido{
+    #contenedor{
     position: absolute;
     left: 0px;
     width: 100%;
@@ -1144,6 +1154,14 @@ padding-top:15px !important;
 
 
 @media only screen and (max-width: 600px) {
+
+  .expertoscard {
+      height: 330px;
+  }
+  .modal{
+    max-height: 90% !important;
+    top: 5% !important;
+  }
 
   #moreData{
     position: fixed !important;

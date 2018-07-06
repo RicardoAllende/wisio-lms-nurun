@@ -1,9 +1,9 @@
 <!-- Cursos recientes -->
          <div class="row cf pad-left3 pad-right2 padtop15">
-            <div class="col s6 l9">
+            <div class="col s6 l8">
                <hr class="line2"/>
             </div>
-            <div class="col s6 l3">
+            <div class="col s6 l4">
                <h2 class="subtitulo txt-blanco">Cursos Recientes</h2>
             </div>
             <div class="row">

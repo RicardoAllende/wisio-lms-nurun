@@ -37,6 +37,6 @@
    <!-- Copyright -->
    <div>
      <p class="center copyright">Copyright &copy;2018. Todos los derechos reservados por Sanofi-Aventis SA de CV</p>
-     <p class="center copyright">Fecha de úlitma actualización: Julio 2018</p>
+     <p class="center copyright">Fecha de última actualización: Julio 2018</p>
    </div>
 </footer>
