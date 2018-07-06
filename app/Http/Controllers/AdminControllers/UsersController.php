@@ -239,9 +239,6 @@ class UsersController extends Controller
         ->addColumn('ascription_name', function ($user) {
             return "Nombre de la adscripción";
             return $user->ascription->name;
-            if($user->hasAscriptions()){
-                return $user->ascription()->name; 
-            }
             return "";
         })
         ->addColumn('actions', function ($user) {
@@ -343,13 +340,12 @@ class UsersController extends Controller
         $users = $ascription->users();
         return \DataTables::of($users)
         ->addColumn('numCompletedCoursesOfAscription', function ($user) {
-            $doctor = User::find($user->user_id);
+            $doctor = User::find($user->id);
             if($doctor == null){ return 0; }
-            return User::find($user->user_id)->numCompletedCoursesOfAscription($this->ascription_id);
-            return $user->user_id;
+            return $doctor->numCompletedCoursesOfAscription($this->ascription_id);
         })
         ->addColumn('userLink', function ($user) {
-            return '<a href="' . route('users.show', $user->user_id) .'">'.$user->user_id.'</button>'; 
+            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
         })
         ->addColumn('status', function ($user) {
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
@@ -376,14 +372,7 @@ class UsersController extends Controller
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
             return  $status; 
         })
-        ->addColumn('enrollment', function ($user) {
-            if($user->isEnrolledInDiplomado($this->diplomaId)){
-                return '<a href="'.route('detach.user.to.diplomado', [$this->diplomaId, $user->id]).'" class="btn btn-danger btn-round" >Quitar del diplomado</a>';
-            }else{
-                return '<a href="'.route('attach.user.to.diplomado', [$this->diplomaId, $user->id]).'" class="btn btn-success btn-round" >Inscribir al diplomado</a>';
-            }            
-        })
-        ->rawColumns(['status', 'enrollment', 'userLink'])
+        ->rawColumns(['status', 'userLink'])
         ->make(true);
     }
 
@@ -398,7 +387,7 @@ class UsersController extends Controller
         $users = $course->users();
         return \DataTables::of($users)
         ->addColumn('grade', function ($user){
-            $doctor = User::find($user->user_id);
+            $doctor = User::find($user->id);
             if($doctor == null){ return 0; }
             return $doctor->scoreInCourse($this->course_id);
             return $user->scoreInCourse($this->course_id);

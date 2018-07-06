@@ -24,7 +24,8 @@ class Course extends Model
         'category_id',
         'support_email',
         'has_diploma',
-        'certificate_template_id'
+        'certificate_template_id',
+        'diploma_template_id'
     ];
 
     protected $appends = ['img'];
@@ -99,6 +100,10 @@ class Course extends Model
 
     public function approvedUsers(){
         return $this->belongsToMany('App\User')->withPivot('status', 'score', 'score_in_diplomado')->withTimeStamps()->wherePivot('score', '>=', $this->minimum_score);
+    }
+
+    public function completeUsers(){
+        return $this->belongsToMany('App\User')->wherePivot('status', 1)->withPivot('status', 'score', 'score_in_diplomado')->withTimeStamps();
     }
 
     public function incompleteUsers(){
@@ -218,15 +223,60 @@ class Course extends Model
         return $this->users->count();
     }
 
-    public function certificate_template(){
-        return $this->belongsTo('App\CertificateTemplate');
+    public function certificate(){
+        return $this->belongsTo('App\CertificateTemplate', 'certificate_template_id');
     }
 
-    public function template(){  // Return an image to make a certificate
-        $template = $this->certificate_template;
+    public function diploma(){
+        return $this->belongsTo('App\CertificateTemplate', 'certificate_template_id');
+    }
+
+    public function certificate_template(){
+        $template = $this->certificate;
         if($template != null){
             return $template->view_name;
         }
+        return "";
+    }
+
+    public function diploma_template(){
+        $template = $this->diploma;
+        if($template != null){
+            return $template->view_name;
+        }
+        return "";
+    }
+
+    public function setModulesComplete(){
+        $users = $this->completeUsers()->cursor();
+        foreach($users as $element){
+            $user = User::find($element->user_id);
+            $modules = $this->modules()->orderBy('id', 'desc')->cursor();
+            foreach($modules as $module){
+                $pivot = ModuleUser::where('user_id', $user->id)->where('module_id', $module->id)->first();
+                if($pivot == null){
+                    $user->modules()->attach($module->id, ['status' => 1]);
+                }else{
+                    $pivot->status = 1;
+                    $pivot->save();
+                }
+            }
+        }
+    }
+
+    public function diplomaAvg(){
+        return CourseUser::where('course_id', $this->id)->avg('score_in_diplomado');
+    }
+
+    public function numUsersWithEvaluation(){
+        if( ! $this->has_diploma){
+            return 0;
+        }
+        return CourseUser::where('course_id', $this->id)->whereNotNull('score_in_diplomado')->count();
+    }
+
+    public function approvedInDiploma(){
+        return CourseUser::where('course_id', $this->id)->where('score_in_diplomado', '>=',  $this->minimum_diploma_score)->count();
     }
 
     public function diplomaEvaluation(){

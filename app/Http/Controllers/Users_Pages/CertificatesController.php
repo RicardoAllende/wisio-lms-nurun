@@ -13,7 +13,10 @@ class CertificatesController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         $user = Auth::user();
         $certificates = $user->availableCertificates();
-        return view('users_pages/certificates/list', compact('ascription', 'user', 'certificates'));
+        // dd($certificates);
+        $diplomas = $user->availableDiplomas;
+        // dd($diplomas);
+        return view('users_pages/certificates/list', compact('ascription', 'user', 'certificates', 'diplomas'));
         // dd($certificates);
         // return $ascription;
     }

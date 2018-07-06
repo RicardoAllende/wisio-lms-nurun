@@ -146,11 +146,11 @@ class FakerMailController extends Controller
     }
 
     public function sendTestSMS(){
-        $mobilePhone = "5525731520";
+        $mobilePhone = "+525525731520";
         $sms = AWS::createClient('sns');
         // dd($sms);
         $sms->publish([
-                'Message' => 'Mensaje de prueba',
+                'Message' => 'Mensaje de prueba del sistema academia https://dev.academia.nurun.com.mx/admin/mail',
                 'PhoneNumber' => $mobilePhone,
                 'MessageAttributes' => [
                     'AWS.SNS.SMS.SMSType'  => [

@@ -77,6 +77,14 @@
                               {!! Form::number('minimum_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1']) !!}
                             </div>
                           </div>
+
+                          <div class="form-group">
+                            {!! Form::label('minimum_diploma_score', 'Calificación mínima del diplomado:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::number('minimum_diploma_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1']) !!}
+                            </div>
+                          </div>
+
                           <div class="form-group">
                             {!! Form::label('has_constancy', '¿Emitirá constancia?',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10">
@@ -113,12 +121,35 @@
 
 
                           <div class="form-group">
-                            {!! Form::label('certificate_template_id', 'Plantilla para diploma:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('certificate_id', 'Plantilla para certificado:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              <select name="certificate_template_id" class="form-control" id="certificate_template_id">
+                              <select name="certificate_id" class="form-control" id="certificate_id">
                               @if(isset($course))
-                                <option value="{{ ($course->certificate_template != null) ? $course->certificate_template->id : 'Seleccionar una plantilla' }}">
-                                  {{ ($course->certificate_template != null) ? $course->certificate_template->name.' (actual)' : '' }}
+                                <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
+                                  {{ ($course->certificate != null) ? $course->certificate->name.' (actual)' : '' }}
+                                </option>
+                              @endif
+                              @if(isset($templates))
+                                @forelse($templates as $template)
+                                  <option value="{{$template->id}}" >{{ $template->name }}</option>
+                                @empty
+                                  <option value="">Aún no existen plantillas</option>
+                                @endforelse
+                              @else
+                                <option value="">Aún no existen plantillas</option>
+                              @endif
+                              </select>
+
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('diploma_id', 'Plantilla para diploma:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              <select name="diploma_id" class="form-control" id="diploma_id">
+                              @if(isset($course))
+                                <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
+                                  {{ ($course->certificate != null) ? $course->certificate->name.' (actual)' : '' }}
                                 </option>
                               @endif
                               @if(isset($templates))

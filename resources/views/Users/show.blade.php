@@ -55,7 +55,7 @@
                             <li>
                                 <span class="fa fa-home m-r-xs"></span>
                                 <label>Dirección:</label>
-                                {{ $user->city }}, {{ $user->state->name }}, {{ $user->zip }}, {{ $user->address }}
+                                {{ $user->city }}, {{ $user->zip }}, {{ $user->address }}
                             </li>
                             <li>
                                 <span class="fa fa-mobile-phone m-r-xs"></span>

@@ -36,7 +36,6 @@
                                 <th>Teléfono móvil</th>
                                 <th>Activo</th>
                                 <th>Adscripción</th>
-                                <th>Diplomado</th>
                                 <th>Fecha de inscripción</th>
                                 <th>Código del promotor de ventas</th>
                                 <th>Último acceso al sistema</th>
@@ -75,7 +74,6 @@
             {data: 'mobile_phone'},
             {data: 'status'},
             {data: 'ascription_name'},
-            {data: 'diplomados'},
             {data: 'created_at'},
             {data: 'refered_code'},
             {data: 'last_access'},

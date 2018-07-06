@@ -3,7 +3,7 @@
 @section('title','Módulo: '.$module->name)
 @section('cta')
   <a href="{{ route('modules.edit', $module->id)}}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Módulo</a>
-  <a href="{{ route('manage.diploma.modules', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
+  <a href="{{ route('list.experts.for.module', $module->id) }}" class="btn btn-primary" >Administrar Expertos</a>
   <a href="{{ route('references.index', $module->id) }}" class="btn btn-primary" >Administrar referencias</a>
 @endsection
 

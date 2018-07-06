@@ -2,7 +2,7 @@
 
 @section('title','Curso '.$course->name)
 @section('cta')
-    <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Crear módulos</a>
+    <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar curso</a>
     @if($course->has_diploma)
         @if($course->hasDiplomaEvaluation())
             <a href="{{ route('show.diploma.evaluation', [$course->id, $course->diplomaEvaluation->id]) }}" class="btn btn-primary">Ver evaluación final</a>
@@ -40,6 +40,8 @@
                     </div>
                     <div class="col-lg-6"><br><br>
                         <p>Email de resolución de dudas: {{ $course->support_email }}</p>
+                        <p>Promedio mínimo del curso: {{ $course->minimum_score }}</p>
+                        <p>Promedio mínimo del diplomado: {{ $course->minimum_diploma_score }}</p>
                         <p>Estudiantes inscritos: {{ $course->users->count() }}</p>
                         <p>{{ $course->modules->count() }} módulos</p>
                         <p>Slug: {{ $course->slug }}</p>

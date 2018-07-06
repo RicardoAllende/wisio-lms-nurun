@@ -149,6 +149,7 @@ class CoursesController extends Controller
                 $course->certificate_template_id = $request->certificate_template_id;
             }
         }
+        $course->diploma_template_id = $request->diploma_template_id;
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             $this->dropImgAttachments($course);
@@ -262,15 +263,6 @@ class CoursesController extends Controller
         return view('courses/report', compact('course', 'users'));
     }
 
-    public function mail(){
-        echo env('MAIL_DRIVER').'<br>';
-        echo env('MAIL_HOST').'<br>';
-        echo env('MAIL_PORT').'<br>';
-        echo env('MAIL_USERNAME').'<br>';
-        echo env('MAIL_PASSWORD').'<br>';
-        echo env('MAIL_ENCRYPTION').'<br>';
-    }
-
     public function manageDiplomaModules($course_id){
         $course = Course::find($course_id);
         if($course == null){
@@ -282,6 +274,29 @@ class CoursesController extends Controller
             );
         }
         return view('courses.manage-diploma-modules', compact('course'));
+    }
+
+    public function showReportAllDiplomas(){
+        $courses = Course::where('has_diploma', 1)->get();
+        // return $courses;
+        // dd($courses);
+        return view('courses.diploma-report-all', compact('courses'));
+    }
+
+    public function showDiplomaReport($course_id){
+        $course = Course::find($course_id);
+        if($course == null){
+            return ('/')->withErrors([
+                'error' => 'Error al encontrar curso'
+            ]);
+        }
+        if( ! $course->has_diploma){
+            return ('/')->withErrors([
+                'error' => 'El curso no ofrece un diploma'
+            ]);
+        }
+        dd($course);
+        return "";
     }
 
 }

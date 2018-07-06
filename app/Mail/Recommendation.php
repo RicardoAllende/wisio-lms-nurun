@@ -30,7 +30,7 @@ class Recommendation extends Mailable
     public function build()
     {
         $route = $this->route;
-        return $this->from(env('MAIL_USERNAME'))
+        return $this->from(env('MAIL_FROM'))
         ->view('email.recommendation', compact('route'));
     }
 }

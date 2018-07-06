@@ -7,6 +7,15 @@ Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
+Route::get('/setmodulescompleted', function(){
+  $i = 1;
+  for($i = 2; $i < 9; $i++){
+    App\Course::find($i)->setModulesComplete();
+    echo "{$i} terminado";
+  }
+  return;
+});
+
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
 Route::get('/send-email', 'FakerMailController@sendTestEmail');
@@ -64,7 +73,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
     Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
     // Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
-    Route::get('/mail', 'AdminControllers\CoursesController@mail')->name('mail');
     Route::get('/courses/relate-to-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@relateToAscription')
       ->name('relate.course.to.ascription');
     Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
@@ -108,6 +116,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => '/reports'], function(){
       Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
       Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
+      Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all ascriptions
+      Route::get('/diplomas/{diploma_id}', 'AdminControllers\CoursesController@showDiplomaReport')->name('show.diploma.report');
       Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
       Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
       Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
@@ -140,14 +150,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/{course_id}/{module_id}/evaluacion-final', 'Users_Pages\EvaluationsController@showFinalEvaluation')
     ->name('show.evaluation'); // Final evaluations
 
-    Route::get('/{course_slug}/evaluacion-final-diplomado', 'Users_Pages\EvaluationsController@showFinalEvaluationForDiploma')
+    Route::get('/{course_slug}/evaluacion-final-del-diplomado', 'Users_Pages\EvaluationsController@showFinalEvaluationForDiploma')
     ->name('diploma.final.evaluation');
 
     Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
     Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
+    
+    Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
+    Route::get('/descargar-diploma/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
   });
 
-  Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
 
   Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf')->name('test.download.certificate');
 

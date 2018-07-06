@@ -42,9 +42,6 @@
                      <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
                      <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li>
                      <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
-                    @if(Auth::user()->hasEnrollmentsInDiploma())
-                      <!--<li><a href="" id="menuCertificados">Certificados disponibles</a></li>-->
-                    @endif
                    @else
                    <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
                     <ul class="submenu">

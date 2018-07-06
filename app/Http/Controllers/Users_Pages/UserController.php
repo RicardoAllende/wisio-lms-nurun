@@ -97,7 +97,8 @@ class UserController extends Controller
         if($ascription == null){
             $ascription = Ascription::first();  // Academia Sanofi
         }
-        $user->ascriptions()->attach($ascription->id);
+        $user->ascription_id = $ascription->id;
+        // $user->ascriptions()->attach($ascription->id);
         $user->save();
         $email = $user->email;
         $password = $request->password;
@@ -107,74 +108,83 @@ class UserController extends Controller
     }
 
     public function verifyProfessionalLicense($license, $name, $middlename, $lastname){
-        $accessToken = $this->getAccessToken();
-        $curl = curl_init();
+        try {
+            $accessToken = $this->getAccessToken();
+            $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->licenseService.$license,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer ".$accessToken,
-                "Cache-Control: no-cache",
-                "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
-            ),
-        ));
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->licenseService.$license,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: Bearer ".$accessToken,
+                    "Cache-Control: no-cache",
+                    "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
+                ),
+            ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
 
-        curl_close($curl);
+            curl_close($curl);
 
-        if ($err) {
-            return false;
-        }
-        $jsonResponse = json_decode($response);
-        if(isset($jsonResponse->{'results'})){
-            $numResults = $jsonResponse->{'results'};
-            if($numResults == '1'){
-                $license = $jsonResponse->{'licenses'};
-                $license = $license[0];
-                $licenseName = $license->{'name'};
-                $licenseMiddleName = $license->{'middle_name'};
-                $licenseLastName = $license->{'last_name'};
-                $license_type = $license->{'license_type'};
-                if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
-                    $this->apiMessage = "El nombre no coincide";
-                    return false;
-                }
-                if(mb_strtoupper($middlename) != mb_strtoupper($licenseMiddleName)){
-                    $this->apiMessage = "El nombre no coincide con el registrado en la cédula profesional";
-                    return false;
-                }
-                if( mb_strtoupper($lastname) != mb_strtoupper($licenseLastName) ){
-                    $this->apiMessage = "Su apellido materno no coincide con el registrado en la cédula profesional";
-                    return false;
-                }
-                if(mb_strtoupper($license_type) != 'C1'){
-                    // $this->apiMessage = "Su cédula no es del tipo ";
-                    return false;
-                }
-                return true;
-
-            }else{
+            if ($err) {
                 return false;
             }
-        }
+            $jsonResponse = json_decode($response);
+            if(isset($jsonResponse->{'results'})){
+                $numResults = $jsonResponse->{'results'};
+                if($numResults == '1'){
+                    $license = $jsonResponse->{'licenses'};
+                    $license = $license[0];
+                    $licenseName = $license->{'name'};
+                    $licenseMiddleName = $license->{'middle_name'};
+                    $licenseLastName = $license->{'last_name'};
+                    $license_type = $license->{'license_type'};
+                    if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
+                        $this->apiMessage = "El nombre no coincide";
+                        return false;
+                    }
+                    if(mb_strtoupper($middlename) != mb_strtoupper($licenseMiddleName)){
+                        $this->apiMessage = "El nombre no coincide con el registrado en la cédula profesional";
+                        return false;
+                    }
+                    if( mb_strtoupper($lastname) != mb_strtoupper($licenseLastName) ){
+                        $this->apiMessage = "Su apellido materno no coincide con el registrado en la cédula profesional";
+                        return false;
+                    }
+                    if(mb_strtoupper($license_type) != 'A1'){
+                        $this->apiMessage = "Su cédula no es del tipo A1";
+                        return false;
+                    }
+                    return true;
 
-        if(isset($jsonResponse->{'message'})){
-            $message = $jsonResponse->{'message'};
-            if($message == 'Unauthenticated.'){
-
+                }else{
+                    return false;
+                }
             }
+
+            if(isset($jsonResponse->{'message'})){
+                $message = $jsonResponse->{'message'};
+                if($message == 'Unauthenticated.'){
+
+                }
+                $this->sepServicesAreDown = true;
+            }
+            return false;
+        } catch (\Exception $ex) {
             $this->sepServicesAreDown = true;
+            return false;
+        } catch (\Throwable $ex) {
+            $this->sepServicesAreDown = true;
+            return false;
         }
-        return false;
+        
     }
 
     public function getAccessToken(){

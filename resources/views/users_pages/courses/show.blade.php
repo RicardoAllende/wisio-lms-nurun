@@ -18,9 +18,11 @@ Curso {{ $course->name }}
             <h2 class="cursoview">{{ $course->name }}</h2>
             <span class="categoria-modulos">{{ $course->category->name }}</span>
             <div class="iconcourseshow"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"/></div>
-            <a href="{{ route('diploma.final.evaluation', [$ascription->slug, $course->slug]) }}" class="btnAcademia">
-            Iniciar evaluación final del diplomado
-            </a>
+            @if(isset($evaluation))
+              <a href="{{ route('diploma.final.evaluation', [$ascription->slug, $course->slug]) }}" class="btnAcademia">
+              Iniciar evaluación final del diplomado
+              </a>
+            @endif
           </div>
           
           <div class="col s6 l9">

@@ -26,7 +26,7 @@ Evaluacion
                         @endforeach
                     </select>
                     @if($user->hasCertificateForCourse($course->id))
-                        <a target="_blank" class="btnAcademia" href="{{ route('download.certificate.of.course', $course->slug) }}">Descargar Certificado</a>
+                        <a target="_blank" class="btnAcademia" href="{{ route('download.certificate.of.course', [$ascription->slug, $course->slug]) }}">Descargar Certificado</a>
                     @endif
               </div>
               <div class="col s12 l6">

@@ -91,8 +91,8 @@ class EvaluationsController extends Controller
         if( ! $user->isEnrolledInCourse($course->id)){
             return back();
         }
-        dd($evaluation);
-        return view('users_pages.evaluations.final-evaluation-diploma',compact('course', 'ascription', 'user', 'evaluation'));
+        // dd($evaluation);
+        return view('users_pages.evaluations.final-diploma-evaluation',compact('course', 'ascription', 'user', 'evaluation'));
     }
 
     public function gradeEvaluation($ascription_slug, Request $request){
@@ -104,8 +104,12 @@ class EvaluationsController extends Controller
         }
         $user = Auth::user();
         $user_id = $user->id;
-        $module = $evaluation->module;
-        $course = $module->course;
+        if($evaluation->isDiplomaEvaluation()){
+            $course = $evaluation->course;
+        }else{
+            $module = $evaluation->module;
+            $course = $module->course;
+        }
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
             $error = "Usted ya no puede realizar esta evaluación nuevamente";
             return view('users_pages/evaluations/error', compact('error', 'evaluation', 'ascription', 'course'));
@@ -113,7 +117,7 @@ class EvaluationsController extends Controller
 
         $evaluationAttempt = EvaluationUser::create(['evaluation_id' => $evaluation_id, 'user_id' => $user_id]);
         $questions = $evaluation->questions;
-
+        
         // calculating the evaluation average
         $summatory = 0;
         foreach ($questions as $question) {
@@ -126,27 +130,34 @@ class EvaluationsController extends Controller
                     'user_id' => $user_id,
                     'option_id' => $optionGiven,
                     'evaluation_user_id' => $evaluationAttempt->id
-                ]);
-            }
+                    ]);
+                }
         }
         $evaluationAverage = $summatory / $questions->count()*10; //  0-10 scale
         $evaluationAttempt->score = $evaluationAverage;
         $evaluationAttempt->save();
-
+        
         $numQuestions = $questions->count();
-
+        
         // echo "Número de preguntas: {$numQuestions} <br>";
         // echo "Preguntas contestadas adecuadamente: {$summatory} <br>";
         // echo "Promedio: {$evaluationAverage} <br>";
         // echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
 
+        // ------------------------- Grading evaluation for diploma, it's stored in score_in_diploma
         if($evaluation->isDiplomaEvaluation()){
             $course = $evaluation->course;
             $courseEnrollment = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
             $courseEnrollment->score_in_diplomado = $evaluationAverage;
             $courseEnrollment->save();
-            return $courseEnrollment;
+            // return $courseEnrollment;
+            return view('users_pages/evaluations/diploma-result',
+            compact('numQuestions', 'summatory', 'evaluation', 'ascription',
+            'evaluationAverage', 'course', 'ascriptionSlug')
+            );
         }
+        //------------------------- End grading evaluation for diploma
 
         $module = $evaluation->module;
         $course = $module->course;
@@ -173,7 +184,6 @@ class EvaluationsController extends Controller
 
         // echo "Promedio del módulo: {$moduleAvg} <br>";
         $course->calculateAvgForUser($user_id);
-        $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($evaluation->isDiagnosticEvaluation()){
             return view('users_pages/evaluations/diagnostic-result',
                 compact('numQuestions', 'summatory', 'evaluation', 'ascription',
@@ -212,7 +222,7 @@ class EvaluationsController extends Controller
             $questions = $evaluation->questions;
             foreach ($questions as $question) {
                 echo '<div class="mySlides row">
-                    <h6>'.$question->name.'</h6>';
+                    <h6>'.$question->content.'</h6>';
                 echo '<div class="col s9">';
                 foreach($question->options as $option){
                     echo '

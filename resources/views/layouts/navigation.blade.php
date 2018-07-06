@@ -29,7 +29,7 @@
                     <li>
                         <a href=""><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="{{ route('users.index') }}">Listado de los usuarios</a></li>
+                            <li><a href="{{ route('users.index') }}">Listado de usuarios</a></li>
                             <li><a href="{{ route('users.create') }}">Crear usuario</a></li>
                         </ul>
                     </li>
@@ -39,6 +39,7 @@
                             <li><a href="{{ route('list.ascriptions.report')}}">Adscripción</a></li>
                             <li><a href="{{ route('list.courses.report')}}">Curso</a></li>
                             <li><a href="{{ route('list.users.report') }}">Usuario</a></li>
+                            <li><a href="{{ route('list.diploma.report') }}">Diplomado</a></li>
                         </ul>
                     </li>
                     <li class="">

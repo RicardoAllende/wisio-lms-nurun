@@ -16,10 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \App\Attachment::deleting(function($model){
-            $path = $model->getStoragePath();
-            Storage::delete($path);
-        });
+        // \App\Attachment::deleting(function($model){
+        //     $path = $model->getStoragePath();
+        //     Storage::delete($path);
+        // });
     }
 
     /**

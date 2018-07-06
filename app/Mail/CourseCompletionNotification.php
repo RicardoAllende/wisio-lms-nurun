@@ -30,7 +30,7 @@ class CourseCompletionNotification extends Mailable
     public function build()
     {
         //Notification
-        return $this->from(env('MAIL_USERNAME'))
+        return $this->from(env('MAIL_FROM'))
         ->view('email.course-completion', ['route' => $this->route ]);
     }
 }

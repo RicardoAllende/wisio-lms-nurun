@@ -81,12 +81,7 @@ class User extends Authenticatable
 
     public function completedCourses(){
         return $this->belongsToMany('App\Course')->wherePivot('status', 1)
-        ->withPivot('id', 'status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado')->withTimestamps();
-    }
-
-    public function completedDiplomas(){
-        return $this->belongsToMany('App\Course')->wherePivot('diploma_status', 1)
-        ->withPivot('id', 'status', 'score', 'score_in_diplomado', 'enrolled_in_diplomado', 'score_in_diplomado', 'diploma_status')->withTimestamps();
+        ->withPivot('id', 'status', 'score', 'score_in_diplomado')->withTimestamps();
     }
 
     public function resources(){
@@ -107,19 +102,20 @@ class User extends Authenticatable
     }
 
     public function availableDiplomas(){
-        $courses = $this->completedDiplomas;
-        $result = collect();
-        foreach ($courses as $course) {
-            if($course->pivot->score_in_diplomado >= $course->minimum_diploma_score){
-                $result->push($course);
-            }
-            // if($this->hasCompletedEvaluationsFromCourse($course->id)){
-            //     if($course->pivot->score >= $course->minimum_diploma_score){
-            //         $result->push($course);
-            //     }
-            // }
-        }
-        return $result;
+        return $this->belongsToMany('App\Course')->where('has_diploma', 1)->wherePivot('score_in_diplomado', '!=', '');
+        // $courses = $this->completedDiplomas;
+        // $result = collect();
+        // foreach ($courses as $course) {
+        //     if($course->pivot->score_in_diplomado >= $course->minimum_diploma_score){
+        //         $result->push($course);
+        //     }
+        //     // if($this->hasCompletedEvaluationsFromCourse($course->id)){
+        //     //     if($course->pivot->score >= $course->minimum_diploma_score){
+        //     //         $result->push($course);
+        //     //     }
+        //     // }
+        // }
+        // return $result;
     }
 
     public function hasCourseComplete($course_id){
@@ -386,7 +382,26 @@ class User extends Authenticatable
         $evaluation = Evaluation::find($evaluation_id);
         if ($evaluation == null) { return false; }
         $tries = $this->numTriesInEvaluation($evaluation_id);
+        if($evaluation->isDiplomaEvaluation()){
+            $course = $evaluation->course;
+            if($course == null){
+                $minimum_score = 8;
+            }else{
+                $minimum_score = $course->minimum_diploma_score;
+            }
+        }else{
+            $course = $evaluation->module->course;
+            if($course == null){
+                $minimum_score = 8;
+            }else{
+                $minimum_score = $course->minimum_score;
+            }
+        }
         if($evaluation->maximum_attempts > $tries){ // A valid attempt
+            $maxScore = $this->scoreInEvaluation($evaluation_id); // 0 is also empty
+            if($maxScore >= $minimum_score){
+                return false;
+            }
             return true;
         }else{
             return false;
@@ -478,21 +493,6 @@ class User extends Authenticatable
         return true;
     }
 
-    public function isEnrolledInDiplomado($course_id){
-        $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
-        if($pivot == null){
-            return false;
-        }
-        $course = Course::find($course_id);
-        if($course == null){
-            return false;
-        }
-        if( ! $course->has_diploma){
-            return false;
-        }
-        return $pivot->enrolled_in_diplomado;
-    }
-
     public function tryToSetCourseComplete($course_id){
         if($this->hasCompletedTheModulesOfCourse($course_id)){
             $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
@@ -563,6 +563,7 @@ class User extends Authenticatable
     }
 
     public function numCompletedCoursesOfAscription($ascription_id){
+        return $this->completedCourses()->count();
         $ascription = Ascription::find($ascription_id);
         if($ascription == null) { return 0; }
         $ascriptionCourses = $ascription->courses->pluck('id');
@@ -655,10 +656,6 @@ class User extends Authenticatable
             }
         }
         return false;
-    }
-
-    public function hasEnrollmentsInDiploma(){
-        return CourseUser::where('user_id', $this->id)->max('enrolled_in_diplomado');
     }
     
     public function finalEvaluationsFromCourse($course_id){
