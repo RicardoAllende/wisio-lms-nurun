@@ -102,20 +102,19 @@ class User extends Authenticatable
     }
 
     public function availableDiplomas(){
-        return $this->belongsToMany('App\Course')->where('has_diploma', 1)->wherePivot('score_in_diplomado', '!=', '');
-        // $courses = $this->completedDiplomas;
-        // $result = collect();
-        // foreach ($courses as $course) {
-        //     if($course->pivot->score_in_diplomado >= $course->minimum_diploma_score){
-        //         $result->push($course);
-        //     }
-        //     // if($this->hasCompletedEvaluationsFromCourse($course->id)){
-        //     //     if($course->pivot->score >= $course->minimum_diploma_score){
-        //     //         $result->push($course);
-        //     //     }
-        //     // }
-        // }
-        // return $result;
+        $diplomas = $this->diplomas;
+        $availableDiplomas = collect();
+        foreach($diplomas as $diploma){
+            if($diploma->score_in_diplomado){
+                $availableDiplomas->push($diploma);
+            }
+        }
+        return $availableDiplomas;
+    }
+    
+    public function diplomas(){
+        return $this->belongsToMany('App\Course')->where('has_diploma', 1)->withTimestamps()
+        ->withPivot('score_in_diplomado')->wherePivot('score_in_diplomado', '!=', '');
     }
 
     public function hasCourseComplete($course_id){
@@ -556,6 +555,12 @@ class User extends Authenticatable
         $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
         if($pivot == null){ return '-'; }
         return $pivot->score;
+    }
+
+    public function scoreInDiplomado(){
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
+        if($pivot == null){ return '-'; }
+        return $pivot->score_in_diplomado;
     }
 
     public function hasThisEvaluationCompleted($evaluation_id){

@@ -54,13 +54,13 @@
         buttons: [
             'csv', 'excelHtml5', 'pdf', 'print'
         ],
-        ajax: "{{ route('get.users.for.course', $course->id) }}",
+        ajax: "{{ route('get.users.data.diplomado', $course->id) }}",
         columns: [
             {data: 'email'},
             {data: 'firstname'},
             {data: 'lastname'},
             {data: 'professional_license'},
-            {data: 'grade'},
+            {data: 'score_in_diplomado'},
         ]
     });
   });

@@ -49,6 +49,7 @@ class EvaluationsController extends Controller
                 $evaluations->push($module->finalEvaluations->first());
             }
         }
+        $evaluations = $evaluations->sortBy('id');
         $numEvaluations = $course->finalEvaluations()->count();
         $completedEvaluations = $user->completedFinalEvaluationsFromCourse($course->id);
         $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();

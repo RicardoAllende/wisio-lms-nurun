@@ -75,7 +75,7 @@
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js') }}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
-
+      <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
       @if(session()->has('msj'))
       <script>
         var toastHTML = "{{ session('msj') }}"

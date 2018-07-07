@@ -74,34 +74,35 @@ Expertos
       </form>
     </div>
 
-    @foreach($experts as $expert)
+    @forelse($experts as $expert)
     <div class="col s12 m4 l3 ">
-               <div class="card z-depth-0 white">
-                  <div class="card-content expertoscard">
-                     <div class="expertostitulo center">{{ $expert->name }}</div>
-                      <div class="col s8  offset-s2 center padtop15">
-                          <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
-                        </div>
-                      <div class="col s12 expertosparticipacion padtop15">
-                        <p class="upper center">Participa en:</p>
-                        <ul class="browser-default ">
-                          @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $module)
-                          <li>{!! $module !!}</li>
-                          @endforeach
-                        </ul>
-                      </div>
+        <div class="card z-depth-0 white">
+          <div class="card-content expertoscard">
+              <div class="expertostitulo center">{{ $expert->name }}</div>
+              <div class="col s8  offset-s2 center padtop15">
+                  <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                </div>
+              <div class="col s12 expertosparticipacion padtop15">
+                <p class="upper center">Participa en:</p>
+                <ul class="browser-default ">
+                  @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $module)
+                  <li>{!! $module !!}</li>
+                  @endforeach
+                </ul>
+              </div>
 
-                    <div class="leer-masmodulos">
-                      @if(isset($ascription))
-                        <a href="{{ route('student.show.expert',[$ascription->slug,$expert->slug]) }}">Ver más</a>
-                      @endif
-                        <hr class="line3"/>
-                     </div>
-                  </div>
-               </div>
-            </div>
-        @endforeach
-
+            <div class="leer-masmodulos">
+              @if(isset($ascription))
+                <a href="{{ route('student.show.expert',[$ascription->slug,$expert->slug]) }}">Ver más</a>
+              @endif
+                <hr class="line3"/>
+              </div>
+          </div>
+        </div>
+    </div>
+    @empty
+    <h2 class="recientes">No existen profesores que coincidan con su criterio de búsqueda</h2>
+    @endforelse
   </div>
 @stop
 
