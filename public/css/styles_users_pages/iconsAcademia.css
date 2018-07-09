@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?xjt11e');
-  src:  url('fonts/icomoon.eot?xjt11e#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?xjt11e') format('truetype'),
-    url('fonts/icomoon.woff?xjt11e') format('woff'),
-    url('fonts/icomoon.svg?xjt11e#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?19bw1z');
+  src:  url('fonts/icomoon.eot?19bw1z#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?19bw1z') format('truetype'),
+    url('fonts/icomoon.woff?19bw1z') format('woff'),
+    url('fonts/icomoon.svg?19bw1z#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-bt_arriba .path1:before {
+  content: "\e90c";
+  color: rgb(144, 110, 170);
+}
+.icon-bt_arriba .path2:before {
+  content: "\e90d";
+  margin-left: -1.1416015625em;
+  color: rgb(145, 112, 170);
+}
+.icon-bt_arriba .path3:before {
+  content: "\e90e";
+  margin-left: -1.1416015625em;
+  color: rgb(144, 110, 170);
+}
+.icon-bt_arriba .path4:before {
+  content: "\e90f";
+  margin-left: -1.1416015625em;
+  color: rgb(145, 112, 170);
+}
 .icon-bt_derecha .path1:before {
   content: "\e908";
   color: rgb(144, 110, 170);

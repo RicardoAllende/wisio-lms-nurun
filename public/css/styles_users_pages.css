@@ -13,10 +13,12 @@
 
 }
 
+
+
 /* General */
 body{
     font-family: "Lato";
-    background-color: var(--second-line-back-color);
+    background-color: #f9f9f9;
     overflow-x: hidden !important;
     letter-spacing: 1px;
     height: 100%;
@@ -50,12 +52,12 @@ h5{
   font-size: 16px;
   text-transform: uppercase;
   font-weight: bold;
-  color: var(--main-font-btn-color);
+  color: #8F6EAA;
 }
 
 
 .cf {
-  background-color: var(--main-back-color);
+  background-color: #727fa8;
 }
 
 /* navbar-desktop */
@@ -87,7 +89,7 @@ h5{
 }
 
 .menu-desktop ul li a{
-    color: var(--main-font-color);
+    color: #2157A1;
 
 
 }
@@ -98,24 +100,24 @@ h5{
 }
 
 .menu-mobile ul li a{
-    color: var(--main-font-color);
+    color: #2157A1;
     font-size: 0.9em !important;
 
 }
 
 
 .activo{
-    color: var(--main-sub-a-color) !important;
+    color: #BCBC1C !important;
     text-decoration: underline;
-    text-decoration-color: var(--main-sub-a-color);
+    text-decoration-color: #BCBC1C;
 }
 
 .line{
-    border: 0.5px solid var(--main-line-color);
+    border: 0.5px solid #525ca3;
 }
 
 .linem{
-    border: 0.5px solid var(--main-line-color);
+    border: 0.5px solid #525ca3;
     width: 60%;
     padding-left: 20%;
 }
@@ -212,7 +214,7 @@ nav a {
 }
 a.links{
   text-transform: uppercase;
-  color: var(--main-select-font-color);
+  color: #596066;
   font-size: 11px;
   font-weight: regular;
   text-decoration: underline;
@@ -222,7 +224,7 @@ a.links{
 
 a.linkM{
   text-transform: uppercase;
-  color: var(--main-select-font-color);
+  color: #596066;
   font-size: 11px;
   font-weight: regular;
   text-decoration: underline;
@@ -234,19 +236,19 @@ a.linkM{
 }
 .breadcrumb{
   text-transform: uppercase;
-  color: var(--main-select-font-color);
+  color: #596066;
   font-size: 11px;
   font-weight: regular;
 }
 .breadcrumb:before{
-  color: var(--main-select-font-color);
+  color: #596066;
   font-size: 11px;
   padding-top: 3px;
 }
 
 .breadcrumb:last-child {
   text-transform: uppercase;
-    color: var(--main-font-btn-color);
+    color: #8F6EAA;
 }
 /* row contenido */
 
@@ -264,7 +266,7 @@ a.linkM{
 
 /* footer */
 .footer{
-  background-color: var(--second-line-back-color);
+  background-color: #f9f9f9;
   width: 100%;
   height: 130px;
   margin: 0 auto ;
@@ -272,7 +274,7 @@ a.linkM{
 }
 
 .ff{
-    background-color: var(--main-footer-color) !important;
+    background-color: #0B3B7C !important;
     font-size: 12px;
     font-weight: black;
 }
@@ -312,7 +314,7 @@ a.linkM{
 }
 
 .copyright {
-    color: var(--main-font-color);
+    color: #2157A1;
     font-size: 12px;
     font-weight: regular;
     margin: 5px 0 !important;
@@ -331,13 +333,13 @@ a.linkM{
 }
 .tits{
   text-align: left;
-  color: var(--main-font-color) !important;
+  color: #2157A1 !important;
   text-transform: uppercase;
   margin-top: 0 !important;
 }
 .recientes{
     text-align: left;
-    color: var(--main-font-color) !important;
+    color: #2157A1 !important;
     text-transform: uppercase;
     margin-top: 0 !important;
 }
@@ -436,7 +438,7 @@ a.linkM{
 }
 
 /* a span.iconbtn:hover:before {
-  color: var(--btn-hover-color) !important;
+  color: #c7b1da !important;
 } */
 
 .ingresar {
@@ -453,21 +455,21 @@ a.linkM{
 }
 
 .user{
-    color: var(--main-font-color) !important;
+    color: #2157A1 !important;
     text-transform: uppercase;
     font-size: 16px;
     font-weight: bold;
     margin-left: 1rem;
 }
 .cursoview {
-    color: var(--main-font-color) !important;
+    color: #2157A1 !important;
     text-transform: uppercase;
     display: inline-block;
     padding-right: 10px;
 }
 
 .cursoev{
-    color: var(--main-font-color) !important;
+    color: #2157A1 !important;
     text-transform: uppercase;
     font-weight: 700;
     display: inline-block;
@@ -475,7 +477,7 @@ a.linkM{
 }
 
 .ingreso {
-  color: var(--main-font-color) !important;
+  color: #2157A1 !important;
   text-transform: uppercase;
 }
 
@@ -531,7 +533,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 .dropdown-content li > a, .dropdown-content li > span {
 
-  color: var(--main-select-font-color);
+  color: #596066;
 
 }
 
@@ -549,14 +551,14 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     width: 60%;
     text-transform: uppercase;
     text-align:right;
-    color: var(--second-font-color);
+    color: #596066;
     font-size: 0.8em;
     font-weight: 600;
     display: inline-block;
 }
 
 .categoria-evaluacion{
-    color: var(--second-font-color);
+    color: #596066;
     text-transform: uppercase;
     font-size: 0.8em;
     font-weight: 600;
@@ -566,7 +568,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 }
 
 .categoria-modulos {
-    color: var(--second-font-color);
+    color: #596066;
     text-transform: uppercase;
     font-size: 12px;
     font-weight: regular;
@@ -579,14 +581,14 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     top:50px;
     left: 20px;
     text-transform: uppercase;
-    color:var(--main-font-color);
+    color:#2157A1;
     padding-top: 40px;
 }
 
 .titulo-academia2{
     left: 20px;
     text-transform: uppercase;
-    color:var(--main-font-color);
+    color:#2157A1;
     padding-top: 20px;
 
 }
@@ -594,7 +596,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .titulos-modulo {
   left: 20px;
   text-transform: uppercase;
-  color:var(--main-font-btn-color);
+  color:#8F6EAA;
   font-size: 16;
   font-weight: bold;
   padding-top: 20px;
@@ -602,7 +604,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 .modulos{
     padding: 3% 0 3% 0;
-    color: var(--main-select-font-color);
+    color: #596066;
     font-size: 12px;
     font-weight: regular;
 }
@@ -630,13 +632,13 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 }
 
 .aprender-mas a{
-    color: var(--main-font-btn-color) !important;
+    color: #8F6EAA !important;
     background-color: #f2f2f2;
     padding: 10px;
 }
 
 .textMods{
-  color: var(--main-font-btn-color) !important;
+  color: #8F6EAA !important;
   text-transform: uppercase;
   text-align: left;
   font-weight: 500;
@@ -646,8 +648,8 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-  color: var(--main-font-btn-color) !important;
-  background-color: var(--main-bg-btn-color);
+  color: #8F6EAA !important;
+  background-color: #f2f2f2;
   padding: 10px;
   text-transform: uppercase;
   font-size: 14px;
@@ -661,7 +663,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
-  color: var(--main-font-btn-color) !important;
+  color: #8F6EAA !important;
   padding: 10px;
   text-transform: uppercase;
   font-size: 14px;
@@ -672,9 +674,9 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 }
 
 .btnAcademia:hover{
-  color: var(--btn-hover-color) !important;
+  color: #c7b1da !important;
   background-color: #fff !important;
-  border: 1px solid var(--btn-hover-color);
+  border: 1px solid #c7b1da;
 }
 
 .btnAcademiaFloat {
@@ -682,13 +684,13 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   bottom: 50px;
   right: 50px;
   padding: 10px;
-  background-color: var(--main-font-btn-color) !important;
-  color: var(--main-bg-btn-color);
+  background-color: #8F6EAA !important;
+  color: #f2f2f2;
 }
 
 .btnAcademiaFloat:hover{
-  color: var(--btn-hover-color) !important;
-  background-color: var(--btn-hover-color) !important;
+  color: #c7b1da !important;
+  background-color: #c7b1da !important;
 }
 
 .registro{
@@ -698,7 +700,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 }
 
 .registro a{
-  color: var(--main-font-btn-color) !important;
+  color: #8F6EAA !important;
   padding: 10px;
 }
 
@@ -708,14 +710,14 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     font-size: 0.8em;
     margin-left: -3px;
     width: 75%;
-    color: var(--main-font-btn-color);
+    color: #8F6EAA;
 
 }
 
 .leer-mas a{
   font-size: 14px;
   font-weight: bold;
-    color: var(--main-font-btn-color);
+    color: #8F6EAA;
     width: 70%;
 }
 
@@ -760,7 +762,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     height: 200px;
     font-size: 14px;
     font-weight: regular;
-    color: var(--main-select-font-color);
+    color: #596066;
 
 }
 
@@ -771,7 +773,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
-    color: var(--main-font-color);
+    color: #2157A1;
 }
 
 .leer-masmodulos_50 {
@@ -781,15 +783,15 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
-    color: var(--main-font-color);
+    color: #2157A1;
 }
 
 .leer-masmodulos a{
-    color: var(--main-font-btn-color);
+    color: #8F6EAA;
 }
 
 .leer-masmodulos_50 a{
-    color: var(--main-font-btn-color);
+    color: #8F6EAA;
 }
 
 /* Expertos  */
@@ -797,13 +799,13 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .expertostitulo {
     font-weight: 700;
     text-transform: uppercase;
-    color:var(--main-font-color);;
+    color:#2157A1;;
     font-size: 1rem;
 }
 
 .expertosparticipacion{
     padding: 3% 0 3% 0;
-    color: var(--main-select-font-color);
+    color: #596066;
     font-size: 0.8rem;
     overflow: hidden;
     max-height: 200px;
@@ -811,7 +813,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 .expertosparticipacion2{
     padding: 3% 0 3% 0;
-    color: var(--main-select-font-color);
+    color: #596066;
     font-size: 0.8rem;
     overflow: hidden;
 
@@ -839,7 +841,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 }
 
 .negro{
-    color: var(--main-select-font-color) !important;
+    color: #596066 !important;
 }
 
 .collapsiblemod {
@@ -851,7 +853,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     text-align: left;
     outline: none;
 
-    color: var(--main-font-color);
+    color: #2157A1;
 }
 
 .collapsiblemod-disabled {
@@ -873,12 +875,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   border: none;
   text-align: left;
   outline: none;
-  color: var(--main-font-color);
+  color: #2157A1;
 }
 
 
 .activeMod, .collapsiblemod:hover {
-    background-color: var(--btn-hover-color);
+    background-color: #c7b1da;
     color: #fff;
 }
 
@@ -909,7 +911,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     overflow: hidden;
     transition: max-height 0.4s ease-out;
     background-color: #fff;
-    border: 1px solid var(--main-font-btn-color);
+    border: 1px solid #8F6EAA;
     display: none;
     margin-left: .8rem !important;
     padding-bottom: 1rem !important;
@@ -953,7 +955,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 .text-funciona{
     padding: 3% 0 3% 0;
-    color: var(--main-select-font-color);
+    color: #596066;
 }
 
 
@@ -1009,7 +1011,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 /* Add a background color to the active dot/circle */
 .activeFunciona, .dot:hover {
-  color: var(--main-font-color);
+  color: #2157A1;
   text-decoration: none;
 }
 
@@ -1030,6 +1032,22 @@ i.material-icons.prefix.active{
   background-color: inherit;
 }
 
+.modal{
+  max-height: 90% !important;
+  top: 5% !important;
+  bottom: 5%;
+}
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+
+  .l3{
+    width: 33.33% !impor;
+  }
+}
+
 
 @media only screen and (min-width:993px) and (max-width:1193px){
 
@@ -1038,7 +1056,7 @@ i.material-icons.prefix.active{
       text-transform: uppercase;
       font-size: 14px;
       font-weight: bold;
-      color: var(--main-font-color);
+      color: #2157A1;
   }
 
   .leer-masmodulos_50 {
@@ -1047,7 +1065,7 @@ i.material-icons.prefix.active{
       text-transform: uppercase;
       font-size: 14px;
       font-weight: bold;
-      color: var(--main-font-color);
+      color: #2157A1;
   }
 
 }
@@ -1192,7 +1210,7 @@ padding-top:15px !important;
       width: 80%;
       text-transform: uppercase;
       text-align:right;
-      color: var(--second-font-color);
+      color: #596066;
       font-size: 0.8em;
       font-weight: 600;
       display: inline-block;
@@ -1214,7 +1232,7 @@ padding-top:15px !important;
       top:50px;
       left: 10px;
       text-transform: uppercase;
-      color:var(--main-font-color);
+      color:#2157A1;
       padding-top: 40px;
   }
 
@@ -1308,7 +1326,7 @@ img.responsive-img {
   margin: 0px;
   text-transform: uppercase;
   font-size: 12px;
-  color: var(--main-select-font-color);
+  color: #596066;
 }
 
 .categoria-modulos {
