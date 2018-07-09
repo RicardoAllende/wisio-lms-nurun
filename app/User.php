@@ -579,6 +579,29 @@ class User extends Authenticatable
         return $this->firstname . ' ' . $this->lastname;
     }
 
+    public function getEnumGenderAttribute(){
+        if($this->gender == 'Masculino'){
+            return 1;
+        }
+        if($this->gender == 'Femenino'){
+            return 2;
+        }
+        return null;
+    }
+
+    public function getEnumConsultationTypeAttribute(){
+        if($this->consultation_type == 'Privada'){
+            return 1;
+        }
+        if($this->consultation_type == 'Pública'){
+            return 2;
+        }
+        if($this->consultation_type == 'Mixta'){
+            return 3;
+        }
+        return null;
+    }
+
     public function recommendations(Ascription $ascription) {
 
         $userTags = collect();
