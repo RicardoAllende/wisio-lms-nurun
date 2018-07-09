@@ -180,7 +180,7 @@ Registro
             @if(isset($code))
                 <input type="hidden" name="refered_code" value="{{ $code }}">
             @endif
-        <input type="submit" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
+        <input type="submit" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Registro_registrarse'});" class="btnAcademia" value="Registrarse"  id="btnSubmit" >
 
         {!! Form::close() !!}
       </div>

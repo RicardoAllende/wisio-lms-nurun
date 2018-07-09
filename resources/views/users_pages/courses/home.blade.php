@@ -28,7 +28,8 @@ Inicio
                    <div class="modulos">{{ $course->modules->count() }} módulos</div>
                   <div class="leer-masmodulos_50">
                   @if(Auth::check())
-                     <a href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver mas</a>
+                     <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'VerMas_{{ $course->slug }}'});"
+                     href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver mas</a>
                   @endif
                       <hr class="line3"/>
                   </div>
@@ -36,7 +37,8 @@ Inicio
                     @if(Auth::user()->isEnrolledInCourse($course->id))
                       <a href="#">Inscrito</a>
                     @else
-                      <a href="{{ route('student.enrol.course', [$ascription->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
+                      <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Incribirse_{{ $course->slug }}'});"
+                      href="{{ route('student.enrol.course', [$ascription->slug,Auth::user()->id,$course->id]) }}" >Inscribirse</a>
                     @endif
                     <hr class="line3"/>
                   </div>

@@ -6,6 +6,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
       <title>Academia Sanofi | @yield('title')</title>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121926332-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-121926332-1');
+      </script>
 
       <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
@@ -18,7 +26,9 @@
 
    </head>
    <body>
-
+      @if( ! Auth::check())
+        @include('users_pages.login.modal')
+      @endif
      @include('users_pages.nav_mobile')
      @include('users_pages.nav_desktop')
 
@@ -35,8 +45,10 @@
              </div>
              <div class="col l6 hide-on-med-and-down right-align ">
                @if (Auth::check())
-                 <a href="" class="links">Contacto</a>
-                 <a href="{{ route('student.update') }}" class="links">Editar Perfil</a>
+                 <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Contacto'});"
+                 href="" class="links">Contacto</a>
+                 <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Editar Perfil'});"
+                 href="{{ route('student.update') }}" class="links">Editar Perfil</a>
                @else
                <!-- <a href="" class="links">Compartir <i class="tiny material-icons">share</i></a> -->
                <!-- <a class="links" onclick="window.print();">Imprimir <i class="tiny material-icons">local_printshop</i></a> -->
@@ -74,8 +86,7 @@
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js') }}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
-      <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+      <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script> 
       @if(session()->has('msj'))
       <script>
         var toastHTML = "{{ session('msj') }}"
@@ -90,6 +101,6 @@
       @endif
 
       @yield('extrajs')
-
+    <!--<script src="/js/google_tracking.js"></script>-->
   </body>
 </html>

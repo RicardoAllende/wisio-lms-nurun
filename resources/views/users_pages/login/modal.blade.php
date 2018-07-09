@@ -31,7 +31,7 @@
                             <div>
 
                             </div>
-                            {!! Form::submit('Continuar',['class'=>'btnAcademia padright','id'=>'guardar']) !!}
+                            <input class="btnAcademia padright" id="guardar" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Ingreso_Continuar'});" type="submit" value="Continuar">
                             <span class="icon-bt_derecha iconbtncontinuar"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span>
                         </div>
                     </div>
@@ -50,17 +50,17 @@
                 <br>
                 <div class="col s12 aprender-mas hide-on-small-only">
                     @if(isset($ascription))
-                        <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                        <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Registro_Nueva Cuenta'});" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
                     @else
-                        <a href="{{ route('register')}}" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
+                        <a href="{{ route('register')}}" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Registro_Nueva Cuenta'});" class="btnAcademia">Crear una nueva cuenta <span class="icon-registrese iconbtn"></span></a>
                     @endif
 
                </div>
                <div class="col s12 aprender-mas hide-on-med-and-up">
                    @if(isset($ascription))
-                       <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" >Crear cuenta <span class="icon-registrese iconbtn"></span></a>
+                       <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Registro_Nueva Cuenta'});">Crear cuenta <span class="icon-registrese iconbtn"></span></a>
                    @else
-                       <a href="{{ route('register')}}" >Crear cuenta <span class="icon-registrese iconbtn"></span></a>
+                       <a href="{{ route('register')}}" onclick="gtag('event','Clics',{'event_category':'Ingreso_registro','event_label':'Registro_Nueva Cuenta'});">Crear cuenta <span class="icon-registrese iconbtn"></span></a>
                    @endif
 
               </div>
