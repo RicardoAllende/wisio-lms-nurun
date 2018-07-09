@@ -1,6 +1,12 @@
 @section('title')
-Login
+Cursos
 @stop
+
+@section('metadata')
+  <meta name="description" content="Conóce los diferentes cursos que tenemos disponibles para ti, avalados por las asociasiones médicas más importantes del país.">
+  <meta name="keywords" content="Cursos, exámenes, capacitación, Sanofi">
+@endsection
+
 @extends('users_pages.master')
 @section('body')
 <!-- Home sin login -->

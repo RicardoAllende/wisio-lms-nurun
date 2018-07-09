@@ -1,11 +1,16 @@
 @section('title')
-Inicio
+Cursos para médicos
 @stop
 @extends('users_pages.master')
 
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
 @stop
+
+@section('metadata')
+  <meta name="description" content="Academia es una plataforma de Sanofi dedicada a brindar educación médica continua en línea, todos nuestros cursos están avalados. ¡Conócenos!">
+  <meta name="keywords" content="Sanofi, capacitación, cursos.">
+@endsection
 
 @section('body')
 

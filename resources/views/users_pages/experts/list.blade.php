@@ -1,7 +1,12 @@
 @section('title')
-Expertos
+Profesores
 @stop
 @extends('users_pages.master')
+
+@section('metadata')
+  <meta name="description" content="Conoce a los expertos que participan en cada uno de nustros cursos.">
+  <meta name="keywords" content="Expertos, evaluaciones, cursos, Sanofi">
+@endsection
 
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>

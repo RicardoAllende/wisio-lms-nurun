@@ -1,7 +1,12 @@
 @section('title')
-Cómo funciona
+¿Cómo funciona?
 @stop
 @extends('users_pages.master')
+
+@section('metadata')
+  <meta name="description" content="Conóce nuestros cursos en línea y cómo puedes continuar capacitándote.">
+  <meta name="keywords" content="Sanofi, exámenes, educación constante.">
+@endsection
 
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
