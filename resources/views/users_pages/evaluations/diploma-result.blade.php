@@ -12,8 +12,8 @@ Evaluaciones
   </div>
   <div><br>
     <h4>Curso: {{ $course->name }}</h4><br>
-    <p>Preguntas contestadas correctamente: {{ $numQuestions }} de {{ $summatory }}</p><br>
-    <strong>Su calificación: {{ $evaluationAverage }} </strong>
+    <p>Preguntas contestadas correctamente: {{ $summatory }} de {{ $numQuestions }}</p><br>
+    <strong>Su calificación: {{ round($evaluationAverage, 2) }} </strong>
     <br>
     @if($evaluationAverage >= $course->minimum_diploma_score)
     <h3>Felicidades, ha aprobado la evaluación para obtener su diploma</h3>

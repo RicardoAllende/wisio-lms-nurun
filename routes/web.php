@@ -100,6 +100,7 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('get.users.for.ascription.enrollment');
     Route::get('/get-data-for-notification', 'AdminControllers\UsersController@getDataForNotifications')->name('get.users.for.notification');
     Route::get('/get-users-call-list', 'AdminControllers\UsersController@getUsersCallList')->name('get.users.call.list');
+    Route::get('get-users-data-for-diplomado/{diploma_id}', 'AdminControllers\UsersController@getDataForDiplomado')->name('get.users.data.diplomado');
 
     Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
     Route::resource('/options','AdminControllers\OptionsController');
@@ -116,7 +117,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => '/reports'], function(){
       Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
       Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
-      Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all ascriptions
+      Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all diplomados(courses)
       Route::get('/diplomas/{diploma_id}', 'AdminControllers\CoursesController@showDiplomaReport')->name('show.diploma.report');
       Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
       Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
@@ -175,7 +176,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
-Route::get('/recuperar-contrasena', function(){  return view('users_pages.login.forgotPassword');  })->name('forgot.password');
+Route::get('/recuperar-contrasena', 'LoginController@forgotPassword')->name('forgot.password');
 
 Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink')->name('send.reset.password.link');
 Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');

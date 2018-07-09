@@ -14,7 +14,7 @@ class CertificatesController extends Controller
         $user = Auth::user();
         $certificates = $user->availableCertificates();
         // dd($certificates);
-        $diplomas = $user->availableDiplomas;
+        $diplomas = $user->availableDiplomas();
         // dd($diplomas);
         return view('users_pages/certificates/list', compact('ascription', 'user', 'certificates', 'diplomas'));
         // dd($certificates);

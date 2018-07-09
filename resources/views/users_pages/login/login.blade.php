@@ -12,15 +12,15 @@ Login
 
                 <div class="row sesion">
                     <div class="col s12 l6 btnAcademiaMobi">
-                  <a href="#modal1" class="modal-trigger btnAcademia"
+                  <a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Inicie_Sesion'});" href="#modal1" class="modal-trigger btnAcademia"
                   >INICIE SESIÓN <span class="icon-sesion iconbtn"></span></a>
                </div>
                 <div class="col s12 l6 btnAcademiaMobi">
 
                   @if(isset($ascription))
-                    <a href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+                    <a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Registrarse'});" href="{{ route('show.register.form.pharmacy', $ascription->slug)}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
                   @else
-                    <a href="{{ route('register')}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
+                    <a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Registrarse'});" href="{{ route('register')}}" class="btnAcademia"> REGÍSTRESE <span class="icon-registrese iconbtn"></span></a>
                   @endif
 
                </div>
@@ -45,10 +45,9 @@ Login
          </div>
 
          @include('users_pages.courses.newest')
-         @include('users_pages.login.modal')
+         
 @stop
 @section('extrajs')
-<script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js')}}"></script>
 <script>
   cambiarItem("home");
 </script>

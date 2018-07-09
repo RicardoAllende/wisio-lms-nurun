@@ -90,7 +90,8 @@ class Ascription extends Model
     }
 
     public function specialties(){ // From experts
-        $specialties = ExpertSpecialty::whereIn('expert_id', $this->expertIds())->select('specialty_id')->get();
+        $specialties = ExpertSpecialty::whereIn('expert_id', $this->expertIds())->pluck('specialty_id');
+        $specialties = $specialties->unique();
         return Specialty::find($specialties);
     }
 

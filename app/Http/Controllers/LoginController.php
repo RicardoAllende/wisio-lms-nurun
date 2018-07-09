@@ -110,8 +110,8 @@ class LoginController extends Controller
                 if($ascription == null){
                     Auth::logout();
                     return back()->with(
-                        'error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email'
-                    ));
+                        'error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email')
+                    );
                 }
                 return redirect()->route('student.home', $ascription->slug);
             }
@@ -122,6 +122,15 @@ class LoginController extends Controller
         } else {
             return back()->withInput()->with('error', 'Verifique sus datos');
         }
+    }
+
+    public function forgotPassword(){
+        $ascription = Ascription::whereIsMainAscription(1)->first();
+        if($ascription == null){
+            $ascription = Ascription::first();
+        }
+        // return $ascription;
+        return view('users_pages.login.forgotPassword', compact('ascription'));
     }
 
     public function userLogout(){
@@ -151,7 +160,8 @@ class LoginController extends Controller
         if( $reset != null){ // It exists
             $email = $reset->email;
             $user = User::whereEmail($email)->first();
-            return view('users_pages.login.newPassword', compact('user', 'email', 'token'));
+            $ascription = $user->ascription;
+            return view('users_pages.login.newPassword', compact('user', 'email', 'token', 'ascription'));
         }else{
             return redirect('/')->with('error', 'Su código para reestablecer contraseña no es válido');
         }
@@ -183,9 +193,4 @@ class LoginController extends Controller
         // }while(PasswordReset::whereToken($token)->count() > 0);
         return $token;
     }
-
-    // public function example(){
-    //     Mail::to("ricardo.allende.p@gmail.com")->send(new ResetPasswordEmail( "www.google.com.mx" ));
-    //     return "Email enviado";
-    // }
 }

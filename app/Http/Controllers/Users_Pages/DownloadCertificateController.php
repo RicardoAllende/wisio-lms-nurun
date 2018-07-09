@@ -25,8 +25,8 @@ class DownloadCertificateController extends Controller
         if($course == null){ return back()->with('error', 'Hubo un problema al elaborar su diploma'); }
         $user = Auth::user();
         $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
-        // $template = $course->certificate_template();
-        $view = \View::make('users_pages.certificates.pdf', compact('course', 'user', 'pivot'))->render();
+        $template = $course->certificate_template();
+        $view = \View::make($template, compact('course', 'user', 'pivot'))->render();
         $pdf = \App::make('dompdf.wrapper');
         $pdf->setPaper('A4','landscape');
         $pdf->loadHTML($view);

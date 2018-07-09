@@ -33,7 +33,8 @@ Evaluaciones
                     </ol>
               </div >
           <div class="leer-masmodulos_50">
-            <a href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Ver evaluaciones</a>
+            <a onclick="gtag('event','Clics',{'event_category':'Evaluaciones','event_label':'Ver Evaluaciones_{{ $course->slug }}'});"
+            href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Ver evaluaciones</a>
             <hr class="line3"/>
           </div>
        </div>

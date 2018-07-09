@@ -15,17 +15,17 @@ Expertos
       <form class="col s12" id="formSearch" name="formSearch" method="get">
         <div class="row">
           <div class="input-field col s12 l4">
-            <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
+            <input class="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
           </div>
           <div class="input-field col s12 l4">
-            <select name="specialty" id="specialty">
+            <select id="specialty" name="specialty">
               @if($specialty != '')
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @else
                 <option value="">Filtrar por especialidad</option>
               @endif
               @foreach($ascription->specialties() as $specialty)
-                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
           </div>
@@ -40,7 +40,7 @@ Expertos
     </div>
 
     <div class="row hide-on-large-only">
-      <form class="col s12" id="formSearch" name="formSearch" method="get">
+      <form class="col s12" id="formSearchM" name="formSearchM" method="get">
         <div class="row">
           <div class="col s9">
             <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
@@ -53,7 +53,7 @@ Expertos
           </div>
 
           <div class="input-field col s12 l4">
-            <select name="specialty" id="specialty">
+            <select id="specialtyM" name="specialty">
               @if($specialty != '')
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @else
@@ -61,7 +61,7 @@ Expertos
               @endif
 
               @foreach($ascription->specialties() as $specialty)
-                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->id }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
           </div>
@@ -74,54 +74,61 @@ Expertos
       </form>
     </div>
 
-    @foreach($experts as $expert)
+    @forelse($experts as $expert)
     <div class="col s12 m4 l3 ">
-               <div class="card z-depth-0 white">
-                  <div class="card-content expertoscard">
-                     <div class="expertostitulo center">{{ $expert->name }}</div>
-                      <div class="col s8  offset-s2 center padtop15">
-                          <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
-                        </div>
-                      <div class="col s12 expertosparticipacion padtop15">
-                        <p class="upper center">Participa en:</p>
-                        <ul class="browser-default ">
-                          @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $module)
-                          <li>{!! $module !!}</li>
-                          @endforeach
-                        </ul>
-                      </div>
+        <div class="card z-depth-0 white">
+          <div class="card-content expertoscard">
+              <div class="expertostitulo center">{{ $expert->name }}</div>
+              <div class="col s8  offset-s2 center padtop15">
+                  <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                </div>
+              <div class="col s12 expertosparticipacion padtop15">
+                <p class="upper center">Participa en:</p>
+                <ul class="browser-default ">
+                  @foreach($expert->modulesFromAscription($ascription->id, $ascription->slug) as $module)
+                  <li>{!! $module !!}</li>
+                  @endforeach
+                </ul>
+              </div>
 
-                    <div class="leer-masmodulos">
-                      @if(isset($ascription))
-                        <a href="{{ route('student.show.expert',[$ascription->slug,$expert->slug]) }}">Ver más</a>
-                      @endif
-                        <hr class="line3"/>
-                     </div>
-                  </div>
-               </div>
-            </div>
-        @endforeach
-
+            <div class="leer-masmodulos">
+              @if(isset($ascription))
+                <a onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'VerMas_{{ $expert->slug }}'});" href="{{ route('student.show.expert',[$ascription->slug,$expert->slug]) }}">Ver más</a>
+              @endif
+                <hr class="line3"/>
+              </div>
+          </div>
+        </div>
+    </div>
+    @empty
+    <h2 class="recientes">No existen profesores que coincidan con su criterio de búsqueda</h2>
+    @endforelse
   </div>
 @stop
 
 @section('extrajs')
 <script>
   $('select').material_select();
-  $('#submit','#submitM').click(function(){
+  $('#submit').click(function(){
     $('#formSearch').submit();
   });
 
-  $('#name').keydown(function(e){
+  $('#submitM').click(function(){
+    $('#formSearchM').submit();
+  });
+
+  $('.name').keydown(function(e){
     if(e.which == 13) {
       $('#formSearch').submit();
     }
   });
 
   $('#specialty').change(function(){
-    if( $('#specialty').val() != "" ){
       $('#formSearch').submit();
-    }
+  });
+
+  $('#specialtyM').change(function(){
+      $('#formSearchM').submit();
   });
 
   cambiarItem("expertos");

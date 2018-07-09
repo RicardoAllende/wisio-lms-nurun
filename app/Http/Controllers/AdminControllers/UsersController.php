@@ -372,7 +372,7 @@ class UsersController extends Controller
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
             return  $status; 
         })
-        ->rawColumns(['status', 'userLink'])
+        ->rawColumns(['status'])
         ->make(true);
     }
 
@@ -397,6 +397,18 @@ class UsersController extends Controller
             return  $status; 
         })
         ->rawColumns(['status', 'grade'])
+        ->make(true);
+    }
+
+    public function getDataForDiplomado($course_id){
+        $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado');
+        return \DataTables::of($users)
+        // ->addColumn('score', function ($element) {
+        //     $user = User::find($element->user_id);
+        //     $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+        //     return  $status; 
+        // })
+        // ->rawColumns(['status', 'userLink'])
         ->make(true);
     }
 

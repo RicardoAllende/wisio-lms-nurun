@@ -34,21 +34,30 @@
                 <hr class="linem"/> -->
 
                    @if(Auth::check())
-                   <li><a href="{{ route('student.home', $ascription->slug) }}" id="homeMob">Academia MC</a></li>
+                   <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});"
+                    href="{{ route('student.home', $ascription->slug) }}" href="{{ route('student.home', $ascription->slug) }}" id="homeMob">Academia MC</a></li>
                     <ul class="submenu">
-                     <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
-                     <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Mis cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
-                     <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
+                     <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
+                      href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
+                     <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Mis_cursos'});" 
+                      href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Mis cursos</a></li>
+                     <li ><a  onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Profesores'});" 
+                      href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
+                     <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Evaluaciones'});"
+                      href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
                      <!-- <li><a href="#modal2" class="modal-trigger" >Calendario</a> </li> -->
-                     <li><a href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
+                     <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Certificados'});"
+                     href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                    @else
-                   <li><a href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
+                   <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});"
+                    href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
                     <ul class="submenu">
-                     <li ><a href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
-                     <li ><a href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Cursos</a></li>
-                     <li ><a href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
-                     <li ><a href="{{ route('student.list.evaluations' , $ascription->slug) }}" id="evaluacionesMob">Evaluaciones</a></li>
+                     <li ><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Como_funciona'});" 
+                     href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
+                     <li ><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Cursos'});" 
+                     href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Cursos</a></li>
+                     <li ><a  onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" 
+                     href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
 
                    @endif
 
@@ -57,10 +66,20 @@
                 <!-- <li><a href="#!">Medicamentos</a></li> -->
                 <hr class="linem"/>
                 @if(Auth::check())
-                  <li class="registro"><a href="{{ route('logout') }}"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir</span></a></li>
+                  <li class="registro">
+                    <a href="{{ route('logout') }}" onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Salir'});">
+                      <span class="icon-Page-1 iconmenu"></span><span class="ingresar">Salir
+                      </span>
+                    </a>
+                  </li>
                   <hr class="linem"/>
                 @else
-                  <li class="registro"><a href="#modal1" class="modal-trigger"><span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/Registro</span></a></li>
+                  <li>
+                    <a href="#modal1" class="modal-trigger"
+                     onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});" >
+                      <span class="icon-Page-1 iconmenu"></span><span class="ingresar">Ingreso/Registro</span>
+                    </a>
+                  </li>
                 @endif
               </ul>
           </div>

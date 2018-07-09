@@ -121,9 +121,9 @@
 
 
                           <div class="form-group">
-                            {!! Form::label('certificate_id', 'Plantilla para certificado:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('certificate_template_id', 'Plantilla para certificado:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              <select name="certificate_id" class="form-control" id="certificate_id">
+                              <select name="certificate_template_id" class="form-control" id="certificate_id">
                               @if(isset($course))
                                 <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
                                   {{ ($course->certificate != null) ? $course->certificate->name.' (actual)' : '' }}
@@ -144,9 +144,9 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('diploma_id', 'Plantilla para diploma:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('diploma_template_id', 'Plantilla para diploma:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              <select name="diploma_id" class="form-control" id="diploma_id">
+                              <select name="diploma_template_id" class="form-control" id="diploma_template_id">
                               @if(isset($course))
                                 <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
                                   {{ ($course->certificate != null) ? $course->certificate->name.' (actual)' : '' }}

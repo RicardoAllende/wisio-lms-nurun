@@ -286,17 +286,16 @@ class CoursesController extends Controller
     public function showDiplomaReport($course_id){
         $course = Course::find($course_id);
         if($course == null){
-            return ('/')->withErrors([
+            return redirect('/')->withErrors([
                 'error' => 'Error al encontrar curso'
             ]);
         }
         if( ! $course->has_diploma){
-            return ('/')->withErrors([
+            return redirect('/')->withErrors([
                 'error' => 'El curso no ofrece un diploma'
             ]);
         }
-        dd($course);
-        return "";
+        return view('courses.diploma-report', compact('course'));
     }
 
 }

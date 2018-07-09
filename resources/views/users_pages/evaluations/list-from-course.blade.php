@@ -58,7 +58,7 @@ Evaluacion
                           <div class="col s3 textMods">Evaluaciones</div>
                           <div class="col s3">{{ $numEvaluations }}</div>
                           <div class="col s3">{{ $completedEvaluations }}</div>
-                          <div class="col s3">{{ $evaluationsAdvance }}</div>
+                          <div class="col s3">{{ round($evaluationsAdvance, 2) }}</div>
                       </div>
                   </div>
                 </div>

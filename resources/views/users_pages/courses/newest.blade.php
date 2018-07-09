@@ -17,8 +17,12 @@
                       <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                        <h4 class="titulo-academia"> {{ $course->name }} </h4>
                        <div class="leer-mas">
-                         @if(isset($ascription))
-                          <a href="{{ route('student.show.course',[$ascription->slug, $course->slug]) }}">Ver más</a>
+                         @if(Auth::check())
+                          <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Cursos_Ver mas_(Nombre del curso)'});"
+                           href="{{ route('student.show.course',[$ascription->slug, $course->slug]) }}">Ver más</a>
+                         @else
+                         <a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Cursos_Ver_mas_{{ $course->slug }}'});"
+                          href="{{ route('student.show.course',[$ascription->slug, $course->slug]) }}">Ver más</a>
                          @endif
                            <hr class="line3"/>
                        </div>

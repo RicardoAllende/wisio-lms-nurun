@@ -283,15 +283,15 @@ Cómo funciona
 
                     </div>
                     <div class="dot-container col s12 l4">
-                      <span class="dot"  onclick="currentSlide(1)">Registro</span><br>
-                      <span class="dot"  onclick="currentSlide(2)">Clave única</span> <br>
-                      <span class="dot" onclick="currentSlide(3)">Confirmación</span><br>
-                      <span class="dot"  onclick="currentSlide(4)">Página web</span><br>
-                      <span class="dot"  onclick="currentSlide(5)">El programa</span><br>
-                      <span class="dot"  onclick="currentSlide(6)">Evaluaciones</span><br>
-                      <span class="dot"  onclick="currentSlide(7)">Calificaciones</span><br>
-                      <span class="dot"  onclick="currentSlide(8)">E-mailings</span><br>
-                      <span class="dot"  onclick="currentSlide(9)">Servicio de soporte técnico</span><br>
+                      <span class="dot" onclick="currentSlide(1); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Registro'});">Registro</span><br>
+                      <span class="dot" onclick="currentSlide(2); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Clave_unica'});">Clave única</span> <br>
+                      <span class="dot" onclick="currentSlide(3); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Confirmacion'});">Confirmación</span><br>
+                      <span class="dot" onclick="currentSlide(4); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Pagina_web'});">Página web</span><br>
+                      <span class="dot" onclick="currentSlide(5); gtag('event','Clics',{'event_category':'Como funciona','event_label':'El_programa'});">El programa</span><br>
+                      <span class="dot" onclick="currentSlide(6); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Evaluaciones'});">Evaluaciones</span><br>
+                      <span class="dot" onclick="currentSlide(7); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Calificaciones'});">Calificaciones</span><br>
+                      <span class="dot" onclick="currentSlide(8); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Emailings'});">E-mailings</span><br>
+                      <span class="dot" onclick="currentSlide(9); gtag('event','Clics',{'event_category':'Como funciona','event_label':'Soporte_tecnico'});">Servicio de soporte técnico</span><br>
                     </div>
                 </div>
                 <div class="row hide-on-med-and-down">

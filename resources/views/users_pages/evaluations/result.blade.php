@@ -12,8 +12,8 @@ Evaluaciones
   </div>
   <div><br>
     <h4>Resultados de la evaluación: {{ $evaluation->name }}</h4><br>
-    <p>Preguntas contestadas correctamente: {{ $numQuestions }} de {{ $summatory }}</p><br>
-    <strong>Su calificación: {{ $evaluationAverage }} </strong>
+    <p>Preguntas contestadas correctamente: {{ $summatory }} de {{ $numQuestions }}</p><br>
+    <strong>Su calificación: {{ round($evaluationAverage, 2) }} </strong>
     <p>Evaluación final del módulo: {{ $module->name }}</p>
     <br>
     <a class="btnAcademia" href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Volver a evaluaciones del curso</a>
