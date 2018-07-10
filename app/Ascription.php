@@ -19,6 +19,13 @@ class Ascription extends Model
         return $this->belongsToMany('App\Course');
     }
 
+    public function hasCourse($course_id){
+        if($this->courses()->where('courses.id', $course_id)->count() > 0 ){
+            return true;
+        }
+        return false;
+    }
+
     public function attachments(){
         return $this->belongsToMany('App\Attachment');
     }

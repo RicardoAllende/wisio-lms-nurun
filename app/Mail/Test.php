@@ -7,18 +7,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Test extends Mailable
+class Test extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
+    protected $token;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -28,6 +29,6 @@ class Test extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_FROM'))->view('mail-test');
+        return $this->from(env('MAIL_FROM'))->view('mail-test', ['token' => $this->token]);
     }
 }

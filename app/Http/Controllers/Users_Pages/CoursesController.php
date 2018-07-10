@@ -19,6 +19,8 @@ use App\CategoryCourse;
 use App\CourseUser;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Enrollment;
 
 class CoursesController extends Controller
 {
@@ -59,8 +61,14 @@ class CoursesController extends Controller
         $course = Course::where('slug', $course_slug)->first();
         if($course == null){ return view('users_pages/courses.list'); }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if( ! $ascription->hasCourse($course->id)){
+            return redirect('/');
+        }
         if(Auth::check()){
             $user = Auth::user();
+            if($user->ascription->id != $ascription->id){
+                return redirect('/');
+            }
             $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
             if($pivot != null){ // User not enrolled
                 $now = \Carbon\Carbon::now()->toDateTimeString();
@@ -68,12 +76,25 @@ class CoursesController extends Controller
                 $pivot->save();
             }
             if($user->hasCourseComplete($course->id)){
-                if($user->scoreInCourse($course->id) >= $course->minimum_score ){
-                    if($user->hasCompletedEvaluationsFromCourse($course->id)){
-                        if($course->has_diploma){
-                            $evaluation = $course->diplomaEvaluation;
-                            if($evaluation != null){
-                                return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                if($user->hasCompletedEvaluationsFromCourse($course->id)){
+                    if($user->scoreInCourse($course->id) >= $course->minimum_score ){
+                        if($course->has_constancy){
+                            if( ! $user->hasCertificateNotificationFromCourse($course->id)){
+                                $recommendations = $user->nextRecommendations();
+                                // if( $recommendations->isNotEmpty() ){ // notification is in certificate notification
+                                //     $token = \Uuid::generate()->string;
+                                //     Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'recommendation']);
+                                //     Mail::to($user->email)->send(new Recommendation($token, $recommendations, $user));
+                                // }
+                                $token = \Uuid::generate()->string;
+                                Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'certificate']);
+                                Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                            }
+                            if($course->has_diploma){
+                                $evaluation = $course->diplomaEvaluation;
+                                if($evaluation != null){ // Course is finished
+                                    return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                                }
                             }
                         }
                     }
@@ -89,46 +110,25 @@ class CoursesController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
         $courses = $ascription->courses;
-        $recommendations = Auth::user()->recommendations($ascription);
+        $recommendations = Auth::user()->recommendations();
         return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations'));
     }
 
     public function enrollment($ascription_slug,$user_id, $course_id)
     {
+        $user = User::find($user_id);
+        if($user == null){ return back()->with('error', 'No se pudo realizar su inscripción en este momento'); }
         $course = Course::find($course_id);
-        if($course == null) { return back(); }
+        if($course == null) { return back()->with('error', 'No se pudo realizar su inscripción en este momento'); }
         $enrol = $course->enrolUser($user_id);
         if($enrol){
+            $url = route('student.show.course', [$ascription_slug, $course->slug]);
+            Mail::to($user->email)->send(new Enrollment($url, $course->name));
             return back()->with('msj', 'Se realizó exitosamente la inscripción');
         } else {
-            return back()->with('msj', 'No se pudo inscribir');
+            return back()->with('error', 'No se pudo inscribir');
         }
     }
-
-    // public function enrolUserInDiplomat($email, $course_slug){
-    //     $user = User::whereEmail($email)->first();
-    //     if($user == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-    //     $course = Course::whereSlug($course_slug)->first();
-    //     if($course == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-    //     $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-    //     if($pivot == null){ return back()->with('error', 'No se pudo completar su inscripción, intente de nuevo'); }
-    //     $pivot->asked_for_diploma = 1;
-    //     $pivot->enrolled_in_diplomado = 1;
-    //     $pivot->save();
-    //     return back()->with('msj', 'Inscripción en el diplomado realizada correctamente');
-    // }
-
-    // public function notEnrolUserInDiplomat($email, $course_slug){
-    //     $user = User::whereEmail($email)->first();
-    //     if($user == null){ return back(); }
-    //     $course = Course::whereSlug($course_slug)->first();
-    //     if($course == null){ return back(); }
-    //     $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-    //     if($pivot == null){ return back(); }
-    //     $pivot->asked_for_diploma = 1;
-    //     $pivot->save();
-    //     return back();
-    // }
 
     public function saveProgressModule(Request $request){
         $module = Module::find($request->module_id);

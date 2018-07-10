@@ -18,6 +18,7 @@ class UserController extends Controller
     public $client_secret = "client_secret=Wpa2BbV4tNY69V5BOuWJALJxbvc2uLc9N7jd5Cqz";
     public $licenseService = "http://dev.cedula.nurun.com.mx/api/v1/license-number/";
     public $apiMessage = "";
+    public $notA1 = false;
     public $sepServicesAreDown = false;
 
     public function updateInformation(){
@@ -78,7 +79,11 @@ class UserController extends Controller
                 $is_validated = false;
             }else{
                 $this->sepServicesAreDown = false;
-                return back()->withInput()->with('error', 'Cédula no validada');
+                $error = 'Cédula no validada';
+                if($this->notA1){
+                    $error = "Su cédula profesional no es de tipo A1";
+                }
+                return back()->withInput()->with('error', $error);
             }
         }
         $user = User::create($input);
@@ -160,6 +165,7 @@ class UserController extends Controller
                     }
                     if(mb_strtoupper($license_type) != 'A1'){
                         $this->apiMessage = "Su cédula no es del tipo A1";
+                        $this->notA1 = true;
                         return false;
                     }
                     return true;

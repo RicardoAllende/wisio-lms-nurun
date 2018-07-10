@@ -9,6 +9,6 @@
 <body>
     <h1>Correo electrónico de prueba</h1>
     <p>Academia sanofi</p>
-    <a href="www.google.com.mx">Enlace</a>
+    <a href="{{ $token }}">Enlace</a>
 </body>
 </html>

@@ -10,7 +10,7 @@
     @foreach($evaluations as $evaluation)
         <ul>
         @if( ! $evaluation->hasQuestions())
-            <li>'{{$evaluation->name}}': pertenece al módulo: '{{ $evaluation->module->name }}' del curso: '{{ $evaluation->module->course->name }}'</li>
+            <li>{{$evaluation->id}}.-  '{{$evaluation->name}}'</li>
         @endif
         </ul>
     @endforeach

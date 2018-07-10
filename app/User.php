@@ -161,31 +161,19 @@ class User extends Authenticatable
     }
 
     public function availableCourses(){
-        $ids = collect();
-        $ascriptions = $this->allAscriptions;
-        foreach($ascriptions as $ascription){
-            $array = $ascription->courses()->pluck('courses.id');
-            $ids = $ids->concat($array);
-        }
-        $ids = $ids->unique();
-        return Course::find($ids);
+        $ascription = $this->ascription;
+        return $ascription->courses;
     }
 
-    public function hasAvailableAnotherCourse(){
-        $ids = $this->availableCourses()->pluck('id');
-        foreach($ids as $id){
-            if( ! $this->isEnrolledInCourse($course)){
-                return $course;
-            }
-        }
-        return false;
-    }
-
-    public function nextRecommendedCourse(){
-        $ascriptions = $this->allAscriptions;
-        foreach($ascriptions as $ascription){
-            $this->recommendations($ascription)->first();
-        }
+    public function nextRecommendations(){
+        $ascription = $this->ascription;
+        return $ascription->courses()->whereNotIn('courses.id', $this->courses()->pluck('courses.id'));
+        // foreach($ascription->courses as $course){
+        //     if( ! $this->isEnrolledInCourse($course)){
+        //         return $course;
+        //     }
+        // }
+        // return null;
     }
 
     public function hasAvailableEvaluation($evaluation_id){
@@ -221,34 +209,6 @@ class User extends Authenticatable
     public function ascription(){
         return $this->belongsTo('App\Ascription');
     }
-
-    // public function diplomados(){
-    //     return $this->belongsToMany('App\Ascription')->where('has_constancy', 1)->withPivot('score', 'status')->withTimestamps();
-    // }
-
-    // public function allAscriptions(){
-    //     return $this->belongsToMany('App\Ascription')->withPivot('score', 'status')->withTimestamps();
-    // }
-
-    // public function normalAscriptions(){
-    //     return $this->ascriptions->where('has_constancy', 0); // Not diplomat
-    // }
-
-    // public function hasAscriptions(){
-    //     if ($this->ascriptions->count() > 0) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
-    // public function ascription(){
-    //     if($this->hasAscriptions()){
-    //         return $this->ascriptions->first();
-    //     }else{
-    //         return null;
-    //     }
-    // }
 
     public function attachments()
     {
@@ -579,8 +539,34 @@ class User extends Authenticatable
         return $this->firstname . ' ' . $this->lastname;
     }
 
-    public function recommendations(Ascription $ascription) {
+    public function getEnumGenderAttribute(){
+        if($this->gender == 'Masculino'){
+            return 1;
+        }
+        if($this->gender == 'Femenino'){
+            return 2;
+        }
+        return null;
+    }
 
+    public function getEnumConsultationTypeAttribute(){
+        if($this->consultation_type == 'Privada'){
+            return 1;
+        }
+        if($this->consultation_type == 'Pública'){
+            return 2;
+        }
+        if($this->consultation_type == 'Mixta'){
+            return 3;
+        }
+        return null;
+    }
+
+    public function recommendations() {
+        $ascription = $this->ascription;
+        if($ascription == null){
+            return collect();
+        }
         $userTags = collect();
         $recommendedCourses = collect();
         // Get all tags from assigned courses
@@ -739,7 +725,7 @@ class User extends Authenticatable
     }
 
     public function hasNotificationsFromCourse($course_id){
-        if($this->notifications()->where('course_id', $course_id)->count() > 0){
+        if($this->notifications()->where('course_id', $course_id)->whereIn('type', [2,3,4])->count() > 0){
             return true;
         }
         return false;
@@ -819,6 +805,13 @@ class User extends Authenticatable
 
     public function dateLastNotification(){
         return $this->notifications()->max('created_at');
+    }
+
+    public function hasCertificateNotificationFromCourse($course_id){
+        if($this->notifications()->where('course_id', $course_id)->where('type', 'certificate')->count() > 0){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -36,6 +36,7 @@
                             <thead>
                               <tr>
                                 <th>Código</th>
+                                <th>Tipo</th>
                                 <th>Visto</th>
                                 <th>¿Accedió siguiendo el enlace?</th>
                                 <th>Curso</th>
@@ -46,6 +47,7 @@
                                 @foreach($notifications as $notification)
                                 <tr>
                                     <td>{{ $notification->code }}</td>
+                                    <td>{{ $notification->type }}</td>
                                     <td>{{ ( $notification->viewed ) ? "Sí" : 'No' }}</td>
                                     <td>{{ ($notification->accessed) ? "Sí" : 'No' }}</td>
                                     <td>{{ $notification->course->name }}</td>

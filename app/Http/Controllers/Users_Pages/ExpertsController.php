@@ -25,7 +25,7 @@ class ExpertsController extends Controller
             $name = $_GET['name'];
             $specialty = $_GET['specialty'];
             if($specialty != ''){
-                $specialty = Specialty::find($specialty);
+                $specialty = Specialty::whereName($specialty)->first();
                 if($specialty != null){
                     $experts = $specialty->experts()->where('name', 'like', '%'.$name.'%')->whereIn('experts.id', $expertIds)->get();
                 }else{

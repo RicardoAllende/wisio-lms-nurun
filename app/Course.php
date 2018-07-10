@@ -15,6 +15,7 @@ class Course extends Model
         'id',
         'name',
         'slug',
+        'credits',
         'description',
         'minimum_score',
         'has_constancy',
@@ -228,7 +229,7 @@ class Course extends Model
     }
 
     public function diploma(){
-        return $this->belongsTo('App\CertificateTemplate', 'certificate_template_id');
+        return $this->belongsTo('App\CertificateTemplate', 'diploma_template_id');
     }
 
     public function certificate_template(){

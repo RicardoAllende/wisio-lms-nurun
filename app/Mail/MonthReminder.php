@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MonthReminder extends Mailable
+class MonthReminder extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $route;
