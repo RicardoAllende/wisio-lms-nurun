@@ -191,6 +191,44 @@ class EvaluationsController extends Controller
                 'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
             );
         }
+        // Final Evaluation from module
+        // Mailing for reboot or not-approved-notification
+        if($user->hasCourseComplete($course->id)){
+            if($user->hasCompletedEvaluationsFromCourse($course->id)){
+                if($user->scoreInCourse($course->id) >= $course->minimum_score ){
+                    if( ! $user->hasCertificateNotificationFromCourse($course->id)){ // Approved
+                        $recommendations = $user->nextRecommendations();
+                        $token = \Uuid::generate()->string;
+                        // Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'certificate']);
+                        Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                    }
+                    if($course->has_diploma){
+                        $evaluation = $course->diplomaEvaluation;
+                        if($evaluation != null){ // Course is finished
+                            return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                        }
+                    }
+                } else{ // Not approved
+                    if( ! $user->hasReebotInCourse($course->id)){
+                        if( ! $user->hasNotApprovedNotification($course->id)){ // notification was sent
+                            // Comprobar si antes no envió una notificación similar
+                            $token = \Uuid::generate()->string;
+                            // Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'not_approved']);                            
+                            $route = route('ascription.login', $ascription_slug)."?notification=".$token;
+                            Mail::to($user->email)->send(new NotApproved($route, $course->name, $user->name)); // It has course reboot
+                        }
+                    }else{
+                        if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course
+                            $recommendations = $user->nextRecommendations();
+                            $token = \Uuid::generate()->string;
+                            // Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'second_not_approved']);
+                            $route = route('ascription.login', $ascription_slug)."?notification=".$token;                         
+                            Mail::to($user->email)->send(new SecondNotApproved($route, $user->full_name, $course->name, $courses));
+                        }
+                    }
+                }
+            }
+        }
         return view('users_pages/evaluations/result',
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
             'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')
@@ -212,6 +250,7 @@ class EvaluationsController extends Controller
             if($evaluation->isDiagnosticEvaluation()){
                 echo '<h4>Evaluación diagnóstica</h4>';
             }
+            echo "<script></script>";
             echo '<form action="'.route('grade.evaluation', $ascription_slug).'" id="formulario_evaluacion" method="post">';
             echo csrf_field();
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
@@ -221,19 +260,20 @@ class EvaluationsController extends Controller
                 <div class="card white slideshow-container col s12">';
             $numQuestions = $evaluation->questions->count();
             $questions = $evaluation->questions;
+            $i = 1;
             foreach ($questions as $question) {
                 echo '<div class="mySlides row">
-                    <h6>'.$question->content.'</h6>';
+                    <h6>'.$i.'. '.$question->content.'</h6>'; $i++;
                 echo '<div class="col s9">';
                 foreach($question->options as $option){
                     echo '
                     <p>
-                        <input name="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
+                        <input name="question'.$question->id.'" class="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
                         <label for="o'.$option->id.'">'.$option->content.'</label>
                     </p>';
                 }
                 if ( $question == $questions->last() ) {
-                    echo '<button class="btnAcademia">Calificar</button>
+                    echo '<button class="btnAcademia" id="btnCalificar">Calificar</button>
                         </div>
                             <div class="col s3 center">
                             </div>
@@ -256,10 +296,41 @@ class EvaluationsController extends Controller
                 </div></form><!-- End pad-left3 -->
                 <script>currentSlideE(1)</script>
                 ';
+
+            echo '<script>
+            $("#btnCalificar").click(function (event) {
+                var error = false;
+                var preguntas = "No se han respondido las preguntas: ";
+                ';
+            $i = 1;
+            foreach($questions as $question){
+                echo 'if( ! $(".question'.$question->id.'").is(":checked")) {  
+                        preguntas += " '.$i.' ";
+                        // alert("No se ha seleccionado la pregunta'.$i.'");
+                        error = true;
+                    } else {  
+                        // alert("Todo en orden");
+                    }';
+                $i++;
+            }
+            echo '
+                if(error){
+                    Materialize.toast( preguntas ,4000,"error")
+                    event.preventDefault();
+                }else{
+                    $("#formulario_evaluacion").submit();
+                }
+            });
+            </script>';
+
             if($evaluation->isDiagnosticEvaluation()){
                 echo '<script>
+                $("#btnOmitir").hide();
+                $("#btnX").hide();
                 $( "#formulario_evaluacion" ).submit(function( event ) {
                     event.preventDefault();
+                    $("#btnOmitir").show();                    
+                    $("#btnX").show();
                     $("#btnOmitir").html("Comenzar módulo");
                     var actionForm = $("#formulario_evaluacion").attr("action");
                     var questions = $("#formulario_evaluacion").serializeArray();

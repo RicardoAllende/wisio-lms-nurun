@@ -1,5 +1,5 @@
 <div id="modalEvDiag" class="modal">
-  <a class="modal-action modal-close waves-effect waves-light btn-small cerrarModal" style="color:white !important;" onclick="closeModEvDiag();">X</a>
+  <a class="modal-action modal-close waves-effect waves-light btn-small cerrarModal" style="color:white !important;" id="btnX" onclick="closeModEvDiag();">X</a>
   <div class="modal-content">
 
 

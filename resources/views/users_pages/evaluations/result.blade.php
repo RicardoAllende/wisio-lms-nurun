@@ -1,6 +1,15 @@
 @section('title')
 Evaluaciones
 @stop
+
+@section('breadcrumbs')
+  <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
+  <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="breadcrumb">Curso {{ $course->name }}</a>
+  <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="breadcrumb">Módulos</a>
+  <a href="#" class="breadcrumb">{{ $module->name }}</a>
+  <a href="#" class="breadcrumb">Evaluación final</a>
+@stop
+
 @extends('users_pages.master')
 @section('body')
 <div class="row pad-left3">
@@ -14,7 +23,7 @@ Evaluaciones
     <h4>Resultados de la evaluación: {{ $evaluation->name }}</h4><br>
     <p>Preguntas contestadas correctamente: {{ $summatory }} de {{ $numQuestions }}</p><br>
     <strong>Su calificación: {{ round($evaluationAverage, 2) }} </strong>
-    <p>Evaluación final del módulo: {{ $module->name }}</p>
+    <p>Evaluación final del módulo: <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}">{{ $module->name }}</a></p>
     <br>
     <a class="btnAcademia" href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Volver a evaluaciones del curso</a>
   </div>

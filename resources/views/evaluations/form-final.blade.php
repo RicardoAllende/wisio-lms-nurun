@@ -113,6 +113,27 @@
 @section('scripts')
 
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
+<script src="/js/sweetalert2.min.js"></script>
+@if(session()->has('evaluation-message'))
+  <script>
+      swal({
+        title: 'Aviso',
+        text: "{{ session('evaluation-message') }}",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#81BEF7',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Cambiar configuración',
+        cancelButtonText: 'Aceptar'
+      }).then((result) => {
+        if (result.value) {
+          // console.log('dentro del id');
+        } else{
+          window.location.href = "{{ route('courses.show', $course->id) }}?form=1";
+        }
+      })    
+  </script>
+@endif
 <script type="text/javascript">
   Dropzone.options.imageUpload  = {            
             paramName: "file", 
@@ -137,4 +158,5 @@
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="/css/plugins/dropzone/basic.css">
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection
