@@ -44,7 +44,7 @@ Actualizacion de información
     </div>
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{1,15}", 'title'=> "Únicamente números"]) !!}
+      {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{7,15}", 'title'=> "Únicamente números", 'maxlength' => '15']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
@@ -59,17 +59,17 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('zip', 'Código postal:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('zip',null,['class'=>'form-control','placeholder'=>'Código Postal', 'required' => '', 'pattern' => "[0-9]{5}", 'title'=> "Únicamente números"]) !!}
+      {!! Form::text('zip',null,['class'=>'form-control','placeholder'=>'Código Postal', 'required' => '', 'pattern' => "[0-9]{5}", 'title'=> "Únicamente números", 'maxlength' => '5']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('city', 'Ciudad:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('city',null,['class'=>'form-control','placeholder'=>'Ciudad', 'required' => '', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras"]) !!}
+      {!! Form::text('city',null,['class'=>'form-control','placeholder'=>'Ciudad', 'required' => '', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('address', 'Dirección:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'required' => '', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,255}", 'title'=>"Ingrese su dirección"]) !!}
+      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'required' => '', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,255}", 'title'=>"Únicamente caracteres alfanuméricos"]) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">

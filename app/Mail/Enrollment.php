@@ -7,19 +7,21 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MonthReminder extends Mailable implements ShouldQueue
+class Enrollment extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
-    protected $route;
+    protected $url;
+    protected $course_name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($route)
+    public function __construct($url, $course_name)
     {
-        $this->route = $route;
+        $this->url = $url;
+        $this->course_name = $course_name;
     }
 
     /**
@@ -30,6 +32,6 @@ class MonthReminder extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('email.month-reminder', ['token' => $this->route]);
+        ->view('email.course-enrollment', ['url' => $this->url, 'course_name' => $course_name]);
     }
 }

@@ -20,6 +20,7 @@ class FakerMailController extends Controller
     public $maxWeekReminders = 4; // max: 4 mails
     
     public function sendEmail(){
+        set_time_limit(1500);
         if(config('settings.mailing')){
             $weekAgo = Carbon::now()->subweek();
             $monthAgo = Carbon::now()->submonth(); // 30 days ago
@@ -37,14 +38,14 @@ class FakerMailController extends Controller
                                 if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
                                     // echo "Tiene notificación anterior, CON avance<br>";
                                     if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);                            
+                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name);                            
                                     }
                                 }else{ // Doctor didn't have advance  
                                     if($notificationType == 'month_reminder'){
                                         if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
                                             $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
                                             if($numMonthReminders < $this->maxMonthReminders){
-                                                $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);
+                                                $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name);
                                             }else{
                                                 $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
                                             }
@@ -70,7 +71,7 @@ class FakerMailController extends Controller
                                 }
                             }else{ // First Notification
                                 if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);
+                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name);
                                 }
                             }
                         }else{ // User has call notification from course
@@ -84,7 +85,7 @@ class FakerMailController extends Controller
         return Carbon::now();
     }
 
-    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id){
+    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id, $course_name){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
         $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
@@ -100,7 +101,10 @@ class FakerMailController extends Controller
         return $urlLogin;
         // FakerMail::create(['email' => $email, 'type' => 'week_reminder', 'link' => route('login')."?notification=".$token]);
         return;
-
+        if(strpos($mobilePhone, '+52') !== false ){ // Found
+            $mobilePhone = "+52".$mobilePhone;
+        }
+        $mobilePhone = str_replace(' ', '', $mobilePhone);
         $sms = AWS::createClient('sns');
         $sms->publish([
                 'Message' => 'Mensaje de prueba desde enviado por el sistema academia mc',
@@ -130,13 +134,14 @@ class FakerMailController extends Controller
 
     public function sendTestEmail(){
         $email = "ricardo.allende.p@gmail.com";
-        // from is in Test class
-        Mail::to($email)->send(new Test());
+        $token = \Uuid::generate()->string;
+        Mail::to($email)->send(new Test($token));
         echo "Email enviado a {$email} <br>";
         $email = "ricardo.allende@subitus.com";
-        Mail::to($email)->send(new Test());
+        $token = \Uuid::generate()->string;
+        Mail::to($email)->send(new Test($token));
         echo "Email enviado a {$email} <br>";
-        return "Test sendTestEmail terminado";
+        return "Test 'sendTestEmail' terminado";
     }
 
     public function sendTestEmailTo($email){

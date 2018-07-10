@@ -96,8 +96,17 @@ class LoginController extends Controller
                                     $notification->save();
                                     return redirect()->route('student.show.course', [$ascription->slug, $course->slug]);
                                 break;
-                                case 'call':
-    
+                                case 'enrollment':
+        
+                                break;
+                                case 'certificate':
+        
+                                break;
+                                case 'diploma':
+        
+                                break;
+                                case 'welcome':
+        
                                 break;
                             }
                         }

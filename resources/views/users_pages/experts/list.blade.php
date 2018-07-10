@@ -18,14 +18,14 @@ Expertos
             <input class="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
           </div>
           <div class="input-field col s12 l4">
-            <select id="specialty" name="specialty">
+            <select id="specialty" class="specialty" name="specialty">
               @if($specialty != '')
-                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option value="{{ $specialty->name }}">{{ $specialty->name }}</option>
               @else
                 <option value="">Filtrar por especialidad</option>
               @endif
               @foreach($ascription->specialties() as $specialty)
-                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->name }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
           </div>
@@ -53,15 +53,15 @@ Expertos
           </div>
 
           <div class="input-field col s12 l4">
-            <select id="specialtyM" name="specialty">
+            <select id="specialtyM" class="specialty" name="specialty">
               @if($specialty != '')
-                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option value="{{ $specialty->name }}">{{ $specialty->name }}</option>
               @else
                 <option value="">Filtrar por especialidad</option>
               @endif
 
               @foreach($ascription->specialties() as $specialty)
-                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                <option onclick="gtag('event','Clics',{'event_category':'Profesores','event_label':'Selecciona_{{ $specialty->name }}'});" value="{{ $specialty->name }}">{{ $specialty->name }}</option>
               @endforeach
             </select>
           </div>
@@ -108,29 +108,40 @@ Expertos
 
 @section('extrajs')
 <script>
-  $('select').material_select();
-  $('#submit').click(function(){
-    $('#formSearch').submit();
-  });
+    $(document).ready(function(){
+      $('select').material_select();
+      $('#submit').click(function(){
+        $('#formSearch').submit();
+      });
 
-  $('#submitM').click(function(){
-    $('#formSearchM').submit();
-  });
+      $('#submitM').click(function(){
+        $('#formSearchM').submit();
+      });
 
-  $('.name').keydown(function(e){
-    if(e.which == 13) {
-      $('#formSearch').submit();
-    }
-  });
+      $('.name').keydown(function(e){
+        if(e.which == 13) {
+          $('#formSearch').submit();
+        }
+      });
 
-  $('#specialty').change(function(){
-      $('#formSearch').submit();
-  });
+      $('#specialty').change(function(){
+        var label = "Selecciona_" + $(this).val();
+        gtag('event','Clics',{'event_category':'Profesores','event_label': label });
+        $('#formSearch').submit();
+      });
 
-  $('#specialtyM').change(function(){
-      $('#formSearchM').submit();
-  });
+      $('#specialtyM').change(function(){
+        var label = "Selecciona_" + $(this).val();
+        gtag('event','Clics',{'event_category':'Profesores','event_label': label });
+        $('#formSearchM').submit();
+      });
 
-  cambiarItem("expertos");
+      $('.specialty').change(function(){
+        
+      });
+
+      cambiarItem("expertos");
+    });
+  
 </script>
 @stop

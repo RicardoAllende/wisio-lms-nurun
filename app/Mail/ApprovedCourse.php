@@ -7,24 +7,23 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Recommendation extends Mailable implements ShouldQueue
+class ApprovedCourse extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $route;
-    protected $token;
+    protected $url;
     protected $courses;
-    protected $users;
+    protected $ascription_slug;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($route, $courses, $user)
+    public function __construct($url, $courses, $ascription_slug)
     {
-        $this->route = $route;
+        $this->url = $url;
         $this->courses = $courses;
-        $this->user = $user;
+        $this->ascription_slug = $ascription_slug;
     }
 
     /**
@@ -34,8 +33,6 @@ class Recommendation extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $route = $this->route;
-        return $this->from(env('MAIL_FROM'))
-        ->view('email.recommendation', compact('route', 'courses'));
+        return $this->view('view.name', ['url' => $this->url, 'courses' => $courses, 'ascription_slug' => $this->ascription_slug]);
     }
 }

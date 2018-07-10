@@ -15,6 +15,7 @@ class Course extends Model
         'id',
         'name',
         'slug',
+        'credits',
         'description',
         'minimum_score',
         'has_constancy',

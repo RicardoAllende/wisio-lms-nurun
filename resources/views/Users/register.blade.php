@@ -21,7 +21,7 @@ Registro
   <div class="row">
     <div class="reg col s12 l5 offset-l2">
       <h6 class="upscase center">Usuario y contraseña</h6>
-      {!! Form::label('em', 'Correo Electrónico:' )!!}
+      {!! Form::label('email', 'Correo Electrónico:' )!!}
       {!! Form::email('email',null,['class'=>'','placeholder'=>'Correo electrónico personal', 'required' => '', 'id' => 'email', 'maxlength' =>"50" ]) !!}
       <span class="smalltext">Servirá como nombre de usuario.</span><br><br>
       {!! Form::label('password', 'Contraseña:' )!!}
@@ -50,16 +50,16 @@ Registro
 
     <div class="reg col s12 l5 offset-l2">
       {!! Form::label('firstname', 'Nombre:',['for'=>'firstname']); !!}
-      {!! Form::text('firstname',null,['class'=>'validate','placeholder'=>'Nombre', 'id' => 'nombre', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras" ]) !!}
+      {!! Form::text('firstname',null,['class'=>'validate','placeholder'=>'Nombre', 'id' => 'nombre', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
       <div class="row">
         <div class="reg col s12 l6">
           {!! Form::label('paterno', 'Apellido paterno:',['for'=>'paterno']); !!}
-          {!! Form::text('paterno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'paterno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras" ]) !!}
+          {!! Form::text('paterno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'paterno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
 
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('materno', 'Apellido materno:',['for'=>'paterno']); !!}
-          {!! Form::text('materno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'materno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras" ]) !!}
+          {!! Form::text('materno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'materno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
 
         </div>
       </div>
@@ -95,7 +95,7 @@ Registro
 
         <div class="reg col s12 l6">
           {!! Form::label('professional_license', 'Cédula:' )!!}
-          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números" ]) !!}
+          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números", 'maxlength' => '10' ]) !!}
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
@@ -127,7 +127,7 @@ Registro
         </div>
         <div class="col s6">
           {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-          {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{1,15}", 'title'=> "Únicamente números"]) !!}
+          {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{7,15}", 'title'=> "Únicamente números", 'maxlength' => '15']) !!}
         </div>
         <div class="col s6">
           {!! Form::label('state_id', 'Estado:',['class'=>'control-label col-sm-2']); !!}

@@ -7,19 +7,18 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MonthReminder extends Mailable implements ShouldQueue
+class NotApproved extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $route;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($route)
+    public function __construct()
     {
-        $this->route = $route;
+        //
     }
 
     /**
@@ -29,7 +28,6 @@ class MonthReminder extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->from(env('MAIL_FROM'))
-        ->view('email.month-reminder', ['token' => $this->route]);
+        return $this->view('view.name');
     }
 }

@@ -73,7 +73,7 @@ Evaluacion
              <h2 class="recientes">Evaluaciones</h2>
           </div>
           <?php $cont=0; $mod=0; ?>
-          @foreach($evaluations as $evaluation)
+          @forelse($evaluations as $evaluation)
             <?php $cont++; ?>
             <div class="col s12 l4 ">
                 <div class="card z-depth-0 white">
@@ -111,8 +111,10 @@ Evaluacion
                 <div id="references"></div>
             </div>
             @endif
-
-          @endforeach
+            @empty
+            <br><br>
+            <h3 class="user pad-left3" >Una evaluación se habilita hasta que haya cursado el módulo, aún no tiene evaluaciones disponibles</h3>
+          @endforelse
           @if($course->modules->count() <= 3)
           <div class="col s12 content" id="mod1">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
