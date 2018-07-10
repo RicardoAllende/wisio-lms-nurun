@@ -76,6 +76,9 @@
 
 
        </div>
+       <div class="row hide-on-large-only right-align">
+         <a  href="#contenedor" class="btnAcademia"> Arriba <span class="icon-bt_arriba iconbtn"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></a>
+       </div>
        @include('users_pages.footer')
      </div>
 
@@ -87,7 +90,7 @@
       <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js') }}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
-      <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script> 
+      <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
       @if(session()->has('msj'))
       <script>
         var toastHTML = "{{ session('msj') }}"

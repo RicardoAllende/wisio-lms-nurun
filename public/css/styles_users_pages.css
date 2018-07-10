@@ -311,6 +311,7 @@ a.linkM{
 
 .lineh {
     border-left:1px solid #fff;
+    height: 12px !important;
 }
 
 .copyright {
@@ -1011,7 +1012,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 
 /* Add a background color to the active dot/circle */
 .activeFunciona, .dot:hover {
-  color: #2157A1;
+  color: #8F6EAA;
   text-decoration: none;
 }
 
@@ -1317,6 +1318,11 @@ img.responsive-img {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
+.pad-left{
+  padding-left: 0;
+}
+
 .fontMob{
   font-size: 10px;
   padding: 12px !important;
@@ -1338,5 +1344,11 @@ img.responsive-img {
 .iconcourseshow {
 
     width: 4%;
+
+}
+
+#img1{
+  padding-left: 0;
+}
 
 }
