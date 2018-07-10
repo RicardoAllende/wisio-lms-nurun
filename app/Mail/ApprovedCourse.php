@@ -33,6 +33,7 @@ class ApprovedCourse extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name', ['url' => $this->url, 'courses' => $courses, 'ascription_slug' => $this->ascription_slug]);
+        return $this->from(env('MAIL_FROM'))
+        ->view('view.name', ['url' => $this->url, 'courses' => $courses, 'ascription_slug' => $this->ascription_slug]);
     }
 }

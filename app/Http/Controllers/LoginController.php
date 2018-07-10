@@ -88,6 +88,7 @@ class LoginController extends Controller
                                 break;
                                 case 'month_reminder':
                                 case 'week_reminder':
+                                case 'enrollment':
                                     $course = Course::find($notification->course_id);
                                     if($course == null){ return redirect('/'); }
                                     $ascription = $user->ascription;
@@ -96,16 +97,16 @@ class LoginController extends Controller
                                     $notification->save();
                                     return redirect()->route('student.show.course', [$ascription->slug, $course->slug]);
                                 break;
-                                case 'enrollment':
-        
-                                break;
                                 case 'certificate':
-        
+                                    
                                 break;
                                 case 'diploma':
         
                                 break;
-                                case 'welcome':
+                                case 'reboot':
+        
+                                break;
+                                case 'not_approved':
         
                                 break;
                             }

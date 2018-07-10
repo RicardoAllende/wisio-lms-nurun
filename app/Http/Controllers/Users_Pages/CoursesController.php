@@ -78,24 +78,32 @@ class CoursesController extends Controller
             if($user->hasCourseComplete($course->id)){
                 if($user->hasCompletedEvaluationsFromCourse($course->id)){
                     if($user->scoreInCourse($course->id) >= $course->minimum_score ){
-                        if($course->has_constancy){
-                            if( ! $user->hasCertificateNotificationFromCourse($course->id)){
-                                $recommendations = $user->nextRecommendations();
-                                // if( $recommendations->isNotEmpty() ){ // notification is in certificate notification
-                                //     $token = \Uuid::generate()->string;
-                                //     Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'recommendation']);
-                                //     Mail::to($user->email)->send(new Recommendation($token, $recommendations, $user));
-                                // }
-                                $token = \Uuid::generate()->string;
-                                Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'certificate']);
-                                Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                        if( ! $user->hasCertificateNotificationFromCourse($course->id)){ // Approved
+                            $recommendations = $user->nextRecommendations();
+                            // if( $recommendations->isNotEmpty() ){ // notification is in certificate notification
+                            //     $token = \Uuid::generate()->string;
+                            //     Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'recommendation']);
+                            //     Mail::to($user->email)->send(new Recommendation($token, $recommendations, $user));
+                            // }
+                            $token = \Uuid::generate()->string;
+                            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'certificate']);
+                            Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                        }
+                        if($course->has_diploma){
+                            $evaluation = $course->diplomaEvaluation;
+                            if($evaluation != null){ // Course is finished
+                                return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
                             }
-                            if($course->has_diploma){
-                                $evaluation = $course->diplomaEvaluation;
-                                if($evaluation != null){ // Course is finished
-                                    return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
-                                }
-                            }
+                        }
+                    } else{ // Not approved
+                        if( ! $user->hasReebotInCourse($course->id)){
+                            // Comprobar si antes no envió una notificación similar
+                            $urlLogin = route('ascription.login', $ascription_name)."?notification=".$token;
+                            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => '']);                            
+                            Mail::to($user->email)->send(new Reboot());
+                        }else{
+                            // Envío de notificación de que ya no puede hacer nuevamente el curso.
+                            // También se envían notificaciones
                         }
                     }
                 }

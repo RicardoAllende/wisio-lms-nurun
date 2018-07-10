@@ -36,6 +36,7 @@ class User extends Authenticatable
         'role_id',
         'is_validated',
         'refered_code',
+        'has_reboot',
         'ascription_id'
     ];
 
@@ -812,6 +813,12 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function hasReebotInCourse($course_id){
+        $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
+        if($pivot == null){ return false; }
+        return $pivot->has_reboot;
     }
 
 }

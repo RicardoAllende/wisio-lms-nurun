@@ -10,15 +10,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NotApproved extends Mailable
 {
     use Queueable, SerializesModels;
+    protected $route;
+    protected $course_name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($route, $course_name, $doctor_name)
     {
-        //
+        $this->route = $route;
+        $this->course_name = $course_name;
     }
 
     /**
@@ -28,6 +31,7 @@ class NotApproved extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from(env('MAIL_FROM'))
+        ->view('mails.not-approved', ['route' => $this->route, 'course_name' => $this->course_name, ]);
     }
 }

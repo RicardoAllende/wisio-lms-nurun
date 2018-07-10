@@ -28,6 +28,7 @@ class NewPlatform extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from(env('MAIL_FROM'))
+        ->view('view.name');
     }
 }
