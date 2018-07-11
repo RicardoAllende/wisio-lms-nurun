@@ -1046,7 +1046,7 @@ and (max-device-width : 1024px)
 and (orientation : landscape) {
 
   .l3{
-    width: 33.33% !impor;
+    width: 33.33% !important;
   }
 }
 

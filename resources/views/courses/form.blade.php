@@ -149,7 +149,7 @@
                               <select name="diploma_template_id" class="form-control" id="diploma_template_id">
                               @if(isset($course))
                                 <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
-                                  {{ ($course->certificate != null) ? $course->certificate->name.' (actual)' : '' }}
+                                  {{ ($course->diploma != null) ? $course->diploma->name.' (actual)' : '' }}
                                 </option>
                               @endif
                               @if(isset($templates))

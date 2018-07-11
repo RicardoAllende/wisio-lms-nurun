@@ -54,7 +54,8 @@ class CoursesController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        $slug = str_slug($request->slug);
+        // $slug = str_slug($request->slug);
+        $slug = str_replace(' ', '-', $request->slug);
         if(Course::whereSlug($slug)->count() > 0){ // Slug already exists
             return back()->withErrors(['M1'=>'El slug ya existe'])->withInput();
         }
@@ -90,7 +91,12 @@ class CoursesController extends Controller
         if($course == null){ return redirect()->route('courses.index'); }
         if($course->has_diploma){
             if(! $course->hasDiplomaEvaluation()){
-                return redirect()->route('create.diploma.evaluation', $course->id);
+                if( ! isset($_GET['form'])){
+                    return redirect()->route('create.diploma.evaluation', $course->id)
+                    ->with('evaluation-message', 'En la configuración de este curso se estableció que ofrece un diplomado, por lo que es necesario crear una evaluación, presione cancelar para cambiar esta configuración');
+                }else{
+                    return redirect()->route('courses.edit', $id);
+                }
             }
         }
         return view('courses/show',compact('course'));
@@ -126,11 +132,11 @@ class CoursesController extends Controller
         if($course == null){
             return redirect()->route('courses.index');
         }
-        $newSlug = str_slug($request->slug);
-        if($course->slug != $newSlug ){
-            $numFound = Course::where('slug', $newSlug)->count(); // If the slug already exists
+        $slug = str_replace(' ', '-', $request->slug);
+        if($course->slug != $slug ){
+            $numFound = Course::where('slug', $slug)->count(); // If the slug already exists
             if ($numFound > 0) {
-                return back()->withErrors(['error'=> 'Slug < {$newSlug} > repetido, debe ser único'])->withInput();
+                return back()->withErrors(['error'=> "Slug < {$slug} > repetido, debe ser único"])->withInput();
             }
         }
         $course->name = $request->name;
@@ -139,7 +145,7 @@ class CoursesController extends Controller
         $course->end_date = $request->end_date;
         $course->minimum_score = $request->minimum_score;
         $course->support_email = $request->support_email;
-        $course->slug = str_slug($request->slug);
+        $course->slug = $slug;
         $course->category_id = $request->category_id;
         $course->has_constancy = $request->has_constancy;
         if($request->filled('certificate_template_id')){

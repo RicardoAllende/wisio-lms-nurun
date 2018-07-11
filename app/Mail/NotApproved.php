@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class NotApproved extends Mailable
+class NotApproved extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $route;

@@ -52,7 +52,7 @@ class User extends Authenticatable
     ];
 
     public function courses(){
-        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score', 'score_in_diplomado')->withTimestamps();
+        return $this->belongsToMany('App\Course')->withPivot('id', 'status', 'score', 'score_in_diplomado', 'has_reboot')->withTimestamps();
     }
 
     public function coursesFromAscription(Ascription $ascription){
@@ -82,7 +82,7 @@ class User extends Authenticatable
 
     public function completedCourses(){
         return $this->belongsToMany('App\Course')->wherePivot('status', 1)
-        ->withPivot('id', 'status', 'score', 'score_in_diplomado')->withTimestamps();
+        ->withPivot('id', 'status', 'score', 'score_in_diplomado', 'has_reboot')->withTimestamps();
     }
 
     public function resources(){
@@ -815,10 +815,28 @@ class User extends Authenticatable
         return false;
     }
 
-    public function hasReebotInCourse($course_id){
+    public function hasRebootInCourse($course_id){
         $pivot = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
         if($pivot == null){ return false; }
         return $pivot->has_reboot;
+    }
+
+    public function hasNotApprovedNotification($course_id){
+        if($this->notifications()->where('course_id', $course_id)->where('type', 'not_approved')
+            ->count() > 0 )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public function hasSecondNotApprovedNotification($course_id){
+        if($this->notifications()->where('course_id', $course_id)->where('type', 'second_not_approved')
+            ->count() > 0 )
+        {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -11,6 +11,7 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\DB;
 use App\Notification;
 use App\Course;
+use App\CourseUser;
 use App\Ascription;
 
 class LoginController extends Controller
@@ -82,9 +83,11 @@ class LoginController extends Controller
                     $notification = Notification::whereCode($notification)->first();
                     if($notification != null){
                         if($notification->user_id == $user->id){
+                            $notification->accessed = 1;
+                            $notification->save();
                             switch($notification->type){
                                 case 'recommendation':
-    
+                                    // User is redirected normally
                                 break;
                                 case 'month_reminder':
                                 case 'week_reminder':
@@ -92,22 +95,31 @@ class LoginController extends Controller
                                     $course = Course::find($notification->course_id);
                                     if($course == null){ return redirect('/'); }
                                     $ascription = $user->ascription;
+                                    
                                     if($ascription == null){ return redirect('/'); }
-                                    $notification->accessed = 1;
-                                    $notification->save();
                                     return redirect()->route('student.show.course', [$ascription->slug, $course->slug]);
                                 break;
                                 case 'certificate':
-                                    
-                                break;
                                 case 'diploma':
-        
-                                break;
-                                case 'reboot':
-        
+                                    $ascription_slug = $user->ascription->slug;
+                                    return redirect()->route('certificates.list', $ascription_slug);
                                 break;
                                 case 'not_approved':
-        
+                                    $course = Course::find($notification->course_id);
+                                    $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $notification->course_id)->first();
+                                    if($pivot != null){
+                                        if( ! $pivot->has_reboot){
+                                            $user->resetAdvanceInCourse($course->id);
+                                            $pivot->has_reboot = 1;
+                                            $pivot->score = null;
+                                            $pivot->save();
+                                            $ascription_slug = $user->ascription->slug;
+                                            return redirect()->route('show.evaluation.course', [$ascription_slug, $course->slug]);
+                                        }
+                                    }
+                                break;
+                                case 'second_not_approved':
+                                    // No special action
                                 break;
                             }
                         }

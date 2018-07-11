@@ -50,28 +50,28 @@ Registro
 
     <div class="reg col s12 l5 offset-l2">
       {!! Form::label('firstname', 'Nombre:',['for'=>'firstname']); !!}
-      {!! Form::text('firstname',null,['class'=>'validate','placeholder'=>'Nombre', 'id' => 'nombre', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
+      {!! Form::text('firstname',null,['class'=>'validate','placeholder'=>'Nombre', 'required'=>'', 'id' => 'nombre', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
       <div class="row">
         <div class="reg col s12 l6">
           {!! Form::label('paterno', 'Apellido paterno:',['for'=>'paterno']); !!}
-          {!! Form::text('paterno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'paterno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
+          {!! Form::text('paterno',null,['class'=>'validate','placeholder'=>'Apellidos', 'required'=>'', 'id'=> 'paterno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
 
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('materno', 'Apellido materno:',['for'=>'paterno']); !!}
-          {!! Form::text('materno',null,['class'=>'validate','placeholder'=>'Apellidos', 'id'=> 'materno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
+          {!! Form::text('materno',null,['class'=>'validate','placeholder'=>'Apellidos', 'required'=>'', 'id'=> 'materno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
 
         </div>
       </div>
       <div class="row">
         <h6 class="upscase">Sexo</h6>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="gender" type="radio" id="hombre" value="1"  />
+          <input class="with-gap" name="gender" type="radio" id="hombre" value="1" required />
           <label for="hombre">Hombre</label>
 
         </div>
         <div class="reg col s12 l6">
-          <input class="with-gap" name="gender" type="radio" id="mujer" value="2" />
+          <input class="with-gap" name="gender" type="radio" id="mujer" value="2" required />
           <label for="mujer">Mujer</label>
         </div>
       </div>
@@ -111,11 +111,11 @@ Registro
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
           <div class="reg col s6">
-            <input class="with-gap" name="consultation_type" type="radio" value="1" data-value="privada" id="privado" />
+            <input class="with-gap" name="consultation_type" required type="radio" value="1" data-value="privada" id="privado" />
             <label for="privado">Privado</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="2" data-value="publica" id="publica" />
+            <input class="with-gap" name="consultation_type" required type="radio" value="2" data-value="publica" id="publica" />
             <label for="publica">Pública</label><br><br>
-            <input class="with-gap" name="consultation_type" type="radio" value="3" data-value="mixta" id="mixta" />
+            <input class="with-gap" name="consultation_type" required type="radio" value="3" data-value="mixta" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
           <div class="reg col s6">
@@ -162,11 +162,11 @@ Registro
         <div class="reg col s12 l5 offset-l2">
 
           <div class="reg col s12 l6">
-            <input type="checkbox" id="test5" />
+            <input type="checkbox" id="test5" required />
             <label for="test5">Conozco y acepto los <a href="#">Términos de uso </a></label>
           </div>
           <div class="reg col s12 l6">
-            <input type="checkbox" id="test6" />
+            <input type="checkbox" id="test6" required />
             <label for="test6">Conozco y acepto la <a href="#">Política de privacidad </a></label>
           </div>
         </div>

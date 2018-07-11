@@ -174,14 +174,6 @@ class UserController extends Controller
                     return false;
                 }
             }
-
-            if(isset($jsonResponse->{'message'})){
-                $message = $jsonResponse->{'message'};
-                if($message == 'Unauthenticated.'){
-
-                }
-                $this->sepServicesAreDown = true;
-            }
             return false;
         } catch (\Exception $ex) {
             $this->sepServicesAreDown = true;
