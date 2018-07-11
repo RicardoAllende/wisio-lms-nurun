@@ -59,6 +59,11 @@ class CoursesController extends Controller
         if(Course::whereSlug($slug)->count() > 0){ // Slug already exists
             return back()->withErrors(['M1'=>'El slug ya existe'])->withInput();
         }
+        $description = $request->description;
+        if($this->hasScripts($description)){
+            return back()->withInput()->withErrors(['error' => 'Existe un script en el resumen']);
+        }
+        $description = $this->escapeString($description);
         $course = Course::create($input);
         $course->slug = str_slug($request->slug);
         $course->save();
@@ -139,8 +144,13 @@ class CoursesController extends Controller
                 return back()->withErrors(['error'=> "Slug < {$slug} > repetido, debe ser único"])->withInput();
             }
         }
+        $description = $request->description;
+        if($this->hasScripts($description)){
+            return back()->withInput()->withErrors(['error' => 'Existe un script en el resumen']);
+        }
+        $description = $this->escapeString($description);
         $course->name = $request->name;
-        $course->description = $request->description;
+        $course->description = $description;
         $course->start_date = $request->start_date;
         $course->end_date = $request->end_date;
         $course->minimum_score = $request->minimum_score;
@@ -285,9 +295,29 @@ class CoursesController extends Controller
 
     public function showReportAllDiplomas(){
         $courses = Course::where('has_diploma', 1)->get();
-        // return $courses;
-        // dd($courses);
         return view('courses.diploma-report-all', compact('courses'));
+    }
+
+    private function hasScripts($string){
+        if(strpos($string, 'script') === false){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    public function escapeString($string){
+        return $this->dropPTag($string);
+    }
+
+    public function dropPTag($string){
+        $string = str_replace("<p>", "", $string);
+        if(substr_count($string, "</p>") > 1){
+            $string = str_replace("</p>", "<br>", $string);
+        }else{
+            $string = str_replace("</p>", "", $string);
+        }
+        return $string;
     }
 
     public function showDiplomaReport($course_id){

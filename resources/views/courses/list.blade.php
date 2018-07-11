@@ -50,9 +50,9 @@
                                 <td>
                                   @if($course->hasRelations())
                                     @if($course->enabled == 1)
-                                      <a href="{{ route('disable.course', $course->id) }}" class="btn btn-danger btn-round" >Deshabilitar</a>
+                                      <!--<a href="{{ route('disable.course', $course->id) }}" class="btn btn-danger btn-round" >Deshabilitar</a>-->
                                     @else
-                                      <a href="{{ route('enable.course', $course->id) }}" class="btn btn-info btn-round" >Habilitar</a>
+                                      <!--<a href="{{ route('enable.course', $course->id) }}" class="btn btn-info btn-round" >Habilitar</a>-->
                                     @endif
                                   @else
                                     {!! Form::open(['method'=>'DELETE','route'=>['courses.destroy',$course->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}

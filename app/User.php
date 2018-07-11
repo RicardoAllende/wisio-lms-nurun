@@ -106,7 +106,7 @@ class User extends Authenticatable
         $diplomas = $this->diplomas;
         $availableDiplomas = collect();
         foreach($diplomas as $diploma){
-            if($diploma->score_in_diplomado){
+            if($diploma->pivot->score_in_diplomado >= $diploma->minimum_diploma_score){
                 $availableDiplomas->push($diploma);
             }
         }

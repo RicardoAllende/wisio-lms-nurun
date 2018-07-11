@@ -48,7 +48,7 @@
                         <p>Slug: {{ $course->slug }}</p>
                         <p>Evaluaciones finales: {{ $course->finalEvaluations()->count() }}</p>
                         <h4 class="media-heading">Descripción del curso</h4>
-                        <p>{{$course->description}}.</p>
+                        <p>{!! $course->description !!}</p>
                         <p>Fecha de inicio: {{ $course->start_date }}</p>
                         <p> Fecha de término: {{ $course->end_date }}</p>
                     </div>

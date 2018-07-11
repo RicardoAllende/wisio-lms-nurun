@@ -48,7 +48,7 @@
                           <div class="form-group">
                             {!! Form::label('description', 'Descripción:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::text('description',null,['class'=>'form-control','placeholder'=>'Descripción del curso']) !!}
+                              {!! Form::textArea('description',null,['class'=>'form-control', 'id' => 'description', 'required' => '']) !!}
                             </div>
                           </div>
                           <div class="form-group">
@@ -229,7 +229,9 @@
 
 @section('scripts')
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
+  CKEDITOR.replace('description');
   Dropzone.options.imageUpload  = {            
             paramName: "file", 
             // The name that will be used to transfer the file            
