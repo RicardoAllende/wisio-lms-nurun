@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
-            $table->string('support_email')->default('soporte@paecmexico.com');
+            $table->string('support_email')->default('soporte@academia.mx');
             $table->float('minimum_score', 10, 5)->default(8);
             $table->boolean('has_constancy')->default(false);
             $table->boolean('enabled')->default(true);

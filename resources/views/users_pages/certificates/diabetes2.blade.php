@@ -11,6 +11,7 @@
 
         body{
             font-family: "Lato", Helvetica, sans-serif;
+            text-transform: uppercase;
         }
 
         #nombre1{

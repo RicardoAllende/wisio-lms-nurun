@@ -21,6 +21,14 @@ use App\Notification;
 
 class UsersController extends Controller
 {
+    public $tokenUrl = "https://dev.cedula.nurun.com.mx/api/v1/token?";
+    public $client_id = "client_id=3";
+    public $client_secret = "client_secret=Wpa2BbV4tNY69V5BOuWJALJxbvc2uLc9N7jd5Cqz";
+    public $licenseService = "http://dev.cedula.nurun.com.mx/api/v1/license-number/";
+    public $apiMessage = "";
+    public $notA1 = false;
+    public $sepServicesAreDown = false;
+
     /**
      * Display a listing of the resource.
      *
@@ -28,17 +36,6 @@ class UsersController extends Controller
      */
     public function index(){
         return view('Users/list');
-        // if (isset($_GET['type'])) {
-        //     $type = $_GET['type'];
-        //     if ($type == 'doctors') {
-        //         $type = [config('constants.roles.doctor')];
-        //     }
-        //     $role = Role::where('name', $type)->pluck('id');
-        //     $users = User::whereIn('role_id', $role)->paginate(15);
-        // }else{
-        //     $users = User::paginate(15);
-        // }
-        // return view('Users/list', compact('users'));
     }
 
     /**
@@ -237,11 +234,14 @@ class UsersController extends Controller
             return $user->firstname.' '.$user->lastname; 
         })
         ->addColumn('ascription_name', function ($user) {
-            return "Nombre de la adscripción";
+            $ascription = $user->ascription;
+            if($ascription == null){
+                return "";
+            }
             return $user->ascription->name;
-            return "";
         })
         ->addColumn('actions', function ($user) {
+            $user = User::find($user->id);
             if($user->enabled == 1){
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
             }else{
@@ -403,13 +403,136 @@ class UsersController extends Controller
     public function getDataForDiplomado($course_id){
         $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado');
         return \DataTables::of($users)
-        // ->addColumn('score', function ($element) {
-        //     $user = User::find($element->user_id);
-        //     $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
-        //     return  $status; 
-        // })
-        // ->rawColumns(['status', 'userLink'])
         ->make(true);
+    }
+    
+    public function usersNotValidated(){
+        return view('users.not-validated');
+    }
+
+    public function validateUser($user_id){
+        $user = User::find($user_id);
+        $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
+        if( ! $response ){
+            if( $this->sepServicesAreDown ){
+                return back()->with('error', 'Los servicion aún están caídos');
+            }else{
+                $this->sepServicesAreDown = false;
+                $user->enabled = 0;
+                $user->save();
+                return back()->withErrors(['error'=>'Usuario no validado, se ha desactivado']);
+            }
+        }
+        $user->is_validated = 1;
+        $user->save();
+        return back();
+    }
+    
+    public function getDataUsersNotValidated(){
+        $users = User::where('is_validated', 0)->where('enabled', 1);
+        return \DataTables::of($users)
+        ->addColumn('validate', function ($user){
+            $button = "<a href='".route('check.user.license', $user->id)."' class='btn btn-info btn-round'>Verificar Cédula</a>";
+            return $button;
+            // $this->verifyProfessionalLicense($user->professional_license);
+        })
+        ->addColumn('disableUser', function ($user){
+            $user = User::find($user->id);
+            if($user->enabled == 1){
+                return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
+            }else{
+                return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
+            }
+        })
+        ->addColumn('ascription_name', function ($user) {
+            $ascription = $user->ascription;
+            if($ascription == null){
+                return "";
+            }
+            return $user->ascription->name;
+        })
+        ->rawColumns(['validate', 'disableUser', 'ascription_name'])->make(true);
+    }
+
+    public function verifyProfessionalLicense($license, $name){
+        try {
+            $accessToken = $this->getAccessToken();
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->licenseService.$license,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: Bearer ".$accessToken,
+                    "Cache-Control: no-cache",
+                    "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                return false;
+            }
+            $jsonResponse = json_decode($response);
+            if(isset($jsonResponse->{'results'})){
+                $numResults = $jsonResponse->{'results'};
+                if($numResults == '1'){
+                    $license = $jsonResponse->{'licenses'};
+                    $license = $license[0];
+                    $licenseName = $license->{'name'};
+                    $licenseMiddleName = $license->{'middle_name'};
+                    $licenseLastName = $license->{'last_name'};
+                    $license_type = $license->{'license_type'};
+                    $name = $licenseName.' '.$licenseMiddleName.' '.$licenseLastName;
+                    if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
+                        $this->apiMessage = "El nombre no coincide";
+                        return false;
+                    }
+                    if(mb_strtoupper($license_type) != 'A1'){
+                        $this->apiMessage = "Su cédula no es del tipo A1";
+                        $this->notA1 = true;
+                        return false;
+                    }
+                    return true;
+
+                }else{
+                    return false;
+                }
+            }
+            return false;
+        } catch (\Exception $ex) {
+            $this->sepServicesAreDown = true;
+            return false;
+        } catch (\Throwable $ex) {
+            $this->sepServicesAreDown = true;
+            return false;
+        }
+        
+    }
+
+    public function getAccessToken(){
+        $tokenUrl = $this->tokenUrl.$this->client_id."&".$this->client_secret;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $tokenUrl);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, '1.1');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        $result = json_decode($output);
+        if(isset($result->{'access_token'})){
+            return $token = $result->{'access_token'};
+        }
+        return "-";
     }
 
 }

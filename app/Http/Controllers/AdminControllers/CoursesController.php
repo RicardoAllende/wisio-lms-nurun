@@ -148,6 +148,7 @@ class CoursesController extends Controller
         $course->slug = $slug;
         $course->category_id = $request->category_id;
         $course->has_constancy = $request->has_constancy;
+        $course->credits = $request->credits;
         if($request->filled('certificate_template_id')){
             $id = $request->certificate_template_id;
             $template = CertificateTemplate::find($id);

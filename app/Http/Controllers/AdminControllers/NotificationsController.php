@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Notification;
+use App\Setting;
 
 class NotificationsController extends Controller
 {
@@ -39,6 +40,22 @@ class NotificationsController extends Controller
         }
         $notifications = $user->notifications;
         return view('notifications.report.user-notifications', compact('notifications', 'user'));
+    }
+
+    public function settings(){
+        $settings = Setting::first();
+        return view('notifications.set-settings', compact('settings'));
+        // return $settings;
+    }
+
+    public function updateSettings(Request $request){
+        // dd($request);
+        $settings = Setting::first();
+        $settings->mailing = $request->mailing;
+        $settings->maxMonthReminders = $request->maxMonthReminders;
+        $settings->maxWeekReminders = $request->maxWeekReminders;
+        $settings->save();
+        return redirect()->route('form.settings');
     }
 
 }

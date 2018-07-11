@@ -132,7 +132,6 @@ Registro
         <div class="col s6">
           {!! Form::label('state_id', 'Estado:',['class'=>'control-label col-sm-2']); !!}
             <select name="state_id" id="state_id" required>
-                <option value="">Seleccione un estado</option>
                 @inject('usersController','App\Http\Controllers\Users_Pages\UserController')
                 @foreach($usersController->getAllStates() as $state)
                     <option value="{{$state->id}}"> {{$state->name}} </option>
@@ -228,11 +227,7 @@ var password = document.getElementById('passwd');
 var meter = document.getElementById('password-strength-meter');
 var text = document.getElementById('password-strength-text');
 
-// $('#passwd').change(function(){
-//   alert('Cambió');
-// });
 password.addEventListener('input', function() {
-  // alert('Input');
     var val = password.value;
     var result = zxcvbn(val);
 

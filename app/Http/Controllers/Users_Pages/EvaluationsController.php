@@ -12,6 +12,7 @@ use App\Ascription;
 use App\CourseUser;
 use App\Course;
 use App\Module;
+use App\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 

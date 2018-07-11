@@ -438,7 +438,7 @@ class User extends Authenticatable
     public function numCompletedModulesOfCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return 0; }
-        return $this->completedModules->whereIn('id', $course->modules->pluck('id'))->count();
+        return $this->completedModules()->whereIn('modules.id', $course->modules()->pluck('id'))->count();
     }
 
     public function hasCompletedTheModulesOfCourse($course_id){

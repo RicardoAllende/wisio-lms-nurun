@@ -81,5 +81,5 @@ return [
         'certificate' => '/storage/ascriptions/certificado.jpg'
     ],
 
-    'support_email' => 'soporte@paecmexico.com'
+    'support_email' => 'soporte@academia.mx'
 ];

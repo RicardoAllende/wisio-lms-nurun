@@ -81,7 +81,14 @@
                           <div class="form-group">
                             {!! Form::label('minimum_diploma_score', 'Calificación mínima del diplomado:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
-                              {!! Form::number('minimum_diploma_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1']) !!}
+                              {!! Form::number('minimum_diploma_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1','placeholder' => "Aplica en caso de que el curso ofrezca un diplomado" ]) !!}
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            {!! Form::label('credits', 'Créditos:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              {!! Form::number('credits',null,['class'=>'form-control', 'required'=>'', 'placeholder'=>'Créditos que ofrece el curso']) !!}
                             </div>
                           </div>
 
@@ -174,7 +181,7 @@
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
-                            <a href="/courses" class="btn btn-default">Cancelar</a>
+                            <a href="{{ route('courses.index') }}" class="btn btn-default">Cancelar</a>
                               {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
                               @if(isset($course))
                                 @if($course->attachments->where('type', 'main_img')->count() > 0)

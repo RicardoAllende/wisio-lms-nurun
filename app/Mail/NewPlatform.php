@@ -29,6 +29,6 @@ class NewPlatform extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('view.name');
+        ->view('email.new-platform');
     }
 }

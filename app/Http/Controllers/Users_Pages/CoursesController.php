@@ -85,8 +85,9 @@ class CoursesController extends Controller
                         if( ! $user->hasCertificateNotificationFromCourse($course->id)){ // Approved
                             $recommendations = $user->nextRecommendations();
                             $token = \Uuid::generate()->string;
+                            $url = "";
                             // Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'certificate']);
-                            Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                            // Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
                         }
                         if($course->has_diploma){
                             $evaluation = $course->diplomaEvaluation;
@@ -101,7 +102,7 @@ class CoursesController extends Controller
                                 $token = \Uuid::generate()->string;
                                 // Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'not_approved']);                            
                                 $route = route('ascription.login', $ascription_slug)."?notification=".$token;
-                                Mail::to($user->email)->send(new NotApproved($route, $course->name, $user->name)); // It has course reboot
+                                // Mail::to($user->email)->send(new NotApproved($route, $course->name, $user->name)); // It has course reboot
                             }
                         }else{
                             if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course

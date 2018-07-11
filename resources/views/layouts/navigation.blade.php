@@ -30,6 +30,7 @@
                         <a href=""><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{ route('users.index') }}">Listado de usuarios</a></li>
+                            <li><a href="{{ route('users.not.validated') }}">Usuarios con cédula no validada</a></li>
                             <li><a href="{{ route('users.create') }}">Crear usuario</a></li>
                         </ul>
                     </li>
@@ -71,7 +72,7 @@
                         <ul class="nav nav-second-level collapse">
                             <li><a href="{{ route('notifications.list.users') }}">Usuarios con notificaciones</a></li>
                             <li><a href="{{ route('call.list')}}">Lista de usuarios por llamar</a></li>
-                            <!--<li><a href="#">Configuraciones</a></li>-->
+                            <li><a href="{{ route('form.settings') }}">Configuraciones</a></li>
                         </ul>
                     </li>
                 @endif

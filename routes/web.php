@@ -59,6 +59,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/enable-user/{user_id}', 'AdminControllers\UsersController@enableUser')->name('enable.user');
     Route::get('/disable-course/{course_id}', 'AdminControllers\CoursesController@disableCourse')->name('disable.course');
     Route::get('/enablecourse/{course_id}', 'AdminControllers\CoursesController@enableCourse')->name('enable.course');
+    Route::get('/users/not-validated', 'AdminControllers\UsersController@usersNotValidated')->name('users.not.validated');
+    Route::get('/users/verify-professional-license/{user_id}', 'AdminControllers\UsersController@validateUser')->name('check.user.license');
+    Route::get('/notification-settings', 'AdminControllers\NotificationsController@settings')->name('form.settings');
+    Route::post('/notification-settings', 'AdminControllers\NotificationsController@updateSettings')->name('update.settings');
     Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');  
     Route::post('/upload-resource', 'AdminControllers\ResourcesController@uploadResource')->name('upload.resource');
     Route::resource('modules/{module_id}/resources', 'AdminControllers\ResourcesController');
@@ -100,7 +104,8 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('get.users.for.ascription.enrollment');
     Route::get('/get-data-for-notification', 'AdminControllers\UsersController@getDataForNotifications')->name('get.users.for.notification');
     Route::get('/get-users-call-list', 'AdminControllers\UsersController@getUsersCallList')->name('get.users.call.list');
-    Route::get('get-users-data-for-diplomado/{diploma_id}', 'AdminControllers\UsersController@getDataForDiplomado')->name('get.users.data.diplomado');
+    Route::get('/get-users-data-for-diplomado/{diploma_id}', 'AdminControllers\UsersController@getDataForDiplomado')->name('get.users.data.diplomado');
+    Route::get('/get-users-not-validated', 'AdminControllers\UsersController@getDataUsersNotValidated')->name('get.data.users.not.validated');
 
     Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
     Route::resource('/options','AdminControllers\OptionsController');
