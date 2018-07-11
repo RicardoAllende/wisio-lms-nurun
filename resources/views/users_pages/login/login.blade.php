@@ -51,7 +51,7 @@ Cursos
          </div>
 
          @include('users_pages.courses.newest')
-         
+
 @stop
 @section('extrajs')
 <script>

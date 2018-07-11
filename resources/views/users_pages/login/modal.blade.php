@@ -1,5 +1,5 @@
 
-<div id="modal1" class="modal">
+<div id="modal1"  class="modal">
     <a class="waves-effect waves-light btn-small cerrarModal modal-close" style="color:white !important;">X</a>
     <div class="modal-content">
         <div class="modal-header center">

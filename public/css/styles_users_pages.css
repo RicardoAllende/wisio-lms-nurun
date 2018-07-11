@@ -584,6 +584,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     text-transform: uppercase;
     color:#2157A1;
     padding-top: 40px;
+    word-break: break-word;
 }
 
 .titulo-academia2{
@@ -1216,26 +1217,29 @@ padding-top:15px !important;
       font-weight: 600;
       display: inline-block;
   }
-
+  .contenido{
+    height: 100% !important;
+  }
   .iconcourse {
-      position: absolute;
-      font-size: 1.5rem;
-      top:0px;
-      right: 5%;
-      width: 10%;
-      padding-left: 5px;
-      display: inline-block;
-
+    position: absolute;
+    font-size: 1.8rem;
+    top: 0px;
+    right: 5%;
+    width: 15%;
+    display: inline-block;
   }
 
-  .titulo-academia{
-      position: absolute;
-      top:50px;
-      left: 10px;
-      text-transform: uppercase;
-      color:#2157A1;
-      padding-top: 40px;
-  }
+  .categoria-academia {
+    position: absolute;
+    top: 30px;
+    left: 5px;
+    width: 90%;
+    text-transform: uppercase;
+    text-align: right;
+    font-size: 0.8em;
+    font-weight: 600;
+    display: inline-block;
+}
 
   nav .brand-logo {
   width: 50%;

@@ -91,6 +91,18 @@
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/configModal.js') }}"></script>
       <script src="{{ asset('/js/js_users_pages/checkMobile.js')}}"></script>
       <script type="text/javascript" src="{{ asset('/js/js_users_pages/script.js')}}"></script>
+      <script>
+      $(document).ready(function(){
+        $('#modal1').modal({
+            dismissible: true, // Modal can be dismissed by clicking outside of the modal
+            ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+              $(modal).scrollTop(0);
+            }
+          }
+        );
+      });
+
+      </script>
       @if(session()->has('msj'))
       <script>
         var toastHTML = "{{ session('msj') }}"
