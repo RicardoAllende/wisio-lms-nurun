@@ -27,10 +27,14 @@ var donde = $('body');
   $("#font-up,#font-upMob").click(function(){
     contUp++;
   	var sizeFuenteActual = donde.css('font-size');
+    var sizeFontA = $('a').css('font-size');
  	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
+  var sizeFuenteA = parseFloat(sizeFuenteActual, 10);
     var sizeFuenteNuevo = sizeFuenteActualNum*1.2;
+    var sizeFuenteANuevo = sizeFuenteActualNum*0.8;
     if(contUp < 4){
       donde.css('font-size', sizeFuenteNuevo);
+      $('a').css('font-size', sizeFuenteANuevo);
     }
 
 	return false;
@@ -40,10 +44,14 @@ var donde = $('body');
   $("#font-down,#font-downMob").click(function(){
     contDown++;
   	var sizeFuenteActual = donde.css('font-size');
+    var sizeFontA = $('a').css('font-size');
  	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
+  var sizeFuenteA = parseFloat(sizeFuenteActual, 10);
     var sizeFuenteNuevo = sizeFuenteActualNum*0.8;
+    var sizeFuenteANuevo = sizeFuenteActualNum*0.8;
     if(contDown < 4){
       donde.css('font-size', sizeFuenteNuevo);
+      $('a').css('font-size', sizeFuenteANuevo);
     }
 
 	return false;
