@@ -62,8 +62,8 @@
               <div class="col-sm-10">
               <select name="ascription_id" id="ascription_id" class="form-control" required>
                 @if(isset($user))
-                  @if($user->hasAscriptions())
-                    <option value="{{$user->ascription()->id}}">{{ $user->ascription()->name }} (actual)</option>
+                  @if($user->ascription != null)
+                    <option value="{{$user->ascription->id}}">{{ $user->ascription->name }} (actual)</option>
                   @else
                     <option value="">Seleccionar</option>
                   @endif
@@ -83,7 +83,7 @@
               <div class="col-sm-10">
               <select name="role_id" id="role_id" class="form-control" required>
                 @if(isset($user))
-                  <option value="{{$user->role->id}}">{{ $user->role->name }} (actual)</option>
+                  <option value="{{$user->role->id}}">{{ $user->role->description }} (actual)</option>
                 @else
                   <option value="">Seleccionar</option>
                 @endif

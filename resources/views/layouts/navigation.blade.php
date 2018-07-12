@@ -44,11 +44,11 @@
                         </ul>
                     </li>
                     <li class="">
-                        <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Adscripciones</span></a>
+                        <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i><span class="nav-label">Adscripciones</span></a>
                     </li>
-                    <!--<li class="">
-                        <a href="{{ route('ascriptions.index') }}"><i class="fa fa-certificate"></i> <span class="nav-label">Diplomados</span></a>
-                    </li>-->
+                    <li>
+                        <a href="{{ route('invite.form') }}"><i class="fa fa-envelope-o"></i><span class="nav-label">Crear enlace de invitación</span></a>
+                    </li>
                     <li class="">
                         <a href="{{ route('categories.index') }}"><i class="fa fa-folder"></i> <span class="nav-label">Categorías</span></a>
                     </li>

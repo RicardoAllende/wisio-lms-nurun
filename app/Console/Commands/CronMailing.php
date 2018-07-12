@@ -9,7 +9,11 @@ use App\Ascription;
 use App\Notification;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use App\FakerMail;
+use App\Setting;
+use App\Mail\MonthReminder;
+use App\Mail\Test;
+use AWS;
+use Illuminate\Support\Facades\DB;
 
 class CronMailing extends Command
 {
@@ -28,7 +32,7 @@ class CronMailing extends Command
      *
      * @var string
      */
-    protected $description = 'Mailing service Academia Sanofi';
+    protected $description = 'Mailing service for Academia Sanofi';
 
     /**
      * Create a new command instance.

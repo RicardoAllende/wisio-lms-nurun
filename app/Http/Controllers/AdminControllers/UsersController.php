@@ -427,14 +427,32 @@ class UsersController extends Controller
         $user->save();
         return back();
     }
+
+    public function verifyAllUsers(){
+        $users = User::where('is_validated', 0)->where('enabled', 1)->cursor();
+        foreach($users as $user){
+            $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
+            if( ! $response ){
+                if( $this->sepServicesAreDown ){
+                    return back()->withError(['error' => 'Los servicion aún están caídos']);
+                }else{
+                    $this->sepServicesAreDown = false;
+                    $user->enabled = 0;
+                    $user->save();
+                }
+            }
+            $user->is_validated = 1;
+            $user->save();
+        }
+        return back();
+    }
     
     public function getDataUsersNotValidated(){
-        $users = User::where('is_validated', 0)->where('enabled', 1);
+        $users = User::where('is_validated', 0)->where('enabled', 1)->where('role_id', 1);
         return \DataTables::of($users)
         ->addColumn('validate', function ($user){
             $button = "<a href='".route('check.user.license', $user->id)."' class='btn btn-info btn-round'>Verificar Cédula</a>";
             return $button;
-            // $this->verifyProfessionalLicense($user->professional_license);
         })
         ->addColumn('disableUser', function ($user){
             $user = User::find($user->id);
@@ -533,6 +551,20 @@ class UsersController extends Controller
             return $token = $result->{'access_token'};
         }
         return "-";
+    }
+
+    public function inviteForm(){
+        $ascriptions = Ascription::all();
+        return view('users.invite', compact('ascriptions'));
+    }
+
+    public function inviteResult(Request $request){
+        if($request->filled('code')){            
+            $route = route('show.register.form.pharmacy.with.code', [$request->ascription_slug, $request->code]);
+        }else{
+            $route = route('show.register.form.pharmacy', $request->ascription_slug);
+        }
+        return view('users.invite', compact('route'));
     }
 
 }

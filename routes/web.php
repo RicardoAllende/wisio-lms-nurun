@@ -7,14 +7,30 @@ Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
-Route::get('/setmodulescompleted', function(){
-  $i = 1;
-  for($i = 2; $i < 9; $i++){
-    App\Course::find($i)->setModulesComplete();
-    echo "{$i} terminado";
-  }
-  return;
-});
+// Route::get('/setmodulescompleted', function(){
+//   $i = 1;
+//   for($i = 2; $i < 9; $i++){
+//     App\Course::find($i)->setModulesComplete();
+//     echo "{$i} terminado";
+//   }
+//   return;
+// });
+
+// Route::get('/modulos-sin-recursos', function(){
+//   $modules = App\Module::all();
+//   foreach($modules as $module){
+//     if( ! $module->hasResources()){
+//       echo "Módulo sin recursos {$module->id}<br>";
+//     }
+//   }
+//   $courses = App\Course::cursor();
+//   foreach($courses as $course){
+//     if($course->finalEvaluations()->count() == 0){
+//       echo "Curso sin evaluaciones finales {$course->id}<br>";
+//     }
+//   }
+//   echo "Finalizado";
+// });
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
@@ -61,6 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/enablecourse/{course_id}', 'AdminControllers\CoursesController@enableCourse')->name('enable.course');
     Route::get('/users/not-validated', 'AdminControllers\UsersController@usersNotValidated')->name('users.not.validated');
     Route::get('/users/verify-professional-license/{user_id}', 'AdminControllers\UsersController@validateUser')->name('check.user.license');
+    Route::get('/users/verify-all-users', 'AdminControllers\UsersController@verifyAllUsers')->name('verify.all.users');
     Route::get('/notification-settings', 'AdminControllers\NotificationsController@settings')->name('form.settings');
     Route::post('/notification-settings', 'AdminControllers\NotificationsController@updateSettings')->name('update.settings');
     Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');  
@@ -86,6 +103,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/categories','AdminControllers\CategoriesController');
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
     Route::get('/users/reset-default-password-to/{user}', 'AdminControllers\UsersController@resetDefaultPassword')->name('reset.default.password');
+
+    Route::get('/create-invite-link', 'AdminControllers\UsersController@inviteForm')->name('invite.form');
+    Route::post('/create-invite-link', 'AdminControllers\UsersController@inviteResult')->name('request.invite.form');
 
     Route::group(['prefix' => '/notifications'], function(){
       Route::get('/call-list', 'AdminControllers\NotificationsController@callList')->name('call.list');
@@ -129,7 +149,10 @@ Route::group(['middleware' => ['auth']], function () {
       Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
       Route::get('/user/{user_id}', 'AdminControllers\UsersController@showReport')->name('show.user.report');
     });
-
+    
+    Route::get('/tablas', function(){ 
+      return view('email.course-completion');
+    });
 
     // API Tags
     Route::post('/api/tags/create', 'AdminControllers\TagsController@store');
@@ -179,9 +202,6 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });
-Route::get('/tablas', function(){ 
-  return view('email.course-completion');
- });
 Route::post('/tablas', 'FakerMailController@sql')->name('sql.form');
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 Route::get('/recuperar-contrasena', 'LoginController@forgotPassword')->name('forgot.password');

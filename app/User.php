@@ -232,14 +232,6 @@ class User extends Authenticatable
         }
     }
 
-    // public function hasAscription(){
-    //     if ($this->ascriptions->count() > 0) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
     public function role(){
         return $this->belongsTo("App\Role");
     }
@@ -406,7 +398,7 @@ class User extends Authenticatable
         }else{
             $modules->push($modulesId->first());
         }
-        return $modules->contains($module_id);        
+        return $modules->contains($module_id);
     }
 
     public function diplomaModuleInList($course, $module_id){

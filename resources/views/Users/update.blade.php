@@ -23,6 +23,17 @@ Actualizacion de información
       {!! Form::label('email', 'Correo electrónico:',['class'=>'control-label col-sm-2']); !!}
       {!! Form::label('email', $user->email ,['class'=>'form-control' ]) !!}
     </div>
+
+    <div class="reg col s12 l6 offset-l3">
+      {!! Form::label('firstname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
+      {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', , 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+    </div>
+    <div class="reg col s12 l6 offset-l3">
+        {!! Form::label('lastname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
+        {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', , 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+    </div>
+
+
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('gender', 'Género:',['class'=>'control-label col-sm-2']); !!}
       {!! Form::select('gender', ['' => 'Seleccionar género', '2' => 'Femenino', '1' => 'Masculino'], $user->enum_gender , ['class' => '', 'required' => '']) !!}

@@ -35,7 +35,7 @@ class Module extends Model
     }
 
     public function hasEvaluations(){
-        if ($this->evaluations->count() > 0) {
+        if ($this->evaluations()->count() > 0) {
             return true;
         } else {
             return false;
@@ -99,7 +99,7 @@ class Module extends Model
     }
 
     public function hasResources(){
-        if ($this->resources->count() > 0) {
+        if ($this->resources()->count() > 0) {
             return true;
         } else {
             return false;
@@ -194,7 +194,7 @@ class Module extends Model
     }
 
     public function calculateAvg(){
-        $users = User::all();
+        $users = User::cursor();
         foreach($users as $user){
             $this->calculateUserAvg($user);
         }

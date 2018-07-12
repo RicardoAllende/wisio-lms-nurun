@@ -21,6 +21,9 @@ class AscriptionController extends Controller
     }
 
     public function showContent($ascription_slug){
+        if(Auth::check()){
+            return redirect('/');
+        }
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
         $courses = $ascription->courses;

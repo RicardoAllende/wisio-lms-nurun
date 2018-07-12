@@ -3,7 +3,8 @@
 @section('title','Usuarios')
 @section('cta')
 <div style="display=inline;">
-  <a href="{{route('users.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
+  <a href="{{route('verify.all.users')}}" class="btn btn-primary ">Verificar cédula de todos los usuarios</a>
+  <p>Nota, si son demasiados usuarios por validar, el sistema podría colapsar debido al tiempo máximo de ejecución configurado en el servidor</p>
 </div>
 @endsection
 

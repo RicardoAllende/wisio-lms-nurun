@@ -17,7 +17,7 @@
                   <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
                   <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Mis_cursos'});" 
-                  href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Cursos</a></li>
+                  href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Mis cursos</a></li>
                   
                   <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Profesores'});" 
                   href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
@@ -43,7 +43,7 @@
                   <li ><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
                   <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Cursos'});"
-                   href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Mis cursos</a></li>
+                   href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Cursos</a></li>
                   
                   <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
                 </ul>

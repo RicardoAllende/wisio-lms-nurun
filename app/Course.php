@@ -209,7 +209,7 @@ class Course extends Model
     }
 
     public function calculateAvgAllUsers(){
-        $users = User::all();
+        $users = User::cursor();
         foreach($users as $user){
             $this->calculateAvgForUser($user->id);
         }

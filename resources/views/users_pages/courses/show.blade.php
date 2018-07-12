@@ -197,8 +197,11 @@ Curso {{ $course->name }}
 <script src="/js/js_users_pages/tincanConnector.js" type="text/javascript"></script>
 <script>
     var urlDrawForm = "{{ route('draw.evaluation.form', [$ascription->slug, $course->slug, '']) }}";
-</script>
-<script>
+  @if(isset($msg))
+    @if($msg != '')
+      Materialize.toast( "{{ $msg }}" ,4000,'acept');
+    @endif
+  @endif
   cambiarItem("cursos");
   $('.modal').modal({
     dismissible: false
