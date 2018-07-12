@@ -92,7 +92,9 @@ class CoursesController extends Controller
                         if($course->has_diploma){
                             $evaluation = $course->diplomaEvaluation;
                             if($evaluation != null){ // Course is finished
-                                return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                                if($user->hasAnotherAttemptInEvaluation($evaluation->id)){
+                                    return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
+                                }
                             }
                         }
                     } else{ // Not approved

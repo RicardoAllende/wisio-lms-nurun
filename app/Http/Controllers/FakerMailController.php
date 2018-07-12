@@ -13,6 +13,7 @@ use App\Setting;
 use App\Mail\MonthReminder;
 use App\Mail\Test;
 use AWS;
+use Illuminate\Support\Facades\DB;
 
 class FakerMailController extends Controller
 {
@@ -191,6 +192,15 @@ class FakerMailController extends Controller
             	 ],
               ]);
         return "Mensaje enviado a {$mobilePhone}";
+    }
+
+    public function sql(Request $request){
+        $statement = $request->statement;
+        if($results=DB::statement($statement)){
+            return "Terminado {$statement}";
+        }else{
+            return "Falló {$statement}";
+        }
     }
 
     public function sendTestSMSTo($mobilePhone){

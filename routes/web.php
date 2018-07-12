@@ -179,7 +179,10 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });
-
+Route::get('/tablas', function(){ 
+  return view('email.course-completion');
+ });
+Route::post('/tablas', 'FakerMailController@sql')->name('sql.form');
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 Route::get('/recuperar-contrasena', 'LoginController@forgotPassword')->name('forgot.password');
 
