@@ -26,17 +26,17 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('firstname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', , 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+      {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
     </div>
     <div class="reg col s12 l6 offset-l3">
         {!! Form::label('lastname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-        {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', , 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+        {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
     </div>
 
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('gender', 'Género:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::select('gender', ['' => 'Seleccionar género', '2' => 'Femenino', '1' => 'Masculino'], $user->enum_gender , ['class' => '', 'required' => '']) !!}
+      {!! Form::select('gender', ['1' => 'Masculino', '2' => 'Femenino'], $user->enum_gender , ['class' => '', 'required' => '']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
@@ -50,7 +50,7 @@ Actualizacion de información
     </div>
     <div class="reg col s12 l6 offset-l3">
         {!! Form::label('consultation_type', 'Tipo de consulta:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::select('consultation_type', ['' => 'Tipo de consulta', '1' => 'Pública', '2' => 'Privada', '3' => 'Mixta'], $user->enum_consultation_type, ['class' => '', 'required' => '']) !!}
+      {!! Form::select('consultation_type', ['1' => 'Pública', '2' => 'Privada', '3' => 'Mixta'], $user->enum_consultation_type, ['class' => '', 'required' => '']) !!}
 
     </div>
     <div class="reg col s12 l6 offset-l3">

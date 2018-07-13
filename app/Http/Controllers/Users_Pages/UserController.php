@@ -37,6 +37,8 @@ class UserController extends Controller
         $user->zip = $request->zip;
         $user->city = $request->city;
         $user->address = $request->address;
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
         if($request->filled('password')){
             $user->password = bcrypt($request->password);
         }

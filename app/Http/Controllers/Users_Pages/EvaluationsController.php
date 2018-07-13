@@ -18,6 +18,17 @@ use App\Mail\NotApproved;
 use App\Mail\SecondNotApproved;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Category;
+use App\Tag;
+use App\CourseTag;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use App\AttachmentCourse;
+use App\AscriptionCourse;
+use App\CategoryCourse;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Enrollment;
+
 
 class EvaluationsController extends Controller
 {
@@ -51,6 +62,41 @@ class EvaluationsController extends Controller
             // dd($module->finalEvaluations()->first());
             if($module->hasFinalEvaluation()){
                 $evaluations->push($module->finalEvaluations->first());
+            }
+        }
+        // Mailing for reboot or not-approved-notification
+        if($user->hasCourseComplete($course->id)){
+            if($user->hasCompletedEvaluationsFromCourse($course->id)){
+                $score = $user->scoreInCourse($course->id);
+                if($score != ''){ //Course hasn't final evaluations
+                    if($user->scoreInCourse($course->id) >= $course->minimum_score ){
+                        if( ! $user->hasApprovedNotification($course->id)){ // Approved
+                            $recommendations = $user->nextRecommendations();
+                            $token = \Uuid::generate()->string;
+                            $url = "";
+                            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
+                            Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                        }
+                    } else{ // Not approved
+                        if( ! $user->hasRebootInCourse($course->id)){
+                            if( ! $user->hasNotApprovedNotification($course->id)){ // notification was sent
+                                $token = \Uuid::generate()->string;
+                                Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'not_approved']);
+                                $route = route('ascription.login', $ascription_slug)."?notification=".$token;
+                                Mail::to($user->email)->send(new NotApproved($route, $course->name, $user->name)); // It has course reboot
+                                $msg = "No aprobó este curso, verifique su correo electrónico para acceder a un segundo intento, para ello debe salir de su cuenta y seguir en enlace que llegó a su correo electrónico";
+                            }
+                        }else{
+                            if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course
+                                $recommendations = $user->nextRecommendations();
+                                $token = \Uuid::generate()->string;
+                                Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'second_not_approved']);
+                                $route = route('ascription.login', $ascription_slug)."?notification=".$token;                       
+                                Mail::to($user->email)->send(new SecondNotApproved($route, $user->full_name, $course->name, $courses));
+                            }
+                        }
+                    }
+                }
             }
         }
         $evaluations = $evaluations->sortBy('id');
@@ -196,43 +242,6 @@ class EvaluationsController extends Controller
             );
         }
         // Final Evaluation from module
-        // Mailing for reboot or not-approved-notification
-        if($user->hasCourseComplete($course->id)){
-            if($user->hasCompletedEvaluationsFromCourse($course->id)){
-                if($user->scoreInCourse($course->id) >= $course->minimum_score ){
-                    if( ! $user->hasCertificateNotificationFromCourse($course->id)){ // Approved
-                        $recommendations = $user->nextRecommendations();
-                        $token = \Uuid::generate()->string;
-                        Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
-                        Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
-                    }
-                    if($course->has_diploma){
-                        $evaluation = $course->diplomaEvaluation;
-                        if($evaluation != null){ // Course is finished
-                            return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation'));
-                        }
-                    }
-                } else{ // Not approved
-                    if( ! $user->hasRebootInCourse($course->id)){
-                        if( ! $user->hasNotApprovedNotification($course->id)){ // notification was sent
-                            $token = \Uuid::generate()->string;
-                            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'not_approved']);
-                            $route = route('ascription.login', $ascription_slug)."?notification=".$token;
-                            Mail::to($user->email)->send(new NotApproved($route, $course->name, $user->name)); // It has course reboot
-                            $msg = "No aprobó este curso, verifique su correo electrónico para acceder a un segundo intento, para ello debe salir de su cuenta y seguir en enlace que llegó a su correo electrónico";
-                        }
-                    }else{
-                        if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course
-                            $recommendations = $user->nextRecommendations();
-                            $token = \Uuid::generate()->string;
-                            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'second_not_approved']);
-                            $route = route('ascription.login', $ascription_slug)."?notification=".$token;                       
-                            Mail::to($user->email)->send(new SecondNotApproved($route, $user->full_name, $course->name, $courses));
-                        }
-                    }
-                }
-            }
-        }
         return view('users_pages/evaluations/result',
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
             'evaluationAverage', 'course', 'module', 'ascriptionSlug', 'moduleAvg')

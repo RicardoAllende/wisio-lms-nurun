@@ -429,7 +429,7 @@ class UsersController extends Controller
     }
 
     public function verifyAllUsers(){
-        $users = User::where('is_validated', 0)->where('enabled', 1)->cursor();
+        $users = User::where('is_validated', 0)->where('enabled', 1)->where('role_id', 1)->cursor();
         foreach($users as $user){
             $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
             if( ! $response ){

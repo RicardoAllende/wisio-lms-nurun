@@ -813,9 +813,18 @@ class User extends Authenticatable
         return $pivot->has_reboot;
     }
 
+    public function hasApprovedNotification($course_id){
+        if($this->notifications()->where('course_id', $course_id)->where('type', 'approved')
+                ->count() > 0 )
+        {
+            return true;
+        }
+        return false;
+    }
+
     public function hasNotApprovedNotification($course_id){
         if($this->notifications()->where('course_id', $course_id)->where('type', 'not_approved')
-            ->count() > 0 )
+                ->count() > 0 )
         {
             return true;
         }

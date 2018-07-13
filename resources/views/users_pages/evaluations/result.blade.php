@@ -5,8 +5,7 @@ Evaluaciones
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
   <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="breadcrumb">Curso {{ $course->name }}</a>
-  <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="breadcrumb">Módulos</a>
-  <a href="#" class="breadcrumb">{{ $module->name }}</a>
+  <a href="{{ route('student.show.course', [$ascription->slug, $course->slug]) }}" class="breadcrumb">{{ $module->name }}</a>
   <a href="#" class="breadcrumb">Evaluación final</a>
 @stop
 

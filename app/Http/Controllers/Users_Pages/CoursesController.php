@@ -86,9 +86,9 @@ class CoursesController extends Controller
             if($user->hasCourseComplete($course->id)){
                 if($user->hasCompletedEvaluationsFromCourse($course->id)){
                     $score = $user->scoreInCourse($course->id);
-                    if($score == ''){ //Course hasn't final evaluations
+                    if($score != ''){ //Course hasn't final evaluations
                         if($user->scoreInCourse($course->id) >= $course->minimum_score ){
-                            if( ! $user->hasCertificateNotificationFromCourse($course->id)){ // Approved
+                            if( ! $user->hasApprovedNotification($course->id)){ // Approved
                                 $recommendations = $user->nextRecommendations();
                                 $token = \Uuid::generate()->string;
                                 $url = "";
@@ -122,7 +122,16 @@ class CoursesController extends Controller
                                 }
                             }
                         }
-                    }else { $msg = "Curso terminado"; }
+                    }else { 
+                        // if( ! $user->hasApprovedNotification($course->id)){ // Approved
+                        //     $recommendations = $user->nextRecommendations();
+                        //     $token = \Uuid::generate()->string;
+                        //     $url = "";
+                        //     Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
+                        //     Mail::to($user->email)->send(new ApprovedCourse($url, $recommendations, $user, $ascription->slug));
+                        // }
+                        $msg = "Curso terminado"; 
+                    }
                 }
             }
             return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'msg'));
