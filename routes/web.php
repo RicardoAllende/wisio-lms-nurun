@@ -1,7 +1,5 @@
 <?php
 
-use App\Course;
-
 Route::get('/', 'HomeController@index')->name('welcome');
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula

@@ -248,6 +248,9 @@ class Course extends Model
         return "";
     }
 
+    /**
+     * For users who have finished this course
+     */
     public function setModulesComplete(){
         $users = $this->completeUsers()->cursor();
         foreach($users as $element){
@@ -263,6 +266,42 @@ class Course extends Model
                 }
             }
         }
+    }
+
+    /**
+     * This function save the last module advance (the sort has changed, that's why) , for users who haven't finished this course
+     */
+    public function setLastAdvance(){
+        $users = $this->users()->cursor();
+        $modules = $this->modules()->pluck('id');
+        return $modules;
+        foreach($users as $element){
+            $user = User::find($element->user_id);
+            if($user != null){
+                $completedModules = $user->completedModules()->pluck('module_id');
+                $lastModule = 'init';
+                foreach($modules as $module){ // Modules ordered by sort
+                    if($completedModules->search($module) !== false){
+                        $lastModule = $module;
+                    }
+                }
+                if($lastModule != 'init'){
+                    $index = $modules->search($lastModule);
+                    if($index !== false){
+                        for ($i=0; $i < $index; $i++) { 
+                            $pivot = ModuleUser::where('user_id', $user->id)->where('module_id', $modules[$i])->first();
+                            if($pivot == null){
+                                $user->modules()->attach($modules[$i], ['status' => 1]);
+                            }else{
+                                $pivot->status = 1;
+                                $pivot->save();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return "Finished successfully";
     }
 
     public function diplomaAvg(){
