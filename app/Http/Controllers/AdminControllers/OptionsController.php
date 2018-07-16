@@ -113,10 +113,10 @@ class OptionsController extends Controller
     public function destroy($id)
     {
         //Option::findOrFail(300);
-        $option = Option::findOrFail($id);
-        $question = $option->question->id;
-        $option->delete();
-        // return redirect()->action('OptionsController@index');
-        return redirect()->action('QuestionsController@show', $question);
+        $option = Option::find($id);
+        if($option != null){
+            $option->delte();
+        }
+        return back();
     }
 }

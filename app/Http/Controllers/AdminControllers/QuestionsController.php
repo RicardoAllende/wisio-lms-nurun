@@ -102,10 +102,11 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        $question = Question::findOrFail($id);
-        $quiz_id = $question->quiz->id;
-        $question->delete();
-        return redirect()->action('QuizzesController@show', $quiz_id);
+        $question = Question::find($id);
+        if($question != null){
+            $question->delete();
+        }
+        return back();
         // return "Se eliminará el registro {$id}";
     }
 
