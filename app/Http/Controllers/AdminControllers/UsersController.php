@@ -387,13 +387,13 @@ class UsersController extends Controller
         $users = $course->users();
         return \DataTables::of($users)
         ->addColumn('grade', function ($user){
-            $doctor = User::find($user->id);
+            $doctor = User::find($user->user_id);
             if($doctor == null){ return 0; }
             return $doctor->scoreInCourse($this->course_id);
-            return $user->scoreInCourse($this->course_id);
         })
         ->addColumn('status', function ($user) {
-            $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
+            $doctor = User::find($user->user_id);
+            $status = ($doctor->enabled == 1) ? "Activo" : "Inactivo";
             return  $status; 
         })
         ->rawColumns(['status', 'grade'])
@@ -401,7 +401,7 @@ class UsersController extends Controller
     }
 
     public function getDataForDiplomado($course_id){
-        $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado');
+        $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado')->where('courses.has_diploma', 1);
         return \DataTables::of($users)
         ->make(true);
     }

@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('/attachments/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
     Route::get('/modules/{module}/manage-experts/', 'AdminControllers\ModulesController@listExperts')->name('list.experts.for.module');
+    Route::get('/delete-resource/{resource_id}', 'AdminControllers\ResourcesController@delete')->name('delete.resource');
     Route::get('/modules/{module}/resources/{resource}/change-weight/{new_weight}', 'AdminControllers\ResourcesController@changeWeight')
       ->name('change.resource.weight');
     Route::get('/modules/{module}/order-resources/', 'AdminControllers\ModulesController@orderResources')->name('order.module.resources');

@@ -64,7 +64,10 @@ class OptionsController extends Controller
      */
     public function show($id)
     {
-        $option = Option::findOrFail($id);
+        $option = Option::find($id);
+        if($option == null){
+            return redirect('/');
+        }
         return view("options/show", ['option' => $option]);
     }
 
@@ -76,7 +79,9 @@ class OptionsController extends Controller
      */
     public function edit($id)
     {
-        return view("options/form", ['option'=>Option::findOrFail($id), "questions" => Question::all()]);
+        $option = Option::find($id);
+        if($option == null){ return redirect('/'); }
+        return view("options/form", ['option'=> $option, "questions" => Question::all()]);
     }
 
     /**
@@ -89,7 +94,7 @@ class OptionsController extends Controller
     public function update(Request $request, $id)
     {
         //dd($request->input());
-        $option = Option::findOrFail($id);
+        $option = Option::find($id);
         if($option == null){
             return redirect()->route('options.index');
         }
@@ -112,7 +117,6 @@ class OptionsController extends Controller
      */
     public function destroy($id)
     {
-        //Option::findOrFail(300);
         $option = Option::find($id);
         if($option != null){
             $option->delte();

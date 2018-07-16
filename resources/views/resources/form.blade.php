@@ -47,7 +47,7 @@
                             {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
                             {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                             <div class="dz-message" style="height:200px;">
-                            Arrastre el recurso aquí, formatos soportados: vídeo mp4, imágenes y documentos pdf
+                            Arrastre el recurso aquí, formatos soportados: vídeo mp4 y documentos pdf
                             </div>
                             <input type="hidden" value="resources" name="path">
                             <div class="dropzone-previews"></div>
@@ -70,7 +70,7 @@
         paramName: "file", 
         // The name that will be used to transfer the file            
         maxFilesize: 200,            
-        acceptedFiles: 'video/mp4,image/*,application/pdf',
+        acceptedFiles: 'video/mp4,application/pdf',
         maxFiles: 1,            
         dictDefaultMessage: 'Arrastra aquí el recurso',            
         init: function() {                

@@ -34,7 +34,7 @@
                         <input type="hidden" id="module_id" value="{{ $module->id }}" name="module_id">
                         <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
-                            <a href="route('modules.show', $module->id )" class="btn btn-default">Cancelar</a>
+                            <a href="{{route('modules.show', $module->id )}}" class="btn btn-default">Cancelar</a>
                             {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
                             </div>
                         </div>

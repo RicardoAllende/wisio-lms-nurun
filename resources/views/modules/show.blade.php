@@ -108,6 +108,7 @@
                                             <th>#</th>
                                             <th>Recurso</th>
                                             <th>Tipo</th>
+                                            <th>Eliminar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -117,6 +118,7 @@
                                             <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $i }}</a></td>
                                             <td><a href="{{ route('resources.show', [$module->id, $resource->id]) }}">{{ $resource->name }}</a></td>
                                             <td>{{ $resource->type }}</td>
+                                            <td><a href="{{ route('delete.resource', $resource->id) }}" class="btn btn-danger btn-round" >Eliminar</a></td>
                                             </tr>
                                             @php $i++; @endphp
                                         @endforeach

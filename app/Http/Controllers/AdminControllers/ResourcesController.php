@@ -20,6 +20,14 @@ class ResourcesController extends Controller
         return redirect()->route('modules.show', $module_id);
     }
 
+    public function delete($resource_id){
+        $resource = Resource::find($resource_id);
+        if($resource != null){
+            $resource->delete();
+        }
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
