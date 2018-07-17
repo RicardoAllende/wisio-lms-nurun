@@ -22,7 +22,7 @@ Evaluacion
                     <select name="course_slug" id="course_slug">
                         @inject('coursesController','App\Http\Controllers\Users_Pages\CoursesController')
                         @foreach($coursesController->getCourses($ascription->slug) as $courseOption)
-                            <option value="{{ route('show.evaluation.course', [$ascription->slug, $courseOption->slug]) }}"> {{$courseOption->name}} </option>
+                            <option {{ ($course->id == $courseOption->id) ? 'selected' : '' }} value="{{ route('show.evaluation.course', [$ascription->slug, $courseOption->slug]) }}"> {{$courseOption->name}} </option>
                         @endforeach
                     </select>
                     @if($user->hasCertificateForCourse($course->id))

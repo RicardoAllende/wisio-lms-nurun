@@ -567,4 +567,8 @@ class UsersController extends Controller
         return view('users.invite', compact('route'));
     }
 
+    public function sendInviteEmail(){
+        
+    }
+
 }

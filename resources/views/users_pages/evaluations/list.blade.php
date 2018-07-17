@@ -25,9 +25,8 @@ Evaluaciones
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
            <div class="modulos">{{ $course->finalEvaluations()->count() }} evaluaciones</div>
               <div  class="moduloslista valign-wrapper hide-on-med-and-down">
-
                     <ol>
-                      @foreach($course->evaluations()->slice(0,2) as $evaluation)
+                      @foreach($course->finalEvaluations()->slice(0,2) as $evaluation)
                         <li>{{ $evaluation->name }} </li>
                       @endforeach
                     </ol>
