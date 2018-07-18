@@ -80,7 +80,7 @@ Profesores
     </div>
 
     @forelse($experts as $expert)
-    <div class="col s12 m4 l3 ">
+    <div class="col s12 m6 l3 ">
         <div class="card z-depth-0 white">
           <div class="card-content expertoscard">
               <div class="expertostitulo center">{{ $expert->name }}</div>
@@ -142,11 +142,11 @@ Profesores
       });
 
       $('.specialty').change(function(){
-        
+
       });
 
       cambiarItem("expertos");
     });
-  
+
 </script>
 @stop

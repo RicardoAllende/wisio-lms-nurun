@@ -58,10 +58,10 @@
            </div>
 
            <div class="row">
-               <div class="col s8 l10">
+               <div class="col s12 l10">
                  <hr class="line"/>
                </div>
-               <div class="col s4 l2">
+               <div class="col l2 hide-on-med-and-down">
                  <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
                </div>
                @if (Auth::check())

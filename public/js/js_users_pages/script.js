@@ -60,11 +60,13 @@ var donde = $('body');
 /*funciones para el footer siempre abajo*/
 checkfooter();
 
-$(window).resize(function(){
-    checkfooter();
-});
+window.addEventListener('resize', checkfooter);
+window.addEventListener('orientationchange', checkfooter);
+
 
 function checkfooter(){
+  console.log('alto contenido: ' + $(".contenido").height() );
+  console.log('alto ventana: ' + ( $(window).height() - $('footer').height()));
   if($(".contenido").height() < ( $(window).height() - $('footer').height())) {
     console.log( ( $(window).height() - $('footer').height()) - $(".contenido").height() );
     $(".contenido").height( $(".contenido").height() + (( $(window).height() - $('footer').height()) - $(".contenido").height()) );

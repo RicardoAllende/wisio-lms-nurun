@@ -21,15 +21,15 @@
     </div>
 
     <div class="row" style="margin-bottom: 0;">
-      <div class="col offset-m1 ff2"></div>
-      <div class="col s12 m3 center white-text">
-       <p>No. Reg. 183300202C0726</p>
+      <div class="col offset-l1 ff2"></div>
+      <div class="col s12 l3 center white-text">
+       <p class="marg0">No. Reg. 183300202C0726</p>
        </div>
-       <div class="col s12 m3 center white-text">
-       <p>SAMX.SA.18.06.0879</p>
+       <div class="col s12 l3 center white-text">
+       <p class="marg0">SAMX.SA.18.06.0879</p>
        </div>
-       <div class="col s12 m3 center white-text">
-       <p>Julio 2018</p>
+       <div class="col s12 l3 center white-text">
+       <p class="marg0">Julio 2018</p>
        </div>
      </div>
   </div>

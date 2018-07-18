@@ -94,8 +94,8 @@ Registro
       <div class="reg col s12 l5 offset-l2">
 
         <div class="reg col s12 l6">
-          {!! Form::label('professional_license', 'Cédula:' )!!}
-          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'Cédula profesional; si su cédula profesional tiene menos de 7 dígitos, agrege 0 hasta completar los 7 números', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números", 'maxlength' => '10' ]) !!}
+          {!! Form::label('professional_license', 'Cédula profesional:' )!!}
+          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'7 dígitos, ej. 0045727 ó 2548632', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números", 'maxlength' => '10' ]) !!}
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}

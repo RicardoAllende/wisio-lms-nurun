@@ -260,8 +260,8 @@ a.linkM{
 .contenido{
   width: 100%;
   margin: auto;
-  height: auto;
-  min-height: 100%;
+  /* height: auto;
+  min-height: 100%; */
 }
 
 /* footer */
@@ -1079,7 +1079,14 @@ and (orientation : landscape) {
     font-weight:700;
     cursor: pointer;
   }
+  .contenido{
+    height: 100% !important;
+  }
 
+  .marg0{
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
   #font-up{
     font-size: 1.5rem;
     font-weight:700;
@@ -1154,7 +1161,11 @@ and (orientation : landscape) {
 
 .lineh {
 border-left:0px;
-padding-top:15px !important;
+height: 16px !important;
+}
+
+.footer .ff .row{
+  padding-top: 15px !important;
 }
 
 }
@@ -1174,9 +1185,11 @@ padding-top:15px !important;
 
 
 @media only screen and (max-width: 600px) {
-
+  .expertosparticipacion{
+    padding: 0px;
+  }
   .expertoscard {
-      height: 330px;
+      height: 360px;
   }
   .modal{
     max-height: 90% !important;
