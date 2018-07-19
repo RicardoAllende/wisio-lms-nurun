@@ -718,7 +718,7 @@ class User extends Authenticatable
     }
 
     public function hasNotificationsFromCourse($course_id){
-        if($this->notifications()->where('course_id', $course_id)->whereIn('type', [2,3,4])->count() > 0){
+        if($this->notifications()->where('course_id', $course_id)->whereIn('type', ['month_reminder','week_reminder'])->count() > 0){
             return true;
         }
         return false;
@@ -789,7 +789,7 @@ class User extends Authenticatable
     // }
 
     public function hasCallNotification($course_id){
-        if($this->notifications()->where('type', 4)->where('accessed', 1)->where('course_id', $course_id)->count() > 0){
+        if($this->notifications()->where('type', 4)->where('accessed', 0)->where('course_id', $course_id)->count() > 0){
             return true;
         }
         return false;

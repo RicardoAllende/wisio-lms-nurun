@@ -97,77 +97,77 @@ class CronMailing extends Command
                     $users = $course->incompleteUsers()->where('users.enabled', 1)->cursor();
                     foreach($users as $element){
                         $user = User::find($element->user_id);
-                        if($user->enabled){
-                            $lastAdvance = $user->lastAdvanceInCourse($course->id); // Timestamp
-                            if( ! $user->hasCallNotification()){
-                                if($user->hasNotificationsFromCourse($course->id)){
-                                    $lastNotification = $user->lastNotificationFromCourse($course->id);
-                                    $timestampLastNotification = $lastNotification->created_at;
-                                    $notificationType = $lastNotification->type;
-                                    if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
-                                        // echo "Tiene notificación anterior, CON avance<br>";
-                                        if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                            $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->slug, $course->id, $course->name,
-                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
-                                        }
-                                    }else{ // Doctor didn't have advance  
-                                        if( ! $user->inSMSList($course->id)){
-                                            if($user->numSMSForCourse($course->id < $this->maxSMSReminders)){
-                                                if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                                    $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course_id);
-                                                }
+                        $lastAdvance = $user->lastAdvanceInCourse($course->id); // Timestamp
+                        if( ! $user->hasCallNotification($course->id)){
+                            if($user->hasNotificationsFromCourse($course->id)){
+                                $lastNotification = $user->lastNotificationFromCourse($course->id);
+                                $timestampLastNotification = $lastNotification->created_at;
+                                $notificationType = $lastNotification->type;
+                                if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
+                                    // echo "Tiene notificación anterior, CON avance<br>";
+                                    if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
+                                        $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->slug, $course->id, $course->name,
+                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                    }
+                                }else{ // Doctor didn't have advance 
+                                    if( $user->inSMSList($course->id)){
+                                        if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, send sms
+
+                                            if($user->numSMSForCourse($course->id) < $this->maxSMSReminders){
+                                                $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course->id);
                                             }else{
                                                 // journey finished
                                             }
                                         }else{
-                                            if($notificationType == 'month_reminder'){
-                                                if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                                    $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
-                                                    if($numMonthReminders < $this->maxMonthReminders){
-                                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->slug, $course->id);
-                                                    }else{
-                                                        $this->sendWeekReminderNotification(
-                                                            $user->email, $user->id, $user->slug, $course->id, 
-                                                            $course->name, $user->full_name, $course->credits
-                                                        );
-                                                        // $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->slug, $course->id);
-                                                    }
-                                                }
-                                            }elseif($notificationType == 'week_reminder'){
-                                                // echo "Semanal {$user->id}<br>";
-                                                $numWeekReminders = $user->numWeekReminderNotifications($course->id);
-                                                if($timestampLastNotification->lt($weekAgo)){ // More than 1 week without advance, month remind
-                                                    // echo "Notificación semanal";
-                                                    if($numWeekReminders < $this->maxWeekReminders){
-                                                        $this->sendWeekReminderNotification(
-                                                            $user->email, $user->id, $user->slug, $course->id, 
-                                                            $course->name, $user->full_name, $course->credits
-                                                        );
-                                                    }else{
-                                                        // echo "Agregando a la lista de personas por llamar<br>";
-                                                        $this->addToListOfUsersToCall($user->id, $course->id);
-                                                    }
+                                            // send message next month
+                                        }
+                                    }else{ 
+                                        if($notificationType == 'month_reminder'){
+                                            if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
+                                                $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
+                                                if($numMonthReminders < $this->maxMonthReminders){
+                                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->slug, $course->id);
                                                 }else{
-                                                    if($numWeekReminders == $this->maxWeekReminders){
-                                                        $this->addToListOfUsersToCall($user->id, $course->id);
-                                                    }
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->slug, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
+                                                    // $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->slug, $course->id);
+                                                }
+                                            }
+                                        }elseif($notificationType == 'week_reminder'){
+                                            // echo "Semanal {$user->id}<br>";
+                                            $numWeekReminders = $user->numWeekReminderNotifications($course->id);
+                                            if($timestampLastNotification->lt($weekAgo)){ // More than 1 week without advance, month remind
+                                                // echo "Notificación semanal";
+                                                if($numWeekReminders < $this->maxWeekReminders){
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->slug, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
+                                                }else{
+                                                    // echo "Agregando a la lista de personas por llamar<br>";
+                                                    $this->addToListOfUsersToCall($user->id, $course->id);
+                                                }
+                                            }else{
+                                                if($numWeekReminders == $this->maxWeekReminders){
+                                                    $this->addToListOfUsersToCall($user->id, $course->id);
                                                 }
                                             }
                                         }
                                     }
-                                }else{ // First Notification
-                                    if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                                        $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->ascription->slug, $course->id, $course->name,
-                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
-                                    }
                                 }
-                            }else{ // User has call notification from course
-                                // echo "Usuario está en lista de llamada<br>";
+                            }else{ // First Notification
+                                if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
+                                    $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->ascription->slug, $course->id, $course->name,
+                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                }
                             }
+                        }else{ // User has call notification from course
 
                         }
-                    }
-                }
+                    } // end foreach users
+                } // end foreach course
             }else{
                 return "No está activado el envío de notificaciones";
             }
