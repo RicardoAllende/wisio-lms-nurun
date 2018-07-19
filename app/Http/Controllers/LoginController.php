@@ -101,10 +101,11 @@ class LoginController extends Controller
                                 break;
                                 case 'certificate':
                                 case 'diploma':
+                                case 'approved':
                                     $ascription_slug = $user->ascription->slug;
                                     return redirect()->route('certificates.list', $ascription_slug);
                                 break;
-                                case 'not_approved':
+                                case 'not_approved': // second attempt in course
                                     $course = Course::find($notification->course_id);
                                     $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $notification->course_id)->first();
                                     if($pivot != null){

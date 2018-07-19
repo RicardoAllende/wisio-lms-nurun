@@ -752,9 +752,16 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 'call')->get();
     }
 
-    public function sendSMS($course_id){
-        $this->notifications()->where('type', 'sms')->where('course_id', $course_id)->where('accessed', 1);
+    public function inSMSList($course_id){
+        if($this->notifications()->where('course_id', $course_id)->where('type', 'call')->where('accessed', 1)->count() > 0){
+            return true;
+        }
+        return false;
         // Verificar número de sms enviados, retornar true | false
+    }
+
+    public function numSMSForCourse($course_id){
+        return $this->notifications()->where('course_id', $course_id)->where('type', 'sms')->where('accessed', 1)->count();
     }
 
     public function numWeekReminderNotifications($course_id){ // Not viewed notifications
