@@ -25,6 +25,8 @@ class NotificationsController extends Controller
             if($user != null){
                 $user->notifications()->where('course_id', $notification->course_id)->update(['viewed' => 1]);
             }
+            $notification->accessed = 1;
+            $notification->save();
         }
         return back();
     }

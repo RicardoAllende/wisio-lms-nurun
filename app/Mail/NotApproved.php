@@ -12,6 +12,7 @@ class NotApproved extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
     protected $route;
     protected $course_name;
+    protected $doctor_name;
 
     /**
      * Create a new message instance.
@@ -22,6 +23,7 @@ class NotApproved extends Mailable implements ShouldQueue
     {
         $this->route = $route;
         $this->course_name = $course_name;
+        $this->doctor_name = $doctor_name;
     }
 
     /**
@@ -32,6 +34,6 @@ class NotApproved extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('mails.not-approved', ['route' => $this->route, 'course_name' => $this->course_name, ]);
+        ->view('mails.not-approved', ['route' => $this->route, 'course_name' => $this->course_name, 'doctor_name' => $this->doctor_name ]);
     }
 }

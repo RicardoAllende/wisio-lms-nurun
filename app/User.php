@@ -748,6 +748,15 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 3)->get();
     }
 
+    public function callNotifications(){
+        return $this->notifications()->where('type', 'call')->get();
+    }
+
+    public function sendSMS($course_id){
+        $this->notifications()->where('type', 'sms')->where('course_id', $course_id)->where('accessed', 1);
+        // Verificar número de sms enviados, retornar true | false
+    }
+
     public function numWeekReminderNotifications($course_id){ // Not viewed notifications
         return $this->notifications()->where('type', 3)->where('course_id', $course_id)->count();
     }
@@ -763,6 +772,8 @@ class User extends Authenticatable
     public function hasRecommendationOfCourse($course_id){
         return $this->notifications()->where('type', 1)->where('course_id', $course_id)->count();
     }
+
+    
 
     // public function hasCallNotification(){
     //     if($this->notifications()->where('type', 4)->whereViewed(0)->count() > 0){

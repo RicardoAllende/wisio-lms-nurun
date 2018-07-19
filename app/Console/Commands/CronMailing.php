@@ -13,6 +13,9 @@ use App\Setting;
 use App\Mail\MonthReminder;
 use App\Mail\Test;
 use App\Mail\Welcome;
+use App\Mail\NewPlatform;
+use App\Mail\Recordatorio;
+use App\Mail\Recordatorio2;
 use AWS;
 use Illuminate\Support\Facades\DB;
 
@@ -73,15 +76,21 @@ class CronMailing extends Command
             $token = \Uuid::generate()->string;
             Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => Course::first()->id, 'type' => 'welcome']);
             $users = User::cursor();
-            foreach($users as $user){
-                Mail::to($user->email)->send(new Welcome());
+            $ascriptions = Ascription::cursor();
+            foreach($ascriptions as $ascription){
+                $route = route('ascription.login', $ascription->name);
+                $users = $ascription->users()->cursor();
+                foreach($users as $user){
+                    Mail::to($user->email)->send(new NewPlatform($user->full_name, $route));
+                }
             }
+            return;
         }else{
             if($this->mailing){
                 $weekAgo = Carbon::now()->subweek();
                 $monthAgo = Carbon::now()->submonth(); // 30 days ago
                 foreach(Course::cursor() as $course){
-                    $users = $course->incompleteUsers()->cursor();
+                    $users = $course->incompleteUsers()->where('users.enabled', 1)->cursor();
                     foreach($users as $element){
                         $user = User::find($element->user_id);
                         if($user->enabled){
@@ -94,18 +103,21 @@ class CronMailing extends Command
                                     if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
                                         // echo "Tiene notificación anterior, CON avance<br>";
                                         if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                            $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));                           
+                                            $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
+                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
                                         }
                                     }else{ // Doctor didn't have advance  
                                         if($notificationType == 'month_reminder'){
                                             if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
                                                 $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
                                                 if($numMonthReminders < $this->maxMonthReminders){
-                                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                                    $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id);
                                                 }else{
-                                                    $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->ascription->name, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
+                                                    // $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
                                                 }
                                             }
                                         }elseif($notificationType == 'week_reminder'){
@@ -114,8 +126,10 @@ class CronMailing extends Command
                                             if($timestampLastNotification->lt($weekAgo)){ // More than 1 week without advance, month remind
                                                 // echo "Notificación semanal";
                                                 if($numWeekReminders < $this->maxWeekReminders){
-                                                    // echo "Total: {$numWeekReminders}, máximo: {$this->maxWeekReminders} <br>";
-                                                    $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->ascription->name, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
                                                 }else{
                                                     // echo "Agregando a la lista de personas por llamar<br>";
                                                     $this->addToListOfUsersToCall($user->id, $course->id);
@@ -129,8 +143,8 @@ class CronMailing extends Command
                                     }
                                 }else{ // First Notification
                                     if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                        $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
+                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
                                     }
                                 }
                             }else{ // User has call notification from course
@@ -150,7 +164,15 @@ class CronMailing extends Command
         return Carbon::now();
     }
 
-    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id, $course_name, $user_name, $credits, $numModules, $numCompletedModules){
+    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id){
+        $token = \Uuid::generate()->string;
+        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
+        $route = route('ascription.login', $ascription_name)."?notification=".$token;
+        Mail::to($email)->send(new Recordatorio($route));
+        return true;
+    }
+
+    public function sendMonthReminderNotificationWithAdvance($email, $user_id, $ascription_name, $course_id, $course_name, $user_name, $credits, $numModules, $numCompletedModules){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
         $route = route('ascription.login', $ascription_name)."?notification=".$token;
@@ -158,26 +180,23 @@ class CronMailing extends Command
         return true;
     }
 
-    public function sendWeekReminderNotification($mobilePhone, $user_id, $ascription_name, $course_id){ // This function sends a sms
+
+
+    public function sendWeekReminderNotification($email, $user_id, $ascription_name, $course_id, $course_name, $user_name, $credits){
         $token = \Uuid::generate()->string;
-        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 3]);
-        return;
-        $url = route('ascription.login', $ascription_name)."?notification=".$token;
-        if(strpos($mobilePhone, '+52') !== false ){ // Found
-            $mobilePhone = "+52".$mobilePhone;
-        }
-        $mobilePhone = str_replace(' ', '', $mobilePhone);
-        $sms = AWS::createClient('sns');
-        $sms->publish([
-                'Message' => 'Doctor, le echamos de menos en Academia-mc, ¿desea continuar con su curso? '.$url,
-                'PhoneNumber' => $mobilePhone,
-                'MessageAttributes' => [
-                    'AWS.SNS.SMS.SMSType'  => [
-                        'DataType'    => 'String',
-                        'StringValue' => 'Transactional',
-                     ]
-            	 ],
-              ]);
+        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 'week_reminder']);
+        $route = route('ascription.login', $ascription_name)."?notification=".$token;
+        Mail::to($email)->send(new Recordatorio2($route, $user_name, $credits, $course_name));
+        // Mail::to($email)->send(new MonthReminder($route, $course_name, $user_name, $credits, $numModules, $numCompletedModules));
+        return true;
+    }
+
+
+
+    
+
+    public function sendSMS($mobilePhone, $user_id, $ascription_name, $course_id){
+
     }
 
     public function sendRecommendation($user){

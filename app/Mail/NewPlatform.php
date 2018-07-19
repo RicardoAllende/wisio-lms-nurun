@@ -10,15 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NewPlatform extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
+    protected $doctor_name, $route;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($doctor_name, $route)
     {
-        //
+        $this->doctor_name = $doctor_name;
+        $this->route = $route;
     }
 
     /**
@@ -29,6 +31,6 @@ class NewPlatform extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('email.new-platform');
+        ->view('email.new-platform', ['doctor_name' => $this->doctor_name, 'route' => $this->route]);
     }
 }

@@ -188,5 +188,10 @@ Evaluacion
     $('#course_slug').change(function(){
         window.location.href = $(this).val();
     });
+    @if(isset($msg))
+        @if($msg != '')
+            Materialize.toast( "{{ $msg }}" ,4000,'acept');
+        @endif
+    @endif
 </script>
 @stop

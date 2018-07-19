@@ -30,6 +30,16 @@ Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register
 //   echo "Finalizado";
 // });
 
+Route::get('recordatorios', function(){
+  return url('/dirección a la cual quisiera mandar');
+  // return view('email.approved-course');
+  // return view('email.course-enrollment');
+  // return view('email.month-reminder');
+  // return view('email.new-platform');
+  // return view('email.recordatorio');
+  return view('email.recordatorio-2');
+});
+
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
 Route::get('/send-email', 'FakerMailController@sendTestEmail');
