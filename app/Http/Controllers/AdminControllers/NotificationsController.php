@@ -47,15 +47,22 @@ class NotificationsController extends Controller
     public function settings(){
         $settings = Setting::first();
         return view('notifications.set-settings', compact('settings'));
-        // return $settings;
     }
 
     public function updateSettings(Request $request){
-        // dd($request);
         $settings = Setting::first();
+        if($settings == null){
+            Setting::create([
+                'mailing' => $request->mailing, 
+                'max_month_reminders' => $request->max_month_reminders, 
+                'max_week_reminders' => $request->max_week_reminders,
+                'max_sms_reminders' => $request->max_sms_reminders
+            ]);
+        }
         $settings->mailing = $request->mailing;
-        $settings->maxMonthReminders = $request->maxMonthReminders;
-        $settings->maxWeekReminders = $request->maxWeekReminders;
+        $settings->max_month_reminders = $request->max_month_reminders;
+        $settings->max_week_reminders = $request->max_week_reminders;
+        $settings->max_sms_reminders = $request->max_sms_reminders;
         $settings->save();
         return redirect()->route('form.settings');
     }

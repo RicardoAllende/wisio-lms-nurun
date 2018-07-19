@@ -37,19 +37,26 @@
                         </div>
 
                         <div class="form-group">
-                          {!! Form::label('maxMonthReminders', 'Número de notificaciones mensuales (correos electrónicos):',['class'=>'control-label col-sm-2']); !!}
+                          {!! Form::label('max_month_reminders', 'Número de notificaciones mensuales:',['class'=>'control-label col-sm-2']); !!}
                           <div class="col-sm-10"> 
-                            {!! Form::number('maxMonthReminders',null,['class'=>'form-control', 'required'=>'']) !!}
+                            {!! Form::number('max_month_reminders',null,['class'=>'form-control', 'required'=>'']) !!}
+                          </div>
+                        </div>
+
+
+                        <div class="form-group">
+                          {!! Form::label('max_week_reminders', 'Número de notificaciones semanales:',['class'=>'control-label col-sm-2']); !!}
+                          <div class="col-sm-10"> 
+                            {!! Form::number('max_week_reminders',null,['class'=>'form-control', 'required'=>'']) !!}
                           </div>
                         </div>
 
                         <div class="form-group">
-                          {!! Form::label('maxWeekReminders', 'Número de notificaciones semanales (SMS) :',['class'=>'control-label col-sm-2']); !!}
+                          {!! Form::label('max_sms_reminders', 'Número de mensajes de texto:',['class'=>'control-label col-sm-2']); !!}
                           <div class="col-sm-10"> 
-                            {!! Form::number('maxWeekReminders',null,['class'=>'form-control', 'required'=>'']) !!}
+                            {!! Form::number('max_sms_reminders',null,['class'=>'form-control', 'required'=>'']) !!}
                           </div>
                         </div>
-
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Console\Command;
 use App\Course;
 use App\User;
 use App\Ascription;
@@ -13,6 +13,9 @@ use App\Setting;
 use App\Mail\MonthReminder;
 use App\Mail\Test;
 use App\Mail\Welcome;
+use App\Mail\NewPlatform;
+use App\Mail\Recordatorio;
+use App\Mail\Recordatorio2;
 use AWS;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +29,7 @@ class FakerMailController extends Controller
     public function sendEmail(){
         $time_start = $this->microtime_float();
         $settings = Setting::first();
+        $invitation_sent = true; // default value
         if($settings != null){
             $monthReminders = $settings->maxMonthReminders;
             if(is_numeric($monthReminders)){
@@ -35,49 +39,70 @@ class FakerMailController extends Controller
             if(is_numeric($weekReminders)){
                 $this->maxWeekReminders = $weekReminders;
             }
+            $maxSMSReminders = $settings->maxSMSReminders;
+            if(is_numeric($maxSMSReminders)){
+                $this->maxSMSReminders = $maxSMSReminders;
+            }
             $this->mailing = $settings->mailing; // true | false
+            $invitation_sent = $settings->invitation_sent;
         }
 
         set_time_limit(1500);
-        $invitations = Notification::where('type', 'welcome')->count();
-        if($invitations == 0){
-            $user = User::first();
-            $token = \Uuid::generate()->string;
-            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => Course::first()->id, 'type' => 'welcome']);
-            $users = User::cursor();
-            foreach($users as $user){
-                Mail::to($user->email)->send(new Welcome());
+        if( ! $invitation_sent){ // Invitations haven't sent, 
+            $settings->invitation_sent = true;
+            $settings->save();
+            $ascriptions = Ascription::cursor();
+            foreach($ascriptions as $ascription){
+                $route = route('ascription.login', $ascription->slug);
+                $users = $ascription->users()->cursor();
+                foreach($users as $user){
+                    Mail::to($user->email)->send(new NewPlatform($user->full_name, $route));
+                }
             }
+            return;
         }else{
             if($this->mailing){
                 $weekAgo = Carbon::now()->subweek();
                 $monthAgo = Carbon::now()->submonth(); // 30 days ago
                 foreach(Course::cursor() as $course){
-                    $users = $course->incompleteUsers()->cursor();
+                    $users = $course->incompleteUsers()->where('users.enabled', 1)->cursor();
                     foreach($users as $element){
                         $user = User::find($element->user_id);
-                        if($user->enabled){
-                            $lastAdvance = $user->lastAdvanceInCourse($course->id); // Timestamp
-                            if( ! $user->hasCallNotification()){
-                                if($user->hasNotificationsFromCourse($course->id)){
-                                    $lastNotification = $user->lastNotificationFromCourse($course->id);
-                                    $timestampLastNotification = $lastNotification->created_at;
-                                    $notificationType = $lastNotification->type;
-                                    if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
-                                        // echo "Tiene notificación anterior, CON avance<br>";
-                                        if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
-                                            $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                            $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));                           
+                        $lastAdvance = $user->lastAdvanceInCourse($course->id); // Timestamp
+                        if( ! $user->hasCallNotification($course->id)){
+                            if($user->hasNotificationsFromCourse($course->id)){
+                                $lastNotification = $user->lastNotificationFromCourse($course->id);
+                                $timestampLastNotification = $lastNotification->created_at;
+                                $notificationType = $lastNotification->type;
+                                if($lastAdvance->gt($timestampLastNotification)){ // Doctor had advance in the course after the notification, mailing is every month
+                                    // echo "Tiene notificación anterior, CON avance<br>";
+                                    if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
+                                        $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->slug, $course->id, $course->name,
+                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                    }
+                                }else{ // Doctor didn't have advance  
+                                    // return "Sin avance {$user->id}, curso {$course->id}";
+                                    if( $user->inSMSList($course->id)){
+                                        // return "En lista de sms {$user->id}, curso {$course->id}";
+                                        if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, send sms
+                                            if($user->numSMSForCourse($course->id < $this->maxSMSReminders)){
+                                                $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course_id);
+                                            }
+                                        }else{
+                                            // journey finished
                                         }
-                                    }else{ // Doctor didn't have advance  
+                                    }else{
                                         if($notificationType == 'month_reminder'){
                                             if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
                                                 $numMonthReminders = $numMonthReminders = $user->numMonthReminderNotifications($course->id);
                                                 if($numMonthReminders < $this->maxMonthReminders){
-                                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                                    $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                                    $this->sendMonthReminderNotification($user->email, $user->id, $user->slug, $course->id);
                                                 }else{
-                                                    $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->slug, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
+                                                    // $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->slug, $course->id);
                                                 }
                                             }
                                         }elseif($notificationType == 'week_reminder'){
@@ -86,8 +111,10 @@ class FakerMailController extends Controller
                                             if($timestampLastNotification->lt($weekAgo)){ // More than 1 week without advance, month remind
                                                 // echo "Notificación semanal";
                                                 if($numWeekReminders < $this->maxWeekReminders){
-                                                    // echo "Total: {$numWeekReminders}, máximo: {$this->maxWeekReminders} <br>";
-                                                    $this->sendWeekReminderNotification($user->mobile_phone, $user->id, $user->ascription->name, $course->id);
+                                                    $this->sendWeekReminderNotification(
+                                                        $user->email, $user->id, $user->slug, $course->id, 
+                                                        $course->name, $user->full_name, $course->credits
+                                                    );
                                                 }else{
                                                     // echo "Agregando a la lista de personas por llamar<br>";
                                                     $this->addToListOfUsersToCall($user->id, $course->id);
@@ -99,19 +126,18 @@ class FakerMailController extends Controller
                                             }
                                         }
                                     }
-                                }else{ // First Notification
-                                    if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
-                                        $this->sendMonthReminderNotification($user->email, $user->id, $user->ascription->name, $course->id, $course->name,
-                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
-                                    }
                                 }
-                            }else{ // User has call notification from course
-                                // echo "Usuario está en lista de llamada<br>";
+                            }else{ // First Notification
+                                if($monthAgo->gt($lastAdvance)){ // More than 1 month without advance, month reminder
+                                    $this->sendMonthReminderNotificationWithAdvance($user->email, $user->id, $user->ascription->slug, $course->id, $course->name,
+                                        $user->full_name, $course->credits, $course->modules()->count(), $user->numCompletedModulesOfCourse($course->id));
+                                }
                             }
-
+                        }else{ // User has call notification from course
+                            // echo "Usuario está en lista de llamada<br>";
                         }
-                    }
-                }
+                    } // end foreach users
+                } // end foreach course
             }else{
                 return "No está activado el envío de notificaciones";
             }
@@ -119,26 +145,51 @@ class FakerMailController extends Controller
         $time_end = $this->microtime_float();
         $time = $time_end - $time_start;
         return "Script terminado en {$time} segundos ";
-        return Carbon::now();
+        // return Carbon::now();
+        return;
     }
 
-    public function sendMonthReminderNotification($email, $user_id, $ascription_name, $course_id, $course_name, $user_name, $credits, $numModules, $numCompletedModules){
+    public function sendMonthReminderNotification($email, $user_id, $ascription_slug, $course_id){
+        $email = 'ricardo.allende.p@gmail.com';
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
-        $route = route('ascription.login', $ascription_name)."?notification=".$token;
+        $route = route('ascription.login', $ascription_slug)."?notification=".$token;
+        Mail::to($email)->send(new Recordatorio($route));
+        return true;
+    }
+
+    public function sendMonthReminderNotificationWithAdvance($email, $user_id, $ascription_slug, $course_id, $course_name, $user_name, $credits, $numModules, $numCompletedModules){
+        $token = \Uuid::generate()->string;
+        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 2]);
+        $route = route('ascription.login', $ascription_slug)."?notification=".$token;
         Mail::to($email)->send(new MonthReminder($route, $course_name, $user_name, $credits, $numModules, $numCompletedModules));
         return true;
     }
 
-    public function sendWeekReminderNotification($mobilePhone, $user_id, $ascription_name, $course_id){ // This function sends a sms
+    public function sendWeekReminderNotification($email, $user_id, $ascription_slug, $course_id, $course_name, $user_name, $credits){
+        $email = 'ricardo.allende.p@gmail.com';
         $token = \Uuid::generate()->string;
-        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 3]);
-        return;
-        $url = route('ascription.login', $ascription_name)."?notification=".$token;
+        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 'week_reminder']);
+        $route = route('ascription.login', $ascription_slug)."?notification=".$token;
+        Mail::to($email)->send(new Recordatorio2($route, $user_name, $credits, $course_name));
+        // Mail::to($email)->send(new MonthReminder($route, $course_name, $user_name, $credits, $numModules, $numCompletedModules));
+        return true;
+    }
+
+
+
+    
+
+    public function sendSMS($mobilePhone, $user_id, $ascription_slug, $course_id){
+        $token = \Uuid::generate()->string;
+        Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 'sms']);
+        // dd('Se está enviando sms a {$user_id}');
+        return; 
+        $mobilePhone = str_replace(' ', '', $mobilePhone);
         if(strpos($mobilePhone, '+52') !== false ){ // Found
             $mobilePhone = "+52".$mobilePhone;
         }
-        $mobilePhone = str_replace(' ', '', $mobilePhone);
+        $url = route('ascription.login', $ascription_slug)."?notification=".$token;
         $sms = AWS::createClient('sns');
         $sms->publish([
                 'Message' => 'Doctor, le echamos de menos en Academia-mc, ¿desea continuar con su curso? '.$url,
@@ -165,68 +216,11 @@ class FakerMailController extends Controller
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 4]);
     }
 
-    public function sendTestEmail(){
-        $email = "ricardo.allende.p@gmail.com";
-        $token = \Uuid::generate()->string;
-        Mail::to($email)->send(new Test($token));
-        echo "Email enviado a {$email} <br>";
-        $email = "ricardo.allende@subitus.com";
-        $token = \Uuid::generate()->string;
-        Mail::to($email)->send(new Test($token));
-        echo "Email enviado a {$email} <br>";
-        return "Test 'sendTestEmail' terminado";
-    }
 
-    public function sendTestEmailTo($email){
-        Mail::to($email)->send(new Test());
-        echo "Email enviado a {$email} <br>";
-        return "Test sendTestEmailTo terminado";
-    }
 
     function microtime_float()
     {
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
     }
-
-    public function sendTestSMS(){
-        $mobilePhone = "+525525731520";
-        $sms = AWS::createClient('sns');
-        // dd($sms);
-        $sms->publish([
-                'Message' => 'Mensaje de prueba del sistema academia https://dev.academia.nurun.com.mx/admin/mail',
-                'PhoneNumber' => $mobilePhone,
-                'MessageAttributes' => [
-                    'AWS.SNS.SMS.SMSType'  => [
-                        'DataType'    => 'String',
-                        'StringValue' => 'Transactional',
-                     ]
-            	 ],
-              ]);
-        return "Mensaje enviado a {$mobilePhone}";
-    }
-
-    public function sql(Request $request){
-        $statement = $request->statement;
-        if($results=DB::statement($statement)){
-            return "Terminado {$statement}";
-        }else{
-            return "Falló {$statement}";
-        }
-    }
-
-    public function sendTestSMSTo($mobilePhone){
-        $sms = AWS::createClient('sns');
-        $sms->publish([
-                'Message' => 'Mensaje de prueba enviad',
-                'PhoneNumber' => $mobilePhone,
-                'MessageAttributes' => [
-                    'AWS.SNS.SMS.SMSType'  => [
-                        'DataType'    => 'String',
-                        'StringValue' => 'Transactional',
-                     ]
-            	 ],
-              ]);
-    }
-
 }

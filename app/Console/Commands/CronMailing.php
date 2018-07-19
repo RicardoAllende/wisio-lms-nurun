@@ -56,8 +56,9 @@ class CronMailing extends Command
      */
     public function handle()
     {
-        $time_start = $this->microtime_float();
+        // $time_start = $this->microtime_float();
         $settings = Setting::first();
+        $invitation_sent = true; // default value
         if($settings != null){
             $monthReminders = $settings->maxMonthReminders;
             if(is_numeric($monthReminders)){
@@ -72,18 +73,16 @@ class CronMailing extends Command
                 $this->maxSMSReminders = $maxSMSReminders;
             }
             $this->mailing = $settings->mailing; // true | false
+            $invitation_sent = $settings->invitation_sent;
         }
 
         set_time_limit(1500);
-        $invitations = Notification::where('type', 'welcome')->count();
-        if($invitations == 0){
-            $user = User::first();
-            $token = \Uuid::generate()->string;
-            Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => Course::first()->id, 'type' => 'welcome']);
-            $users = User::cursor();
+        if( ! $invitation_sent){ // Invitations haven't sent, 
+            $settings->invitation_sent = true;
+            $settings->save();
             $ascriptions = Ascription::cursor();
             foreach($ascriptions as $ascription){
-                $route = route('ascription.login', $slug);
+                $route = route('ascription.login', $ascription->slug);
                 $users = $ascription->users()->cursor();
                 foreach($users as $user){
                     Mail::to($user->email)->send(new NewPlatform($user->full_name, $route));
@@ -114,7 +113,11 @@ class CronMailing extends Command
                                     }else{ // Doctor didn't have advance  
                                         if( ! $user->inSMSList($course->id)){
                                             if($user->numSMSForCourse($course->id < $this->maxSMSReminders)){
-                                                $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course_id);
+                                                if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, month reminder
+                                                    $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course_id);
+                                                }
+                                            }else{
+                                                // journey finished
                                             }
                                         }else{
                                             if($notificationType == 'month_reminder'){
@@ -169,10 +172,11 @@ class CronMailing extends Command
                 return "No está activado el envío de notificaciones";
             }
         }
-        $time_end = $this->microtime_float();
-        $time = $time_end - $time_start;
-        return "Script terminado en {$time} segundos ";
-        return Carbon::now();
+        // $time_end = $this->microtime_float();
+        // $time = $time_end - $time_start;
+        // return "Script terminado en {$time} segundos ";
+        // return Carbon::now();
+        return;
     }
 
     public function sendMonthReminderNotification($email, $user_id, $ascription_slug, $course_id){
@@ -209,6 +213,7 @@ class CronMailing extends Command
     public function sendSMS($mobilePhone, $user_id, $ascription_slug, $course_id){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 'sms']);
+        return; 
         $mobilePhone = str_replace(' ', '', $mobilePhone);
         if(strpos($mobilePhone, '+52') !== false ){ // Found
             $mobilePhone = "+52".$mobilePhone;

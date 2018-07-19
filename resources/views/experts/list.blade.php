@@ -52,7 +52,7 @@
                               @endforelse
                               </td>
                               <td>{!! $expert->summary !!}</td>
-                              <td> <a href="{{ route('list.specialties.for.expert', $expert->id) }}" class="btn btn-primary">Editar especialidades</a></td>
+                              <td> <a href="{{ route('experts.edit', $expert->id) }}" class="btn btn-primary">Editar</a></td>
                               <td>
                                   {!! Form::open(['method'=>'DELETE','route'=>['experts.destroy',$expert->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                      <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>

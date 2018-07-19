@@ -757,11 +757,10 @@ class User extends Authenticatable
             return true;
         }
         return false;
-        // Verificar número de sms enviados, retornar true | false
     }
 
     public function numSMSForCourse($course_id){
-        return $this->notifications()->where('course_id', $course_id)->where('type', 'sms')->where('accessed', 1)->count();
+        return $this->notifications()->where('course_id', $course_id)->where('type', 'sms')->count();
     }
 
     public function numWeekReminderNotifications($course_id){ // Not viewed notifications
@@ -789,8 +788,8 @@ class User extends Authenticatable
     //     return false;
     // }
 
-    public function hasCallNotification(){
-        if($this->notifications()->where('type', 4)->count() > 0){
+    public function hasCallNotification($course_id){
+        if($this->notifications()->where('type', 4)->where('accessed', 1)->where('course_id', $course_id)->count() > 0){
             return true;
         }
         return false;

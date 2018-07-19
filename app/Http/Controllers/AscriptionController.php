@@ -7,6 +7,9 @@ use App\Ascription;
 use App\Course;
 use Illuminate\Support\Facades\Auth;
 use App\Notification;
+use App\CourseUser;
+use Illuminate\Support\Facades\DB;
+use App\User;
 
 class AscriptionController extends Controller
 {
@@ -41,6 +44,7 @@ class AscriptionController extends Controller
                 $notification->viewed = 1;
                 $notification->save();
                 if(Auth::check()){
+                    $user = Auth::user();
                     if($notification->user_id == $user->id){
                         $notification->accessed = 1;
                         $notification->save();

@@ -90,6 +90,7 @@ class AttachmentsController extends Controller
         if($request->filled('path')){
             $path = $request->input('path');
         }
+        $path = "doctores_faltantes";
         $filePath = request()->file('file')->store('public/'.$path);
         $filePath = str_replace('public', 'storage', $filePath);
         $name = request()->file('file')->getClientOriginalName();
