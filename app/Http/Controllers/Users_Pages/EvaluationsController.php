@@ -75,7 +75,7 @@ class EvaluationsController extends Controller
                             $token = \Uuid::generate()->string;
                             $url = route('ascription.login', $user->ascription->slug);
                             Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
-                            Mail::to($user->email)->send(new ApprovedCourse($url));
+                            Mail::to($user->email)->send(new ApprovedCourse($url, $course->name));
                         }
                     } else{ // Not approved
                         if( ! $user->hasRebootInCourse($course->id)){

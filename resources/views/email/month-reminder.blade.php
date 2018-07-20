@@ -19,7 +19,7 @@
     <tr>
       <td height="228" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">
 		¡Excelente ritmo, Dr. {{ $user_name }}! Hasta el momento<br>
-		  usted ha cursado {{ $num_completed_modules }} de {{ $num_modules }} módulos del curso<br> ___________________. Cada vez falta menos para que<br> obtenga {{ $credits }} puntos de valor curricular.
+		  usted ha cursado {{ $num_completed_modules }} de {{ $num_modules }} módulos del curso<br> {{ $course_name }}. Cada vez falta menos para que<br> obtenga {{ $credits }} puntos de valor curricular.
 		</td>
     </tr>
     <tr>

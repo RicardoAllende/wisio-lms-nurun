@@ -68,7 +68,11 @@ class EvaluationsController extends Controller
     {
         $evaluation = Evaluation::find($id);
         if($evaluation == null) { return redirect('evaluations.index'); }
-        $course = $evaluation->module->course;
+        if($evaluation->isDiplomaEvaluation()){
+            $course = $evaluation->course;
+        }else{
+            $course = $evaluation->module->course;
+        }
         $approved = EvaluationUser::where('evaluation_id', $id)->where('score', '>=', $course->minimum_score)->count();
         return view('evaluations/show',compact('evaluation', 'approved'));
     }

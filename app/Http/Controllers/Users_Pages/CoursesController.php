@@ -92,7 +92,7 @@ class CoursesController extends Controller
                                 $token = \Uuid::generate()->string;
                                 $url = route('ascription.login', $user->ascription->slug);
                                 Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
-                                Mail::to($user->email)->send(new ApprovedCourse($url));
+                                Mail::to($user->email)->send(new ApprovedCourse($url, $course->name));
                             }
                             if($course->has_diploma){
                                 $evaluation = $course->diplomaEvaluation;

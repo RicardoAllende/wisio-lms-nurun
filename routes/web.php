@@ -158,10 +158,6 @@ Route::group(['middleware' => ['auth']], function () {
       Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
       Route::get('/user/{user_id}', 'AdminControllers\UsersController@showReport')->name('show.user.report');
     });
-    
-    Route::get('/tablas', function(){ 
-      return view('email.course-completion');
-    });
 
     // API Tags
     Route::post('/api/tags/create', 'AdminControllers\TagsController@store');

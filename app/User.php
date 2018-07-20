@@ -388,6 +388,10 @@ class User extends Authenticatable
             if($this->hasCompletedTheModule($moduleId)){
                 $modules->push($moduleId);
                 $lastModuleId = $moduleId;
+                $temp = $modulesId->take($modulesId->search($lastModuleId) + 1);
+                if($temp->contains($module_id)){
+                    return true;
+                }
             }
         }
         if(isset($lastModuleId)){

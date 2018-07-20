@@ -18,6 +18,10 @@ class Question extends Model
     	return $this->hasMany('App\Option');
     }
 
+    public function correct(){
+        return $this->options()->where('score', 1)->first();
+    }
+
     public function evaluation(){
     	return $this->belongsTo('App\Evaluation');
     }

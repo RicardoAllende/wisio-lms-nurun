@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <td height="124" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 25px;">
-		¡Felicidades, usted ha aprobado<br> el curso de ______________!
+		¡Felicidades, usted ha aprobado<br> el curso de {{ $course_name }}!
 		</td>
     </tr>
     <tr>

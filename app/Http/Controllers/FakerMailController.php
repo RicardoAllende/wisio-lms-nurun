@@ -96,7 +96,7 @@ class FakerMailController extends Controller
                                         if($timestampLastNotification->lt($monthAgo)){ // More than 1 month without advance, send sms
 
                                             if($user->numSMSForCourse($course->id) < $this->maxSMSReminders){
-                                                $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course->id);
+                                                $this->sendSMS($user->mobilePhone, $user->id, $user->ascription->slug, $course->id, $user->full_name, $course->name, $course->credits);
                                             }else{
                                                 // journey finished
                                                 echo "Finalizado";
@@ -196,7 +196,7 @@ class FakerMailController extends Controller
 
     
 
-    public function sendSMS($mobilePhone, $user_id, $ascription_slug, $course_id){
+    public function sendSMS($mobilePhone, $user_id, $ascription_slug, $course_id, $user_name, $course_name, $credits){
         $token = \Uuid::generate()->string;
         Notification::create(['code' => $token, 'user_id' => $user_id, 'course_id' => $course_id, 'type' => 'sms']);
         $mobilePhone = str_replace(' ', '', $mobilePhone);
@@ -207,7 +207,8 @@ class FakerMailController extends Controller
         return;
         $sms = AWS::createClient('sns');
         $sms->publish([
-                'Message' => 'Doctor, le echamos de menos en Academia-mc, ¿desea continuar con su curso? '.$url,
+                'Message' => "Dr. ".$user_name.", no deje pasar la oportunidad de actualizar sus conocimientos con el curso de ".$course_name." que cuenta con ".$credits." puntos de valor curricular.
+                ¡Dé clic en la liga para continuar su capacitación! \n ".$url,
                 'PhoneNumber' => $mobilePhone,
                 'MessageAttributes' => [
                     'AWS.SNS.SMS.SMSType'  => [
