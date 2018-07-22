@@ -79,7 +79,7 @@
                                         <td><a href="{{ route('modules.show', $module->id) }}">{{ $module->name }}</a></td>
                                         <td><a href="{{ route('modules.edit', $module->id) }}" class="btn btn-primary" >Editar</a></td>
                                         <td>
-                                            {!! Form::open(['method'=>'DELETE','route'=>['ascriptions.destroy',$module->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
+                                            {!! Form::open(['method'=>'DELETE','route'=>['modules.destroy',$module->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
                                                 <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
                                             {!! Form::close() !!}
                                         </td>

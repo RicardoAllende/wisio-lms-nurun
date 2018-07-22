@@ -274,7 +274,7 @@ class Course extends Model
     public function setLastAdvance(){
         $users = $this->users()->cursor();
         $modules = $this->modules()->pluck('id');
-        return $modules;
+        // return $modules;
         foreach($users as $element){
             $user = User::find($element->user_id);
             if($user != null){
@@ -331,7 +331,7 @@ class Course extends Model
     }
 
     public function setCourseComplete(){
-        $users = $this->users;
+        $users = $this->users()->cursor();
         foreach($users as $user){
             if($user->hasCompletedEvaluationsFromCourse($this->id)){
                 $enrollment = CourseUser::where('user_id', $user->id)->where('course_id', $this->id)->first();

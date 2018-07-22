@@ -49,7 +49,7 @@
                               <td>
                                   {!! Form::open(['method'=>'delete','route'=>['modules.destroy',$module->id],'style'=>'display:inline;']) !!}
                                     <!--{!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}-->
-                                    <a href="{{route('modules.destroy',$module->id)}}" class="btn btn-danger btn-round btn_delete" >Eliminar</a>
+                                    <a href="#" class="btn btn-danger btn-round btn_delete" >Eliminar</a>
                                   {!! Form::close() !!}
                               </td>
                               </tr>

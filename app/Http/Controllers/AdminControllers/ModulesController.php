@@ -162,6 +162,7 @@ class ModulesController extends Controller
         if ($module != null) {
             $module->delete();
         }
+        return back();
         return redirect()->route('modules.index');
     }
 
