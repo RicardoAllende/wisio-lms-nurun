@@ -22,7 +22,7 @@ Certificados
         @foreach($certificates as $certificate) <?php /* Certificate is a course with pivot  */ ?>
             <li class="collection-item avatar">
                 <!-- <i class="material-icons circle">folder</i> -->
-                <img src="{{ $certificate->getMainImgUrl() }}" class="circle" alt="{{ $certificate->name }}">
+                <img src="{{ $certificate->category->getMainImgUrl() }}" class="circle" alt="{{ $certificate->name }}">
                 <span class="title">{{ $certificate->name }}</span>
                 <a target='_blank' href="{{ route('download.certificate.of.course', [$ascription->slug, $certificate->slug]) }}" class="btnAcademia secondary-content">Descargar</a>
             </li>
@@ -48,7 +48,7 @@ Certificados
         @foreach($diplomas as $diploma) <?php /* diplomado is a course with pivot  */ ?>
             <li class="collection-item avatar">
                 <!-- <i class="material-icons circle">folder</i> -->
-                <img src="{{ $diploma->getMainImgUrl() }}" class="circle" alt="{{ $diploma->name }}">
+                <img src="{{ $diploma->category->getMainImgUrl() }}" class="circle" alt="{{ $diploma->name }}">
                 <span class="title">{{ $diploma->name }}</span>
                 <a target='_blank' href="{{ route('download.diploma.of.course', [$ascription->slug, $diploma->slug]) }}" class="btnAcademia secondary-content">Descargar</a>
             </li>
