@@ -46,8 +46,8 @@
              </div>
              <div class="col l6 hide-on-med-and-down right-align ">
                @if (Auth::check())
-                 <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Contacto'});"
-                 href="" class="links">Contacto</a>
+                 <!--<a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Contacto'});"
+                 href="#" class="links">Contacto</a>-->
                  <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Editar Perfil'});"
                  href="{{ route('student.update') }}" class="links">Editar Perfil</a>
                @else

@@ -41,8 +41,6 @@
                         <p>Descripción: {{ $ascription->description }} </p>
                         <p>Estado: {{ ($ascription->enabled == 1)? 'disponible' : 'no disponible' }}</p>
                         @if($ascription->hasCalendar())<p><a target="_blank" href="{{ $ascription->calendarUrl() }}">Calendario</a></p>@endif
-                        <!--<p><a href="{{ route('list.users.for.ascriptions', $ascription->id) }}" class="btn btn-primary">Listado de usuarios</a></p>-->
-
                     </div>
                     <div class="clearfix">
                     </div>

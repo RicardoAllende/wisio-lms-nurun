@@ -87,6 +87,7 @@ class AscriptionController extends Controller
                             break;
                         }
                     }
+                    return redirect('/');
                 }
                 return view('users_pages/login/login', compact('courses', 'ascription', 'notification'));
             }

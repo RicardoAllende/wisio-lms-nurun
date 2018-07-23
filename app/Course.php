@@ -75,12 +75,12 @@ class Course extends Model
     }
 
     public function hasRelations(){
-        if($this->ascriptions->count() > 0){
-            return true;
-        }
-        if($this->modules->count() > 0){
-            return true;
-        }
+        // if($this->ascriptions->count() > 0){
+        //     return true;
+        // }
+        // if($this->modules->count() > 0){
+        //     return true;
+        // }
         if($this->users->count() > 0){
             return true;
         }

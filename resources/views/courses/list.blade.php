@@ -29,7 +29,7 @@
                           <tr>
                           <th>#</th>
                             <th>Curso</th>
-                            <th>Descripción</th>
+                            <th>¿Ofrece certificado?</th>
                             <th>¿Ofrece diplomado?</th>
                             <th>Categoría</th>
                             <th>Acciones</th>
@@ -40,7 +40,7 @@
                               <tr>
                                 <td><a href="{{route('courses.show', $course->id)}}">{{ $i }}</a></td>@php $i++; @endphp
                                 <td><a href="{{route('courses.show', $course->id)}}">{{ $course->name }}</a></td>
-                                <td>{{ $course->description }}</td>
+                                <td>{{ ($course->has_constancy) ? 'Sí' : 'No' }}</td>
                                 <td>{{ ($course->has_diploma) ? 'Sí' : 'No' }}</td>
                                 @if($course->category != null )
                                   <td> <a href="{{ route('categories.show', $course->category->id) }}">{{ $course->category->name }}</a> </td>

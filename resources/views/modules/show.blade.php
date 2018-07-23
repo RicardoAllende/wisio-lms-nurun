@@ -78,6 +78,7 @@
                                             <th>#</th>
                                             <th>Evaluación</th>
                                             <th>Tipo</th>
+                                            <th>Eliminar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -87,6 +88,11 @@
                                             <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td>
                                             <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $evaluation->name }}</a></td>
                                             <td>{{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }}</td>
+                                            <td>
+                                            {!! Form::open(['method'=>'delete','route'=>['evaluations.destroy',$evaluation->id],'style'=>'display:inline;']) !!}
+                                                <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
+                                            {!! Form::close() !!}
+                                            </td>
                                             </tr>
                                             @php $i++; @endphp
                                         @endforeach
@@ -136,4 +142,13 @@
         </div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="/js/sweetalert2.min.js"></script>
+<script src="/js/method_delete_f.js"></script>
+@endsection
+
+@section('styles')
+<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

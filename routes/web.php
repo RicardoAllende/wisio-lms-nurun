@@ -2,59 +2,16 @@
 
 Route::get('/', 'HomeController@index')->name('welcome');
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
-Route::get('/get-response/{url}', 'AdminControllers\UsersController@getResponse')->name('get.response');  // Para verificación de cédula
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
-
-// Route::get('/setmodulescompleted', function(){
-//   $i = 1;
-//   for($i = 2; $i < 9; $i++){
-//     App\Course::find($i)->setModulesComplete();
-//     echo "{$i} terminado";
-//   }
-//   return;
-// });
-
-// Route::get('/modulos-sin-recursos', function(){
-//   $modules = App\Module::all();
-//   foreach($modules as $module){
-//     if( ! $module->hasResources()){
-//       echo "Módulo sin recursos {$module->id}<br>";
-//     }
-//   }
-//   $courses = App\Course::cursor();
-//   foreach($courses as $course){
-//     if($course->finalEvaluations()->count() == 0){
-//       echo "Curso sin evaluaciones finales {$course->id}<br>";
-//     }
-//   }
-//   echo "Finalizado";
-// });
-
-Route::get('recordatorios', function(){
-  return url('/dirección a la cual quisiera mandar');
-  // return view('email.approved-course');
-  // return view('email.course-enrollment');
-  // return view('email.month-reminder');
-  // return view('email.new-platform');
-  // return view('email.recordatorio');
-  return view('email.recordatorio-2');
-});
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
-Route::get('/send-email', 'FakerMailController@sendTestEmail');
-Route::get('/send-email-to/{email}', 'FakerMailController@sendTestEmailTo');
-Route::get('/send-sms', 'FakerMailController@sendTestSMS');
-Route::get('/send-sms-to/{phone}', 'FakerMailController@sendTestSMSTo');
-
-Route::get('/mailing', 'FakerMailController@sendEmail');
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
 
   Route::get('/logout','LoginController@userLogout')->name("logout");
 
-  Route::get('empty-evaluations', 'AdminControllers\EvaluationsController@emptyEvaluations')->middleware('admin');
   Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 
@@ -99,15 +56,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/modules', 'AdminControllers\ModulesController');
     Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
     Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
-    // Route::get('/courses/{course}/manage-modules-for-diplomado', 'AdminControllers\coursesController@modulesForDiplomado')->name('list.modules.for.course');
     Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
     Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
-    // Route::post('/courses/add-to-ascription', 'AdminControllers\coursesController@addToAscription')->name('add.course.to.ascription');
     Route::get('/courses/relate-to-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@relateToAscription')
       ->name('relate.course.to.ascription');
     Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
       ->name('dissociate.course.of.ascription');
-  // Route::get('/courses/{course_id}/manage-diplomat', 'AdminControllers\CoursesController@manageDiplomaModules')->name('manage.diploma.modules');
     Route::resource('/courses','AdminControllers\CoursesController');
     Route::resource('/categories','AdminControllers\CategoriesController');
     Route::get('/users/{user}/reset-evaluations-from-course/{course}', 'AdminControllers\UsersController@resetCourseEvaluations')->name('reset.evaluations');
@@ -139,12 +93,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/options/create-for-question/{id}', 'AdminControllers\OptionsController@createFor')->name('options.createfor');
     Route::resource('/options','AdminControllers\OptionsController');
     Route::resource('/questions', 'AdminControllers\QuestionsController');
-
-    // Route::get('/list-users-for-diplomado/{ascription_id}', 'AdminControllers\AscriptionsController@listUsersForDiplomado')->name('list.users.for.diplomado');
-    // Route::get('/attach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@attachUserToDiplomado')->name('attach.user.to.diplomado');
-    // Route::get('/detach-user-to-diplomado/{ascription_id}/{user_id}', 'AdminControllers\UsersController@detachUserForDiplomado')->name('detach.user.to.diplomado');
-    // Route::get('/diplomados', 'AdminControllers\AscriptionsController@listDiplomados')->name('list.diplomados');
-
     Route::Resource('/templates', 'AdminControllers\CertificateTemplatesController');
 
     /** Reports */
@@ -166,8 +114,6 @@ Route::group(['middleware' => ['auth']], function () {
 
   });
 
-  // Route::get('/inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@enrolUserInDiplomat')->name('enrol.user.in.diplomat');
-  // Route::get('/no-inscribir-al-diplomado/{email}/{slug}', 'Users_Pages\CoursesController@notEnrolUserInDiplomat')->name('not.enrol.user.in.diplomat');
   Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
     Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
     Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');
@@ -202,12 +148,9 @@ Route::group(['middleware' => ['auth']], function () {
 
   Route::get('/seleccionar-seccion', 'Users_Pages\UserController@selectAscription')->name('student.select.ascription');
   Route::get('/actualizar-informacion-personal', 'Users_Pages\UserController@updateInformation')->name('student.update')->middleware('student');
-  // Route::get('/establecer-seccion-temporal/{ascription_slug}', 'Users_Pages\UserController@setTemporalAscription')
-  // ->name('set.temporal.ascription')->middleware('student');
   Route::post('/actualizar-datos-personales', 'Users_Pages\UserController@update')->name('student.update.request')->middleware('student');
 
 });
-Route::post('/tablas', 'FakerMailController@sql')->name('sql.form');
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 Route::get('/recuperar-contrasena', 'LoginController@forgotPassword')->name('forgot.password');
 

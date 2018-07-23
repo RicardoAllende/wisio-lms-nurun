@@ -122,8 +122,11 @@ class EvaluationsController extends Controller
     public function destroy($id)
     {
         $evaluation = Evaluation::find($id);
-        $evaluation->delete();
-        return redirect()->route('evaluations.index');
+        // dd($evaluation);
+        if($evaluation != null){
+            $evaluation->delete();
+        }
+        return back();
     }
 
     public function dropImgAttachments($evaluation){

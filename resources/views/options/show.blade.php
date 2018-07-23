@@ -9,11 +9,11 @@
     <ol class="breadcrumb">
         @if($option->question->evaluation->isDiplomaEvaluation())
         <li>
-            <a href="{{ route('courses.show', $option->question->evaluation->course->id) }}">Módulo: {{ $option->question->evaluation->course->name }}</a>
+            <a href="{{ route('courses.show', $option->question->evaluation->course->id) }}">Curso: {{ $option->question->evaluation->course->name }}</a>
         </li>
         @else
         <li>
-            <a href="{{ route('modules.show', $option->question->evaluation->module->id) }}">Módulo: {{ $option->question->evaluation->module->name }}</a>
+            <a href="{{ route('courses.show', $option->question->evaluation->module->course->id) }}">Curso: {{ $option->question->evaluation->module->course->name }}</a>
         </li>
         @endif
         <li>

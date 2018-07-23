@@ -86,7 +86,7 @@
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
-                            <a href="{{ route('courses.index') }}" class="btn btn-default">Cancelar</a>
+                            <a href="{{ route('modules.index') }}" class="btn btn-default">Cancelar</a>
                             {!! Form::hidden('attachment',null,['class'=>'form-control','placeholder'=>'','id'=>'attachment']) !!}
                             @if(isset($module))
                               @if($module->hasMainImg() > 0)

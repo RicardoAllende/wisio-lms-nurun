@@ -36,7 +36,7 @@
                         </thead>
                         <tbody>
                             @foreach($evaluations as $evaluation)
-                              <tr>@php $i++; @endphp
+                              <tr>
                                 @if($evaluation->isDiplomaEvaluation())
                                   <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $i }}</a></td> 
                                   <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $evaluation->name }}</a></td>
@@ -54,8 +54,7 @@
                                   <td>{{ $evaluation->created_at }}</td>
                                   <td>
                                       {!! Form::open(['method'=>'delete','route'=>['evaluations.destroy',$evaluation->id],'style'=>'display:inline;']) !!}
-                                        {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                        <!--<a href="{{route('evaluations.destroy',$evaluation->id)}}" class="btn btn-danger btn_delete" >Eliminar</a>-->
+                                        <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
                                       {!! Form::close() !!}
                                   </td>
                                 @endif

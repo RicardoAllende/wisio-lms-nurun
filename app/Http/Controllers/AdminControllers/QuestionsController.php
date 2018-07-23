@@ -74,8 +74,9 @@ class QuestionsController extends Controller
     public function edit($id)
     {
         $question = Question::find($id);
-        if($question == null){ return redirect()->route('questions.index'); }
-        return view('questions/form', compact('question'));
+        if($question == null){ return back(); }
+        $evaluation = $question->evaluation;
+        return view('questions/form', compact('question', 'evaluation'));
     }
 
     /**
@@ -87,7 +88,14 @@ class QuestionsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $question = Question::find($id);
+        if($question == null){ return back(); }
+        $question->evaluation_id = $request->evaluation_id;
+        $question->name = $request->name;
+        $question->content = $request->content;
+        $question->save();
+        return redirect()->route('questions.show', $question->id);
+        // dd($request->input());
     }
 
     /**

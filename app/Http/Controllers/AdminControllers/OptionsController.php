@@ -119,7 +119,7 @@ class OptionsController extends Controller
     {
         $option = Option::find($id);
         if($option != null){
-            $option->delte();
+            $option->delete();
         }
         return back();
     }
