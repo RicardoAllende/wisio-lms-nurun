@@ -6,7 +6,7 @@
   @section('subtitle')
     <ol class="breadcrumb">
         <li>
-            <a href="{{ route('courses.show', $evaluation->course->name) }}">Curso: {{ $evaluation->course->name }} </strong></a>
+            <a href="{{ route('courses.show', $evaluation->course->id) }}">Curso: {{ $evaluation->course->name }} </strong></a>
         </li>
         <li class="active" >
             Evaluación final del diplomado{{ $evaluation->name }}

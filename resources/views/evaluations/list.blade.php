@@ -44,7 +44,7 @@
                                   <td>Evaluación final de diplomado</td>
                                   <td>{{ $evaluation->created_at }}</td>
                                   <td>
-                                      <a href="{{route('evaluations.create')}}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+                                      <a href="{{route('edit.diploma.evaluation', [$evaluation->course->id, $evaluation->id])}}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
                                   </td>
                                 @else
                                   <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td>
