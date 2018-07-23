@@ -95,7 +95,11 @@ Registro
 
         <div class="reg col s12 l6">
           {!! Form::label('professional_license', 'Cédula profesional:' )!!}
-          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'7 dígitos, ej. 0045727 ó 2548632', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números", 'maxlength' => '10' ]) !!}
+          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'7 dígitos', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{1,10}", 'title'=> "Únicamente números", 'maxlength' => '10' ]) !!}
+          <span class="smalltext">Su cedula debe tener 7 digitos o más:<br>
+            -Ej. 0045727 ó 4521597
+
+          </span><br><br>
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
