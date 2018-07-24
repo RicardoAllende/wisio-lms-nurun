@@ -27,18 +27,18 @@
 
         #dia2{
           position: fixed;
-          top: 478px;
-          left: 704px;
-          font-size: 12pt;
+          top: 479px;
+          left: 707px;
+          font-size: 13pt;
           color: #66767e;
           font-weight: 900;
         }
 
         #mes2{
           position: fixed;
-          top: 478px;
-          left: 764px;
-          font-size: 12pt;
+          top: 479px;
+          left: 766px;
+          font-size: 13pt;
           color: #66767e;
           font-weight: 900;
         }

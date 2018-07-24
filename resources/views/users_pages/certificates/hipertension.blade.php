@@ -27,7 +27,7 @@
 
         #dia2{
           position: fixed;
-          top: 463px;
+          top: 464px;
           left: 750px;
           font-size: 12pt;
           color: #66767e;
@@ -36,7 +36,7 @@
 
         #mes2{
           position: fixed;
-          top: 463px;
+          top: 464px;
           left: 798px;
           font-size: 12pt;
           color: #66767e;
