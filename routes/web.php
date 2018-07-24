@@ -45,6 +45,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/users/verify-professional-license/{user_id}', 'AdminControllers\UsersController@validateUser')->name('check.user.license');
     Route::get('/users/verify-all-users', 'AdminControllers\UsersController@verifyAllUsers')->name('verify.all.users');
     Route::get('/notification-settings', 'AdminControllers\NotificationsController@settings')->name('form.settings');
+
+
+    Route::get('/delete-module/{id}', 'AdminControllers\ModulesController@delete')->name('delete.module');
+    Route::get('/delete-expert/{id}', 'AdminControllers\ExpertsController@delete')->name('delete.expert');
+    Route::get('/delete-question/{id}', 'AdminControllers\QuestionsController@delete')->name('delete.question');
+    Route::get('/delete-option/{id}', 'AdminControllers\OptionsController@delete')->name('delete.option');    
+    
+    
     Route::post('/notification-settings', 'AdminControllers\NotificationsController@updateSettings')->name('update.settings');
     Route::get('/users/list-for-ascription/{ascription_id}', 'AdminControllers\UsersController@listForAscription')->name('list.users.for.ascriptions');  
     Route::post('/upload-resource', 'AdminControllers\ResourcesController@uploadResource')->name('upload.resource');

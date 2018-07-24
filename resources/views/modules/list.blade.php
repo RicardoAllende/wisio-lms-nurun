@@ -47,10 +47,7 @@
                               <td>{{ $module->evaluations->count() }}</td>
                               <td>{{ ($module->is_for_diploma) ? 'Módulo para diplomado' : '' }}</td>
                               <td>
-                                  {!! Form::open(['method'=>'delete','route'=>['modules.destroy',$module->id],'style'=>'display:inline;']) !!}
-                                    <!--{!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}-->
-                                    <a href="#" class="btn btn-danger btn-round btn_delete" >Eliminar</a>
-                                  {!! Form::close() !!}
+                                <a href="{{ route('delete.module', $module->id) }}" class="btn btn-danger btn-round" >Eliminar</a>
                               </td>
                               </tr>
                             @endforeach
@@ -66,13 +63,4 @@
               </div>
       </div>
 </div>
-@endsection
-
-@section('scripts')
-<script src="/js/sweetalert2.min.js"></script>
-<script src="/js/method_delete_f.js"></script>
-@endsection
-
-@section('styles')
-<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

@@ -54,9 +54,7 @@
                               <td>{!! $expert->summary !!}</td>
                               <td> <a href="{{ route('experts.edit', $expert->id) }}" class="btn btn-primary">Editar</a></td>
                               <td>
-                                  {!! Form::open(['method'=>'DELETE','route'=>['experts.destroy',$expert->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}
-                                     <a href="#" class="btn btn-danger btn_delete" >Eliminar</a>
-                                  {!! Form::close() !!}
+                                <a href="{{ route('delete.expert', $expert->id) }}" class="btn btn-danger btn_delete" >Eliminar</a>
                               </td>
                               </tr>
                             @endforeach
@@ -77,15 +75,3 @@
 
 
 @endsection
-
-@section('scripts')
-
-<script src="/js/sweetalert2.min.js"></script>
-<script src="/js/method_delete_f.js"></script>
-
-@endsection
-
-@section('styles')
-<link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
-@endsection
-     

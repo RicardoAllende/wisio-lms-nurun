@@ -21,7 +21,7 @@ class ModulesController extends Controller
      */
     public function index()
     {
-        $modules = Module::all();
+        $modules = Module::cursor();
         return view('modules/list', ['modules' => $modules]);
     }
 
@@ -218,6 +218,17 @@ class ModulesController extends Controller
         $resources = $module->resources;
         // return $resources;
         return view('modules/order-resources', compact('module', 'resources'));
+    }
+
+    public function delete($module_id){
+        $module = Module::find($module_id);
+        if($module == null){
+            return back()->withErrors([
+                'error' => 'No se pudo eliminar el módulo, inténtelo de nuevo.'
+            ]);
+        }
+        $module->delete();
+        return back();
     }
 
 }

@@ -37,13 +37,11 @@
                         @foreach($options as $option)
                           <tr>
                             <td>{{$i}}</td> @php $i++; @endphp
-                            <td><a href="{{ route('questions.show', $option->question->id) }}">{{ $option->question->content }}</a></td>
+                            <td>@if($option->question != null)<a href="{{ route('questions.show', $option->question->id) }}">{{ $option->question->name }}</a>@endif</td>
                             <td><a href="{{ route('options.show', $option->id) }}">{{ $option->content }}</a></td>
                             <td>{{ ($option->score == 1) ? 'Correcta' : 'Incorrecta' }}</td>
                             <td>
-                                {!! Form::open(['method'=>'delete','route'=>['options.destroy',$option->id],'style'=>'display:inline;']) !!}
-                                  <a href="#" class="btn btn-danger btn_delete">Eliminar</a>
-                                {!! Form::close() !!}
+                              <a href="{{ route('delete.option', $option->id) }}" class="btn btn-danger btn_delete">Eliminar</a>
                             </td>
                           </tr>
                         @endforeach

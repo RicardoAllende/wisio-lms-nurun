@@ -17,7 +17,7 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        return view('questions/list', ['questions' => Question::all()]);
+        return view('questions/list', ['questions' => Question::cursor()]);
     }
 
     /**
@@ -126,6 +126,17 @@ class QuestionsController extends Controller
         Storage::delete($path);
         $totalQuestions = Question::count();
         return "Se agregaron ".($totalQuestions - $questions)." preguntas";
+    }
+
+    public function delete($id){
+        $question = Question::find($id);
+        if($question == null){
+            return back()->withErrors([
+                'error' => 'No se pudo eliminar la pregunta, inténtelo de nuevo.'
+            ]);
+        }
+        $question->delete();
+        return back();
     }
 
     public function getContent($path){

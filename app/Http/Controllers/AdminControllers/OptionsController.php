@@ -16,7 +16,7 @@ class OptionsController extends Controller
      */
     public function index()
     {
-        return view('options/list', ['options' => Option::all()]);
+        return view('options/list', ['options' => Option::cursor()]);
     }
 
     /**
@@ -123,4 +123,16 @@ class OptionsController extends Controller
         }
         return back();
     }
+
+    public function delete($id){
+        $option = Option::find($id);
+        if($option == null){
+            return back()->withErrors([
+                'error' => 'No se pudo eliminar la opción, inténtelo de nuevo.'
+            ]);
+        }
+        $option->delete();
+        return back();
+    }
+
 }

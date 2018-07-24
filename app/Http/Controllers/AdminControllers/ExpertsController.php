@@ -18,7 +18,7 @@ class ExpertsController extends Controller
      */
     public function index()
     {
-        $experts = Expert::all();
+        $experts = Expert::cursor();
         return view('experts/list', compact('experts'));
     }
 
@@ -207,6 +207,17 @@ class ExpertsController extends Controller
 
     public function searchByName($search){
         return Expert::where('name', 'like', '%'.$search.'%')->with(['specialties'])->get()->toJson();
+    }
+
+    public function delete($id){
+        $expert = Expert::find($id);
+        if($expert == null){
+            return back()->withErrors([
+                'error' => 'No se pudo eliminar el experto, inténtelo de nuevo.'
+            ]);
+        }
+        $expert->delete();
+        return back();
     }
 
 }

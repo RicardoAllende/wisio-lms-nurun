@@ -24,7 +24,6 @@
                         
                     </div>
                     <div class="ibox-content">
-                    @if ($questions->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -47,9 +46,7 @@
                                 <td>{{ ($question->evaluation_id == null) ? 'No' : 'Asignar'  }}</td>
                                 <td>{{ $question->options->count() }}</td>
                                 <td>
-                                    {!! Form::open(['method'=>'delete','route'=>['questions.destroy',$question->id],'style'=>'display:inline;']) !!}
-                                      {!! Form::submit('Eliminar', ['class' => 'btn btn-danger']); !!}
-                                    {!! Form::close() !!}
+                                  <a href="{{ route('delete.question', $question->id) }}" class="btn btn-danger" >Eliminar</a>
                                 </td>
                               </tr>
                             @endforeach
@@ -57,9 +54,6 @@
                         </tbody>
                       </table>
                       </div>
-                    @else
-                    <button>Aún no existen preguntas</button>
-                    @endif
                     </div>
                     <div class="ibox-footer">
                       
