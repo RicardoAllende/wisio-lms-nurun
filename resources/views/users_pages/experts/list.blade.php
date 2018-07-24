@@ -85,7 +85,7 @@ Profesores
           <div class="card-content expertoscard">
               <div class="expertostitulo center">{{ $expert->name }}</div>
               <div class="col s8  offset-s2 center padtop15">
-                  <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                  <img src="{{ $expert->getMainImgUrl() }}" alt="" class="circle responsive-img imgExperts"> <!-- notice the "circle" class -->
                 </div>
               <div class="col s12 expertosparticipacion padtop15">
                 <p class="upper center">Participa en:</p>
