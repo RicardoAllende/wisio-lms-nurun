@@ -401,7 +401,7 @@ class UsersController extends Controller
     }
 
     public function getDataForDiplomado($course_id){
-        $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado')->where('courses.has_diploma', 1);
+        $users = Course::find($course_id)->users()->whereNotNull('course_user.score_in_diplomado');
         return \DataTables::of($users)
         ->make(true);
     }

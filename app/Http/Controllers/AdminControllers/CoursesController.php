@@ -98,7 +98,7 @@ class CoursesController extends Controller
             if(! $course->hasDiplomaEvaluation()){
                 if( ! isset($_GET['form'])){
                     return redirect()->route('create.diploma.evaluation', $course->id)
-                    ->with('evaluation-message', 'En la configuración de este curso se estableció que ofrece un diplomado, por lo que es necesario crear una evaluación, presione cancelar para cambiar esta configuración');
+                    ->with('evaluation-message', 'Este curso ofrece un diplomado, por lo que es necesario crear una evaluación, ¿desea cambiar esa configuración?');
                 }else{
                     return redirect()->route('courses.edit', $id);
                 }

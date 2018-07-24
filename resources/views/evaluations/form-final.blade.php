@@ -124,7 +124,7 @@
         confirmButtonColor: '#81BEF7',
         cancelButtonColor: '#3085d6',
         confirmButtonText: 'Cambiar configuración',
-        cancelButtonText: 'Aceptar'
+        cancelButtonText: 'Crear evaluación'
       }).then((result) => {
         if (result.value) {
           // console.log('dentro del id');
