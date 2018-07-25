@@ -21,6 +21,7 @@ class NewPlatform extends Mailable implements ShouldQueue
     {
         $this->doctor_name = $doctor_name;
         $this->route = $route;
+        $this->subject("Academia Sanofi");
     }
 
     /**

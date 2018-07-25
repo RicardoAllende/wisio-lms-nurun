@@ -22,6 +22,7 @@ class SecondNotApproved extends Mailable implements ShouldQueue
     {
         $this->route = $route;
         $this->course = $course;
+        $this->subject("Academia Sanofi");
     }
 
     /**

@@ -19,7 +19,8 @@ class Recordatorio extends Mailable implements ShouldQueue
      */
     public function __construct($route)
     {
-        $this->route = $route;        
+        $this->route = $route;
+        $this->subject("Academia Sanofi");
     }
 
     /**

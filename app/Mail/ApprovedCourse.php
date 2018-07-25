@@ -22,6 +22,7 @@ class ApprovedCourse extends Mailable implements ShouldQueue
     {
         $this->url = $url;
         $this->course_name = $course_name;
+        $this->subject("Academia Sanofi | {$course_name} aprobado");
     }
 
     /**
@@ -32,6 +33,6 @@ class ApprovedCourse extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('email.approved-course', ['url' => $this->url, 'course_name' => $this->course_name]);
+        ->view('email.approved-course', ['route' => $this->url, 'course_name' => $this->course_name]);
     }
 }

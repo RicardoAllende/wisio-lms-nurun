@@ -26,6 +26,7 @@ class Reboot extends Mailable implements ShouldQueue
         $this->user_name = $user_name;
         $this->course_name = $course_name;
         $this->courses = $courses;
+        $this->subject("Academia Sanofi");
     }
 
     /**
@@ -39,9 +40,8 @@ class Reboot extends Mailable implements ShouldQueue
         ->view('mail.not-approved', 
             [
                 'route' => $this->route, 
-                'user_name' =>  $this->user_name, 
-                'course_name' => $course_name, 
-                'courses' => $courses
+                'doctor_name' =>  $this->user_name, 
+                'course_name' => $course_name
             ]
         );
     }

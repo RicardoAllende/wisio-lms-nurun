@@ -24,6 +24,7 @@ class NotApproved extends Mailable implements ShouldQueue
         $this->route = $route;
         $this->course_name = $course_name;
         $this->doctor_name = $doctor_name;
+        $this->subject("Academia Sanofi");
     }
 
     /**
@@ -34,6 +35,6 @@ class NotApproved extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('mails.not-approved', ['route' => $this->route, 'course_name' => $this->course_name, 'doctor_name' => $this->doctor_name ]);
+        ->view('email.not-approved', ['route' => $this->route, 'course_name' => $this->course_name, 'doctor_name' => $this->doctor_name ]);
     }
 }

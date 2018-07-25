@@ -18,7 +18,7 @@ class Welcome extends Mailable implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        $this->subject("Academia Sanofi");        
     }
 
     /**

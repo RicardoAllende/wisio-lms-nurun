@@ -20,6 +20,7 @@ class ResetPasswordEmail extends Mailable implements ShouldQueue
     public function __construct($token)
     {
         $this->token = $token;
+        $this->subject("Academia Sanofi | Recuperar contraseña");
     }
 
     /**

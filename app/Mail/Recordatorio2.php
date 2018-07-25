@@ -23,6 +23,7 @@ class Recordatorio2 extends Mailable implements ShouldQueue
         $this->doctor_name = $doctor_name;
         $this->credits = $credits;
         $this->course_name = $course_name;
+        $this->subject("Academia Sanofi");
     }
 
     /**

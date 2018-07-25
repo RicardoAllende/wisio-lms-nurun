@@ -25,6 +25,7 @@ class Recommendation extends Mailable implements ShouldQueue
         $this->route = $route;
         $this->courses = $courses;
         $this->user = $user;
+        $this->subject("Academia Sanofi");
     }
 
     /**

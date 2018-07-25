@@ -16,6 +16,9 @@ use App\Mail\Welcome;
 use App\Mail\NewPlatform;
 use App\Mail\Recordatorio;
 use App\Mail\Recordatorio2;
+use App\Mail\Enrollment;
+use App\Mail\ApprovedCourse;
+use App\Mail\NotApproved;
 use AWS;
 use Illuminate\Support\Facades\DB;
 
@@ -242,18 +245,22 @@ class FakerMailController extends Controller
 
     function test(){
         $email = "ricardo.allende.p@gmail.com";
-        $route = "http://dev.academia.sanofi/academia-mc/login?notification=412j3klfd";
+        $route = "http://dev.academia/academia-mc/login?notification=412j3klfd";
         $full_name = "Ricardo Allende";
         $user_name = $full_name;
         $course_name = "Diabetes";
         $credits = 32;
         $numModules = 10;
         $numCompletedModules = 5;
+        Mail::to($email)->send(new Enrollment($route, $course_name));
+        Mail::to($email)->send(new ApprovedCourse($route, $course_name));
+        Mail::to($email)->send(new NotApproved($route, $course_name, $full_name)); // It has course reboot
         Mail::to($email)->send(new NewPlatform($full_name, $route));
         Mail::to($email)->send(new Recordatorio($route));
-        Mail::to($email)->send(new Recordatorio($route));
+        // Mail::to($email)->send(new Recordatorio($route));
         Mail::to($email)->send(new MonthReminder($route, $course_name, $user_name, $credits, $numModules, $numCompletedModules));
         Mail::to($email)->send(new Recordatorio2($route, $user_name, $credits, $course_name));
+        return Carbon::now();
         return "Proceso terminado";
     }
 }

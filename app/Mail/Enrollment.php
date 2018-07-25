@@ -22,6 +22,7 @@ class Enrollment extends Mailable implements ShouldQueue
     {
         $this->route = $route;
         $this->course_name = $course_name;
+        $this->subject("Academia Sanofi | Inscripción a curso {$course_name}");
     }
 
     /**
@@ -32,6 +33,6 @@ class Enrollment extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('email.course-enrollment', ['route' => $this->route, 'course_name' => $course_name]);
+        ->view('email.course-enrollment', ['route' => $this->route, 'course_name' => $this->course_name]);
     }
 }

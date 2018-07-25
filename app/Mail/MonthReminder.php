@@ -26,6 +26,7 @@ class MonthReminder extends Mailable implements ShouldQueue
         $this->credits = $credits;
         $this->num_modules = $numModules;
         $this->num_completed_modules = $numCompletedModules;
+        $this->subject("Academia Sanofi");
     }
 
     /**
