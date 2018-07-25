@@ -239,4 +239,21 @@ class FakerMailController extends Controller
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
     }
+
+    function test(){
+        $email = "ricardo.allende.p@gmail.com";
+        $route = "http://dev.academia.sanofi/academia-mc/login?notification=412j3klfd";
+        $full_name = "Ricardo Allende";
+        $user_name = $full_name;
+        $course_name = "Diabetes";
+        $credits = 32;
+        $numModules = 10;
+        $numCompletedModules = 5;
+        Mail::to($email)->send(new NewPlatform($full_name, $route));
+        Mail::to($email)->send(new Recordatorio($route));
+        Mail::to($email)->send(new Recordatorio($route));
+        Mail::to($email)->send(new MonthReminder($route, $course_name, $user_name, $credits, $numModules, $numCompletedModules));
+        Mail::to($email)->send(new Recordatorio2($route, $user_name, $credits, $course_name));
+        return "Proceso terminado";
+    }
 }

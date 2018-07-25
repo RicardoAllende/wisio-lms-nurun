@@ -6,6 +6,8 @@ Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
+Route::get('/mail', 'FakerMailController@test');
+
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
