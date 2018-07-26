@@ -171,7 +171,7 @@ class LoginController extends Controller
             PasswordReset::create(['email' => $email, 'token' => $token, 'created_at' => $dateTime]);
             $token = route('set.new.password', $token);
             Mail::to($email)->send(new ResetPasswordEmail( $token ));
-            return back()->with('msj', 
+            return redirect()->route('login')->with('msj', 
             'Se le ha enviado un correo electrónico con el link para reestablecer su contraseña, verifique su correo no deseado en caso de que no lo encuentre');
         }else{
             return back()->with('error', 'Su correo no se encuentra inscrito en la plataforma');

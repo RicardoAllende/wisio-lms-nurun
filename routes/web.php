@@ -162,7 +162,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/verificar-adjuntos', 'AdminControllers\AttachmentsController@verify');
 Route::get('/recuperar-contrasena', 'LoginController@forgotPassword')->name('forgot.password');
 
-// Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink')->name('send.reset.password.link');
+Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink')->name('send.reset.password.link');
 Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 
