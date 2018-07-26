@@ -17,7 +17,7 @@
         #nombre1{
             position: fixed;
             left: 280px;
-            top: 372px;
+            top: 383px;
             font-size: 22pt;
             width: 700px;
             text-align: left;
@@ -27,20 +27,20 @@
 
         #dia2{
           position: fixed;
-          top: 463px;
-          left: 524px;
+          top: 460px;
+          left: 658px;
           font-size: 11pt;
           color: #66767e;
-          font-weight: bold;
+          font-weight: 900;
         }
 
         #mes2{
           position: fixed;
-          top: 463px;
-          left: 610px;
+          top: 460px;
+          left: 738px;
           font-size: 11pt;
           color: #66767e;
-          font-weight: bold;
+          font-weight: 900;
         }
 
 
@@ -71,7 +71,7 @@
 <body>
 
     <div >
-        <img src='storage/constancias/diabetes.png' class="front" width="1024px" height="750px">
+        <img src='storage/constancias/insomnio_diploma.png' class="front" width="1024px" height="750px">
         <div id="nombre1">
             {{ (isset($user)) ? $user->fullname : 'JULIA ALEJANDRA CHÁVEZ ZAPATA' }}
         </div>
@@ -81,6 +81,7 @@
               $di = new DateTime($pivot->created_at);
               $df = new DateTime($pivot->updated_at);
               $month = $months[$df->format('m') - 1];
+              $month = "Diciembre";
             } else {
               $di = new DateTime('02/05/2018');
               $df = new DateTime('05/05/2018');
@@ -93,7 +94,7 @@
         <div id="dia2">{{ $df->format('d') }}</div>
         <div id="mes2">{{ $month }}</div>
         <!-- <div id="anio">20{{ $df->format('y') }}</div> -->
-        <img src="storage/constancias/diabetes_vuelta.png" width="1024px" height="750px">
+        <img src="storage/constancias/insomnio_diploma_vuelta.png" width="1024px" height="750px">
     </div>
 </body>
 </html>

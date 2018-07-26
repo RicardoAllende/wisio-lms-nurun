@@ -27,22 +27,21 @@
 
         #dia2{
           position: fixed;
-          top: 465px;
-          left: 693px;
-          font-size: 13pt;
+          top: 472px;
+          left: 524px;
+          font-size: 11pt;
           color: #66767e;
-          font-weight: 900;
+          font-weight: bold;
         }
 
         #mes2{
           position: fixed;
-          top: 465px;
-          left: 763px;
-          font-size: 13pt;
+          top: 472px;
+          left: 610px;
+          font-size: 11pt;
           color: #66767e;
-          font-weight: 900;
+          font-weight: bold;
         }
-
 
         #curso1{
             position: fixed;
@@ -71,7 +70,7 @@
 <body>
 
     <div >
-        <img src='storage/constancias/DIABETES_2_V2.png' class="front" width="1024px" height="750px">
+        <img src='storage/constancias/diabetes_diploma.png' class="front" width="1024px" height="750px">
         <div id="nombre1">
             {{ (isset($user)) ? $user->fullname : 'JULIA ALEJANDRA CHÁVEZ ZAPATA' }}
         </div>
@@ -80,6 +79,7 @@
             if(isset($pivot)){
               $di = new DateTime($pivot->created_at);
               $df = new DateTime($pivot->updated_at);
+              $month = $months[$df->format('m') - 1];
             } else {
               $di = new DateTime('02/05/2018');
               $df = new DateTime('05/05/2018');
@@ -90,9 +90,9 @@
         <!-- <div id="dia1">{{ $di->format('d') }}</div>
         <div id="mes1">{{ $di->format('m') }}</div> -->
         <div id="dia2">{{ $df->format('d') }}</div>
-        <div id="mes2">{{ $df->format('m') }}</div>
+        <div id="mes2">{{ $month }}</div>
         <!-- <div id="anio">20{{ $df->format('y') }}</div> -->
-        <img src="storage/constancias/DIABETES_2_V2_VLTA.png" width="1024px" height="750px">
+        <img src="storage/constancias/diabetes_diploma_vuelta.png" width="1024px" height="750px">
     </div>
 </body>
 </html>

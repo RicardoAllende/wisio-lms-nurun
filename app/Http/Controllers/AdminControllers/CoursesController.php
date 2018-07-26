@@ -335,4 +335,9 @@ class CoursesController extends Controller
         return view('courses.diploma-report', compact('course'));
     }
 
+    public function diplomaInsomnioTemplate(){
+        CertificateTemplate::firstOrCreate(['name' => 'Diploma Insomnio', 'view_name' => 'users_pages.certificates.insomnio-diploma']);
+        return redirect('/');
+    }
+
 }

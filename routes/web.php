@@ -103,6 +103,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/questions', 'AdminControllers\QuestionsController');
     Route::Resource('/templates', 'AdminControllers\CertificateTemplatesController');
 
+    Route::get('/create-insomnio-diploma', 'AdminControllers\CoursesController@diplomaInsomnioTemplate');
+
     /** Reports */
     Route::group(['prefix' => '/reports'], function(){
       Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
