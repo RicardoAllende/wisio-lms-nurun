@@ -10,7 +10,7 @@ Cursos
 @extends('users_pages.master')
 @section('body')
 <!-- Home sin login -->
-         <div class="row pad-left">
+         <div class="row pad-left" id="presentacion">
 
             <div class="col s12 l6 aux-padding">
 
@@ -50,12 +50,17 @@ Cursos
 
          </div>
 
-         @include('users_pages.courses.newest')
+        @include('users_pages.courses.newest')
 
 @stop
 @section('extrajs')
 <script>
   cambiarItem("home");
+  $('#btnAllCourses').click(function (){
+    $('#presentacion').hide();
+    $(this).hide();
+    $('#recent-courses').html('Cursos {{ $ascription->name }}');
+  });
 </script>
 
 @stop

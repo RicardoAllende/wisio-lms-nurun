@@ -4,7 +4,7 @@
                <hr class="line2"/>
             </div>
             <div class="col s6 l4">
-               <h2 class="subtitulo txt-blanco">Cursos Recientes</h2>
+               <h2 class="subtitulo txt-blanco" id="recent-courses">Cursos Recientes</h2>
             </div>
             <div class="row">
 
@@ -37,7 +37,7 @@
                 @if(Auth::check())
                   <a href="{{ route('student.own.courses',$ascription->slug )}}">Ver todos los cursos</a>
                 @else
-                  <a href="{{ route('login')}}">Ver todos los cursos</a>
+                  <a href="#" id="btnAllCourses" >Ver todos los cursos</a>
                 @endif
                   <hr class="line4"/>
               </div>
