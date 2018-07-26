@@ -75,21 +75,21 @@ class UserController extends Controller
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
-        if( ! $response ){
-            if( $this->sepServicesAreDown ){
-                $is_validated = false;
-            }else{
-                $this->sepServicesAreDown = false;
-                $error = 'Cédula no validada';
-                if($this->notA1){
-                    $error = "Su cédula profesional no es de tipo A1";
-                }
-                return back()->withInput()->with('error', $error);
-            }
-        }
+        // $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
+        // if( ! $response ){
+        //     if( $this->sepServicesAreDown ){
+        //         $is_validated = false;
+        //     }else{
+        //         $this->sepServicesAreDown = false;
+        //         $error = 'Cédula no validada';
+        //         if($this->notA1){
+        //             $error = "Su cédula profesional no es de tipo A1";
+        //         }
+        //         return back()->withInput()->with('error', $error);
+        //     }
+        // }
         $user = User::create($input);
-        $user->is_validated = $is_validated;
+        $user->is_validated = 0;
         $user->lastname = $request->paterno.' '.$request->materno;
         $user->password = bcrypt($request->password);
         $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;

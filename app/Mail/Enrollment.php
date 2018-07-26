@@ -22,7 +22,7 @@ class Enrollment extends Mailable implements ShouldQueue
     {
         $this->route = $route;
         $this->course_name = $course_name;
-        $this->subject("Academia Sanofi | Inscripción a curso {$course_name}");
+        $this->subject("Academia Sanofi | Inscripción a {$course_name}");
     }
 
     /**

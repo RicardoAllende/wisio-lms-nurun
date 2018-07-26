@@ -412,20 +412,27 @@ class UsersController extends Controller
 
     public function validateUser($user_id){
         $user = User::find($user_id);
-        $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
-        if( ! $response ){
-            if( $this->sepServicesAreDown ){
-                return back()->with('error', 'Los servicion aún están caídos');
-            }else{
-                $this->sepServicesAreDown = false;
-                $user->enabled = 0;
-                $user->save();
-                return back()->withErrors(['error'=>'Usuario no validado, se ha desactivado']);
-            }
+        if($user != null){
+            return back();
         }
         $user->is_validated = 1;
         $user->save();
         return back();
+
+        // $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
+        // if( ! $response ){
+        //     if( $this->sepServicesAreDown ){
+        //         return back()->with('error', 'Los servicion aún están caídos');
+        //     }else{
+        //         $this->sepServicesAreDown = false;
+        //         $user->enabled = 0;
+        //         $user->save();
+        //         return back()->withErrors(['error'=>'Usuario no validado, se ha desactivado']);
+        //     }
+        // }
+        // $user->is_validated = 1;
+        // $user->save();
+        // return back();
     }
 
     public function verifyAllUsers(){
@@ -451,7 +458,7 @@ class UsersController extends Controller
         $users = User::where('is_validated', 0)->where('enabled', 1)->where('role_id', 1);
         return \DataTables::of($users)
         ->addColumn('validate', function ($user){
-            $button = "<a href='".route('check.user.license', $user->id)."' class='btn btn-info btn-round'>Verificar Cédula</a>";
+            $button = "<a href='".route('check.user.license', $user->id)."' class='btn btn-info btn-round'>Validar Cédula</a>";
             return $button;
         })
         ->addColumn('disableUser', function ($user){
