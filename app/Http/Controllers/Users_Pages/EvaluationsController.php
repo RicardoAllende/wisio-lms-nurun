@@ -87,13 +87,12 @@ class EvaluationsController extends Controller
                                 $msg = "No aprobó este curso, verifique su correo electrónico para acceder a un segundo intento";
                             }
                         }else{
-                            // if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course
-                            //     $recommendations = $user->nextRecommendations();
-                            //     $token = \Uuid::generate()->string;
-                            //     Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'second_not_approved']);
-                            //     $route = route('ascription.login', $ascription_slug)."?notification=".$token;                       
-                            //     Mail::to($user->email)->send(new SecondNotApproved($route, $user->full_name, $course->name, $courses));
-                            // }
+                            if( ! $user->hasSecondNotApprovedNotification($course->id)){ // notification was sent, user can't reboot the course
+                                $token = \Uuid::generate()->string;
+                                Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'second_not_approved']);
+                                $route = route('ascription.login', $ascription_slug)."?notification=".$token;                       
+                                Mail::to($user->email)->send(new SecondNotApproved($route, $course->name));
+                            }
                         }
                     }
                 }

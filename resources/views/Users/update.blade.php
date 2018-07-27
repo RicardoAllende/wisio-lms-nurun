@@ -54,8 +54,8 @@ Actualizacion de información
 
     </div>
     <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{7,15}", 'title'=> "Únicamente números", 'maxlength' => '15']) !!}
+    {!! Form::label('mobile_phone', 'Teléfono -Exclusivo Celular-',['class'=>'control-label col-sm-2']); !!}
+          {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono -Exclusivo Celular-', 'required' => '', 'pattern' => "[0-9]{10}", 'title'=> "Únicamente números", 'maxlength' => '10']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
@@ -80,7 +80,7 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('address', 'Dirección:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'required' => '', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,255}", 'title'=>"Únicamente caracteres alfanuméricos"]) !!}
+      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,255}", 'title'=>"Únicamente caracteres alfanuméricos"]) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">

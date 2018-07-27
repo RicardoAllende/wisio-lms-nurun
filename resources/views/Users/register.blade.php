@@ -95,7 +95,7 @@ Registro
 
         <div class="reg col s12 l6">
           {!! Form::label('professional_license', 'Cédula profesional:' )!!}
-          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'7 dígitos', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{7,10}", 'title'=> "7 dígitos", 'maxlength' => '10' ]) !!}
+          {!! Form::text('professional_license',null,['class'=>'','placeholder'=>'Mínimo 7 dígitos', 'required' => '', 'id' => 'professional_license', 'pattern' => "[0-9]{7,8}", 'title'=> "Mínimo 7 dígitos", 'maxlength' => '8' ]) !!}
           <span class="smalltext">Su cedula debe tener 7 digitos o más:<br>
             -Ej. 0045727 ó 4521597
 
@@ -130,8 +130,8 @@ Registro
 
         </div>
         <div class="col s6">
-          {!! Form::label('mobile_phone', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-          {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[0-9]{7,15}", 'title'=> "Únicamente números", 'maxlength' => '15']) !!}
+          {!! Form::label('mobile_phone', 'Teléfono -Exclusivo Celular-',['class'=>'control-label col-sm-2']); !!}
+          {!! Form::text('mobile_phone',null,['class'=>'form-control','placeholder'=>'Teléfono -Exclusivo Celular-', 'required' => '', 'pattern' => "[0-9]{10}", 'title'=> "10 Dígitos", 'maxlength' => '10']) !!}
         </div>
         <div class="col s6">
           {!! Form::label('state_id', 'Estado:',['class'=>'control-label col-sm-2']); !!}

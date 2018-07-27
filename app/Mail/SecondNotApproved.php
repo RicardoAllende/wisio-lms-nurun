@@ -11,17 +11,17 @@ class SecondNotApproved extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     protected $route;
-    protected $course;
+    protected $course_name;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($route, $course)
+    public function __construct($route, $course_name)
     {
         $this->route = $route;
-        $this->course = $course;
+        $this->course_name = $course_name;
         $this->subject("Academia Sanofi");
     }
 
@@ -33,6 +33,6 @@ class SecondNotApproved extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->from(env('MAIL_FROM'))
-        ->view('email.not-approved', ['course' => $this->course, 'route' => $this->route]);
+        ->view('email.second-not-approved', ['course_name' => $this->course_name, 'route' => $this->route]);
     }
 }

@@ -39,6 +39,10 @@ class UserController extends Controller
         $user->address = $request->address;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
+        $mobile_phone = $request->mobile_phone;
+        if($this->validarNumero($mobile_phone) == false){
+            return back()->withInput()->with('error', "Número no validado");
+        }
         if($request->filled('password')){
             $user->password = bcrypt($request->password);
         }
@@ -71,6 +75,13 @@ class UserController extends Controller
             return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
         }
         $professional_license = $request->professional_license;
+        if($this->validarCedula($professional_license) == false ){
+            return back()->withInput()->with('error', "Cédula no validada");
+        }
+        $mobile_phone = $request->mobile_phone;
+        if($this->validarNumero($mobile_phone) == false){
+            return back()->withInput()->with('error', "Número no validado");
+        }
         $is_validated = true;
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
@@ -200,6 +211,44 @@ class UserController extends Controller
             return $token = $result->{'access_token'};
         }
         return "-";
+    }
+
+    public function validarCedula($professional_license){
+        $len = strlen($professional_license);
+        // dd($len);
+        if(!($len == 8 || $len == 7)){
+            return false;
+        }
+        if($professional_license == '00000000'){
+            return false;
+        }
+        if($professional_license == '0000000'){
+            return false;
+        }
+        $last3 = substr($professional_license, -3);
+        if($last3 == '000'){
+            return false;
+        }
+        return true;
+    }
+
+    public function validarNumero($phone_number){
+        $repetidos = collect(['01234', '12345', '23456', '34567', '45678', '56789',
+                '00000', '11111', '22222', '33333', '44444', '55555', '66666', '77777',
+                '88888', '99999'
+            ]);
+        if(strlen($phone_number) != 10){
+            return false;
+        }
+        foreach ($repetidos as $repetido) {
+            $pos = strpos($phone_number, $repetido);
+            if ($pos === false) {
+                // correct phone
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
