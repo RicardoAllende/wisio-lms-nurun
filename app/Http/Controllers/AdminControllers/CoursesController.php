@@ -15,6 +15,10 @@ use App\CategoryCourse;
 use App\CourseUser;
 Use App\User;
 use App\CertificateTemplate;
+use App\Evaluation;
+use App\Module;
+use App\Question;
+use App\Option;
 
 class CoursesController extends Controller
 {
@@ -333,11 +337,6 @@ class CoursesController extends Controller
             ]);
         }
         return view('courses.diploma-report', compact('course'));
-    }
-
-    public function diplomaInsomnioTemplate(){
-        CertificateTemplate::firstOrCreate(['name' => 'Diploma Insomnio', 'view_name' => 'users_pages.certificates.insomnio-diploma']);
-        return redirect('/');
     }
 
 }

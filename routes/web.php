@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/questions', 'AdminControllers\QuestionsController');
     Route::Resource('/templates', 'AdminControllers\CertificateTemplatesController');
 
-    Route::get('/create-insomnio-diploma', 'AdminControllers\CoursesController@diplomaInsomnioTemplate');
+    Route::get('/create-insomnio-diploma', 'AdminControllers\EvaluationsController@diplomaInsomnioTemplate');
 
     /** Reports */
     Route::group(['prefix' => '/reports'], function(){

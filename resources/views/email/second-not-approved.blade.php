@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_recursar/HEADER.jpg" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recursar/HEADER.jpg') }}" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="239" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">

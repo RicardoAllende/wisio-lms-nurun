@@ -200,6 +200,7 @@ class EvaluationsController extends Controller
             $course = $evaluation->course;
             $courseEnrollment = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
             $courseEnrollment->score_in_diplomado = $evaluationAverage;
+            $courseEnrollment->score_in_diplomado = $user->scoreInEvaluation($evaluation->id);
             $courseEnrollment->save();
             // return $courseEnrollment;
             return view('users_pages/evaluations/diploma-result',

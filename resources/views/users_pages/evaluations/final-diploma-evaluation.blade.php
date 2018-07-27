@@ -19,7 +19,7 @@ Evaluacion
         <div class="col s6 l6">
             <h2 class="recientes">Evaluación final para concluir diplomado: {{ $course->name }}</h2>
         </div>
-        <div id="evaluation-div"></div>
+        <div id="evaluation-div" style="min-height: 600px;"></div>
     </div>
 @stop
 

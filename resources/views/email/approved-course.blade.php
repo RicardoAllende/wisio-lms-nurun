@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_recortes/HEADER.jpg" width="600" height="64" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recortes/HEADER.jpg') }}" width="600" height="64" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="124" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 25px;">
@@ -22,7 +22,7 @@
 		</td>
     </tr>
     <tr>
-      <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recortes/CTA.jpg" width="600" height="101" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+      <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recortes/CTA.jpg') }}" width="600" height="101" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
     </tr>
     <tr>
       <td height="94" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">
@@ -34,16 +34,16 @@
         <tbody>
           <tr>
             <td width="18">&nbsp;</td>
-            <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recortes/DIABETES.jpg" width="278" height="290" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+            <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recortes/DIABETES.jpg') }}" width="278" height="290" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
             <td>&nbsp;</td>
-            <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recortes/HIPERTENSION.jpg" width="277" height="290" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+            <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recortes/HIPERTENSION.jpg') }}" width="277" height="290" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
             <td>&nbsp;</td>
           </tr>
           <tr>
             <td width="18">&nbsp;</td>
-            <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recortes/INSOMNIO.jpg" width="278" height="292" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+            <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recortes/INSOMNIO.jpg') }}" width="278" height="292" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
             <td>&nbsp;</td>
-            <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recortes/TROMBOSIS.jpg" width="277" height="291" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+            <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recortes/TROMBOSIS.jpg') }}" width="277" height="291" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
             <td>&nbsp;</td>
           </tr>
         </tbody>
@@ -53,7 +53,7 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_recortes/img_n.jpg" width="600" height="20" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recortes/img_n.jpg') }}" width="600" height="20" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td>

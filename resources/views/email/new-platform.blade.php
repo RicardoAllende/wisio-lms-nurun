@@ -15,13 +15,13 @@
 			<table width="600" border="0" cellpadding="0" cellspacing="0" style="text-align: center"  align="center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_aviso_plataforma/HEADER.jpg" width="600" height="75" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_aviso_plataforma/HEADER.jpg') }}" width="600" height="75" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
 	      <tr>
       <td height="8"></td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_aviso_plataforma/BANNER.jpg" width="600" height="180" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_aviso_plataforma/BANNER.jpg') }}" width="600" height="180" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -41,7 +41,7 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_aviso_plataforma/CTA.jpg" width="600" height="415" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+      <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_aviso_plataforma/CTA.jpg') }}" width="600" height="415" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
     </tr>
     <tr>
       <td height="137" bgcolor="#ecedef" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">
@@ -49,14 +49,14 @@
 		</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_aviso_plataforma/imgs_02.jpg" width="600" height="12" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_aviso_plataforma/imgs_02.jpg') }}" width="600" height="12" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="108" style="text-align: center; color: #090909; font-family: Arial; font-size: 20px;">
 		<strong>¡Entre ya a Academia Médico<br> ConSentido!</strong></td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_aviso_plataforma/imgs_04.jpg" width="600" height="9" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_aviso_plataforma/imgs_04.jpg') }}" width="600" height="9" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
 	  
 	  

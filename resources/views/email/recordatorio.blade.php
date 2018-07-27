@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_recordatorio/HEADER.jpg" width="600" height="64" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recordatorio/HEADER.jpg') }}" width="600" height="64" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
 	  
 	  <tr>
@@ -23,7 +23,7 @@
 	  
 	  
 	  <tr>
-      <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recordatorio/CTA.jpg" width="600" height="229" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+      <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recordatorio/CTA.jpg') }}" width="600" height="229" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
     </tr>
 	  
 	  <tr>
@@ -33,7 +33,7 @@
     </tr>
 	  
 	  <tr>
-      <td><img src="storage/emails/images_recordatorio/BANNER.jpg" width="600" height="192" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recordatorio/BANNER.jpg') }}" width="600" height="192" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
 	  
 	  <tr>

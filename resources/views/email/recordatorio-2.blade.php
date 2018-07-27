@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_recordatorio_2/HEADER.jpg" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recordatorio_2/HEADER.jpg') }}" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="201" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">¡Dr. {{ $doctor_name }}, le echamos de menos! Le falta muy poco<br>
@@ -22,7 +22,7 @@
 		  curso {{ $course_name }}. No pierda esta oportunidad.</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_recordatorio_2/BANNER.jpg" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recordatorio_2/BANNER.jpg') }}" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="31">&nbsp;</td>
@@ -32,7 +32,7 @@
         <tbody>
           <tr>
             <td width="127">&nbsp;</td>
-            <td width="345"><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recordatorio_2/CTA.jpg" width="345" height="57" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+            <td width="345"><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recordatorio_2/CTA.jpg') }}" width="345" height="57" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
             <td width="128">&nbsp;</td>
           </tr>
         </tbody>
@@ -42,7 +42,7 @@
       <td height="29">&nbsp;</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_recordatorio_2/recordatorio_08.jpg" width="600" height="18" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recordatorio_2/recordatorio_08.jpg') }}" width="600" height="18" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="293" >

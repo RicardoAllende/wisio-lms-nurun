@@ -219,9 +219,9 @@ class CronMailing extends Command
         }
         $url = route('ascription.login', $ascription_slug)."?notification=".$token;
         $sms = AWS::createClient('sns');
+        $message = "No deje de actualizarse con el curso de ".$course_name." que cuenta con ".$credits." puntos de valor curricular. \n ¡Dé clic ".$url." para continuar su capacitación!";
         $sms->publish([
-                'Message' => "Dr. ".$user_name.", no deje pasar la oportunidad de actualizar sus conocimientos con el curso de ".$course_name." que cuenta con ".$credits." puntos de valor curricular.
-                ¡Dé clic en la liga para continuar su capacitación! \n ".$url,
+                'Message' => $message,
                 'PhoneNumber' => $mobilePhone,
                 'MessageAttributes' => [
                     'AWS.SNS.SMS.SMSType'  => [

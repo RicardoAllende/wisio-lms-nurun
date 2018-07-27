@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_inscripcion/HEADER.jpg" width="600" height="69" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_inscripcion/HEADER.jpg') }}" width="600" height="69" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td>&nbsp;</td>
@@ -34,10 +34,10 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_inscripcion/CTA.jpg" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
+      <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_inscripcion/CTA.jpg') }}" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></a></td>
     </tr>
     <tr>
-      <td height="5"><img src="storage/emails/images_inscripcion/EJEMPLO_02.jpg" width="600" height="10" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td height="5"><img src="{{ url('storage/emails/images_inscripcion/EJEMPLO_02.jpg') }}" width="600" height="10" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="318" >

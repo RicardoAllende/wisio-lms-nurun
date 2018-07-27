@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_recursar/HEADER.jpg" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recursar/HEADER.jpg') }}" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="239" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">
@@ -23,7 +23,7 @@
 		</td>
     </tr>
     <tr>
-      <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_recursar/CTA.jpg" width="600" height="122" style="display: block;" border="0" align="top" alt="Sanofi"/>
+      <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_recursar/CTA.jpg') }}" width="600" height="122" style="display: block;" border="0" align="top" alt="Sanofi"/>
           </a></td>
     </tr>
     <tr>
@@ -31,14 +31,14 @@
         <tbody>
           <tr>
             <td width="160">&nbsp;</td>
-            <td width="279"><img src="storage/emails/images_recursar/recursar_05.jpg" width="279" height="117" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+            <td width="279"><img src="{{ url('storage/emails/images_recursar/recursar_05.jpg') }}" width="279" height="117" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
             <td width="161">&nbsp;</td>
           </tr>
         </tbody>
       </table></td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_recursar/recursar_07.jpg" width="600" height="21" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_recursar/recursar_07.jpg') }}" width="600" height="21" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="301" bgcolor="#ecedef">

@@ -14,7 +14,7 @@
 		  <table width="600" border="0" cellspacing="0" cellpadding="0" style="text-align: center">
   <tbody>
     <tr>
-      <td><img src="storage/emails/images_progreso_mensual/HEADER.jpg" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_progreso_mensual/HEADER.jpg') }}" width="600" height="73" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="228" style="text-align: center; color: #3D3D3D; font-family: Arial; font-size: 20px;">
@@ -23,7 +23,7 @@
 		</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_progreso_mensual/BANNER.jpg" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_progreso_mensual/BANNER.jpg') }}" width="600" height="137" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td height="36">&nbsp;</td>
@@ -33,7 +33,9 @@
         <tbody>
           <tr>
             <td width="139">&nbsp;</td>
-            <td><a href="{{ $route }}" target="_blank"><img src="storage/emails/images_progreso_mensual/CTA.jpg" width="323" height="44" style="display: block;" border="0" align="top" alt="storage/emails/images_progreso_mensual/Sanofi"/></a></td>
+            <td><a href="{{ $route }}" target="_blank"><img src="{{ url('storage/emails/images_progreso_mensual/CTA.jpg') }}" 
+            width="323" height="44" style="display: block;" border="0" align="top"
+             alt="Sanofi"/></a></td>
             <td width="138">&nbsp;</td>
           </tr>
         </tbody>
@@ -43,7 +45,7 @@
       <td height="36">&nbsp;</td>
     </tr>
     <tr>
-      <td><img src="storage/emails/images_progreso_mensual/imgs_02.jpg" width="600" height="11" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
+      <td><img src="{{ url('storage/emails/images_progreso_mensual/imgs_02.jpg') }}" width="600" height="11" style="display: block;" border="0" align="top" alt="Sanofi"/></td>
     </tr>
     <tr>
       <td>
