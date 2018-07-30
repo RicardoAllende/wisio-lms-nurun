@@ -272,13 +272,13 @@ class EvaluationsController extends Controller
               <div class="row "><!-- Slideshow container -->
                 <div class="card white slideshow-container col s12">';
             $numQuestions = $evaluation->questions->count();
-            $questions = $evaluation->questions;
+            $questions = $evaluation->questions->shuffle();
             $i = 1;
             foreach ($questions as $question) {
                 echo '<div class="mySlides row">
                     <h6>'.$i.'. '.$question->content.'</h6>'; $i++;
                 echo '<div class="col s9">';
-                foreach($question->options as $option){
+                foreach($question->options->shuffle() as $option){
                     echo '
                     <p>
                         <input name="question'.$question->id.'" class="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
