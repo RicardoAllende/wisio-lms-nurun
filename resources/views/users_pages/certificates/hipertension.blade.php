@@ -27,8 +27,8 @@
 
         #dia2{
           position: fixed;
-          top: 458px;
-          left: 681px;
+          top: 459px;
+          left: 685px;
           font-size: 13pt;
           color: #66767e;
           font-weight: bold;
@@ -37,10 +37,12 @@
         #mes2{
           position: fixed;
           top: 459px;
-          left: 767px;
+          left: 763px;
           font-size: 13pt;
           color: #66767e;
           font-weight: bold;
+          width: 100px;
+          text-align: center;
         }
 
 

@@ -28,19 +28,21 @@
         #dia2{
           position: fixed;
           top: 472px;
-          left: 524px;
+          left: 528px;
           font-size: 11pt;
           color: #66767e;
           font-weight: bold;
         }
 
         #mes2{
+          text-align: center;
           position: fixed;
           top: 472px;
-          left: 610px;
+          left: 598px;
           font-size: 11pt;
           color: #66767e;
           font-weight: bold;
+          width: 105px;
         }
 
         #curso1{

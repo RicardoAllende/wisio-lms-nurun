@@ -37,10 +37,12 @@
         #mes2{
           position: fixed;
           top: 460px;
-          left: 738px;
+          left: 730px;
           font-size: 11pt;
           color: #66767e;
           font-weight: 900;
+          width: 100px;
+          text-align: center;
         }
 
 
@@ -81,7 +83,6 @@
               $di = new DateTime($pivot->created_at);
               $df = new DateTime($pivot->updated_at);
               $month = $months[$df->format('m') - 1];
-              $month = "Diciembre";
             } else {
               $di = new DateTime('02/05/2018');
               $df = new DateTime('05/05/2018');

@@ -37,10 +37,12 @@
         #mes2{
           position: fixed;
           top: 463px;
-          left: 610px;
+          left: 597px;
           font-size: 11pt;
           color: #66767e;
           font-weight: bold;
+          width: 100px;
+          text-align: center;
         }
 
 
