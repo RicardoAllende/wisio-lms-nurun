@@ -56,11 +56,6 @@ Cursos
 @section('extrajs')
 <script>
   cambiarItem("home");
-  $('#btnAllCourses').click(function (){
-    $('#presentacion').hide();
-    $(this).hide();
-    $('#recent-courses').html('Cursos {{ $ascription->name }}');
-  });
 </script>
 
 @stop

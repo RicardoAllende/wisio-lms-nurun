@@ -142,7 +142,11 @@ class CoursesController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
         $courses = $ascription->courses;
-        $recommendations = Auth::user()->recommendations();
+        if(Auth::check()){
+            $recommendations = Auth::user()->recommendations();
+        }else{
+            $recommendations = $courses;
+        }
         return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations'));
     }
 

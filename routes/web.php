@@ -127,7 +127,6 @@ Route::group(['middleware' => ['auth']], function () {
   Route::group([ 'prefix' => '/{ascription_slug}', 'middleware' => ['student']], function () {
     Route::get('/cursos', 'Users_Pages\CoursesController@index')->name('student.own.courses');
     Route::post('/cursos/{course_slug}/save_progress_module', 'Users_Pages\CoursesController@saveProgressModule');
-    Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
     Route::get('/enrol/{user_id}/{course_id}','Users_Pages\CoursesController@enrollment')->name('student.enrol.course');
     Route::post('/cursos/{course_slug}/module/get_resources','Users_Pages\ModulesController@getResources');
 
@@ -176,6 +175,7 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/aviso-de-farmacovigilancia', 'HomeController@pharmacovigilance')->name('student.pharmacovigilance');
   Route::get('/terminos-de-uso-twitter', 'HomeController@twitterTerms')->name('student.twitter.terms');
   Route::get('/mapa-del-sitio', 'HomeController@siteMap')->name('student.sitemap');
+  Route::get('/home','Users_Pages\CoursesController@recommendations')->name('student.home');
 
   Route::get('/', 'AscriptionController@showContent')->name('show.pharmacy.landing.page');
 
