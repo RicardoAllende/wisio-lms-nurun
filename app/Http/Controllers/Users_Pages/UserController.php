@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\State;
 use App\User;
 use App\Role;
+use GuzzleHttp\Client;
 
 class UserController extends Controller
 {
@@ -86,21 +87,21 @@ class UserController extends Controller
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        // $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
-        // if( ! $response ){
-        //     if( $this->sepServicesAreDown ){
-        //         $is_validated = false;
-        //     }else{
-        //         $this->sepServicesAreDown = false;
-        //         $error = 'Cédula no validada';
-        //         if($this->notA1){
-        //             $error = "Su cédula profesional no es de tipo A1";
-        //         }
-        //         return back()->withInput()->with('error', $error);
-        //     }
-        // }
+        $response = $this->verifySecondMethod($professional_license, $request->firstname, $request->paterno, $request->materno);
+        if( ! $response ){
+            if( $this->sepServicesAreDown ){
+                $is_validated = false;
+            }else{
+                $this->sepServicesAreDown = false;
+                $error = 'Cédula no validada';
+                if($this->notA1){
+                    $error = "Su cédula profesional no es de tipo A1";
+                }
+                return back()->withInput()->with('error', $error);
+            }
+        }
         $user = User::create($input);
-        $user->is_validated = 0;
+        $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
         $user->password = bcrypt($request->password);
         $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
@@ -196,6 +197,55 @@ class UserController extends Controller
             return false;
         }
         
+    }
+
+    public function verifySecondMethod($license, $firstname, $middlename, $lastname){
+        try{
+            $client = new Client();
+            $response = $client->request('POST', 'http://httpbin.org/post', [
+                'form_params' => [
+                    'name' => 'abc',
+                    'mid_name' => '',
+                    'last_name' => '123',
+                    'cedula' => ''
+                ]
+            ]);
+            $responseString = $response->getBody()->getContents();
+            $jsonResponse = json_decode($responseString);
+            $status = $jsonResponse->{'status'};
+            $message = $jsonResponse->{'message'};
+            $this->sepServicesAreDown = false;
+            switch ($status) {
+                case '500': // unavailable service
+                    $this->sepServicesAreDown = true;
+                    return false;
+                    break;
+                case '404': // No data found or not valid
+                    return false;
+                    break;
+                case '200':
+                    $professional_license = $jsonResponse->{'cedula'};
+                    $type = $jsonResponse->{"tipo de cedula"};
+                    if($license == $professional_license){
+                        if($type != 'A1'){
+                            $this->notA1 = true;
+                            return false;
+                        }
+                        return true;
+                    }
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+            return false;
+        } catch (\Exception $ex) {
+            $this->sepServicesAreDown = true;
+            return false;
+        } catch (\Throwable $ex) {
+            $this->sepServicesAreDown = true;
+            return false;
+        }
     }
 
     public function getAccessToken(){

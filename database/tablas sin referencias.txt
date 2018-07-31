@@ -1,0 +1,25 @@
+ascription_attachment 
+
+courses cambió on update
+
+modules a courses
+delete from module_user where user_id not in (select id from users);
+delete from module_user where module_id not in (select id from modules);
+
+Options a questions
+delete from options where question_id not in (select id from questions);
+
+Questions a evaluations
+delete from questions where evaluation_id not in (select id from evaluations);
+
+question_user a options, questions y users
+delete from question_user where user_id not in (select id from users);
+
+references a modules
+
+resources a modules
+delete from resources where module_id not in (select id from modules);
+
+users to roles, specialties, states
+
+notifications cambió on update

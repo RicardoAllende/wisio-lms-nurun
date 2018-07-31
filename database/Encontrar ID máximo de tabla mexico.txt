@@ -1,0 +1,325 @@
+Encontrar ID máximo de tabla mexico
+// Eliminar usuario administrador de mexico;
+
+UPDATE farmacias.users set id = id + 2000;
+UPDATE farmacias.user_grades set user_id = user_id + 2000;
+UPDATE farmacias.user_tries set user_id = user_id + 2000;
+
+    ----------- Cédulas repetidas
+    SELECT cedula, COUNT(*) Total
+    FROM users
+    GROUP BY cedula
+    HAVING COUNT(*) > 1;
+
+
+    // Este está funcionando desde https://stackoverflow.com/questions/37673626/laravel-query-builder-count-from-join 
+    // DB::table('ascriptions')->join('ascription_user', 'ascriptions.id', '=', 'ascription_user.ascription_id')
+    // ->select('ascriptions.id as id', 'ascriptions.name as title', DB::raw("count(ascription_user.id) as count"))
+    // ->groupBy('ascription_user.ascription_id')->get();
+
+
+    // $sql = 'select * from (select count(*) as enrollments, ascription_id from ascription_user group by ascription_id) as t1 join ascriptions on ascriptions.id = t1.ascription_id';
+    // DB::statement($sql);
+
+    // select * from 
+    // (select count(*) as enrollments, ascription_id from ascription_user group by ascription_id) as t1 
+    // join ascriptions on ascriptions.id = t1.ascription_id
+
+UPDATE farmacias.user_grades set evaluation_id = 5  where evaluation_id = 5;
+UPDATE farmacias.user_grades set evaluation_id = 6  where evaluation_id = 6;
+UPDATE farmacias.user_grades set evaluation_id = 7  where evaluation_id = 7;
+UPDATE farmacias.user_grades set evaluation_id = 8  where evaluation_id = 8;
+UPDATE farmacias.user_grades set evaluation_id = 10  where evaluation_id = 10;
+UPDATE farmacias.user_grades set evaluation_id = 11  where evaluation_id = 11;
+UPDATE farmacias.user_grades set evaluation_id = 15  where evaluation_id = 15;
+UPDATE farmacias.user_grades set evaluation_id = 16  where evaluation_id = 16;
+UPDATE farmacias.user_grades set evaluation_id = 21  where evaluation_id = 21;
+UPDATE farmacias.user_grades set evaluation_id = 22  where evaluation_id = 22;
+UPDATE farmacias.user_grades set evaluation_id = 24  where evaluation_id = 24;
+UPDATE farmacias.user_grades set evaluation_id = 25  where evaluation_id = 25;
+UPDATE farmacias.user_grades set evaluation_id = 72  where evaluation_id = 72;
+UPDATE farmacias.user_grades set evaluation_id = 73  where evaluation_id = 73;
+UPDATE farmacias.user_grades set evaluation_id = 80  where evaluation_id = 80;
+
+
+UPDATE farmacias.user_grades set evaluation_id = 26 where evaluation_id = 58;
+UPDATE farmacias.user_grades set evaluation_id = 27  where evaluation_id = 59;
+UPDATE farmacias.user_grades set evaluation_id = 19 where evaluation_id = 74;
+UPDATE farmacias.user_grades set evaluation_id = 20  where evaluation_id = 75;
+UPDATE farmacias.user_grades set evaluation_id = 28  where evaluation_id = 76;
+UPDATE farmacias.user_grades set evaluation_id = 29  where evaluation_id = 77;
+UPDATE farmacias.user_grades set evaluation_id = 31  where evaluation_id = 81;
+UPDATE farmacias.user_grades set evaluation_id = 32  where evaluation_id = 82;
+UPDATE farmacias.user_grades set evaluation_id = 33  where evaluation_id = 84;
+UPDATE farmacias.user_grades set evaluation_id = 34  where evaluation_id = 85;
+UPDATE farmacias.user_grades set evaluation_id = 35  where evaluation_id = 86;
+UPDATE farmacias.user_grades set evaluation_id = 36  where evaluation_id = 87;
+UPDATE farmacias.user_grades set evaluation_id = 37  where evaluation_id = 88;
+UPDATE farmacias.user_grades set evaluation_id = 38  where evaluation_id = 89;
+UPDATE farmacias.user_grades set evaluation_id = 39  where evaluation_id = 90;
+UPDATE farmacias.user_grades set evaluation_id = 40  where evaluation_id = 91;
+UPDATE farmacias.user_grades set evaluation_id = 41  where evaluation_id = 92;
+UPDATE farmacias.user_grades set evaluation_id = 42  where evaluation_id = 93;
+
+UPDATE farmacias.user_tries set evaluation_id = 5  where evaluation_id = 5;
+UPDATE farmacias.user_tries set evaluation_id = 6  where evaluation_id = 6;
+UPDATE farmacias.user_tries set evaluation_id = 7  where evaluation_id = 7;
+UPDATE farmacias.user_tries set evaluation_id = 8  where evaluation_id = 8;
+UPDATE farmacias.user_tries set evaluation_id = 10  where evaluation_id = 10;
+UPDATE farmacias.user_tries set evaluation_id = 11  where evaluation_id = 11;
+UPDATE farmacias.user_tries set evaluation_id = 15  where evaluation_id = 15;
+UPDATE farmacias.user_tries set evaluation_id = 16  where evaluation_id = 16;
+UPDATE farmacias.user_tries set evaluation_id = 21  where evaluation_id = 21;
+UPDATE farmacias.user_tries set evaluation_id = 22  where evaluation_id = 22;
+UPDATE farmacias.user_tries set evaluation_id = 24  where evaluation_id = 24;
+UPDATE farmacias.user_tries set evaluation_id = 25  where evaluation_id = 25;
+UPDATE farmacias.user_tries set evaluation_id = 72  where evaluation_id = 72;
+UPDATE farmacias.user_tries set evaluation_id = 73  where evaluation_id = 73;
+UPDATE farmacias.user_tries set evaluation_id = 80  where evaluation_id = 80;
+
+UPDATE farmacias.user_tries set evaluation_id = 26 where evaluation_id = 58;
+UPDATE farmacias.user_tries set evaluation_id = 27  where evaluation_id = 59;
+UPDATE farmacias.user_tries set evaluation_id = 19 where evaluation_id = 74;
+UPDATE farmacias.user_tries set evaluation_id = 20  where evaluation_id = 75;
+UPDATE farmacias.user_tries set evaluation_id = 28  where evaluation_id = 76;
+UPDATE farmacias.user_tries set evaluation_id = 29  where evaluation_id = 77;
+UPDATE farmacias.user_tries set evaluation_id = 31  where evaluation_id = 81;
+UPDATE farmacias.user_tries set evaluation_id = 32  where evaluation_id = 82;
+UPDATE farmacias.user_tries set evaluation_id = 33  where evaluation_id = 84;
+UPDATE farmacias.user_tries set evaluation_id = 34  where evaluation_id = 85;
+UPDATE farmacias.user_tries set evaluation_id = 35  where evaluation_id = 86;
+UPDATE farmacias.user_tries set evaluation_id = 36  where evaluation_id = 87;
+UPDATE farmacias.user_tries set evaluation_id = 37  where evaluation_id = 88;
+UPDATE farmacias.user_tries set evaluation_id = 38  where evaluation_id = 89;
+UPDATE farmacias.user_tries set evaluation_id = 39  where evaluation_id = 90;
+UPDATE farmacias.user_tries set evaluation_id = 40  where evaluation_id = 91;
+UPDATE farmacias.user_tries set evaluation_id = 41  where evaluation_id = 92;
+UPDATE farmacias.user_tries set evaluation_id = 42  where evaluation_id = 93;
+
+-- INSERT INTO wisiolms.specialties(id, name) SELECT mexico.specialties.id, mexico.specialties.name FROM mexico.specialties;
+
+-- UPDATE farmacias.users set id = id + 4000;
+UPDATE farmacias.users SET pharmacy_id = pharmacy_id + 6;
+
+
+UPDATE mexico.users SET gender = '2' WHERE gender IS NOT NULL AND gender = 'Femenino';
+UPDATE mexico.users SET gender = '1' WHERE gender IS NOT NULL AND gender = 'Masculino';
+UPDATE farmacias.users SET gender = '2' WHERE gender IS NOT NULL AND gender = 'Femenino';
+UPDATE farmacias.users SET gender = '1' WHERE gender IS NOT NULL AND gender = 'Masculino';
+
+INSERT IGNORE INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city,
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, specialty_id) 
+    SELECT * FROM (SELECT mexico.users.id, concat_ws(' ', mexico.users.firstname_1, mexico.users.firstname_2), 
+    concat_ws(' ', mexico.users.lastname_1, mexico.users.lastname_2), mexico.users.email, mexico.users.password, 
+    mexico.users.gender, mexico.users.mobile, mexico.users.code_postal, mexico.users.city, 
+  concat_ws(', ', mexico.users.street, mexico.users.num_ext, mexico.users.num_ins, mexico.users.colonia,
+    mexico.users.municipio), 
+    mexico.users.cedula,  mexico.users.type_consultation, mexico.users.code,  mexico.users.created_at, 
+    mexico.users.updated_at, 1, mexico.specialties.id as specialty_id
+     from mexico.users left JOIN mexico.specialties ON mexico.users.specialty LIKE CONCAT('%', mexico.specialties.name , '%') ) as anterior;
+
+--- No funciona
+INSERT INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city,
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, specialty_id, state_id) 
+    SELECT * FROM (SELECT mexico.users.id, concat_ws(' ', mexico.users.firstname_1, mexico.users.firstname_2), 
+    concat_ws(' ', mexico.users.lastname_1, mexico.users.lastname_2), mexico.users.email, mexico.users.password, 
+    mexico.users.gender, mexico.users.mobile, mexico.users.code_postal, mexico.users.city, 
+  concat_ws(', ', mexico.users.street, mexico.users.num_ext, mexico.users.num_ins, mexico.users.colonia,
+    mexico.users.municipio), 
+    mexico.users.cedula,  mexico.users.type_consultation, mexico.users.code,  mexico.users.created_at, 
+    mexico.users.updated_at, 1, mexico.specialties.id as specialty_id, mexico.states.id as state_id
+     from mexico.states RIGHT JOIN mexico.users ON mexico.users.specialty LIKE CONCAT('%', mexico.specialties.name , '%') as t1 LEFT JOIN mexico.specialties ON t1.state LIKE CONCAT('%', mexico.specialties.name, '%' ) ) as anterior;
+
+
+INSERT ignore INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city,
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, specialty_id, ascription_id) 
+    SELECT * FROM (SELECT mexico.users.id, concat_ws(' ', mexico.users.firstname_1, mexico.users.firstname_2), 
+    concat_ws(' ', mexico.users.lastname_1, mexico.users.lastname_2), mexico.users.email, mexico.users.password, 
+    mexico.users.gender, mexico.users.mobile, mexico.users.code_postal, mexico.users.city, 
+  concat_ws(', ', mexico.users.street, mexico.users.num_ext, mexico.users.num_ins, mexico.users.colonia,
+    mexico.users.municipio), 
+    mexico.users.cedula,  mexico.users.type_consultation, mexico.users.code,  mexico.users.created_at, 
+    mexico.users.updated_at, 1, mexico.specialties.id as specialty_id, 1 as ascription_id
+     from mexico.users JOIN mexico.specialties ON mexico.specialties.name LIKE CONCAT('%', mexico.users.specialty, '%') ) as anterior;
+
+
+
+-- sin especialidad
+INSERT INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city,
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, ascription_id) 
+    SELECT mexico.users.id, concat_ws(' ', mexico.users.firstname_1, mexico.users.firstname_2), 
+    concat_ws(' ', mexico.users.lastname_1, mexico.users.lastname_2), mexico.users.email, mexico.users.password, 
+    mexico.users.gender, mexico.users.mobile, mexico.users.code_postal, mexico.users.city, 
+  concat_ws(', ', mexico.users.street, mexico.users.num_ext, mexico.users.num_ins, mexico.users.colonia,
+    mexico.users.municipio), 
+    mexico.users.cedula,  mexico.users.type_consultation, mexico.users.code,  mexico.users.created_at, 
+    mexico.users.updated_at, 1, 1 as ascription_id
+     from mexico.users;
+-- tampoco estado
+
+
+INSERT IGNORE INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city, 
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, enabled, specialty_id, state_id, ascription_id)
+  SELECT * FROM (SELECT farmacias.users.id, farmacias.users.firstname, farmacias.users.lastname, 
+    farmacias.users.email, farmacias.users.password, farmacias.users.gender, farmacias.users.mobile, 
+    farmacias.users.code_postal, farmacias.users.city, 
+  concat_ws(', ', farmacias.users.street, farmacias.users.num_ext, farmacias.users.num_ins, farmacias.users.colonia,
+    farmacias.users.municipio), 
+    farmacias.users.cedula,  farmacias.users.type_consultation, farmacias.users.code,  farmacias.users.created_at, 
+    farmacias.users.updated_at, 1, farmacias.users.status, farmacias.specialties.id as specialty_id, farmacias.states.id as state_id, farmacias.users.pharmacy_id
+     from farmacias.states JOIN farmacias.users JOIN farmacias.specialties ON farmacias.users.specialty LIKE CONCAT('%', mexico.users.state, '%')
+      AND farmacias.states.name = farmacias.users.state ) as anterior;
+
+INSERT IGNORE INTO wisiolms.users(id, firstname, lastname, email, password, gender, mobile_phone, zip, city, 
+  address, professional_license, consultation_type, refered_code, created_at, updated_at, role_id, enabled, ascription_id)
+  SELECT farmacias.users.id, farmacias.users.firstname, farmacias.users.lastname, 
+    farmacias.users.email, farmacias.users.password, farmacias.users.gender, farmacias.users.mobile, 
+    farmacias.users.code_postal, farmacias.users.city, 
+  concat_ws(', ', farmacias.users.street, farmacias.users.num_ext, farmacias.users.num_ins, farmacias.users.colonia,
+    farmacias.users.municipio), 
+    farmacias.users.cedula,  farmacias.users.type_consultation, farmacias.users.code,  farmacias.users.created_at, 
+    farmacias.users.updated_at, 1, farmacias.users.status, farmacias.users.pharmacy_id
+    from farmacias.users ;
+
+
+
+INSERT IGNORE INTO wisiolms.evaluation_user(evaluation_id, user_id, score, created_at, updated_at) 
+ SELECT mexico.user_grades.evaluation_id, mexico.user_grades.user_id, mexico.user_grades.grade, mexico.user_grades.created_at, mexico.user_grades.updated_at FROM mexico.user_grades;
+
+INSERT IGNORE INTO wisiolms.evaluation_user(evaluation_id, user_id, score, created_at, updated_at) 
+ SELECT farmacias.user_grades.evaluation_id, farmacias.user_grades.user_id, farmacias.user_grades.grade, farmacias.user_grades.created_at, farmacias.user_grades.updated_at FROM farmacias.user_grades;
+
+
+INSERT IGNORE INTO wisiolms.evaluation_user(evaluation_id, user_id, score, created_at, updated_at)
+ SELECT mexico.user_tries.evaluation_id, mexico.user_tries.user_id, mexico.user_tries.grade, mexico.user_tries.created_at, mexico.user_tries.updated_at FROM mexico.user_tries;
+
+INSERT IGNORE INTO wisiolms.evaluation_user(evaluation_id, user_id, score, created_at, updated_at)
+ SELECT farmacias.user_tries.evaluation_id, farmacias.user_tries.user_id, farmacias.user_tries.grade, farmacias.user_tries.created_at, farmacias.user_tries.updated_at FROM farmacias.user_tries;
+
+
+
+
+
+-- Tinker for evaluate all users
+Course::find(1)->calculateAvgAllUsers()
+Course::find(2)->calculateAvgAllUsers()
+Course::find(3)->calculateAvgAllUsers()
+Course::find(4)->calculateAvgAllUsers()
+Course::find(5)->calculateAvgAllUsers()
+Course::find(6)->calculateAvgAllUsers()
+Course::find(7)->calculateAvgAllUsers()
+Course::find(8)->calculateAvgAllUsers()
+
+// Estableciendo como terminados los módulos en los que el usuario realizó la evaluación final al menos una vez
+Module::find(1)->calculateAvg() 
+Module::find(2)->calculateAvg() 
+Module::find(3)->calculateAvg() 
+Module::find(4)->calculateAvg() 
+Module::find(5)->calculateAvg() 
+Module::find(13)->calculateAvg() 
+Module::find(141)->calculateAvg() 
+Module::find(6)->calculateAvg() 
+Module::find(7)->calculateAvg() 
+Module::find(8)->calculateAvg() 
+Module::find(9)->calculateAvg() 
+Module::find(10)->calculateAvg() 
+Module::find(11)->calculateAvg() 
+Module::find(12)->calculateAvg() 
+Module::find(14)->calculateAvg() 
+Module::find(15)->calculateAvg() 
+Module::find(16)->calculateAvg() 
+Module::find(17)->calculateAvg() 
+Module::find(18)->calculateAvg() 
+Module::find(19)->calculateAvg() 
+Module::find(20)->calculateAvg() 
+Module::find(21)->calculateAvg() 
+Module::find(22)->calculateAvg() 
+Module::find(23)->calculateAvg() 
+Module::find(24)->calculateAvg() 
+Module::find(25)->calculateAvg() 
+Module::find(26)->calculateAvg() 
+Module::find(27)->calculateAvg() 
+Module::find(28)->calculateAvg() 
+Module::find(29)->calculateAvg() 
+Module::find(30)->calculateAvg() 
+Module::find(31)->calculateAvg() 
+Module::find(32)->calculateAvg() 
+Module::find(33)->calculateAvg() 
+Module::find(34)->calculateAvg() 
+Module::find(35)->calculateAvg() 
+Module::find(36)->calculateAvg() 
+Module::find(37)->calculateAvg() 
+Module::find(38)->calculateAvg() 
+Module::find(39)->calculateAvg() 
+Module::find(40)->calculateAvg() 
+Module::find(41)->calculateAvg() 
+Module::find(42)->calculateAvg() 
+Module::find(43)->calculateAvg() 
+Module::find(44)->calculateAvg() 
+Module::find(45)->calculateAvg() 
+Module::find(46)->calculateAvg() 
+Module::find(47)->calculateAvg() 
+Module::find(48)->calculateAvg() 
+Module::find(49)->calculateAvg() 
+Module::find(71)->calculateAvg() 
+Module::find(72)->calculateAvg() 
+Module::find(73)->calculateAvg() 
+Module::find(74)->calculateAvg() 
+Module::find(75)->calculateAvg() 
+Module::find(76)->calculateAvg() 
+Module::find(77)->calculateAvg() 
+Module::find(78)->calculateAvg() 
+Module::find(79)->calculateAvg() 
+Module::find(80)->calculateAvg() 
+Module::find(124)->calculateAvg() 
+Module::find(125)->calculateAvg() 
+Module::find(126)->calculateAvg() 
+Module::find(132)->calculateAvg() 
+Module::find(133)->calculateAvg() 
+Module::find(134)->calculateAvg() 
+Module::find(135)->calculateAvg() 
+Module::find(136)->calculateAvg() 
+Module::find(137)->calculateAvg() 
+Module::find(138)->calculateAvg() 
+Module::find(139)->calculateAvg() 
+Module::find(140)->calculateAvg() 
+
+Course::find(1)->setCourseComplete()
+Course::find(2)->setCourseComplete()
+Course::find(3)->setCourseComplete()
+Course::find(4)->setCourseComplete()
+Course::find(5)->setCourseComplete()
+Course::find(6)->setCourseComplete()
+Course::find(7)->setCourseComplete()
+Course::find(8)->setCourseComplete()
+
+
+
+
+Course::find(1)->setModulesComplete();
+Course::find(2)->setModulesComplete();
+Course::find(3)->setModulesComplete();
+Course::find(4)->setModulesComplete();
+Course::find(5)->setModulesComplete();
+Course::find(6)->setModulesComplete();
+Course::find(7)->setModulesComplete();
+Course::find(8)->setModulesComplete();
+
+Course::find(1)->setLastAdvance();
+Course::find(2)->setLastAdvance();
+Course::find(3)->setLastAdvance();
+Course::find(4)->setLastAdvance();
+Course::find(5)->setLastAdvance();
+Course::find(6)->setLastAdvance();
+Course::find(7)->setLastAdvance();
+Course::find(8)->setLastAdvance();
+
+
+
+
+User::whereEmail('ricardo.allende@subitus.com')->first()->ascriptions()->attach(1)
+User::whereEmail('miguel.villegas@subitus.com')->first()->ascriptions()->attach(1)
+User::whereEmail('soporte@mexico.com')->first()->ascriptions()->attach(1)
+User::whereEmail('juan.huerta@subitus.com')->first()->ascriptions()->attach(1)
+User::whereEmail('doctor@sanofi.com')->first()->ascriptions()->attach(1)
+User::whereEmail('doctor@benavides.com')->first()->ascriptions()->attach(7)
