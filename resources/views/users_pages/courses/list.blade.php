@@ -13,6 +13,7 @@ Cursos
 
   <div class="row hide-on-med-and-down">
     <form class="col s12 l4" id="searchForm">
+    {{ csrf_field() }}
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix" >search</i>
@@ -37,6 +38,7 @@ Cursos
 
   <div class="row hide-on-large-only">
     <form class="col s12 l4" id="searchForm">
+    {{ csrf_field() }}
       <div class="row">
         <div class="col s8">
           <!-- <i class="material-icons prefix" >search</i> -->

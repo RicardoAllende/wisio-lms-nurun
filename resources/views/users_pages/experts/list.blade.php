@@ -18,6 +18,7 @@ Profesores
     <h1 class="tits">Profesores</h1>
     <div class="row hide-on-med-and-down">
       <form class="col s12" id="formSearch" name="formSearch" method="get">
+      {{ csrf_field() }}
         <div class="row">
           <div class="input-field col s12 l4">
             <input class="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >
@@ -46,6 +47,7 @@ Profesores
 
     <div class="row hide-on-large-only">
       <form class="col s12" id="formSearchM" name="formSearchM" method="get">
+      {{ csrf_field() }}
         <div class="row">
           <div class="col s9">
             <input id="name" value="{{ $name }}" name="name" type="text" placeholder="Nombre del experto" >

@@ -155,6 +155,7 @@
                 <div class="row">
                     <div class="col-lg-8 text-left">
                         <form action="" class="form-inline" id="form-tag">
+                            {{ csrf_field() }}
                             <input type="text" class="form-control" name="tag" id="tag" placeholder="Escribe nueva etiqueta">
                             <button type="submit" class="btn btn-primary" id="create-tag">Crear y Asignar</button>
                         </form>
