@@ -10,15 +10,11 @@ use App\State;
 use App\User;
 use App\Role;
 use GuzzleHttp\Client;
+use App\Setting;
 
 class UserController extends Controller
 {
-
-    public $tokenUrl = "https://dev.cedula.nurun.com.mx/api/v1/token?";
-    public $client_id = "client_id=3";
-    public $client_secret = "client_secret=Wpa2BbV4tNY69V5BOuWJALJxbvc2uLc9N7jd5Cqz";
-    public $licenseService = "http://dev.cedula.nurun.com.mx/api/v1/license-number/";
-    public $apiMessage = "";
+    public $apiMessage = "";   
     public $notA1 = false;
     public $sepServicesAreDown = false;
 
@@ -83,23 +79,24 @@ class UserController extends Controller
         if($this->validarNumero($mobile_phone) == false){
             return back()->withInput()->with('error', "Número no validado");
         }
-        $is_validated = true;
+        $is_validated = $request->is_validated;
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        $response = $this->verifySecondMethod($professional_license, $request->firstname, $request->paterno, $request->materno);
-        if( ! $response ){
-            if( $this->sepServicesAreDown ){
-                $is_validated = false;
-            }else{
-                $this->sepServicesAreDown = false;
-                $error = 'Cédula no validada';
-                if($this->notA1){
-                    $error = "Su cédula profesional no es de tipo A1";
-                }
-                return back()->withInput()->with('error', $error);
-            }
-        }
+        $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
+        // if( ! $response ){
+        //     if( $this->sepServicesAreDown ){
+        //         $is_validated = false;
+        //         // return "Servicios caídos";
+        //     }else{
+        //         $this->sepServicesAreDown = false;
+        //         $error = 'Cédula no validada';
+        //         // if($this->notA1){
+        //         //     $error = "Su cédula profesional no es de tipo A1";
+        //         // }
+        //         return back()->withInput()->with('error', $error);
+        //     }
+        // }
         $user = User::create($input);
         $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
@@ -117,7 +114,6 @@ class UserController extends Controller
             $ascription = Ascription::first();  // Academia Sanofi
         }
         $user->ascription_id = $ascription->id;
-        // $user->ascriptions()->attach($ascription->id);
         $user->save();
         $email = $user->email;
         $password = $request->password;
@@ -126,88 +122,40 @@ class UserController extends Controller
         }
     }
 
-    public function verifyProfessionalLicense($license, $name, $middlename, $lastname){
-        try {
-            $accessToken = $this->getAccessToken();
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $this->licenseService.$license,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer ".$accessToken,
-                    "Cache-Control: no-cache",
-                    "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
-                ),
-            ));
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                return false;
+    public function requestVerifyProfessionalLicense(Request $request){
+        $professional_license = $request->professional_license;
+        $name = $request->name;
+        $mid_name = $request->mid_name;
+        $last_name = $request->last_name;
+        if($this->verifyProfessionalLicense($professional_license, $name, $mid_name, $last_name)){
+            echo 'ok';
+            return;
+        }else{
+            if($this->sepServicesAreDown){
+                echo "not-verified";
+                return;
             }
-            $jsonResponse = json_decode($response);
-            if(isset($jsonResponse->{'results'})){
-                $numResults = $jsonResponse->{'results'};
-                if($numResults == '1'){
-                    $license = $jsonResponse->{'licenses'};
-                    $license = $license[0];
-                    $licenseName = $license->{'name'};
-                    $licenseMiddleName = $license->{'middle_name'};
-                    $licenseLastName = $license->{'last_name'};
-                    $license_type = $license->{'license_type'};
-                    if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
-                        $this->apiMessage = "El nombre no coincide";
-                        return false;
-                    }
-                    if(mb_strtoupper($middlename) != mb_strtoupper($licenseMiddleName)){
-                        $this->apiMessage = "El nombre no coincide con el registrado en la cédula profesional";
-                        return false;
-                    }
-                    if( mb_strtoupper($lastname) != mb_strtoupper($licenseLastName) ){
-                        $this->apiMessage = "Su apellido materno no coincide con el registrado en la cédula profesional";
-                        return false;
-                    }
-                    if(mb_strtoupper($license_type) != 'A1'){
-                        $this->apiMessage = "Su cédula no es del tipo A1";
-                        $this->notA1 = true;
-                        return false;
-                    }
-                    return true;
+            echo 'error';
+            return;
 
-                }else{
-                    return false;
-                }
-            }
-            return false;
-        } catch (\Exception $ex) {
-            $this->sepServicesAreDown = true;
-            return false;
-        } catch (\Throwable $ex) {
-            $this->sepServicesAreDown = true;
-            return false;
         }
-        
     }
 
-    public function verifySecondMethod($license, $firstname, $middlename, $lastname){
+    public function verifyProfessionalLicense($license, $firstname, $middlename, $lastname){
+        $this->sepServicesAreDown = false;
         try{
             $client = new Client();
-            $response = $client->request('POST', 'http://httpbin.org/post', [
+            $setting = Setting::first();
+            $serviceUrl = $setting->professional_license_service;
+            if($serviceUrl == ''){
+                $serviceUrl = "https://dev.academia.nurun.com.mx/cedula/cedula/";
+            }
+            $response = $client->request('POST', $serviceUrl, [
                 'form_params' => [
-                    'name' => 'abc',
-                    'mid_name' => '',
-                    'last_name' => '123',
-                    'cedula' => ''
+                    'name' => $firstname,
+                    'mid_name' => $middlename,
+                    'last_name' => $lastname,
+                    'cedula' => $license
                 ]
             ]);
             $responseString = $response->getBody()->getContents();
@@ -225,12 +173,12 @@ class UserController extends Controller
                     break;
                 case '200':
                     $professional_license = $jsonResponse->{'cedula'};
-                    $type = $jsonResponse->{"tipo de cedula"};
+                    // $type = $jsonResponse->{"tipo de cedula"};
                     if($license == $professional_license){
-                        if($type != 'A1'){
-                            $this->notA1 = true;
-                            return false;
-                        }
+                        // if($type != 'A1'){
+                        //     $this->notA1 = true;
+                        //     return false;
+                        // }
                         return true;
                     }
                     break;
@@ -239,7 +187,7 @@ class UserController extends Controller
                     break;
             }
             return false;
-        } catch (\Exception $ex) {
+        } catch (\Exception $ex) { // In this case, service returns a no valid response (not a json)
             $this->sepServicesAreDown = true;
             return false;
         } catch (\Throwable $ex) {

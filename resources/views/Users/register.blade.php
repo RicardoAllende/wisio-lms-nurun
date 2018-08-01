@@ -29,7 +29,7 @@ Registro
       <meter max="4" id="password-strength-meter" style="width:100%;"></meter>
       <span class="smalltextright" id="password-strength-text"></span><br>
       <span class="smalltext">Su contraseña debe contener al menos:<br>
-        -Una mayúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Un caracter Especialidad <br>
+        -Una mayúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -Un caracter Especial <br>
         -Una minúscula &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -8 caracteres minimo<br>
         -Un numero
 
@@ -58,7 +58,7 @@ Registro
 
         </div>
         <div class="reg col s12 l6">
-          {!! Form::label('materno', 'Apellido materno:',['for'=>'paterno']); !!}
+          {!! Form::label('materno', 'Apellido materno:',['for'=>'materno']); !!}
           {!! Form::text('materno',null,['class'=>'validate','placeholder'=>'Apellidos', 'required'=>'', 'id'=> 'materno', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
 
         </div>
@@ -100,6 +100,7 @@ Registro
             -Ej. 0045727 ó 4521597
 
           </span><br><br>
+          
         </div>
         <div class="reg col s12 l6">
           {!! Form::label('specialty_id', 'Especialidad:',['class'=>'']); !!}
@@ -111,6 +112,26 @@ Registro
           </select>
 
         </div>
+
+        <div class="reg col s12 l12">
+          
+          <div id="progress_professional_license">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+            Verificando cédula profesional
+          </div>
+          <div id="validada" style="display: inline-block;" >
+            <i class="small material-icons">check_circle</i> Cédula validada 
+          </div>
+          <div id="no-validada" style="display: inline-block;" >
+            <i class="small material-icons">cancel</i>Cédula no validada
+          </div>
+          <br><br>
+        </div>
+
+        
+        <input type="hidden" name="is_validated" id="is_validated" value="1" >
         <br><br><br><br>
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
@@ -218,6 +239,68 @@ $(document).ready(function() {
       break;
     }
   });
+  
+  $("#btnSubmit").prop('disabled', true);
+  $('#progress_professional_license').hide();
+  $('#validada').hide();
+  $('#no-validada').show();
+  $('#is_validated').val(0);
+
+  function verifyProfessionalLicense(license, name, mide_name, last_name){
+    $('#progress_professional_license').show();
+    $.ajax({
+      type: 'post',
+      url: "{{ route('professional.license.service') }}",
+      data: {
+        'name' : $('#firstname').val(),
+        'mid_name': $('#paterno').val(),
+        'last_name': $('#materno').val(),
+        'cedula': $('#professional_license').val()
+      },
+      success: function (result) {
+        if(result == 'ok'){
+          $("#btnSubmit").prop('disabled', false);
+          $('#progress_professional_license').hide();
+          $('#validada').show();
+          $('#no-validada').hide();
+          $('#is_validated').val(1);
+          return;
+        }
+        if(result == 'not-verified'){
+          alert('Cédula validada correctamente');
+          $("#btnSubmit").prop('disabled', false);
+          $('#progress_professional_license').hide();
+          $('#validada').show();
+          $('#no-validada').hide();
+          $('#is_validated').val(1);
+          return;
+        }
+      },
+      error: function(request, error){
+        alert('Su cédula no pudo ser validada');
+        $("#btnSubmit").prop('disabled', true);
+        $('#progress_professional_license').hide();
+        $('#validada').hide();
+        $('#no-validada').show();
+      }
+    });
+  }
+
+  $('#professional_license').on('input', function() {
+    $("#btnSubmit").prop('disabled', true);
+    $('#progress_professional_license').hide();
+    $('#validada').hide();
+    $('#no-validada').show();
+    $('#is_validated').val(1);
+    var reg = /^\d+$/;
+    if(reg.test( $('#professional_license').val() )){
+      if($('#professional_license').val().length > 6){ // professional_license complete with 7 or 8 digits
+        verifyProfessionalLicense($('#professional_license').val(), $('#firstname').val(), $('#paterno').val(), $('#materno').val());
+      }
+      // alert('Cédula ingresada: ' + $('#professional_license').val() );
+    }
+  });
+
 });
 
 var strength = {

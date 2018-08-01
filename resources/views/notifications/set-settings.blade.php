@@ -57,6 +57,13 @@
                             {!! Form::number('max_sms_reminders',null,['class'=>'form-control', 'required'=>'']) !!}
                           </div>
                         </div>
+
+                          <div class="form-group">
+                              {!! Form::label('professional_license_service', 'Url del servicio web:',['class'=>'control-label col-sm-2']); !!}
+                              <div class="col-sm-10">
+                               {!! Form::text('professional_license_service',null,['class'=>'form-control','placeholder'=>'Url donde se aloja el servicio web', 'required' => '']) !!}
+                              </div>
+                          </div>
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">

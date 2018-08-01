@@ -17,6 +17,7 @@ class CreateSpecialtiesTable extends Migration
             $table->increments('id');
             $table->string('name', 50);
             $table->string('code', 7);
+            $table->boolean('is_valid_c1')->default(false);
             $table->timestamps();
         });
     }

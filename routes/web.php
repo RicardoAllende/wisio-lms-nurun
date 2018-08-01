@@ -167,6 +167,8 @@ Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink'
 Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 
+Route::post('/verificar-cedula-profesional', 'Users_Pages\UserController@requestVerifyProfessionalLicense')->name('professional.license.service');
+
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/login', 'AscriptionController@login')->name('ascription.login');

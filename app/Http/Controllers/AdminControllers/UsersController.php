@@ -18,6 +18,7 @@ use App\CourseUser;
 use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
 use App\Notification;
+use App\Setting;
 
 class UsersController extends Controller
 {
@@ -412,33 +413,34 @@ class UsersController extends Controller
 
     public function validateUser($user_id){
         $user = User::find($user_id);
-        if($user != null){
-            return back();
-        }
-        $user->is_validated = 1;
-        $user->save();
-        return back();
-
-        // $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
-        // if( ! $response ){
-        //     if( $this->sepServicesAreDown ){
-        //         return back()->with('error', 'Los servicion aún están caídos');
-        //     }else{
-        //         $this->sepServicesAreDown = false;
-        //         $user->enabled = 0;
-        //         $user->save();
-        //         return back()->withErrors(['error'=>'Usuario no validado, se ha desactivado']);
-        //     }
+        // if($user != null){
+        //     return back();
         // }
         // $user->is_validated = 1;
         // $user->save();
         // return back();
+        $response = $this->verifyProfessionalLicense($user->professional_license, $user->firstname, $user->lastname);
+        if( ! $response ){
+            if( $this->sepServicesAreDown ){
+                // dd('Servicios caídos');
+                return back()->withErrors(['error' => 'Los servicion aún están caídos']);
+            }else{
+                // dd('No validado');
+                $this->sepServicesAreDown = false;
+                $user->enabled = 0;
+                $user->save();
+                return back()->withErrors(['error'=>'Usuario no validado, se ha desactivado']);
+            }
+        }
+        $user->is_validated = 1;
+        $user->save();
+        return back();
     }
 
     public function verifyAllUsers(){
         $users = User::where('is_validated', 0)->where('enabled', 1)->where('role_id', 1)->cursor();
         foreach($users as $user){
-            $response = $this->verifyProfessionalLicense($user->professional_license, $user->full_name);
+            $response = $this->verifyProfessionalLicense($user->professional_license, $user->firstname, $user->lastname);
             if( ! $response ){
                 if( $this->sepServicesAreDown ){
                     return back()->withError(['error' => 'Los servicion aún están caídos']);
@@ -479,70 +481,60 @@ class UsersController extends Controller
         ->rawColumns(['validate', 'disableUser', 'ascription_name'])->make(true);
     }
 
-    public function verifyProfessionalLicense($license, $name){
-        try {
-            $accessToken = $this->getAccessToken();
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $this->licenseService.$license,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer ".$accessToken,
-                    "Cache-Control: no-cache",
-                    "Postman-Token: d7af23f7-6966-46bb-b105-d1955d3b2d9b"
-                ),
-            ));
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                return false;
+    public function verifyProfessionalLicense($license, $firstname, $lastname){
+        $this->sepServicesAreDown = false;
+        try{
+            $client = new Client();
+            $setting = Setting::first();
+            $serviceUrl = $setting->professional_license_service;
+            if($serviceUrl == ''){
+                $serviceUrl = "https://dev.academia.nurun.com.mx/cedula/cedula/";
             }
-            $jsonResponse = json_decode($response);
-            if(isset($jsonResponse->{'results'})){
-                $numResults = $jsonResponse->{'results'};
-                if($numResults == '1'){
-                    $license = $jsonResponse->{'licenses'};
-                    $license = $license[0];
-                    $licenseName = $license->{'name'};
-                    $licenseMiddleName = $license->{'middle_name'};
-                    $licenseLastName = $license->{'last_name'};
-                    $license_type = $license->{'license_type'};
-                    $name = $licenseName.' '.$licenseMiddleName.' '.$licenseLastName;
-                    if(mb_strtoupper($name) != mb_strtoupper($licenseName)){
-                        $this->apiMessage = "El nombre no coincide";
-                        return false;
-                    }
-                    if(mb_strtoupper($license_type) != 'A1'){
-                        $this->apiMessage = "Su cédula no es del tipo A1";
-                        $this->notA1 = true;
-                        return false;
-                    }
-                    return true;
-
-                }else{
+            $response = $client->request('POST', $serviceUrl, [
+                'form_params' => [
+                    'name' => $firstname,
+                    'mid_name' => $middlename.' '.$lastname,
+                    'last_name' => '',
+                    // 'csrfmiddlewaretoken' => $this->csrfmiddlewaretoken,
+                    'cedula' => $license
+                ]
+            ]);
+            $responseString = $response->getBody()->getContents();
+            $jsonResponse = json_decode($responseString);
+            $status = $jsonResponse->{'status'};
+            $message = $jsonResponse->{'message'};
+            $this->sepServicesAreDown = false;
+            switch ($status) {
+                case '500': // unavailable service
+                    $this->sepServicesAreDown = true;
                     return false;
-                }
+                    break;
+                case '404': // No data found or not valid
+                    return false;
+                    break;
+                case '200':
+                    $professional_license = $jsonResponse->{'cedula'};
+                    // $type = $jsonResponse->{"tipo de cedula"};
+                    if($license == $professional_license){
+                        // if($type != 'A1'){
+                        //     $this->notA1 = true;
+                        //     return false;
+                        // }
+                        return true;
+                    }
+                    break;
+                default:
+                    return false;
+                    break;
             }
             return false;
-        } catch (\Exception $ex) {
+        } catch (\Exception $ex) { // In this case, service returns a no valid response (not a json)
             $this->sepServicesAreDown = true;
             return false;
         } catch (\Throwable $ex) {
             $this->sepServicesAreDown = true;
             return false;
         }
-        
     }
 
     public function getAccessToken(){

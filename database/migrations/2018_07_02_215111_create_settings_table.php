@@ -19,6 +19,7 @@ class CreateSettingsTable extends Migration
             $table->datetime('last_content_update')->nullable();
             $table->integer('maxMonthReminders')->default(2);
             $table->integer('maxWeekReminders')->nullable(4);
+            $table->string('professional_license_service')->default('http://127.0.0.1:8000');
             $table->timestamps();
         });
     }
