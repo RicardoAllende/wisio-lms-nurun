@@ -252,13 +252,15 @@ $(document).ready(function() {
       type: 'post',
       url: "{{ route('professional.license.service') }}",
       data: {
-        'name' : $('#firstname').val(),
-        'mid_name': $('#paterno').val(),
-        'last_name': $('#materno').val(),
-        'cedula': $('#professional_license').val()
+        name : $('#nombre').val(),
+        mid_name: $('#paterno').val(),
+        last_name: $('#materno').val(),
+        cedula: $('#professional_license').val(),
+        _token: "{{ csrf_token() }}"
       },
       success: function (result) {
         if(result == 'ok'){
+          alert('Cédula verificada correctamente');
           $("#btnSubmit").prop('disabled', false);
           $('#progress_professional_license').hide();
           $('#validada').show();
@@ -267,7 +269,7 @@ $(document).ready(function() {
           return;
         }
         if(result == 'not-verified'){
-          alert('Cédula validada correctamente');
+          console.log('Servicio de verificación no disponible temporalmente');
           $("#btnSubmit").prop('disabled', false);
           $('#progress_professional_license').hide();
           $('#validada').show();
@@ -278,6 +280,8 @@ $(document).ready(function() {
       },
       error: function(request, error){
         alert('Su cédula no pudo ser validada');
+        console.log(request);
+        console.log(error);
         $("#btnSubmit").prop('disabled', true);
         $('#progress_professional_license').hide();
         $('#validada').hide();

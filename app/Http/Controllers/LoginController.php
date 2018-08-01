@@ -38,11 +38,14 @@ class LoginController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        if(Auth::check()){ // If user is registered
+        if(Auth::check()){ // If user is authenticated
             $user = Auth::user();
             if($user->enabled == 0){
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
+            }
+            if( ! $user->is_validated){
+                return back()->with('msj', 'En este momento su usuario no está autenticado');
             }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
@@ -70,6 +73,9 @@ class LoginController extends Controller
             if($user->enabled == 0){
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
+            }
+            if( ! $user->is_validated){
+                return back()->with('msj', 'En este momento su usuario no está autenticado');
             }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;

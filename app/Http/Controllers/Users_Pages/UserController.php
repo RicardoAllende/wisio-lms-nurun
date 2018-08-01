@@ -117,9 +117,14 @@ class UserController extends Controller
         $user->save();
         $email = $user->email;
         $password = $request->password;
-        if(Auth::attempt(compact('email', 'password'))){
-            return redirect('/');
+        if($user->is_validated == false){
+            return back()->with('msj', 'En este momento no se pudo validar la cédula profesional, por favor espera la confirmación de su cédula profesional');
+        }else{
+            if(Auth::attempt(compact('email', 'password'))){
+                return redirect('/');
+            }
         }
+        return redirect('/');
     }
 
     public function requestVerifyProfessionalLicense(Request $request){
