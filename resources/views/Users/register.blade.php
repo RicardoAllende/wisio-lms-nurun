@@ -255,31 +255,35 @@ $(document).ready(function() {
         name : $('#nombre').val(),
         mid_name: $('#paterno').val(),
         last_name: $('#materno').val(),
-        cedula: $('#professional_license').val(),
+        professional_license: $('#professional_license').val(),
         _token: "{{ csrf_token() }}"
       },
       success: function (result) {
         if(result == 'ok'){
-          alert('Cédula verificada correctamente');
+          Materialize.toast('Cédula verificada correctamente',4000,'acept')
           $("#btnSubmit").prop('disabled', false);
           $('#progress_professional_license').hide();
           $('#validada').show();
           $('#no-validada').hide();
           $('#is_validated').val(1);
+          $("#professional_license").prop("readonly", true);
+          $("#nombre").prop("readonly", true);
+          $("#paterno").prop("readonly", true);
+          $("#professional_license").prop("readonly", true);
           return;
         }
         if(result == 'not-verified'){
-          console.log('Servicio de verificación no disponible temporalmente');
+          Materialize.toast('Servicio de verificación no disponible temporalmente, intente más tarde', 5000, 'error');
           $("#btnSubmit").prop('disabled', false);
           $('#progress_professional_license').hide();
           $('#validada').show();
           $('#no-validada').hide();
-          $('#is_validated').val(1);
+          $('#is_validated').val(0);
           return;
         }
       },
       error: function(request, error){
-        alert('Su cédula no pudo ser validada');
+        Materialize.toast('Su cédula no pudo ser validada',4000,'error')
         console.log(request);
         console.log(error);
         $("#btnSubmit").prop('disabled', true);
@@ -294,12 +298,19 @@ $(document).ready(function() {
     $("#btnSubmit").prop('disabled', true);
     $('#progress_professional_license').hide();
     $('#validada').hide();
-    $('#no-validada').show();
-    $('#is_validated').val(1);
+    $('#no-validada').hide();
+    $('#is_validated').val(0);
     var reg = /^\d+$/;
     if(reg.test( $('#professional_license').val() )){
       if($('#professional_license').val().length > 6){ // professional_license complete with 7 or 8 digits
+        if( ($('#nombre').val() != '') && ($('#paterno').val() != '') && ($('#materno').val() != '') ){
         verifyProfessionalLicense($('#professional_license').val(), $('#firstname').val(), $('#paterno').val(), $('#materno').val());
+        }else{
+          Materialize.toast('Su cédula no pudo ser validada',4000,'error');
+          str = $('professional_license').val();
+          str = str.substring(0, str.length - 2);     
+          $('professional_license').val(str);
+        }
       }
       // alert('Cédula ingresada: ' + $('#professional_license').val() );
     }

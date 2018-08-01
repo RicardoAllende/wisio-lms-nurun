@@ -74,7 +74,7 @@
            @yield('body')
            @include('users_pages.calendario.modal')
 
-<!-- Versión 31/07 -->
+<!-- Versión 01/08 -->
        </div>
        <div class="row hide-on-large-only right-align">
          <a  href="#contenedor" class="btnAcademia"> Arriba <span class="icon-bt_arriba iconbtn"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></a>

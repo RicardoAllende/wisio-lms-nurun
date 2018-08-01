@@ -75,7 +75,7 @@ class LoginController extends Controller
                 return back()->with('error', 'Usuario deshabilitado');
             }
             if( ! $user->is_validated){
-                return back()->with('msj', 'En este momento su usuario no está autenticado');
+                return back()->with('msj', 'En este momento su usuario no está validado');
             }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
