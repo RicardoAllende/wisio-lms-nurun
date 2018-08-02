@@ -135,7 +135,7 @@ Registro
         <br><br><br><br>
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
-          <div class="reg col s6">
+          <div class="reg col s12">
             <input class="with-gap" name="consultation_type" required type="radio" value="1" data-value="privada" id="privado" />
             <label for="privado">Privado</label><br><br>
             <input class="with-gap" name="consultation_type" required type="radio" value="2" data-value="publica" id="publica" />
@@ -143,11 +143,11 @@ Registro
             <input class="with-gap" name="consultation_type" required type="radio" value="3" data-value="mixta" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
-          <div class="reg col s6">
+          <!-- <div class="reg col s6">
             Acceso a:<br>
             <span class="typeCon">
             </span>
-          </div>
+          </div> -->
 
         </div>
         <div class="col s6">
@@ -226,19 +226,19 @@ Registro
 <script>
 $(document).ready(function() {
   $('select').material_select();
-  $("form input:radio").click(function() {
-    switch($(this).data('value')){
-      case 'privada':
-        $('.typeCon').html('- Blog para médicos <br>- Cursos en línea <br>- Calendario de eventos <br>- Materiales de apoyo en consulta<br>- Muestras médicas en casa <br>- Vademecum Sanofi <br>');
-      break;
-      case 'publica':
-        $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
-      break;
-      case 'mixta':
-        $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
-      break;
-    }
-  });
+  // $("form input:radio").click(function() {
+  //   switch($(this).data('value')){
+  //     case 'privada':
+  //       $('.typeCon').html('- Blog para médicos <br>- Cursos en línea <br>- Calendario de eventos <br>- Materiales de apoyo en consulta<br>- Muestras médicas en casa <br>- Vademecum Sanofi <br>');
+  //     break;
+  //     case 'publica':
+  //       $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
+  //     break;
+  //     case 'mixta':
+  //       $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
+  //     break;
+  //   }
+  // });
   
   $("#btnSubmit").prop('disabled', true);
   $('#progress_professional_license').hide();

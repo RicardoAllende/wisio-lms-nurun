@@ -70,7 +70,7 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('zip', 'Código postal:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('zip',null,['class'=>'form-control','placeholder'=>'Código Postal', 'required' => '', 'pattern' => "[0-9]{5}", 'title'=> "Únicamente números", 'maxlength' => '5']) !!}
+      {!! Form::text('zip',null,['class'=>'form-control','placeholder'=>'54660 -Únicamente números-', 'required' => '', 'pattern' => "[0-9]{5}", 'title'=> "Únicamente números", 'maxlength' => '5']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">
@@ -80,7 +80,7 @@ Actualizacion de información
 
     <div class="reg col s12 l6 offset-l3">
       {!! Form::label('address', 'Dirección:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa', 'pattern' => "[a-z0-9A-ZñÑáéíóúÁÉÍÓÚ\s]{1,255}", 'title'=>"Únicamente caracteres alfanuméricos"]) !!}
+      {!! Form::text('address',null,['class'=>'form-control','placeholder'=>'Dirección completa']) !!}
     </div>
 
     <div class="reg col s12 l6 offset-l3">

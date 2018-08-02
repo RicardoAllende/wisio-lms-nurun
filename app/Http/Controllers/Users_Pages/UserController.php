@@ -83,7 +83,7 @@ class UserController extends Controller
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
+        // $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
         // if( ! $response ){
         //     if( $this->sepServicesAreDown ){
         //         $is_validated = false;
