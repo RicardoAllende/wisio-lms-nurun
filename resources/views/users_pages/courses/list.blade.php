@@ -75,7 +75,7 @@ Cursos
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
           <span class="categoria-academia">{{ $course->category->name }}</span>
-         <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+         <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img imgMods"></div>
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
            <div class="modulos">{{ $course->modules->count() }} módulos</div>
               <div  class="moduloslista valign-wrapper hide-on-med-and-down">

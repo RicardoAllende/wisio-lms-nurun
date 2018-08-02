@@ -1040,6 +1040,11 @@ i.material-icons.prefix.active{
   bottom: 5%;
 }
 
+#modalInsc{
+  max-height: 20% !important;
+  top: 10% !important;
+}
+
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px)
@@ -1185,6 +1190,9 @@ height: 16px !important;
 
     .expertoscard{
       height: 500px !important;
+    }
+    .imgMods {
+      max-width: 120px !important;
     }
 
 
