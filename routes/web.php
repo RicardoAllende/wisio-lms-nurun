@@ -65,12 +65,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/ascriptions', 'AdminControllers\AscriptionsController');
     Route::resource('/modules', 'AdminControllers\ModulesController');
     Route::resource('/specialties', 'AdminControllers\SpecialtiesController');
-    Route::get('/courses/{course}/manage-users', 'AdminControllers\coursesController@listUsers')->name('list.users.for.course');
-    Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\coursesController@listForAscription')->name('list.courses.for.ascription');
-    Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\coursesController@createForAscription')->name('course.form.for.ascription');
-    Route::get('/courses/relate-to-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@relateToAscription')
+    Route::get('/courses/{course}/manage-users', 'AdminControllers\CoursesController@listUsers')->name('list.users.for.course');
+    Route::get('/courses/add-to-ascription/{ascription_id}', 'AdminControllers\CoursesController@listForAscription')->name('list.courses.for.ascription');
+    Route::get('/courses/create-for-ascription/{ascription_id}', 'AdminControllers\CoursesController@createForAscription')->name('course.form.for.ascription');
+    Route::get('/courses/relate-to-ascription/{course_id}/{ascription_id}', 'AdminControllers\CoursesController@relateToAscription')
       ->name('relate.course.to.ascription');
-    Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\coursesController@dissociateOfAscription')
+    Route::get('/courses/dissociate-of-ascription/{course_id}/{ascription_id}', 'AdminControllers\CoursesController@dissociateOfAscription')
       ->name('dissociate.course.of.ascription');
     Route::resource('/courses','AdminControllers\CoursesController');
     Route::resource('/categories','AdminControllers\CategoriesController');
@@ -170,6 +170,16 @@ Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLin
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 
 Route::post('/verificar-cedula-profesional', 'Users_Pages\UserController@requestVerifyProfessionalLicense')->name('professional.license.service');
+
+Route::get('/relate-courses', function(){
+  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 7]);
+  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 8]);
+  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 12]);
+  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 9]);
+  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 10]);
+  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 11]);
+  return "Finished";
+});
 
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {

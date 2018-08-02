@@ -80,7 +80,7 @@ Evaluacion
                     <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}">
                     <div class="row valign-wrapper">
                         <div class="col s4">
-                            <img src="{{ $evaluation->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                            <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </div>
                         <div class="col s8">
                             <h5 class="titulos-modulo">
