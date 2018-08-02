@@ -26,13 +26,13 @@ Cursos
           <i class="material-icons sufix">subdirectory_arrow_left</i>-->
         </div>
       </div>
-    </form><br>
+    <br>
 
     <div class="col s12">
-      <button id="sendform" class="btnAcademia waves-effect waves-light">Buscar</button>
+      <input type="submit" id="sendform" class="btnAcademia waves-effect waves-light" value="Buscar" >
       <a href="{{ URL::current() }}" class="btnAcademia waves-effect waves-light" >Limpiar</a>
     </div>
-
+    </form>
 
   </div>
 

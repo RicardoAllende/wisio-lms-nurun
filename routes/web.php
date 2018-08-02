@@ -171,16 +171,6 @@ Route::post('reset-password', 'LoginController@setNewPassword')->name('request.s
 
 Route::post('/verificar-cedula-profesional', 'Users_Pages\UserController@requestVerifyProfessionalLicense')->name('professional.license.service');
 
-Route::get('/relate-courses', function(){
-  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 7]);
-  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 8]);
-  App\AscriptionCourse::firstOrCreate(['course_id' => 2, 'ascription_id' => 12]);
-  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 9]);
-  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 10]);
-  App\AscriptionCourse::firstOrCreate(['course_id' => 3, 'ascription_id' => 11]);
-  return "Finished";
-});
-
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/login', 'AscriptionController@login')->name('ascription.login');
