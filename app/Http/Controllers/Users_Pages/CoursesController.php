@@ -77,11 +77,13 @@ class CoursesController extends Controller
             }
             $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
             if($pivot != null){ // Saving advance
-                $now = \Carbon\Carbon::now()->toDateTimeString();
-                $pivot->updated_at = $now;
-                $pivot->save();
+                if($pivot->status == false){
+                    $now = \Carbon\Carbon::now()->toDateTimeString();
+                    $pivot->updated_at = $now;
+                    $pivot->save();
+                }
             }else{
-                return view('users_pages/courses.show',compact('course', 'ascription'));
+                return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
             }
             if($user->hasCourseComplete($course->id)){
                 if($user->hasCompletedEvaluationsFromCourse($course->id)){

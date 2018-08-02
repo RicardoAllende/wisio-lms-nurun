@@ -15,6 +15,8 @@ Route::group(['middleware' => ['auth']], function () {
   Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 
+    Route::get('/change-admin-password', 'AdminControllers\UsersController@changeAdminPassword')->name('change.admin.password');
+    Route::post('/change-admin-password', 'AdminControllers\UsersController@requestChangeAdminPassword')->name('request.change.admin.password');
     Route::get('/courses/{course_id}/diploma-evaluation/{evaluation_id}', 'AdminControllers\EvaluationsController@showDiplomaEvaluation')->name('show.diploma.evaluation');
     Route::get('/courses/{course_id}/create-evaluation-for-diploma', 'AdminControllers\EvaluationsController@createFinalEvaluation')->name('create.diploma.evaluation');
     Route::get('/courses/{course_id}/evaluation-for-diploma/{evaluation_id}/edit', 'AdminControllers\EvaluationsController@editFinalEvaluation')->name('edit.diploma.evaluation');

@@ -67,6 +67,9 @@
                     <li class="">
                         <a href="{{ route('experts.index') }}"><i class="fa fa-qrcode"></i> <span class="nav-label">Expertos</span></a>
                     </li>
+                    <li class="">
+                        <a href="{{ route('change.admin.password') }}"><i class="fa fa-lock"></i> <span class="nav-label">Cambiar contraseña de administrador</span></a>
+                    </li>
                     <li>
                         <a href=""><i class="glyphicon glyphicon-calendar"></i> <span class="nav-label">Notificaciones</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">

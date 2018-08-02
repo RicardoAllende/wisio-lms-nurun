@@ -31,10 +31,8 @@ Cursos para médicos
                       <h4 class="titulo-academia2"> {{ $course->name }}</h4>
                       <div class="modulos">{{ $course->modules->count() }} módulos</div>
                       <div class="leer-masmodulos_50">
-                      @if(Auth::check())
                         <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'VerMas_{{ $course->slug }}'});"
                         href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver mas</a>
-                      @endif
                           <hr class="line3"/>
                       </div>
                     <div class="leer-masmodulos">

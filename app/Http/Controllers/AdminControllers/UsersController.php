@@ -570,4 +570,21 @@ class UsersController extends Controller
         
     }
 
+    public function changeAdminPassword(){
+        $user = Auth::user();
+        return view('users/change-admin-password', compact('user'));
+    }
+
+    public function requestChangeAdminPassword(Request $request){
+        $newPassword = $request->password;
+        if($newPassword == ''){
+            return back();
+        }
+        $newPassword = bcrypt($newPassword);
+        $user = Auth::user();
+        $user->password = $newPassword;
+        $user->save();
+        return back();
+    }
+
 }
