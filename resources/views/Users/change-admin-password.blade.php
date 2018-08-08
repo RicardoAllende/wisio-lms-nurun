@@ -24,7 +24,7 @@
         <div class="ibox-content">
           <div class="row ">
 
-            {!! Form::open(['route' => 'change.admin.password','class'=>'form-horizontal','method' => 'post']) !!}
+            {!! Form::open(['route' => 'request.change.admin.password','class'=>'form-horizontal','method' => 'post']) !!}
             
             <div class="form-group">
               {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
