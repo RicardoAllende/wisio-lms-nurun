@@ -172,6 +172,7 @@ Route::post('/verificar-cedula-profesional', 'Users_Pages\UserController@request
 
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
+  Route::get('/contacto', 'AscriptionController@contact')->name('contact');
   Route::get('/login', 'AscriptionController@login')->name('ascription.login');
   Route::get('/aviso-de-privacidad', 'HomeController@privacity')->name('student.privacity');
   Route::get('/terminos-de-uso', 'HomeController@terms')->name('student.terms');

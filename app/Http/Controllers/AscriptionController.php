@@ -95,6 +95,13 @@ class AscriptionController extends Controller
         return view('users_pages/login/login', compact('courses', 'ascription'));
     }
 
+    public function contact($ascription_slug){
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        if($ascription == null) { return redirect('/'); }
+        $courses = $ascription->courses;
+        return view('users_pages.contact', compact('courses', 'ascription'));
+    }
+
     public function registerForm($ascription_slug){
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if($ascription == null) { return redirect('/'); }
