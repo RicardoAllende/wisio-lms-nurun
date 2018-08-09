@@ -160,6 +160,7 @@ class EvaluationsController extends Controller
             $module = $evaluation->module;
             $course = $module->course;
         }
+        $ascription = Ascription::whereSlug($ascription_slug)->first();
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
             $error = "Usted ya no puede realizar esta evaluación nuevamente";
             return view('users_pages/evaluations/error', compact('error', 'evaluation', 'ascription', 'course'));
@@ -193,7 +194,7 @@ class EvaluationsController extends Controller
         // echo "Preguntas contestadas adecuadamente: {$summatory} <br>";
         // echo "Promedio: {$evaluationAverage} <br>";
         // echo "Calificación mínima: {$evaluation->course()->minimum_score} <br>";
-        $ascription = Ascription::whereSlug($ascription_slug)->first();
+        
 
         // ------------------------- Grading evaluation for diploma, it's stored in score_in_diploma
         if($evaluation->isDiplomaEvaluation()){
