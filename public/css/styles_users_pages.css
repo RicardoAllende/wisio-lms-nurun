@@ -411,10 +411,26 @@ a.linkM{
 
 .moduleimg{
   background-color: #8F6EAA;
+  height: 95%;
+  width: 95%;
 }
 
 .moduleimg-disabled{
     background-color: #ABB2B9;
+    height: 95%;
+    width: 95%;
+}
+
+.moduleimgM{
+    background-color: #8F6EAA;
+    height: 55%;
+    width: 55%;
+}
+  
+.moduleimg-disabledM{
+    background-color: #ABB2B9;
+    height: 55%;
+    width: 55%;
 }
 
 .iconmodule {
@@ -1201,6 +1217,9 @@ height: 16px !important;
 
 
 @media only screen and (max-width: 600px) {
+    .imgExperts{
+        max-width: 50% !important;
+    }
   .expertosparticipacion{
     padding: 0px;
   }

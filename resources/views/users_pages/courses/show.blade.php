@@ -76,8 +76,11 @@ Curso {{ $course->name }}
                   <div class="row valign-wrapper">
                       <div class="col s4">
                         <img src="{{ $module->getMainImgUrl() }}" alt=""
-                        @if($user->moduleInList($course, $module->id) ) class="circle responsive-img moduleimg" @else class="circle responsive-img moduleimg-disabled" @endif
+                          @if($user->moduleInList($course, $module->id) ) class="circle moduleimg hide-on-med-and-down" @else class="circle moduleimg-disabled hide-on-med-and-down" @endif
                          >
+                        <img src="{{ $module->getMainImgUrl() }}" alt=""
+                          @if($user->moduleInList($course, $module->id) ) class="circle moduleimgM hide-on-large-only" @else class="circle moduleimg-disabledM show-on-large" @endif
+                        >
                       </div>
                       <div class="col s8">
                         <h5 class="titulos-modulo">
