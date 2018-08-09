@@ -37,6 +37,10 @@
                    <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});"
                     href="{{ route('student.home', $ascription->slug) }}" href="{{ route('student.home', $ascription->slug) }}" id="homeMob">Academia MC</a></li>
                     <ul class="submenu">
+                      <li>
+                        <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Contacto'});"
+                        href="{{ route('contact', $ascription->slug) }}">Contacto</a>
+                      </li>
                      <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
                       href="{{ route('student.funciona', $ascription->slug) }}" id="funcionaMob">¿Cómo funciona?</a></li>
                      <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Mis_cursos'});" 
@@ -58,6 +62,10 @@
                      href="{{ route('student.own.courses' , $ascription->slug) }}" id="cursosMob">Cursos</a></li>
                      <li ><a  onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" 
                      href="{{ route('student.show.experts' , $ascription->slug) }}" id="expertosMob">Profesores</a></li>
+                      <li>
+                        <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Contacto'});"
+                        href="{{ route('contact', $ascription->slug) }}">Contacto</a>
+                      </li>
 
                    @endif
 

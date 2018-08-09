@@ -16,7 +16,7 @@ Cursos
 
                <h3 class="negro" style="text-transform: none !important " ><center>  Puede ponerse en contacto con nosotros vía telefónica:<br><br>
 01 800 99 90 977<br><br>
-Con horario de L a V de 9am a 1pm y de 2pm a 5pm<br><br></center>
+Con horario de lunes a viernes de 9am a 6 pm y sábados de 9am a 3pm<br><br></center>
 
 Favor de tomar nota que este formulario de contacto NO deberá ser usado para el reporte de situaciones de salud, notificaciones de efectos adversos o para la generación de preguntas 
 ya sea técnicas o médicas relacionadas con productos de Sanofi.<br><br> En estos casos, usted deberá contactar a su médico de cabecera. Si usted es profesional de la salud y desea reportar 

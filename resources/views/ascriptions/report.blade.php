@@ -59,6 +59,7 @@
                                 <th>Teléfono móvil</th>
                                 <th>Activo</th>
                                 <th>Número de cursos terminados</th>
+                                <th>Inscripción</th>
                                 <th>Último acceso al sistema</th>
                             </tr>
                         </thead>
@@ -94,6 +95,7 @@
             {data: 'mobile_phone'},
             {data: 'status'},
             {data: 'numCompletedCoursesOfAscription'},
+            {data: 'created_at'},
             {data: 'last_access'},
         ]
     });
