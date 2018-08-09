@@ -208,8 +208,11 @@ class CoursesController extends Controller
     public function createForAscription($ascription_id){
         $ascription = Ascription::find($ascription_id);
         $categories = Category::all();
+        $templates = CertificateTemplate::all();
         if ($ascription != null) {
-            return view('courses/form', compact('ascription', 'categories'));
+            return view('courses/form', compact('ascription', 'categories', 'templates'));
+        }else{
+            return redirect()->route('admin.dashboard');
         }
     }
 

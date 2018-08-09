@@ -213,13 +213,13 @@ class UsersController extends Controller
     public function showReportAllUsers(){
         // $role = Role::where('name', config('constants.roles.doctor') )->pluck('id'); // doctors
         // $users = User::whereIn('role_id', $role)->paginate(15);
-        return view('users/report-all');
+        return view('Users/report-all');
     }
 
     public function showReport($user_id){
         $user = User::find($user_id);
         if($user == null){ return redirect()->route('list.users.report'); }
-        return view('users/report', compact('user'));
+        return view('Users/report', compact('user'));
     }
 
     public function getUsersDataAdmin(){
@@ -408,7 +408,7 @@ class UsersController extends Controller
     }
     
     public function usersNotValidated(){
-        return view('users.not-validated');
+        return view('Users.not-validated');
     }
 
     public function validateUser($user_id){
@@ -554,7 +554,7 @@ class UsersController extends Controller
 
     public function inviteForm(){
         $ascriptions = Ascription::all();
-        return view('users.invite', compact('ascriptions'));
+        return view('Users.invite', compact('ascriptions'));
     }
 
     public function inviteResult(Request $request){
@@ -563,7 +563,7 @@ class UsersController extends Controller
         }else{
             $route = route('show.register.form.pharmacy', $request->ascription_slug);
         }
-        return view('users.invite', compact('route'));
+        return view('Users.invite', compact('route'));
     }
 
     public function sendInviteEmail(){
@@ -572,7 +572,7 @@ class UsersController extends Controller
 
     public function changeAdminPassword(){
         $user = Auth::user();
-        return view('users/change-admin-password', compact('user'));
+        return view('Users/change-admin-password', compact('user'));
     }
 
     public function requestChangeAdminPassword(Request $request){
