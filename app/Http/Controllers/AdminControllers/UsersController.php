@@ -499,6 +499,10 @@ class UsersController extends Controller
                     'cedula' => $license
                 ]
             ]);
+            if($jsonResponse == false){
+                $this->sepServicesAreDown = true;
+                return false;
+            }
             $responseString = $response->getBody()->getContents();
             $jsonResponse = json_decode($responseString);
             $status = $jsonResponse->{'status'};
