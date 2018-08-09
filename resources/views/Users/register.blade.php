@@ -269,6 +269,7 @@ $(document).ready(function() {
           $("#professional_license").prop("readonly", true);
           $("#nombre").prop("readonly", true);
           $("#paterno").prop("readonly", true);
+          $("#materno").prop("readonly", true);
           $("#professional_license").prop("readonly", true);
           return;
         }
@@ -276,7 +277,7 @@ $(document).ready(function() {
           Materialize.toast('Servicio de verificación no disponible temporalmente, intente más tarde', 5000, 'error');
           $("#btnSubmit").prop('disabled', false);
           $('#progress_professional_license').hide();
-          $('#validada').show();
+          $('#validada').hide();
           $('#no-validada').hide();
           $('#is_validated').val(0);
           return;

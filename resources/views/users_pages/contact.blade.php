@@ -19,9 +19,9 @@ Cursos
 Con horario de L a V de 9am a 1pm y de 2pm a 5pm<br><br></center>
 
 Favor de tomar nota que este formulario de contacto NO deberá ser usado para el reporte de situaciones de salud, notificaciones de efectos adversos o para la generación de preguntas 
-ya sea técnicas o medicas relacionadas con productos de Sanofi.<br><br> En estos casos, usted debera contactar a su médico de cabecera . Si usted es profesional de la salud y desea reportar 
-un evento adverso, en el cual este relacionado productos de Sanofi con paciente a su cargo, favor de emplear el procedimiento local de farmacovigilancia. fv-imed@sanofi.com <br><br>Si usted 
-es paciente , por favor tome nota que Sanofi no proveerá consejos medicos ni recomendaciones de salud. Por lo cual lo invitamos a que consulte a su médico.<br><br> Para mayor información 
+ya sea técnicas o médicas relacionadas con productos de Sanofi.<br><br> En estos casos, usted deberá contactar a su médico de cabecera. Si usted es profesional de la salud y desea reportar 
+un evento adverso, en el cual esté relacionado productos de Sanofi con paciente a su cargo, favor de emplear el procedimiento local de farmacovigilancia. fv-imed@sanofi.com <br><br>Si usted 
+es paciente, por favor tome nota que Sanofi no proveerá consejos medicos ni recomendaciones de salud. Por lo cual lo invitamos a que consulte a su médico.<br><br> Para mayor información 
 visite <a href="www.sanofi.com.mx">www.sanofi.com.mx</a> <br><br> <center>Equipo Academia Médico ConSentido</center> </h3>
 
                 <div class="row sesion">

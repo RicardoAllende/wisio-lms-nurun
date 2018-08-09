@@ -165,6 +165,10 @@ class UserController extends Controller
             ]);
             $responseString = $response->getBody()->getContents();
             $jsonResponse = json_decode($responseString);
+            if($jsonResponse == false){
+                $this->sepServicesAreDown = true;
+                return false;
+            }
             $status = $jsonResponse->{'status'};
             $message = $jsonResponse->{'message'};
             $this->sepServicesAreDown = false;
