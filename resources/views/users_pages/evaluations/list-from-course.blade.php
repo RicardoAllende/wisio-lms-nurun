@@ -11,8 +11,8 @@ Evaluacion
 @stop
 
 @section('body')
-
-<div class="row pad-left3">
+    @include('users_pages.courses.modal')
+    <div class="row pad-left3">
           <div class="pad-left1">
             <!-- <h3>Evaluaciones</h3> -->
             <div class="row">
@@ -80,7 +80,8 @@ Evaluacion
                     <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}">
                     <div class="row valign-wrapper">
                         <div class="col s4">
-                            <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+                            <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle moduleimg hide-on-med-and-down">
+                            <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle moduleimgM hide-on-large-only">
                         </div>
                         <div class="col s8">
                             <h5 class="titulos-modulo">
