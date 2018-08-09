@@ -145,6 +145,8 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('diploma.final.evaluation');
 
     Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
+
+    Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
     
     Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
     Route::get('/descargar-diploma/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
