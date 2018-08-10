@@ -37,6 +37,7 @@
                     <li>
                         <a href=""><i class="	fa fa-line-chart"></i> <span class="nav-label">Reportes</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
+                            <li><a href="{{ route('excel.reports')}}">Reportes en Excel</a></li>
                             <li><a href="{{ route('list.ascriptions.report')}}">Adscripción</a></li>
                             <li><a href="{{ route('list.courses.report')}}">Curso</a></li>
                             <li><a href="{{ route('list.users.report') }}">Usuario</a></li>

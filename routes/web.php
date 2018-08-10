@@ -6,6 +6,8 @@ Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
+Route::get('/reportes', 'LoginController@report');
+
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
@@ -109,6 +111,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     /** Reports */
     Route::group(['prefix' => '/reports'], function(){
+      Route::get('/list-reports', 'AdminControllers\ReportsController@reports')->name('excel.reports');
+      Route::get('/report-insomnio-academia', 'AdminControllers\ReportsController@reportInsomnioAcademia')->name('excel.report.insomnio.academia');
+      Route::get('/report-diabetes-academia', 'AdminControllers\ReportsController@reportDiabetesAcademia')->name('excel.report.diabetes.academia');
+      Route::get('/report-hipertension-academia', 'AdminControllers\ReportsController@reportHipertensionAcademia')->name('excel.report.hipertension.academia');
+      Route::get('/report-diabetes-pharmacy', 'AdminControllers\ReportsController@reportDiabetesFarmacias')->name('excel.report.diabetes.farmacia');
+      Route::get('/report-hipertension-pharmacy', 'AdminControllers\ReportsController@reportHipertensionFarmacias')->name('excel.report.hipertension.farmacias');
+
       Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
       Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
       Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all diplomados(courses)
