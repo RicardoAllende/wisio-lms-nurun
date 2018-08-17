@@ -1136,4 +1136,3 @@ class User extends Authenticatable
 
     }
 }
-// $user = User::where('email', 'benavides@nurun.mx')->first(); if($user != null){ $user->crearRegistro('M',  2, '10/17/17 23:47', '2/21/18 1:04', ['TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO' ], [ '10', '9', '10', '10', '9', '9', '10', '10', '10', '3', '2', '10', '9'], '8.5385' , ['2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '1', '1', '1']); }else{ echo 'No se encontró el usuario con el correo benavides@nurun.mx' ; }
