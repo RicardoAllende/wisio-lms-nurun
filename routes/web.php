@@ -136,6 +136,8 @@ Route::group(['middleware' => ['auth']], function () {
       Route::get('/user/{user_id}', 'AdminControllers\UsersController@showReport')->name('show.user.report');
     });
 
+    Route::get('/templates', 'AdminControllers\CertificateTemplatesController@list')->name('list.templates');
+    Route::get('/show-template/{id}', 'AdminControllers\CertificateTemplatesController@showTemplate')->name('show.template');
     // API Tags
     Route::post('/api/tags/create', 'AdminControllers\TagsController@store');
     Route::post('/api/tags/detach', 'AdminControllers\TagsController@detach');
