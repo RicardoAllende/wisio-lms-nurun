@@ -182,7 +182,8 @@ class Course extends Model
     public function enrolUser($user_id){
         $user = User::find($user_id);
         if($user == null ){ return false; }
-        if( ! $this->users->contains($user_id)){
+        if(CourseUser::where('course_id', $this->id)->where('user_id', $user_id)->count() == 0){
+        // if( ! $this->users->contains($user_id)){
             $this->users()->attach($user_id);
         }
         return true;

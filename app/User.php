@@ -861,4 +861,279 @@ class User extends Authenticatable
         return false;
     }
 
+    // public function crearRegistroInsomnio($genero, $estado, $course_id, $start_date_training,  
+    //     $m1progress, $m2progress, $m3progress, $m4progress, $m5progress, $m6progress, $m7progress, $m8progress, $m9progress, $m10progress, $m11progress, $m12progress, $m13progress,
+    //     $end_date_training, $cal1, $cal2, $cal3, $cal4, $cal5, $cal6, $cal7, $cal8, $cal9, $cal10, $cal11, $cal12, $cal13, $promedio, 
+    //     $tries1, $tries2, $tries3, $tries4, $tries5, $tries6, $tries7, $tries8, $tries9, $tries10, $tries11, $tries12, $tries13
+    // )
+    // public function crearRegistro($genero, $estado, $course_id, $start_date_training,  
+    //     $moduleProgress, $end_date_training, $grades, $promedio, $numTries
+    // )
+
+/*
+    // 0401abilq@live.com.mx
+    $user = User::where('email', '0401abilq@live.com.mx')->first();
+
+    php artisan tinker
+    namespace App
+    $user = User::where('email', '0401abilq@live.com.mx')->first(); if($user != null){ $user->crearRegistro('N/A',  1, '9/30/17 15:46', 'N/A', 
+    ['NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 
+    'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO' ], [ 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 
+    'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 
+    'SIN CALIFICACION'], 'NA' , ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A']); }
+*/
+
+
+    public function crearRegistro($genero, $course_id, $start_date_training, $end_date_training,
+        $moduleProgress, $grades, $promedio, $numTries)
+    {
+        // $user = User::where('email', '')->first() if($user != null){ $user->crearRegistro('genero', 'estado', $course_id, $start_date_training, $end_date_training, [moduleProgress], $end_date_training, [grades], $promedio, $numTries) }
+        switch ($genero) {
+            case 'M':
+                $this->gender = 1;
+                break;
+            case 'F':
+                $this->gender = 2;
+                break;
+        }
+        // return $genero;
+
+        // $state = State::where('name', 'like', '%'.$estado.'%')->first();
+        // if($state != null){
+        //     $this->state_id = $state->id;
+        // }
+        
+        $course = Course::find($course_id);
+        $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
+        $start_date_training = str_replace('"', "", $start_date_training);
+        $end_date_training = str_replace('"', "", $start_date_training);
+        if($start_date_training != 'N/A'){
+            $pos = strpos($start_date_training, '/');
+            if ($pos === false) {
+                $start_date_training = null;
+            } else {
+                $start_date_training = \Carbon\Carbon::parse($start_date_training);
+                if($start_date_training->year > 2018 ){
+                    $start_date_training = null;
+                }
+            }
+        }else{
+            $start_date_training = null;
+        }
+        
+        if($end_date_training != 'N/A'){
+            $pos = strpos($end_date_training, '/');
+            if ($pos === false) {
+                $end_date_training = null;
+            } else {
+                $end_date_training = \Carbon\Carbon::parse($end_date_training);
+                if($end_date_training->year > 2018 ){
+                    $end_date_training = null;
+                }
+            }
+        }else{
+            $end_date_training = null;
+        }
+        if($enrollment == null){
+            $enrollment = CourseUser::create(['course_id' => $course_id, 'user_id' => $this->id, 'created_at' => $start_date_training, 'updated_at' => $end_date_training]);
+        }else{
+            $enrollment->created_at = $start_date_training;
+            $enrollment->updated_at = $end_date_training;
+        }
+        if($promedio != 'NA'){
+            $enrollment->status = true;
+            $enrollment->score = $promedio;
+        }else{
+            $enrollment->status = false;
+            $enrollment->score = null;
+        }
+        $enrollment->save();
+        // return $enrollment;
+        /**Quitando el avance anterior del curso para establecer el exacto que está en los reportes */
+        $modulesId = Module::where('course_id', $course_id)->get()->pluck('id');
+        $this->modules()->detach($modulesId);
+        $evaluationsId = Evaluation::whereIn('module_id', $modulesId)->get()->pluck('id');
+        $this->evaluations()->detach($evaluationsId);
+        // return $evaluationsId;
+
+        // Crear las evaluaciones según el número de intentos
+        // $modules = Module::whereIn('id', $modulesId)->cursor();
+        // dd($moduleProgress);
+
+        // if($course_id == 1){
+
+        // }
+
+        // if($course_id == 3){
+
+        // }
+
+        if($course_id == 2){
+            $tempModules = array();
+            $tempGrades = array();
+            $tempTries = array();
+            // return count($moduleProgress);
+            for ($i=0; $i < count($moduleProgress); $i++) { 
+                if($i == 10){
+                    array_push($tempModules, $moduleProgress[$i]);
+                    array_push($tempGrades, $grades[$i]);
+                    array_push($tempTries, $numTries[$i]);
+                    if($moduleProgress[$i] == 'TERMINADO'){
+                        array_push($tempModules, 'TERMINADO');
+                        array_push($tempGrades, 'SIN CALIFICACION');
+                        array_push($tempTries, 'N/A');
+                    }else{
+                        array_push($tempModules, 'NO TERMINADO');
+                        array_push($tempGrades, 'SIN CALIFICACION');
+                        array_push($tempTries, 'N/A');
+                    }
+                }else{
+                    array_push($tempModules, $moduleProgress[$i]);
+                    array_push($tempGrades, $grades[$i]);
+                    array_push($tempTries, $numTries[$i]);
+                }
+            }
+            $moduleProgress = $tempModules;
+            $grades = $tempGrades;
+            $numTries = $tempTries;
+            // $moduleProgress, $grades, $numTries
+        }
+
+        // dd($moduleProgress);
+        for ( $i=0; $i < count($modulesId); $i++ ) {
+            // if($modulesId)
+            $moduleId = $modulesId[$i];
+            $tries = $numTries[$i];
+            $progress = $moduleProgress[$i];
+            // return collect([$moduleId, $tries, $progress]);
+            if($progress == 'TERMINADO'){
+                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
+            }
+            if( $grades[$i] == 'SIN CALIFICACION'){
+                // No se realizaron evaluaciones o no se tienen evaluaciones
+            }else{
+                // if(Modu)
+                // ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                $evaluations = Evaluation::where('module_id', $moduleId)->get()->pluck('id');
+                foreach ( $evaluations as $evaluation ) {
+                    if( is_numeric($tries) ){
+                        for ($j=0; $j < $tries; $j++) { 
+                            EvaluationUser::create(['evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                        }
+                    }
+                }
+            }
+        }
+        $this->save();
+        $course->calculateAvgForUser($this->id);
+        return true;
+    }
+
+    public function insertarEvaluaciones($genero, $course_id, $start_date_training, $end_date_training, $moduleProgress, $grades, $promedio, $numTries){
+        switch ($genero) {
+            case 'M':
+                $this->gender = 1;
+                break;
+            case 'F':
+                $this->gender = 2;
+                break;
+        }        
+        $course = Course::find($course_id);
+        $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
+        $start_date_training = str_replace('"', "", $start_date_training);
+        $end_date_training = str_replace('"', "", $start_date_training);
+        if($start_date_training != 'N/A'){
+            $pos = strpos($start_date_training, '/');
+            if ($pos === false) {
+                $start_date_training = null;
+            } else {
+                $start_date_training = \Carbon\Carbon::parse($start_date_training);
+                if($start_date_training->year > 2018 ){
+                    $start_date_training = null;
+                }
+            }
+        }else{
+            $start_date_training = null;
+        }
+        
+        if($end_date_training != 'N/A'){
+            $pos = strpos($end_date_training, '/');
+            if ($pos === false) {
+                $end_date_training = null;
+            } else {
+                $end_date_training = \Carbon\Carbon::parse($end_date_training);
+                if($end_date_training->year > 2018 ){
+                    $end_date_training = null;
+                }
+            }
+        }else{
+            $end_date_training = null;
+        }
+        if($enrollment == null){
+            $enrollment = CourseUser::create(['course_id' => $course_id, 'user_id' => $this->id, 'created_at' => $start_date_training, 'updated_at' => $end_date_training]);
+        }else{
+            $enrollment->created_at = $start_date_training;
+            $enrollment->updated_at = $end_date_training;
+        }
+        if($promedio != 'NA'){
+            $enrollment->status = true;
+            $enrollment->score = $promedio;
+        }else{
+            $enrollment->status = false;
+            $enrollment->score = null;
+        }
+        $enrollment->save();
+        $modules = $course->modules;
+        // dd($modules);
+        $result = collect();
+        // $finals = 0;
+        foreach($modules as $module){
+            if($module->hasFinalEvaluation()){
+                // $finals++;
+                $result = $result->concat( [$module] );
+            }
+        }
+        // dd($finals);
+        $modules = $result;
+        // dd($modules);
+        $result = null;
+        // return $result;
+        $lastModule = '-';
+        for ($i=0; $i < count($grades); $i++) {
+            $moduleId = $modules[$i]->id;
+            $tries = $numTries[$i];
+            $progress = $moduleProgress[$i];
+            // return collect([$moduleId, $tries, $progress]);
+            if($progress == 'TERMINADO'){
+                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
+                $lastModule = $i + 1;
+            }
+
+            if( $grades[$i] == 'SIN CALIFICACION'){
+                // No se realizaron evaluaciones o no se tienen evaluaciones
+            }else{
+                $evaluations = Evaluation::where('module_id', $moduleId)->get()->pluck('id');
+                foreach ( $evaluations as $evaluation ) {
+                    if( is_numeric($tries) ){
+                        for ($j=0; $j < $tries; $j++) { 
+                            if($grades[$i] == null || $grades[$i] == 'NULL'){
+                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
+                            }else{
+                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for ($i=0; $i < $lastModule; $i++) { // Completando los módulos anteriores sin evaluaciones
+            $moduleId = $modules[$i]->id;
+            if( ModuleUser::where('module_id', $modules[$i]->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
+                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
+            }
+        }
+
+    }
 }
+// $user = User::where('email', 'benavides@nurun.mx')->first(); if($user != null){ $user->crearRegistro('M',  2, '10/17/17 23:47', '2/21/18 1:04', ['TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO', 'TERMINADO' ], [ '10', '9', '10', '10', '9', '9', '10', '10', '10', '3', '2', '10', '9'], '8.5385' , ['2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '1', '1', '1']); }else{ echo 'No se encontró el usuario con el correo benavides@nurun.mx' ; }
