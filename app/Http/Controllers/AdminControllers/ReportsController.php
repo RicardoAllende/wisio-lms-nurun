@@ -21,7 +21,7 @@ class ReportsController extends Controller
 
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
-                (select code from states where id = users.state_id) as state, 'INSOMNIO' AS course_name, 
+                'INSOMNIO' AS course_name, 
                 if( ( select count(*) from module_user where module_id = 3 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 1 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 2 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
@@ -63,7 +63,7 @@ class ReportsController extends Controller
 
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
-                (select code from states where id = users.state_id) as state, 'DIABETES' AS course_name, 
+                'DIABETES' AS course_name, 
                 if( ( select count(*) from module_user where module_id = 6 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 7 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 12 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
@@ -128,7 +128,7 @@ class ReportsController extends Controller
 
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
-                (select code from states where id = users.state_id) as state, 'HIPERTENSION' AS course_name, 
+                'HIPERTENSION' AS course_name, 
                 if( ( select count(*) from module_user where module_id = 21 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 22 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 23 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
@@ -178,7 +178,7 @@ class ReportsController extends Controller
 
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
-                (select code from states where id = users.state_id) as state, 'DIABETES' AS course_name, 
+                'DIABETES' AS course_name, 
                 if( ( select count(*) from module_user where module_id = 6 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 7 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 12 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
@@ -243,7 +243,7 @@ class ReportsController extends Controller
 
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
-                (select code from states where id = users.state_id) as state, 'HIPERTENSION' AS course_name, 
+                'HIPERTENSION' AS course_name, 
                 if( ( select count(*) from module_user where module_id = 21 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 22 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 23 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
