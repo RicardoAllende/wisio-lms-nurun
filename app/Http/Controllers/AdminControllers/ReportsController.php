@@ -22,6 +22,7 @@ class ReportsController extends Controller
                 $result = DB::select("SELECT id, created_at, refered_code, firstname, lastname, gender, email, mobile_phone, professional_license, 
                 (select name from specialties where id = users.specialty_id) as specialty, zip, city, address, 
                 'INSOMNIO' AS course_name, 
+                (select created_at from course_user where course_id = 1 and user_id = users.id limit 1) as start_date_training,
                 if( ( select count(*) from module_user where module_id = 3 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod1Progress,
                 if( ( select count(*) from module_user where module_id = 1 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod2Progress,
                 if( ( select count(*) from module_user where module_id = 2 AND user_id = users.id) > 0, 'TERMINADO' , 'NO TERMINADO' ) as mod3Progress,
