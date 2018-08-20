@@ -46,8 +46,15 @@ class EvaluationsController extends Controller
         $course = Course::whereSlug($courseSlug)->first();
         $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
         if($pivot != null){ // User not enrolled
-            $now = \Carbon\Carbon::now()->toDateTimeString();
-            $pivot->updated_at = $now;
+            if($pivot->status){
+                if($pivot->updated_at == ''){
+                    $now = \Carbon\Carbon::now()->toDateTimeString();
+                    $pivot->updated_at = $now;                    
+                }
+            }else{
+                $now = \Carbon\Carbon::now()->toDateTimeString();
+                $pivot->updated_at = $now;
+            }
             $pivot->save();
         }
         $numModules = $course->modules->count();

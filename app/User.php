@@ -906,7 +906,7 @@ class User extends Authenticatable
         // $course = Course::find($course_id);
         $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
         $start_date_training = str_replace('"', "", $start_date_training);
-        $end_date_training = str_replace('"', "", $start_date_training);
+        $end_date_training = str_replace('"', "", $end_date_training);
         if($start_date_training != 'N/A'){
             $pos = strpos($start_date_training, '/');
             if ($pos === false) {
@@ -1046,16 +1046,16 @@ class User extends Authenticatable
     public function insertarEvaluaciones($genero, $course_id, $start_date_training, $end_date_training, $moduleProgress, $grades, $promedio, $numTries){
         switch ($genero) {
             case 'M':
-                $this->gender = 1;
-                break;
+            $this->gender = 1;
+            break;
             case 'F':
-                $this->gender = 2;
-                break;
+            $this->gender = 2;
+            break;
         }        
         $course = Course::find($course_id);
         $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
         $start_date_training = str_replace('"', "", $start_date_training);
-        $end_date_training = str_replace('"', "", $start_date_training);
+        $end_date_training = str_replace('"', "", $end_date_training);
         if($start_date_training != 'N/A'){
             $pos = strpos($start_date_training, '/');
             if ($pos === false) {
@@ -1166,14 +1166,14 @@ class User extends Authenticatable
         $ids = $allModules->pluck('id');
         // $allModules = null;
         $lastModule = $ids->search($lastModule);
-        if($end_date_training != null){
-            foreach ($allModules as $module) {
-                echo $moduleId."recorrido, ";
-                if( ModuleUser::where('module_id', $module->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
-                    ModuleUser::create(['module_id' => $module->id, 'user_id' => $this->id, 'status' => 1]);
-                    echo "$moduleId Agregado. ";
+        if($end_date_training != null && $end_date_training != 'N/A'){
+                foreach ($allModules as $module) {
+                    echo $moduleId."recorrido, ";
+                    if( ModuleUser::where('module_id', $module->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
+                        ModuleUser::create(['module_id' => $module->id, 'user_id' => $this->id, 'status' => 1]);
+                        echo "$moduleId Agregado. ";
+                    }
                 }
-            }
         }else{
             if($lastModule !== false){
                 for ($i=0; $i < $lastModule; $i++) { // Completando los módulos anteriores sin evaluaciones

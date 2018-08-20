@@ -4,14 +4,6 @@ Route::get('/', 'HomeController@index')->name('welcome');
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login
 Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
 
-// Route::get('/enrol-users', 'Migrate@enrolUsers');
-
-// Route::get('/paec-mexico-diabetes', 'Migrate@paecmexicodiabetes');
-// Route::get('/paec-farmacias-diabetes', 'Migrate@paecfarmaciasdiabetes');
-// Route::get('/paec-mexico-insomnio', 'Migrate@paecmexicoinsomnio');
-// Route::get('/paec-mexico-hipertension', 'Migrate@paecmexicohipertension');
-// Route::get('/paec-farmacias-hipertension', 'Migrate@paecfarmaciashipertension');
-
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 
 Route::get('/reportes', 'LoginController@report');

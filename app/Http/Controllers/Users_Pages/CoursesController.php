@@ -80,8 +80,12 @@ class CoursesController extends Controller
                 if($pivot->status == false){
                     $now = \Carbon\Carbon::now()->toDateTimeString();
                     $pivot->updated_at = $now;
-                    $pivot->save();
                 }
+                if($pivot->updated_at == ''){
+                    $now = \Carbon\Carbon::now()->toDateTimeString();
+                    $pivot->updated_at = $now;                    
+                }
+                $pivot->save();
             }else{
                 return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
             }
