@@ -903,7 +903,7 @@ class User extends Authenticatable
         //     $this->state_id = $state->id;
         // }
         
-        $course = Course::find($course_id);
+        // $course = Course::find($course_id);
         $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
         $start_date_training = str_replace('"', "", $start_date_training);
         $end_date_training = str_replace('"', "", $start_date_training);
@@ -1018,14 +1018,28 @@ class User extends Authenticatable
                 foreach ( $evaluations as $evaluation ) {
                     if( is_numeric($tries) ){
                         for ($j=0; $j < $tries; $j++) { 
-                            EvaluationUser::create(['evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                            if(is_numeric($grades[$i])){
+                                // if($grades[$i] == null || $grades[$i] == 'NULL'){
+                                    $evaluation_ = Evaluation::find($evaluation)->module->id;
+                                    echo $evaluation_.':';
+                                    EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                                    $pivot = ModuleUser::where('module_id', $evaluation_)->where('user_id', $this->id)->first();
+                                    if($pivot != null){
+                                        $pivot->score = $grades[$i];
+                                        $pivot->save();
+                                        echo "|";
+                                    }
+                                }else{
+                                    // EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
+                                }
+                            // EvaluationUser::create(['evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
                         }
                     }
                 }
             }
         }
         $this->save();
-        $course->calculateAvgForUser($this->id);
+        // $course->calculateAvgForUser($this->id);
         return true;
     }
 
@@ -1083,21 +1097,21 @@ class User extends Authenticatable
             $enrollment->score = null;
         }
         $enrollment->save();
-        $modules = $course->modules;
+        $modulesId = Module::where('course_id', $course_id)->get()->pluck('id');
+        // dd($modulesId);
+        $this->modules()->detach($modulesId);
+        $evaluationsId = Evaluation::whereIn('module_id', $modulesId)->get()->pluck('id');
+        $this->evaluations()->detach($evaluationsId);
+        $allModules = $course->modules;
         // dd($modules);
-        $result = collect();
+        $modules = collect();
         // $finals = 0;
-        foreach($modules as $module){
+        foreach($allModules as $module){
             if($module->hasFinalEvaluation()){
                 // $finals++;
-                $result = $result->concat( [$module] );
+                $modules = $modules->concat( [$module] );
             }
         }
-        // dd($finals);
-        $modules = $result;
-        // dd($modules);
-        $result = null;
-        // return $result;
         $lastModule = '-';
         for ($i=0; $i < count($grades); $i++) {
             $moduleId = $modules[$i]->id;
@@ -1106,7 +1120,7 @@ class User extends Authenticatable
             // return collect([$moduleId, $tries, $progress]);
             if($progress == 'TERMINADO'){
                 ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
-                $lastModule = $i + 1;
+                $lastModule = $moduleId;
             }
 
             if( $grades[$i] == 'SIN CALIFICACION'){
@@ -1116,23 +1130,50 @@ class User extends Authenticatable
                 foreach ( $evaluations as $evaluation ) {
                     if( is_numeric($tries) ){
                         for ($j=0; $j < $tries; $j++) { 
-                            if($grades[$i] == null || $grades[$i] == 'NULL'){
-                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
-                            }else{
+                            if(is_numeric($grades[$i])){
+                            // if($grades[$i] == null || $grades[$i] == 'NULL'){
+                                $evaluation_ = Evaluation::find($evaluation)->module->id;
+                                // echo $evaluation_.':';
                                 EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
+                                $pivot = ModuleUser::where('module_id', $evaluation_)->where('user_id', $this->id)->first();
+                                if($pivot != null){
+                                    $pivot->score = $grades[$i];
+                                    $pivot->save();
+                                    // echo "|";
+                                }
+                            }else{
+                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
                             }
                         }
                     }
                 }
             }
         }
-
-        for ($i=0; $i < $lastModule; $i++) { // Completando los módulos anteriores sin evaluaciones
-            $moduleId = $modules[$i]->id;
-            if( ModuleUser::where('module_id', $modules[$i]->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
-                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
+        
+        $ids = $allModules->pluck('id');
+        // $allModules = null;
+        $lastModule = $ids->search($lastModule);
+        if($end_date_training != null){
+            foreach ($allModules as $module) {
+                echo $moduleId."recorrido, ";
+                if( ModuleUser::where('module_id', $module->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
+                    ModuleUser::create(['module_id' => $module->id, 'user_id' => $this->id, 'status' => 1]);
+                    echo "$moduleId Agregado. ";
+                }
+            }
+        }else{
+            if($lastModule !== false){
+                for ($i=0; $i < $lastModule; $i++) { // Completando los módulos anteriores sin evaluaciones
+                    $moduleId = $allModules[$i]->id;
+                    echo $moduleId."recorrido, ";
+                    if( ModuleUser::where('module_id', $moduleId)->where('user_id', $this->id)->count() == 0 ){ // module exists
+                        ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
+                        echo "$moduleId Agregado. ";
+                    }
+                }
             }
         }
 
+        return true;
     }
 }

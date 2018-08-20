@@ -165,8 +165,8 @@ class Course extends Model
 
     public function attachUser($user_id, $avg){
         if(User::find($user_id) == null){ return false; }
-        if($this->users->contains($user_id)){
-            $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
+        $pivot = CourseUser::where('user_id', $user_id)->where('course_id', $this->id)->first();
+        if($pivot != null){
             $pivot->score = $avg;
             // $pivot->status = $status;
             $pivot->save();
