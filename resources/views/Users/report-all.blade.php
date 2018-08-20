@@ -61,9 +61,6 @@
         serverSide: true,
         responsive: true,
         dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excelHtml5', 'pdf', 'print'
-        ],
         ajax: "{{ route('get.users.data.admin') }}",
         columns: [
             {data: 'userLink'},

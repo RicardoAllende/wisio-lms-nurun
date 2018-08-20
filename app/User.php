@@ -944,8 +944,21 @@ class User extends Authenticatable
             $enrollment->status = true;
             $enrollment->score = $promedio;
         }else{
+            $calif = 0;
+            $numCalifs = 0;
+            foreach($grades as $calificacion){
+                if(is_numeric($calificacion)){
+                    $calif += $calificacion;
+                    $numCalifs++;
+                }
+            }
+            if($calif != 0){
+                $calif = $calif / $numCalifs;
+            }else{
+                $calif = 0;
+            }
             $enrollment->status = false;
-            $enrollment->score = null;
+            $enrollment->score = $calif;
         }
         $enrollment->save();
         // return $enrollment;
@@ -954,19 +967,6 @@ class User extends Authenticatable
         $this->modules()->detach($modulesId);
         $evaluationsId = Evaluation::whereIn('module_id', $modulesId)->get()->pluck('id');
         $this->evaluations()->detach($evaluationsId);
-        // return $evaluationsId;
-
-        // Crear las evaluaciones según el número de intentos
-        // $modules = Module::whereIn('id', $modulesId)->cursor();
-        // dd($moduleProgress);
-
-        // if($course_id == 1){
-
-        // }
-
-        // if($course_id == 3){
-
-        // }
 
         if($course_id == 2){
             $tempModules = array();
@@ -1093,8 +1093,21 @@ class User extends Authenticatable
             $enrollment->status = true;
             $enrollment->score = $promedio;
         }else{
+            $calif = 0;
+            $numCalifs = 0;
+            foreach($grades as $calificacion){
+                if(is_numeric($calificacion)){
+                    $calif += $calificacion;
+                    $numCalifs++;
+                }
+            }
+            if($calif != 0){
+                $calif = $calif / $numCalifs;
+            }else{
+                $calif = 0;
+            }
             $enrollment->status = false;
-            $enrollment->score = null;
+            $enrollment->score = $calif;
         }
         $enrollment->save();
         $modulesId = Module::where('course_id', $course_id)->get()->pluck('id');

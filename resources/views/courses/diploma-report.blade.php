@@ -51,9 +51,6 @@
         serverSide: true,
         responsive: true,
         dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excelHtml5', 'pdf', 'print'
-        ],
         ajax: "{{ route('get.users.data.diplomado', $course->id) }}",
         columns: [
             {data: 'email'},

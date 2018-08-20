@@ -51,9 +51,6 @@
         serverSide: true,
         responsive: true,
         dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excelHtml5', 'pdf', 'print'
-        ],
         ajax: "{{ route('get.users.for.course', $course->id) }}",
         columns: [
             {data: 'email'},
