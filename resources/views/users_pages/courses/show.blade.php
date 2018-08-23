@@ -79,7 +79,7 @@ Curso {{ $course->name }}
                           @if($user->moduleInList($course, $module->id) ) class="circle moduleimg hide-on-med-and-down" @else class="circle moduleimg-disabled hide-on-med-and-down" @endif
                          >
                         <img src="{{ $module->getMainImgUrl() }}" alt=""
-                          @if($user->moduleInList($course, $module->id) ) class="circle moduleimgM hide-on-large-only" @else class="circle moduleimg-disabledM show-on-large" @endif
+                          @if($user->moduleInList($course, $module->id) ) class="circle moduleimgM hide-on-large-only" @else class="circle moduleimgM hide-on-large-only" @endif
                         >
                       </div>
                       <div class="col s8">

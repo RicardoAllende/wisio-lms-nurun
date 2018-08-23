@@ -69,7 +69,7 @@
     Dropzone.options.imageUpload  = {            
         paramName: "file", 
         // The name that will be used to transfer the file            
-        maxFilesize: 200,            
+        maxFilesize: 400,            
         acceptedFiles: 'video/mp4,application/pdf',
         maxFiles: 1,            
         dictDefaultMessage: 'Arrastra aquí el recurso',            
@@ -82,7 +82,11 @@
                 $('#btnSave').prop('disabled', false);
                 $('#result').html('El recurso se almacenó correctamente');
                 //document.resourceForm.submit();
-            });            
+            });       
+            this.on("error", function(error1, error2){
+                console.log(error1);
+                console.log(error2);
+            });
     }        
   };
 </script>
