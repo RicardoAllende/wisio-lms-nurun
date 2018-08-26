@@ -256,7 +256,7 @@
                           <span class="titulo-funciona">
                             Servicio de soporte técnico
                           </span>
-                        <p class="text-funciona">Si tiene problemas de navegación en el sitio puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea +52 55 548444 ext 4321 o al correo soporte@academia.mx</p>
+                        <p class="text-funciona">Si tiene problemas de navegación en el sitio puede contactar a soporte técnico de lunes a viernes de 9am a 6pm y sábados de 9am a 3pm , a través de la línea 01 800 99 90 977.</p>
                         </div>
 
                       </div>
@@ -269,7 +269,7 @@
                         <p class="textFuncionaMob">Si tiene problemas de navegación en el sitio</p>
                         </div>
                         <div class="col s12">
-                        <p class="text-funciona">Puede contactar a soporte técnico de lunes a viernes de 9 a 18 horas y sábados de 9 a 14 horas, a través de la línea +52 55 548444 ext 4321 o al correo soporte@academia.mx</p>
+                        <p class="text-funciona">Puede contactar a soporte técnico de lunes a viernes de 9am a 6pm y sábados de 9am a 3pm, a través de la línea 01 800 99 90 977.</p>
                         </div>
                       </div>
                     </div>
