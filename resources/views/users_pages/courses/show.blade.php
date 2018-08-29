@@ -13,6 +13,7 @@ Curso {{ $course->name }}
   @include('users_pages.courses.modal')
   @include('users_pages.courses.modalEvDiag')
   @include('users_pages.courses.modalInscripcion')
+  @include('users_pages.courses.credits-modal')
   <div class="row pad-left3">
           <div class="pad-left1">
             <h2 class="cursoview">{{ $course->name }}</h2>
@@ -200,30 +201,41 @@ Curso {{ $course->name }}
 <script src="/js/js_users_pages/tincanConnector.js" type="text/javascript"></script>
 <script>
     var urlDrawForm = "{{ route('draw.evaluation.form', [$ascription->slug, $course->slug, '']) }}";
-  @if(isset($msg))
-    @if($msg != '')
-      Materialize.toast( "{{ $msg }}" ,4000,'acept');
+    @if(isset($msg))
+      @if($msg != '')
+        Materialize.toast( "{{ $msg }}" ,4000,'acept');
+      @endif
     @endif
-  @endif
-  cambiarItem("cursos");
-  $('.modal').modal({
-    dismissible: false
-  });
+    cambiarItem("cursos");
+    $('.modal').modal({
+      dismissible: false
+    });
 
- $('.chips').material_chip();
+    $('.chips').material_chip();
 
-  @if(Auth::check())
-  var student_data = {
-    name: '{{ Auth::user()->full_name }}',
-    email: '{{ Auth::user()->email }}'
-  };
+    @if(Auth::check())
+      var student_data = {
+        name: '{{ Auth::user()->full_name }}',
+        email: '{{ Auth::user()->email }}'
+      };
 
-  var myAgent = new TinCan.Agent (
-    {
-        mbox: "mailto:" + student_data.email
-    }
-  );
-  @endif
+      var myAgent = new TinCan.Agent (
+        {
+            mbox: "mailto:" + student_data.email
+        }
+      );
+      @if($user->isEnrolledInCourse($course->id))
+        $(document).ready(function() {
+          $('#creditsModal').modal('open');
+          $('#creditsModal').width('50%');
+          $('#creditsModal').height('50%');
+          $('#creditsModal').css('overflow', 'hidden');
+          setTimeout(function(){
+            $('#creditsModal').modal('close');
+          }, 4000);
+        });
+      @endif
+    @endif
 
 
 </script>

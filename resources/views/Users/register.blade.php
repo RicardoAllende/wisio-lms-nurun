@@ -113,7 +113,7 @@ Registro
 
         </div>
 
-        <div class="reg col s12 l12">
+        <!-- <div class="reg col s12 l12">
           
           <div id="progress_professional_license">
             <div class="progress">
@@ -128,27 +128,47 @@ Registro
             <i class="small material-icons">cancel</i>Cédula no validada
           </div>
           <br><br>
-        </div>
+        </div> -->
 
         
-        <input type="hidden" name="is_validated" id="is_validated" value="1" >
+        <input type="hidden" name="is_validated" id="is_validated" value="0" >
         <br><br><br><br>
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>
-          <div class="reg col s12">
+          <div class="reg col s6">
             <input class="with-gap" name="consultation_type" required type="radio" value="1" data-value="privada" id="privado" />
             <label for="privado">Privado</label><br><br>
             <input class="with-gap" name="consultation_type" required type="radio" value="2" data-value="publica" id="publica" />
-            <label for="publica">Pública</label><br><br>
+            <label for="publica" >Pública</label><br><br>
             <input class="with-gap" name="consultation_type" required type="radio" value="3" data-value="mixta" id="mixta" />
             <label for="mixta">Mixta</label><br><br>
           </div>
-          <!-- <div class="reg col s6">
-            Acceso a:<br>
-            <span class="typeCon">
-            </span>
-          </div> -->
+          <div class="reg col s6">
+            <div id="seccionPublica">
+              <h6>Tipo de consulta</h6>
+              <input class="with-gap optcenaprece" name="optcenaprece" id="optcenaprece" type="radio" required value="0" /><label for="optcenaprece">Cenaprece</label>
+              <input class="with-gap optcenaprece" name="optcenaprece" type="radio" id="optOtraInstitucion" value="1" data-value="optOtraInstitucion" required /><label for="optOtraInstitucion">Otra</label>
+              <br>
+              <div id="formOtraInstitucion" >
+                {!! Form::label('institution', 'Especifique: ',['class'=>'control-label col-sm-2']); !!}
+                {!! Form::text('institution',null,['class'=>'form-control','placeholder'=>'', 'id'=> 'institution', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=> "Información requerida", 'maxlength' => '30']) !!}
+              </div>
+            </div>
 
+
+
+            <div id="seccionMixta">
+              <!-- <h6>¿Es usted tomador de decisión?</h6>
+              <input class="with-gap tomadorConsulta2" name="decision_maker2" id="tomadorsi2" type="radio" value="1" required /><label for="tomadorsi2">Sí</label>
+              <input class="with-gap tomadorConsulta2" name="decision_maker2" id="tomadorNo2" type="radio" value="0" required /><label for="tomadorNo2">No</label> -->
+            </div>
+            <div id="tomadorDeDecisiones">
+              <h6>¿Es usted tomador de decisión?</h6>
+              <input class="with-gap tomadorConsulta" name="is_decision_maker" id="tomadorsi" type="radio" value="1" required /><label for="tomadorsi">Sí</label>
+              <input class="with-gap tomadorConsulta" name="is_decision_maker" id="tomadorNo" type="radio" value="0" required /><label for="tomadorNo">No</label>
+            </div>
+          </div>
+        <!-- <input type="hidden" name="is_decision_maker"> -->
         </div>
         <div class="col s6">
           {!! Form::label('mobile_phone', 'Teléfono -Exclusivo Celular-',['class'=>'control-label col-sm-2']); !!}
@@ -224,98 +244,143 @@ Registro
 <!--<script src="/js/password_length.js"></script>-->
 <script src="/js/alertify.min.js"></script>
 <script>
+$('#seccionPublica').hide();
+$('#seccionMixta').hide();
+$('#formOtraInstitucion').hide();
+$('#tomadorDeDecisiones').hide();
+
+
+/*
+$('.tomadorConsulta').removeAttr("required");
+$('.tomadorConsulta2').removeAttr("required");
+$('.optcenaprece').removeAttr("required");
+$('#institucion').removeAttr("required");
+$('.tomadorConsulta').prop('required',true);
+$('.tomadorConsulta2').prop('required',true);
+$('.optcenaprece').prop('required',true);
+$('#institucion').prop('required',true);
+*/
+
 $(document).ready(function() {
   $('select').material_select();
-  // $("form input:radio").click(function() {
-  //   switch($(this).data('value')){
-  //     case 'privada':
-  //       $('.typeCon').html('- Blog para médicos <br>- Cursos en línea <br>- Calendario de eventos <br>- Materiales de apoyo en consulta<br>- Muestras médicas en casa <br>- Vademecum Sanofi <br>');
-  //     break;
-  //     case 'publica':
-  //       $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
-  //     break;
-  //     case 'mixta':
-  //       $('.typeCon').html('- Cursos en línea <br>- Materiales de apoyo en consulta');
-  //     break;
-  //   }
-  // });
-  
-  $("#btnSubmit").prop('disabled', true);
-  $('#progress_professional_license').hide();
-  $('#validada').hide();
-  $('#no-validada').show();
-  $('#is_validated').val(0);
+  $("form input:radio").change(function() {
+    switch($(this).data('value')){
+      case 'privada':
+        $('#seccionPublica').hide();
+        $('#seccionMixta').hide();
+        $('#institution').val('');
+        $('#tomadorDeDecisiones').hide();
+        $('.tomadorConsulta').removeAttr("required");
+        // $('.tomadorConsulta2').removeAttr("required");
+        $('.optcenaprece').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        
+      break;
+      case 'publica':
+        $('#seccionPublica').show();
+        $('#seccionMixta').hide();
+        $('#formOtraInstitucion').hide();
+        $('#institution').val('');
+        $('#tomadorDeDecisiones').show();
+        
+        // $('.tomadorConsulta2').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        $('.tomadorConsulta').prop('required',true);
+        $('.optcenaprece').prop('required',true);
 
-  function verifyProfessionalLicense(license, name, mide_name, last_name){
-    $('#progress_professional_license').show();
-    $.ajax({
-      type: 'post',
-      url: "{{ route('professional.license.service') }}",
-      data: {
-        name : $('#nombre').val(),
-        mid_name: $('#paterno').val(),
-        last_name: $('#materno').val(),
-        professional_license: $('#professional_license').val(),
-        _token: "{{ csrf_token() }}"
-      },
-      success: function (result) {
-        if(result == 'ok'){
-          Materialize.toast('Cédula verificada correctamente',4000,'acept')
-          $("#btnSubmit").prop('disabled', false);
-          $('#progress_professional_license').hide();
-          $('#validada').show();
-          $('#no-validada').hide();
-          $('#is_validated').val(1);
-          $("#professional_license").prop("readonly", true);
-          $("#nombre").prop("readonly", true);
-          $("#paterno").prop("readonly", true);
-          $("#materno").prop("readonly", true);
-          $("#professional_license").prop("readonly", true);
-          return;
-        }
-        if(result == 'not-verified'){
-          Materialize.toast('Servicio de verificación no disponible temporalmente, intente más tarde', 5000, 'error');
-          $("#btnSubmit").prop('disabled', false);
-          $('#progress_professional_license').hide();
-          $('#validada').hide();
-          $('#no-validada').hide();
-          $('#is_validated').val(0);
-          return;
-        }
-      },
-      error: function(request, error){
-        Materialize.toast('Su cédula no pudo ser validada',4000,'error')
-        console.log(request);
-        console.log(error);
-        $("#btnSubmit").prop('disabled', true);
-        $('#progress_professional_license').hide();
-        $('#validada').hide();
-        $('#no-validada').show();
-      }
-    });
-  }
+      break;
+      case 'mixta':
+        $('#seccionPublica').hide();
+        $('#seccionMixta').show();
+        $('#institution').val('');
+        $('#formOtraInstitucion').hide();
+        // $('#tomadorDeDecisiones').show();
+        $('.tomadorConsulta').prop('required',true);
 
-  $('#professional_license').on('input', function() {
-    $("#btnSubmit").prop('disabled', true);
-    $('#progress_professional_license').hide();
-    $('#validada').hide();
-    $('#no-validada').hide();
-    $('#is_validated').val(0);
-    var reg = /^\d+$/;
-    if(reg.test( $('#professional_license').val() )){
-      if($('#professional_license').val().length > 6){ // professional_license complete with 7 or 8 digits
-        if( ($('#nombre').val() != '') && ($('#paterno').val() != '') && ($('#materno').val() != '') ){
-        verifyProfessionalLicense($('#professional_license').val(), $('#firstname').val(), $('#paterno').val(), $('#materno').val());
-        }else{
-          Materialize.toast('Su cédula no pudo ser validada',4000,'error');
-          str = $('professional_license').val();
-          str = str.substring(0, str.length - 2);     
-          $('professional_license').val(str);
-        }
-      }
-      // alert('Cédula ingresada: ' + $('#professional_license').val() );
+        
+        $('.tomadorConsulta').removeAttr("required");
+        $('.optcenaprece').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        // $('.tomadorConsulta2').prop('required',true);
+
+      break;
     }
   });
+
+  $("form input:radio").click(function() {
+    switch($(this).data('value')){
+      case 'privada':
+        $('#seccionPublica').hide();
+        $('#seccionMixta').hide();
+        $('#institution').val('');
+        $('#tomadorDeDecisiones').hide();
+        $('.tomadorConsulta').removeAttr("required");
+        // $('.tomadorConsulta2').removeAttr("required");
+        $('.optcenaprece').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        
+      break;
+      case 'publica':
+        $('#seccionPublica').show();
+        $('#seccionMixta').hide();
+        $('#formOtraInstitucion').hide();
+        $('#institution').val('');
+        $('#tomadorDeDecisiones').show();
+        
+        // $('.tomadorConsulta2').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        $('.tomadorConsulta').prop('required',true);
+        $('.optcenaprece').prop('required',true);
+
+      break;
+      case 'mixta':
+        $('#seccionPublica').hide();
+        $('#seccionMixta').show();
+        $('#institution').val('');
+        $('#formOtraInstitucion').hide();
+        // $('#tomadorDeDecisiones').show();
+        $('.tomadorConsulta').prop('required',true);
+
+        
+        $('.tomadorConsulta').removeAttr("required");
+        $('.optcenaprece').removeAttr("required");
+        $('#institucion').removeAttr("required");
+        // $('.tomadorConsulta2').prop('required',true);
+
+      break;
+    }
+  });
+
+  $('input[type=radio][name=optcenaprece]').change(function() {
+    if (this.value == '1') { // Especificación
+      $('#formOtraInstitucion').show();
+      $('#institution').val('');
+    }else{
+      $('#formOtraInstitucion').hide();
+      $('#institution').val('Cenaprece');
+    }
+  });
+
+  // $('input[type=radio][name=decision_maker]').change(function() {
+  //   // $("a").removeAttr("href");
+  //   if (this.value == '1') { // Especificación
+  //     $('#formOtraInstitucion').show();
+  //     $('#institution').val('');
+  //   }else{
+  //     $('#formOtraInstitucion').hide();
+  //     $('#institution').val('Cenaprece');
+  //   }
+  // });
+
+  // $('input[type=radio][name=decision_maker2]').change(function() {
+  //   if (this.value == '1') { // Especificación
+  //     $('#formOtraInstitucion').show();
+  //     $('#institution').val('');
+  //   }else{
+  //     $('#formOtraInstitucion').hide();
+  //     $('#institution').val('Cenaprece');
+  //   }
+  // });
 
 });
 

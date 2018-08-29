@@ -128,9 +128,18 @@ class EvaluationsController extends Controller
         if($evaluation == null){
             return back();
         }
+        $maximum_attempts = $evaluation->maximum_attempts;
+        $numTries = $user->numTriesInEvaluation($evaluation->id);
+        $score = $user->scoreInEvaluation($evaluation->id);
+        if($numTries > $maximum_attempts){
+            $numTries = $maximum_attempts;
+        }
+        if($numTries == 0){
+            $score = "";
+        }
         if($module == null) return redirect()->route('show.evaluation.course', [$ascription_slug, $course_slug]);
         return view('users_pages.evaluations.final-evaluation', 
-        compact('ascription', 'course', 'evaluation', 'user', 'module'));
+        compact('ascription', 'course', 'evaluation', 'user', 'module', 'maximum_attempts', 'numTries', 'score'));
     }
 
     public function showFinalEvaluationForDiploma($ascription_slug, $course_slug){
@@ -271,7 +280,6 @@ class EvaluationsController extends Controller
             if($evaluation->isDiagnosticEvaluation()){
                 echo '<h4>Evaluación diagnóstica</h4>';
             }
-            echo "<script></script>";
             echo '<form action="'.route('grade.evaluation', $ascription_slug).'" id="formulario_evaluacion" method="post">';
             echo csrf_field();
             echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';

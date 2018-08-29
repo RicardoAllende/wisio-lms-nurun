@@ -12,6 +12,8 @@ $(".button-collapse").sideNav({
 
 });
 
+var autoclosetime = 3000;
+
 /*Cambia el tamaño de fuente */
 var donde = $('body');
   var sizeFuenteOriginal = donde.css('font-size');
@@ -148,6 +150,10 @@ var isEval = false;
 var stat = false;
 var hasFEvaluation = false;
 var idFEvaluation = 0;
+var posiblesIntentos = '--';
+var intentosRealizados = '--';
+var mayorCalificacion = '--';
+var nombreEvaluacion  = "--";
 
 for (i = 0; i < coll.length; i++) {
   if(coll[i].getAttribute('data-disabled')){
@@ -190,8 +196,11 @@ for (i = 0; i < coll.length; i++) {
           } else if(this.getAttribute('data-eval')){
             isEval = true;
             idEval = this.getAttribute('data-eval');
-            getQuestionsEval(idEval);
-            openModule();
+            posiblesIntentos = this.getAttribute('data-maximum');
+            intentosRealizados = this.getAttribute('data-tries');
+            mayorCalificacion = this.getAttribute('data-score');
+            nombreEvaluacion = this.getAttribute('data-name');
+            showInfoForEvaluation(idEval);
           }
 
         }
@@ -206,6 +215,28 @@ for (i = 0; i < coll.length; i++) {
 
     });
   }
+}
+
+function showInfoForEvaluation(idEval){
+  let intentos = "Esta evaluación se ha realizado " + intentosRealizados + " veces, usted tiene " + posiblesIntentos + " intentos de realizarla";
+  let calificacion = "Su calificación es: " + mayorCalificacion;
+  let nombre = "Información de la evaluación: " + nombreEvaluacion;
+  // console.log("Información de los intentos", intentos);
+  // console.log('Información de la calificación', calificacion);
+  $('#intentosId').html(intentos);
+  $('#calificacionP').html(calificacion);  
+  $('#nombre-del-modulo').html(nombre);
+  evaluationId = idEval;
+  $('#info-evaluation').modal('open');
+  setTimeout(function(){
+    $('#info-evaluation').modal('close');
+    showEvaluation();
+  }, autoclosetime);
+}
+
+function showEvaluation(){
+  getQuestionsEval(idEval);
+  openModule();
 }
 
 function openModule(){
@@ -299,7 +330,7 @@ function getQuestionsEval(idEval){
 /*imprime los recursos de los modulos*/
 
 function printResources(resources){
-  /*Verifica l acantida de recursos en el modulo*/
+  /*Verifica la cantidad de recursos en el modulo*/
   if(resources.length > 0){
     var refs = '';
     var contendiv = '';

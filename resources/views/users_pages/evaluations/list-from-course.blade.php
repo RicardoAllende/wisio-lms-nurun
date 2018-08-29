@@ -11,6 +11,7 @@ Evaluacion
 @stop
 
 @section('body')
+    @include('users_pages.evaluations.info-evaluation')
     @include('users_pages.courses.modal')
     <div class="row pad-left3">
           <div class="pad-left1">
@@ -77,7 +78,7 @@ Evaluacion
             <?php $cont++; ?>
             <div class="col s12 l4 ">
                 <div class="card z-depth-0 white">
-                    <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}">
+                    <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}" data-maximum="{{ $evaluation->maximum_attempts }}" data-tries="{{ $user->numTriesInEvaluation($evaluation->id) }}" data-score="{{ 5.8 }}" data-name="{{ $evaluation->name }}" >
                     <div class="row valign-wrapper">
                         <div class="col s4">
                             <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle moduleimg hide-on-med-and-down">
@@ -116,7 +117,7 @@ Evaluacion
             <br><br>
             <h3 class="user pad-left3" >Una evaluación se habilita hasta que haya cursado el módulo, aún no tiene evaluaciones disponibles</h3>
           @endforelse
-          @if($course->modules->count() <= 3)
+          @if($course->modules()->count() <= 3)
           <div class="col s12 content" id="mod1">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h6 class="cursoview">Módulo</h6><br/>
@@ -194,5 +195,10 @@ Evaluacion
             Materialize.toast( "{{ $msg }}" ,4000,'acept');
         @endif
     @endif
+    $(document).ready(function(){
+        // $('#info-evaluation').modal('open');
+        $('#info-evaluation').width('40%');
+        $('#info-evaluation').height('40%');
+    });
 </script>
 @stop

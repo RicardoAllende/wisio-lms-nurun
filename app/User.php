@@ -325,8 +325,8 @@ class User extends Authenticatable
         return EvaluationUser::create(['user_id' => $this->id, 'evaluation_id' => $evaluation_id]);
     }
 
-    private function numTriesInEvaluation($evaluation_id){
-        return $this->evaluations->where('id', $evaluation_id)->count();
+    public function numTriesInEvaluation($evaluation_id){
+        return $this->evaluations()->where('evaluation_id', $evaluation_id)->count();
     }
 
     // If the user has another opportunity to do the evaluation
@@ -521,7 +521,11 @@ class User extends Authenticatable
     }
 
     public function hasThisEvaluationCompleted($evaluation_id){
-        return $this->evaluations->contains($evaluation_id);
+        if($this->evaluations()->where('evaluation_id', $evaluation_id)->count() > 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function numCompletedCoursesOfAscription($ascription_id){

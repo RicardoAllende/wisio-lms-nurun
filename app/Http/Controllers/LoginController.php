@@ -44,9 +44,9 @@ class LoginController extends Controller
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
             }
-            if( ! $user->is_validated){
-                return back()->with('msj', 'En este momento su usuario no está autenticado');
-            }
+            // if( ! $user->is_validated){
+            //     return back()->with('msj', 'En este momento su usuario no está autenticado');
+            // }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();
@@ -74,9 +74,9 @@ class LoginController extends Controller
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
             }
-            if( ! $user->is_validated){
-                return back()->with('msj', 'En este momento su usuario no está validado');
-            }
+            // if( ! $user->is_validated){
+            //     return back()->with('msj', 'En este momento su usuario no está validado');
+            // }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();

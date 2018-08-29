@@ -12,7 +12,7 @@ Evaluacion
 @stop
 
 @section('body')
-@include('users_pages.evaluations.progress-modal')
+@include('users_pages.evaluations.info-evaluation')
     <div class="row pad-left3">
         <div class="col s6 l6">
             <hr class="line"/>
@@ -65,11 +65,11 @@ Evaluacion
     $(document).ready(function() {
         $('select').material_select();
     });
-    // $('.modal').modal();
-    // $('#progressModal').modal('open');
-    // $('#progressModal').open();
     $(document).ready(function() {
-        $('#progressModal').modal('open');
+        $('#info-evaluation').modal('open');
+        setTimeout(function(){
+            $('#info-evaluation').modal('close');
+        }, 5000);
     });  
 </script>
 @stop
