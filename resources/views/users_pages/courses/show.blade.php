@@ -225,15 +225,17 @@ Curso {{ $course->name }}
         }
       );
       @if($user->isEnrolledInCourse($course->id))
-        $(document).ready(function() {
-          $('#creditsModal').modal('open');
-          $('#creditsModal').width('50%');
-          $('#creditsModal').height('50%');
-          $('#creditsModal').css('overflow', 'hidden');
-          setTimeout(function(){
-            $('#creditsModal').modal('close');
-          }, 4000);
-        });
+        @if( ! $refresh )
+          $(document).ready(function() {
+            $('#creditsModal').modal('open');
+            $('#creditsModal').width('50%');
+            $('#creditsModal').height('50%');
+            $('#creditsModal').css('overflow', 'hidden');
+            setTimeout(function(){
+              $('#creditsModal').modal('close');
+            }, 3000);
+          });
+        @endif
       @endif
     @endif
 

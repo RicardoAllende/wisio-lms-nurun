@@ -25,12 +25,12 @@ Actualizacion de información
     </div>
 
     <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('firstname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-      {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+      {!! Form::label('firstname', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
+      {!! Form::text('firstname',null,['class'=>'form-control','placeholder'=>'Nombre', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
     </div>
     <div class="reg col s12 l6 offset-l3">
-        {!! Form::label('lastname', 'Teléfono celular:',['class'=>'control-label col-sm-2']); !!}
-        {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Teléfono celular', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
+        {!! Form::label('lastname', 'Apellidos:',['class'=>'control-label col-sm-2']); !!}
+        {!! Form::text('lastname',null,['class'=>'form-control','placeholder'=>'Apellidos', 'required' => '', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50']) !!}
     </div>
 
 

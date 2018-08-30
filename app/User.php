@@ -37,6 +37,7 @@ class User extends Authenticatable
         'is_validated',
         'refered_code',
         'has_reboot',
+        'institution',
         'ascription_id'
     ];
 
@@ -284,28 +285,37 @@ class User extends Authenticatable
         $this->evaluations()->detach();
     }
 
-    public function resetAdvanceInCourse($course_id){
+    public function resetAdvanceInCourse($course_id){ // 
+        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
+        if($pivot == null){ // user is not enrolled
+            return false;
+        }
         $course = Course::find($course_id);
         if($course == null){ return false; }
         $evaluations = $course->finalEvaluations()->pluck('id');
-        $this->evaluations()->detach($evaluations);
-        return true;
+        $average = 0;
+        $numApprovedEvaluations = 0;
+        $numDeletedEvaluations = 0;
+        foreach($evaluations as $evaluation){
+            $score = $this->scoreInEvaluation($evaluation);
+            if( $score < $course->minimum_score ){ // not approved evaluation
+                $numDeletedEvaluations += $this->evaluations()->detach($evaluation);
+            }else{
+                $numApprovedEvaluations++;
+                $average += $score;
+            }
+        }
+        if($numApprovedEvaluations == 0){
+            $average = 0;
+        }else{
+            $average = $average / $numApprovedEvaluations;
+        }
+        $pivot->score = $average;
+        $pivot->save();
+        // $this->evaluations()->detach($evaluations);
+        return $numDeletedEvaluations;
     }
 
-    /**
-     * Return true if the course is related to his ascription.
-     */
-    // public function hasAvailableCourse($course_id){
-    //     $course = Course::find($course_id);
-    //     if($course == null ){
-    //         return false;
-    //     }
-    //     $ascription = $this->ascription();
-    //     if ($ascription == null) {
-    //         return false;
-    //     }
-    //     return $ascription->courses->contains($course_id);
-    // }
     public function hasAvailableCourse($course_id){
         $course = Course::find($course_id);
         if($course == null ){
@@ -689,27 +699,6 @@ class User extends Authenticatable
         return $pivot->updated_at;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public function notifications(){
         return $this->hasMany('App\Notification');
     }
@@ -865,332 +854,4 @@ class User extends Authenticatable
         return false;
     }
 
-    // public function crearRegistroInsomnio($genero, $estado, $course_id, $start_date_training,  
-    //     $m1progress, $m2progress, $m3progress, $m4progress, $m5progress, $m6progress, $m7progress, $m8progress, $m9progress, $m10progress, $m11progress, $m12progress, $m13progress,
-    //     $end_date_training, $cal1, $cal2, $cal3, $cal4, $cal5, $cal6, $cal7, $cal8, $cal9, $cal10, $cal11, $cal12, $cal13, $promedio, 
-    //     $tries1, $tries2, $tries3, $tries4, $tries5, $tries6, $tries7, $tries8, $tries9, $tries10, $tries11, $tries12, $tries13
-    // )
-    // public function crearRegistro($genero, $estado, $course_id, $start_date_training,  
-    //     $moduleProgress, $end_date_training, $grades, $promedio, $numTries
-    // )
-
-/*
-    // 0401abilq@live.com.mx
-    $user = User::where('email', '0401abilq@live.com.mx')->first();
-
-    php artisan tinker
-    namespace App
-    $user = User::where('email', '0401abilq@live.com.mx')->first(); if($user != null){ $user->crearRegistro('N/A',  1, '9/30/17 15:46', 'N/A', 
-    ['NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 
-    'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO', 'NO TERMINADO' ], [ 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 
-    'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 'SIN CALIFICACION', 
-    'SIN CALIFICACION'], 'NA' , ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A']); }
-*/
-
-
-    public function crearRegistro($genero, $course_id, $start_date_training, $end_date_training,
-        $moduleProgress, $grades, $promedio, $numTries)
-    {
-        // $user = User::where('email', '')->first() if($user != null){ $user->crearRegistro('genero', 'estado', $course_id, $start_date_training, $end_date_training, [moduleProgress], $end_date_training, [grades], $promedio, $numTries) }
-        switch ($genero) {
-            case 'M':
-                $this->gender = 1;
-                break;
-            case 'F':
-                $this->gender = 2;
-                break;
-        }
-        // return $genero;
-
-        // $state = State::where('name', 'like', '%'.$estado.'%')->first();
-        // if($state != null){
-        //     $this->state_id = $state->id;
-        // }
-        
-        // $course = Course::find($course_id);
-        $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
-        $start_date_training = str_replace('"', "", $start_date_training);
-        $end_date_training = str_replace('"', "", $end_date_training);
-        if($start_date_training != 'N/A'){
-            $pos = strpos($start_date_training, '/');
-            if ($pos === false) {
-                $start_date_training = null;
-            } else {
-                $start_date_training = \Carbon\Carbon::parse($start_date_training);
-                if($start_date_training->year > 2018 ){
-                    $start_date_training = null;
-                }
-            }
-        }else{
-            $start_date_training = null;
-        }
-        
-        if($end_date_training != 'N/A'){
-            $pos = strpos($end_date_training, '/');
-            if ($pos === false) {
-                $end_date_training = null;
-            } else {
-                $end_date_training = \Carbon\Carbon::parse($end_date_training);
-                if($end_date_training->year > 2018 ){
-                    $end_date_training = null;
-                }
-            }
-        }else{
-            $end_date_training = null;
-        }
-        if($enrollment == null){
-            $enrollment = CourseUser::create(['course_id' => $course_id, 'user_id' => $this->id, 'created_at' => $start_date_training, 'updated_at' => $end_date_training]);
-        }else{
-            $enrollment->created_at = $start_date_training;
-            $enrollment->updated_at = $end_date_training;
-        }
-        if($promedio != 'NA'){
-            $enrollment->status = true;
-            $enrollment->score = $promedio;
-        }else{
-            $calif = 0;
-            $numCalifs = 0;
-            foreach($grades as $calificacion){
-                if(is_numeric($calificacion)){
-                    $calif += $calificacion;
-                    $numCalifs++;
-                }
-            }
-            if($calif != 0){
-                $calif = $calif / $numCalifs;
-            }else{
-                $calif = 0;
-            }
-            $enrollment->status = false;
-            $enrollment->score = $calif;
-        }
-        $enrollment->save();
-        // return $enrollment;
-        /**Quitando el avance anterior del curso para establecer el exacto que está en los reportes */
-        $modulesId = Module::where('course_id', $course_id)->get()->pluck('id');
-        $this->modules()->detach($modulesId);
-        $evaluationsId = Evaluation::whereIn('module_id', $modulesId)->get()->pluck('id');
-        $this->evaluations()->detach($evaluationsId);
-
-        if($course_id == 2){
-            $tempModules = array();
-            $tempGrades = array();
-            $tempTries = array();
-            // return count($moduleProgress);
-            for ($i=0; $i < count($moduleProgress); $i++) { 
-                if($i == 10){
-                    array_push($tempModules, $moduleProgress[$i]);
-                    array_push($tempGrades, $grades[$i]);
-                    array_push($tempTries, $numTries[$i]);
-                    if($moduleProgress[$i] == 'TERMINADO'){
-                        array_push($tempModules, 'TERMINADO');
-                        array_push($tempGrades, 'SIN CALIFICACION');
-                        array_push($tempTries, 'N/A');
-                    }else{
-                        array_push($tempModules, 'NO TERMINADO');
-                        array_push($tempGrades, 'SIN CALIFICACION');
-                        array_push($tempTries, 'N/A');
-                    }
-                }else{
-                    array_push($tempModules, $moduleProgress[$i]);
-                    array_push($tempGrades, $grades[$i]);
-                    array_push($tempTries, $numTries[$i]);
-                }
-            }
-            $moduleProgress = $tempModules;
-            $grades = $tempGrades;
-            $numTries = $tempTries;
-            // $moduleProgress, $grades, $numTries
-        }
-
-        // dd($moduleProgress);
-        for ( $i=0; $i < count($modulesId); $i++ ) {
-            // if($modulesId)
-            $moduleId = $modulesId[$i];
-            $tries = $numTries[$i];
-            $progress = $moduleProgress[$i];
-            // return collect([$moduleId, $tries, $progress]);
-            if($progress == 'TERMINADO'){
-                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
-            }
-            if( $grades[$i] == 'SIN CALIFICACION'){
-                // No se realizaron evaluaciones o no se tienen evaluaciones
-            }else{
-                // if(Modu)
-                // ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'score' => $grades[$i] ]);
-                $evaluations = Evaluation::where('module_id', $moduleId)->get()->pluck('id');
-                foreach ( $evaluations as $evaluation ) {
-                    if( is_numeric($tries) ){
-                        for ($j=0; $j < $tries; $j++) { 
-                            if(is_numeric($grades[$i])){
-                                // if($grades[$i] == null || $grades[$i] == 'NULL'){
-                                    $evaluation_ = Evaluation::find($evaluation)->module->id;
-                                    echo $evaluation_.':';
-                                    EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
-                                    $pivot = ModuleUser::where('module_id', $evaluation_)->where('user_id', $this->id)->first();
-                                    if($pivot != null){
-                                        $pivot->score = $grades[$i];
-                                        $pivot->save();
-                                        echo "|";
-                                    }
-                                }else{
-                                    // EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
-                                }
-                            // EvaluationUser::create(['evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
-                        }
-                    }
-                }
-            }
-        }
-        $this->save();
-        // $course->calculateAvgForUser($this->id);
-        return true;
-    }
-
-    public function insertarEvaluaciones($genero, $course_id, $start_date_training, $end_date_training, $moduleProgress, $grades, $promedio, $numTries){
-        switch ($genero) {
-            case 'M':
-            $this->gender = 1;
-            break;
-            case 'F':
-            $this->gender = 2;
-            break;
-        }        
-        $course = Course::find($course_id);
-        $enrollment = CourseUser::where('user_id', $this->id)->where('course_id', $course_id)->first();
-        $start_date_training = str_replace('"', "", $start_date_training);
-        $end_date_training = str_replace('"', "", $end_date_training);
-        if($start_date_training != 'N/A'){
-            $pos = strpos($start_date_training, '/');
-            if ($pos === false) {
-                $start_date_training = null;
-            } else {
-                $start_date_training = \Carbon\Carbon::parse($start_date_training);
-                if($start_date_training->year > 2018 ){
-                    $start_date_training = null;
-                }
-            }
-        }else{
-            $start_date_training = null;
-        }
-        
-        if($end_date_training != 'N/A'){
-            $pos = strpos($end_date_training, '/');
-            if ($pos === false) {
-                $end_date_training = null;
-            } else {
-                $end_date_training = \Carbon\Carbon::parse($end_date_training);
-                if($end_date_training->year > 2018 ){
-                    $end_date_training = null;
-                }
-            }
-        }else{
-            $end_date_training = null;
-        }
-        if($enrollment == null){
-            $enrollment = CourseUser::create(['course_id' => $course_id, 'user_id' => $this->id, 'created_at' => $start_date_training, 'updated_at' => $end_date_training]);
-        }else{
-            $enrollment->created_at = $start_date_training;
-            $enrollment->updated_at = $end_date_training;
-        }
-        if($promedio != 'NA'){
-            $enrollment->status = true;
-            $enrollment->score = $promedio;
-        }else{
-            $calif = 0;
-            $numCalifs = 0;
-            foreach($grades as $calificacion){
-                if(is_numeric($calificacion)){
-                    $calif += $calificacion;
-                    $numCalifs++;
-                }
-            }
-            if($calif != 0){
-                $calif = $calif / $numCalifs;
-            }else{
-                $calif = 0;
-            }
-            $enrollment->status = false;
-            $enrollment->score = $calif;
-        }
-        $enrollment->save();
-        $modulesId = Module::where('course_id', $course_id)->get()->pluck('id');
-        // dd($modulesId);
-        $this->modules()->detach($modulesId);
-        $evaluationsId = Evaluation::whereIn('module_id', $modulesId)->get()->pluck('id');
-        $this->evaluations()->detach($evaluationsId);
-        $allModules = $course->modules;
-        // dd($modules);
-        $modules = collect();
-        // $finals = 0;
-        foreach($allModules as $module){
-            if($module->hasFinalEvaluation()){
-                // $finals++;
-                $modules = $modules->concat( [$module] );
-            }
-        }
-        $lastModule = '-';
-        for ($i=0; $i < count($grades); $i++) {
-            $moduleId = $modules[$i]->id;
-            $tries = $numTries[$i];
-            $progress = $moduleProgress[$i];
-            // return collect([$moduleId, $tries, $progress]);
-            if($progress == 'TERMINADO'){
-                ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
-                $lastModule = $moduleId;
-            }
-
-            if( $grades[$i] == 'SIN CALIFICACION'){
-                // No se realizaron evaluaciones o no se tienen evaluaciones
-            }else{
-                $evaluations = Evaluation::where('module_id', $moduleId)->get()->pluck('id');
-                foreach ( $evaluations as $evaluation ) {
-                    if( is_numeric($tries) ){
-                        for ($j=0; $j < $tries; $j++) { 
-                            if(is_numeric($grades[$i])){
-                            // if($grades[$i] == null || $grades[$i] == 'NULL'){
-                                $evaluation_ = Evaluation::find($evaluation)->module->id;
-                                // echo $evaluation_.':';
-                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id, 'score' => $grades[$i] ]);
-                                $pivot = ModuleUser::where('module_id', $evaluation_)->where('user_id', $this->id)->first();
-                                if($pivot != null){
-                                    $pivot->score = $grades[$i];
-                                    $pivot->save();
-                                    // echo "|";
-                                }
-                            }else{
-                                EvaluationUser::create([ 'evaluation_id' => $evaluation, 'user_id' => $this->id ]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        $ids = $allModules->pluck('id');
-        // $allModules = null;
-        $lastModule = $ids->search($lastModule);
-        if($end_date_training != null && $end_date_training != 'N/A'){
-                foreach ($allModules as $module) {
-                    echo $moduleId."recorrido, ";
-                    if( ModuleUser::where('module_id', $module->id)->where('user_id', $this->id)->count() == 0 ){ // module exists
-                        ModuleUser::create(['module_id' => $module->id, 'user_id' => $this->id, 'status' => 1]);
-                        echo "$moduleId Agregado. ";
-                    }
-                }
-        }else{
-            if($lastModule !== false){
-                for ($i=0; $i < $lastModule; $i++) { // Completando los módulos anteriores sin evaluaciones
-                    $moduleId = $allModules[$i]->id;
-                    echo $moduleId."recorrido, ";
-                    if( ModuleUser::where('module_id', $moduleId)->where('user_id', $this->id)->count() == 0 ){ // module exists
-                        ModuleUser::create(['module_id' => $moduleId, 'user_id' => $this->id, 'status' => 1]);
-                        echo "$moduleId Agregado. ";
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
 }

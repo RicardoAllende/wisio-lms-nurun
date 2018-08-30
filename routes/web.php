@@ -202,6 +202,6 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/como-funciona', 'Users_Pages\CoursesController@howItWorks')->name('student.funciona');
 
 
-  Route::get('/registro', 'AscriptionController@registerForm')->name('show.register.form.pharmacy');
-  Route::get('/registro/{code}', 'AscriptionController@registerFormWithCode')->name('show.register.form.pharmacy.with.code');
+  Route::get('/registro', 'AscriptionController@registerForm')->name('show.register.form.pharmacy')->middleware('guest');
+  Route::get('/registro/{code}', 'AscriptionController@registerFormWithCode')->name('show.register.form.pharmacy.with.code')->middleware('guest');
 });

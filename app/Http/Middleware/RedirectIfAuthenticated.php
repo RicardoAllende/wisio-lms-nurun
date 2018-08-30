@@ -23,9 +23,9 @@ class RedirectIfAuthenticated
                 Auth::logout();
                 return back()->with('error', 'Usuario deshabilitado');
             }
-            if( ! $user->is_validated){
-                return back()->with('msj', 'En este momento su usuario no está autenticadod');
-            }
+            // if( ! $user->is_validated){
+            //     return back()->with('msj', 'En este momento su usuario no está autenticado');
+            // }
             $dateTime = \Carbon\Carbon::now()->toDateTimeString();
             $user->last_access = $dateTime;
             $user->save();

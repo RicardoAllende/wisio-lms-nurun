@@ -249,23 +249,15 @@ $('#seccionMixta').hide();
 $('#formOtraInstitucion').hide();
 $('#tomadorDeDecisiones').hide();
 
-
-/*
-$('.tomadorConsulta').removeAttr("required");
-$('.tomadorConsulta2').removeAttr("required");
-$('.optcenaprece').removeAttr("required");
-$('#institucion').removeAttr("required");
-$('.tomadorConsulta').prop('required',true);
-$('.tomadorConsulta2').prop('required',true);
-$('.optcenaprece').prop('required',true);
-$('#institucion').prop('required',true);
-*/
-
 $(document).ready(function() {
   $('select').material_select();
   $("form input:radio").change(function() {
     switch($(this).data('value')){
       case 'privada':
+        $('#tomadorsi').prop('checked',false);
+        $('#tomadorNo').prop('checked',false);
+        $('#optcenaprece').prop('checked', false);
+        $('#optOtraInstitucion').prop('checked', false);
         $('#seccionPublica').hide();
         $('#seccionMixta').hide();
         $('#institution').val('');
@@ -277,6 +269,10 @@ $(document).ready(function() {
         
       break;
       case 'publica':
+        $('#tomadorsi').prop('checked',false);
+        $('#tomadorNo').prop('checked',false);
+        $('#optcenaprece').prop('checked', false);
+        $('#optOtraInstitucion').prop('checked', false);
         $('#seccionPublica').show();
         $('#seccionMixta').hide();
         $('#formOtraInstitucion').hide();
@@ -290,13 +286,17 @@ $(document).ready(function() {
 
       break;
       case 'mixta':
+        $('#tomadorsi').prop('checked',false);
+        $('#tomadorNo').prop('checked',false);
+        $('#optcenaprece').prop('checked', false);
+        $('#optOtraInstitucion').prop('checked', false);
         $('#seccionPublica').hide();
         $('#seccionMixta').show();
         $('#institution').val('');
         $('#formOtraInstitucion').hide();
-        // $('#tomadorDeDecisiones').show();
+        $('#tomadorDeDecisiones').show();
         $('.tomadorConsulta').prop('required',true);
-
+        $('.optcenaprece').attr('checked', false);
         
         $('.tomadorConsulta').removeAttr("required");
         $('.optcenaprece').removeAttr("required");
@@ -360,27 +360,6 @@ $(document).ready(function() {
       $('#institution').val('Cenaprece');
     }
   });
-
-  // $('input[type=radio][name=decision_maker]').change(function() {
-  //   // $("a").removeAttr("href");
-  //   if (this.value == '1') { // Especificación
-  //     $('#formOtraInstitucion').show();
-  //     $('#institution').val('');
-  //   }else{
-  //     $('#formOtraInstitucion').hide();
-  //     $('#institution').val('Cenaprece');
-  //   }
-  // });
-
-  // $('input[type=radio][name=decision_maker2]').change(function() {
-  //   if (this.value == '1') { // Especificación
-  //     $('#formOtraInstitucion').show();
-  //     $('#institution').val('');
-  //   }else{
-  //     $('#formOtraInstitucion').hide();
-  //     $('#institution').val('Cenaprece');
-  //   }
-  // });
 
 });
 

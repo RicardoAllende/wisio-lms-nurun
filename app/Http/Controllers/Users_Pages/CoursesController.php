@@ -25,6 +25,7 @@ use App\Notification;
 use App\Mail\ApprovedCourse;
 use App\Mail\NotApproved;
 use App\Mail\SecondNotApproved;
+use Illuminate\Support\Facades\Route;
 
 
 class CoursesController extends Controller
@@ -70,6 +71,12 @@ class CoursesController extends Controller
             return redirect('/');
         }
         if(Auth::check()){
+            $refresh = false;
+            $previous = url()->previous();
+            $currentRoute = route(Route::currentRouteName(), [$ascription_slug, $course_slug]);
+            if($previous == $currentRoute){
+                $refresh = true;
+            }
             $msg = "";
             $user = Auth::user();
             if($user->ascription->id != $ascription->id){
@@ -87,7 +94,7 @@ class CoursesController extends Controller
                 }
                 $pivot->save();
             }else{
-                return view('users_pages/courses.show',compact('course', 'ascription', 'user'));
+                return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'refresh'));
             }
             if($user->hasCourseComplete($course->id)){
                 if($user->hasCompletedEvaluationsFromCourse($course->id)){
@@ -104,7 +111,7 @@ class CoursesController extends Controller
                                 $evaluation = $course->diplomaEvaluation;
                                 if($evaluation != null){ // Course is finished
                                     if($user->hasAnotherAttemptInEvaluation($evaluation->id)){
-                                        return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation', 'msg'));
+                                        return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation', 'msg', 'refresh'));
                                     }
                                 }
                             }
@@ -138,7 +145,7 @@ class CoursesController extends Controller
                     }
                 }
             }
-            return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'msg'));
+            return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'msg', 'refresh'));
         }
         return view('users_pages/courses.show',compact('course', 'ascription'));
     }

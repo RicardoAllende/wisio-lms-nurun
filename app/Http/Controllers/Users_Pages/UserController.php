@@ -11,6 +11,7 @@ use App\User;
 use App\Role;
 use GuzzleHttp\Client;
 use App\Setting;
+use App\Jobs\ProfessionalLicenseValidation;
 
 class UserController extends Controller
 {
@@ -72,9 +73,9 @@ class UserController extends Controller
             return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
         }
         $professional_license = $request->professional_license;
-        if($this->validarCedula($professional_license) == false ){
-            return back()->withInput()->with('error', "Cédula no validada");
-        }
+        // if($this->validarCedula($professional_license) == false ){
+        //     return back()->withInput()->with('error', "La cédula no ");
+        // }
         $mobile_phone = $request->mobile_phone;
         if($this->validarNumero($mobile_phone) == false){
             return back()->withInput()->with('error', "Número no validado");
@@ -85,18 +86,18 @@ class UserController extends Controller
         }
         // $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
         // if( ! $response ){
-        //     if( $this->sepServicesAreDown ){
-        //         $is_validated = false;
-        //         // return "Servicios caídos";
-        //     }else{
-        //         $this->sepServicesAreDown = false;
-        //         $error = 'Cédula no validada';
-        //         // if($this->notA1){
-        //         //     $error = "Su cédula profesional no es de tipo A1";
-        //         // }
-        //         return back()->withInput()->with('error', $error);
-        //     }
-        // }
+            //     if( $this->sepServicesAreDown ){
+                //         $is_validated = false;
+                //         // return "Servicios caídos";
+                //     }else{
+                    //         $this->sepServicesAreDown = false;
+                    //         $error = 'Cédula no validada';
+                    //         // if($this->notA1){
+                        //         //     $error = "Su cédula profesional no es de tipo A1";
+                        //         // }
+                        //         return back()->withInput()->with('error', $error);
+                        //     }
+                        // }
         $user = User::create($input);
         $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
@@ -115,6 +116,7 @@ class UserController extends Controller
         }
         $user->ascription_id = $ascription->id;
         $user->save();
+        ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
         $email = $user->email;
         $password = $request->password;
         // if($user->is_validated == false){
