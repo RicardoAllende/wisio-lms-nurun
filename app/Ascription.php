@@ -149,4 +149,15 @@ class Ascription extends Model
         return $this->name;
     }
 
+    public function diplomas(){
+        return $this->hasMany('App\Diploma');
+    }
+
+    public function hasDiploma(){
+        if($this->diplomas()->count() > 0){
+            return true;
+        }
+        return false;
+    }
+
 }

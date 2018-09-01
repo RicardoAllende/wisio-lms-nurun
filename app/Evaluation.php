@@ -16,7 +16,6 @@ class Evaluation extends Model
         'description',
         'minimum_score',
         'maximum_score',
-        'is_diplomat_evaluation',
         'maximum_attempts'
     ];
     public function module(){

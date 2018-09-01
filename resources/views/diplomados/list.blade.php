@@ -2,7 +2,7 @@
 
 @section('title','Diplomados')
 @section('cta')
-  <!-- <a href="{{route('ascriptions.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Adscripción</a> -->
+  <!-- <a href="{{route('diplomas.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Diploma</a> -->
 @endsection
 
 @section('subtitle')
@@ -18,10 +18,10 @@
                 <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Adscripciones</h5>
+                        <h5>Diplomados</h5>
                     </div>
                     <div class="ibox-content">
-                    @if($ascriptions->count() > 0)
+                    @if($diplomas->count() > 0)
                       <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -29,35 +29,44 @@
                             <th>#</th>
                             <th>Diplomado</th>
                             <th>Slug</th>
-                            <th>Estado</th>
-                            <th># Cursos</th>
+                            <th>Descripción</th>
+                            <th>Promedio mínimo requerido</th>
+                            <th>Calificación mínima aprobatoria</th>
+                            <th>Cursos requeridos</th>
                             <th>Médicos inscritos</th>
-
                           </tr>
                         </thead>
                         <tbody>@php $i=1; @endphp
-                            @foreach($ascriptions as $ascription)
-                              <tr>
-                              <td><a href="{{ route('list.users.for.diplomado' , $ascription->id) }}">{{ $i }}</a></td>@php $i++; @endphp
-                              <td><a href="{{ route('list.users.for.diplomado' , $ascription->id) }}">{{ $ascription->name }}</a></td>
-                              <td>{{ $ascription->slug }}</td>
-                              <td>{{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
-                              <td>{{ $ascription->courses->count() }}</td>
-                              <td>{{ $ascription->users->count() }}</td>
+                            @foreach($diplomas as $diploma)
+                            <tr>
+                                <td><a href="{{ route('diplomas.show' , $diploma->id) }}">{{ $i }}</a></td>@php $i++; @endphp
+                                <td><a href="{{ route('diplomas.show' , $diploma->id) }}">{{ $diploma->name }}</a></td>
+                                <td>{{ $diploma->slug }}</td>
+                                <th>{{ $diploma->description }}</th>
+                                <td>{{ $diploma->minimum_previous_score }}</td>
+                                <td>{{ $diploma->minimum_score }}</td>
+                                <td>
+                                    <ul>
+                                    @foreach($diploma()->courses()->cursor() as $course)
+                                        <li>$course->name</li>
+                                    @endforeach
+                                    </ul>
+                                </td>
+                                <td>{{ $diploma->users()->count() }}</td>
                               
-                              </tr>
+                            </tr>
                             @endforeach
                             
                         </tbody>
                       </table>
                       </div>
                     @else
-                    <center>
-                      <h3>Aún no existen adscripciones</h3><br>
-                      <a href="{{route('ascriptions.create')}}" class="btn btn-primary ">
-                        <i class='fa fa-plus'></i> Crear Adscripción
+                    <div style="text-align: center;" >
+                      <h3>Aún no existen Diplomados</h3><br>
+                      <a href="{{route('diplomas.create')}}" class="btn btn-primary ">
+                        <i class='fa fa-plus'></i> Crear Diploma
                       </a>
-                    </center>
+                    </div>
                     @endif
                     </div>
                     <div class="ibox-footer">

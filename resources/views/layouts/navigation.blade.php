@@ -47,6 +47,13 @@
                     <li class="">
                         <a href="{{ route('ascriptions.index') }}"><i class="fa fa-th-large"></i><span class="nav-label">Adscripciones</span></a>
                     </li>
+                    <li>
+                        <a href=""><i class="	fa fa-line-chart"></i> <span class="nav-label">Diplomados</span> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li><a href="{{ route('diplomas.index')}}">Mostrar diplomados</a></li>
+                            <li><a href="{{ route('diplomas.create')}}">Crear diplomado</a></li>
+                        </ul>
+                    </li>
                     <li class="">
                         <a href="{{ route('list.templates') }}"><i class="fa fa-th-large"></i><span class="nav-label">Pruebas de certificados</span></a>
                     </li>

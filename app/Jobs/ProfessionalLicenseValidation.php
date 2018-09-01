@@ -63,6 +63,7 @@ class ProfessionalLicenseValidation implements ShouldQueue
             }
             $user->enabled = false;
             $user->is_validated = false;
+            $user->professional_license = null;
             $user->save();
             // Email professional license not validated
             // User::destroy($this->user_id);

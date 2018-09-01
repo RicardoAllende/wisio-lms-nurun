@@ -17,6 +17,10 @@ Route::group(['middleware' => ['auth']], function () {
   Route::group(['prefix' => '/admin' , 'middleware' => ['admin']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 
+    Route::resource('/diplomas', 'AdminControllers\DiplomasController');
+    Route::get('/attach-course-to-ascription/{ascription_id}/{course_id}', 'AdminControllers\DiplomasController@attachToAscription')->name('attach.course.to.ascription');
+    Route::get('/detach-course-for-ascription/{ascription_id}/{course_id}', 'AdminControllers\DiplomasController@detachForAscription')->name('detach.course.to.ascription');    
+
     Route::get('/change-admin-password', 'AdminControllers\UsersController@changeAdminPassword')->name('change.admin.password');
     Route::post('/change-admin-password', 'AdminControllers\UsersController@requestChangeAdminPassword')->name('request.change.admin.password');
     Route::get('/courses/{course_id}/diploma-evaluation/{evaluation_id}', 'AdminControllers\EvaluationsController@showDiplomaEvaluation')->name('show.diploma.evaluation');
@@ -204,4 +208,8 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
 
   Route::get('/registro', 'AscriptionController@registerForm')->name('show.register.form.pharmacy')->middleware('guest');
   Route::get('/registro/{code}', 'AscriptionController@registerFormWithCode')->name('show.register.form.pharmacy.with.code')->middleware('guest');
+
+  Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
+    Route::get('/', 'Users_Pages\DiplomasController@show')->name('show.diploma');
+  });
 });
