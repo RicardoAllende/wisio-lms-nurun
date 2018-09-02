@@ -36,8 +36,8 @@
                     <div class="col-sm-9">
                         <h3><strong>Nombre: {{ $ascription->name }} </strong></h3>
                         <p>Slug: {{ $ascription->slug }}</p>
-                        <p>Usuarios inscritos: {{ $ascription->users->count() }}</p>
-                        <p>Cursos: {{ $ascription->courses->count() }}</p>
+                        <p>Usuarios inscritos: {{ $ascription->users()->count() }}</p>
+                        <p>Cursos: {{ $ascription->courses()->count() }}</p>
                         <p>Descripción: {{ $ascription->description }} </p>
                         <p>Estado: {{ ($ascription->enabled == 1)? 'disponible' : 'no disponible' }}</p>
                         @if($ascription->hasCalendar())<p><a target="_blank" href="{{ $ascription->calendarUrl() }}">Calendario</a></p>@endif
@@ -46,7 +46,7 @@
                     </div>
                 </div>
 
-            @if ($ascription->courses->count() > 0)
+            @if ($ascription->courses()->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>

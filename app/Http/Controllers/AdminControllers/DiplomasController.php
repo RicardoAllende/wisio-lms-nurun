@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Diploma;
 use App\Ascription;
+use App\Course;
 
 class DiplomasController extends Controller
 {
@@ -60,8 +61,10 @@ class DiplomasController extends Controller
         if($diploma == null){
             return redirect()->route('diplomas.index');
         }
-        dd($diploma);
-        return view('diplomados.show', compact('diploma'));
+        $courses = $diploma->ascription->courses;
+        // dd($courses);
+        // dd($diploma);
+        return view('diplomados.show', compact('diploma', 'courses'));
     }
 
     /**
@@ -110,12 +113,20 @@ class DiplomasController extends Controller
         return redirect()->route('diplomas.index');
     }
 
-    public function attachToAscription($ascription_id, $course_id){
-        return "Attaching $ascription_id (ascription) from course_id $course_id";
+    public function attachToCourse($diploma_id, $course_id){
+        $diploma = Diploma::find($diploma_id);
+        if($diploma != null){
+            $diploma->attachCourse($course_id);
+        }
+        return back();
     }
 
-    public function detachForAscription($ascription_id, $course_id){
-        return "Detaching $ascription_id (ascription) from course_id $course_id";
+    public function detachFromCourse($diploma_id, $course_id){
+        $diploma = Diploma::find($diploma_id);
+        if($diploma != null){
+            $diploma->courses()->detach($course_id);
+        }
+        return back();
     }
 
 }

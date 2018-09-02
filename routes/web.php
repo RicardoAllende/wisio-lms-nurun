@@ -18,8 +18,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 
     Route::resource('/diplomas', 'AdminControllers\DiplomasController');
-    Route::get('/attach-course-to-ascription/{ascription_id}/{course_id}', 'AdminControllers\DiplomasController@attachToAscription')->name('attach.course.to.ascription');
-    Route::get('/detach-course-for-ascription/{ascription_id}/{course_id}', 'AdminControllers\DiplomasController@detachForAscription')->name('detach.course.to.ascription');    
+    Route::get('/attach-course-to-diploma/{diploma_id}/{course_id}', 'AdminControllers\DiplomasController@attachToCourse')->name('attach.course.to.diploma');
+    Route::get('/detach-course-from-diploma/{diploma_id}/{course_id}', 'AdminControllers\DiplomasController@detachFromCourse')->name('detach.course.from.diploma');    
 
     Route::get('/change-admin-password', 'AdminControllers\UsersController@changeAdminPassword')->name('change.admin.password');
     Route::post('/change-admin-password', 'AdminControllers\UsersController@requestChangeAdminPassword')->name('request.change.admin.password');

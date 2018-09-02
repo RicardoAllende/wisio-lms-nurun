@@ -54,7 +54,6 @@
                             <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
                             {!! Form::close() !!}
                         </div>
-                    </div>
                     <div class="ibox-footer" id='result'></div>
                 </div>
             </div>

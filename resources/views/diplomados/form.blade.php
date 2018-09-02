@@ -60,7 +60,7 @@
                           </div>
 
                           <div class="form-group">
-                            {!! Form::label('minimum_previous_score', 'Calificación mínima del diplomado:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('minimum_previous_score', 'Calificación mínima de los cursos anteriores:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
                               {!! Form::number('minimum_previous_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1','placeholder' => "Promedio mínimo de los cursos anteriores" ]) !!}
                             </div>
