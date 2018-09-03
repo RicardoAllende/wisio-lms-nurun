@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function (){ return view('dashboard/dashboard'); })->name('admin.dashboard');
 
     Route::resource('/diplomas', 'AdminControllers\DiplomasController');
+    Route::get('/php-info', function(){ phpinfo(); });
     Route::get('/attach-course-to-diploma/{diploma_id}/{course_id}', 'AdminControllers\DiplomasController@attachToCourse')->name('attach.course.to.diploma');
     Route::get('/detach-course-from-diploma/{diploma_id}/{course_id}', 'AdminControllers\DiplomasController@detachFromCourse')->name('detach.course.from.diploma');    
 

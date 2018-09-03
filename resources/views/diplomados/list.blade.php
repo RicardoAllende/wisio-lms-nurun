@@ -47,8 +47,8 @@
                                 <td>{{ $diploma->minimum_score }}</td>
                                 <td>
                                     <ul>
-                                    @foreach($diploma()->courses()->cursor() as $course)
-                                        <li>$course->name</li>
+                                    @foreach($diploma->courses()->cursor() as $course)
+                                        <li> {{ $course->name }} </li>
                                     @endforeach
                                     </ul>
                                 </td>

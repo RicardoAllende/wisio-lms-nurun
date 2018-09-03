@@ -31,19 +31,13 @@
                         <img src="{{$diploma->getMainImgUrl()}}" width="30%" height="30%" class="m-b-md" alt="Imagen del curso">
                     </div>
                     <div class="col-lg-6"><br><br>
-                        <p>Email de resolución de dudas: {{ $diploma->support_email }}</p>
                         <p>Promedio mínimo de los cursos anteriores: {{ $diploma->minimum_previous_score }}</p>
-                        <p>Calificación mínimo del diplomado: {{ $diploma->minimum_score }}</p>
+                        <p>Calificación mínima del diplomado: {{ $diploma->minimum_score }}</p>
                         <p>Estudiantes inscritos: {{ $diploma->users()->count() }}</p>
                         <p>Slug: {{ $diploma->slug }}</p>
                         <h4 class="media-heading">Descripción del curso</h4>
                         <p>{!! $diploma->description !!}</p>
-                        <p>Fecha de inicio: {{ $diploma->start_date }}</p>
-                        <p> Fecha de término: {{ $diploma->end_date }}</p>
                     </div>
-
-                    
-
                 </div>
                 
                     
@@ -60,7 +54,8 @@
                             <th>Acciones</th>
                             </tr>
                         </thead>
-                        <h5>Escoga aquí los cursos necesarios para poder realizar el diplomado</h5>
+                        <h2>Escoga aquí los cursos necesarios para poder realizar el diplomado</h2>
+                        <br>
                         <tbody>
                             @php $i=1; @endphp
                             @foreach($courses as $course) 
@@ -91,13 +86,4 @@
         </div>
 	</div>
 </div>
-@endsection
-
-@section('scripts')
-    <script src="/js/sweetalert2.min.js"></script>
-    <script src="/js/method_delete_f.js"></script>
-@endsection
-
-@section('styles')
-    <link rel="stylesheet" type="text/css" href="/css/sweetalert2.min.css">
 @endsection

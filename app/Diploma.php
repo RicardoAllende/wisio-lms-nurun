@@ -24,6 +24,13 @@ class Diploma extends Model
         return $this->belongsTo('App\Attachment');
     }
 
+    public function hasMainImg(){
+        if($this->attachment != null){
+            return true;
+        }
+        return false;
+    }
+
     public function getMainImgUrl(){
         if($this->attachment != null){
             return '/'.$this->attachment->url;

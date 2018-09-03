@@ -41,12 +41,14 @@ class DiplomasController extends Controller
     public function store(Request $request)
     {
         $diploma = Diploma::create($request->input());
+        $diploma->slug = str_slug($diploma->slug);
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             $diploma->attachment_id = $attach_id;
-            $diploma->save();
         }
-        return view('diplomados.show', compact('diploma'));
+        $diploma->save();
+        $courses = $diploma->ascription->courses;
+        return view('diplomados.show', compact('diploma', 'courses'));
     }
 
     /**
@@ -92,13 +94,19 @@ class DiplomasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $updateFields = $request->except('_token', 'attachment');
-        if($request->filled('attachment')){
-            $attach_id = $request->input('attachment');
-            $diploma->attachment_id = $attach_id;
-            $diploma->save();
-        }
+        $updateFields = $request->except('_token', 'attachment', '_method');
         Diploma::whereId($id)->update($updateFields);
+        $diploma = Diploma::find($id);
+        if($diploma == null){
+            return back()->withErrors(['error' => 'No se encontró el diploma']);
+        }
+        $diploma->slug = str_slug($diploma->slug);
+        if($request->filled('attachment')){
+            $diploma->attachment_id = $request->input('attachment');
+        }
+        $diploma->save();
+        $courses = $diploma->ascription->courses;
+        return view('diplomados.show', compact('diploma', 'courses'));
     }
 
     /**

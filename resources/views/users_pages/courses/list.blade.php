@@ -70,6 +70,29 @@ Cursos
   <div class="col s6 l3">
     <h2 class="recientes">cursos</h2>
   </div>
+
+  <!-- Inicia prueba para colocar el diplomado -->
+  <div class="col s6 l4 " style="background-color: #e1bee7;">
+    <div class="card z-depth-0 white " style="background-color: #e1bee7;">
+       <div class="card-content mods" style="background-color: #e1bee7;">
+          <span class="categoria-academia">{{ "" }}</span>
+         <div class="iconcourse"><img src="{{ '' }}" class="responsive-img imgMods"></div>
+          <h5 class="titulo-academia2"> {{ "" }}</h5>
+           <div class="modulos">{{ 12 }} módulos</div>
+              <div  class="moduloslista valign-wrapper hide-on-med-and-down">
+
+                    <ol>
+
+                    </ol>
+              </div >
+          <div class="leer-masmodulos_50">
+              <a href="{{ route('welcome') }}">ver mas</a>
+              <hr class="line3"/>
+          </div>
+       </div>
+    </div>
+  </div>
+  <!-- Termina prueba para colocar el diplomado -->
   @forelse($courses as $course)
   <div class="col s6 l4 ">
     <div class="card z-depth-0 white ">

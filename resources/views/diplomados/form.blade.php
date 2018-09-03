@@ -91,9 +91,9 @@
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                             <a href="{{ route('diplomas.index') }}" class="btn btn-default">Cancelar</a>
-                              {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
+                              <input type="hidden" id="attachment" name="attachment">
                               @if(isset($diploma))
-                                @if($diploma->attachments->where('type', 'main_img')->count() > 0)
+                                @if($diploma->attachment != null)
                                   {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
                                 @else
                                   {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}
@@ -140,7 +140,7 @@
 <script type="text/javascript" src="/js/plugins/dropzone/dropzone.js"></script>
 <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
-  CKEDITOR.replace('description');
+  // CKEDITOR.replace('description');
   Dropzone.options.imageUpload  = {            
             paramName: "file", 
             // The name that will be used to transfer the file            
