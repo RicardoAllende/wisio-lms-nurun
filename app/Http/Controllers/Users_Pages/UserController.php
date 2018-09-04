@@ -115,6 +115,14 @@ class UserController extends Controller
             $ascription = Ascription::first();  // Academia Sanofi
         }
         $user->ascription_id = $ascription->id;
+        if( ! $request->filled('refered_code')){
+            if($ascription->code == null){
+                $refered_code = "ACADEMIAMC";
+            }else{
+                $refered_code = $ascription->code;
+            }
+            $user->refered_code = $refered_code;
+        }
         $user->save();
         ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
         $email = $user->email;
