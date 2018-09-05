@@ -3,6 +3,11 @@
 @section('title','Curso '.$diploma->name)
 @section('cta')
     <a href="{{ route('diplomas.edit', $diploma->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar Diplomado</a>
+    @if($diploma->hasDiplomaEvaluation())
+        <a href="{{ route('show.diploma.evaluation', [$diploma->id, $diploma->evaluation->id]) }}" class="btn btn-primary">Ver evaluación final</a>
+    @else
+        <a href="{{ route('create.diploma.evaluation', $diploma->id) }}" class="btn btn-primary">Crear evaluación final</a>
+    @endif
 @endsection
 
 @section('subtitle')

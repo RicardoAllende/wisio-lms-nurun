@@ -23,7 +23,7 @@ return [
 
     'evaluations' => [
         'diagnostic' => 'd',
-        'diploma' => 's',
+        'diploma' => 'diploma',
         'final' => 'f'
     ],
 

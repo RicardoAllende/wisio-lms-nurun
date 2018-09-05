@@ -12,6 +12,7 @@ use App\Course;
 use App\Question;
 use App\Option;
 use App\CertificateTemplate;
+use App\Diploma;
 
 class EvaluationsController extends Controller
 {
@@ -144,39 +145,39 @@ class EvaluationsController extends Controller
         return view('empty-evaluations', compact('evaluations'));
     }
 
-    public function createFinalEvaluation($course_id){
-        $course = Course::find($course_id);
-        if($course == null){
-            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+    public function createFinalEvaluation($diploma_id){
+        $diploma = Diploma::find($diploma_id);
+        if($diploma == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el diploma']);
         }
-        return view('evaluations.form-final', compact('course'));
+        return view('evaluations.form-final', compact('diploma'));
     }
 
-    public function showDiplomaEvaluation($course_id, $evaluation_id){
-        $course = Course::find($course_id);
-        if($course == null){
-            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+    public function showDiplomaEvaluation($diploma_id, $evaluation_id){
+        $diploma = Diploma::find($diploma_id);
+        if($diploma == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el diploma']);
         }
         $evaluation = Evaluation::find($evaluation_id);
         if($evaluation == null){
             return back()->withErrors(['error' => 'No se encontró la evaluación']);
         }
-        return view('evaluations.show', compact('evaluation', 'course'));
+        return view('evaluations.show', compact('evaluation', 'diploma'));
     }
 
-    public function editFinalEvaluation($course_id, $evaluation_id){
-        $course = Course::find($course_id);
-        if($course == null){
-            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+    public function editFinalEvaluation($diploma_id, $evaluation_id){
+        $diploma = Diploma::find($diploma_id);
+        if($diploma == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el diploma']);
         }
         $evaluation = Evaluation::find($evaluation_id);
         if($evaluation == null){
             return back()->withErrors(['error' => 'No se encontró la evaluación']);
         }
-        return view('evaluations.form-final', compact('course', 'evaluation'));
+        return view('evaluations.form-final', compact('diploma', 'evaluation'));
     }
 
-    public function storeFinalEvaluation(Request $request, $course_id){
+    public function storeFinalEvaluation(Request $request, $diploma_id){
         $input = $request->input();
         // dd($input);
         $evaluation = Evaluation::create($input);
@@ -186,14 +187,14 @@ class EvaluationsController extends Controller
         }
         $evaluation->type = 's';
         $evaluation->save();
-        // $course = Course::find($course_id);
-        // if($course == null){
-        //     return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        // $diploma = Diploma::find($diploma_id);
+        // if($diploma == null){
+        //     return back()->withErrors(['error' => 'Problemas al encontrar el diploma']);
         // }
-        return redirect()->route("show.diploma.evaluation", [$course_id, $evaluation->id]);
+        return redirect()->route("show.diploma.evaluation", [$diploma_id, $evaluation->id]);
     }
 
-    public function updateFinalEvaluation(Request $request, $course_id, $id){
+    public function updateFinalEvaluation(Request $request, $diploma_id, $id){
         $evaluation = Evaluation::find($id);
         if($evaluation == null){ return redirect()->route('evaluations.index'); }
         $evaluation->name = $request->name;
@@ -205,11 +206,11 @@ class EvaluationsController extends Controller
             $this->dropImgAttachments($evaluation);
             AttachmentEvaluation::create(['attachment_id' => $attach_id, 'evaluation_id' => $evaluation->id]);
         }
-        $course = Course::find($course_id);
-        if($course == null){
-            return back()->withErrors(['error' => 'Problemas al encontrar el curso']);
+        $diploma = Diploma::find($diploma_id);
+        if($diploma == null){
+            return back()->withErrors(['error' => 'Problemas al encontrar el diploma']);
         }
-        return redirect()->route("show.diploma.evaluation", [$course_id, $evaluation->id]);
+        return redirect()->route("show.diploma.evaluation", [$diploma_id, $evaluation->id]);
         // return redirect()->route("evaluations.show", $id);
     }
 

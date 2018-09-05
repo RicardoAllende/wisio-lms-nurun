@@ -38,6 +38,7 @@ class CoursesController extends Controller
             return redirect('/');
         }
         $user = Auth::user();
+        // $courses = $ascription->courses;
         $courses = $user->coursesFromAscription($ascription);
         if (isset($_GET['s'])) {
             $search = $_GET['s'];
@@ -160,7 +161,13 @@ class CoursesController extends Controller
         }else{
             $recommendations = $courses;
         }
-        return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations'));
+        $diplomas = $ascription->diplomas;
+        // foreach($diplomas as $diploma){
+        //     echo $diploma->name.'<br>';
+        // }
+        // return;
+        // dd($diplomas->first());
+        return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations', 'diplomas'));
     }
 
     public function enrollment($ascription_slug,$user_id, $course_id)

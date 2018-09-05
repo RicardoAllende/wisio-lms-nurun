@@ -18,7 +18,7 @@ class CreateCourseDiplomaTable extends Migration
             $table->integer('diploma_id')->unsigned();
             $table->integer('course_id')->unsigned();
             $table->foreign('diploma_id')->references('id')->on('diplomas')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('course_id')->references('id')->on('diplomas')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

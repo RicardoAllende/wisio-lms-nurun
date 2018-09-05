@@ -9,7 +9,7 @@
     <ol class="breadcrumb">
         @if($question->evaluation->isDiplomaEvaluation())
         <li>
-            <a href="{{ route('courses.show', $question->evaluation->course->id) }}">Módulo: {{ $question->evaluation->course->name }}</strong></a>
+            <a href="{{ route('courses.show', $question->evaluation->diploma->id) }}">Módulo: {{ $question->evaluation->diploma->name }}</strong></a>
         </li>
         @else
         <li>

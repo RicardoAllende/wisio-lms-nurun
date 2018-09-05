@@ -9,7 +9,7 @@ class Evaluation extends Model
     protected $fillable = [
         'id',
         'module_id',
-        'course_id',
+        'diploma_id',
         'ascription_id',
         'name',
         'type',
@@ -22,13 +22,13 @@ class Evaluation extends Model
     	return $this->belongsTo('App\Module');
     }
 
-    // Special evaluation for a course
-    public function course(){
-        return $this->belongsTo('App\Course');
+    // Diploma evaluation
+    public function diploma(){
+        return $this->belongsTo('App\Diploma');
     }
 
     public function isDiplomaEvaluation(){
-        if($this->course != null ){
+        if($this->diploma != null ){
             return true;
         }
     }

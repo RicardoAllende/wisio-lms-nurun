@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diploma extends Model
 {
-    protected $fillable = ['name', 'slug', 'minimum_score', 'minimum_previous_score', 'ascription_id', 'attachment_id'];
+    protected $fillable = ['name', 'slug', 'description', 'minimum_score', 'minimum_previous_score', 'ascription_id', 'attachment_id'];
 
     public function users(){
         return $this->belongsToMany('App\User')->withPivot('score', 'status', 'ended_at', 'downloaded', 'downloaded_at')->withTimestamps();
@@ -53,6 +53,48 @@ class Diploma extends Model
             $this->courses()->attach($course_id);
         }
         return true;
+    }
+
+    public function verifyUser($user_id){
+        $user = User::find($user_id);
+        if($user == null){
+            return false;
+        }
+        $courses = $this->courses()->pluck('course_id');
+        foreach($courses as $course){
+            if( ! ( $user->hasCompletedEvaluationsFromCourse($course) && $user->hasCourseComplete($course) ) ){
+                return false;
+            }
+        }
+        return true;
+        // hasCompletedEvaluationsFromCourse
+        // hasCourseComplete
+    }
+
+    public function evaluation(){
+        return $this->hasOne('App\Evaluation');
+    }
+
+    public function hasDiplomaEvaluation(){
+        if($this->evalution == null){
+            return false;
+        }
+        return true;
+    }
+
+    public function enrolUser($user_id){
+        if($this->verifyUser($user_id)){
+            if(DiplomaUser::where('user_id', $user_id)->where('diploma_id', $this->id)->count() == 0){
+                $this->users()->attach($user_id);
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function hasUserEnrolled($user_id){
+        $this->users()->where('user_id', $user_id);
     }
 
 }

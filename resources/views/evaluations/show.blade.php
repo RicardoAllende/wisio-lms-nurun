@@ -3,7 +3,7 @@
 @section('title','Evaluación '.$evaluation->name)
 @section('cta')
     @if($evaluation->isDiplomaEvaluation())
-        <a href="{{ route('edit.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+        <a href="{{ route('edit.diploma.evaluation', [$evaluation->diploma->id, $evaluation->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
     @else
         <a href="{{ route('evaluations.edit', $evaluation->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
     @endif
@@ -13,7 +13,7 @@
     @if($evaluation->isDiplomaEvaluation())
         <ol class="breadcrumb">
             <li>
-                <a href="{{ route('courses.show', $evaluation->course->name) }}">Curso: {{ $evaluation->course->name }}</a>
+                <a href="{{ route('courses.show', $evaluation->diploma->name) }}">Curso: {{ $evaluation->diploma->name }}</a>
             </li>
             <li class="active" >
                 Evaluación final del diplomado: {{ $evaluation->name }}
@@ -56,7 +56,7 @@
                     <p>Tipo de evaluación: {{ ($evaluation->type == 'd')? 'Diagnóstica' : 'Final' }} </p>
                     <p> Intentos permitidos: {{ $evaluation->maximum_attempts }}</p>
                     @if($evaluation->isDiplomaEvaluation())
-                    <span>Pertenece al módulo: {{ $evaluation->course->name }}</span> |
+                    <span>Pertenece al Diploma: {{ $evaluation->diploma->name }}</span> |
                     @else
                     <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
                     @endif

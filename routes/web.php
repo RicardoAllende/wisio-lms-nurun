@@ -24,11 +24,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/change-admin-password', 'AdminControllers\UsersController@changeAdminPassword')->name('change.admin.password');
     Route::post('/change-admin-password', 'AdminControllers\UsersController@requestChangeAdminPassword')->name('request.change.admin.password');
-    Route::get('/courses/{course_id}/diploma-evaluation/{evaluation_id}', 'AdminControllers\EvaluationsController@showDiplomaEvaluation')->name('show.diploma.evaluation');
-    Route::get('/courses/{course_id}/create-evaluation-for-diploma', 'AdminControllers\EvaluationsController@createFinalEvaluation')->name('create.diploma.evaluation');
-    Route::get('/courses/{course_id}/evaluation-for-diploma/{evaluation_id}/edit', 'AdminControllers\EvaluationsController@editFinalEvaluation')->name('edit.diploma.evaluation');
-    Route::post('/courses/{course_id}/store-evaluation-for-diploma', 'AdminControllers\EvaluationsController@storeFinalEvaluation')->name('store.diploma.evaluation');
-    Route::post('/courses/{course_id}/update-evaluation-for-diploma', 'AdminControllers\EvaluationsController@updateFinalEvaluation')->name('update.diploma.evaluation');
+    Route::get('/diploma/{diploma_id}/diploma-evaluation/{evaluation_id}', 'AdminControllers\EvaluationsController@showDiplomaEvaluation')->name('show.diploma.evaluation');
+    Route::get('/diploma/{diploma_id}/create-evaluation-for-diploma', 'AdminControllers\EvaluationsController@createFinalEvaluation')->name('create.diploma.evaluation');
+    Route::get('/diploma/{diploma_id}/evaluation-for-diploma/{evaluation_id}/edit', 'AdminControllers\EvaluationsController@editFinalEvaluation')->name('edit.diploma.evaluation');
+    Route::post('/diploma/{diploma_id}/store-evaluation-for-diploma', 'AdminControllers\EvaluationsController@storeFinalEvaluation')->name('store.diploma.evaluation');
+    Route::post('/diploma/{diploma_id}/update-evaluation-for-diploma/{evaluation_id}', 'AdminControllers\EvaluationsController@updateFinalEvaluation')->name('update.diploma.evaluation');
 
     Route::post('/attachments/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
     Route::get('/modules/{module}/manage-experts/', 'AdminControllers\ModulesController@listExperts')->name('list.experts.for.module');
@@ -166,6 +166,9 @@ Route::group(['middleware' => ['auth']], function () {
     
     Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
     Route::get('/descargar-diploma/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
+    Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
+      Route::get('/inscribir-al-diplomado', 'Users_Pages\DiplomasController@enrolUserInDiplomado')->name('enrol.user.in.diploma');
+    });
   });
 
 
@@ -212,5 +215,6 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
 
   Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
     Route::get('/', 'Users_Pages\DiplomasController@show')->name('show.diploma');
+    Route::get('/resultado', 'Users_Pages\DiplomasController@showDiplomaResult')->name('show.diploma.result');
   });
 });

@@ -95,7 +95,7 @@
       Dropzone.options.imageUpload  = {            
                 paramName: "file", 
                 // The name that will be used to transfer the file            
-                maxFilesize: 2,            
+                maxFilesize: 10,            
                 acceptedFiles: 'image/*',            
                 maxFiles: 1,            
                 dictDefaultMessage: 'Arrastra aquí una fotopara el perfil del usuario',            

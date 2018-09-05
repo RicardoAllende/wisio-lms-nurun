@@ -6,10 +6,10 @@
   @section('subtitle')
     <ol class="breadcrumb">
         <li>
-            <a href="{{ route('courses.show', $evaluation->course->id) }}">Curso: {{ $evaluation->course->name }} </strong></a>
+            <a href="{{ route('diplomas.show', $evaluation->diploma->id) }}">Diploma: {{ $evaluation->diploma->name }} </strong></a>
         </li>
         <li class="active" >
-            Evaluación final del diplomado{{ $evaluation->name }}
+            Evaluación final del diplomado {{ $evaluation->name }}
         </li>
     </ol>
   @endsection
@@ -38,9 +38,9 @@
                       <div class="row ">
 
                         @if(isset($evaluation))
-                          {!! Form::model($evaluation,['route' => ['update.diploma.evaluation', $course->id],'class'=>'form-horizontal','method' => 'put']) !!}
+                          {!! Form::model($evaluation,['route' => ['update.diploma.evaluation', $diploma->id, $evaluation->id],'class'=>'form-horizontal','method' => 'post']) !!}
                         @else
-                          {!! Form::open(['route' => ['store.diploma.evaluation', $course->id],'class'=>'form-horizontal','method' => 'post']) !!}
+                          {!! Form::open(['route' => ['store.diploma.evaluation', $diploma->id],'class'=>'form-horizontal','method' => 'post']) !!}
                         @endif
                             <div class="form-group">
                               {!! Form::label('name', 'Nombre:',['class'=>'control-label col-sm-2']); !!}
@@ -61,8 +61,7 @@
                               </div>
                             </div>
 
-                            <input type="hidden" name="type" value="s">
-                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <input type="hidden" name="diploma_id" value="{{ $diploma->id }}">
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                               <a href="{{ route('evaluations.index') }}" class="btn btn-default">Cancelar</a>
@@ -94,7 +93,7 @@
                             {{ 'Arrastre aquí la imagen de la evaluación (requerida)' }}
                           @endif
                       </div>
-                      <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
+                        <input type="hidden" value="{{ config('constants.attachments.main_img') }}" name="type">
                         <input type="hidden" value="evaluations" name="path">
                       <div class="dropzone-previews"></div>
                       <!-- <button type="submit" class="btn btn-success" id="submit">Guardar</button> -->
@@ -129,7 +128,7 @@
         if (result.value) {
           // console.log('dentro del id');
         } else{
-          window.location.href = "{{ route('courses.show', $course->id) }}?form=1";
+          window.location.href = "{{ route('diplomas.show', $diploma->id) }}?form=1";
         }
       })    
   </script>
@@ -138,10 +137,10 @@
   Dropzone.options.imageUpload  = {            
             paramName: "file", 
             // The name that will be used to transfer the file            
-            maxFilesize: 2,            
+            maxFilesize: 10,            
             acceptedFiles: 'image/*',            
             maxFiles: 1,            
-            dictDefaultMessage: 'Arrastra aquí la imagen del curso',            
+            dictDefaultMessage: 'Arrastra aquí la imagen de la evaluación',            
             //previewTemplate: '  ',            
             init: function() {                
               this.on("success", function(file, response) {                    
