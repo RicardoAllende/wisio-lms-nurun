@@ -19,9 +19,6 @@ Evaluacion
             <h2 class="recientes">Diplomado: {{ $diploma->name }}</h2>
         </div>
         <div style="text-align: center;">
-            <button class="btnAcademia" >
-                Inscribirse en el diplomado
-            </button>
         </div>
         <div id="evaluation-div" style="min-height: 600px;"></div>
     </div>
@@ -55,10 +52,13 @@ Evaluacion
 @section('extrajs')
 <script>
     $(document).ready(function() {
+        $('.modal').modal({
+            dismissible: false
+        });
         $('#info-diploma').modal('open');
-        setTimeout(function(){
-            $('#info-diploma').modal('close');
-        }, 5000);
+        // setTimeout(function(){
+        //     $('#info-diploma').modal('close');
+        // }, 5000);
     });  
     // $.ajax({
     //     type: 'get',

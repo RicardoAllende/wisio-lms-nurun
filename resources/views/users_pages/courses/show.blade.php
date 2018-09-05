@@ -228,12 +228,12 @@ Curso {{ $course->name }}
         @if( ! $refresh )
           $(document).ready(function() {
             $('#creditsModal').modal('open');
-            $('#creditsModal').width('50%');
-            $('#creditsModal').height('50%');
+            $('#creditsModal').width('70%');
+            $('#creditsModal').height('70%');
             $('#creditsModal').css('overflow', 'hidden');
             setTimeout(function(){
               $('#creditsModal').modal('close');
-            }, 3000);
+            }, 4000);
           });
         @endif
       @endif

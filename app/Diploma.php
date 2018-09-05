@@ -76,10 +76,10 @@ class Diploma extends Model
     }
 
     public function hasDiplomaEvaluation(){
-        if($this->evalution == null){
-            return false;
+        if($this->evaluation != null){
+            return true;
         }
-        return true;
+        return false;
     }
 
     public function enrolUser($user_id){

@@ -22,7 +22,7 @@ class DiplomasController extends Controller
                 $invitation = true;
                 return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'invitation'));
             }
-            return view('users_pages.diplomas.show', compact('ascription', 'diploma'));            
+            return view('users_pages.diplomas.show', compact('ascription', 'diploma'));
         }
         return view('users_pages.diplomas.show', compact('ascription', 'diploma'));
         dd($diploma);
@@ -39,12 +39,15 @@ class DiplomasController extends Controller
             return redirect('/');
         }
         $user = Auth::user();
-        if($diploma->verifyUser($user->id)){
+        $user->diplomas()->attach($diploma->id);
+        // $diploma->enrolUser($user->id);
+        return "terminado";
+        // if($diploma->enrolUser($user->id)){
 
-        }else{
-            return back()->with('error', 'Hubo un problema con la creación de su certificado, por favor contacte con '.config('constants.support_email'));
-            return back()->with('error', 'Desafortunadamente no cuenta con los requisitos previos para hacer el diplomado');
-        }
+        // }else{
+        //     return back()->with('error', 'Hubo un problema con la creación de su certificado, por favor contacte con '.config('constants.support_email'));
+        //     return back()->with('error', 'Desafortunadamente no cuenta con los requisitos previos para hacer el diplomado');
+        // }
     }
 
 }

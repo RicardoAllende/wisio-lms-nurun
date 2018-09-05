@@ -62,6 +62,7 @@
                             </div>
 
                             <input type="hidden" name="diploma_id" value="{{ $diploma->id }}">
+                            <input type="hidden" name="type" value="diploma">
                              <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">
                               <a href="{{ route('evaluations.index') }}" class="btn btn-default">Cancelar</a>

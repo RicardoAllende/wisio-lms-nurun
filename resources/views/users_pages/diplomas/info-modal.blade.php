@@ -5,15 +5,22 @@
   <div class="modal-content">
     <h4 style="text-align: center;" class="recientes" id="nombre-del-modulo">{{ $diploma->name }}</h4>
     <br>
-    <div style="padding: 10%; text-align: center;" class="user pad-left3" >
+    <div style="padding: 5%; text-align: center;" class="user pad-left3" >
       <!-- <p id="intentosId" ></p> -->
+      <p>{{ $diploma->description }}</p>
         Para realizar este diploma, es necesario haber cursado y aprobado los siguientes cursos (calificación mínima {{ $diploma->minimum_previous_score }}):
       <ul>
         @foreach($diploma->courses as $course)
           <li> {{ $course->name }}</li> 
         @endforeach
       </ul>
-      <p id="calificacionP"></p>
+      <br>
+    @if(isset($invitation))
+    <br>
+      <a class="btnAcademia" href="{{ route('enrol.user.in.diploma', [$ascription->slug, $diploma->slug]) }}" style="text-align: center;" >
+          Inscribirse en el diplomado
+      </a>
+    @endif
     </div>
     <!-- <p>Inf</p> -->
   </div>

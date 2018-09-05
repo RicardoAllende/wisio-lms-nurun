@@ -218,7 +218,16 @@ for (i = 0; i < coll.length; i++) {
 }
 
 function showInfoForEvaluation(idEval){
+  if(intentosRealizados > posiblesIntentos){
+    intentosRealizados = posiblesIntentos;
+  }
   let intentos = "Esta evaluación se ha realizado " + intentosRealizados + " veces, usted tiene " + posiblesIntentos + " intentos de realizarla";
+  if(intentosRealizados == posiblesIntentos){
+    intentos += "<br>Usted ya no puede realizar esta evaluación";
+  }
+  if(intentosRealizados == 0){
+    mayorCalificacion = "No disponible";
+  }
   let calificacion = "Su calificación es: " + mayorCalificacion;
   let nombre = "Información de la evaluación: " + nombreEvaluacion;
   // console.log("Información de los intentos", intentos);

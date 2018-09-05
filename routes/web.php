@@ -168,6 +168,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/descargar-diploma/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
     Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
       Route::get('/inscribir-al-diplomado', 'Users_Pages\DiplomasController@enrolUserInDiplomado')->name('enrol.user.in.diploma');
+      Route::get('/resultado', 'Users_Pages\DiplomasController@showDiplomaResult')->name('show.diploma.result');
     });
   });
 
@@ -215,6 +216,5 @@ Route::group([ 'prefix' => '/{ascription_slug}'], function () {
 
   Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
     Route::get('/', 'Users_Pages\DiplomasController@show')->name('show.diploma');
-    Route::get('/resultado', 'Users_Pages\DiplomasController@showDiplomaResult')->name('show.diploma.result');
   });
 });
