@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection as Collection;
 use App\Ascription;
 use App\Course;
+use App\Module;
+use App\Evaluation;
+use App\EvaluationUser;
 
 class User extends Authenticatable
 {
@@ -107,16 +110,18 @@ class User extends Authenticatable
         $diplomas = $this->diplomas;
         $availableDiplomas = collect();
         foreach($diplomas as $diploma){
-            if($diploma->pivot->score_in_diplomado >= $diploma->minimum_diploma_score){
-                $availableDiplomas->push($diploma);
+            if($diploma->pivot->status == 1){ // finished
+                if($diploma->pivot->score > $diploma->minimum_score ){ // Approved
+                    $availableDiplomas->push($diploma);
+                }
             }
         }
         return $availableDiplomas;
     }
     
     public function diplomas(){
-        return $this->belongsToMany('App\Course')->where('has_diploma', 1)->withTimestamps()
-        ->withPivot('score_in_diplomado')->wherePivot('score_in_diplomado', '!=', '');
+        return $this->belongsToMany('App\Diploma')->withPivot('score', 'status', 'ended_at', 'downloaded', 'downloaded_at')
+        ->withTimestamps();
     }
 
     public function hasCourseComplete($course_id){
@@ -617,7 +622,7 @@ class User extends Authenticatable
             $recommendedCourses->push($course);
         }
 
-        return $recommendedCourses->sortByDesc('tag_score')->take(5);
+        return $recommendedCourses->sortByDesc('tag_score')->take(6);
 
     }
 
@@ -852,6 +857,48 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function cambiarAdscripcion($ascription_id){
+        $ascription = Ascription::find($ascription_id);
+        $this->ascription_id = $ascription->id;
+        $this->refered_code = $ascription->code;
+        $this->save();
+        echo "check <br>";
+    }
+
+    public function cambiarEvaluacion($evaluation_name, $module_name, $cal1, $cal2, $cal3){
+        $evaluation = Evaluation::whereName($evaluation_name)->where('type', 'f')->first();
+        $mayor = 0;
+        if($cal1 > $mayor){
+            $mayor = $cal1;
+        }
+        if($cal2 > $mayor){
+            $mayor = $cal2;
+        }
+        if($cal3 > $mayor){
+            $mayor = $cal3;
+        }
+        // echo $mayor;
+        // echo '<br>';
+
+        // $actualizados = EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->update(['score' => $mayor]);
+        echo "update evaluation_user set score = {$mayor} where evaluation_id = {$evaluation->id};<br>";
+        if(EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->count() == 0){
+            // $this->evaluations()->attach($evaluation->id, ['score' => $mayor]);
+            echo "insert evaluation_user(evaluation_id, user_id, score) VALUES({$evaluation->id}, {$this->id}, {$mayor});<br>";
+            // echo "No existe la evaluación {$evaluation->id}; ";
+        }
+        // echo EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->count()."<br>";
+        // if($actualizados)
+        // echo "$actualizados, ";
+
+        // if($evaluation != 1){
+        //     echo "Se encontró más de una vez $evaluation_name <br>";
+        // }else{
+
+        // }
+        // $module = Module::whereName($module_name)->first();
     }
 
 }
