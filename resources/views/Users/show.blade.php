@@ -38,7 +38,6 @@
                 <div class="col-sm-9">
                     <div class="widget-head-color-box navy-bg p-lg">
                         <h2>
-                            {{$user->gender}}
                             {{ $user->firstname }} {{ $user->lastname }}
                         </h2>
                         <ul class="list-unstyled m-t-md">
@@ -46,6 +45,11 @@
                                 <span class="fa fa-th-large m-r-xs"></span>
                                 <label>Adscripción:</label>
                                 {{ $user->ascription->name }}
+                            </li>
+                            <li>
+                                <span class="fa fa-th-large m-r-xs"></span>
+                                <label>Sexo:</label>
+                                {{ $user->gender }}
                             </li>
                             <li>
                                 <span class="fa fa-envelope m-r-xs"></span>
@@ -83,46 +87,39 @@
                     </div> 
                 </div>
             </div>
-            @if($user->hasCourses())
-            <h3>Inscripciones a curso</h3>
+
+            <h3>Completar cursos</h3>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover dataTables">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Curso</th>
-                            <th>Calificación mínima aprobatoria</th>
-                            <th>Calificación obtenida</th>
-                            <th>Fecha del último intento</th>
+                            <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>@php $i=1; @endphp
-                        @foreach($user->courses as $course)
+                    @foreach($user->ascription->courses as $course)
                         <tr>
                             <td><a href="{{route('courses.show', $course->id)}}">{{ $i }}</a></td>@php $i++; @endphp
                             <td><a href="{{route('courses.show', $course->id)}}">{{ $course->name }}</a></td>
-                            <td>{{ $course->minimum_score }}</td>
-                            <td>{{ $course->pivot->score }}</td>
-                            <td>{{ $course->pivot->updated_at }}</td>
                             <td>
-                                @if($course->pivot->status && $course->pivot->score != '')
-                                    @if( $course->minimum_score > $course->pivot->score )
-                                        <a href="{{ route('reset.evaluations', [$user->id, $course->id]) }}">Resetear Avances</a>
-                                    @else
-                                        Aprobó el curso
-                                    @endif
-                                @else
-                                    Curso en proceso
-                                @endif
+                            @if($user->completedCourses->contains($course->id))
+                                Terminado con: {{ $user->scoreInCourse($course->id) }}
+                            @else
+                                Aún no se ha terminado
+                            @endif
                             </td>
-                        </tr>
-                        @endforeach
-                        
+                            <td>
+                                <a href="{{ route('complete.course', [$user->id, $course->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Completar curso</a>
+                            </td>
+                        </tr>    
+                    @endforeach
                     </tbody>
                 </table>
-            </div>
-            @endif
+            </div>          
+
             <div class="clearfix"></div>
                 
         </div>

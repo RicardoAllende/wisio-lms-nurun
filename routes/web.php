@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::resource('/users', 'AdminControllers\UsersController');
+    Route::get('/user/{user_id}/complete-courses/{course_id}', 'AdminControllers\UsersController@completeCourse')->name('complete.course');
 
     /** Datatables facade by yajra */
     Route::get('/get-users-data', 'AdminControllers\UsersController@getUsersDataAdmin')->name('get.users.data.admin');

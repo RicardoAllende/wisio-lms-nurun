@@ -19,6 +19,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use DataTables;
 use App\Notification;
 use App\Setting;
+use App\ModuleUser;
+use App\EvaluationUser;
 
 class UsersController extends Controller
 {
@@ -588,6 +590,50 @@ class UsersController extends Controller
         $user = Auth::user();
         $user->password = $newPassword;
         $user->save();
+        return back();
+    }
+
+    public function completeCourse($user_id, $course_id){
+        $user = User::find($user_id);
+        $course = Course::find($course_id);
+        $minimum_score = $course->minimum_score;
+        if($user == null || $course == null){
+            return redirect('/');
+        }
+        $coursePivot = CourseUser::where('course_id', $course_id)->where('user_id', $user_id)->first();
+        if($coursePivot == null){
+            $coursePivot = CourseUser::create(['course_id' => $course_id, 'user_id' => $user_id, 'status' => 1, 'score' => $minimum_score]);
+        }else{
+            $coursePivot->status = 1;
+            $coursePivot->score = $minimum_score;
+            $coursePivot->save();
+        }
+        $modules = $course->modules;
+        foreach($modules as $module){
+            $modulePivot = ModuleUser::where('module_id', $module->id)->where('user_id', $user_id)->first();
+            if($module->hasFinalEvaluation()){
+                if($modulePivot == null){
+                    ModuleUser::create(['module_id' => $module->id, 'user_id' => $user_id, 'status' => 1, 'score' => $minimum_score ]);
+                }else{
+                    $modulePivot->status = true;
+                    $score = $minimum_score;
+                    $modulePivot->save();
+                }
+                foreach ($module->finalEvaluations as $finalEvaluation) {
+                    $results = EvaluationUser::where('evaluation_id', $finalEvaluation->id)->where('user_id', $user_id)->update(['score' => $minimum_score]);
+                    if( EvaluationUser::where('evaluation_id', $finalEvaluation->id)->where('user_id', $user_id)->count() == 0 ){
+                        EvaluationUser::create(['evaluation_id' => $finalEvaluation->id, 'user_id' => $user_id, 'score' => $minimum_score ]);
+                    }
+                }
+            }else{
+                if($modulePivot == null){
+                    ModuleUser::create(['module_id' => $module->id, 'user_id' => $user_id, 'status' => 1 ]);
+                }else{
+                    $modulePivot->status = true;
+                    $modulePivot->save();
+                }
+            }
+        }
         return back();
     }
 
