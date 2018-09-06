@@ -109,14 +109,14 @@ class CoursesController extends Controller
                                 Notification::create(['code' => $token, 'user_id' => $user->id, 'course_id' => $course->id, 'type' => 'approved']);
                                 Mail::to($user->email)->send(new ApprovedCourse($url, $course->name));
                             }
-                            if($course->has_diploma){
-                                $evaluation = $course->diplomaEvaluation;
-                                if($evaluation != null){ // Course is finished
-                                    if($user->hasAnotherAttemptInEvaluation($evaluation->id)){
-                                        return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation', 'msg', 'refresh'));
-                                    }
-                                }
-                            }
+                            // if($course->has_diploma){
+                            //     $evaluation = $course->diplomaEvaluation;
+                            //     if($evaluation != null){ // Course is finished
+                            //         if($user->hasAnotherAttemptInEvaluation($evaluation->id)){
+                            //             return view('users_pages/courses.show',compact('course', 'ascription', 'user', 'evaluation', 'msg', 'refresh'));
+                            //         }
+                            //     }
+                            // }
                         } else{ // Not approved
                             if( ! $user->hasRebootInCourse($course->id)){
                                 if( ! $user->hasNotApprovedNotification($course->id)){ // notification was sent
@@ -163,11 +163,6 @@ class CoursesController extends Controller
             $recommendations = $courses;
         }
         $diplomas = $ascription->diplomas;
-        // foreach($diplomas as $diploma){
-        //     echo $diploma->name.'<br>';
-        // }
-        // return;
-        // dd($diplomas->first());
         return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations', 'diplomas'));
     }
 

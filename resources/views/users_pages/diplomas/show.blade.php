@@ -19,13 +19,17 @@ Evaluacion
             <h2 class="recientes">Diplomado: {{ $diploma->name }}</h2>
         </div>
         <div style="text-align: center;">
-            @if(isset($finished) && ( ! isset($chance) ) )
-                <br><br><br><br><br>
-                <h3>Usted terminó el diplomado con la siguiente calificación: {{ Auth::user()->scoreInDiplomado($diploma->id) }}</h3>
-                <br><br><br><br><br>
-                <a href="{{ route('certificates.list', [$ascription->slug]) }}" target="_blank" class="btnAcademia">
-                    Certificados disponibles para descargar
-                </a>                
+            @if(isset($finished))
+                @if(isset($chance))
+
+                @else
+                    <br><br><br><br><br>
+                    <h3>Usted terminó el diplomado con la siguiente calificación: {{ Auth::user()->scoreInDiplomado($diploma->id) }}</h3>
+                    <br><br><br><br><br>
+                    <a href="{{ route('certificates.list', [$ascription->slug]) }}" target="_blank" class="btnAcademia">
+                        Certificados disponibles para descargar
+                    </a>                
+                @endif
             @else
 
             @endif

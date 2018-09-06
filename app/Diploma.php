@@ -72,15 +72,24 @@ class Diploma extends Model
         if($user == null){
             return false;
         }
+        $summatory = 0;
+        $numCourses = 0;
         $courses = $this->courses()->pluck('course_id');
-        foreach($courses as $course){
+        foreach($courses as $course){ // $course is a course_id
             if( ! ( $user->hasCompletedEvaluationsFromCourse($course) && $user->hasCourseComplete($course) ) ){
                 return false;
             }
+            $summatory += $user->scoreInCourse($course);
+            $numCourses++;
         }
-        return true;
-        // hasCompletedEvaluationsFromCourse
-        // hasCourseComplete
+        if($numCourses == 0){
+            return false;
+        }
+        $average = $summatory/$numCourses;
+        if( $average >= $this->minimum_previous_score ){
+            return true;
+        }
+        return false;
     }
 
     public function evaluation(){

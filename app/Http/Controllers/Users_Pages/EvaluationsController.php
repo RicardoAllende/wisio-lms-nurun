@@ -43,7 +43,7 @@ class EvaluationsController extends Controller
         return view('users_pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
-    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){ // It shows final evaluations
+    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
         $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();

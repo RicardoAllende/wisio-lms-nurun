@@ -21,6 +21,9 @@ Evaluaciones
     <a href="{{ route('download.diploma.of.course', [$ascription->slug, $diploma->slug]) }}" target="_blank" class="btnAcademia">Descargar diploma</a>
     @else
     <h3>Lamentablemente no aprobó la evaluación</h3>
+    <br><br>
+    <a href="{{ route('show.diploma', [$ascription->slug, $diploma->slug]) }}" class="btnAcademia" >Atrás</a>
+    <a href="{{ route('certificates.list', $ascription->slug) }}">Ver cerfificados disponibles</a>
     @endif
   </div>
 </div>
