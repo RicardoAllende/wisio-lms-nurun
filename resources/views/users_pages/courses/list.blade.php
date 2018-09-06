@@ -70,6 +70,25 @@ Cursos
   <div class="col s6 l3">
     <h2 class="recientes">cursos</h2>
   </div>
+  @foreach($diplomas as $diploma)
+  <div class="col s6 l4 ">
+    <div class="card z-depth-0 white " style="background-color: #f3e5f5;">
+       <div class="card-content mods" style="background-color: #f3e5f5;">
+          <span class="categoria-academia">Diplomado</span>
+         <div class="iconcourse"><img src="{{ $diploma->getMainImgUrl() }}" class="responsive-img imgMods"></div>
+          <h5 class="titulo-academia2"> {{ $diploma->name }}</h5>
+           <div class="modulos"></div>
+              <div  class="moduloslista valign-wrapper hide-on-med-and-down">
+                {{ $diploma->description }}
+              </div >
+          <div class="leer-masmodulos_50">
+              <a href="{{ route('show.diploma', [$ascription->slug,$diploma->slug]) }}">Ver todo</a>
+              <hr class="line3"/>
+          </div>
+       </div>
+    </div>
+  </div>
+  @endforeach
   @forelse($courses as $course)
   <div class="col s6 l4 ">
     <div class="card z-depth-0 white ">

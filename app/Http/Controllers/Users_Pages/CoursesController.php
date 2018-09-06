@@ -40,6 +40,7 @@ class CoursesController extends Controller
         $user = Auth::user();
         // $courses = $ascription->courses;
         $courses = $user->coursesFromAscription($ascription);
+        $diplomas = $user->diplomas;
         if (isset($_GET['s'])) {
             $search = $_GET['s'];
             if($search != ''){
@@ -60,7 +61,7 @@ class CoursesController extends Controller
                 }
             }
         }
-        return view('users_pages/courses/list',compact('courses', 'search', 'ascription'));
+        return view('users_pages/courses/list',compact('courses', 'diplomas', 'search', 'ascription'));
     }
 
     public function show($ascription_slug, $course_slug)

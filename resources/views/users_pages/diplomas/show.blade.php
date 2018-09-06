@@ -17,14 +17,18 @@ Evaluacion
         </div>
         <div class="col s6 l6">
             <h2 class="recientes">Diplomado: {{ $diploma->name }}</h2>
-            @if(isset($finished))
-                <br><br><br>
-                Usted terminó el diploma con la siguiente calificación: 8.5
-                
-
-            @endif
         </div>
         <div style="text-align: center;">
+            @if(isset($finished) && ( ! isset($chance) ) )
+                <br><br><br><br><br>
+                <h3>Usted terminó el diplomado con la siguiente calificación: {{ Auth::user()->scoreInDiplomado($diploma->id) }}</h3>
+                <br><br><br><br><br>
+                <a href="{{ route('certificates.list', [$ascription->slug]) }}" target="_blank" class="btnAcademia">
+                    Certificados disponibles para descargar
+                </a>                
+            @else
+
+            @endif
         </div>
         <div id="evaluation-div" style="min-height: 600px;"></div>
     </div>
@@ -58,7 +62,7 @@ Evaluacion
 @section('extrajs')
 <script>
     @if(isset($enrollment))
-        @if( ! isset($finished) )
+        @if( isset($chance) )
             $.ajax({
                 type: 'get',
                 url: "{{ route('draw.final.evaluation.form', [$ascription->slug, $enrollment->slug]) }}",

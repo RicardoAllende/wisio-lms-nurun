@@ -16,8 +16,9 @@ Evaluaciones
     <strong>Su calificación: {{ round($evaluationAverage, 2) }} </strong>
     <br>
     @if($evaluationAverage >= $diploma->minimum_score)
+    <br><br>
     <h3>Felicidades, ha aprobado la evaluación para obtener su diploma</h3>
-    <a href="{{ route('download.diploma.of.course', [$ascription->slug, $diploma->slug]) }}" class="btnAcademia">Descargar diploma</a>
+    <a href="{{ route('download.diploma.of.course', [$ascription->slug, $diploma->slug]) }}" target="_blank" class="btnAcademia">Descargar diploma</a>
     @else
     <h3>Lamentablemente no aprobó la evaluación</h3>
     @endif

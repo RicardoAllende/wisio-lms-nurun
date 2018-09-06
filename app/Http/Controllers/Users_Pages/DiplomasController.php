@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Ascription;
 use App\Diploma;
 use Illuminate\Support\Facades\Auth;
+use App\DiplomaUser;
 
 class DiplomasController extends Controller
 {
@@ -23,10 +24,20 @@ class DiplomasController extends Controller
                 // dd($enrollment->evaluation);
                 if($enrollment->pivot->status){ // User has the diploma evaluation finished
                     $finished = true;
-                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished'));
+                    $finalEvaluation = $diploma->evaluation;
+                    if($user->hasAnotherAttemptInEvaluation($finalEvaluation->id)){
+                        $chance = true;
+                        return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished', 'chance'));
+                    }else{
+                        return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished'));
+                    }
+                }else{
+                    $chance = true;
+                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'chance'));
                 }
                 if($enrollment->hasDiplomaEvaluation()){
-                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment'));
+                    $chance = true;
+                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'chance'));
                 }
             }
             if( $diploma->verifyUser($user->id) ){
@@ -50,15 +61,10 @@ class DiplomasController extends Controller
             return redirect('/');
         }
         $user = Auth::user();
-        $user->diplomas()->attach($diploma->id);
-        // $diploma->enrolUser($user->id);
-        return "terminado";
-        // if($diploma->enrolUser($user->id)){
-
-        // }else{
-        //     return back()->with('error', 'Hubo un problema con la creación de su certificado, por favor contacte con '.config('constants.support_email'));
-        //     return back()->with('error', 'Desafortunadamente no cuenta con los requisitos previos para hacer el diplomado');
-        // }
+        if(DiplomaUser::where('diploma_id', $diploma->id)->where('user_id', $user->id)->count() == 0){
+            $user->diplomas()->attach($diploma->id);
+        }
+        return back();
     }
 
 }

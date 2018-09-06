@@ -529,10 +529,10 @@ class User extends Authenticatable
         return $pivot->score;
     }
 
-    public function scoreInDiplomado(){
-        $pivot = CourseUser::where('course_id', $course_id)->where('user_id', $this->id)->first();
-        if($pivot == null){ return '-'; }
-        return $pivot->score_in_diplomado;
+    public function scoreInDiplomado($diploma_id){
+        $pivot = DiplomaUser::where('diploma_id', $diploma_id)->where('user_id', $this->id)->first();
+        if($pivot == null){ return 0; }
+        return $pivot->score;
     }
 
     public function hasThisEvaluationCompleted($evaluation_id){
