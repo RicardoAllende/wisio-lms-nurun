@@ -38,13 +38,13 @@
                             @foreach($evaluations as $evaluation)
                               <tr>
                                 @if($evaluation->isDiplomaEvaluation())
-                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $i }}</a></td> 
-                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->course->id, $evaluation->id]) }}">{{ $evaluation->name }}</a></td>
-                                  <td><a href="{{ route('courses.show', $evaluation->course->id) }}">{{ $evaluation->course->name }}</a></td>
+                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->diploma->id, $evaluation->id]) }}">{{ $i }}</a></td> 
+                                  <td><a href="{{ route('show.diploma.evaluation', [$evaluation->diploma->id, $evaluation->id]) }}">{{ $evaluation->name }}</a></td>
+                                  <td><a href="{{ route('diplomas.show', $evaluation->diploma->id) }}">{{ $evaluation->diploma->name }}</a></td>
                                   <td>Evaluación final de diplomado</td>
                                   <td>{{ $evaluation->created_at }}</td>
                                   <td>
-                                      <a href="{{route('edit.diploma.evaluation', [$evaluation->course->id, $evaluation->id])}}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
+                                      <a href="{{route('edit.diploma.evaluation', [$evaluation->diploma->id, $evaluation->id])}}" class="btn btn-primary "><i class='fa fa-edit'></i>Editar evaluación</a>
                                   </td>
                                 @else
                                   <td><a href="{{ route('evaluations.show', $evaluation->id) }}">{{ $i }}</a></td>

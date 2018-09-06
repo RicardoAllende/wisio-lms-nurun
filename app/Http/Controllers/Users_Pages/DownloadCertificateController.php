@@ -8,6 +8,8 @@ use PDF;
 use App\Course;
 use App\CourseUser;
 use Illuminate\Support\Facades\Auth;
+use App\Diploma;
+use App\DiplomaUser;
 
 class DownloadCertificateController extends Controller
 {
@@ -43,23 +45,20 @@ class DownloadCertificateController extends Controller
       }
     }
 
-    public function downloadDiploma($ascription_slug, $course_slug){
+    public function downloadDiploma($ascription_slug, $diploma_slug){
       // try {
-        $course = Course::whereSlug($course_slug)->first();
-        if($course == null){ return back()->with('error', 'Hubo un problema al elaborar su diploma'); }
-        if( ! $course->has_diploma){
-          return redirect()->route('certificates.list', $ascription_slug)->with('error', 'El curso no ofrece diploma');
-        }
+        $diploma = Diploma::whereSlug($diploma_slug)->first();
+        if($diploma == null){ return back()->with('error', 'Hubo un problema al elaborar su diploma'); }
         $user = Auth::user();
-        $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
+        $pivot = DiplomaUser::where('user_id', $user->id)->where('diploma_id', $diploma->id)->first();
         if($pivot == null){
-          return back()->with('error', 'Hubo un problema obteniendo su avance en el curso, intente más tarde');
+          return back()->with('error', 'Hubo un problema obteniendo su avance en el diploma, intente más tarde');
         }
-        if($pivot->score_in_diplomado == ''){ // user hasn't finished diploma evaluation
+        if($pivot->score == '' || $pivot->status == false ){ // user hasn't finished diploma evaluation
           return back()->with('error', 'Aún no ha realizado la evaluación del diplomado');
         }
-        if($pivot->score_in_diplomado >= $course->minimum_diploma_score){
-          $template = $course->diploma_template();
+        if($pivot->score >= $diploma->minimum_score){
+          $template = $diploma->diploma_template();
           $months = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE');
           $view = \View::make($template, compact('course', 'user', 'pivot', 'months'))->render();
           $pdf = \App::make('dompdf.wrapper');
@@ -67,7 +66,7 @@ class DownloadCertificateController extends Controller
           $pdf->loadHTML($view);
           return $pdf->stream('diploma.pdf');
         }else{
-          return redirect()->route('certificates.list', $ascription_slug)->with('error', 'No obtuvo una calificación aprobatoria en el curso');
+          return redirect()->route('certificates.list', $ascription_slug)->with('error', 'No obtuvo una calificación aprobatoria en el diploma');
         }
       // } catch (\Exception $ex) {
       //   return back()->with('error', 'Hubo un problema con la creación de su diploma, por favor contacte con '.config('constants.support_email'));

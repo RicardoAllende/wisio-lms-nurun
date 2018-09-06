@@ -350,11 +350,11 @@ class User extends Authenticatable
         if ($evaluation == null) { return false; }
         $tries = $this->numTriesInEvaluation($evaluation_id);
         if($evaluation->isDiplomaEvaluation()){
-            $course = $evaluation->course;
-            if($course == null){
+            $diploma = $evaluation->diploma;
+            if($diploma == null){
                 $minimum_score = 8;
             }else{
-                $minimum_score = $course->minimum_diploma_score;
+                $minimum_score = $diploma->minimum_score;
             }
         }else{
             $course = $evaluation->module->course;

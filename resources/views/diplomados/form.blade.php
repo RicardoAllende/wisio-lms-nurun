@@ -86,7 +86,28 @@
                             </div>
                           </div>
 
+                          <div class="form-group">
+                            {!! Form::label('diploma_template_id', 'Plantilla para diploma:',['class'=>'control-label col-sm-2']); !!}
+                            <div class="col-sm-10"> 
+                              <select name="diploma_template_id" class="form-control" id="diploma_template_id">
+                              @if(isset($course))
+                                <option value="{{ ($course->certificate != null) ? $course->certificate->id : 'Seleccionar una plantilla' }}">
+                                  {{ ($course->diploma != null) ? $course->diploma->name.' (actual)' : '' }}
+                                </option>
+                              @endif
+                              @if(isset($templates))
+                                @forelse($templates as $template)
+                                  <option value="{{$template->id}}" >{{ $template->name }}</option>
+                                @empty
+                                  <option value="">Aún no existen plantillas</option>
+                                @endforelse
+                              @else
+                                <option value="">Aún no existen plantillas</option>
+                              @endif
+                              </select>
 
+                            </div>
+                          </div>
                           
                           <div class="form-group"> 
                             <div class="col-sm-offset-2 col-sm-10">

@@ -13,7 +13,12 @@ Evaluaciones
   <div>
     <h4>Ocurrió un error: {{ $evaluation->name }}, contacte con su administrador {{ config('constants.support_email') }}. Error evaluación </h4>
     <br>
-    <a class="btnAcademia" href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Volver atrás</a>
+    @if(isset($diploma))
+      <a class="btnAcademia" href="{{ route('show.diploma', [$ascription->slug, $diploma->slug]) }}">Volver atrás</a>
+    @endif
+    @if(isset($course))
+      <a class="btnAcademia" href="{{ route('show.evaluation.course', [$ascription->slug, $course->slug]) }}">Volver atrás</a>
+    @endif
   </div>
 </div>
 @stop

@@ -25,8 +25,8 @@ class Course extends Model
         'category_id',
         'support_email',
         'has_diploma',
-        'certificate_template_id',
-        'diploma_template_id'
+        'certificate_template_id'
+        // 'diploma_template_id'
     ];
 
     protected $appends = ['img'];
@@ -229,9 +229,9 @@ class Course extends Model
         return $this->belongsTo('App\CertificateTemplate', 'certificate_template_id');
     }
 
-    public function diploma(){
-        return $this->belongsTo('App\CertificateTemplate', 'diploma_template_id');
-    }
+    // public function diploma(){
+    //     return $this->belongsTo('App\CertificateTemplate', 'diploma_template_id');
+    // }
 
     public function certificate_template(){
         $template = $this->certificate;
@@ -241,13 +241,13 @@ class Course extends Model
         return "";
     }
 
-    public function diploma_template(){
-        $template = $this->diploma;
-        if($template != null){
-            return $template->view_name;
-        }
-        return "";
-    }
+    // public function diploma_template(){
+    //     $template = $this->diploma;
+    //     if($template != null){
+    //         return $template->view_name;
+    //     }
+    //     return "";
+    // }
 
     /**
      * For users who have finished this course

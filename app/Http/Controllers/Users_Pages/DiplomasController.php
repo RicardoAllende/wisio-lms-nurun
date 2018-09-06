@@ -18,6 +18,17 @@ class DiplomasController extends Controller
         }
         if(Auth::check()){
             $user = Auth::user();
+            if($user->diplomas->contains($diploma->id)){ // user is enrolled in course
+                $enrollment = $user->diplomas->find($diploma->id);
+                // dd($enrollment->evaluation);
+                if($enrollment->pivot->status){ // User has the diploma evaluation finished
+                    $finished = true;
+                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished'));
+                }
+                if($enrollment->hasDiplomaEvaluation()){
+                    return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment'));
+                }
+            }
             if( $diploma->verifyUser($user->id) ){
                 $invitation = true;
                 return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'invitation'));

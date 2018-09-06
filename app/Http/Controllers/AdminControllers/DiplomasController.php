@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Diploma;
 use App\Ascription;
 use App\Course;
+use App\CertificateTemplate;
 
 class DiplomasController extends Controller
 {
@@ -29,7 +30,8 @@ class DiplomasController extends Controller
     public function create()
     {
         $ascriptions = Ascription::cursor();
-        return view('diplomados.form', compact('ascriptions'));
+        $templates = CertificateTemplate::all();
+        return view('diplomados.form', compact('ascriptions', 'templates'));
     }
 
     /**
@@ -81,8 +83,9 @@ class DiplomasController extends Controller
         if($diploma == null){
             return redirect()->route('diplomas.index');
         }
+        $templates = CertificateTemplate::all();
         $ascriptions = Ascription::cursor();
-        return view('diplomados.form', compact('diploma', 'ascriptions'));
+        return view('diplomados.form', compact('diploma', 'ascriptions', 'templates'));
     }
 
     /**
@@ -126,7 +129,7 @@ class DiplomasController extends Controller
         if($diploma != null){
             $diploma->attachCourse($course_id);
         }
-        return back();
+        return redirect()->route('diplomas.show', $diploma->id);
     }
 
     public function detachFromCourse($diploma_id, $course_id){
@@ -134,7 +137,7 @@ class DiplomasController extends Controller
         if($diploma != null){
             $diploma->courses()->detach($course_id);
         }
-        return back();
+        return redirect()->route('diplomas.show', $diploma->id);
     }
 
 }

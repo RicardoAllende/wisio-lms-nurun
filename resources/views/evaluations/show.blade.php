@@ -13,7 +13,7 @@
     @if($evaluation->isDiplomaEvaluation())
         <ol class="breadcrumb">
             <li>
-                <a href="{{ route('courses.show', $evaluation->diploma->name) }}">Curso: {{ $evaluation->diploma->name }}</a>
+                <a href="{{ route('diplomas.show', $evaluation->diploma->name) }}">Curso: {{ $evaluation->diploma->name }}</a>
             </li>
             <li class="active" >
                 Evaluación final del diplomado: {{ $evaluation->name }}

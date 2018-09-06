@@ -28,6 +28,8 @@ use App\AscriptionCourse;
 use App\CategoryCourse;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Enrollment;
+use App\Diploma;
+use App\DiplomaUser;
 
 
 class EvaluationsController extends Controller
@@ -171,7 +173,7 @@ class EvaluationsController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
         if($evaluation->isDiplomaEvaluation()){
-            $course = $evaluation->course;
+            $course = $evaluation->diploma;
         }else{
             $module = $evaluation->module;
             $course = $module->course;
@@ -179,7 +181,7 @@ class EvaluationsController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         if( ! $user->hasAnotherAttemptInEvaluation($evaluation_id)){
             $error = "Usted ya no puede realizar esta evaluación nuevamente";
-            return view('users_pages/evaluations/error', compact('error', 'evaluation', 'ascription', 'course'));
+            return view('users_pages/evaluations/error', compact('error', 'evaluation', 'ascription', 'diploma'));
         }
 
         $evaluationAttempt = EvaluationUser::create(['evaluation_id' => $evaluation_id, 'user_id' => $user_id]);
@@ -214,15 +216,27 @@ class EvaluationsController extends Controller
 
         // ------------------------- Grading evaluation for diploma, it's stored in score_in_diploma
         if($evaluation->isDiplomaEvaluation()){
-            $course = $evaluation->course;
-            $courseEnrollment = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
-            $courseEnrollment->score_in_diplomado = $evaluationAverage;
-            $courseEnrollment->score_in_diplomado = $user->scoreInEvaluation($evaluation->id);
-            $courseEnrollment->save();
-            // return $courseEnrollment;
+            $diploma = $evaluation->diploma;
+            $diplomaEnrollment = DiplomaUser::where('diploma_id', $diploma->id)->where('user_id', $user->id)->first();
+            
+            $diplomaEnrollment->score = $evaluationAverage;
+            $diplomaEnrollment->score = $user->scoreInEvaluation($evaluation->id);
+            $diplomaEnrollment->status = true;
+            $diplomaEnrollment->save();
+
             return view('users_pages/evaluations/diploma-result',
             compact('numQuestions', 'summatory', 'evaluation', 'ascription',
-            'evaluationAverage', 'course', 'ascriptionSlug')
+            'evaluationAverage', 'diploma', 'ascriptionSlug')
+
+            // $course = $evaluation->course;
+            // $courseEnrollment = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
+            // $courseEnrollment->score_in_diplomado = $evaluationAverage;
+            // $courseEnrollment->score_in_diplomado = $user->scoreInEvaluation($evaluation->id);
+            // $courseEnrollment->save();
+            // return $courseEnrollment;
+            // return view('users_pages/evaluations/diploma-result',
+            // compact('numQuestions', 'summatory', 'evaluation', 'ascription',
+            // 'evaluationAverage', 'course', 'ascriptionSlug')
             );
         }
         //------------------------- End grading evaluation for diploma
@@ -377,6 +391,103 @@ class EvaluationsController extends Controller
                   });
                 </script>';
             }
+        }else{
+            echo '<h3>Ya no puede hacer esta evaluación nuevamente</h3>';
+        }
+    }
+
+    public function drawDiplomaEvaluation($ascription_slug, $diplomaSlug){
+        $user = Auth::user();
+        $diploma = Diploma::whereSlug($diplomaSlug)->first();
+        if($diploma == null){
+            echo "Hubo un error, contacte con el administrador ".config('constants.support_email');
+            return;
+        }
+
+        $evaluation = $diploma->evaluation;
+        if ($evaluation == null) {
+            echo "<br><br><h2 class='recientes'> Esta evaluación está en mantenimiento, por favor contacte con ".config('constants.support_email')." <h2><br><br>";
+            return;
+        }
+        if($evaluation->questions()->count() == 0){
+            echo "<br><br><h2 class='recientes'> Esta evaluación está en mantenimiento, por favor contacte con ".config('constants.support_email')." <h2><br><br>";
+            return;
+        }
+
+        if($user->hasAnotherAttemptInEvaluation($evaluation->id)){
+            echo '<h4>Evaluación para obtener el diplomado</h4>';
+            echo '<form action="'.route('grade.evaluation', $ascription_slug).'" id="formulario_evaluacion" method="post">';
+            echo csrf_field();
+            echo '<input type="hidden" name="evaluation_id" value="'.$evaluation->id.'">';
+            echo '<div class="row pad-left3">
+            <h2 class="recientes">'.$evaluation->name.'</h2>
+              <div class="row "><!-- Slideshow container -->
+                <div class="card white slideshow-container col s12">';
+            $numQuestions = $evaluation->questions->count();
+            $questions = $evaluation->questions->shuffle();
+            $i = 1;
+            foreach ($questions as $question) {
+                echo '<div class="mySlides row">
+                    <h6>'.$i.'. '.$question->content.'</h6>'; $i++;
+                echo '<div class="col s9">';
+                foreach($question->options->shuffle() as $option){
+                    echo '
+                    <p>
+                        <input name="question'.$question->id.'" class="question'.$question->id.'" required type="radio" value="'.$option->id.'" id="o'.$option->id.'" />
+                        <label for="o'.$option->id.'">'.$option->content.'</label>
+                    </p>';
+                }
+                if ( $question == $questions->last() ) {
+                    echo '<button class="btnAcademia" id="btnCalificar">Calificar</button>
+                        </div>
+                            <div class="col s3 center">
+                            </div>
+                        </div>';
+                }else{
+                    echo '</div>
+                            <div class="col s3 center">
+                            <a class="purple-text" onclick="plusSlidesE(1)">Siguiente<hr class="line3"/></a>
+                            </div>
+                        </div>';
+                }
+            }
+            echo '</div>
+                    </div><!-- End Slideshow container -->
+                        <div style="text-align:center">';
+            for($i = 1; $i <= $numQuestions; $i++){
+                echo '<span class="circle-dot circle-not-selected" id="dot'.$i.'" onclick="currentSlideE('.$i.')"></span> ';
+            }
+            echo '</div>
+                </div></form><!-- End pad-left3 -->
+                <script>currentSlideE(1)</script>
+                ';
+
+            echo '<script>
+            $("#btnCalificar").click(function (event) {
+                var error = false;
+                var preguntas = "No se han respondido las preguntas: ";
+                ';
+            $i = 1;
+            foreach($questions as $question){
+                echo 'if( ! $(".question'.$question->id.'").is(":checked")) {  
+                        preguntas += " '.$i.' ";
+                        // alert("No se ha seleccionado la pregunta'.$i.'");
+                        error = true;
+                    } else {  
+                        // alert("Todo en orden");
+                    }';
+                $i++;
+            }
+            echo '
+                if(error){
+                    Materialize.toast( preguntas ,4000,"error")
+                    event.preventDefault();
+                }else{
+                    $("#formulario_evaluacion").submit();
+                }
+            });
+            </script>';
+
         }else{
             echo '<h3>Ya no puede hacer esta evaluación nuevamente</h3>';
         }

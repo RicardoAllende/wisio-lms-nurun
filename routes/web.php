@@ -153,6 +153,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/evaluaciones/{course_slug}', 'Users_Pages\EvaluationsController@showEvaluationsFromCourse')->name('show.evaluation.course');
     Route::get('/evaluaciones/{course_id}/draw-form/{evaluation_id}', 'Users_Pages\EvaluationsController@drawForm')
       ->name('draw.evaluation.form'); // This route is used in script.js in public/js/js_users_pages/script.js, if it changes you must update the script.js
+    Route::get('/evaluaciones/{diploma_slug}/draw-form', 'Users_Pages\EvaluationsController@drawDiplomaEvaluation')
+      ->name('draw.final.evaluation.form');
     Route::get('/descargar_pdf', 'Users_Pages\DownloadCertificateController@downloadPdf');
 
     Route::get('/{course_id}/{module_id}/evaluacion-final', 'Users_Pages\EvaluationsController@showFinalEvaluation')
@@ -166,7 +168,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/certificados-disponibles', 'Users_Pages\CertificatesController@list')->name('certificates.list');
     
     Route::get('/descargar-constancia/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadCertificate')->name('download.certificate.of.course');
-    Route::get('/descargar-diploma/{course_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
+    Route::get('/descargar-diploma/{diploma_slug}', 'Users_Pages\DownloadCertificateController@downloadDiploma')->name('download.diploma.of.course');
     Route::group(['prefix' => '/diplomas/{diploma_slug}'], function(){
       Route::get('/inscribir-al-diplomado', 'Users_Pages\DiplomasController@enrolUserInDiplomado')->name('enrol.user.in.diploma');
       Route::get('/resultado', 'Users_Pages\DiplomasController@showDiplomaResult')->name('show.diploma.result');

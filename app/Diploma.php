@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Diploma extends Model
 {
-    protected $fillable = ['name', 'slug', 'description', 'minimum_score', 'minimum_previous_score', 'ascription_id', 'attachment_id'];
+    protected $fillable = ['name', 'slug', 'description', 'minimum_score', 'minimum_previous_score', 'ascription_id', 'attachment_id', 'diploma_id'];
 
     public function users(){
         return $this->belongsToMany('App\User')->withPivot('score', 'status', 'ended_at', 'downloaded', 'downloaded_at')->withTimestamps();
@@ -22,6 +22,18 @@ class Diploma extends Model
 
     public function attachment(){
         return $this->belongsTo('App\Attachment');
+    }
+
+    public function diploma(){
+        return $this->belongsTo('App\CertificateTemplate', 'diploma_template_id');
+    }
+
+    public function diploma_template(){
+        $template = $this->diploma;
+        if($template != null){
+            return $template->view_name;
+        }
+        return "";
     }
 
     public function hasMainImg(){

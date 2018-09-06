@@ -73,11 +73,12 @@ class EvaluationsController extends Controller
         $evaluation = Evaluation::find($id);
         if($evaluation == null) { return redirect('evaluations.index'); }
         if($evaluation->isDiplomaEvaluation()){
-            $course = $evaluation->course;
+            $diploma = $evaluation->diploma;
+            $approved = EvaluationUser::where('evaluation_id', $id)->where('score', '>=', $diploma->minimum_score)->count();
         }else{
             $course = $evaluation->module->course;
+            $approved = EvaluationUser::where('evaluation_id', $id)->where('score', '>=', $course->minimum_score)->count();
         }
-        $approved = EvaluationUser::where('evaluation_id', $id)->where('score', '>=', $course->minimum_score)->count();
         return view('evaluations/show',compact('evaluation', 'approved'));
     }
 
