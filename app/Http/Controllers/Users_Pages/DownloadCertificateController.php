@@ -29,6 +29,10 @@ class DownloadCertificateController extends Controller
         $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $course->id)->first();
         if($user->hasCertificateForCourse($course->id)){
           $template = $course->certificate_template();
+          if($pivot->downloaded_at == null){
+            $pivot->downloaded_at = now();
+            $pivot->save();
+          }
           $months = array('ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE');
           $view = \View::make($template, compact('course', 'user', 'pivot', 'months'))->render();
           $pdf = \App::make('dompdf.wrapper');
@@ -53,6 +57,11 @@ class DownloadCertificateController extends Controller
         $pivot = DiplomaUser::where('user_id', $user->id)->where('diploma_id', $diploma->id)->first();
         if($pivot == null){
           return back()->with('error', 'Hubo un problema obteniendo su avance en el diploma, intente más tarde');
+        }
+        if($pivot->downloaded_at == null){
+          $pivot->downloaded = true;
+          $pivot->downloaded_at = now();
+          $pivot->save();
         }
         if($pivot->score == '' || $pivot->status == false ){ // user hasn't finished diploma evaluation
           return back()->with('error', 'Aún no ha realizado la evaluación del diplomado');

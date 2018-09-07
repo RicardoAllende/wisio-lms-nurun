@@ -222,6 +222,7 @@ class EvaluationsController extends Controller
             $diplomaEnrollment->score = $evaluationAverage;
             $diplomaEnrollment->score = $user->scoreInEvaluation($evaluation->id);
             $diplomaEnrollment->status = true;
+            $diplomaEnrollment->ended_at = now();
             $diplomaEnrollment->save();
 
             return view('users_pages/evaluations/diploma-result',
