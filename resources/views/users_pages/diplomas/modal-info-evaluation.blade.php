@@ -1,4 +1,5 @@
-<div id="info-evaluation" class="modal" style="height: 50% !important; width: 50% !important; overflow: hidden;">
+<!--  style="height: 50% !important; width: 50% !important; overflow: hidden;" -->
+<div id="info-evaluation" class="modal">
   <a class="modal-action modal-close waves-effect waves-light btn-small cerrarModal" style="color:white !important;" onclick="showEvaluation()" >X</a>
   <br><br><br>
   <div class="modal-content">

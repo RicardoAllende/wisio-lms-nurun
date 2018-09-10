@@ -197,8 +197,8 @@ Evaluacion
     @endif
     $(document).ready(function(){
         // $('#info-evaluation').modal('open');
-        $('#info-evaluation').width('40%');
-        $('#info-evaluation').height('40%');
+        $('#info-evaluation').width('70%');
+        $('#info-evaluation').height('70%');
     });
 </script>
 @stop
