@@ -3,9 +3,10 @@
 use GuzzleHttp\Client;
 
 Route::get('/prueba', function(){
+  // https://stackoverflow.com/questions/42094842/curl-error-60-ssl-certificate-in-laravel-5-4
   // try{
     $client = new Client();
-    $client->setDefaultOption('verify', false);
+    // $client->setDefaultOption('verify', false);
     $serviceUrl = "https://sanofi-dev.us-dev.janraincapture.com/oauth/auth_native_traditional";
     $response = $client->request('POST', $serviceUrl, [
         'form_params' => [

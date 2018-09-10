@@ -19,7 +19,12 @@ class Student
         if(Auth::check()){
             $user = Auth::user();
             if($user->isStudent()){
-                return $next($request);
+                if($user->enabled){
+                    return $next($request);
+                }else{
+                    Auth::logout();
+                    return redirect('/');
+                }
             }
         }
         return redirect('/');
