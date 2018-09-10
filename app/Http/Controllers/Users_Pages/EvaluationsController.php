@@ -43,7 +43,7 @@ class EvaluationsController extends Controller
         return view('users_pages/evaluations/list', compact('evaluations', 'courses', 'user', 'ascription'));
     }
 
-    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){ // It shows final evaluations
+    public function showEvaluationsFromCourse($ascription_slug, $courseSlug){
         $user = Auth::user();
         $course = Course::whereSlug($courseSlug)->first();
         $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
@@ -222,6 +222,7 @@ class EvaluationsController extends Controller
             $diplomaEnrollment->score = $evaluationAverage;
             $diplomaEnrollment->score = $user->scoreInEvaluation($evaluation->id);
             $diplomaEnrollment->status = true;
+            $diplomaEnrollment->ended_at = now();
             $diplomaEnrollment->save();
 
             return view('users_pages/evaluations/diploma-result',

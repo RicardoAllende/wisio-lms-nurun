@@ -377,7 +377,12 @@ function printResources(resources){
 
       $("#"+content.id+" #content").html(contendiv);
       var vide = document.getElementById('video');
-      vide.currentTime = videoStart;
+
+      vide.addEventListener('loadedmetadata', function() {
+        vide.currentTime = videoStart;
+      }, false);
+
+      // vide.currentTime = videoStart;
 
       if(arrVideo.length > 0) {
         myActivity = new TinCan.Activity({

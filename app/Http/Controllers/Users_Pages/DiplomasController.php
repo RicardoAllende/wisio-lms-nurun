@@ -26,8 +26,13 @@ class DiplomasController extends Controller
                     $finished = true;
                     $finalEvaluation = $diploma->evaluation;
                     if($user->hasAnotherAttemptInEvaluation($finalEvaluation->id)){
-                        $chance = true;
-                        return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished', 'chance'));
+                        if( $user->scoreInEvaluation($finalEvaluation->id) >= $diploma->minimum_score ){
+                            // dd('Con evaluación '.$user->scoreInEvaluation($finalEvaluation->id));
+                            return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished'));
+                        }else{
+                            $chance = true;
+                            return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished', 'chance'));
+                        }
                     }else{
                         return view('users_pages.diplomas.show', compact('ascription', 'diploma', 'enrollment', 'finished'));
                     }
