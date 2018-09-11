@@ -2,64 +2,9 @@
 
 use GuzzleHttp\Client;
 
-Route::get('/prueba', function(){
-  // https://stackoverflow.com/questions/42094842/curl-error-60-ssl-certificate-in-laravel-5-4
-  // try{
-    $client = new Client();
-    // $client->setDefaultOption('verify', false);
-    $serviceUrl = "https://sanofi-dev.us-dev.janraincapture.com/oauth/auth_native_traditional";
-    $response = $client->request('POST', $serviceUrl, [
-        'form_params' => [
-            'client_id' => 'kgw275x6u3nakdjq3u2e3v2nudjvtmwm',
-            'flow' => 'hcp_standard',
-            'flow_version' => '20180820225704340441',
-            'locale' => 'es-CO',
-            'redirect_uri' => 'http://localhost',
-            'response_type' => 'token',
-            'form' => 'signInForm',
-            'signInEmailAddress' => 'Academia_Sanofi_Dev@yopmail.com',
-            'currentPassword' => 'Welcome123$'
-        ]
-    ]);
-    $responseString = $response->getBody()->getContents();
-    $jsonResponse = json_decode($responseString);
-    dd($jsonResponse);
-    if($jsonResponse == false){
-        $this->sepServicesAreDown = true;
-        return false;
-    }
-    $status = $jsonResponse->{'status'};
-    $message = $jsonResponse->{'message'};
-    $this->sepServicesAreDown = false;
-    switch ($status) {
-        case '406': // User found, but with not a valid profession
-            return false;
-            break;
-        case '500': // unavailable service
-            $this->sepServicesAreDown = true;
-            return false;
-            break;
-        case '404': // No data found or not valid
-            return false;
-            break;
-        case '200':
-            $professional_license = $jsonResponse->{'cedula'};
-            if($license == $professional_license){
-                return true;
-            }
-            break;
-        default:
-            return false;
-            break;
-    }
-    return false;
-  // } catch (\Exception $ex) { // In this case, service returns a no valid response (not a json)
-
-  //     return "Error en la consulta";
-  // } catch (\Throwable $ex) {
-  //     return "Throwable error";
-  // }
-});
+// Route::get('/auth-janrain/{email}', 'HomeController@attemptUser');
+// Route::get('/register-janrain/{email}', 'HomeController@registerUser');
+// Route::get('/verify-email/{email}', 'HomeController@verifyUser');
 
 Route::get('/', 'HomeController@index')->name('welcome');
 Route::get('/login', 'HomeController@index')->name('login'); // Página de login

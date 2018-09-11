@@ -5,6 +5,9 @@ use App\Course;
 use Illuminate\Support\Facades\Auth;
 use App\Ascription;
 use App\Notification;
+use GuzzleHttp\Client;
+use App\User;
+use App\Http\Controllers\Janrain;
 
 class HomeController extends Controller
 {
@@ -77,4 +80,23 @@ class HomeController extends Controller
         $ascription = Ascription::whereSlug($ascription_slug)->first();
         return view('users_pages.legals.sitemap', compact('ascription'));
     }
+
+    public function registerUser($email){
+        $default_password = "Welcome123$";
+        $janrain = new JanRain;
+        dd($janrain->janrainRegister($email, $default_password));
+    }
+
+    public function attemptUser($email){
+        $default_password = "Welcome123$";
+        $janrain = new JanRain;
+        dd($janrain->janrainLogin($email, $default_password));
+    }
+
+    public function verifyUser($email){
+        $default_password = "Welcome123$";
+        $janrain = new JanRain;
+        dd($janrain->verifyEmailExists($email));
+    }
+
 }

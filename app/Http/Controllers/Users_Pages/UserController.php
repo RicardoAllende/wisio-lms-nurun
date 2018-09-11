@@ -12,6 +12,7 @@ use App\Role;
 use GuzzleHttp\Client;
 use App\Setting;
 use App\Jobs\ProfessionalLicenseValidation;
+use App\Http\Controllers\Janrain;
 
 class UserController extends Controller
 {
@@ -73,9 +74,6 @@ class UserController extends Controller
             return back()->withInput()->with('error', "Email repetido, ya existe un usuario con email ".$email);
         }
         $professional_license = $request->professional_license;
-        // if($this->validarCedula($professional_license) == false ){
-        //     return back()->withInput()->with('error', "La cédula no ");
-        // }
         $mobile_phone = $request->mobile_phone;
         if($this->validarNumero($mobile_phone) == false){
             return back()->withInput()->with('error', "Número no validado");
@@ -84,20 +82,6 @@ class UserController extends Controller
         if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
             return back()->withInput()->with('error', "Cédula repetida, ya existe un usuario con esa cédula");
         }
-        // $response = $this->verifyProfessionalLicense($professional_license, $request->firstname, $request->paterno, $request->materno);
-        // if( ! $response ){
-            //     if( $this->sepServicesAreDown ){
-                //         $is_validated = false;
-                //         // return "Servicios caídos";
-                //     }else{
-                    //         $this->sepServicesAreDown = false;
-                    //         $error = 'Cédula no validada';
-                    //         // if($this->notA1){
-                        //         //     $error = "Su cédula profesional no es de tipo A1";
-                        //         // }
-                        //         return back()->withInput()->with('error', $error);
-                        //     }
-                        // }
         $user = User::create($input);
         $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
@@ -127,13 +111,15 @@ class UserController extends Controller
         ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
         $email = $user->email;
         $password = $request->password;
-        // if($user->is_validated == false){
-            // return back()->with('msj', 'En este momento no se pudo validar la cédula profesional, por favor espera la confirmación de su cédula profesional');
-        // }else{
-            if(Auth::attempt(compact('email', 'password'))){
-                return redirect('/');
-            }
-        // }
+        if(isset($inJanrain)){ // Don't register in janrain
+            // No special action
+        }else{ // Register in janrain
+            $janRain = new Janrain;
+            $janRain->janrainRegister($email, $password);
+        }
+        if(Auth::attempt(compact('email', 'password'))){
+            return redirect('/');
+        }
         return redirect('/');
     }
 

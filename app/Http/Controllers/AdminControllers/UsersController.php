@@ -21,6 +21,7 @@ use App\Notification;
 use App\Setting;
 use App\ModuleUser;
 use App\EvaluationUser;
+use App\Http\Controllers\Janrain;
 
 class UsersController extends Controller
 {
@@ -62,33 +63,6 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $input = $request->input();
-        if($request->filled('public_register')){
-            $email = $request->email;
-            if(User::whereEmail($email)->count() > 0 ){ // Email exists
-                return back()->withInput()->withErrors(
-                    ['Error' => "Email repetido, ya existe un usuario con ese email"]
-                );
-            }
-            $professional_license = $request->professional_license;
-            if(User::where('professional_license', $professional_license)->count() > 0 ){ // Cédula exists
-                return back()->withInput()->withErrors(
-                    ['Error' => "Cédula repetida, ya existe un usuario con esa cédula"]
-                );
-            }
-            $user = User::create($input);
-            $user->lastname = $request->paterno.' '.$request->materno;
-            $user->password = bcrypt($request->password);
-            $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
-            $publicAscription = Ascription::whereIsMainAscription(1)->first();
-            $user->ascriptions()->attach($publicAscription->id);
-            $user->save();
-            $email = $user->email;
-            $password = $request->password;
-            if(Auth::attempt(compact('email', 'password'))){
-                $ascription = $user->ascription();
-                return redirect()->route('student.home', $ascription->slug);
-            }
-        }
         try{
             $email = $request->email;
             if(User::whereEmail($email)->count() > 0 ){ // Email exists

@@ -44,7 +44,7 @@
                     </div>
 
                         <div class="form-group">
-                            {!! Form::label('featured_label', 'Imagen:',['class'=>'control-label col-sm-2']); !!}
+                            {!! Form::label('featured_label', 'Recurso:',['class'=>'control-label col-sm-2']); !!}
                             {!! Form::open([ 'route' => [ 'attachments.file.upload' ], 'files' => true, 'class' => 'dropzone', 'id' => 'image-upload' ]) !!}
                             <div class="dz-message" style="height:200px;">
                             Arrastre el recurso aquí, formatos soportados: vídeo mp4 y documentos pdf
@@ -86,7 +86,7 @@
                 console.log(error1);
                 console.log(error2);
             });
-    }        
+        }        
   };
 </script>
 @endsection

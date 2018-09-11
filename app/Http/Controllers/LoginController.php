@@ -13,6 +13,7 @@ use App\Notification;
 use App\Course;
 use App\CourseUser;
 use App\Ascription;
+use App\Http\Controllers\Janrain;
 
 class LoginController extends Controller
 {
@@ -68,7 +69,15 @@ class LoginController extends Controller
             Auth::logout();
             return redirect('/');
         }
-        if (Auth::attempt($credentials)) {
+        $user = User::whereEmail($request->email)->first();
+        if($user->isAdmin()){
+            if(Auth::attempt($credentials)){
+                return redirect()->route('admin.dashboard');
+            }
+        }
+        $janrain = new Janrain;
+        $result = $janrain->janrainLogin($request->email, $request->password);
+        if($result === true){
             $user = Auth::user();
             if($user->enabled == 0){
                 Auth::logout();
@@ -148,9 +157,105 @@ class LoginController extends Controller
             // User has an invalid role
             Auth::logout();
             return redirect('/');
-        } else {
-            return back()->withInput()->with('error', 'Verifique sus datos');
         }
+        if($result === false){
+            return back()->withInput()->with('error', 'Usuario no encontrado en janrain');
+        }
+        if($result === -1){
+            // dd('Usuario existe en janrain, pero no en academia');
+            $email = $request->email;
+            $password = $request->password;
+            $ascription = Ascription::whereIsMainAscription(1)->first();
+            if($ascription == null){
+                return "Hubo un error con la información en la base de datos, por favor contacte al administrador del sistema";
+            }
+            $inJanrain = true;
+            return view('Users/register', compact('ascription', 'inJanrain', 'email', 'password'));
+            dd('Usuario existe en janrain, pero no en academia');
+        }
+        // if (Auth::attempt($credentials)) {
+        //     $user = Auth::user();
+        //     if($user->enabled == 0){
+        //         Auth::logout();
+        //         return back()->with('error', 'Usuario deshabilitado');
+        //     }
+        //     // if( ! $user->is_validated){
+        //     //     return back()->with('msj', 'En este momento su usuario no está validado');
+        //     // }
+        //     $dateTime = \Carbon\Carbon::now()->toDateTimeString();
+        //     $user->last_access = $dateTime;
+        //     $user->save();
+        //     if($user->isAdmin()){
+        //         return redirect()->route('admin.dashboard');
+        //     }
+        //     if($user->isStudent()){
+        //         if($request->filled('notification')){
+        //             $notification = $request->notification;
+        //             $notification = Notification::whereCode($notification)->first();
+        //             if($notification != null){
+        //                 if($notification->user_id == $user->id){
+        //                     $notification->accessed = 1;
+        //                     $notification->save();
+        //                     switch($notification->type){
+        //                         case 'recommendation':
+        //                             // User is redirected normally
+        //                         break;
+        //                         case 'month_reminder':
+        //                         case 'week_reminder':
+        //                         case 'enrollment':
+        //                             $course = Course::find($notification->course_id);
+        //                             if($course == null){ return redirect('/'); }
+        //                             $ascription = $user->ascription;
+                                    
+        //                             if($ascription == null){ return redirect('/'); }
+        //                             return redirect()->route('student.show.course', [$ascription->slug, $course->slug]);
+        //                         break;
+        //                         case 'certificate':
+        //                         case 'diploma':
+        //                         case 'approved':
+        //                             $ascription_slug = $user->ascription->slug;
+        //                             return redirect()->route('certificates.list', $ascription_slug);
+        //                         break;
+        //                         case 'not_approved': // second attempt in course
+        //                             $course = Course::find($notification->course_id);
+        //                             $pivot = CourseUser::where('user_id', $user->id)->where('course_id', $notification->course_id)->first();
+        //                             if($pivot != null){
+        //                                 if( ! $pivot->has_reboot){
+        //                                     $user->resetAdvanceInCourse($course->id);
+        //                                     $pivot->has_reboot = 1;
+        //                                     $pivot->score = null;
+        //                                     $pivot->save();
+        //                                     $ascription_slug = $user->ascription->slug;
+        //                                     return redirect()->route('show.evaluation.course', [$ascription_slug, $course->slug]);
+        //                                 }
+        //                             }
+        //                         break;
+        //                         case 'second_not_approved':
+        //                             // No special action
+        //                         break;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         if($user->last_profile_update == ''){
+        //             return redirect()->route('student.update');
+        //         }
+        //         $ascription =  $user->ascription;
+        //         if($ascription == null){
+        //             Auth::logout();
+        //             return back()->with(
+        //                 'error', 'Hubo un error con su perfil, por favor comuníquese con soporte '.config('constants.support_email')
+        //             );
+        //         }
+        //         return redirect()->route('student.home', $ascription->slug);
+        //     }
+
+        //     // User has an invalid role
+        //     Auth::logout();
+        //     return redirect('/');
+        // } else {
+        //     return back()->withInput()->with('error', 'Verifique sus datos');
+        // }
     }
 
     public function forgotPassword(){
