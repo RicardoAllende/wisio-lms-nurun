@@ -144,25 +144,6 @@ class EvaluationsController extends Controller
         compact('ascription', 'course', 'evaluation', 'user', 'module', 'maximum_attempts', 'numTries', 'score'));
     }
 
-    public function showFinalEvaluationForDiploma($ascription_slug, $course_slug){
-        $course = Course::whereSlug($course_slug)->first();
-        if($course == null) return redirect('/');
-        if($course->has_diploma){
-            $evaluation = $course->diplomaEvaluation;
-            if($evaluation == null){
-                return back()->with('error', 'Esta evaluación no está disponible por el momento');
-            }
-        }
-        $ascription = Ascription::whereSlug($ascription_slug)->first();
-        if($ascription == null)  return redirect('/');
-        $user = Auth::user();
-        if( ! $user->isEnrolledInCourse($course->id)){
-            return back();
-        }
-        // dd($evaluation);
-        return view('users_pages.evaluations.final-diploma-evaluation',compact('course', 'ascription', 'user', 'evaluation'));
-    }
-
     public function gradeEvaluation($ascription_slug, Request $request){
         $attempt_id = $request->attempt_id;
         $evaluation_id = $request->evaluation_id;

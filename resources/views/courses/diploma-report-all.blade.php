@@ -35,10 +35,7 @@
                         <tbody>@php $i=1; @endphp
                             @foreach($courses as $course)
                               <tr>
-                                <td><a href="{{route('show.diploma.report', $course->id)}}">{{ $i }}</a></td>  @php $i++; @endphp
-                                <td><a href="{{route('show.diploma.report', $course->id)}}">{{ $course->name }}</a></td>
                                 <td>{{ ($course->diplomaAvg() == "") ? "0" : $course->diplomaAvg() }}</td>
-                                <td>{{ $course->numUsersWithEvaluation() }}</td>
                                 <td>{{ $course->approvedInDiploma() }}</td>
                               </tr>
                             @endforeach

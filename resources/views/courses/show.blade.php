@@ -34,7 +34,6 @@
                     <div class="col-lg-6"><br><br>
                         <p>Email de resolución de dudas: {{ $course->support_email }}</p>
                         <p>Promedio mínimo del curso: {{ $course->minimum_score }}</p>
-                        <p>Promedio mínimo del diplomado: {{ $course->minimum_diploma_score }}</p>
                         <p>Créditos ofrecidos por el curso</p>
                         <p>Estudiantes inscritos: {{ $course->users()->count() }}</p>
                         <p>{{ $course->modules()->count() }} módulos</p>

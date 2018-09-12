@@ -651,20 +651,6 @@ class User extends Authenticatable
         return false;
     }
 
-    public function hasDiplomaForCourse($course_id){
-        $course = Course::find($course_id);
-        if($course == null){ return false; }
-        if( ! $course->has_diploma){
-            return false;
-        }
-        foreach($this->approvedCourses() as $approved){
-            if($approved->id == $course_id){
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public function finalEvaluationsFromCourse($course_id){
         $course = Course::find($course_id);
         if($course == null){ return false; }

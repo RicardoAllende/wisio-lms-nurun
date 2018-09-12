@@ -51,18 +51,6 @@
                               {!! Form::textArea('description',null,['class'=>'form-control', 'id' => 'description', 'required' => '']) !!}
                             </div>
                           </div>
-                          <div class="form-group">
-                            {!! Form::label('start_date', 'Fecha de inicio:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                              {!! Form::date('start_date',null,['class'=>'form-control']) !!}
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            {!! Form::label('end_date', 'Fecha de fin:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                              {!! Form::date('end_date',null,['class'=>'form-control']) !!}
-                            </div>
-                          </div>
 
                           <div class="form-group">
                             {!! Form::label('support_email', 'Email para resolución de dudas:',['class'=>'control-label col-sm-2']); !!}
@@ -75,13 +63,6 @@
                             {!! Form::label('minimum_score', 'Calificación mínima:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 
                               {!! Form::number('minimum_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1']) !!}
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            {!! Form::label('minimum_diploma_score', 'Calificación mínima del diplomado:',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10"> 
-                              {!! Form::number('minimum_diploma_score',null,['class'=>'form-control', 'required'=>'', 'step'=>'0.1','placeholder' => "Aplica en caso de que el curso ofrezca un diplomado" ]) !!}
                             </div>
                           </div>
 
@@ -119,14 +100,6 @@
                             </div>
                           </div>
                           
-                          <div class="form-group">
-                            {!! Form::label('has_diploma', '¿Ofrecerá diplomado?',['class'=>'control-label col-sm-2']); !!}
-                            <div class="col-sm-10">
-                              {!! Form::select('has_diploma', ['1' => 'Sí', '0' => 'No'], null, ['class' => 'form-control', 'required'=>'']) !!}
-                            </div>
-                          </div>
-
-
                           <div class="form-group">
                             {!! Form::label('certificate_template_id', 'Plantilla para certificado:',['class'=>'control-label col-sm-2']); !!}
                             <div class="col-sm-10"> 

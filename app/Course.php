@@ -24,7 +24,7 @@ class Course extends Model
         'end_date',
         'category_id',
         'support_email',
-        'has_diploma',
+        // 'has_diploma',
         'certificate_template_id'
         // 'diploma_template_id'
     ];
@@ -307,13 +307,6 @@ class Course extends Model
 
     public function diplomaAvg(){
         return CourseUser::where('course_id', $this->id)->avg('score_in_diplomado');
-    }
-
-    public function numUsersWithEvaluation(){
-        if( ! $this->has_diploma){
-            return 0;
-        }
-        return CourseUser::where('course_id', $this->id)->whereNotNull('score_in_diplomado')->count();
     }
 
     public function approvedInDiploma(){

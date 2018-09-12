@@ -41,7 +41,6 @@
                             <li><a href="{{ route('list.ascriptions.report')}}">Adscripción</a></li>
                             <li><a href="{{ route('list.courses.report')}}">Curso</a></li>
                             <li><a href="{{ route('list.users.report') }}">Usuario</a></li>
-                            <li><a href="{{ route('list.diploma.report') }}">Diplomado</a></li>
                         </ul>
                     </li>
                     <li class="">

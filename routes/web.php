@@ -132,8 +132,8 @@ Route::group(['middleware' => ['auth']], function () {
 
       Route::get('/ascriptions', 'AdminControllers\AscriptionsController@showReportAllAscriptions')->name('list.ascriptions.report'); // List of all ascriptions
       Route::get('/ascription/{ascription_id}', 'AdminControllers\AscriptionsController@showReport')->name('show.ascription.report');
-      Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all diplomados(courses)
-      Route::get('/diplomas/{diploma_id}', 'AdminControllers\CoursesController@showDiplomaReport')->name('show.diploma.report');
+      // Route::get('/diplomas', 'AdminControllers\CoursesController@showReportAllDiplomas')->name('list.diploma.report'); // List of all diplomados(courses)
+      // Route::get('/diplomas/{diploma_id}', 'AdminControllers\CoursesController@showDiplomaReport')->name('show.diploma.report');
       Route::get('/courses', 'AdminControllers\CoursesController@showReportAllCourses')->name('list.courses.report'); // List of all courses
       Route::get('/course/{course_id}', 'AdminControllers\CoursesController@reportCourse')->name('show.course.report');
       Route::get('/users', 'AdminControllers\UsersController@showReportAllUsers')->name('list.users.report'); // List of all users
@@ -166,8 +166,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/{course_id}/{module_id}/evaluacion-final', 'Users_Pages\EvaluationsController@showFinalEvaluation')
     ->name('show.evaluation'); // Final evaluations
 
-    Route::get('/{course_slug}/evaluacion-final-del-diplomado', 'Users_Pages\EvaluationsController@showFinalEvaluationForDiploma')
-    ->name('diploma.final.evaluation');
+    // Route::get('/{course_slug}/evaluacion-final-del-diplomado', 'Users_Pages\EvaluationsController@showFinalEvaluationForDiploma')
+    // ->name('diploma.final.evaluation');
 
     Route::post('/evaluacion/calificar', 'Users_Pages\EvaluationsController@gradeEvaluation')->name('grade.evaluation');
 

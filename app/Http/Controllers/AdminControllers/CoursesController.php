@@ -98,16 +98,6 @@ class CoursesController extends Controller
     {
         $course = Course::find($id);
         if($course == null){ return redirect()->route('courses.index'); }
-        if($course->has_diploma){
-            if(! $course->hasDiplomaEvaluation()){
-                if( ! isset($_GET['form'])){
-                    return redirect()->route('create.diploma.evaluation', $course->id)
-                    ->with('evaluation-message', 'Este curso ofrece un diplomado, por lo que es necesario crear una evaluación, ¿desea cambiar esa configuración?');
-                }else{
-                    return redirect()->route('courses.edit', $id);
-                }
-            }
-        }
         return view('courses/show',compact('course'));
     }
 
@@ -155,8 +145,6 @@ class CoursesController extends Controller
         $description = $this->escapeString($description);
         $course->name = $request->name;
         $course->description = $description;
-        $course->start_date = $request->start_date;
-        $course->end_date = $request->end_date;
         $course->minimum_score = $request->minimum_score;
         $course->support_email = $request->support_email;
         $course->slug = $slug;
@@ -170,13 +158,11 @@ class CoursesController extends Controller
                 $course->certificate_template_id = $request->certificate_template_id;
             }
         }
-        $course->diploma_template_id = $request->diploma_template_id;
         if($request->filled('attachment')){
             $attach_id = $request->input('attachment');
             $this->dropImgAttachments($course);
             AttachmentCourse::create(['attachment_id' => $attach_id, 'course_id' => $course_id]);
         }
-        $course->has_diploma = $request->has_diploma;
         $course->save();
         return redirect()->route('courses.show', $course_id);
     }
@@ -287,24 +273,6 @@ class CoursesController extends Controller
         return view('courses/report', compact('course', 'users'));
     }
 
-    public function manageDiplomaModules($course_id){
-        $course = Course::find($course_id);
-        if($course == null){
-            return redirect()->route('courses.index');
-        }
-        if( ! $course->has_diploma){
-            return redirect('courses.index')->withErrors(
-                ['error' => "El diplomado {$course->name} no ofrece diploma, cambie su configuración e inténtelo de nuevo"]
-            );
-        }
-        return view('courses.manage-diploma-modules', compact('course'));
-    }
-
-    public function showReportAllDiplomas(){
-        $courses = Course::where('has_diploma', 1)->get();
-        return view('courses.diploma-report-all', compact('courses'));
-    }
-
     private function hasScripts($string){
         if(strpos($string, 'script') === false){
             return false;
@@ -325,21 +293,6 @@ class CoursesController extends Controller
             $string = str_replace("</p>", "", $string);
         }
         return $string;
-    }
-
-    public function showDiplomaReport($course_id){
-        $course = Course::find($course_id);
-        if($course == null){
-            return redirect('/')->withErrors([
-                'error' => 'Error al encontrar curso'
-            ]);
-        }
-        if( ! $course->has_diploma){
-            return redirect('/')->withErrors([
-                'error' => 'El curso no ofrece un diploma'
-            ]);
-        }
-        return view('courses.diploma-report', compact('course'));
     }
 
 }
