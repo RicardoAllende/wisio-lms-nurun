@@ -81,22 +81,22 @@ class HomeController extends Controller
         return view('users_pages.legals.sitemap', compact('ascription'));
     }
 
-    public function registerUser($email){
-        $default_password = "Welcome123$";
-        $janrain = new JanRain;
-        dd($janrain->janrainRegister($email, $default_password));
-    }
+    // public function registerUser($email){
+    //     $default_password = "Welcome123$";
+    //     $janrain = new JanRain;
+    //     dd($janrain->janrainRegister($email, $default_password));
+    // }
 
-    public function attemptUser($email){
-        $default_password = "Welcome123$";
-        $janrain = new JanRain;
-        dd($janrain->janrainLogin($email, $default_password));
-    }
+    // public function attemptUser($email){
+    //     $default_password = "Welcome123$";
+    //     $janrain = new JanRain;
+    //     dd($janrain->janrainLogin($email, $default_password));
+    // }
 
-    public function verifyUser($email){
-        $default_password = "Welcome123$";
-        $janrain = new JanRain;
-        dd($janrain->verifyEmailExists($email));
-    }
+    // public function verifyUser($email){
+    //     $default_password = "Welcome123$";
+    //     $janrain = new JanRain;
+    //     dd($janrain->verifyEmailExists($email));
+    // }
 
 }

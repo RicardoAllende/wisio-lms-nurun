@@ -19,15 +19,6 @@ Registro
 <div class="row">
   {!! Form::open(['route' => 'public.register', 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
-    @if(isset($inJanrain))
-      <div class="reg col s12 l5 offset-l2">
-        <h6 class="upscase center">Usuario y contraseña</h6>
-        <label for="">Correo electrónico: {{ $email }}</label>
-        <br><br>
-      </div>
-      <input type="hidden" name="email" value="{{ $email }}">
-      <input type="hidden" name="password" value="{{ $password }}">
-    @else
       <div class="reg col s12 l5 offset-l2">
         <h6 class="upscase center">Usuario y contraseña</h6>
         {!! Form::label('email', 'Correo Electrónico:' )!!}
@@ -44,7 +35,6 @@ Registro
 
         </span><br><br>
       </div>
-    @endif
   </div>
   <div class="row pad-left3">
     <div class="col s6 l9">
@@ -142,9 +132,6 @@ Registro
 
         
         <input type="hidden" name="is_validated" id="is_validated" value="0" >
-        @if(isset($inJanrain))
-          <input type="hidden" name="isJanrain" value="1">
-        @endif
         <br><br><br><br>
         <div class="col s12 white consulta">
           <h6 class="upscase">Tipo de consulta</h6><br>

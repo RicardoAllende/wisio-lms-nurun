@@ -21,7 +21,7 @@ use App\Notification;
 use App\Setting;
 use App\ModuleUser;
 use App\EvaluationUser;
-use App\Http\Controllers\Janrain;
+// use App\Http\Controllers\Janrain;
 
 class UsersController extends Controller
 {
