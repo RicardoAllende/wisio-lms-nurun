@@ -528,6 +528,9 @@ function printResources(resources){
 
     $("#"+content.id+" #name_module").text(resources[0]['name_module']);
     $("#"+content.id+" #references").html(refs);
+    if(refs == ''){
+      $('#referencesTitle').hide();
+    }
     openModule();
   } else {
     $("#"+content.id+" #references").html("Este módulo aún no tiene recursos disponibles, contacte a su administrador.");

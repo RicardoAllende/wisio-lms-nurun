@@ -100,7 +100,7 @@ Curso {{ $course->name }}
               <div id="content">
 
               </div>
-              <h5 class="titulos-modulo">
+              <h5 class="titulos-modulo" id="referencesTitle">
                 Referencias
               </h5>
               <div id="references">
