@@ -35,7 +35,8 @@ Curso {{ $course->name }}
                     <div class="card-content modOut">
                       <div class="row valign-wrapper">
                           <div class="col s4">
-                            <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle responsive-img moduleimg"/>
+                            <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle moduleimg hide-on-med-and-down">
+                            <img src="{{ $module->getMainImgUrl() }}" alt="" class="circle moduleimgM hide-on-large-only">
                           </div>
                           <div class="col s8">
                             <h5 class="titulos-modulo">
