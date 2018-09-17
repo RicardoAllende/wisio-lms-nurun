@@ -18,9 +18,9 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse" id="btnMenu"><i class="material-icons">menu</i></a>
 
             @if(isset($ascription))
-              <a href="#!" class="brand-logo right"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
+              <a href="{{ route('student.home', $ascription->slug) }}" class="brand-logo right"><img src="{{ $ascription->getMainImgUrl() }}" class="responsive-img"></a>
             @else
-              <a href="#!" class="brand-logo right"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
+              <a href="{{ route('student.home', $ascription->slug) }}" class="brand-logo right"><img src="{{ asset('img/logo-navbar.png')}}" class="responsive-img"></a>
             @endif
 
 

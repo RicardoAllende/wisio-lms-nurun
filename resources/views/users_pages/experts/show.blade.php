@@ -5,7 +5,7 @@ Experto {{ $expert->name }}
 
 @section('breadcrumbs')
   <a href="{{ route('student.home', $ascription->slug) }}" class="breadcrumb">Inicio</a>
-  <a href="{{ route('student.show.experts' , $ascription->slug) }}" class="breadcrumb">Evaluaciones</a>
+  <a href="{{ route('student.show.experts' , $ascription->slug) }}" class="breadcrumb">Profesores</a>
   <a href="" class="breadcrumb">{{ $expert->name }}</a>
 @stop
 

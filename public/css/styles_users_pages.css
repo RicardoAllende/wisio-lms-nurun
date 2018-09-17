@@ -260,8 +260,8 @@ a.linkM{
 .contenido{
   width: 100%;
   margin: auto;
-  /* height: auto;
-  min-height: 100%; */
+  height: auto !important;
+  min-height: 700px;
 }
 
 /* footer */
@@ -436,7 +436,7 @@ a.linkM{
     height: 55%;
     width: 55%;
 }
-  
+
 .moduleimg-disabledM{
     background-color: #ABB2B9;
     height: 55%;
@@ -611,6 +611,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     color:#2157A1;
     padding-top: 40px;
     word-break: break-word;
+    font-size: 13px;
 }
 
 .titulo-academia2{
@@ -936,13 +937,15 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .content {
     padding-left: 2rem !important;
     max-height:0;
-    overflow: hidden;
+    /* overflow: hidden; */
     transition: max-height 0.4s ease-out;
     background-color: #fff;
     border: 1px solid #8F6EAA;
     display: none;
     margin-left: .8rem !important;
     padding-bottom: 1rem !important;
+    height: auto !important;
+    max-height: none !important;
 
 
 }
@@ -1323,7 +1326,7 @@ height: 16px !important;
   }
 
   h4{
-      font-size: 16px !important;
+      font-size: 16px;
       text-transform: uppercase;
       font-weight: bold;
   }

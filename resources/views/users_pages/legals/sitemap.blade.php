@@ -18,8 +18,8 @@ Mapa del sitio
             <div class="card white col s12">
               <h5>Academia Mc</h5>
               <ul class="browser-default">
-                <li><a href="{{ route('student.home', $ascription->slug) }}">Login</a></li>
-                <li><a href="{{ route('student.home', $ascription->slug) }}">Inicio</a></li>
+                <li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Login</a></li>
+                <li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Inicio</a></li>
                 <li><a href="{{ route('student.home', $ascription->slug) }}">Cursos recientes</a></li>
                 <li><a href="{{ route('student.funciona', $ascription->slug) }}">Como funciona</a></li>
                 <li><a href="{{ route('student.show.experts', $ascription->slug) }}">Profesores </a></li>

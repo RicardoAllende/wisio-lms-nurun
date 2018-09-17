@@ -24,13 +24,13 @@
         <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
       </div>
 
-      <div class="col s12 center" >
+      <div style="font-family:'Roboto', sans-serif;" class="col s12 center" >
         <h1 style="color: #3360C1; font-size: 5em; font-weight:900;">ERROR</h1>
         <h1 style="color: #3360C1; font-size: 5em; font-weight:900;">404</h1>
         <h5>PARECE QUE TE HAS PERDIDO</h5>
         <br>
       </div>
-      <center><a href="{{ route('login')}}">Volver al Inicio <span class="icon-registrese iconbtn"></span></a></center>
+      <center><a style="font-family:'Roboto', sans-serif;" href="{{ route('login')}}">Volver al Inicio <span class="icon-registrese iconbtn"></span></a></center>
   </div>
 
 
