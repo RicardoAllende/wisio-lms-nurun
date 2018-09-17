@@ -207,11 +207,11 @@ Registro
 
           <div class="reg col s12 l6">
             <input type="checkbox" id="test5" required />
-            <label for="test5">Conozco y acepto los <a href="#">Términos de uso </a></label>
+            <label for="test5">Conozco y acepto los <a href="{{ route('student.terms', $ascription->slug) }}" target="_blank">Términos de uso </a></label>
           </div>
           <div class="reg col s12 l6">
             <input type="checkbox" id="test6" required />
-            <label for="test6">Conozco y acepto la <a href="#">Política de privacidad </a></label>
+            <label for="test6">Conozco y acepto la <a href="{{ route('student.privacity', $ascription->slug) }}" target="_blank">Política de privacidad </a></label>
           </div>
         </div>
 

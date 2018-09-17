@@ -415,6 +415,16 @@ a.linkM{
   width: 95%;
 }
 
+.categoryimg{
+    height: 95%;
+    width: 95%;
+}
+
+.categoryimgM{
+    height: 54%;
+    width: 54%;
+}
+
 .moduleimg-disabled{
     background-color: #ABB2B9;
     height: 95%;
@@ -1403,4 +1413,10 @@ img.responsive-img {
   padding-left: 0;
 }
 
+}
+
+@media all and (max-width : 602px) {
+    .categoria-academia{
+        padding-right: 15%;
+    }
 }

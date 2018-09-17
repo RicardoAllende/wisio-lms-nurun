@@ -26,21 +26,21 @@ Términos y condiciones
                 <br><br>Cualquier uso autorizado de los componentes que integren el sitio o se muestren en el mismo no debe distorsionarse, modificarse o alterarse de ninguna manera.
                 <br><br>Sanofi o sus subsidiarias se reservan el derecho de ejercer acción legal contra cualquier violación de sus derechos de propiedad intelectual
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>2. Naturaleza de la información</h5>
                 El sitio está destinado a la educación médica continua, donde los médico podrán tomar distintos cursos sobre diversos padecimientos
                 <br><br>La información, sobre todo financiera, publicada en el Sitio no debe ser considerada como una invitación a invertir.  En ningún caso deberá ser interpretado como la prospección o como un ofrecimiento de público, tampoco esto es una oferta de suscribir, comprar o cambiar partes u otros valores en Sanofi y/o sus filiales afectadas. La Compañía hace énfasis al hecho de que la información incluida en el Sitio es actualizada con regularidad (si la información financiera es proporcionada on-line).
                 <br><br>El Sitio puede ofrecer la opinión de expertos consultados en determinada rama relacionados con el contenido del Sitio, o extractos de artículos de periódico Tal información representa sólo las opiniones de los expertos respectivos o del periódico, cuyas opiniones son no necesariamente las de Grupo Sanofi. Tales expertos no son los empleados del Grupo Sanofi y no reciben ningún emolumento de SANOFI para el empleo de su opinión. la Compañía no es responsable de la exactitud o la entereza de ninguna información u opinión. Las opiniones de los expertos reflejan su visión personal y nunca debe interpretarse como la opinión o responsabilidad de la Compañía y/o SANOFI.
                 <br><br>El Sitio también incluye información sobre salud, condición física, el campo médico y tratamientos médicos reservados exclusivamente para uso de seres humanos. Dicha información se publica en el Sitio únicamente con propósitos informativos y no es sustituto de los consejos proporcionados por su médico o especialista. No deberá usar la información contenida en el presente documento para diagnosticar cualquier enfermedad o problema físico, ni para recetar o utilizar cualquier medicamento presentado en el Sitio. El Sitio no está destinado a ser utilizado para informar respecto a problemas de salud, eventos adversos o quejas técnicas de productos, o hacer preguntas técnicas o médicas relativas a los productos de sanofi. En todas las circunstancias deberá consultar su médico.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>3. Enlaces a otros sitios</h5>
                 Ni SANOFI ni cualquier otra compañía del Grupo Sanofi se hacen responsables del contenido del sitio de algún tercero que pueda ser accesado por este Sitio. No tenemos manera de controlar el contenido de los sitios de terceros que son totalmente independientes de  la Compañía. Además, la existencia de un link entre el Sitio y el sitio del tercero, bajo ninguna circunstancia implica, de ninguna manera, que la Compañía aprueba el contenido de este sitio, y en particular el uso que se le pueda dar.
                 <br><br>Adicionalmente, el usuario es responsable de tomar las precauciones necesarias para prevenir cualquier contaminación del Sitio, en particular por un virus de computadora “virus”, “Troyanos” o cualquier otro “parásito”.
                 <br><br>Los sitios externos pueden contener hyperlinks que llevan al Sitio. Ningún  hyperlink deberá instalarse sin el previo consentimiento por escrito de la Compañía.
                 <br><br>En cualquier caso, la Compañía no es de ninguna manera responsable de la no disponibilidad de dichos sitios y la Compañía no revisa, aprueba, ni se hace responsable de cualquier contenido, publicidad, productos u otros componentes disponibles en o accesibles en estos sitios.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>4. Información Personal y otra Información</h5>
                 4.1 La Compañía no revelará a terceros, los datos personales que llegaren a ser proporcionados por los usuarios de las aplicaciones a través del academia@medicoconsentido.com que sólo se utilizará con el fin de proporcionarle una respuesta lo más eficazmente posible.
                 <br><br>De conformidad con lo establecido por la Ley Federal de Protección de Datos Personales en Posesión de Particulares, los usuarios de las aplicaciones tendrán derecho a ejercer los derechos de acceso, rectificación, cancelación y oposición (ARCO).
@@ -49,7 +49,7 @@ Términos y condiciones
                 <br><br>4.2 Las aplicaciones no están destinadas para recibir información confidencial de sus usuarios. Consecuentemente, excepto los datos personales señalados anteriormente, cualquier información, sin importar su forma-documento, datos, preguntas, gráficos, sugerencias, comentario o cualquier otro- que sea enviado a través de las aplicaciones, bajo ninguna circunstancia se considerará confidencial.
                 <br><br>Por lo tanto, el hecho de enviar cualquier información a través de las aplicaciones, otorga a la Compañía el derecho de usarla, reproducirla, publicarla, alterarla o enviarla, con el fin de atender la solicitud correspondiente.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>5. Limitaciones de responsabilidad</h5>
               Sanofi hace su esfuerzo para asegurar la información publicada en el Sitio es exacta y actualizada. Sanofi se reserva el derecho de corregir el contenido en cualquier momento y sin aviso previo. Sin embargo, Sanofi no puede garantizar que la información disponible en el Sitio sea exacta, correcta, actualizada o completa.
                 <br><br>Consecuentemente, y exceptuando los daños causados por dolo o negligencia de Sanofi, ésta niega cualquier responsabilidad relacionada con:
@@ -60,21 +60,21 @@ Términos y condiciones
                 </ul>
                 <br><br>Los componentes en el Sitio y en todos los demás sitios asociados se proporcionan “como están” sin ningún tipo de garantía, ya sea explícita o implícita. La Compañía no ofrece ningún tipo de garantía explícita o implícita sin limitación a su valor de mercado e idoneidad para un propósito particular.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>6. Disponibilidad del sitio web</h5>
                 Reconoce que (i) es técnicamente imposible que la Compañía proporcione el Sitio libre de errores y/o defectos, (ii) que los defectos pueden llevar a la indisponibilidad temporal del Sitio, y (iii) que la operación del Sitio puede verse afectada por eventos y/o circunstancias fuera del control de la Compañía, como por ejemplo, links de transmisión y telecomunicación entre la Compañía y usted y entre la Compañía y otros sistemas y redes.
                 <br><br>La Compañía y/o sus distribuidores pueden, en cualquier momento, alterar o interrumpir, de manera temporal o permanente todo o parte del sitio con el fin de realizar trabajos de mantenimiento y/o realizar mejoras y/o cambios al Sitio. la Compañía no es responsable de cualquier alteración, suspensión o interrupción del Sitio.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
 
                 <h5>7. Información sobre los productos</h5>
                 La información incluida y publicada en el Sitio puede tener referencias directas o indirectas a productos, programas y servicios del Grupo Sanofi que no se han anunciado o no se encuentran disponibles en algunos países o regiones, o que pueden ofrecerse bajo el registro de un nombre de marca diferente, y que pueden sujetarse a diferentes regulaciones y términos que pueden diferir de acuerdo con el país. Dichas referencias no implican que el Grupo Sanofi quiera vender estos productos, programas o servicios en su país. Consulte el subsidiario local del Grupo Sanofi o su representante comercial del Grupo Sanofi para cualquier información sobre los productos, programas y servicios que están disponibles para usted.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>8. Marco legal</h5>
                 El sitio y su contenido se rigen por las Leyes de México y cualquier disputa relacionada será competencia de los Tribunales de la Ciudad de México.
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>9. Términos y condiciones:</h5>
                 9.1 Editor del sitio
                 <br>Sanofi-aventis de México, S.A. de C.V.
@@ -86,11 +86,11 @@ Términos y condiciones
                 <br>Nombre del servidor Sanofi-Aventis
                 <br>Dirección del servidor Paris, Francia
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
                 <h5>10. Mención de propiedad de fotos y video</h5>
                 Todas las fotografías son propiedad de Sanofi-Aventis de México S.A. de C.V. adquiridas de Getty images
                 <br><br>
-                <a href="#inicio" class="btnAcademia">Arriba</a>
+                <!--<a href="#inicio" class="btnAcademia">Arriba</a>-->
               </p>
 
             </div>
