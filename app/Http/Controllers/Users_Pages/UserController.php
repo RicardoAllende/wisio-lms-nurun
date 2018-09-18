@@ -108,7 +108,7 @@ class UserController extends Controller
             $user->refered_code = $refered_code;
         }
         $user->save();
-        ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
+        // ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
         $email = $user->email;
         $password = $request->password;
         // if(isset($inJanrain)){ // Don't register in janrain
