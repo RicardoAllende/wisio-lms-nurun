@@ -73,7 +73,13 @@ class UsersController extends Controller
             $user = User::create($input);
             $janRain = new Janrain;
             $password = "secretsecret";
-            $janRain->janrainRegister($email, $password);
+            // $password = config('constants.default_password');
+            $user->password = $password;
+            $user->save();
+            // dd($user->password);
+            if($request->role_id == 1){ // Doctor
+                $janRain->janrainRegister($email, $password);
+            }
             return redirect()->route('users.show',$user->id);
         }catch(Exception $e){
             return back()->withInput()->withError('Existió un error al crear el usuario');
