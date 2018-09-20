@@ -9,10 +9,11 @@
         <div class="menu-desktop">
 
             <ul>
-              <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});" 
-              href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
-              <ul class="submenu">
               @if(Auth::check())
+			  
+				<li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});" 
+              href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
+                <ul class="submenu">
 
                   <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
@@ -39,11 +40,13 @@
 
 
               @else 
+			  
+				<li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Academia MC</a></li>
+				<ul class="submenu">
                 
                   <li ><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Cursos'});"
-                   href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Cursos</a></li>
+                  <li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Cursos</a></li>
                   
                   <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
                 </ul>

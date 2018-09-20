@@ -18,16 +18,16 @@ Cursos para médicos
             <div class="col s6 l9">
               <hr class="line"/>
             </div>
-            <div class="col s6 l3">
+            <div class="col s6 l3 adjust-landscape">
               <h2 class="recientes">cursos</h2>
             </div>
 
             @foreach($diplomas as $diploma)
-              <div class="col s12 l4 ">
+              <div class="col s12 l4 adjust-list">
                 <div class="card z-depth-0 white " style="background-color: #f3e5f5;">
                   <div class="card-content cursoscard" style="background-color: #f3e5f5;">
                       <span class="categoria-academia">Diplomado</span>
-                      <div class="iconcourse"><img src="{{ $diploma->getMainImgUrl() }}" class="responsive-img"></div>
+                      <div class="iconcourse"><img style="max-width: 100% !important;" src="{{ $diploma->getMainImgUrl() }}" class="responsive-img"></div>
                       <h4 class="titulo-academia2"> {{ $diploma->name }}</h4>
                       <div class="modulos">{{ (strlen($diploma->description) > 80 ) ? substr($diploma->description, 0, 80).'...' : $diploma->description }}</div>
                       <div class="leer-masmodulos_50">
@@ -43,11 +43,11 @@ Cursos para médicos
 
             @if($recommendations->count() > 0)
               @foreach($recommendations as $course)
-              <div class="col s12 l4 ">
+              <div class="col s12 l4 adjust-list">
                 <div class="card z-depth-0 white ">
                   <div class="card-content cursoscard">
                       <span class="categoria-academia">{{ $course->category->name }}</span>
-                      <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
+                      <div class="iconcourse"><img style="max-width: 100% !important;" src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                       <h4 class="titulo-academia2"> {{ $course->name }}</h4>
                       <div class="modulos">{{ $course->modules->count() }} módulos</div>
                       <div class="leer-masmodulos_50">

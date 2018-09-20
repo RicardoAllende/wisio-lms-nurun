@@ -1228,6 +1228,49 @@ height: 16px !important;
 
 }
 
+@media only screen and (max-width: 1200px) and (min-width: 993px) {
+  .adjust-list {
+      width: 50% !important; 
+      margin-left: auto;
+      left: auto;
+      right: auto;
+  }
+}
+
+@media only screen and (max-width: 1280px) and (min-width: 993px) {
+
+  .adjust-r-cursos {
+      width: 33.3333333333% !important;
+      margin-left: auto;
+      left: auto;
+      right: auto;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .adjust-list {
+      width: 100% !important; 
+      margin-left: auto;
+      left: auto;
+      right: auto;
+  }
+
+  .adjust-r-cursos {
+      width: 100% !important;
+      margin-left: auto;
+      left: auto;
+      right: auto;
+  }
+
+}
+
+@media only screen and (max-device-width: 1024px) and (min-device-width: 768px) and (orientation: landscape){
+  .adjust-landscape {
+      width: 100% !important;
+  }
+}  
 
 @media only screen and (max-width: 600px) {
     .imgExperts{

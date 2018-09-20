@@ -21,7 +21,7 @@ use App\Notification;
 use App\Setting;
 use App\ModuleUser;
 use App\EvaluationUser;
-// use App\Http\Controllers\Janrain;
+use App\Http\Controllers\Janrain;
 
 class UsersController extends Controller
 {
@@ -71,6 +71,9 @@ class UsersController extends Controller
                 );
             }
             $user = User::create($input);
+            $janRain = new Janrain;
+            $password = "secretsecret";
+            $janRain->janrainRegister($email, $password);
             return redirect()->route('users.show',$user->id);
         }catch(Exception $e){
             return back()->withInput()->withError('Existió un error al crear el usuario');

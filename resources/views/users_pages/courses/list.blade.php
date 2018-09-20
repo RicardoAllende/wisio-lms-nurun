@@ -67,15 +67,15 @@ Cursos
   <div class="col s6 l9">
     <hr class="line"/>
   </div>
-  <div class="col s6 l3">
+  <div class="col s6 l3 adjust-landscape">
     <h2 class="recientes">cursos</h2>
   </div>
   @foreach($diplomas as $diploma)
-  <div class="col s6 l4 ">
+  <div class="col s6 l4 adjust-list">
     <div class="card z-depth-0 white " style="background-color: #f3e5f5;">
        <div class="card-content mods" style="background-color: #f3e5f5;">
           <span class="categoria-academia">Diplomado</span>
-         <div class="iconcourse"><img src="{{ $diploma->getMainImgUrl() }}" class="responsive-img imgMods"></div>
+         <div class="iconcourse"><img style="max-width: 100% !important;" src="{{ $diploma->getMainImgUrl() }}" class="responsive-img imgMods"></div>
           <h5 class="titulo-academia2"> {{ $diploma->name }}</h5>
            <div class="modulos"></div>
               <div  class="moduloslista valign-wrapper hide-on-med-and-down">
@@ -90,11 +90,11 @@ Cursos
   </div>
   @endforeach
   @forelse($courses as $course)
-  <div class="col s6 l4 ">
+  <div class="col s6 l4 adjust-list">
     <div class="card z-depth-0 white ">
        <div class="card-content mods">
           <span class="categoria-academia">{{ $course->category->name }}</span>
-         <div class="iconcourse"><img src="{{ $course->category->getMainImgUrl() }}" class="responsive-img imgMods"></div>
+         <div class="iconcourse"><img style="max-width: 100% !important;" src="{{ $course->category->getMainImgUrl() }}" class="responsive-img imgMods"></div>
           <h5 class="titulo-academia2"> {{ $course->name }}</h5>
            <div class="modulos">{{ $course->modules->count() }} módulos</div>
               <div  class="moduloslista valign-wrapper hide-on-med-and-down">

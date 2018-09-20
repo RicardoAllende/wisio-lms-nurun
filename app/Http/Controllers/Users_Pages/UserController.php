@@ -111,12 +111,12 @@ class UserController extends Controller
         // ProfessionalLicenseValidation::dispatch($request->firstname, $request->paterno, $request->materno, $professional_license, $user->id);
         $email = $user->email;
         $password = $request->password;
-        // if(isset($inJanrain)){ // Don't register in janrain
-        //     // No special action
-        // }else{ // Register in janrain
-        //     $janRain = new Janrain;
-        //     $janRain->janrainRegister($email, $password);
-        // }
+        if(isset($inJanrain)){ // Don't register in janrain
+            // No special action
+        }else{ // Register in janrain
+            $janRain = new Janrain;
+            $janRain->janrainRegister($email, $password);
+        }
         if(Auth::attempt(compact('email', 'password'))){
             return redirect('/');
         }

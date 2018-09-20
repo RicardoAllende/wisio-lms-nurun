@@ -32,7 +32,7 @@ return [
      * for example:
      * 'default_password' = bcrypt('your default password'),
      */
-    'default_password' => '$2y$10$qQpVjcmcO5I1XffeZduhPuyAe55ZtEb5yxMUGhDXKI84r4PSKARoS', //secret
+    'default_password' => '$2y$10$gw3/P4DQi8fZ8WbaBh7TeODIPuHgC2boGcon5q8xFkK823BLZho/a', //secretsecret
 
     'resources' => [
         'pdf' => 'pdf',

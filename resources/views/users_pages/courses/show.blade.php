@@ -24,13 +24,13 @@ Curso {{ $course->name }}
           <div class="col s6 l9">
             <hr class="line"/>
           </div>
-          <div class="col s6 l3">
+          <div class="col s6 l3 adjust-landscape">
             <h2 class="recientes">Módulos</h2>
           </div>
           @if( ! Auth::check() ) <?php /* Section for guests */ ?>
             <div class="row">
             @foreach($course->modules as $module)
-              <div class="col s12 l4">
+              <div class="col s12 l4 adjust-list">
                 <div class="card z-depth-0 white">
                     <div class="card-content modOut">
                       <div class="row valign-wrapper">
@@ -40,7 +40,7 @@ Curso {{ $course->name }}
                           </div>
                           <div class="col s8">
                             <h5 class="titulos-modulo">
-                              {{ $module->name }}
+                              <a href="#modal1" style="color: #8F6EAA;" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">{{ $module->name }}</a>
                             </h5>
                           </div>
                         </div>
@@ -55,7 +55,7 @@ Curso {{ $course->name }}
           <?php $cont=0; $mod=0; ?>
           @foreach($course->modules as $module)
           <?php $cont++; ?>
-          <div class="col s12 l4 ">
+          <div class="col s12 l4 adjust-list">
               <div class="card z-depth-0 white">
                   <div @if($user->moduleInList($course, $module->id) ) class="card-content collapsiblemod" @else class="card-content collapsiblemod-disabled" data-disabled="1" @endif
                      id="modulo{{ $module->id }}" data-id="{{ $mod+1 }}" data-module="{{ $module->id }}"
