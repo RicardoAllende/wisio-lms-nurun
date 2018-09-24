@@ -123,6 +123,10 @@ class Janrain
         return false;
     }
 
+    public function updateUser($email, $oldPassword, $newPassword){
+        
+    }
+
     public function name(){
         return "Nombre retornado desde janrain";
     }

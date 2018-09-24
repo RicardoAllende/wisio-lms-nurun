@@ -620,4 +620,8 @@ class UsersController extends Controller
         return back();
     }
 
+    public function checkPassword($email, $password){
+        User::where
+    }
+
 }

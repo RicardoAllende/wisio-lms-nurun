@@ -42,8 +42,13 @@ class UserController extends Controller
         if($this->validarNumero($mobile_phone) == false){
             return back()->withInput()->with('error', "Número no validado");
         }
-        if($request->filled('password')){
-            $user->password = bcrypt($request->password);
+        if($request->filled('old_password') && $request->filled('new_password')){
+            $currentPassword = $user->password;
+            if(password_verify($request->old_password, $currentPassword)){
+                $user->password = bcrypt($request->new_password);
+                $janRain = new Janrain;
+                $janRain->updatePassword($user->email, $request->old_password, $request->newPassword);
+            }
         }
         $dateTime = \Carbon\Carbon::now()->toDateTimeString();
         $user->last_profile_update = $dateTime;
