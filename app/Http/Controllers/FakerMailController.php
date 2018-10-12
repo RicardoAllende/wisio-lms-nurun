@@ -19,6 +19,8 @@ use App\Mail\Recordatorio2;
 use App\Mail\Enrollment;
 use App\Mail\ApprovedCourse;
 use App\Mail\NotApproved;
+use App\Mail\ProfessionalLicenseValidationMail;
+use App\Mail\ProfessionalLicenseInvalidationMail;
 use AWS;
 use Illuminate\Support\Facades\DB;
 
@@ -195,8 +197,19 @@ class FakerMailController extends Controller
         return true;
     }
 
+    public function testValidate(){
+        $email = "abigail.herrera@subitus.com";
+        $email = "ricardo.allende@subitus.com";
+        Mail::to($email)->send(new ProfessionalLicenseValidationMail());
+        return "Enviado";
+    }
 
-
+    public function testInvalidate(){
+        $email = "abigail.herrera@subitus.com";
+        $email = "ricardo.allende@subitus.com";
+        Mail::to($email)->send(new ProfessionalLicenseInvalidationMail());
+        return "Enviado";
+    }
     
 
     public function sendSMS($mobilePhone, $user_id, $ascription_slug, $course_id, $user_name, $course_name, $credits){

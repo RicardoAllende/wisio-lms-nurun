@@ -2,9 +2,8 @@
 
 use GuzzleHttp\Client;
 
-// Route::get('/auth-janrain/{email}', 'HomeController@attemptUser');
-// Route::get('/register-janrain/{email}', 'HomeController@registerUser');
-// Route::get('/verify-email/{email}', 'HomeController@verifyUser');
+Route::get('/test-validation', 'FakerMailController@testValidate');
+Route::get('/test-no-validation', 'FakerMailController@testInvalidate');
 
 Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/', 'HomeController@index')->name('welcome');

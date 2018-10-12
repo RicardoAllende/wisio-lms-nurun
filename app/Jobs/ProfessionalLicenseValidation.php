@@ -12,6 +12,9 @@ use App\Setting;
 use GuzzleHttp\Client;
 use App\State;
 use App\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProfessionalLicenseValidationMail;
+use App\Mail\ProfessionalLicenseInvalidationMail;
 
 class ProfessionalLicenseValidation implements ShouldQueue
 {
@@ -54,6 +57,7 @@ class ProfessionalLicenseValidation implements ShouldQueue
             $user->enabled = true;
             $user->is_validated = true;
             $user->save();
+            Mail::to($user->email)->send(new ProfessionalLicenseValidationMail());
             // send email professional license validated
             return;
         }else{
@@ -65,6 +69,7 @@ class ProfessionalLicenseValidation implements ShouldQueue
             $user->is_validated = false;
             $user->professional_license = null;
             $user->save();
+            Mail::to($user->email)->send(new ProfessionalLicenseInvalidationMail());
             // Email professional license not validated
             // User::destroy($this->user_id);
             return;
