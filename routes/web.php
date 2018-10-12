@@ -2,9 +2,6 @@
 
 use GuzzleHttp\Client;
 
-Route::get('/test-validation', 'FakerMailController@testValidate');
-Route::get('/test-no-validation', 'FakerMailController@testInvalidate');
-
 Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/', 'HomeController@index')->name('welcome');
     Route::get('/login', 'HomeController@index')->name('login'); // Página de login
