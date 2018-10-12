@@ -6,9 +6,11 @@ use GuzzleHttp\Client;
 // Route::get('/register-janrain/{email}', 'HomeController@registerUser');
 // Route::get('/verify-email/{email}', 'HomeController@verifyUser');
 
-Route::get('/', 'HomeController@index')->name('welcome');
-Route::get('/login', 'HomeController@index')->name('login'); // Página de login
-Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
+Route::group(['middleware' => 'prevent-back-history'],function(){
+    Route::get('/', 'HomeController@index')->name('welcome');
+    Route::get('/login', 'HomeController@index')->name('login'); // Página de login
+    Route::get('/registro', 'AscriptionController@mainRegisterForm')->name('register')->middleware('guest');
+});
 
 Route::get('/denied', function(){  return view('errors.denied');  })->middleware('auth')->name('permission.denied');
 

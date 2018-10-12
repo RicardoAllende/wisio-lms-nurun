@@ -10,23 +10,23 @@
 
             <ul>
               @if(Auth::check())
-			  
-				<li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});" 
+
+				<li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Academia_mc'});"
               href="{{ route('student.home', $ascription->slug) }}" id="home">Academia MC</a></li>
                 <ul class="submenu">
 
-                  <li ><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Mis_cursos'});" 
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Mis_cursos'});"
                   href="{{ route('student.own.courses', $ascription->slug) }}" id="cursos">Mis cursos</a></li>
-                  
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Profesores'});" 
+
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Profesores'});"
                   href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Evaluaciones'});"
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Evaluaciones'});"
                   href="{{ route('student.list.evaluations', $ascription->slug) }}" id="evaluaciones">Evaluaciones</a></li>
                   <!-- <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Calendario'});"
                   href="#modal2" class="modal-trigger" >Calendario</a> </li> -->
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Certificados'});"
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'Certificados'});"
                   href="{{ route('certificates.list', $ascription->slug) }}" id="menuCertificados" >Certificados</a></li>
                 </ul>
                 <!-- <li><a href="#!">Medicamentos</a></li> -->
@@ -39,16 +39,16 @@
 
 
 
-              @else 
-			  
+              @else
+
 				<li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Academia MC</a></li>
 				<ul class="submenu">
-                
-                  <li ><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Como_funciona'});"
+
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Como_funciona'});"
                    href="{{ route('student.funciona', $ascription->slug) }}" id="funciona">¿Cómo funciona?</a></li>
-                  <li><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Cursos</a></li>
-                  
-                  <li><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
+                  <li class="limenu"><a href="#modal1" class="modal-trigger" onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Ingreso_Registro'});">Cursos</a></li>
+
+                  <li class="limenu"><a onclick="gtag('event','Clics',{'event_category':'Home','event_label':'Profesores'});" href="{{ route('student.show.experts', $ascription->slug) }}" id="expertos">Profesores</a></li>
                 </ul>
                 <!-- <li><a href="#!">Medicamentos</a></li> -->
                   <li class="registro">

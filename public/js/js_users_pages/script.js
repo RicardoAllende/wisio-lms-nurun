@@ -16,9 +16,11 @@ var autoclosetime = 3000;
 
 /*Cambia el tamaño de fuente */
 var donde = $('body');
+var submenu = $('.submenu');
   var sizeFuenteOriginal = donde.css('font-size');
   var contUp = 0;
   var contDown = 0;
+  var contFontSize = 0;
 
   // Resetear Font Size
   $(".resetearFont").click(function(){
@@ -27,14 +29,14 @@ var donde = $('body');
 
   // Aumentar Font Size
   $("#font-up,#font-upMob").click(function(){
-    contUp++;
+    if (contFontSize<3) {
+      contFontSize ++;
   	var sizeFuenteActual = donde.css('font-size');
     var sizeFontA = $('a').css('font-size');
- 	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
-  var sizeFuenteA = parseFloat(sizeFuenteActual, 10);
-    var sizeFuenteNuevo = sizeFuenteActualNum*1.2;
-    var sizeFuenteANuevo = sizeFuenteActualNum*0.8;
-    if(contUp < 4){
+    var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
+    var sizeFuenteA = parseFloat(sizeFontA, 10);
+      var sizeFuenteNuevo = sizeFuenteActualNum*1.2;
+      var sizeFuenteANuevo = sizeFuenteA/.9;
       donde.css('font-size', sizeFuenteNuevo);
       $('a').css('font-size', sizeFuenteANuevo);
     }
@@ -44,14 +46,14 @@ var donde = $('body');
 
   // Disminuir Font Size
   $("#font-down,#font-downMob").click(function(){
-    contDown++;
+    if (contFontSize> -3) {
+      contFontSize --;
   	var sizeFuenteActual = donde.css('font-size');
     var sizeFontA = $('a').css('font-size');
  	var sizeFuenteActualNum = parseFloat(sizeFuenteActual, 10);
-  var sizeFuenteA = parseFloat(sizeFuenteActual, 10);
-    var sizeFuenteNuevo = sizeFuenteActualNum*0.8;
-    var sizeFuenteANuevo = sizeFuenteActualNum*0.8;
-    if(contDown < 4){
+  var sizeFuenteA = parseFloat(sizeFontA, 10);
+    var sizeFuenteNuevo = sizeFuenteActualNum/1.2;
+    var sizeFuenteANuevo = sizeFuenteA*.9;
       donde.css('font-size', sizeFuenteNuevo);
       $('a').css('font-size', sizeFuenteANuevo);
     }
@@ -129,7 +131,7 @@ function showSlidesE(n){
         slides[i].style.display = "none";
     }
     slides[slideIndex-1].style.display = "block";
-    let selector = '#dot' + n;
+    var selector = '#dot' + n;
     $(selector).removeClass( "circle-not-selected" );
     $(selector).addClass( "circle-selected" );
   }
@@ -221,19 +223,19 @@ function showInfoForEvaluation(idEval){
   if(intentosRealizados > posiblesIntentos){
     intentosRealizados = posiblesIntentos;
   }
-  let intentos = "Esta evaluación se ha realizado " + intentosRealizados + " veces, usted tiene " + posiblesIntentos + " intentos de realizarla";
+  var intentos = "Esta evaluación se ha realizado " + intentosRealizados + " veces, usted tiene " + posiblesIntentos + " intentos de realizarla";
   if(intentosRealizados == posiblesIntentos){
     intentos += "<br>Usted ya no puede realizar esta evaluación";
   }
   if(intentosRealizados == 0){
     mayorCalificacion = "No disponible";
   }
-  let calificacion = "Su calificación es: " + mayorCalificacion;
-  let nombre = "Información de la evaluación: " + nombreEvaluacion;
+  var calificacion = "Su calificación es: " + mayorCalificacion;
+  var nombre = "Información de la evaluación: " + nombreEvaluacion;
   // console.log("Información de los intentos", intentos);
   // console.log('Información de la calificación', calificacion);
   $('#intentosId').html(intentos);
-  $('#calificacionP').html(calificacion);  
+  $('#calificacionP').html(calificacion);
   $('#nombre-del-modulo').html(nombre);
   evaluationId = idEval;
   $('#info-evaluation').modal('open');
@@ -252,7 +254,17 @@ function openModule(){
 
   if(isMob){
     $('#modalMod').modal('open');
-  } else {
+    if ($("#references").text().length == 0 && $(window).width()<=510) {
+        var div_mod = document.getElementById('modalMod'); 
+        div_mod.style.setProperty("height", "60%", "important");
+    } 
+    else{
+        var div_mod = document.getElementById('modalMod'); 
+        div_mod.style.setProperty("height", "80%", "important");
+    }
+
+  }
+  else { 
     content.style.display = 'block';
     setTimeout(function(){ content.style.maxHeight = content.scrollHeight + 60 + "px";}, 500);
   }
@@ -284,6 +296,36 @@ function closeModule(){
   }
 
 }
+
+//Cerrar modulo cuando se da click fuera de la modal
+$(document).click(function(event) {
+  if(content){
+      if(content.style.display == 'block' && !$(event.target).closest("#modalMod").length && !$(event.target).closest(".module-content").length){
+          if(!isEval){
+            sendDataLrs();
+            if(stat){ //Módulo terminado
+              // alert('Enviando estado del módulo terminado');
+              sendStatus('1', modActive);
+            }
+            stat = false;
+          }
+          hasFEvaluation = false;
+          $('.chip').html('Video - de -');
+          isEval= false;
+          modActive.classList.toggle("activeMod");
+          if(isMob){
+            $('#modalMod').modal('close');
+            blockViewModule = false;
+            $("#"+content.id+" #name_module").html('');
+            $("#"+content.id+" #content").html('');
+          } else {
+            content.style.maxHeight = null;
+            setTimeout(function(){ content.style.display = 'none';blockViewModule = false;}, 200);
+            $("#"+content.id+" #content").html('');
+          }
+      }
+  }
+});
 
 
 function getEvDiag(idEv){
@@ -361,7 +403,6 @@ function printResources(resources){
       });
 
 
-
       if(arrVideo.length > 0){
 
         videoSource = '' + arrVideo[0];
@@ -375,8 +416,12 @@ function printResources(resources){
 
       var contVid = 0;
 
+      $('.chip').html('Video '+(contVid+1)+' de '+arrVideo.length);
+
       $("#"+content.id+" #content").html(contendiv);
       var vide = document.getElementById('video');
+      var next_b = document.getElementById('next_b');
+      var prev_b = document.getElementById('prev_b');
 
       vide.addEventListener('loadedmetadata', function() {
         vide.currentTime = videoStart;
@@ -407,6 +452,64 @@ function printResources(resources){
         });
       }
 
+      next_b.onclick = function() {
+
+          contVid++;
+          if(arrVideo[contVid] != undefined){
+            vide.src = ''+arrVideo[contVid];
+            tincanActivityId = arrVideo[contVid];
+            vide.play();
+          } else {
+            stat = true;
+            MsjVideoFinish();
+            lrs.dropState("videoBookmark", {
+              agent: myAgent,
+              activity: myActivity
+            });
+
+          }
+      };
+
+      $('.next_button').click(function() {
+            contVid++;
+            if(arrVideo[contVid] != undefined){
+              vide.src = ''+arrVideo[contVid];
+              tincanActivityId = arrVideo[contVid];
+              vide.play();
+            } else {
+              stat = true;
+              MsjVideoFinish();
+              lrs.dropState("videoBookmark", {
+                agent: myAgent,
+                activity: myActivity
+              });
+
+            }
+        });
+
+      $('.prev_button').click(function() {
+          contVid--;
+          if(arrVideo[contVid] != undefined && contVid != -1){
+            vide.src = ''+arrVideo[contVid];
+            tincanActivityId = arrVideo[contVid];
+            vide.play();
+          }else{
+            contVid++;
+          } 
+      });
+
+      prev_b.onclick = function() {
+
+          contVid--;
+          if(arrVideo[contVid] != undefined && contVid != -1){
+            vide.src = ''+arrVideo[contVid];
+            tincanActivityId = arrVideo[contVid];
+            vide.play();
+          }else{
+            contVid++;
+          } 
+      };
+
       vide.onended = function() {
 
           contVid++;
@@ -427,10 +530,21 @@ function printResources(resources){
       };
       vide.onplay = function() {
         videoPlaying = vide;
+        var pag_vid = document.getElementById('pag_vid');
 
         //console.log(resources);
         //console.log(vide.src);
         $('.chip').html('Video '+(contVid+1)+' de '+arrVideo.length);
+        if(arrVideo.length>1){
+          pag_vid.style.setProperty("display", "inline-block");
+          var items = document.getElementsByClassName('video_pag');
+          for (var i=0; i < items.length; i++) {
+            items[i].style.setProperty("display", "inline-block");
+          }
+        }
+        else{
+          pag_vid.style.setProperty("display", "none");
+        }
         tincan.sendStatement(
           {
               actor: {
@@ -455,6 +569,13 @@ function printResources(resources){
       var contendiv = '';
       switch(String(resources[0]['type'])) {
         case 'video':
+            $('.chip').html('Video 1 de 1');
+            var pag_vid = document.getElementById('pag_vid');
+            pag_vid.style.setProperty("display", "none");
+            var items = document.getElementsByClassName('video_pag');
+            for (var i=0; i < items.length; i++) {
+              items[i].style.setProperty("display", "none");
+            }
             contendiv += '<video width="100%" controls id="video" controlsList="nodownload"><source src="'+resources[0]['url']+'" type="video/mp4"></video>';
             $("#"+content.id+" #content").html(contendiv);
             var vide = document.getElementById('video');
@@ -491,7 +612,6 @@ function printResources(resources){
             };
             vide.onplay = function() {
               videoPlaying = vide;
-              $('.chip').html('Video 1 de 1');
             };
             vide.onpause = function() {
 

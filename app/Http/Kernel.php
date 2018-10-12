@@ -63,5 +63,6 @@ class Kernel extends HttpKernel
         'reporter' => \App\Http\Middleware\Reporter::class,
         'teacher' => \App\Http\Middleware\Teacher::class,
         'tester' => \App\Http\Middleware\Tester::class,
+        'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
     ];
 }

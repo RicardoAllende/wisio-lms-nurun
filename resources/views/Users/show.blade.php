@@ -24,7 +24,7 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>Datos de Usuario</h5>
-                
+
             </div>
 
 		<div class="contact-box">
@@ -84,7 +84,7 @@
                             </li>
                             @endif
                         </ul>
-                    </div> 
+                    </div>
                 </div>
             </div>
 
@@ -113,15 +113,16 @@
                             </td>
                             <td>
                                 <a href="{{ route('complete.course', [$user->id, $course->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Completar curso</a>
+                                <a href="{{ route('reset.evaluations', [$user->id, $course->id]) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Restablecer avance</a>
                             </td>
-                        </tr>    
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
-            </div>          
+            </div>
 
             <div class="clearfix"></div>
-                
+
         </div>
 
         </div>

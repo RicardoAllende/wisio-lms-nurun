@@ -13,7 +13,7 @@ use App\Notification;
 use App\Course;
 use App\CourseUser;
 use App\Ascription;
-use App\Http\Controllers\Janrain;
+// use App\Http\Controllers\Janrain;
 
 class LoginController extends Controller
 {
@@ -69,15 +69,7 @@ class LoginController extends Controller
             Auth::logout();
             return redirect('/');
         }
-        $user = User::whereEmail($request->email)->first();
-        if($user->isAdmin()){
-            if(Auth::attempt($credentials)){
-                return redirect()->route('admin.dashboard');
-            }
-        }
-        $janrain = new Janrain;
-        $result = $janrain->janrainLogin($request->email, $request->password);
-        if($result === true){
+        if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if($user->enabled == 0){
                 Auth::logout();
@@ -157,21 +149,8 @@ class LoginController extends Controller
             // User has an invalid role
             Auth::logout();
             return redirect('/');
-        }
-        if($result === false){
-            return back()->withInput()->with('error', 'Usuario no encontrado en janrain');
-        }
-        if($result === -1){
-            // dd('Usuario existe en janrain, pero no en academia');
-            $email = $request->email;
-            $password = $request->password;
-            $ascription = Ascription::whereIsMainAscription(1)->first();
-            if($ascription == null){
-                return "Hubo un error con la información en la base de datos, por favor contacte al administrador del sistema";
-            }
-            $inJanrain = true;
-            return view('Users/register', compact('ascription', 'inJanrain', 'email', 'password'));
-            dd('Usuario existe en janrain, pero no en academia');
+        } else {
+            return back()->withInput()->with('error', 'Verifique sus datos');
         }
     }
 

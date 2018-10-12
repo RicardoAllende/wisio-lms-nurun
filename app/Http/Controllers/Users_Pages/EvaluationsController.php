@@ -363,7 +363,10 @@ class EvaluationsController extends Controller
                   });
                 </script>';
             }
-        }else{
+        }else if(Auth::user()->scoreInEvaluation($evaluation->id)>=8){
+            echo '<h3>Esta evaluación ya ha sido aprobada con: '.Auth::user()->scoreInEvaluation($evaluation->id).'</h3>';
+        }
+        else{
             echo '<h3>Ya no puede hacer esta evaluación nuevamente</h3>';
         }
     }

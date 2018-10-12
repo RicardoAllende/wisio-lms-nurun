@@ -277,11 +277,11 @@
 
                     </div>
                     <div class="row hide-on-large-only">
-                        <div class="col s6 l3 leer-mas prev">
+                        <div class="col s6 l3 leer-mas prev ant-button">
                              <hr class="line3 hide-on-small-only"/>
                             <a class="" onclick="plusSlides(-1)">anterior</a>
                          </div>
-                        <div class="col s6 l3 offset-l3 leer-mas next">
+                        <div class="col s6 l3 offset-l3 leer-mas next sig-button">
                             <a class="" onclick="plusSlides(1)">siguiente</a>
                              <hr class="line3 hide-on-small-only"/>
                          </div>

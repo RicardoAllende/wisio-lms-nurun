@@ -21,7 +21,7 @@ use App\Notification;
 use App\Setting;
 use App\ModuleUser;
 use App\EvaluationUser;
-use App\Http\Controllers\Janrain;
+//use App\Http\Controllers\Janrain;
 
 class UsersController extends Controller
 {
@@ -71,15 +71,17 @@ class UsersController extends Controller
                 );
             }
             $user = User::create($input);
-            $janRain = new Janrain;
-            $password = "secretsecret";
-            // $password = config('constants.default_password');
+            
+            /*$janRain = new Janrain;
+            $password = config('constants.default_password'); // secret
             $user->password = $password;
             $user->save();
+            $password = "secretsecret";
             // dd($user->password);
             if($request->role_id == 1){ // Doctor
                 $janRain->janrainRegister($email, $password);
-            }
+            }*/
+            
             return redirect()->route('users.show',$user->id);
         }catch(Exception $e){
             return back()->withInput()->withError('Existió un error al crear el usuario');
@@ -125,6 +127,7 @@ class UsersController extends Controller
         $user->lastname = $request->lastname;
         $user->professional_license = $request->professional_license;
         $user->role_id = $request->role_id;
+        $user->ascription_id = $request->ascription_id;
         $user->save();
         // if($request->filled('ascription_id')){
         //     $ascription_id = $request->ascription_id;
@@ -210,14 +213,14 @@ class UsersController extends Controller
     public function getUsersDataAdmin(){
         return \DataTables::of(User::query())
         ->addColumn('userLink', function ($user) {
-            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
+            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>';
         })
         ->addColumn('status', function ($user) {
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
-            return  $status; 
+            return  $status;
         })
         ->addColumn('full_name', function ($user) {
-            return $user->firstname.' '.$user->lastname; 
+            return $user->firstname.' '.$user->lastname;
         })
         ->addColumn('ascription_name', function ($user) {
             $ascription = $user->ascription;
@@ -232,7 +235,7 @@ class UsersController extends Controller
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
             }else{
                 return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
-            }            
+            }
         })
         ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name'])
         ->make(true);
@@ -246,25 +249,25 @@ class UsersController extends Controller
             $user = User::find($user->id);
             $hasNotification =  $user->hasNotifications();
             if($hasNotification){
-                return '<a href="' . route('show.notifications.for.user', $user->email) .'">Ver notificaciones</button>'; 
+                return '<a href="' . route('show.notifications.for.user', $user->email) .'">Ver notificaciones</button>';
             }
             return "Sin notificaciones";
         })
         ->addColumn('numMonthReminders', function ($user) {
             $user = User::find($user->id);
-            return $user->numAllMonthReminderNotifications(); 
+            return $user->numAllMonthReminderNotifications();
         })
         ->addColumn('numWeekReminders', function ($user) {
             $user = User::find($user->id);
-            return  $user->numAllWeekReminderNotifications(); 
+            return  $user->numAllWeekReminderNotifications();
         })
         ->addColumn('firstNotification', function ($user) {
             $user = User::find($user->id);
-            return $user->dateFirstNotification(); 
+            return $user->dateFirstNotification();
         })
         ->addColumn('lastNotification', function ($user) {
             $user = User::find($user->id);
-            return $user->dateLastNotification(); 
+            return $user->dateLastNotification();
         })
         ->addColumn('actions', function ($user) {
             $user = User::find($user->id);
@@ -272,7 +275,7 @@ class UsersController extends Controller
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
             }else{
                 return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
-            }            
+            }
         })
         ->rawColumns(['userLink', 'actions', 'numMonthReminders', 'numWeedReminders', 'firstNotification', 'lastNotification'])
         ->make(true);
@@ -294,7 +297,7 @@ class UsersController extends Controller
             return $notification->course->name;
         })
         ->addColumn('check', function ($notification) {
-            return '<a href="'.route('check.notification', $notification->id).'" class="btn btn-primary btn-round"><span class="glyphicon glyphicon-check"></span></a>'; 
+            return '<a href="'.route('check.notification', $notification->id).'" class="btn btn-primary btn-round"><span class="glyphicon glyphicon-check"></span></a>';
         })
         ->addColumn('actions', function ($notification) {
             $user = $notification->user;
@@ -302,7 +305,7 @@ class UsersController extends Controller
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
             }else{
                 return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
-            }    
+            }
         })
         ->addColumn('first_notification', function ($notification) {
             $user = $notification->user;
@@ -331,11 +334,11 @@ class UsersController extends Controller
             return $doctor->numCompletedCoursesOfAscription($this->ascription_id);
         })
         ->addColumn('userLink', function ($user) {
-            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>'; 
+            return '<a href="' . route('users.show', $user->id) .'">'.$user->id.'</button>';
         })
         ->addColumn('status', function ($user) {
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
-            return  $status; 
+            return  $status;
         })
         ->addColumn('actions', function ($user) {
             if($user->enabled == 1){
@@ -352,11 +355,11 @@ class UsersController extends Controller
 
     public function getDataForAscriptionEnrollment($ascription_id){
         $this->diplomaId = $ascription_id;
-        
+
         return \DataTables::of(User::query())
         ->addColumn('status', function ($user) {
             $status = ($user->enabled == 1) ? "Activo" : "Inactivo";
-            return  $status; 
+            return  $status;
         })
         ->rawColumns(['status'])
         ->make(true);
@@ -380,7 +383,7 @@ class UsersController extends Controller
         ->addColumn('status', function ($user) {
             $doctor = User::find($user->user_id);
             $status = ($doctor->enabled == 1) ? "Activo" : "Inactivo";
-            return  $status; 
+            return  $status;
         })
         ->rawColumns(['status', 'grade'])
         ->make(true);
@@ -391,7 +394,7 @@ class UsersController extends Controller
         return \DataTables::of($users)
         ->make(true);
     }
-    
+
     public function usersNotValidated(){
         return view('Users.not-validated');
     }
@@ -440,7 +443,7 @@ class UsersController extends Controller
         }
         return back();
     }
-    
+
     public function getDataUsersNotValidated(){
         $users = User::where('is_validated', 0)->where('enabled', 1)->where('role_id', 1);
         return \DataTables::of($users)
@@ -547,7 +550,7 @@ class UsersController extends Controller
     }
 
     public function inviteResult(Request $request){
-        if($request->filled('code')){            
+        if($request->filled('code')){
             $route = route('show.register.form.pharmacy.with.code', [$request->ascription_slug, $request->code]);
         }else{
             $route = route('show.register.form.pharmacy', $request->ascription_slug);
@@ -556,7 +559,7 @@ class UsersController extends Controller
     }
 
     public function sendInviteEmail(){
-        
+
     }
 
     public function changeAdminPassword(){

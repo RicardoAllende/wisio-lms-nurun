@@ -13,7 +13,9 @@ Curso {{ $course->name }}
   @include('users_pages.courses.modal')
   @include('users_pages.courses.modalEvDiag')
   @include('users_pages.courses.modalInscripcion')
-  @include('users_pages.courses.credits-modal')
+  @if($course->name != 'Farmacoeconomía')
+    @include('users_pages.courses.credits-modal')
+  @endif  
   <div class="row pad-left3">
           <div class="pad-left1">
             <h2 class="cursoview">{{ $course->name }}</h2>
@@ -91,12 +93,18 @@ Curso {{ $course->name }}
           </div>
           @if($cont == 3 )
           <?php $cont = 0; $mod++; ?>
-          <div class="col s12 content" id="mod{{ $mod }}">
+          <div class="col s12 content module-content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h2 class="cursoview">Módulo</h2>
               <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip" >
                 Video - de -
+              </div>
+              <div id="pag_vid" class="video_pag paginator" style="display: none;">    
+                <ul style="display: inline;">
+                   <li class="prev-next prev_button" id="prev_b" style="padding: 6px;"> &lt;&lt; </li>
+                   <li class="prev-next next_button" id="next_b" style="padding: 6px 8px;"> &gt;&gt; </li>
+                </ul>
               </div>
               <div id="content">
 
@@ -112,12 +120,18 @@ Curso {{ $course->name }}
 
           @endforeach
           @if($course->modules->count() <= 3)
-          <div class="col s12 content" id="mod1">
+          <div class="col s12 content module-content" id="mod1">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h2 class="cursoview">Módulo</h2>
               <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip">
                 Video - de -
+              </div>
+              <div id="pag_vid" class="video_pag paginator" style="display: none;">    
+                <ul style="display: inline;">
+                   <li class="prev-next prev_button" id="prev_b" style="padding: 6px;"> &lt;&lt; </li>
+                   <li class="prev-next next_button" id="next_b" style="padding: 6px 8px;"> &gt;&gt; </li>
+                </ul>
               </div>
               <div id="content">
 
@@ -132,12 +146,18 @@ Curso {{ $course->name }}
           @endif
           @if(($course->modules->count()%3) > 0)
           <?php $cont = 0; $mod++; ?>
-          <div class="col s12 content" id="mod{{ $mod }}">
+          <div class="col s12 content module-content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h2 class="cursoview">Módulo</h2>
               <h2 class="cursoview" id="name_module"></h2><br/>
               <div class="chip">
                 Video - de -
+              </div>
+              <div id="pag_vid" class="video_pag paginator" style="display: none;">    
+                <ul style="display: inline;">
+                   <li class="prev-next prev_button" id="prev_b" style="padding: 6px;"> &lt;&lt; </li>
+                   <li class="prev-next next_button" id="next_b" style="padding: 6px 8px;"> &gt;&gt; </li>
+                </ul>
               </div>
 
               <div id="content">

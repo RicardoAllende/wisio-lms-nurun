@@ -78,7 +78,7 @@ Evaluacion
             <?php $cont++; ?>
             <div class="col s12 l4 ">
                 <div class="card z-depth-0 white">
-                    <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}" data-maximum="{{ $evaluation->maximum_attempts }}" data-tries="{{ $user->numTriesInEvaluation($evaluation->id) }}" data-score="{{ 5.8 }}" data-name="{{ $evaluation->name }}" >
+                    <div class="card-content collapsiblemod" data-id="{{ $mod+1 }}" data-eval="{{ $evaluation->id }}" data-maximum="{{ $evaluation->maximum_attempts }}" data-tries="{{ $user->numTriesInEvaluation($evaluation->id) }}" data-score="{{ $user->scoreInEvaluation($evaluation->id) }}" data-name="{{ $evaluation->name }}" >
                     <div class="row valign-wrapper">
                         <div class="col s4">
                             <img src="{{ $evaluation->module->getMainImgUrl() }}" alt="" class="circle moduleimg hide-on-med-and-down">

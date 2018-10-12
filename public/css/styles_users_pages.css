@@ -84,7 +84,7 @@ h5{
 .menu-desktop ul li{
     font-weight: bold;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
     padding-left: 40px;
 }
 
@@ -261,7 +261,7 @@ a.linkM{
   width: 100%;
   margin: auto;
   height: auto !important;
-  min-height: 700px;
+  min-height: 600px;
 }
 
 /* footer */
@@ -773,8 +773,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .submenu {
     margin-left: 10px;
     font-size: .8rem;
-    line-height: 2px;
+    /* line-height: 2px; */
 
+}
+
+.limenu{
+  margin-bottom: 14px !important;
 }
 
 .mods {
@@ -1230,7 +1234,7 @@ height: 16px !important;
 
 @media only screen and (max-width: 1200px) and (min-width: 993px) {
   .adjust-list {
-      width: 50% !important; 
+      width: 50% !important;
       margin-left: auto;
       left: auto;
       right: auto;
@@ -1251,7 +1255,7 @@ height: 16px !important;
 @media only screen and (max-width: 600px) {
 
   .adjust-list {
-      width: 100% !important; 
+      width: 100% !important;
       margin-left: auto;
       left: auto;
       right: auto;
@@ -1272,6 +1276,18 @@ height: 16px !important;
   }
 }  
 
+@media only screen and (max-device-width: 768px){
+
+  .ant-button, .sig-button{
+    width: 50% !important;
+  }
+
+  .sig-button{
+    text-align: right;
+  }
+
+}
+
 @media only screen and (max-width: 600px) {
     .imgExperts{
         max-width: 50% !important;
@@ -1284,6 +1300,8 @@ height: 16px !important;
   }
   .modal{
     max-height: 90% !important;
+    width: 90% !important;
+    height: 80% !important;
     top: 5% !important;
   }
 
@@ -1465,4 +1483,10 @@ img.responsive-img {
     .categoria-academia{
         padding-right: 15%;
     }
+}
+
+.prev-next{
+    display: inline;
+    border-radius: 16px;
+    background-color: #ddd;
 }

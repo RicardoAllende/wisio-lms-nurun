@@ -161,6 +161,7 @@ class CoursesController extends Controller
             $recommendations = Auth::user()->recommendations();
         }else{
             $recommendations = $courses;
+            return view('users_pages/login/login', compact('courses', 'ascription'));
         }
         $diplomas = $ascription->diplomas;
         return view('users_pages/courses.home',compact('courses', 'ascription', 'recommendations', 'diplomas'));

@@ -84,13 +84,8 @@ Actualizacion de información
     </div>
 
     <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('old_password', 'Contraseña Anterior:',['class'=>'control-label col-sm-2']); !!}
-      <input type="password" name="old_password" id="password" class="form-control" placeholder="Escriba aquí su contraseña anterior para poder cambiarla">
-    </div>
-    
-    <div class="reg col s12 l6 offset-l3">
-      {!! Form::label('new_password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
-      <input type="password" name="new_password" id="password" class="form-control" placeholder="Contraseña nueva" minlength="8">
+      {!! Form::label('password', 'Contraseña:',['class'=>'control-label col-sm-2']); !!}
+      <input type="password" name="password" id="password" class="form-control" placeholder="Escriba aquí su contraseña, si no desea cambiarla, deje este campo vacío">
     </div>
 
     <div class="reg col s12 l8 offset-l3">
