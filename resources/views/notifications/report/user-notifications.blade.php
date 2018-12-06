@@ -25,7 +25,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         Notificaciones enviadas al correo: <a href="mailto:{{$user->email}}">{{ $user->email }}</a> 
-                        @if($user->hasCallNotification())
+                        @if($user->hasACallNotification())
                         Usuario en lista de personas por llamar, número: <a href="tel:{{$user->mobile_phone}}">{{ $user->mobile_phone }}</a>
                         @endif
                     </div>

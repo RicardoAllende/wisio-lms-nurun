@@ -767,14 +767,12 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 1)->where('course_id', $course_id)->count();
     }
 
-    
-
-    // public function hasCallNotification(){
-    //     if($this->notifications()->where('type', 4)->whereViewed(0)->count() > 0){
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    public function hasACallNotification(){
+        if($this->notifications()->where('type', 4)->whereViewed(0)->count() > 0){
+            return true;
+        }
+        return false;
+    }
 
     public function hasCallNotification($course_id){
         if($this->notifications()->where('type', 4)->where('accessed', 0)->where('course_id', $course_id)->count() > 0){
