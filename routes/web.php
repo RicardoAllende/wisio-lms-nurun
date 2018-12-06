@@ -2,6 +2,10 @@
 
 use GuzzleHttp\Client;
 
+Route::get('no-autorizado', function() {
+    return App\Http\Controllers\Response::successLogin('df', App\User::first());
+});
+
 Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/', 'HomeController@index')->name('welcome');
     Route::get('/login', 'HomeController@index')->name('login'); // Página de login

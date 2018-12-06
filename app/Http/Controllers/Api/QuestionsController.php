@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\ApiControllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class CoursesController extends Controller
+class QuestionsController extends Controller
 {
     /**
      * Display a listing of the resource.
