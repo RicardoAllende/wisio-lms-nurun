@@ -13,3 +13,44 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::group(['prefix' => '/v1'], function(){
+    Route::post('auth', 'Api\LoginController@login');    
+    Route::get('auth', 'Api\LoginController@checkUserByToken')->middleware('auth:api');
+    Route::group(['middleware' => 'auth:api'], function(){
+
+        Route::middleware(['lms'])->prefix('/lms')->group(function (){
+            Route::apiResource('users', 'Api\LMS\UsersController');
+            Route::apiResource('courses', 'Api\LMS\CoursesController');
+            Route::apiResource('questions', 'Api\LMS\QuestionsController');
+            // Route::post('users/disable', 'Api\LMS\EnrollmentsController@disable');
+            Route::post('enrollments', 'Api\LMS\EnrollmentsController@store');
+            // Route::post('courses/disable', 'Api\LMS\CoursesController@disable');
+        });
+
+        Route::middleware(['app'])->prefix('app')->group(function(){
+            Route::get('achievements', 'Api\App\AchievementsController@showAll');
+            // Route::get('achievements/social/{achievement_name}', 'Api\App\AchievementsController@setSocialAchievement');
+            Route::post('sessions/results', 'Api\App\CoursesController@sessionResults');
+            Route::get('courses', 'Api\App\CoursesController@index');
+            Route::get('courses/completed', 'Api\App\CoursesController@completedCourses');
+            Route::post('profile/remember-me', 'Api\App\UsersController@changeRememberMe');
+            Route::apiResource('users', 'Api\App\UsersController');
+            Route::get('courses/{course_id}/questions', 'Api\App\CoursesController@showQuestions');
+            Route::get('courses/{course_id}/overview', 'Api\App\CoursesController@overview');
+            Route::get('courses/{course_id}/achievements', 'Api\App\AchievementsController@index'); // Get all user achievements in the course
+            Route::post('courses/{course_id}/achievements/set-hits', 'Api\App\AchievementsController@setHits'); // Get all user achievements in the course
+            Route::get('courses/{course_id}/achievements/available', 'Api\App\AchievementsController@available'); // Get available achievements
+            Route::post('courses/{course_id}/achievements/save', 'Api\App\AchievementsController@store'); // Save an achievement
+            Route::get('settings', 'Api\App\SettingsController@getSettings');
+            Route::post('settings', 'Api\App\SettingsController@setSettings');
+            Route::get('courses/{course_id}/achievements/stats', 'Api\App\AchievementsController@courseStats');
+            Route::post('questions', 'Api\App\QuestionsController@saveQuestion');
+            Route::get('overview', 'Api\App\UsersController@index');
+            Route::get('avatar', 'Api\App\UsersController@getAvatar');
+            Route::get('ranking', 'Api\App\UsersController@getRanking');
+            Route::post('users/avatar', 'AttachmentsController@store');
+            Route::get('expo-push-token', 'Api\App\UsersController@hasExpoPushToken');
+            Route::post('expo-push-token', 'Api\App\UsersController@setExpoPushToken');
+        });
+    });
+});
