@@ -9,6 +9,16 @@ class Response
 
     public static function noAuthorizedResponse(){
         $response = [
+            "response" => self::makeResponseField($status = "error", $message = "forbidden", $code = 403 ),
+            "data" => [
+
+            ]
+        ];
+        return self::returnResponse($response, 403);
+    }
+
+    public static function noLoginResponse(){
+        $response = [
             "response" => self::makeResponseField($status = "error", $message = "unauthorized", $code = 401 ),
             "data" => [
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Http\Controllers\Response;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class AdminApi
 {
@@ -18,18 +19,13 @@ class AdminApi
     {
         if(Auth::check()){
             $user = Auth::user();
-            if($user->hasRole(config('constants.roles.admin'))){
+            if($user->isAdmin()){
                 return $next($request);
             }else{
                 return Response::noAuthorizedResponse();
-                return redirect()->route('permission.denied');
             }
         }else{
-            return redirect('/');
+            return Response::noLoginResponse();
         }
-        // if($user->isAdmin()){
-
-        // }
-        // return $next($request);
     }
 }
