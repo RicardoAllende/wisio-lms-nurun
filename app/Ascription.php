@@ -12,7 +12,8 @@ class Ascription extends Model
         'slug',
         'description',
         'is_pharmacy',
-        'enabled'
+        'enabled',
+        'code'
     ];
 
     public function courses(){

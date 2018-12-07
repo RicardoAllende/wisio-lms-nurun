@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class UsersController extends Controller
 {
@@ -12,9 +13,13 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $paginationParameters = $request->only(['page', 'limit', 'offset']);
+        $selectFields = $request->select;
+        $users = getSearchFields(User::class, $selectFields);
+        $users = addPaginationToModel($users, $paginationParameters);
+        return $users->toSql();
     }
 
     /**

@@ -42,7 +42,8 @@ class User extends Authenticatable
         'refered_code',
         'has_reboot',
         'institution',
-        'ascription_id'
+        'ascription_id',
+        'id'
     ];
 
     // protected $appends = ['ascription'];

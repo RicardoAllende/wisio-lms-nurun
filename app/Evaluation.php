@@ -10,12 +10,9 @@ class Evaluation extends Model
         'id',
         'module_id',
         'diploma_id',
-        'ascription_id',
         'name',
         'type',
         'description',
-        'minimum_score',
-        'maximum_score',
         'maximum_attempts'
     ];
     public function module(){

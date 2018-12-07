@@ -81,5 +81,7 @@ return [
         'certificate' => '/storage/ascriptions/certificado.jpg'
     ],
 
-    'support_email' => 'soporte@academia.mx'
+    'support_email' => 'soporte@academia.mx',
+    'default_elements_per_page' => 30, // limit
+    
 ];

@@ -82,24 +82,6 @@ class HomeController extends Controller
         return view('users_pages.legals.sitemap', compact('ascription'));
     }
 
-    public function dumpRequest(Request $request) {
-        if($request->filled('fields')){
-            $fields = $request->fields;
-            $fields = espace_string($fields);
-            $fields = explode(',', $fields);
-            $temporalUser = new Course;
-            $availableFields = collect();
-            $availableFields = $availableFields->concat($temporalUser->getFillable());
-            $temporalUser = null; // Limpiando el espacio
-            $selection = $availableFields->intersect($fields);
-            $selection = $selection->toArray();
-            $selection = array_values($selection);
-            return Course::select($selection)->get();
-        }
-    }
-
-    
-
     // public function registerUser($email){
     //     $default_password = "Welcome123$";
     //     $janrain = new JanRain;

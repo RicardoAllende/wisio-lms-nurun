@@ -24,6 +24,7 @@ class Course extends Model
         'end_date',
         'category_id',
         'support_email',
+        'minimum_diploma_score',
         // 'has_diploma',
         'certificate_template_id'
         // 'diploma_template_id'
