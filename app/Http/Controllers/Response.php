@@ -76,23 +76,15 @@ class Response
      * @param int $code Http code
      */
     public static function showAll($dataName, $data, $code){
-        if(self::isOne($data)){
-            $numElements = 1;
-            if($data == null){
-                return self::elementNotFound($dataName);
-            }
-        }else{
-            $numElements = self::countElements($data);
-        }
+        $numElements = $data->count();
         $response = [
-            "response" => self::makeResponseField($status = "ok", $message = "", $code = 200 ),
+            "response" => self::makeResponseField($status = "ok", $message = "", $code ),
             "data" => [
                 'num_rows' => $numElements,
                 $dataName => $data
             ]
         ];
-        return self::returnResponse($response, 200);
-        return $response;
+        return self::returnResponse($response, $code);
     }
 
     public static function showSeveralFields($data, $code){
