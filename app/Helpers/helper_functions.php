@@ -41,9 +41,9 @@ function getDbLimit($parameter) {
 
 function getTotalPages($limit, $numRows) {
     if($limit > 0){
-        return intval($numRows / $limit);
+        return ceil($numRows / $limit);
     }
-    return 0;
+    return 0;P
 }
 
 function addPaginationToModel($eloquentModel, $paginationParameters){
@@ -77,7 +77,7 @@ function getPaginationParameters($paginationParameters, $num_rows){
     }
 
     if($offset == 0){
-        $offset = $page * $limit;
+        $offset = ($page - 1) * $limit;
     }
     $page = getPage($offset, $limit);
     $pages = getTotalPages($limit, $num_rows);

@@ -16,6 +16,22 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => '/v1'], function(){
     Route::post('auth', 'Api\LoginController@login');    
     Route::get('auth', 'Api\LoginController@checkUserByToken')->middleware('auth:api');
+    Route::apiResource('ascriptions', 'Api\AscriptionsController');
+    Route::apiResource('categories', 'Api\CategoriesController');
+    Route::apiResource('courses', 'Api\CoursesController');
+    Route::apiResource('diplomas', 'Api\DiplomasController');
+    Route::apiResource('experts', 'Api\ExpertsController');
+    Route::apiResource('modules', 'Api\ModulesController');
+    Route::apiResource('notifications', 'Api\NotificationsController');
+    Route::apiResource('options', 'Api\OptionsController');
+    Route::apiResource('questions', 'Api\QuestionsController');
+    Route::apiResource('references', 'Api\ReferencesController');
+    Route::apiResource('resources', 'Api\ResourcesController');
+    Route::apiResource('settings', 'Api\SettingsController');
+    Route::apiResource('specialties', 'Api\SpecialtiesController');
+    Route::apiResource('states', 'Api\StatesController');
+    Route::apiResource('tags', 'Api\TagsController');
+    Route::apiResource('users', 'Api\UsersController');
     Route::group(['middleware' => 'auth:api'], function(){
 
         

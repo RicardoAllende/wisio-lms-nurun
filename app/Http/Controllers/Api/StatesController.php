@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
+use App\State;
 
 class StatesController extends Controller
 {
@@ -13,9 +14,18 @@ class StatesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $model = State::class;
+        $temp = new $model;
+        $fillable = $temp->getFillable();
+        $numElements = $model::count();
+        $selectFields = getSearchFields($fillable, $request->select);
+        $paginationParameters = getPaginationParameters($request->only(['page', 'limit', 'offset']), $numElements);
+        return Response::showResults([
+            'States' => State::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
+            'pagination' => $paginationParameters
+        ]);
     }
 
     /**

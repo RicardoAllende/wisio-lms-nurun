@@ -26,8 +26,6 @@ class UsersController extends Controller
             'users' => User::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
             'pagination' => $paginationParameters
         ]);
-        return Response::showPage('users', $results->get(),User::count());
-        return $users->toSql();
     }
 
     /**

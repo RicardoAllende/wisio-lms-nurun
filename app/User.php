@@ -29,7 +29,6 @@ class User extends Authenticatable
         'birthday',
         'gender',
         'mobile_phone',
-        'postal_code',
         'city',
         'state_id',
         'address',
@@ -40,7 +39,6 @@ class User extends Authenticatable
         'role_id',
         'is_validated',
         'refered_code',
-        'has_reboot',
         'institution',
         'ascription_id',
         'id'
