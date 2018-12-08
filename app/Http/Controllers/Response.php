@@ -75,14 +75,11 @@ class Response
      * @param object, collect or empty $data
      * @param int $code Http code
      */
-    public static function showAll($dataName, $data, $code){
-        $numElements = $data->count();
+    public static function showResults($data){
+        $code = 200;
         $response = [
             "response" => self::makeResponseField($status = "ok", $message = "", $code ),
-            "data" => [
-                'num_rows' => $numElements,
-                $dataName => $data
-            ]
+            "data" => $data
         ];
         return self::returnResponse($response, $code);
     }

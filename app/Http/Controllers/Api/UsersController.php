@@ -16,10 +16,17 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $paginationParameters = $request->only(['page', 'limit', 'offset']);
-        $selectFields = $request->select;
-        $users = getSearchFields(User::class, $selectFields);
-        $users = addPaginationToModel($users, $paginationParameters);
+        $model = User::class;
+        $temp = new $model;
+        $fillable = $temp->getFillable();
+        $numElements = $model::count();
+        $selectFields = getSearchFields($fillable, $request->select);
+        $paginationParameters = getPaginationParameters($request->only(['page', 'limit', 'offset']), $numElements);
+        return Response::showResults([
+            'users' => User::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
+            'pagination' => $paginationParameters
+        ]);
+        return Response::showPage('users', $results->get(),User::count());
         return $users->toSql();
     }
 
