@@ -17,7 +17,7 @@ class DiplomasController extends Controller
     public function index(Request $request)
     {
         $model = Diploma::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'diplomas'));
     }
 
     /**

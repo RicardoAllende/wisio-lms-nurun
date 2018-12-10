@@ -17,7 +17,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $model = User::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'users'));
     }
 
     /**

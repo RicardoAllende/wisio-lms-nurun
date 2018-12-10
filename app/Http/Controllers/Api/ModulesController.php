@@ -17,7 +17,7 @@ class ModulesController extends Controller
     public function index(Request $request)
     {
         $model = Module::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'modules'));
     }
 
     /**

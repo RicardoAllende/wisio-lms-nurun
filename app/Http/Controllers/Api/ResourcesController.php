@@ -17,7 +17,7 @@ class ResourcesController extends Controller
     public function index(Request $request)
     {
         $model = Resource::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'resources'));
     }
 
     /**

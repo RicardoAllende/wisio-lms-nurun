@@ -17,7 +17,7 @@ class OptionsController extends Controller
     public function index(Request $request)
     {
         $model = Option::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'options'));
     }
 
     /**

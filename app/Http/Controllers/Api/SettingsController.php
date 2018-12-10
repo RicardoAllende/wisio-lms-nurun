@@ -17,7 +17,7 @@ class SettingsController extends Controller
     public function index(Request $request)
     {
         $model = Setting::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'settings'));
     }
     /**
      * Show the form for creating a new resource.

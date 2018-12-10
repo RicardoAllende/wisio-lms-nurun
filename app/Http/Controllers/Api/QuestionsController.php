@@ -17,7 +17,7 @@ class QuestionsController extends Controller
     public function index(Request $request)
     {
         $model = Question::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'questions'));
     }
 
     /**

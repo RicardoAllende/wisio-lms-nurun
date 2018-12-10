@@ -17,7 +17,7 @@ class TagsController extends Controller
     public function index(Request $request)
     {
         $model = Tag::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'tags'));
     }
 
     /**

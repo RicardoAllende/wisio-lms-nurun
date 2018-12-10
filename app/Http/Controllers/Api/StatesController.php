@@ -17,7 +17,7 @@ class StatesController extends Controller
     public function index(Request $request)
     {
         $model = State::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'states'));
     }
 
     /**

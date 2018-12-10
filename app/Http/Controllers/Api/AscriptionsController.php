@@ -17,7 +17,7 @@ class AscriptionsController extends Controller
     public function index(Request $request)
     {
         $model = Ascription::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'ascriptions'));
     }
 
     /**

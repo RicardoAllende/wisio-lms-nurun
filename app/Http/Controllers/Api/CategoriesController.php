@@ -17,7 +17,7 @@ class CategoriesController extends Controller
     public function index(Request $request)
     {
         $model = Category::class;
-        return Response::showResults(buildQuery($model, $request->input()));
+        return Response::showResults(buildQuery($model, $request->input(), 'categories'));
     }
 
     /**
