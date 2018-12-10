@@ -78,20 +78,36 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
         $selection = $fillable;
     }
     
+    $eloquentModel = $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
+
     if(array_key_exists('orderby', $getParameters)){
         $orderBy = in_array($getParameters['orderby'], $fillable);
-        $orderby = true;
+        $orderByName = $getParameters['orderby'];
+        $orderby = true; $orderbydesc = false;
     }
 
     if(array_key_exists('orderbydesc', $getParameters)){
         if(in_array($getParameters['orderbydesc'], $fillable)){
-            $orderBy = true;
-            $orderbydesc = true;
+            $orderByName = $getParameters['orderbydesc'];
+            $orderBy = true; $orderbydesc = true;
         }
     }
+
+    if($orderBy){
+        if($orderbydesc){
+            $eloquentModel = $eloquentModel->orderByDesc($orderByName);
+        }else{
+            $eloquentModel = $eloquentModel->orderBy($orderByName);
+        }
+    }
+
+    if(array_key_exists('where', $getParameters)){
+        $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
+    }
+
     return [
         'pagination_parameters' => $paginationParameters,
-        $resourceName => $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get()
+        $resourceName => $eloquentModel->get()
     ];
 }
 
@@ -119,7 +135,7 @@ function getPaginationParameters($paginationParameters, $num_rows){
     return compact('limit', 'page', 'offset', 'page', 'pages', 'num_rows');
 }
 
-function getWhereParameters($inputs, $available) {
+function addWhereParameters($eloquentModel, $inputs, $available) {
     $results = [];
     $parameters = array_keys($inputs);
     // var_dump($available);
