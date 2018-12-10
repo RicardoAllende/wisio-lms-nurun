@@ -43,7 +43,7 @@ function getTotalPages($limit, $numRows) {
     if($limit > 0){
         return ceil($numRows / $limit);
     }
-    return 0;P
+    return 0;
 }
 
 function addPaginationToModel($eloquentModel, $paginationParameters){
