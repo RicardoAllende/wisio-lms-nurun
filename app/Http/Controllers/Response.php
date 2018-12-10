@@ -76,11 +76,19 @@ class Response
      * @param int $code Http code
      */
     public static function showResults($data){
-        $code = 200;
-        $response = [
-            "response" => self::makeResponseField($status = "ok", $message = "", $code ),
-            "data" => $data
-        ];
+        if(gettype($data) == 'boolean'){
+            $code = 404;
+            $response = [
+                'response' => self::makeResponseField($status = 'error', $message = "Page not found", $code),
+                'data' => []
+            ];
+        }else{
+            $code = 200;
+            $response = [
+                "response" => self::makeResponseField($status = "ok", $message = "", $code ),
+                "data" => $data
+            ];
+        }
         return self::returnResponse($response, $code);
     }
 
@@ -96,15 +104,8 @@ class Response
     public static function makeResponseField($status, $message, $code){
         return [
             "status" => $status,
-                "message" => $message,
-                "http_code" => $code,
-                // "errors" => [
-                //     "user_message" => "",
-                //     "internal_message" => "",
-                //     "code" => "",
-                //     "message" => ""
-                // ],
-            
+            "message" => $message,
+            "http_code" => $code,            
         ];
     }
 

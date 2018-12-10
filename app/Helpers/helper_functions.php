@@ -68,6 +68,10 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
 
     $paginationParameters = getPaginationParameters($getParameters, $totalElements);
     
+    if($paginationParameters['page'] > $paginationParameters['pages']){
+        return false;
+    }
+
     if(array_key_exists('select', $getParameters)){
         $selection = getSearchFields($fillable, $getParameters['select']);
     }else{
