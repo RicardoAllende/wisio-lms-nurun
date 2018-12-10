@@ -9,6 +9,9 @@ use App\Expert;
 
 class ExpertsController extends Controller
 {
+    public $singularName = 'expert';
+    public $pluralName = 'experts';
+    public $eloquentModel = Expert::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class ExpertsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Expert::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'experts'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

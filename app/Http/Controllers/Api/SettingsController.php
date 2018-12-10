@@ -9,6 +9,9 @@ use App\Setting;
 
 class SettingsController extends Controller
 {
+    public $singularName = 'setting';
+    public $pluralName = 'settings';
+    public $eloquentModel = Setting::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class SettingsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Setting::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'settings'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
     /**
      * Show the form for creating a new resource.

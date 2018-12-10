@@ -9,6 +9,8 @@ use App\Question;
 
 class QuestionsController extends Controller
 {
+    public $singularName = 'question';
+    public $pluralName = 'questions';
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +18,7 @@ class QuestionsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Question::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'questions'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

@@ -9,6 +9,9 @@ use App\Category;
 
 class CategoriesController extends Controller
 {
+    public $singularName = 'category';
+    public $pluralName = 'categories';
+    public $eloquentModel = Category::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Category::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'categories'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

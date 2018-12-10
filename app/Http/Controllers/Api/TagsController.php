@@ -9,6 +9,9 @@ use App\Tag;
 
 class TagsController extends Controller
 {
+    public $singularName = 'tag';
+    public $pluralName = 'tags';
+    public $eloquentModel = Tag::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class TagsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Tag::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'tags'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

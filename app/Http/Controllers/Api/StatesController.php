@@ -9,6 +9,9 @@ use App\State;
 
 class StatesController extends Controller
 {
+    public $singularName = 'state';
+    public $pluralName = 'states';
+    public $eloquentModel = State::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class StatesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = State::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'states'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

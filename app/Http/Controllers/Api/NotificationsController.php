@@ -9,6 +9,9 @@ use App\Notification;
 
 class NotificationsController extends Controller
 {
+    public $singularName = 'notification';
+    public $pluralName = 'notifications';
+    public $eloquentModel = Notification::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class NotificationsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Notification::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'notifications'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

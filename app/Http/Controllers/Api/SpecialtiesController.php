@@ -9,6 +9,9 @@ use App\Specialty;
 
 class SpecialtiesController extends Controller
 {
+    public $singularName = 'specialty';
+    public $pluralName = 'specialties';
+    public $eloquentModel = Specialty::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class SpecialtiesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Specialty::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'specialties'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

@@ -9,6 +9,9 @@ use App\Ascription;
 
 class AscriptionsController extends Controller
 {
+    public $singularName = 'ascription';
+    public $pluralName = 'ascriptions';
+    public $eloquentModel = Ascription::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class AscriptionsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Ascription::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'ascriptions'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

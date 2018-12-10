@@ -9,6 +9,9 @@ use App\Evaluation;
 
 class EvaluationsController extends Controller
 {
+    public $singularName = 'evaluation';
+    public $pluralName = 'evaluations';
+    public $eloquentModel = Evaluation::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class EvaluationsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Evaluation::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'evaluations'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

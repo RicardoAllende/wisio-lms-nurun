@@ -9,6 +9,9 @@ use App\Option;
 
 class OptionsController extends Controller
 {
+    public $singularName = 'option';
+    public $pluralName = 'options';
+    public $eloquentModel = Option::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class OptionsController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Option::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'options'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

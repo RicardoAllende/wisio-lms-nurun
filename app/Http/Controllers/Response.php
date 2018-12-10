@@ -92,15 +92,6 @@ class Response
         return self::returnResponse($response, $code);
     }
 
-    public static function showSeveralFields($data, $code){
-        $response = [
-            "response" => self::makeResponseField($status = "ok", $message = "", $code = 200 ),
-            "data" => $data
-        ];
-        return self::returnResponse($response, 200);
-        return $response;
-    }
-
     public static function makeResponseField($status, $message, $code){
         return [
             "status" => $status,
@@ -109,44 +100,10 @@ class Response
         ];
     }
 
-    /**
-     * @param boolean $exists defines if the user is stored in db and is active
-     * @return json response
-     */
-    public static function verifyUserExists($exists){
-        if($exists){
-            $status = 'ok';
-            $message = "User exists";
-            $code = 200;
-        }else{
-            $status = 'error';
-            $message = "User not found";
-            $code = 404;
-        }
-        $response = [
-            "response" =>  self::makeResponseField($status, $message, $code),
-            "data" => []
-        ];
-        return self::returnResponse($response, 200);
-    }
-
     public static function elementNotFound($dataname){
         $response = [
             "response" => self::makeResponseField($status = "error", $message = "{$dataname} not found", $code = 404 ),
-            "response" => [
-                "status" => "error",
-                "message" => "{$dataname} not found",
-                "http_code" => "404",
-                "errors" => [
-                    "user_message" => "",
-                    "internal_message" => "",
-                    "code" => "",
-                    "message" => ""
-                ],
-            ],
-            "data" => [
-                'numRows' => 0
-            ]
+            "data" => []
         ];
         return self::returnResponse($response, 404);
         return $response;
@@ -184,6 +141,17 @@ class Response
         return $response;
     }
 
+    public static function showElement($dataName,  $data){
+        if(self::isEmpty($data)){
+            return self::elementNotFound($dataName);
+        }else{
+            return self::returnResponse([
+                'response' => self::makeResponseField('error', "{$dataName} not found", 200),
+                'data' => [ $dataName => $data ]
+            ], 200);
+        }
+    }
+
     public static function error($msg){
         $response = [
             "response" => self::makeResponseField($status = "error", $msg, $code = 409 ),
@@ -194,38 +162,29 @@ class Response
     }
 
     public static function isEmpty($element){
-        if($element == null){
-            return true;
-        }
-        if ($element instanceof \Illuminate\Database\Eloquent\Collection) {
-            return $element->isEmpty();
-        }
-        if(is_array($element)){
-            if(count($element) == 0){
+        $type = gettype($element);
+        switch ($type) {
+            case 'string':
+                if($element == '')
                 return true;
-            }
+                break;
+            case 'array':
+                if( count($element) == 0 )
+                return true;
+                break;
+            case 'string':
+                if($element == '')
+                return true;
+                break;
+            case 'boolean':
+                if(! $element)
+                return false;
+                break;
+            case 'NULL':
+                return true;
+                break;
         }
         return false;
-    }
-
-    public static function countElements($data){
-        if ($data instanceof \Illuminate\Database\Eloquent\Collection) {
-            return $data->count();
-        }
-        if(is_array($data)){
-            return count($data);
-        }
-        return false;
-    }
-
-    public static function isOne($element){
-        if ($element instanceof \Illuminate\Database\Eloquent\Collection) {
-            return false;
-        }
-        if(is_array($element)){
-            return false;
-        }
-        return true;
     }
 
 }

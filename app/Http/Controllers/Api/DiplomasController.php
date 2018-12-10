@@ -9,6 +9,9 @@ use App\Diploma;
 
 class DiplomasController extends Controller
 {
+    public $singularName = 'diploma';
+    public $pluralName = 'diplomas';
+    public $eloquentModel = Diploma::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class DiplomasController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Diploma::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'diplomas'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

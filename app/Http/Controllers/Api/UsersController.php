@@ -9,6 +9,9 @@ use App\Http\Controllers\Response;
 
 class UsersController extends Controller
 {
+    public $singularName = 'user';
+    public $pluralName = 'users';
+    public $eloquentModel = User::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +19,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $model = User::class;
-        // dd(buildQuery($model, $request->input(), 'users'));
-        return Response::showResults(buildQuery($model, $request->input(), 'users'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**
@@ -53,7 +54,12 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        if(is_numeric($id)) {
+            $user = User::find($id);
+        }else{
+            $user = User::whereEmail($id)->first();
+        }
+        return Response::showElement($this->singularName, $user);
     }
 
     /**

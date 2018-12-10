@@ -9,6 +9,9 @@ use App\Resource;
 
 class ResourcesController extends Controller
 {
+    public $singularName = 'resource';
+    public $pluralName = 'resources';
+    public $eloquentModel = Resource::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class ResourcesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Resource::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'resources'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

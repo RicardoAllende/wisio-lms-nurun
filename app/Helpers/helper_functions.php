@@ -37,6 +37,39 @@ function isPositiveNumber($number, $default_number) {
     return $default_number;
 }
 
+// function readConditions(){
+//     $conditions = "firstname=ricardo&&lastname=allende||id=3";
+//     $next = false;
+//     $result = [];
+//     if($conditions == ''){
+//         return $result;
+//     }
+//     do{
+//         $position = 0;
+//         $orPosition = strpos('||', $conditions);
+//         if( $orPosition !== false ) {
+//             $or = true;
+//         }
+//         $andPosition = strpos('&&', $conditions);
+//         if( $andPosition !== false ) {
+//             $and = true;
+//             if($orPosition){
+//                 if( $andPosition > $orPosition ) { 
+//                     $position = $orPosition;
+//                 } else {
+//                     $position == $andPosition;
+//                 }
+//             }
+//         }
+//         if($or || $and){
+//             $currrentCondition = 
+//             array_push($result, $currentContidion);
+//             var_dump(substr($conditions, 0, $position ));
+//         }else { $or = $and = false; }
+//     }while($or || $and);
+//     return $conditions;
+// }
+
 function getDbLimit($parameter) {
     return isPositiveNumber($parameter, config('constants.default_elements_per_page'));
 }

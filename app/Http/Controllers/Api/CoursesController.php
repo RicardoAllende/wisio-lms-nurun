@@ -9,6 +9,9 @@ use App\Course;
 
 class CoursesController extends Controller
 {
+    public $singularName = 'course';
+    public $pluralName = 'courses';
+    public $eloquentModel = Course::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class CoursesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Course::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'courses'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

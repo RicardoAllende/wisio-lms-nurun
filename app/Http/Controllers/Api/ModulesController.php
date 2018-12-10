@@ -9,6 +9,9 @@ use App\Module;
 
 class ModulesController extends Controller
 {
+    public $singularName = 'module';
+    public $pluralName = 'modules';
+    public $eloquentModel = Module::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class ModulesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Module::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'modules'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**

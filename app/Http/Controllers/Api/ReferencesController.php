@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Referemce;
+use App\Reference;
 
 class ReferencesController extends Controller
 {
+    public $singularName = 'reference';
+    public $pluralName = 'references';
+    public $eloquentModel = Reference::class;
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,7 @@ class ReferencesController extends Controller
      */
     public function index(Request $request)
     {
-        $model = Referemce::class;
-        return Response::showResults(buildQuery($model, $request->input(), 'references'));
+        return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
 
     /**
