@@ -17,15 +17,7 @@ class ModulesController extends Controller
     public function index(Request $request)
     {
         $model = Module::class;
-        $temp = new $model;
-        $fillable = $temp->getFillable();
-        $numElements = $model::count();
-        $selectFields = getSearchFields($fillable, $request->select);
-        $paginationParameters = getPaginationParameters($request->only(['page', 'limit', 'offset']), $numElements);
-        return Response::showResults([
-            'Modules' => Module::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
-            'pagination' => $paginationParameters
-        ]);
+        return Response::showResults(buildQuery($model, $request->input()));
     }
 
     /**

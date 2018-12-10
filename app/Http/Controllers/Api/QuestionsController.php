@@ -17,15 +17,7 @@ class QuestionsController extends Controller
     public function index(Request $request)
     {
         $model = Question::class;
-        $temp = new $model;
-        $fillable = $temp->getFillable();
-        $numElements = $model::count();
-        $selectFields = getSearchFields($fillable, $request->select);
-        $paginationParameters = getPaginationParameters($request->only(['page', 'limit', 'offset']), $numElements);
-        return Response::showResults([
-            'Questions' => Question::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
-            'pagination' => $paginationParameters
-        ]);
+        return Response::showResults(buildQuery($model, $request->input()));
     }
 
     /**

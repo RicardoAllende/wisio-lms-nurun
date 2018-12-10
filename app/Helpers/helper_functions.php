@@ -60,6 +60,40 @@ function getPage($offset, $limit) {
 }
 // getSearchFields(['firstname', 'lastname', 'e'], '[e,otra cosa, something, firstname]');
 
+function buildQuery($eloquentModel, $getParameters) {
+    $orderBy = false;
+    $fillable = new $eloquentModel;
+    $dataName = $fillable->getTable();
+    $fillable = $fillable->getFillable();
+    $totalElements = $eloquentModel::count();
+
+    $paginationParameters = getPaginationParameters($getParameters, $totalElements);
+    
+    if(array_key_exists('select', $getParameters)){
+        $selection = getSearchFields($fillable, $getParameters['select']);
+    }else{
+        $selection = $fillable;
+    }
+    
+    if(array_key_exists('orderby', $getParameters)){
+        $orderBy = in_array($getParameters['orderby'], $fillable);
+        $orderby = true;
+    }
+
+    if(array_key_exists('orderbydesc', $getParameters)){
+        if(in_array($getParameters['orderbydesc'], $fillable)){
+            $orderBy = true;
+            $orderbydesc = true;
+        }
+    }
+    // 'users' => User::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
+    return [
+        'pagination_parameters' => $paginationParameters,
+        $dataName => $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get()
+    ];
+    // return $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
+}
+
 function getPaginationParameters($paginationParameters, $num_rows){
     $limit = config('constants.default_elements_per_page');
     if(array_key_exists('limit', $paginationParameters)){

@@ -17,15 +17,7 @@ class SettingsController extends Controller
     public function index(Request $request)
     {
         $model = Setting::class;
-        $temp = new $model;
-        $fillable = $temp->getFillable();
-        $numElements = $model::count();
-        $selectFields = getSearchFields($fillable, $request->select);
-        $paginationParameters = getPaginationParameters($request->only(['page', 'limit', 'offset']), $numElements);
-        return Response::showResults([
-            'Settings' => Setting::select($selectFields)->offset($paginationParameters['offset'])->limit($paginationParameters['limit'])->get(),
-            'pagination' => $paginationParameters
-        ]);
+        return Response::showResults(buildQuery($model, $request->input()));
     }
     /**
      * Show the form for creating a new resource.
