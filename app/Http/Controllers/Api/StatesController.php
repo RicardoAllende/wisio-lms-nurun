@@ -12,6 +12,7 @@ class StatesController extends Controller
     public $singularName = 'state';
     public $pluralName = 'states';
     public $eloquentModel = State::class;
+    public $secondId = 'code';
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +52,16 @@ class StatesController extends Controller
      */
     public function show($id)
     {
-        //
+        if(isset($this->secondId)){
+            if(is_numeric($id)) {
+                $result = $this->eloquentModel::find($id);
+            }else{
+                $result = $this->eloquentModel::where($this->secondId, $id)->first();
+            }
+        } else {
+            $result = $this->eloquentModel::find($id);    
+        }
+        return Response::showElement($this->singularName, $result);
     }
 
     /**

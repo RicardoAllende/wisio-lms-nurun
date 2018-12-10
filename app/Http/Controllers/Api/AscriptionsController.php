@@ -12,6 +12,7 @@ class AscriptionsController extends Controller
     public $singularName = 'ascription';
     public $pluralName = 'ascriptions';
     public $eloquentModel = Ascription::class;
+    public $secondId = 'slug';
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +52,16 @@ class AscriptionsController extends Controller
      */
     public function show($id)
     {
-        //
+        if(isset($this->secondId)){
+            if(is_numeric($id)) {
+                $result = $this->eloquentModel::find($id);
+            }else{
+                $result = $this->eloquentModel::where($this->secondId, $id)->first();
+            }
+        } else {
+            $result = $this->eloquentModel::find($id);    
+        }
+        return Response::showElement($this->singularName, $result);
     }
 
     /**

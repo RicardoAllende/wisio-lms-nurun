@@ -12,6 +12,7 @@ class UsersController extends Controller
     public $singularName = 'user';
     public $pluralName = 'users';
     public $eloquentModel = User::class;
+    public $secondId = 'email';
     /**
      * Display a listing of the resource.
      *
@@ -27,13 +28,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
-    {
-        // getCondition('firstname=2');
-        // return getConditions($request->where);
-        // getCondition($request->where);
-        //
-    }
+    public function create(Request $request){  }
 
     /**
      * Store a newly created resource in storage.
@@ -54,12 +49,16 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        if(is_numeric($id)) {
-            $user = User::find($id);
-        }else{
-            $user = User::whereEmail($id)->first();
+        if(isset($this->secondId)){
+            if(is_numeric($id)) {
+                $result = $this->eloquentModel::find($id);
+            }else{
+                $result = $this->eloquentModel::where($this->secondId, $id)->first();
+            }
+        } else {
+            $result = $this->eloquentModel::find($id);    
         }
-        return Response::showElement($this->singularName, $user);
+        return Response::showElement($this->singularName, $result);
     }
 
     /**
