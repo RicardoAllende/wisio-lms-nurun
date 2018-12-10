@@ -4,18 +4,18 @@ use GuzzleHttp\Client;
 
 Route::get('get', 'Api\UsersController@index');
 // Route::get('get', 'HomeController@dumpRequest');
-// Route::get('');
-Route::get('parametros', function() {
-    $models =  App\AscriptionAttachment::first()->showModels();
-    // dd($models);
-    foreach ($models as $model) {
-        echo "Nombre de la tabla: ".$model->getTable().'<br>';
-        foreach ($model->getFillable() as $attribute ) {
-            echo $attribute.', ';
-        }
-        echo '<br><br>';
-    }
-});
+Route::get('where', 'Api\UsersController@create');
+// Route::get('parametros', function() {
+//     $models =  App\AscriptionAttachment::first()->showModels();
+//     // dd($models);
+//     foreach ($models as $model) {
+//         echo "Nombre de la tabla: ".$model->getTable().'<br>';
+//         foreach ($model->getFillable() as $attribute ) {
+//             echo $attribute.', ';
+//         }
+//         echo '<br><br>';
+//     }
+// });
 
 Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/', 'HomeController@index')->name('welcome');

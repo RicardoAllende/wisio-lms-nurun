@@ -1,6 +1,8 @@
 <?php
 function string_to_array($fields){
-    $fields = espace_string($fields);
+    if($fields == ''){
+        return [];
+    }
     $fields = espace_string($fields);
     $fields = explode(',', $fields);
     return $fields;
@@ -71,7 +73,7 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
     if($paginationParameters['page'] > $paginationParameters['pages']){
         return false;
     }
-
+    
     if(array_key_exists('select', $getParameters)){
         $selection = getSearchFields($fillable, $getParameters['select']);
     }else{
@@ -79,7 +81,11 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
     }
     
     $eloquentModel = $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
-
+    
+    if(array_key_exists('where', $getParameters)){
+        $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
+    }
+    
     if(array_key_exists('orderby', $getParameters)){
         $orderBy = in_array($getParameters['orderby'], $fillable);
         $orderByName = $getParameters['orderby'];
@@ -128,33 +134,38 @@ function getPaginationParameters($paginationParameters, $num_rows){
     }
 
     if($offset == 0){
-        $offset = ($page - 1) * $limit;
+        $offset = ($page) * $limit;
     }
     $page = getPage($offset, $limit);
     $pages = getTotalPages($limit, $num_rows);
     return compact('limit', 'page', 'offset', 'page', 'pages', 'num_rows');
 }
 
-function addWhereParameters($eloquentModel, $inputs, $available) {
+function addWhereParameters($eloquentModel, $inputs, $availableFields) {
+    $conditions = string_to_array($inputs);
+    $conditions = getConditions($conditions, $availableFields);
+    foreach($conditions as $condition){
+        $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
+    }
+    return $eloquentModel;
+}
+
+function getConditions($conditions, $fillable) {
+    $operators = ['>', '<', '==', '=', '>=', '<=', 'like'];
     $results = [];
-    $parameters = array_keys($inputs);
-    // var_dump($available);
-    foreach ($parameters as $parameter) {
-        // return $parameter;
-        // var_dump($parameter);
-        if(array_search($parameter, $available) !== false){
-            // return "Encontrado";
-            dd($inputs[$parameter]);
-            array_push($results, $parameter);
+    foreach ($conditions as $stringCondition) {
+        foreach($operators as $operator) {
+            if(strpos($stringCondition, $operator) !== false){
+                $condition = explode($operator, $stringCondition);
+                if(count($condition) == 2){
+                    if(in_array($condition[0], $fillable)){
+                        if($operator == '==') $operator = "="; 
+                        array_push($results, [$condition[0], $operator, $condition[1]]);
+                    }
+                }
+                break;
+            }
         }
     }
     return $results;
-}
-
-function getCondition($string) {
-
-}
-
-function getOperator($string){
-    // if()
 }

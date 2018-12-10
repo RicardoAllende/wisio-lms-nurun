@@ -17,6 +17,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $model = User::class;
+        // dd(buildQuery($model, $request->input(), 'users'));
         return Response::showResults(buildQuery($model, $request->input(), 'users'));
     }
 
@@ -25,8 +26,11 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        // getCondition('firstname=2');
+        // return getConditions($request->where);
+        // getCondition($request->where);
         //
     }
 
