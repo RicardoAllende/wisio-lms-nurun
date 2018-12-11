@@ -11,5 +11,5 @@ class AscriptionCourse extends Model
         'ascription_id',
         'course_id'
     ];
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['ascription_id', 'course_id'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['ascription_id', 'course_id'] ]; }
 }

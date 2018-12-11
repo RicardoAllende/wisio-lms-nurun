@@ -29,7 +29,7 @@ class Course extends Model
         'certificate_template_id'
         // 'diploma_template_id'
     ];
-    public static function getRequiredAttributes() { return [ 'unique' => ['slug'], 'required' => ['name', 'slug'] ]; }
+    public static function getConditions() { return [ 'unique' => ['slug'], 'required' => ['name', 'slug'] ]; }
 
     protected $appends = ['img'];
 

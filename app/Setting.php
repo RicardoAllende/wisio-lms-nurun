@@ -15,5 +15,5 @@ class Setting extends Model
         'max_sms_reminders',
         'professional_license_service'
     ];
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => [] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => [] ]; }
 }

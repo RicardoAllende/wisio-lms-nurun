@@ -205,7 +205,7 @@ function getConditions($conditions, $fillable) {
 
 function insertElement($input, $model){
     try {
-        $requiredAttributes = $model::getRequiredAttributes();
+        $requiredAttributes = $model::getConditions();
         $errors = [];
         foreach ($requiredAttributes as $attribute) {
             if(array_key_exists($attribute, $input)){

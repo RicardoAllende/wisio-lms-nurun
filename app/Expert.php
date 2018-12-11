@@ -11,7 +11,7 @@ class Expert extends Model
         'slug',
         'summary'
     ];
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['name', 'slug', 'summary'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['name', 'slug', 'summary'] ]; }
 
     protected $appends = ['img'];
 

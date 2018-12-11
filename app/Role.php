@@ -11,5 +11,5 @@ class Role extends Model
     public function users(){
         return $this->hasMany('App\User');
     }
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => [] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => [] ]; }
 }

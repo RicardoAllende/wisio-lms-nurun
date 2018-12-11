@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Diploma extends Model
 {
     protected $fillable = ['name', 'slug', 'description', 'minimum_score', 'minimum_previous_score', 'ascription_id', 'attachment_id', 'diploma_id'];
-    public static function getRequiredAttributes() { return [ 'unique' => ['slug'], 'required' => ['name', 'ascription_id'] ]; }
+    public static function getConditions() { return [ 'unique' => ['slug'], 'required' => ['name', 'ascription_id'] ]; }
 
     public function users(){
         return $this->belongsToMany('App\User')->withPivot('score', 'status', 'ended_at', 'downloaded', 'downloaded_at')->withTimestamps();

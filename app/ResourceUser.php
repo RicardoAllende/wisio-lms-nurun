@@ -12,5 +12,5 @@ class ResourceUser extends Model
         'score',
         'resource_id'
     ];
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => [] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => [] ]; }
 }

@@ -8,5 +8,5 @@ class PasswordReset extends Model
 {
     protected $fillable = ['email', 'token', 'created_at'];
     public $timestamps = false;
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['email', 'token'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['email', 'token'] ]; }
 }

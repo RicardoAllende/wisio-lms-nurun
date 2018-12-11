@@ -22,7 +22,7 @@ class Module extends Model
     	return $this->belongsTo('App\Course');
     }
 
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['name', 'course_id'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['name', 'course_id'] ]; }
     public function resources(){
     	return $this->hasMany('App\Resource')->orderBy('weight');
     }

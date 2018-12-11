@@ -14,5 +14,5 @@ class Reference extends Model
         return $this->belongsTo('App\Module');
     }
 
-    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['module_id', 'content'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['module_id', 'content'] ]; }
 }
