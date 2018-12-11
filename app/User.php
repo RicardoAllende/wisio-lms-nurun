@@ -5,22 +5,11 @@ namespace App;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Collection as Collection;
-use App\Ascription;
-use App\Course;
-use App\Module;
-use App\Evaluation;
-use App\EvaluationUser;
 
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'firstname',
         'lastname',
@@ -44,14 +33,8 @@ class User extends Authenticatable
         'id'
     ];
 
-    public static function getRequiredAttributes() { return ['email']; }
-    // protected $appends = ['ascription'];
+    public static function getRequiredAttributes() { return [ 'unique' => ['email', 'professional_license'], 'required' => ['password'] ]; }
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];

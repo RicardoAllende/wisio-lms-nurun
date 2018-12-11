@@ -21,5 +21,5 @@ class CertificateTemplate extends Model
         return false;
     }
 
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['name', 'view_name'] ]; }
 }

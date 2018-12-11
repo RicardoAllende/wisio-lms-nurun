@@ -17,6 +17,6 @@ class Notification extends Model
     public function course(){
         return $this->belongsTo('App\Course');
     }
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['code', 'user_id', 'course_id', 'type'] ]; }
 
 }

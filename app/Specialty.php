@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Specialty extends Model
 {
     protected $fillable = ['id', 'name', 'code'];
-    public static function getRequiredAttributes() { return ['code']; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['name', 'code'] ]; }
 
     public function users(){
         return $this->hasMany('App\User');

@@ -29,5 +29,5 @@ class AscriptionAttachment extends Model
             new User
         ];
     }
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['ascription_id', 'attachment_id'] ]; }
 }

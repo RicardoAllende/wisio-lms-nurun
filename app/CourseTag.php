@@ -18,5 +18,5 @@ class CourseTag extends Model
     	return $this->belongsTo('App\Courses');
     }
 
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['course_id', 'tag_id'] ]; }
 }

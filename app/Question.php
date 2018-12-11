@@ -18,7 +18,7 @@ class Question extends Model
     	return $this->hasMany('App\Option');
     }
 
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['evaluation_id', 'content'] ]; }
     public function correct(){
         return $this->options()->where('score', 1)->first();
     }

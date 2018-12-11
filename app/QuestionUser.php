@@ -12,5 +12,5 @@ class QuestionUser extends Model
     public function users(){
         return $this->belongsToMany('App\User');
     }
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['question_id', 'user_id', 'option_id', 'evaluation_user_id'] ]; }
 }

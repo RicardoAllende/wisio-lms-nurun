@@ -15,7 +15,7 @@ class Ascription extends Model
         'enabled',
         'code'
     ];
-    public static function getRequiredAttributes() { return ['slug']; }
+    public static function getRequiredAttributes() { return [ 'unique' => ['slug'], 'required' => ['slug', 'name'] ]; }
 
     public function courses(){
         return $this->belongsToMany('App\Course');

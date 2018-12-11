@@ -8,5 +8,5 @@ class AttachmentModule extends Model
 {
     protected $table = 'attachment_module';
     protected $fillable = ['attachment_id', 'module_id'];
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['attachment_id', 'module_id'] ]; }
 }

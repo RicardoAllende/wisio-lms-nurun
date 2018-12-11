@@ -13,6 +13,5 @@ class Tag extends Model
     public function courses(){
     	return $this->belongsToMany('App\Course');
     }
-    public static function getRequiredAttributes() { return []; }
-    
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['tag'] ]; }
 }

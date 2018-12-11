@@ -24,5 +24,5 @@ class Option extends Model
             return false;
         }
     }
-    public static function getRequiredAttributes() { return []; }
+    public static function getRequiredAttributes() { return [ 'unique' => [], 'required' => ['question_id', 'content', 'score'] ]; }
 }
