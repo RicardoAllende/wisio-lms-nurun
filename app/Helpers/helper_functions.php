@@ -209,15 +209,22 @@ function insertElement($input, $model){
         $errors = [];
         foreach ($requiredAttributes as $attribute) {
             if(array_key_exists($attribute, $input)){
-                if($model::where($attribute, $input[$attribute])->count() > 0 ) {
-                    array_push($errors, "Duplicate {$input[$attribute]} for {$attribute}");
+                if( empty($input[$attribute]) ){
+                    array_push($errors, "{$input[$attribute]} attribute cannot be null");
+                }else{
+                    if($model::where($attribute, $input[$attribute])->count() > 0 ) {
+                        array_push($errors, "Duplicate {$input[$attribute]} for {$attribute}");
+                    }
                 }
+            }else{
+                array_push($errors, "{$input[$attribute]} attribute cannot be null");
             }
         }
         if( ! empty($errors) ){
             return $errors;
+        }else{
+            return $model::create($input);
         }
-        return $model::create($input);
     } catch (\Throwable $th) {
         return $th;
     }

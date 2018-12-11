@@ -4,7 +4,6 @@ use GuzzleHttp\Client;
 
 Route::get('get', 'Api\UsersController@index');
 // Route::get('get', 'HomeController@dumpRequest');
-Route::get('where', 'Api\UsersController@create');
 // Route::get('parametros', function() {
 //     $models =  App\AscriptionAttachment::first()->showModels();
 //     // dd($models);
