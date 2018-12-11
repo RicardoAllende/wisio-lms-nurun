@@ -29,7 +29,8 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request){
-        dd(User::first());
+        dd($request->input());
+        // dd(User::first());
     }
 
     /**

@@ -205,9 +205,20 @@ function getConditions($conditions, $fillable) {
 
 function insertElement($input, $model){
     try {
-        
+        $requiredAttributes = $model::getRequiredAttributes();
+        $errors = [];
+        foreach ($requiredAttributes as $attribute) {
+            if(array_key_exists($attribute, $input)){
+                if($model::where($attribute, $input[$attribute])->count() > 0 ) {
+                    array_push($errors, "Duplicate {$input[$attribute]} for {$attribute}");
+                }
+            }
+        }
+        if( ! empty($errors) ){
+            return $errors;
+        }
         return $model::create($input);
     } catch (\Throwable $th) {
-        return false;
+        return $th;
     }
 }
