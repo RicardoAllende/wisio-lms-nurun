@@ -44,6 +44,7 @@ class User extends Authenticatable
         'id'
     ];
 
+    public static function getRequiredAttributes() { return ['email']; }
     // protected $appends = ['ascription'];
 
     /**
@@ -841,48 +842,6 @@ class User extends Authenticatable
             return true;
         }
         return false;
-    }
-
-    public function cambiarAdscripcion($ascription_id){
-        $ascription = Ascription::find($ascription_id);
-        $this->ascription_id = $ascription->id;
-        $this->refered_code = $ascription->code;
-        $this->save();
-        echo "check <br>";
-    }
-
-    public function cambiarEvaluacion($evaluation_name, $module_name, $cal1, $cal2, $cal3){
-        $evaluation = Evaluation::whereName($evaluation_name)->where('type', 'f')->first();
-        $mayor = 0;
-        if($cal1 > $mayor){
-            $mayor = $cal1;
-        }
-        if($cal2 > $mayor){
-            $mayor = $cal2;
-        }
-        if($cal3 > $mayor){
-            $mayor = $cal3;
-        }
-        // echo $mayor;
-        // echo '<br>';
-
-        // $actualizados = EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->update(['score' => $mayor]);
-        echo "update evaluation_user set score = {$mayor} where evaluation_id = {$evaluation->id};<br>";
-        if(EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->count() == 0){
-            // $this->evaluations()->attach($evaluation->id, ['score' => $mayor]);
-            echo "insert evaluation_user(evaluation_id, user_id, score) VALUES({$evaluation->id}, {$this->id}, {$mayor});<br>";
-            // echo "No existe la evaluación {$evaluation->id}; ";
-        }
-        // echo EvaluationUser::where('evaluation_id', $evaluation->id)->where('user_id', $this->id)->count()."<br>";
-        // if($actualizados)
-        // echo "$actualizados, ";
-
-        // if($evaluation != 1){
-        //     echo "Se encontró más de una vez $evaluation_name <br>";
-        // }else{
-
-        // }
-        // $module = Module::whereName($module_name)->first();
     }
 
 }

@@ -12,6 +12,7 @@ class Category extends Model
 
     protected $appends = ['img'];
 
+    public static function getRequiredAttributes() { return []; }
     public function getImgAttribute(){
         return $this->getMainImgUrl();
     }

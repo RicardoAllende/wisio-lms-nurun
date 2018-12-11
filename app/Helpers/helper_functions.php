@@ -202,3 +202,12 @@ function getConditions($conditions, $fillable) {
     }
     return $results;
 }
+
+function insertElement($input, $model){
+    try {
+        
+        return $model::create($input);
+    } catch (\Throwable $th) {
+        return false;
+    }
+}

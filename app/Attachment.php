@@ -21,5 +21,6 @@ class Attachment extends Model
     public function name(){
         return substr($this->name, 0, strpos($this->name, '.'));
     }
+    public static function getRequiredAttributes() { return []; }
 
 }

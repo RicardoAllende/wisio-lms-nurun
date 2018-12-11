@@ -18,4 +18,5 @@ class CourseTag extends Model
     	return $this->belongsTo('App\Courses');
     }
 
+    public static function getRequiredAttributes() { return []; }
 }

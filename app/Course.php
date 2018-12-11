@@ -29,6 +29,7 @@ class Course extends Model
         'certificate_template_id'
         // 'diploma_template_id'
     ];
+    public static function getRequiredAttributes() { return ['slug']; }    
 
     protected $appends = ['img'];
 

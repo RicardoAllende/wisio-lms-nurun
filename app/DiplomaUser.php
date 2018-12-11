@@ -11,4 +11,5 @@ class DiplomaUser extends Model
     protected $fillable = ['diploma_id', 'user_id', 
      'score', 'status', 'ended_at', 'downloaded', 'downloaded_at'];
 
+     public static function getRequiredAttributes() { return []; }
 }

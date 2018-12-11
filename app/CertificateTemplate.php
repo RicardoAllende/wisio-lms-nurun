@@ -21,4 +21,5 @@ class CertificateTemplate extends Model
         return false;
     }
 
+    public static function getRequiredAttributes() { return []; }
 }

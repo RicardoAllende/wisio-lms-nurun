@@ -8,4 +8,5 @@ class AttachmentEvaluation extends Model
 {
     protected $table = 'attachment_evaluation';
     protected $fillable = ['attachment_id', 'evaluation_id'];
+    public static function getRequiredAttributes() { return []; }
 }

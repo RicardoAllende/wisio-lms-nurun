@@ -11,4 +11,5 @@ class CourseUser extends Model
         'user_id','course_id', 'status', 'score','created_at',
         'updated_at', 'score_in_diplomado'
     ];
+    public static function getRequiredAttributes() { return []; }
 }

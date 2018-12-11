@@ -19,6 +19,7 @@ class Evaluation extends Model
     	return $this->belongsTo('App\Module');
     }
 
+    public static function getRequiredAttributes() { return []; }
     // Diploma evaluation
     public function diploma(){
         return $this->belongsTo('App\Diploma');

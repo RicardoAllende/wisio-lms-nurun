@@ -22,6 +22,7 @@ class Module extends Model
     	return $this->belongsTo('App\Course');
     }
 
+    public static function getRequiredAttributes() { return []; }
     public function resources(){
     	return $this->hasMany('App\Resource')->orderBy('weight');
     }

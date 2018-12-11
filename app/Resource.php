@@ -29,5 +29,6 @@ class Resource extends Model
     public function url(){
         return '/'.$this->attachment->url;
     }
+    public static function getRequiredAttributes() { return []; }
 
 }

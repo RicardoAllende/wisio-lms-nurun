@@ -29,4 +29,5 @@ class AscriptionAttachment extends Model
             new User
         ];
     }
+    public static function getRequiredAttributes() { return []; }
 }

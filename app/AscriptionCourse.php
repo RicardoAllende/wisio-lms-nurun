@@ -11,4 +11,5 @@ class AscriptionCourse extends Model
         'ascription_id',
         'course_id'
     ];
+    public static function getRequiredAttributes() { return []; }
 }

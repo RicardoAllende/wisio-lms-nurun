@@ -24,4 +24,5 @@ class Option extends Model
             return false;
         }
     }
+    public static function getRequiredAttributes() { return []; }
 }

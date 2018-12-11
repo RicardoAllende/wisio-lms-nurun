@@ -8,5 +8,6 @@ class ExpertModule extends Model
 {
     protected $table = 'expert_module';
     protected $fillable = ['expert_id', 'module_id'];
+    public static function getRequiredAttributes() { return []; }
 
 }
