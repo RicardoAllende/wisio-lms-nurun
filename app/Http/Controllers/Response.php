@@ -153,7 +153,7 @@ class Response
     }
 
     public static function showElement($dataName,  $data){
-        if(self::isEmpty($data)){
+        if(empty($data)){
             return self::elementNotFound($dataName);
         }else{
             return self::returnResponse([
@@ -170,32 +170,6 @@ class Response
         ];
         return self::returnResponse($response, 409);
         return $response;
-    }
-
-    public static function isEmpty($element){
-        $type = gettype($element);
-        switch ($type) {
-            case 'string':
-                if($element == '')
-                return true;
-                break;
-            case 'array':
-                if( count($element) == 0 )
-                return true;
-                break;
-            case 'string':
-                if($element == '')
-                return true;
-                break;
-            case 'boolean':
-                if(! $element)
-                return false;
-                break;
-            case 'NULL':
-                return true;
-                break;
-        }
-        return false;
     }
 
 }
