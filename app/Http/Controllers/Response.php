@@ -131,14 +131,25 @@ class Response
     }
 
     public static function createdSuccessfully($dataName, $data){
-        $response = [
-            "response" => self::makeResponseField($status = "ok", $message = "Element created successfully", $code = 200 ),
-            "data" => [
-                $dataName => $data
-            ]
-        ];
-        return self::returnResponse($response, 200);
-        return $response;
+        // dd($data);
+        if($data['status']){
+            $code = 200;
+            $response = [
+                "response" => self::makeResponseField($status = "ok", $message = "Element created successfully", $code ),
+                "data" => [
+                    $dataName => $data
+                ]
+            ];
+        }else{
+            $code = 406;
+            $response = [
+                "response" => self::makeResponseField($status = "error", $message = "Not acceptable", $code ),
+                "data" => [
+                    $dataName => $data
+                ]
+            ];
+        }
+        return self::returnResponse($response, $code);
     }
 
     public static function showElement($dataName,  $data){

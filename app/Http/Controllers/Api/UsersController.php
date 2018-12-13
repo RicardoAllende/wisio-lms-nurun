@@ -13,6 +13,7 @@ class UsersController extends Controller
     public $pluralName = 'users';
     public $eloquentModel = User::class;
     public $secondId = 'email';
+    public $identifier = 'email';
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +31,6 @@ class UsersController extends Controller
      */
     public function create(Request $request){
         dd($request->input());
-        // dd(User::first());
     }
 
     /**
@@ -41,34 +41,34 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->filled('users')){ // Massive import
-            $users = $request->users;
-            $duplicates = array();
-            $numDuplicates = 0;
+        if($request->filled($this->pluralName)){ // Massive import
+            $elements = $request[$this->pluralName];
+            $errors = array();
+            $numErrors = 0;
             $inserts = array();
             $numInserts = 0;
-            foreach($users as $user){
-                $email = $user['email'];
-                $password = $user['password'];
-                $firstname = $user['firstname'];
-                $lastname = $user['lastname'];
-                // $enctype = (isset($user['enctype'])) ? $user['enctype'] : 'DEFAULT';
-                if(User::whereEmail($email)->count() > 0){
-                    $numDuplicates++;
-                    array_push($duplicates, ['status' => 'error','message' => "Email < {$email} > ya existe"]);
-                }else{
+            $results = [];
+            foreach($elements as $element){
+                $insertion = insertElement($element, $this->eloquentModel);
+                if($insertion['status']){
+                    array_push($inserts, $insertion);
                     $numInserts++;
-                    User::create(compact('email', 'password', 'firstname', 'lastname'));
-                    array_push($inserts, ['status' => 'ok','message' => "Usuario < $email > creado correctamente"]);
+                }else{
+                    array_push($errors, $insertion);
+                    $numErrors++;
                 }
             }
+            $code = ($numInserts > 0) ? 200 : 406;
+            $message = ($numInserts > 0) ? 'ok' : 'error';
             $response = [
                 'num_inserts' => $numInserts,
-                'num_duplicates' => $numDuplicates,
+                'num_errors' => $numErrors,
                 'inserts' => $inserts,
-                'duplicates' => $duplicates
+                'messages' => $errors
             ];
-            return response()->json($responseMaker->showSeveralFields($response, 200), $status = 200, $headers = [], $options = JSON_PRETTY_PRINT);
+            return Response::defaultResponse($message, '', $code, $response);
+        } else {
+            return Response::createdSuccessfully($this->singularName, insertElement($request->input(), $this->eloquentModel));
         }
     }
 

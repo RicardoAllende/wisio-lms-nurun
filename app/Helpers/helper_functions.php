@@ -205,27 +205,67 @@ function getConditions($conditions, $fillable) {
 
 function insertElement($input, $model){
     try {
-        $requiredAttributes = $model::getConditions();
-        $errors = [];
-        foreach ($requiredAttributes as $attribute) {
-            if(array_key_exists($attribute, $input)){
-                if( empty($input[$attribute]) ){
-                    array_push($errors, "{$input[$attribute]} attribute cannot be null");
-                }else{
-                    if($model::where($attribute, $input[$attribute])->count() > 0 ) {
-                        array_push($errors, "Duplicate {$input[$attribute]} for {$attribute}");
-                    }
-                }
-            }else{
-                array_push($errors, "{$input[$attribute]} attribute cannot be null");
+        $conditions = $model::getConditions();
+        $errors = validateFields($model, $input);
+        if(array_key_exists('email', $input) !== false){
+            if(filter_var($input['email'], FILTER_VALIDATE_EMAIL) === false){
+                array_push($errors, "email << {$input['email']} >> is not valid");
             }
         }
         if( ! empty($errors) ){
-            return $errors;
+            $temp = new $model;
+            $elementName = str_singular($temp->getTable());
+            $temp = null;
+            return [
+                'status' => false,
+                'message' => $elementName." cannot be created",
+                'errors' => $errors
+            ];
         }else{
-            return $model::create($input);
+            if(array_key_exists('password', $input)){
+                $input['password'] = bcrypt($input['password']);
+            }
+            $newElement = $model::create($input);
+            $elementName = str_singular($newElement->getTable());
+            return [
+                $elementName => $newElement,
+                'message' => $elementName.' created successfully',
+                'status' => true
+            ];
         }
     } catch (\Throwable $th) {
+        dd($th);
         return $th;
     }
+}
+
+function validateFields($model, $input){
+    $conditions = $model::getConditions();
+    $requiredAttributes = $conditions['required'];
+    $uniqueAttributes = $conditions['unique'];
+    $errors = [];
+    if( ! in_array('id', $requiredAttributes) ) {
+        array_push($uniqueAttributes, 'id');
+    }
+    foreach ($uniqueAttributes as $attribute) {
+        if(array_key_exists($attribute, $input)){
+            if( empty($input[$attribute]) ){
+                array_push($errors, "{$attribute} attribute cannot be null");
+            }else{
+                if($model::where($attribute, $input[$attribute])->count() > 0 ) {
+                    array_push($errors, "Duplicate << {$input[$attribute]} >> for {$attribute}");
+                }
+            }
+        }
+    }
+    foreach ($requiredAttributes as $attribute ) {
+        if(array_key_exists($attribute, $input)){
+            if( empty($input[$attribute]) ){
+                array_push($errors, "{$attribute} attribute cannot be null");
+            }
+        }else{
+            array_push($errors, "{$attribute} attribute cannot be null");
+        }
+    }
+    return array_unique($errors);
 }
