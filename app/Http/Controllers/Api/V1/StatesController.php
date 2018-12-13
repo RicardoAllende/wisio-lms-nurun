@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Reference;
+use App\State;
 
-class ReferencesController extends Controller
+class StatesController extends Controller
 {
-    public $singularName = 'reference';
-    public $pluralName = 'references';
-    public $eloquentModel = Reference::class;
+    public $singularName = 'state';
+    public $pluralName = 'states';
+    public $eloquentModel = State::class;
+    public $secondId = 'code';
     /**
      * Display a listing of the resource.
      *

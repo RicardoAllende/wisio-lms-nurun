@@ -2,7 +2,7 @@
 
 use GuzzleHttp\Client;
 
-Route::get('get', 'Api\UsersController@index');
+Route::get('get', 'Api\V1\UsersController@index');
 // Route::get('get', 'HomeController@dumpRequest');
 // Route::get('parametros', function() {
 //     $models =  App\AscriptionAttachment::first()->showModels();

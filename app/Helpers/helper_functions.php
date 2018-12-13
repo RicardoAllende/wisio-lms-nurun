@@ -25,7 +25,7 @@ function getSearchFields($availableFields, $stringSelection) {
     }
     $selection = $selection->toArray();
     $selection = array_values($selection);
-    return($selection);
+    return $selection;
 }
 
 function isPositiveNumber($number, $default_number) {
@@ -90,7 +90,6 @@ function addPaginationToModel($eloquentModel, $paginationParameters){
 }
 
 function getPage($offset, $limit) {
-    $offset--;
     return (intval($offset / $limit) + 1);
 }
 
@@ -102,9 +101,12 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
     $totalElements = $eloquentModel::count();
 
     $paginationParameters = getPaginationParameters($getParameters, $totalElements);
-    
+
+    if($paginationParameters === false){
+        return 0;
+    }    
     if($paginationParameters['page'] > $paginationParameters['pages']){
-        return false;
+        return $paginationParameters['page'];
     }
     
     if(array_key_exists('select', $getParameters)){
@@ -156,9 +158,14 @@ function getPaginationParameters($paginationParameters, $num_rows){
         $limit = isPositiveNumber($paginationParameters['limit'], $limit);
     }
 
-    $page = 0;
+    $page = 1;
     if(array_key_exists('page', $paginationParameters)){
+        $page = $paginationParameters['page'];
+        if($page == 0){
+            return false;
+        }
         $page = isPositiveNumber($paginationParameters['page'], $page);
+        
     }
 
     $offset = 0;
@@ -167,7 +174,7 @@ function getPaginationParameters($paginationParameters, $num_rows){
     }
 
     if($offset == 0){
-        $offset = ($page) * $limit;
+        $offset = ($page - 1) * $limit;
     }
     $page = getPage($offset, $limit);
     $pages = getTotalPages($limit, $num_rows);
@@ -177,8 +184,18 @@ function getPaginationParameters($paginationParameters, $num_rows){
 function addWhereParameters($eloquentModel, $inputs, $availableFields) {
     $conditions = string_to_array($inputs);
     $conditions = getConditions($conditions, $availableFields);
+    $first = false;
     foreach($conditions as $condition){
-        $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
+        if(!$first){
+            if(gettype($eloquentModel) == "string"){ // a php class
+                $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
+            } elseif (gettype($eloquentModel) == "object") {
+                $eloquentModel = $eloquentModel::where($condition[0], $condition[1], $condition[2]);                
+            }
+            $first = true;
+        }else{
+            $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
+        }
     }
     return $eloquentModel;
 }
@@ -247,10 +264,13 @@ function validateFields($model, $input){
     if( ! in_array('id', $requiredAttributes) ) {
         array_push($uniqueAttributes, 'id');
     }
+    if( in_array('slug', $requiredAttributes) ) {
+        $requiredAttributes['slug'] = str_slug($requiredAttributes['slug']);
+    }
     foreach ($uniqueAttributes as $attribute) {
         if(array_key_exists($attribute, $input)){
             if( empty($input[$attribute]) ){
-                array_push($errors, "{$attribute} attribute cannot be null");
+                array_push($errors, "<< {$attribute} >> attribute cannot be null");
             }else{
                 if($model::where($attribute, $input[$attribute])->count() > 0 ) {
                     array_push($errors, "Duplicate << {$input[$attribute]} >> for {$attribute}");
@@ -261,11 +281,43 @@ function validateFields($model, $input){
     foreach ($requiredAttributes as $attribute ) {
         if(array_key_exists($attribute, $input)){
             if( empty($input[$attribute]) ){
-                array_push($errors, "{$attribute} attribute cannot be null");
+                array_push($errors, "<< {$attribute} >> attribute cannot be null");
             }
         }else{
-            array_push($errors, "{$attribute} attribute cannot be null");
+            array_push($errors, "<< {$attribute} >> attribute cannot be null");
         }
     }
     return array_unique($errors);
+}
+
+function updateElements($model, $inputs, $scopes){
+    $temp = new $model;
+    $fillable = $temp->getFillable();
+    $temp = null;
+    if(array_key_exists($input['where'])){
+        $model = addWhereParameters($model, $inputs['where'], $fillable);
+    }
+    $fieldsToUpdate = intersectArrayWithKeys($fillable, $inputs);
+    $fieldsUpdated = $model->update($fieldsToUpdate);
+    addWhereParameters($eloquentModel, $inputs, $availableFields);
+}
+
+function intersectArrayWithKeys($availableFields, $inputs) {
+    // $fields = string_to_array($stringSelection);
+    $result = [];
+    foreach($availableFields as $field) {
+        if(array_key_exists($field, $inputs)) {
+            // array_push($result, $inputs[$field]);
+            $result[$field] = $inputs[$field];
+        }
+    }
+    return $result;
+    $availableFields = collect($availableFields);
+    $selection = $availableFields->intersect($fields);
+    if($selection->isEmpty()){
+        $selection = $availableFields;
+    }
+    $selection = $selection->toArray();
+    $selection = array_values($selection);
+    return $selection;
 }

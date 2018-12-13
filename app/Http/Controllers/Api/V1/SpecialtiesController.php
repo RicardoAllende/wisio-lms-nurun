@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Expert;
+use App\Specialty;
 
-class ExpertsController extends Controller
+class SpecialtiesController extends Controller
 {
-    public $singularName = 'expert';
-    public $pluralName = 'experts';
-    public $eloquentModel = Expert::class;
-    public $secondId = 'slug';
+    public $singularName = 'specialty';
+    public $pluralName = 'specialties';
+    public $eloquentModel = Specialty::class;
+    public $secondId = 'code';
     /**
      * Display a listing of the resource.
      *

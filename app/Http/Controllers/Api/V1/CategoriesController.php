@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Ascription;
+use App\Category;
 
-class AscriptionsController extends Controller
+class CategoriesController extends Controller
 {
-    public $singularName = 'ascription';
-    public $pluralName = 'ascriptions';
-    public $eloquentModel = Ascription::class;
-    public $secondId = 'slug';
+    public $singularName = 'category';
+    public $pluralName = 'categories';
+    public $eloquentModel = Category::class;
     /**
      * Display a listing of the resource.
      *

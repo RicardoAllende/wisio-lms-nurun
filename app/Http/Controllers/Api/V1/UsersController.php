@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 use App\Http\Controllers\Response;
-use App\Module;
 
-class ModulesController extends Controller
+class UsersController extends Controller
 {
-    public $singularName = 'module';
-    public $pluralName = 'modules';
-    public $eloquentModel = Module::class;
+    public $singularName = 'user';
+    public $pluralName = 'users';
+    public $eloquentModel = User::class;
+    public $secondId = 'email';
+    public $identifier = 'email';
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +29,8 @@ class ModulesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request){
+        dd($request->input());
     }
 
     /**

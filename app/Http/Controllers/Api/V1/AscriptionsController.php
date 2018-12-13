@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Tag;
+use App\Ascription;
 
-class TagsController extends Controller
+class AscriptionsController extends Controller
 {
-    public $singularName = 'tag';
-    public $pluralName = 'tags';
-    public $eloquentModel = Tag::class;
+    public $singularName = 'ascription';
+    public $pluralName = 'ascriptions';
+    public $eloquentModel = Ascription::class;
+    public $secondId = 'slug';
     /**
      * Display a listing of the resource.
      *

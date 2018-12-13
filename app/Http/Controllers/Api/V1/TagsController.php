@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Question;
+use App\Tag;
 
-class QuestionsController extends Controller
+class TagsController extends Controller
 {
-    public $singularName = 'question';
-    public $pluralName = 'questions';
+    public $singularName = 'tag';
+    public $pluralName = 'tags';
+    public $eloquentModel = Tag::class;
     /**
      * Display a listing of the resource.
      *
@@ -121,6 +122,6 @@ class QuestionsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd('Se ingresó en método destroy');
     }
 }

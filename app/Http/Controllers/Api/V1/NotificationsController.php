@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Evaluation;
+use App\Notification;
 
-class EvaluationsController extends Controller
+class NotificationsController extends Controller
 {
-    public $singularName = 'evaluation';
-    public $pluralName = 'evaluations';
-    public $eloquentModel = Evaluation::class;
+    public $singularName = 'notification';
+    public $pluralName = 'notifications';
+    public $eloquentModel = Notification::class;
     /**
      * Display a listing of the resource.
      *

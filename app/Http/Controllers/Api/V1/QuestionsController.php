@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Resource;
+use App\Question;
 
-class ResourcesController extends Controller
+class QuestionsController extends Controller
 {
-    public $singularName = 'resource';
-    public $pluralName = 'resources';
-    public $eloquentModel = Resource::class;
+    public $singularName = 'question';
+    public $pluralName = 'questions';
     /**
      * Display a listing of the resource.
      *

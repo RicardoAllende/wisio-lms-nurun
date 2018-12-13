@@ -76,17 +76,17 @@ class Response
      * @param int $code Http code
      */
     public static function showResults($data){
-        if(gettype($data) == 'boolean'){
-            $code = 404;
-            $response = [
-                'response' => self::makeResponseField($status = 'error', $message = "Page not found", $code),
-                'data' => []
-            ];
-        }else{
+        if(gettype($data) == 'array'){
             $code = 200;
             $response = [
                 "response" => self::makeResponseField($status = "ok", $message = "", $code ),
                 "data" => $data
+            ];
+        }else{
+            $code = 404;
+            $response = [
+                'response' => self::makeResponseField($status = 'error', $message = "Page {$data} not found", $code),
+                'data' => []
             ];
         }
         return self::returnResponse($response, $code);

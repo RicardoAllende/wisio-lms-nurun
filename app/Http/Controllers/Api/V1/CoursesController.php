@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Diploma;
+use App\Course;
 
-class DiplomasController extends Controller
+class CoursesController extends Controller
 {
-    public $singularName = 'diploma';
-    public $pluralName = 'diplomas';
-    public $eloquentModel = Diploma::class;
+    public $singularName = 'course';
+    public $pluralName = 'courses';
+    public $eloquentModel = Course::class;
     public $secondId = 'slug';
     /**
      * Display a listing of the resource.

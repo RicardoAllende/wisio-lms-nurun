@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\Option;
+use App\Evaluation;
 
-class OptionsController extends Controller
+class EvaluationsController extends Controller
 {
-    public $singularName = 'option';
-    public $pluralName = 'options';
-    public $eloquentModel = Option::class;
+    public $singularName = 'evaluation';
+    public $pluralName = 'evaluations';
+    public $eloquentModel = Evaluation::class;
     /**
      * Display a listing of the resource.
      *

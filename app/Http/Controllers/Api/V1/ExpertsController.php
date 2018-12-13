@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User;
 use App\Http\Controllers\Response;
+use App\Expert;
 
-class UsersController extends Controller
+class ExpertsController extends Controller
 {
-    public $singularName = 'user';
-    public $pluralName = 'users';
-    public $eloquentModel = User::class;
-    public $secondId = 'email';
-    public $identifier = 'email';
+    public $singularName = 'expert';
+    public $pluralName = 'experts';
+    public $eloquentModel = Expert::class;
+    public $secondId = 'slug';
     /**
      * Display a listing of the resource.
      *
@@ -29,8 +28,9 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request){
-        dd($request->input());
+    public function create()
+    {
+        //
     }
 
     /**

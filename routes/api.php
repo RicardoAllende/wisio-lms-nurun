@@ -3,24 +3,24 @@
 use Illuminate\Http\Request;
 
 Route::group(['prefix' => '/v1'], function(){
-    Route::post('auth', 'Api\LoginController@login');    
-    Route::get('auth', 'Api\LoginController@checkUserByToken')->middleware('auth:api');
-    Route::apiResource('ascriptions', 'Api\AscriptionsController');
-    Route::apiResource('categories', 'Api\CategoriesController');
-    Route::apiResource('courses', 'Api\CoursesController');
-    Route::apiResource('diplomas', 'Api\DiplomasController');
-    Route::apiResource('experts', 'Api\ExpertsController');
-    Route::apiResource('modules', 'Api\ModulesController');
-    Route::apiResource('notifications', 'Api\NotificationsController');
-    Route::apiResource('options', 'Api\OptionsController');
-    Route::apiResource('questions', 'Api\QuestionsController');
-    Route::apiResource('references', 'Api\ReferencesController');
-    Route::apiResource('resources', 'Api\ResourcesController');
-    Route::apiResource('settings', 'Api\SettingsController');
-    Route::apiResource('specialties', 'Api\SpecialtiesController');
-    Route::apiResource('states', 'Api\StatesController');
-    Route::apiResource('tags', 'Api\TagsController');
-    Route::apiResource('users', 'Api\UsersController');
+    Route::post('auth', 'Api\V1\LoginController@login');    
+    Route::get('auth', 'Api\V1\LoginController@checkUserByToken')->middleware('auth:api');
+    Route::apiResource('ascriptions', 'Api\V1\AscriptionsController');
+    Route::apiResource('categories', 'Api\V1\CategoriesController');
+    Route::apiResource('courses', 'Api\V1\CoursesController');
+    Route::apiResource('diplomas', 'Api\V1\DiplomasController');
+    Route::apiResource('experts', 'Api\V1\ExpertsController');
+    Route::apiResource('modules', 'Api\V1\ModulesController');
+    Route::apiResource('notifications', 'Api\V1\NotificationsController');
+    Route::apiResource('options', 'Api\V1\OptionsController');
+    Route::apiResource('questions', 'Api\V1\QuestionsController');
+    Route::apiResource('references', 'Api\V1\ReferencesController');
+    Route::apiResource('resources', 'Api\V1\ResourcesController');
+    Route::apiResource('settings', 'Api\V1\SettingsController');
+    Route::apiResource('specialties', 'Api\V1\SpecialtiesController');
+    Route::apiResource('states', 'Api\V1\StatesController');
+    Route::apiResource('tags', 'Api\V1\TagsController');
+    Route::apiResource('users', 'Api\V1\UsersController');
     Route::group(['middleware' => 'auth:api'], function(){
 
         
@@ -31,38 +31,38 @@ Route::group(['prefix' => '/v1'], function(){
         });
         
         // Route::middleware(['lms'])->prefix('/lms')->group(function (){
-        //     Route::apiResource('users', 'Api\LMS\UsersController');
-        //     Route::apiResource('courses', 'Api\LMS\CoursesController');
-        //     Route::apiResource('questions', 'Api\LMS\QuestionsController');
-        //     // Route::post('users/disable', 'Api\LMS\EnrollmentsController@disable');
-        //     Route::post('enrollments', 'Api\LMS\EnrollmentsController@store');
-        //     // Route::post('courses/disable', 'Api\LMS\CoursesController@disable');
+        //     Route::apiResource('users', 'Api\V1\LMS\UsersController');
+        //     Route::apiResource('courses', 'Api\V1\LMS\CoursesController');
+        //     Route::apiResource('questions', 'Api\V1\LMS\QuestionsController');
+        //     // Route::post('users/disable', 'Api\V1\LMS\EnrollmentsController@disable');
+        //     Route::post('enrollments', 'Api\V1\LMS\EnrollmentsController@store');
+        //     // Route::post('courses/disable', 'Api\V1\LMS\CoursesController@disable');
         // });
 
         // Route::middleware(['app'])->prefix('app')->group(function(){
-        //     Route::get('achievements', 'Api\App\AchievementsController@showAll');
-        //     // Route::get('achievements/social/{achievement_name}', 'Api\App\AchievementsController@setSocialAchievement');
-        //     Route::post('sessions/results', 'Api\App\CoursesController@sessionResults');
-        //     Route::get('courses', 'Api\App\CoursesController@index');
-        //     Route::get('courses/completed', 'Api\App\CoursesController@completedCourses');
-        //     Route::post('profile/remember-me', 'Api\App\UsersController@changeRememberMe');
-        //     Route::apiResource('users', 'Api\App\UsersController');
-        //     Route::get('courses/{course_id}/questions', 'Api\App\CoursesController@showQuestions');
-        //     Route::get('courses/{course_id}/overview', 'Api\App\CoursesController@overview');
-        //     Route::get('courses/{course_id}/achievements', 'Api\App\AchievementsController@index'); // Get all user achievements in the course
-        //     Route::post('courses/{course_id}/achievements/set-hits', 'Api\App\AchievementsController@setHits'); // Get all user achievements in the course
-        //     Route::get('courses/{course_id}/achievements/available', 'Api\App\AchievementsController@available'); // Get available achievements
-        //     Route::post('courses/{course_id}/achievements/save', 'Api\App\AchievementsController@store'); // Save an achievement
-        //     Route::get('settings', 'Api\App\SettingsController@getSettings');
-        //     Route::post('settings', 'Api\App\SettingsController@setSettings');
-        //     Route::get('courses/{course_id}/achievements/stats', 'Api\App\AchievementsController@courseStats');
-        //     Route::post('questions', 'Api\App\QuestionsController@saveQuestion');
-        //     Route::get('overview', 'Api\App\UsersController@index');
-        //     Route::get('avatar', 'Api\App\UsersController@getAvatar');
-        //     Route::get('ranking', 'Api\App\UsersController@getRanking');
+        //     Route::get('achievements', 'Api\V1\App\AchievementsController@showAll');
+        //     // Route::get('achievements/social/{achievement_name}', 'Api\V1\App\AchievementsController@setSocialAchievement');
+        //     Route::post('sessions/results', 'Api\V1\App\CoursesController@sessionResults');
+        //     Route::get('courses', 'Api\V1\App\CoursesController@index');
+        //     Route::get('courses/completed', 'Api\V1\App\CoursesController@completedCourses');
+        //     Route::post('profile/remember-me', 'Api\V1\App\UsersController@changeRememberMe');
+        //     Route::apiResource('users', 'Api\V1\App\UsersController');
+        //     Route::get('courses/{course_id}/questions', 'Api\V1\App\CoursesController@showQuestions');
+        //     Route::get('courses/{course_id}/overview', 'Api\V1\App\CoursesController@overview');
+        //     Route::get('courses/{course_id}/achievements', 'Api\V1\App\AchievementsController@index'); // Get all user achievements in the course
+        //     Route::post('courses/{course_id}/achievements/set-hits', 'Api\V1\App\AchievementsController@setHits'); // Get all user achievements in the course
+        //     Route::get('courses/{course_id}/achievements/available', 'Api\V1\App\AchievementsController@available'); // Get available achievements
+        //     Route::post('courses/{course_id}/achievements/save', 'Api\V1\App\AchievementsController@store'); // Save an achievement
+        //     Route::get('settings', 'Api\V1\App\SettingsController@getSettings');
+        //     Route::post('settings', 'Api\V1\App\SettingsController@setSettings');
+        //     Route::get('courses/{course_id}/achievements/stats', 'Api\V1\App\AchievementsController@courseStats');
+        //     Route::post('questions', 'Api\V1\App\QuestionsController@saveQuestion');
+        //     Route::get('overview', 'Api\V1\App\UsersController@index');
+        //     Route::get('avatar', 'Api\V1\App\UsersController@getAvatar');
+        //     Route::get('ranking', 'Api\V1\App\UsersController@getRanking');
         //     Route::post('users/avatar', 'AttachmentsController@store');
-        //     Route::get('expo-push-token', 'Api\App\UsersController@hasExpoPushToken');
-        //     Route::post('expo-push-token', 'Api\App\UsersController@setExpoPushToken');
+        //     Route::get('expo-push-token', 'Api\V1\App\UsersController@hasExpoPushToken');
+        //     Route::post('expo-push-token', 'Api\V1\App\UsersController@setExpoPushToken');
         // });
     });
 });

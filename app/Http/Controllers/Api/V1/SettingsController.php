@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
-use App\State;
+use App\Setting;
 
-class StatesController extends Controller
+class SettingsController extends Controller
 {
-    public $singularName = 'state';
-    public $pluralName = 'states';
-    public $eloquentModel = State::class;
-    public $secondId = 'code';
+    public $singularName = 'setting';
+    public $pluralName = 'settings';
+    public $eloquentModel = Setting::class;
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +21,6 @@ class StatesController extends Controller
     {
         return Response::showResults(buildQuery($this->eloquentModel, $request->input(), $this->pluralName));
     }
-
     /**
      * Show the form for creating a new resource.
      *
