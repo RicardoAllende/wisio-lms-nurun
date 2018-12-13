@@ -41,7 +41,35 @@ class CoursesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->filled($this->pluralName)){ // Massive import
+            $elements = $request[$this->pluralName];
+            $errors = array();
+            $numErrors = 0;
+            $inserts = array();
+            $numInserts = 0;
+            $results = [];
+            foreach($elements as $element){
+                $insertion = insertElement($element, $this->eloquentModel);
+                if($insertion['status']){
+                    array_push($inserts, $insertion);
+                    $numInserts++;
+                }else{
+                    array_push($errors, $insertion);
+                    $numErrors++;
+                }
+            }
+            $code = ($numInserts > 0) ? 200 : 406;
+            $message = ($numInserts > 0) ? 'ok' : 'error';
+            $response = [
+                'num_inserts' => $numInserts,
+                'num_errors' => $numErrors,
+                'inserts' => $inserts,
+                'messages' => $errors
+            ];
+            return Response::defaultResponse($message, '', $code, $response);
+        } else {
+            return Response::createdSuccessfully($this->singularName, insertElement($request->input(), $this->eloquentModel));
+        }
     }
 
     /**
