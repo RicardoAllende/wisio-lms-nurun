@@ -103,7 +103,7 @@ class TagsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return Response::updated(updateElement(findModel($this->eloquentModel, $id), $request->input()));
     }
 
     /**

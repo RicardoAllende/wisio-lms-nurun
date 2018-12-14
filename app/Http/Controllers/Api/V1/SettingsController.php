@@ -92,7 +92,7 @@ class SettingsController extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -102,6 +102,7 @@ class SettingsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return Response::updated(updateElement(findModel($this->eloquentModel, $id), $request->input()));
         //
     }
 

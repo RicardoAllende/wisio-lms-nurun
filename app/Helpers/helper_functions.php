@@ -327,8 +327,42 @@ function updateElements($model, $inputs){
 }
 
 function updateElement($model, $fieldsToUpdate) {
-    // $fillable = $model = 
-    intersectArrayWithKeys();
+    if($model == null){
+        return [
+            'status' => false,
+            'errors' => [
+                'Element not found'
+            ]
+        ];
+    }
+    try {
+        $result = [];
+        $resutl['inicio'] = $model;
+        $result['first'] = $model;
+        $fillable = $model->getFillable();
+        $fillable = array_diff($fillable, ['id', 'password']);
+        foreach ( $fillable as $column ) {
+            if(array_key_exists($column, $fieldsToUpdate)){
+                $model[$column] = $fieldsToUpdate[$column];
+            }
+        }
+        // $model->id = 4;
+        $model->save();
+        $result['final'] = $model;
+        return [
+            'status' => true,
+            'data' => [
+                str_singular($model->getTable()) => $model
+            ]
+        ];
+        return $result;
+    } catch (\Throwable $th) {
+        return [
+            'status' => false,
+            'errors' => [$th->getMessage()]
+        ];
+    }
+
 }
 
 function findModel($eloquentModel, $id){
@@ -350,7 +384,6 @@ function findModel($eloquentModel, $id){
 }
 
 function intersectArrayWithKeys($availableFields, $inputs) {
-    // $fields = string_to_array($stringSelection);
     $result = [];
     foreach($availableFields as $field) {
         if(array_key_exists($field, $inputs)) {

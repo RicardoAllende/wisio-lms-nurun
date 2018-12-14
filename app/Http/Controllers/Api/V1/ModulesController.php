@@ -91,9 +91,8 @@ class ModulesController extends Controller
      */
     public function edit($id)
     {
-        //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -103,6 +102,7 @@ class ModulesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        return Response::updated(updateElement(findModel($this->eloquentModel, $id), $request->input()));
         //
     }
 

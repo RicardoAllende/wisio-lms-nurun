@@ -130,6 +130,24 @@ class Response
         return $response;
     }
 
+    public static function updated($data){
+        // dd($data);
+        if($data['status']){
+            return self::returnResponse([
+                "response" => self::makeResponseField($status = "ok", "Updated successfully", $code = 200),
+                'data' => $data['data']
+            ], 200);
+        }else{
+            // return [
+            //     'status' => false
+            // ];
+            return self::returnResponse([
+                'response' => self::makeResponseField('error', 'Error on update', 406),
+                'errors' => $data['errors']
+            ], 406);
+        }
+    }
+
     public static function createdSuccessfully($dataName, $data){
         // dd($data);
         if($data['status']){
