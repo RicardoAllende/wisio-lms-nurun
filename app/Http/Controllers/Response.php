@@ -157,7 +157,7 @@ class Response
             return self::elementNotFound($dataName);
         }else{
             return self::returnResponse([
-                'response' => self::makeResponseField('error', "{$dataName} not found", 200),
+                'response' => self::makeResponseField('ok', "", 200),
                 'data' => [ $dataName => $data ]
             ], 200);
         }

@@ -185,11 +185,14 @@ function addWhereParameters($eloquentModel, $inputs, $availableFields) {
     $conditions = string_to_array($inputs);
     $conditions = getConditions($conditions, $availableFields);
     $first = false;
+    if(count($conditions) == 0){
+        return false;
+    }
     foreach($conditions as $condition){
         if(!$first){
             if(gettype($eloquentModel) == "string"){ // a php class
                 $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
-            } elseif (gettype($eloquentModel) == "object") {
+            } elseif (gettype($eloquentModel) == "object") { // a php class chained
                 $eloquentModel = $eloquentModel::where($condition[0], $condition[1], $condition[2]);                
             }
             $first = true;
@@ -290,16 +293,60 @@ function validateFields($model, $input){
     return array_unique($errors);
 }
 
-function updateElements($model, $inputs, $scopes){
+function excludeElementsFromArray($elementsToExclude, $array) {
+    foreach ($elementsToExclude as $element) {
+        if(array_key_exists($element, $array)){
+            unset($array[$element]);
+        }
+    }
+    return $array;
+}
+
+function updateElements($model, $inputs){
     $temp = new $model;
     $fillable = $temp->getFillable();
+    $fillable = excludeElementsFromArray(['id'], $fillable);
     $temp = null;
-    if(array_key_exists($input['where'])){
-        $model = addWhereParameters($model, $inputs['where'], $fillable);
+    $result = false;
+    if(array_key_exists('where', $inputs)){
+        if(! empty($inputs['where'])){
+            $result = addWhereParameters($model, $inputs['where'], $fillable);
+        }
+    }
+    if(gettype($result) == 'boolean'){
+        $model = $model::where('id', '>', -1);
+    }else{
+        $model = $result;
+        $result = null;
     }
     $fieldsToUpdate = intersectArrayWithKeys($fillable, $inputs);
-    $fieldsUpdated = $model->update($fieldsToUpdate);
+    return $fieldsToUpdate;
+    $updatedFields = $model->update($fieldsToUpdate);
+    return $updatedFields;
     addWhereParameters($eloquentModel, $inputs, $availableFields);
+}
+
+function updateElement($model, $fieldsToUpdate) {
+    // $fillable = $model = 
+    intersectArrayWithKeys();
+}
+
+function findModel($eloquentModel, $id){
+    $model = null;
+    $model = $eloquentModel::find($id);
+    if($model == null) {
+        $otherWays = $eloquentModel::getConditions();
+        $otherWays = $otherWays['unique'];
+        foreach($otherWays as $key){
+            $model = $eloquentModel::where($key, $id)->first();
+            if($model != null){
+                return $model;
+            }
+        }
+    }else{
+        return $model;
+    }
+    return $model;
 }
 
 function intersectArrayWithKeys($availableFields, $inputs) {
@@ -312,12 +359,4 @@ function intersectArrayWithKeys($availableFields, $inputs) {
         }
     }
     return $result;
-    $availableFields = collect($availableFields);
-    $selection = $availableFields->intersect($fields);
-    if($selection->isEmpty()){
-        $selection = $availableFields;
-    }
-    $selection = $selection->toArray();
-    $selection = array_values($selection);
-    return $selection;
 }

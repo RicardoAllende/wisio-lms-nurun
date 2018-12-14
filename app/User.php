@@ -33,7 +33,7 @@ class User extends Authenticatable
         'id'
     ];
 
-    public static function getConditions() { return [ 'unique' => ['email', 'professional_license'], 'required' => ['password', 'email'] ]; }
+    public static function getConditions() { return [ 'unique' => ['email'], 'required' => ['password', 'email'] ]; }
 
     protected $hidden = [
         'password', 'remember_token',
