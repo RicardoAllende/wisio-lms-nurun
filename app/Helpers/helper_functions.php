@@ -213,6 +213,7 @@ function getConditions($conditions, $fillable) {
                 if(count($condition) == 2){
                     if(in_array($condition[0], $fillable)){
                         if($operator == '==') $operator = "="; 
+                        if($operator == 'like') $condition[1] = "%".$condition[1]."%";
                         array_push($results, [$condition[0], $operator, $condition[1]]);
                     }
                 }
@@ -392,4 +393,14 @@ function intersectArrayWithKeys($availableFields, $inputs) {
         }
     }
     return $result;
+}
+
+function deleteModel($model, $id){
+    $model = findModel($model, $id);
+    if($model != null){
+        $model->delete();
+        return true;
+    }else{
+        return false;
+    }
 }
