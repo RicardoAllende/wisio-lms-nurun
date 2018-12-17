@@ -114,6 +114,6 @@ class TagsController extends Controller
      */
     public function destroy($id)
     {
-        dd('Se ingresó en método destroy');
+      return Response::deleted(deleteModel($this->eloquentModel, $id));
     }
 }

@@ -39,10 +39,7 @@ class LoginController extends Controller
     public function initializeSession($user){
         $responseMaker = new Response;
         $token = $user->createToken('Personal Access Token');
-        // $sessionToken = (string) Str::uuid();
-        // $response = $responseMaker->successLogin($token->accessToken, $user);
         return Response::successLogin($token->accessToken, $user);
-        return response()->json($response, $status = 200, $headers = [], $options = JSON_PRETTY_PRINT);
     }
 
     public function loginError(){
