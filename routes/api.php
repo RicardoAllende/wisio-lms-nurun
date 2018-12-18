@@ -8,6 +8,7 @@ Route::group(['prefix' => '/v1'], function(){
     Route::apiResource('ascriptions', 'Api\V1\AscriptionsController');
     Route::apiResource('categories', 'Api\V1\CategoriesController');
     Route::apiResource('courses', 'Api\V1\CoursesController');
+    Route::post('enrollments', 'Api\V1\CoursesController@enrolUsers');
     Route::apiResource('diplomas', 'Api\V1\DiplomasController');
     Route::apiResource('experts', 'Api\V1\ExpertsController');
     Route::apiResource('modules', 'Api\V1\ModulesController');

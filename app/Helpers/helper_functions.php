@@ -367,6 +367,7 @@ function updateElement($model, $fieldsToUpdate) {
 }
 
 function findModel($eloquentModel, $id){
+    if($id == null) return null;
     $model = null;
     $model = $eloquentModel::find($id);
     if($model == null) {
@@ -382,6 +383,30 @@ function findModel($eloquentModel, $id){
         return $model;
     }
     return $model;
+}
+
+function getIdFromModel($eloquentModel, $id) {
+    if($id == null) return null;
+    $model = null;
+    if(is_numeric($id)){
+        $model = $eloquentModel::where('id', $id)->count();
+        if($model == 1){
+            return $id;
+        }
+    }
+    if($model == 0) {
+        $otherWays = $eloquentModel::getConditions();
+        $otherWays = $otherWays['unique'];
+        foreach($otherWays as $key){
+            $model = $eloquentModel::where($key, $id)->first();
+            if($model != null){
+                return $model->id;
+            }
+        }
+    }else{
+        return $id; // Id exists
+    }
+    return null;
 }
 
 function intersectArrayWithKeys($availableFields, $inputs) {
@@ -402,5 +427,24 @@ function deleteModel($model, $id){
         return true;
     }else{
         return false;
+    }
+}
+
+function insertPivot($pivotModel, $firstElement, $firstId, $secondElement, $secondId){
+    if(empty($firstId) || empty($secondId)){
+        return false;
+    }
+    $pivots = $pivotModel::where($firstElement, $firstId)->where($secondElement, $secondId)->count();
+    if($pivots > 0){
+        return 2;
+    }
+    if( $pivots == 0){
+        try {
+            $pivot = $pivotModel::create([$firstElement => $firstId, $secondElement => $secondId]);
+            return true;
+        } catch (\Throwable $th) {
+            throw $th;
+            return false;
+        }
     }
 }
