@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
 use App\Course;
+use App\User;
+use App\CourseUser;
 
 class CoursesController extends Controller
 {
@@ -70,6 +72,77 @@ class CoursesController extends Controller
         } else {
             return Response::createdSuccessfully($this->singularName, insertElement($request->input(), $this->eloquentModel));
         }
+    }
+
+    public function enrolUsers(Request $request){
+        $numEnrolledUsers = 0;
+        $enrolledUsers = [];
+        $numErrors = 0;
+        $errors = [];
+        $numNotFound = 0;
+        $notFoundUsers = [];
+        $repeated = [];
+        $numRepeated = 0;
+
+        if($request->filled('course_id')){
+            $course_id = $request->course_id;
+            $course = findModel($this->eloquentModel, $course_id);
+            // dd($course);
+            if($course == null){
+                return Response::error('Course not found', [
+                    "Course < {$course_id} > not found"
+                ]);
+            }
+        }else{
+            return Response::error('Course not found', [
+                "course_id is required"
+            ]);
+        }
+
+        $usersEmpty = false;
+        if($request->filled('users')){
+            $users = $request->users;
+            if(gettype($users) != 'array'){
+                $usersEmpty = true;
+            }
+        }else{
+            $usersEmpty = true;
+        }
+        if($usersEmpty){
+            return Response::error('missing users parameter', [
+                "users field is required, you need to send an array with users to enrol in the course"
+            ]);
+        }
+        foreach ($users as $user) {
+            $u = findModel(User::class, $user);
+            if($u != null){
+                $result = insertPivot(CourseUser::class, 'course_id', $course->id, 'user_id', $u->id);
+                if($result === 2){
+                    array_push($repeated, "User <{$u->email}> is already enrolled");
+                    $numRepeated++;
+                }elseif ($result == true) {
+                    array_push($enrolledUsers, "User <{$u->email}> enrolled successfully");
+                    $numEnrolledUsers++;
+                }elseif ($result == false) {
+                    array_push($errors, "Cannot enrol <{$u->email}>");
+                    $numErrors++;
+                }
+            }else{
+                $numNotFound++;
+                array_push($notFoundUsers, "User <{$user}> doesn't exist");
+            }
+        }
+        $data = [
+            "num_enrollments" => $numEnrolledUsers,
+            'enrolled_users' => $enrolledUsers,
+            'repeated_users' => $repeated,
+            'num_repeated_users' => $numRepeated,
+            'num_not_found_users' => $numNotFound,
+            'not_found_users' => $notFoundUsers
+        ];
+        $code = ($numEnrolledUsers > 0) ? 200 : 406;
+        $message = ($numEnrolledUsers > 0) ? 'ok' : 'error';
+        return Response::defaultResponse($message, '', $code, $data);
     }
 
     /**
