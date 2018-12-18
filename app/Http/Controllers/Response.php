@@ -177,10 +177,11 @@ class Response
         }
     }
 
-    public static function error($msg){
+    public static function error($msg, $errors){
         $response = [
             "response" => self::makeResponseField($status = "error", $msg, $code = 409 ),
-            "data" => []
+            "data" => [],
+            'errors' => $errors
         ];
         return self::returnResponse($response, 409);
         return $response;
