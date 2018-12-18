@@ -4,17 +4,35 @@ use GuzzleHttp\Client;
 
 Route::get('get', 'Api\V1\UsersController@index');
 // Route::get('get', 'HomeController@dumpRequest');
-// Route::get('parametros', function() {
-//     $models =  App\AscriptionAttachment::first()->showModels();
-//     // dd($models);
-//     foreach ($models as $model) {
-//         echo "Nombre de la tabla: ".$model->getTable().'<br>';
-//         foreach ($model->getFillable() as $attribute ) {
-//             echo $attribute.', ';
-//         }
-//         echo '<br><br>';
-//     }
-// });
+Route::get('parametros', function() {
+    $models =  App\AscriptionAttachment::first()->showModels();
+    // dd($models);
+    foreach ($models as $model) {
+        $conditions = $model::getConditions();
+        $model = new $model;
+        echo "Recurso: ".$model->getTable().'<br>';
+        echo "Atributos que pueden ser modificados/consultados: ";
+        foreach ($model->getFillable() as $attribute ) {
+            echo $attribute.', ';
+        }
+        echo "<br>";
+        if(count($conditions['required'])){
+            echo "Atributos requeridos: ";
+            foreach ($conditions['required'] as $attribute ) {
+                echo $attribute.', ';
+            }
+            echo "<br>";
+        }
+        if(count($conditions['unique'])){
+            echo "Atributos únicos: ";
+            foreach ($conditions['unique'] as $attribute ) {
+                echo $attribute.', ';
+            }
+            echo "<br>";
+        }
+        echo '<br><br>';
+    }
+});
 
 Route::group(['middleware' => 'prevent-back-history'],function(){
     Route::get('/', 'HomeController@index')->name('welcome');
