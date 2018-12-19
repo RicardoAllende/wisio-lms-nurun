@@ -226,7 +226,6 @@ function getConditions($conditions, $fillable) {
 
 function insertElement($input, $model){
     try {
-        $conditions = $model::getConditions();
         $errors = validateFields($model, $input);
         if(array_key_exists('email', $input) !== false){
             if(filter_var($input['email'], FILTER_VALIDATE_EMAIL) === false){
@@ -255,6 +254,7 @@ function insertElement($input, $model){
             ];
         }
     } catch (\Throwable $th) {
+        return false;
         dd($th);
         return $th;
     }
@@ -265,11 +265,16 @@ function validateFields($model, $input){
     $requiredAttributes = $conditions['required'];
     $uniqueAttributes = $conditions['unique'];
     $errors = [];
-    if( ! in_array('id', $requiredAttributes) ) {
+    if( ! in_array('id', $input) ) {
         array_push($uniqueAttributes, 'id');
     }
-    if( in_array('slug', $requiredAttributes) ) {
-        $requiredAttributes['slug'] = str_slug($requiredAttributes['slug']);
+    if( ! in_array('slug', $input) ) {
+        if($input['slug']){
+            if(strpos($input['slug'], ' ')){
+                array_push($errors, "Slug has spaces");
+            }
+        }
+        $input['slug'] = str_slug($input['slug']);
     }
     foreach ($uniqueAttributes as $attribute) {
         if(array_key_exists($attribute, $input)){
@@ -371,9 +376,9 @@ function findModel($eloquentModel, $id){
     $model = null;
     $model = $eloquentModel::find($id);
     if($model == null) {
-        $otherWays = $eloquentModel::getConditions();
-        $otherWays = $otherWays['unique'];
-        foreach($otherWays as $key){
+        $otherIds = $eloquentModel::getConditions();
+        $otherIds = $otherIds['unique'];
+        foreach($otherIds as $key){
             $model = $eloquentModel::where($key, $id)->first();
             if($model != null){
                 return $model;
@@ -383,6 +388,26 @@ function findModel($eloquentModel, $id){
         return $model;
     }
     return $model;
+}
+
+function modelExists($eloquentModel, $id){
+    if($id == null) return false;
+    $model = null;
+    if(is_numeric($id)){
+        $model = $eloquentModel::whereId($id)->count();
+    }
+    if($model == 1){
+        return true;
+    }
+    $otherIds = $eloquentModel::getConditions();
+    $otherIds = $otherIds['unique'];
+    foreach($otherIds as $key){
+        $model = $eloquentModel::where($key, $id)->count();
+        if($model > 0){
+            return true;
+        }
+    }
+    return false;
 }
 
 function getIdFromModel($eloquentModel, $id) {
@@ -395,9 +420,9 @@ function getIdFromModel($eloquentModel, $id) {
         }
     }
     if($model == 0) {
-        $otherWays = $eloquentModel::getConditions();
-        $otherWays = $otherWays['unique'];
-        foreach($otherWays as $key){
+        $otherIds = $eloquentModel::getConditions();
+        $otherIds = $otherIds['unique'];
+        foreach($otherIds as $key){
             $model = $eloquentModel::where($key, $id)->first();
             if($model != null){
                 return $model->id;
@@ -448,3 +473,19 @@ function insertPivot($pivotModel, $firstElement, $firstId, $secondElement, $seco
         }
     }
 }
+
+function stripos_multi ($haystack, $needle) {
+    if (!is_array($needle)) {
+     $needle = array($needle);
+    }//if
+   
+    foreach ($needle as $searchstring) {
+     $position = stripos($haystack, $searchstring);
+   
+     if ($position !== false) {
+      return $position;
+     }//if
+    }//foreach
+   
+    return false;
+}//function

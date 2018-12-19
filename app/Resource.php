@@ -29,6 +29,7 @@ class Resource extends Model
     public function url(){
         return '/'.$this->attachment->url;
     }
-    public static function getConditions() { return [ 'unique' => [], 'required' => ['type', 'weight', 'attachment_id'] ]; }
+    public static function getConditions() { return [ 'unique' => [], 'required' => ['type', 'attachment_id', 'module_id'] ]; }
 
+    public static function getSupportedExtensions() { return ['mp4', 'pdf']; }
 }
