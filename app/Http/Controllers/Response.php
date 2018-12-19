@@ -109,14 +109,12 @@ class Response
         return $response;
     }
 
-    public static function delete($response){
-        $response = [
-            "response" => self::makeResponseField($status = "ok", $message = "Element deleted successfully", $code = 204 ),
-            "data" => [
-            ]
-        ];
-        return self::returnResponse($response, 204);
-        return $response;
+    public static function delete($status){
+        if($status){
+            return self::returnResponse(["response" => self::makeResponseField($status = "ok", $message = "Element deleted successfully", $code = 200)], 200);
+        }else{
+            return self::returnResponse(["response" => self::makeResponseField($status = "error", $message = "Element not found", $code = 404) ], 404);
+        }
     }
 
     public static function updatedSuccessfully($dataName, $data){

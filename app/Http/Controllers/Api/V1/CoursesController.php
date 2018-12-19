@@ -188,7 +188,7 @@ class CoursesController extends Controller
      */
     public function destroy($id)
     {
-      return Response::deleted(deleteModel($this->eloquentModel, $id));
+      return Response::delete(deleteModel($this->eloquentModel, $id));
         //
     }
 }

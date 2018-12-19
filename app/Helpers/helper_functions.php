@@ -268,11 +268,9 @@ function validateFields($model, $input){
     if( ! in_array('id', $input) ) {
         array_push($uniqueAttributes, 'id');
     }
-    if( ! in_array('slug', $input) ) {
-        if($input['slug']){
-            if(strpos($input['slug'], ' ')){
-                array_push($errors, "Slug has spaces");
-            }
+    if(  in_array('slug', $input) ) {
+        if(strpos($input['slug'], ' ')){
+            array_push($errors, "Slug has spaces");
         }
         $input['slug'] = str_slug($input['slug']);
     }
@@ -352,7 +350,6 @@ function updateElement($model, $fieldsToUpdate) {
                 $model[$column] = $fieldsToUpdate[$column];
             }
         }
-        // $model->id = 4;
         $model->save();
         $result['final'] = $model;
         return [
