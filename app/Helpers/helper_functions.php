@@ -191,9 +191,9 @@ function addWhereParameters($eloquentModel, $inputs, $availableFields) {
     foreach($conditions as $condition){
         if(!$first){
             if(gettype($eloquentModel) == "string"){ // a php class
-                $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);
+                $eloquentModel = $eloquentModel::where($condition[0], $condition[1], $condition[2]);
             } elseif (gettype($eloquentModel) == "object") { // a php class chained
-                $eloquentModel = $eloquentModel::where($condition[0], $condition[1], $condition[2]);                
+                $eloquentModel = $eloquentModel->where($condition[0], $condition[1], $condition[2]);                
             }
             $first = true;
         }else{
@@ -260,7 +260,7 @@ function insertElement($input, $model){
             ];
         }
     } catch (\Throwable $th) {
-        // return false;
+        return false;
         dd($th);
         return $th;
     }
