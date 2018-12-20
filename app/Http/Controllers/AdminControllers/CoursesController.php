@@ -269,8 +269,7 @@ class CoursesController extends Controller
     public function reportCourse($course_id){
         $course = Course::find($course_id);
         if($course == null) { return redirect()->route('list.courses.report'); }
-        $users = $course->users;
-        return view('courses/report', compact('course', 'users'));
+        return view('courses/report', compact('course'));
     }
 
     private function hasScripts($string){
