@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => '/v1'], function(){
     // Route::post('/resourse/uploadFile', 'AdminControllers\AttachmentsController@uploadFile')->name('attachments.file.upload');
     Route::post('auth', 'Api\V1\LoginController@login');    
-    Route::get('auth', 'Api\V1\LoginController@checkUserByToken')->middleware('auth:api');
+    // Route::get('auth', 'Api\V1\LoginController@checkUserByToken')->middleware('auth:api');
     Route::apiResource('ascriptions', 'Api\V1\AscriptionsController');
     Route::apiResource('categories', 'Api\V1\CategoriesController');
     Route::apiResource('courses', 'Api\V1\CoursesController');

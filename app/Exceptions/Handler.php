@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Http\Controllers\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -60,6 +61,9 @@ class Handler extends ExceptionHandler
                 break;
                 case '503':
                     return response()->view('errors.503', [], 503);
+                break;
+                case '405':
+                    return Response::error405();
                 break;
             }
         }

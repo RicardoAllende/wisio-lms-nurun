@@ -185,4 +185,11 @@ class Response
         return $response;
     }
 
+    public static function error405(){
+        $response = [
+            "response" => self::makeResponseField("error", "Page not found", 404)
+        ];
+        return self::returnResponse($response, 404);
+    }
+
 }

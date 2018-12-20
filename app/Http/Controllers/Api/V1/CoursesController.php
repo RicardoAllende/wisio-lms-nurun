@@ -70,7 +70,8 @@ class CoursesController extends Controller
             ];
             return Response::defaultResponse($message, '', $code, $response);
         } else {
-            return Response::createdSuccessfully($this->singularName, insertElement($request->input(), $this->eloquentModel));
+            $input = array_merge($request->input(), ['attachment' => createAttachment($request, true), 'mainImg' => true]);
+            return Response::createdSuccessfully($this->singularName, insertElement($input, $this->eloquentModel));
         }
     }
 
@@ -177,7 +178,6 @@ class CoursesController extends Controller
     public function update(Request $request, $id)
     {
         return Response::updated(updateElement(findModel($this->eloquentModel, $id), $request->input()));
-        //
     }
 
     /**

@@ -48,4 +48,5 @@ class Category extends Model
         }
     }
 
+    public static function isMainImg() { return true; }
 }

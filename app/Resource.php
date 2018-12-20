@@ -32,4 +32,5 @@ class Resource extends Model
     public static function getConditions() { return [ 'unique' => [], 'required' => ['type', 'attachment_id', 'module_id'] ]; }
 
     public static function getSupportedExtensions() { return ['mp4', 'pdf']; }
+    public static function isMainImg() { return true; }
 }

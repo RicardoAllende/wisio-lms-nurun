@@ -29,7 +29,7 @@ class Course extends Model
         'certificate_template_id'
         // 'diploma_template_id'
     ];
-    public static function getConditions() { return [ 'unique' => ['slug'], 'required' => ['name', 'slug'] ]; }
+    public static function getConditions() { return [ 'unique' => ['slug'], 'required' => ['name', 'slug', 'category_id'], 'hasMainImg' => true ]; }
 
     protected $appends = ['img'];
 
@@ -372,5 +372,6 @@ class Course extends Model
         }
         return true;
     }
+    public static function isMainImg() { return true; }
 
 }

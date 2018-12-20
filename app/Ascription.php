@@ -162,4 +162,5 @@ class Ascription extends Model
         return false;
     }
 
+    public static function isMainImg() { return true; }
 }

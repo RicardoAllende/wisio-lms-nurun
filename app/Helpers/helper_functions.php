@@ -247,14 +247,20 @@ function insertElement($input, $model){
             }
             $newElement = $model::create($input);
             $elementName = str_singular($newElement->getTable());
+            if(array_key_exists('attachment', $input)){
+                $attachment = $input['attachment'];
+                if(gettype($attachment) != 'array'){ // an array means attachment has a list of errors
+                    $newElement->attachments()->attach($attachment->id);
+                }
+            }
             return [
                 $elementName => $newElement,
-                'message' => $elementName.' created successfully',
+                // 'message' => $elementName.' created successfully',
                 'status' => true
             ];
         }
     } catch (\Throwable $th) {
-        return false;
+        // return false;
         dd($th);
         return $th;
     }
@@ -360,6 +366,7 @@ function updateElement($model, $fieldsToUpdate) {
         ];
         return $result;
     } catch (\Throwable $th) {
+        dd($th);
         return [
             'status' => false,
             'errors' => [$th->getMessage()]
@@ -486,3 +493,63 @@ function stripos_multi ($haystack, $needle) {
    
     return false;
 }//function
+
+function createAttachment($request, $isMainImg){
+    if($request == false){
+        return [
+            "File wasn't send"
+        ];
+    }
+    $incomplete = false;
+    $correctFormat = false;
+    $inexistentModule = false;
+    $fileNotExists = false;
+    if( ! $request->hasFile('file') ){
+        $incomplete = true;
+        $fileNotExists = true;
+    }
+    if(!$fileNotExists){
+        $fileName = $request->file('file')->getClientOriginalName();
+        $fileFormat = $request->file('file')->getClientOriginalExtension();
+        if( ! $isMainImg){
+            foreach (App\Resource::getSupportedExtensions() as $format) {
+                if($fileFormat == $format){
+                    $correctFormat = true;
+                }
+            }
+        }else{
+            foreach(['png', 'jpg', 'jpeg'] as $format){
+                if($fileFormat == $format){
+                    $correctFormat = true;
+                }
+            }
+        }
+    }
+    if($incomplete || (!$correctFormat)){
+        $errors = [];
+        if($fileNotExists){
+            array_push($errors, "File was not send");
+        }
+        if(!$correctFormat){
+            if(isset($fileFormat)){
+                array_push($errors, "Format <{$fileFormat}> is not compatible");
+            }
+        }
+        return $errors;
+    }
+    if($request->filled('path')){
+        $path = $request->path;
+    }else{
+        $path = "resources";
+    }
+    $filePath = $request->file('file')->store('public/'.$path);
+    $filePath = str_replace('public', 'storage', $filePath);
+    $name = $request->file('file')->getClientOriginalName();
+    $mimeType = $request->file('file')->getMimeType();
+    if($isMainImg){
+        $type = "main_img";
+    }else{
+        $type = substr($mimeType, 0, strpos($mimeType, '/'));
+    }
+    return App\Attachment::create(['name'=>$name, 'type'=>$type, 'url' =>$filePath, 'mimetype' => $mimeType]);
+}

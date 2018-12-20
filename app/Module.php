@@ -202,4 +202,5 @@ class Module extends Model
         return "Función terminada";
     }
 
+    public static function isMainImg() { return true; }
 }

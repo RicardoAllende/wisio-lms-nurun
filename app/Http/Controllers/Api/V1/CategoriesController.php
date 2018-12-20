@@ -67,7 +67,8 @@ class CategoriesController extends Controller
             ];
             return Response::defaultResponse($message, '', $code, $response);
         } else {
-            return Response::createdSuccessfully($this->singularName, insertElement($request->input(), $this->eloquentModel));
+            $input = array_merge($request->input(), ['attachment' => createAttachment($request, true), 'mainImg' => true]);
+            return Response::createdSuccessfully($this->singularName, insertElement($input, $this->eloquentModel));
         }
     }
 
