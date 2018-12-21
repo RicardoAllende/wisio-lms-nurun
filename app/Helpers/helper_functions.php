@@ -98,7 +98,17 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
     $temp = new $eloquentModel;
     $fillable = $temp->getFillable();
     $temp = null;
-    $totalElements = $eloquentModel::count();
+    // $totalElements = $eloquentModel::count();
+
+    if(array_key_exists('where', $getParameters)){
+        $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
+    }
+
+    if(gettype($eloquentModel) == 'object'){
+        $totalElements = $eloquentModel->count();
+    }else{
+        $totalElements = $eloquentModel::count();
+    }
 
     $paginationParameters = getPaginationParameters($getParameters, $totalElements);
 
@@ -114,11 +124,11 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
     }else{
         $selection = $fillable;
     }
-    
-    $eloquentModel = $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
-    
-    if(array_key_exists('where', $getParameters)){
-        $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
+
+    if(gettype($eloquentModel) == "string"){ // a php class
+        $eloquentModel = $eloquentModel::select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
+    } elseif (gettype($eloquentModel) == "object") { // a php class chained
+        $eloquentModel = $eloquentModel->select($selection)->offset($paginationParameters['offset'])->limit($paginationParameters['limit']);
     }
     
     if(array_key_exists('orderby', $getParameters)){
@@ -140,10 +150,6 @@ function buildQuery($eloquentModel, $getParameters, $resourceName) {
         }else{
             $eloquentModel = $eloquentModel->orderBy($orderByName);
         }
-    }
-
-    if(array_key_exists('where', $getParameters)){
-        $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
     }
 
     return [
