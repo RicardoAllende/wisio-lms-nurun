@@ -85,7 +85,7 @@ class Response
         }else{
             $code = 404;
             $response = [
-                'response' => self::makeResponseField($status = 'error', $message = "Page {$data} not found", $code),
+                'response' => self::makeResponseField($status = 'error', $message = "No data found", $code),
                 'data' => []
             ];
         }

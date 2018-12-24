@@ -8,6 +8,7 @@ use App\Http\Controllers\Response;
 use App\Course;
 use App\User;
 use App\CourseUser;
+use App\Module;
 
 class CoursesController extends Controller
 {
@@ -190,5 +191,10 @@ class CoursesController extends Controller
     {
       return Response::delete(deleteModel($this->eloquentModel, $id));
         //
+    }
+
+    public function showModules(Request $request, $id){
+        $id = getIdFromModel($this->eloquentModel, $id);
+        return Response::showResults(buildQuery(Module::whereCourseId($id), $request->input(), 'modules'));
     }
 }

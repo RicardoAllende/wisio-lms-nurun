@@ -95,10 +95,20 @@ function getPage($offset, $limit) {
 
 function buildQuery($eloquentModel, $getParameters, $resourceName) {
     $orderBy = false;
-    $temp = new $eloquentModel;
+    if(getType($eloquentModel) == 'string'){
+        $temp = new $eloquentModel;
+    }else{
+        try {
+            $temp = $eloquentModel->select('id')->first();
+            if(empty($temp)){
+                return 0;
+            }
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
     $fillable = $temp->getFillable();
     $temp = null;
-    // $totalElements = $eloquentModel::count();
 
     if(array_key_exists('where', $getParameters)){
         $eloquentModel = addWhereParameters($eloquentModel, $getParameters['where'], $fillable);
@@ -420,8 +430,11 @@ function modelExists($eloquentModel, $id){
     return false;
 }
 
+/**
+ * return null if model doesn't exist in DB
+ */
 function getIdFromModel($eloquentModel, $id) {
-    if($id == null) return null;
+    if($id == null) return -1;
     $model = null;
     if(is_numeric($id)){
         $model = $eloquentModel::where('id', $id)->count();
@@ -441,7 +454,7 @@ function getIdFromModel($eloquentModel, $id) {
     }else{
         return $id; // Id exists
     }
-    return null;
+    return -1;
 }
 
 function intersectArrayWithKeys($availableFields, $inputs) {

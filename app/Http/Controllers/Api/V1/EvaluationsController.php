@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Response;
 use App\Evaluation;
+use App\Question;
 
 class EvaluationsController extends Controller
 {
@@ -114,7 +115,11 @@ class EvaluationsController extends Controller
      */
     public function destroy($id)
     {
-        //
       return Response::delete(deleteModel($this->eloquentModel, $id));
+    }
+
+    public function showQuestions(Request $request, $id){
+        $id = getIdFromModel($this->eloquentModel, $id);
+        return Response::showResults(buildQuery(Question::whereEvaluationId($id), $request->input(), 'questions'));
     }
 }
