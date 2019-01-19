@@ -29,7 +29,7 @@ class MontReminder extends Mailable
      */
     public function build()
     {
-        return $this->from('soporte@paecmexico.com')
-        ->view('email.month-reminder', ['token' => $this->token]);
+        return $this->from(env('MAIL_USERNAME'))
+        ->view('email.month-reminder', ['token' => $this->route]);
     }
 }

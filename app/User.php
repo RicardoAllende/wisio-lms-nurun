@@ -783,8 +783,22 @@ class User extends Authenticatable
         return $this->notifications()->where('type', 1)->where('course_id', $course_id)->count();
     }
 
+    // public function hasCallNotification(){
+    //     if($this->notifications()->where('type', 4)->whereViewed(0)->count() > 0){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     public function hasCallNotification(){
-        if($this->notifications()->where('type', 4)->whereViewed(0)->count()){
+        if($this->notifications()->where('type', 4)->count() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function isInCallListForCourse($course_id){
+        if($this->notifications()->where('type', 4)->where('course_id', $course_id)->count() > 0 ){
             return true;
         }
         return false;

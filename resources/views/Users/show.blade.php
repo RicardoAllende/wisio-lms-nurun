@@ -8,8 +8,10 @@
 @section('subtitle')
     <ol class="breadcrumb">
         <li class="active">
-            <a href="{{ route('ascriptions.show', $user->ascription->id) }}">
-            Adscripción: <strong>{{ $user->ascription->name }}<strong></a>
+            <a href="{{ route('users.index') }}">Usuarios</a>
+        </li>
+        <li>
+            {{ $user->full_name }}
         </li>
     </ol>
 @endsection
@@ -53,7 +55,7 @@
                             <li>
                                 <span class="fa fa-home m-r-xs"></span>
                                 <label>Dirección:</label>
-                                {{ $user->city }}, {{ $user->state }}, {{ $user->zip }}, {{ $user->address }}
+                                {{ $user->city }}, {{ $user->state->name }}, {{ $user->zip }}, {{ $user->address }}
                             </li>
                             <li>
                                 <span class="fa fa-mobile-phone m-r-xs"></span>
@@ -104,7 +106,7 @@
                             <td>{{ $course->pivot->score }}</td>
                             <td>{{ $course->pivot->updated_at }}</td>
                             <td>
-                                @if($course->pivot->score != '')
+                                @if($course->pivot->status && $course->pivot->score != '')
                                     @if( $course->minimum_score > $course->pivot->score )
                                         <a href="{{ route('reset.evaluations', [$user->id, $course->id]) }}">Resetear Avances</a>
                                     @else

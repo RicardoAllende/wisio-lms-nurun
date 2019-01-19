@@ -202,7 +202,7 @@ class UsersController extends Controller
         $user = User::find($user_id);
         if ($user != null) {
             $course = Course::find($course_id);
-            if($course != null){ // user and course exists
+            if($course != null){ // user and course exist
                 $user->resetAdvanceInCourse($course_id);
             }
         }

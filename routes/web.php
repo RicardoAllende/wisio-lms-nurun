@@ -159,17 +159,6 @@ Route::post('/send-reset-password-link', 'LoginController@sendResetPasswordLink'
 Route::get('/recuperar-contrasena/{token}', 'LoginController@getResetPasswordLink')->name('set.new.password');
 Route::post('reset-password', 'LoginController@setNewPassword')->name('request.set.new.password');
 
-Route::get('/cursor', function(){
-  // $courses = Course::cursor();
-  foreach(Course::cursor() as $course){
-    echo "Curso {$course->id}: {$course->name}<br>";
-    $modules = $course->modules()->cursor();
-    foreach($modules as $module){
-      echo  "Módulo {$module->id}: {$module->name}<br>";
-    }
-  }
-});
-
 // Public routes for guests
 Route::group([ 'prefix' => '/{ascription_slug}'], function () {
   Route::get('/login', 'AscriptionController@login')->name('ascription.login');

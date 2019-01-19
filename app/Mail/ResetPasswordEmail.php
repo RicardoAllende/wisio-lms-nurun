@@ -29,7 +29,7 @@ class ResetPasswordEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('soporte@paecmexico.com')
+        return $this->from(env('MAIL_USERNAME'))
         ->view('email.recoverPassword', ['token' => $this->token]);
     }
 }

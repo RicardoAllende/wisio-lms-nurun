@@ -7,18 +7,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Test extends Mailable
+class Recommendation extends Mailable
 {
     use Queueable, SerializesModels;
+    protected $route;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($route)
     {
-        //
+        $this->route = $route;
     }
 
     /**
@@ -28,6 +29,8 @@ class Test extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_USERNAME'))->view('mail-test');
+        $route = $this->route;
+        return $this->from(env('MAIL_USERNAME'))
+        ->view('email.recommendation', compact('route'));
     }
 }

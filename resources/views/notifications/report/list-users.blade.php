@@ -1,22 +1,14 @@
 @extends('layouts.app')
 
 @section('title','Usuarios')
-@section('cta')
-<div style="display=inline;">
-  <a href="{{route('users.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
-</div>
-@endsection
 
 @section('subtitle')
     <ol class="breadcrumb">
       @if(isset($ascription))
         <li>
-          <a href="{{ route('ascriptions.show', $ascription->id) }}">Adscripción: {{ $ascription->name}}</a>
+          Notificaciones
         </li>
       @endif
-        <li>
-          Usuarios
-        </li>
     </ol>
 @endsection
 

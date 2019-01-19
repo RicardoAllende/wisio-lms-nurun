@@ -1,21 +1,16 @@
 @extends('layouts.app')
 
 @section('title','Usuarios')
-@section('cta')
-<div style="display=inline;">
-  <a href="{{route('users.create')}}" class="btn btn-primary "><i class='fa fa-plus'></i> Crear Usuario</a>
-</div>
-@endsection
 
 @section('subtitle')
     <ol class="breadcrumb">
       @if(isset($ascription))
         <li>
-          <a href="{{ route('ascriptions.show', $ascription->id) }}">Adscripción: {{ $ascription->name}}</a>
+          <a href="{{ route('notifications.list.users') }}">Notificaciones</a>
         </li>
       @endif
         <li>
-          Usuarios
+          Usuarios por llamar
         </li>
     </ol>
 @endsection
@@ -39,7 +34,7 @@
                                 <th>Nombre</th>
                                 <th>Cédula profesional</th>
                                 <th>Nombre del curso</th>
-                                <th>Marcar llamada como hecha</th>
+                                <th>Reiniciar envío de notificaciones</th>
                                 <th>Fecha</th>
                                 <th>Primera notificación enviada</th>
                                 <th>Desactivar usuario</th>

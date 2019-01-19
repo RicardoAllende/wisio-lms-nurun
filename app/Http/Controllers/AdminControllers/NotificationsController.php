@@ -17,11 +17,13 @@ class NotificationsController extends Controller
 
     }
 
-    public function checkNotification($notification_id){
+    public function checkNotification($notification_id){ //call
         $notification = Notification::find($notification_id);
         if($notification != null){
-            $notification->viewed = 1;
-            $notification->save();
+            $user = $notification->user;
+            if($user != null){
+                $user->notifications()->where('course_id', $notification->course_id)->update(['viewed' => 1]);
+            }
         }
         return back();
     }
