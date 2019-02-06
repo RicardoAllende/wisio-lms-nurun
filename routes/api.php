@@ -16,6 +16,7 @@ Route::group(['prefix' => '/v1'], function(){
     Route::post('enrollments', 'Api\V1\CoursesController@enrolUsers');
     Route::apiResource('diplomas', 'Api\V1\DiplomasController');
     Route::apiResource('experts', 'Api\V1\ExpertsController');
+    Route::apiResource('evaluations', 'Api\V1\EvaluationsController');
     Route::apiResource('modules', 'Api\V1\ModulesController');
     Route::apiResource('notifications', 'Api\V1\NotificationsController');
     Route::apiResource('options', 'Api\V1\OptionsController');
