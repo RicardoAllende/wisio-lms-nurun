@@ -123,6 +123,10 @@ class UserController extends Controller
         return redirect('/');
     }
 
+    public function invitation(Request $request){
+        dd($request);
+    }
+
     public function requestVerifyProfessionalLicense(Request $request){
         $professional_license = $request->professional_license;
         $name = $request->name;
