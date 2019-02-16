@@ -45,7 +45,7 @@ Route::get('/denied', function(){  return view('errors.denied');  })->middleware
 Route::get('/reportes', 'LoginController@report');
 
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
-Route::post('/register-user', 'Users_Pages\UserController@store')->name('public.register')->middleware('guest');
+Route::post('/register-user', 'Users_Pages\UserController@invitation')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {
 
   Route::get('/logout','LoginController@userLogout')->name("logout");
