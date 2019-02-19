@@ -13,7 +13,7 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-84208940-18');
+        gtag('config', 'UA-121926332-1');
       </script>
       <meta HTTP-EQUIV="Pragma" CONTENT="no-cache">
       <meta HTTP-EQUIV="Expires" CONTENT="-1">
@@ -63,7 +63,7 @@
                  <hr class="line"/>
                </div>
                <div class="col l2 hide-on-med-and-down">
-                 <img src="{{ asset('img/logo_Academia.png')}}" class="responsive-img">
+                 <img src="{{ asset('img/wisio_logo_web.png')}}" class="responsive-img">
                </div>
                @if (Auth::check())
                  <h4 class="user pad-left3">Dr. {{ Auth::user()->firstname." ".Auth::user()->lastname }}</h4>

@@ -9,25 +9,61 @@ Registro
 @section('body')
 
 <div class="row pad-left3">
-  <div class="col s6">
+  <div class="col s3">
      <hr class="line"/>
   </div>
-  <div class="col s6">
-     <h2 class="recientes">Para probar wisiolms, por favor ingrese los siguientes datos</h2>
+  <div class="col s9 right">
+     <h2 class="recientes">¿Te interesa probar WisioLMS? <br> Cuéntanos más sobre ti.</h2>
   </div>
 </div>
 <div class="row">
   {!! Form::open(['route' => 'public.register', 'class'=>'form-horizontal col s12','method' => 'post']) !!}
   <div class="row">
       <div class="reg col s12 l5 offset-l2">
-        <h6 class="upscase center">Usuario y contraseña</h6>
-        {!! Form::label('email', 'Correo Electrónico:' )!!}
-        {!! Form::email('email',null,['class'=>'','placeholder'=>'Correo electrónico de contacto', 'required' => '', 'id' => 'email', 'maxlength' =>"50" ]) !!}
+        {{--  <h6 class="upscase center">Nombre de la empresa</h6>  --}}
+        {!! Form::label('company', 'Nombre de la empresa:' )!!}
+        {!! Form::text('company',null,['class'=>'','placeholder'=>'Nombre de la empresa', 'required' => '', 'maxlength' =>"50" ]) !!}
         {{--  <span class="smalltext">Servirá como nombre de usuario.</span><br><br>  --}}
 
       </div>
   </div>
-  <div class="row pad-left3">
+  <div class="row">
+      <div class="reg col s12 l5 offset-l2">
+        {{--  <h6 class="upscase center">Url de la empresa</h6>  --}}
+        {!! Form::label('url', 'Url de la empresa:' )!!}
+        {!! Form::text('url',null,['class'=>'','placeholder'=>'Url de la empresa', 'maxlength' =>"50" ]) !!}
+        {{--  <span class="smalltext">Servirá como nombre de usuario.</span><br><br>  --}}
+
+      </div>
+  </div>
+  <div class="row">
+      <div class="reg col s12 l5 offset-l2">
+        {{--  <h6 class="upscase center">Nombre</h6>  --}}
+        {!! Form::label('name', 'Nombre:' )!!}
+        {!! Form::text('name',null,['class'=>'','placeholder'=>'Nombre', 'required' => '', 'maxlength' =>"50" ]) !!}
+        {{--  <span class="smalltext">Servirá como nombre de usuario.</span><br><br>  --}}
+
+      </div>
+  </div>
+  <div class="row">
+      <div class="reg col s12 l5 offset-l2">
+        {{--  <h6 class="upscase center">Correo electrónico de contacto</h6>  --}}
+        {!! Form::label('email', 'Correo Electrónico de contacto:' )!!}
+        {!! Form::email('email',null,['class'=>'','placeholder'=>'Correo electrónico de contacto', 'required' => '', 'maxlength' =>"50" ]) !!}
+        {{--  <span class="smalltext">Servirá como nombre de usuario.</span><br><br>  --}}
+
+      </div>
+  </div>
+  <div class="row">
+      <div class="reg col s12 l5 offset-l2">
+        {{--  <h6 class="upscase center">Teléfono de contacto</h6>  --}}
+        {!! Form::label('phone', 'Teléfono de contacto:' )!!}
+        {!! Form::text('phone',null,['class'=>'','placeholder'=>'Teléfono de contacto', 'maxlength' =>"50" ]) !!}
+        {{--  <span class="smalltext">Servirá como nombre de usuario.</span><br><br>  --}}
+
+      </div>
+  </div>
+  {{--  <div class="row pad-left3">
     <div class="col s6 l9">
        <hr class="line"/>
     </div>
@@ -35,19 +71,9 @@ Registro
        <h2 class="recientes">Datos personales</h2>
     </div>
 
-  </div>
-  <div class="row">
+  </div>  --}}
 
-
-    <div class="reg col s12 l5 offset-l2">
-      {!! Form::label('firstname', 'Nombre:',['for'=>'firstname']); !!}
-      {!! Form::text('firstname',null,['class'=>'validate','placeholder'=>'Nombre', 'required'=>'', 'id' => 'nombre', 'pattern' => "[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{1,50}", 'title'=>"Únicamente letras", 'maxlength' => '50' ]) !!}
-    </div>
-
-
-  </div>
-
-    <div class="row pad-left3">
+    {{--  <div class="row pad-left3">
       <div class="col s6 l9">
          <hr class="line"/>
       </div>
@@ -55,7 +81,7 @@ Registro
          <h2 class="recientes">Declaraciones</h2>
       </div>
 
-    </div>
+    </div>  --}}
 
     <br>
     <div class="row">
@@ -69,7 +95,7 @@ Registro
         </div>
 
     </div>
-    <div class="row">
+    {{--  <div class="row">
       <div class="col s12 l5 offset-l2 center">
             @if(isset($ascription))
                 <input type="hidden" name="seccion" value="{{ $ascription->slug }}">
@@ -81,7 +107,7 @@ Registro
 
         {!! Form::close() !!}
       </div>
-    </div>
+    </div>  --}}
 
 
 <a class="btnAcademiaFloat waves-effect waves-light " id="moreData" onclick="scrollWin();"><i class="material-icons">arrow_drop_down</i></a>
@@ -227,20 +253,22 @@ var password = document.getElementById('passwd');
 var meter = document.getElementById('password-strength-meter');
 var text = document.getElementById('password-strength-text');
 
-password.addEventListener('input', function() {
-    var val = password.value;
-    var result = zxcvbn(val);
+if(password){
+    password.addEventListener('input', function() {
+        var val = password.value;
+        var result = zxcvbn(val);
 
-    // Update the password strength meter
-    meter.value = result.score;
+        // Update the password strength meter
+        meter.value = result.score;
 
-    // Update the text indicator
-    if (val !== "") {
-        text.innerHTML = strength[result.score];
-    } else {
-        text.innerHTML = "";
-    }
-});
+        // Update the text indicator
+        if (val !== "") {
+            text.innerHTML = strength[result.score];
+        } else {
+            text.innerHTML = "";
+        }
+    });
+}
 function scrollWin() {
 
   if($(document).height() > ($(window).height() + $(window).scrollTop() + 200)){
@@ -261,46 +289,5 @@ function scrollWin() {
   <link rel="stylesheet" href="/css/alertify.core.css">
   <link rel="stylesheet" href="/css/alertify.bootstrap.css">
   <link rel="stylesheet" href="/css/alertify.default.css">
-  <link rel="stylesheet" href="/css/hsimp.jquery.css">
-  <style>
-    meter {
-        /* Reset the default appearance */
-        margin: 0 auto 1em;
-        width: 100%;
-        height: .5em;
-
-        /* Applicable only to Firefox */
-        background: none;
-        background-color: rgba(0,0,0,0.1);
-    }
-
-    meter::-webkit-meter-bar {
-        background: none;
-        background-color: rgba(0,0,0,0.1);
-    }
-
-    meter[value="0"]::-webkit-meter-optimum-value,
-    meter[value="1"]::-webkit-meter-optimum-value { background: #f9f9f9; }
-    meter[value="2"]::-webkit-meter-optimum-value { background: #f3f4f4; }
-    meter[value="3"]::-webkit-meter-optimum-value { background: #c7b1d4; }
-    meter[value="4"]::-webkit-meter-optimum-value { background: #8f6eaa; }
-
-    meter[value="1"]::-moz-meter-bar,
-    meter[value="1"]::-moz-meter-bar { background: #f9f9f9; }
-    meter[value="2"]::-moz-meter-bar { background: #f3f4f4; }
-    meter[value="3"]::-moz-meter-bar { background: #c7b1d4; }
-    meter[value="4"]::-moz-meter-bar { background: #8f6eaa; }
-
-    .feedback {
-        color: #9ab;
-        font-size: 90%;
-        padding: 0 .25em;
-        font-family: Courgette, cursive;
-        margin-top: 1em;
-    }
-
-    meter::-webkit-meter-optimum-value {
-      transition: width .4s ease-out;
-    }
-  </style>
+  {{--  <link rel="stylesheet" href="/css/hsimp.jquery.css">  --}}
 @endsection

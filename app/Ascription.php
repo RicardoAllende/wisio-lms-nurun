@@ -48,6 +48,9 @@ class Ascription extends Model
     }
 
     public function getMainImgUrl(){
+        // Demo wisiolms
+        return config('constants.default_images.ascription');
+        // End demo wisiolms
         $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
         if($img == null){ return config('constants.default_images.ascription'); }
         return "/".$img->url;

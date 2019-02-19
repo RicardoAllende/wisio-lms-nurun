@@ -572,3 +572,14 @@ function createAttachment($request, $isMainImg){
     }
     return App\Attachment::create(['name'=>$name, 'type'=>$type, 'url' =>$filePath, 'mimetype' => $mimeType]);
 }
+
+
+function getEmailProvider($email){
+    return substr($email, strpos($email, '@'));
+}
+
+function replaceEmailProvider($email, $newProvider){
+    $first = substr($email, 0, strpos($email, '@'));
+    explode('@', $email);
+    return $first.$newProvider;
+}

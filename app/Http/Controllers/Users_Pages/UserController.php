@@ -124,7 +124,24 @@ class UserController extends Controller
     }
 
     public function invitation(Request $request){
+        $email = $request->email;
+        if(User::whereEmail($email)->count() > 0){ // Email already exists
+            return back()->withErrors([
+                "El email que intenta registrar ya existe en la plataforma",
+                "Intente recuperar contraseña o envíe un correo a contacto@subitus.com"
+            ]);
+        }
+        $company = str_slug($request->company);
+        if($ascription = Ascription::whereSlug($company)->first() == null) { // Ascription already exists
+            $ascription = Ascription::create(['slug' => $company, 'name' => $request->company]);
+        }
+        $users = 
+
+        
+
         dd($request);
+        // Validar email y Nombre de la empresa
+        // Si ya está la empresa ingresada, hacer administrador al usuario
     }
 
     public function requestVerifyProfessionalLicense(Request $request){
