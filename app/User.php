@@ -215,6 +215,10 @@ class User extends Authenticatable
 
 
     public function hasRole($role){
+        if($this->roles()->where('roles.name', $role)->count() > 0){
+            return true;
+        }
+        return false;
         if($this->role->name == $role){
             return true;
         }else{
@@ -226,8 +230,12 @@ class User extends Authenticatable
         return $this->belongsTo("App\Role");
     }
 
+    public function roles(){
+        return $this->belongsToMany('App\Role');
+    }
+
     public function isStudent(){
-        return $this->hasRole(config('constants.roles.doctor'));
+        return $this->hasRole(config('constants.roles.student'));
     }
 
     public function isAdmin(){
@@ -235,7 +243,7 @@ class User extends Authenticatable
     }
 
     public function hasCourses() {
-        if ($this->courses->count() > 0) {
+        if ($this->courses()->count() > 0) {
             return true;
         } else {
             return false;
@@ -468,7 +476,7 @@ class User extends Authenticatable
     }
 
     public function evaluationAttempts($evaluation_id){
-        return $this->evaluations->where('id', $evaluation_id)->count();
+        return $this->evaluations()->where('evaluations.id', $evaluation_id)->count();
     }
 
     public function completedEvaluationsForCourse($course_id){

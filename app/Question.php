@@ -28,7 +28,7 @@ class Question extends Model
     }
 
     public function hasOptions(){
-        if ($this->options->count() > 0) {
+        if ($this->options()->count() > 0) {
             return true;
         } else {
             return false;

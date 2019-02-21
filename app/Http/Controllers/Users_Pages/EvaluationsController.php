@@ -59,7 +59,7 @@ class EvaluationsController extends Controller
             }
             $pivot->save();
         }
-        $numModules = $course->modules->count();
+        $numModules = $course->modules()->count();
         $numCompletedModules = $user->numCompletedModulesOfCourse($course->id);
         $modulesAdvance = number_format($numCompletedModules / $numModules * 100, 2);
         $pivot = CourseUser::where('course_id', $course->id)->where('user_id', $user->id)->first();
@@ -273,7 +273,7 @@ class EvaluationsController extends Controller
             <h2 class="recientes">'.$evaluation->name.'</h2>
               <div class="row "><!-- Slideshow container -->
                 <div class="card white slideshow-container col s12">';
-            $numQuestions = $evaluation->questions->count();
+            $numQuestions = $evaluation->questions()->count();
             $questions = $evaluation->questions->shuffle();
             $i = 1;
             foreach ($questions as $question) {

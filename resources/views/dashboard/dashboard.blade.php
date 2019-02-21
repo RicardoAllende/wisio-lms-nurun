@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Main page')
+@section('title', isset($ascription) ? $ascription->name : 'Página Principal')
 
 @section('content')
     <div class="wrapper wrapper-content animated fadeInRight">
@@ -8,7 +8,7 @@
             <div class="col-lg-12">
                 <div class="text-center m-t-lg">
                     <h1>
-                        Bienvenido a la sección administrativa de Academia Sanofi
+                        Bienvenido a la sección administrativa de WisioLMS
                     </h1>
                     <small>
                         

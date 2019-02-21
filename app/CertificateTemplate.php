@@ -15,7 +15,7 @@ class CertificateTemplate extends Model
     }
 
     public function hasDependency(){
-        if($this->courses->count() > 0){
+        if($this->courses()->count() > 0){
             return true;
         }
         return false;

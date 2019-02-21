@@ -44,7 +44,7 @@
                                 <td><a href="{{route('questions.show', $question->id)}}">{{ $question->name }}</a></td>
                                 <td>{{ $question->content }}</td>
                                 <td>{{ ($question->evaluation_id == null) ? 'No' : 'Asignar'  }}</td>
-                                <td>{{ $question->options->count() }}</td>
+                                <td>{{ $question->options()->count() }}</td>
                                 <td>
                                   <a href="{{ route('delete.question', $question->id) }}" class="btn btn-danger" >Eliminar</a>
                                 </td>

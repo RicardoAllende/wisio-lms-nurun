@@ -60,7 +60,7 @@
                     @else
                     <span>Pertenece al módulo: {{ $evaluation->module->name }}</span> |
                     @endif
-                    <span>Contiene {{ $evaluation->questions->count() }} preguntas</span>
+                    <span>Contiene {{ $evaluation->questions()->count() }} preguntas</span>
                     @if(isset($approved)) | <span>{{ $approved }} Veces aprobado</span> @endif
                 </div>
                 
@@ -78,7 +78,7 @@
             
             <div class="ibox-content">
                 
-                @if ($evaluation->questions->count() > 0)
+                @if ($evaluation->questions()->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover dataTables">
                         <thead>
@@ -96,7 +96,7 @@
                                 <td><a href="{{ route('questions.show', $question->id) }}">{{ $i }}</a></td>
                                 <td><a href="{{ route('questions.show', $question->id) }}">{{ $question->content }}</a></td>
                                 <td>
-                                    {{$question->options->count()}}
+                                    {{$question->options()->count()}}
                                 </td>
                                 <td>
                                     {!! Form::open(['method'=>'DELETE','route'=>['questions.destroy',$question->id],'class'=>'form_hidden','style'=>'display:inline;']) !!}

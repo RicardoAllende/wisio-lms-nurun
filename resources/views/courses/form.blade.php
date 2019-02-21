@@ -135,7 +135,7 @@
                             <a href="{{ route('courses.index') }}" class="btn btn-default">Cancelar</a>
                               {!! Form::hidden('attachment',null,['class'=>'form-control','id'=>'attachment']) !!}
                               @if(isset($course))
-                                @if($course->attachments->where('type', 'main_img')->count() > 0)
+                                @if($course->attachments()->where('type', 'main_img')->count() > 0)
                                   {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'id' => 'btnSave']) !!}
                                 @else
                                   {!! Form::submit('Guardar',['class'=>'btn btn-primary', 'disabled' => '', 'id' => 'btnSave']) !!}

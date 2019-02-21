@@ -119,7 +119,7 @@ Curso {{ $course->name }}
           @endif
 
           @endforeach
-          @if($course->modules->count() <= 3)
+          @if($course->modules()->count() <= 3)
           <div class="col s12 content module-content" id="mod1">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>
               <h2 class="cursoview">Módulo</h2>
@@ -144,7 +144,7 @@ Curso {{ $course->name }}
               </div>
           </div>
           @endif
-          @if(($course->modules->count()%3) > 0)
+          @if(($course->modules()->count()%3) > 0)
           <?php $cont = 0; $mod++; ?>
           <div class="col s12 content module-content" id="mod{{ $mod }}">
               <a class="waves-effect waves-light btn-small cerrar" style="color:white !important;" onclick="closeModule();">X</a>

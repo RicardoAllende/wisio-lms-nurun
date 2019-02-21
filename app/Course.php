@@ -83,7 +83,7 @@ class Course extends Model
         // if($this->modules->count() > 0){
         //     return true;
         // }
-        if($this->users->count() > 0){
+        if($this->users()->count() > 0){
             return true;
         }
         return false;
@@ -114,7 +114,7 @@ class Course extends Model
     }
 
     public function failedUsers(){
-        return $this->users->count() - $this->approvedUsers->count();
+        return $this->users()->count() - $this->approvedUsers()->count();
     }
 
     public function resources(){
@@ -134,13 +134,13 @@ class Course extends Model
     }
 
     public function getMainImgUrl(){
-        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        $img = $this->attachments()->where('type', config('constants.attachments.main_img'))->first();
         if($img == null){ return config('constants.default_images.course'); } // Default Image
         return "/".$img->url;
     }
 
     public function hasMainImg(){
-        if($this->attachments->where('type', config('constants.attachments.main_img'))->count() > 0){ 
+        if($this->attachments()->where('type', config('constants.attachments.main_img'))->count() > 0){ 
             return true;
         }else{
             return false;
@@ -219,11 +219,11 @@ class Course extends Model
     }
 
     public function numModules(){
-        return $this->modules->count();
+        return $this->modules()->count();
     }
 
     public function numUsersEnrolled(){
-        return $this->users->count();
+        return $this->users()->count();
     }
 
     public function certificate(){

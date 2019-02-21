@@ -1,0 +1,17 @@
+Notas de desarrollo:
+
+Tours hechos con JQuery
+http://www.pagetourjs.com/ -> https://www.cvwanted.com/gael_stucki?p-show-tutorialize=true&rp-lg=en
+http://eragonj.github.io/Trip.js/demo/basic/
+
+http://www.bestjquery.com/demo/jquery-website-tour-plugin/
+
+
+
+Multitenant
+https://platzi.com/blog/multi-tenant-que-es-y-por-que-es-importante/
+https://platzi.com/blog/multi-tenant-que-es-y-por-que-es-importante/
+
+Curso
+    Módulos
+        Recursos

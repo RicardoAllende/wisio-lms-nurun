@@ -40,7 +40,7 @@ class Ascription extends Model
     // }
 
     public function hasCourses(){
-        if ($this->courses->count() > 0) {
+        if ($this->courses()->count() > 0) {
             return true;
         } else {
             return false;
@@ -51,13 +51,13 @@ class Ascription extends Model
         // Demo wisiolms
         return config('constants.default_images.ascription');
         // End demo wisiolms
-        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        $img = $this->attachments()->where('type', config('constants.attachments.main_img'))->first();
         if($img == null){ return config('constants.default_images.ascription'); }
         return "/".$img->url;
     }
 
     public function calendar(){
-        return $this->attachments->where('type', config('constants.attachments.calendar'))->first();
+        return $this->attachments()->where('type', config('constants.attachments.calendar'))->first();
     }
 
     public function calendarUrl(){
@@ -67,7 +67,7 @@ class Ascription extends Model
     }
 
     public function hasMainImg(){
-        if($this->attachments->where('type', config('constants.attachments.main_img'))->count() > 0){ 
+        if($this->attachments()->where('type', config('constants.attachments.main_img'))->count() > 0){ 
             return true;
         }else{
             return false;
@@ -75,7 +75,7 @@ class Ascription extends Model
     }
 
     public function hasCalendar(){
-        if($this->attachments->where('type', config('constants.attachments.calendar'))->count() > 0){ 
+        if($this->attachments()->where('type', config('constants.attachments.calendar'))->count() > 0){ 
             return true;
         }else{
             return false;
@@ -123,7 +123,7 @@ class Ascription extends Model
     }
 
     public function students(){
-        $studentRole = Role::where('name', config('constants.roles.doctor'))->first();
+        $studentRole = Role::where('name', config('constants.roles.student'))->first();
         return $this->users->where('role_id', $studentRole->id);
     }
 

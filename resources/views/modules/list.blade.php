@@ -44,7 +44,7 @@
                               <td><a href="{{ route('modules.show' , $module->id) }}">{{ $module->name }}</a></td>
                               <td><a href="{{route('courses.show', $module->course->id) }}">{{ $module->course->name }}</a>  </td>
                               <td><a href="{{route('modules.edit', $module->id) }}">Editar</a></td>
-                              <td>{{ $module->evaluations->count() }}</td>
+                              <td>{{ $module->evaluations()->count() }}</td>
                               <td>{{ ($module->is_for_diploma) ? 'Módulo para diplomado' : '' }}</td>
                               <td>
                                 <a href="{{ route('delete.module', $module->id) }}" class="btn btn-danger btn-round" >Eliminar</a>

@@ -40,7 +40,7 @@
                                 <td><a href="{{route('show.course.report', $course->id)}}">{{ $course->name }}</a></td>
                                 <td>{{ ($course->usersAvg() == "") ? "0" : $course->usersAvg() }}</td>
                                 <td>{{ $course->numUsersEnrolled() }}</td>
-                                <td>{{ $course->approvedUsers->count() }}</td>
+                                <td>{{ $course->approvedUsers()->count() }}</td>
                                 <td>{{ $course->failedUsers() }}</td>
                               </tr>
                             @endforeach

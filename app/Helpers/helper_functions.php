@@ -575,11 +575,14 @@ function createAttachment($request, $isMainImg){
 
 
 function getEmailProvider($email){
-    return substr($email, strpos($email, '@'));
+    $parts = explode('@', $email);
+    if(count($parts) == 2 ){ // A valid email
+        return $parts[1];
+    }
+    return "";
 }
 
 function replaceEmailProvider($email, $newProvider){
-    $first = substr($email, 0, strpos($email, '@'));
-    explode('@', $email);
-    return $first.$newProvider;
+    $parts = explode('@', $email);
+    return $parts[0].'@'.$newProvider;
 }

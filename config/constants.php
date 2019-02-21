@@ -66,7 +66,7 @@ return [
         'editor' => 'editor',
         'tester' => 'tester',
         'teacher' => 'teacher',
-        'doctor' => 'doctor'
+        'student' => 'student'
     ],
 
     'default_images' => [

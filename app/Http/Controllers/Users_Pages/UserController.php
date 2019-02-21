@@ -13,6 +13,9 @@ use GuzzleHttp\Client;
 use App\Setting;
 use App\Jobs\ProfessionalLicenseValidation;
 use App\Http\Controllers\Janrain;
+use App\Invite;
+use App\RoleUser;
+use App\Mail\WelcomeWisioLMS;
 
 class UserController extends Controller
 {
@@ -67,6 +70,33 @@ class UserController extends Controller
         return State::all();
     }
 
+    public function transformRoles(){
+        // $users = User::whereNull('role_id')->select('id')->cursor();
+        // foreach ($users as $user) {
+        //     RoleUser::firstOrCreate([
+        //         'role_id' => 1,
+        //         'user_id' => $user->id
+        //     ]);
+        //     echo "Se editó al usuario: ".$user->id.' <br>';
+        // }
+        // $users = User::whereRoleId(2)->select('id')->cursor();
+        // foreach ($users as $user) {
+        //     RoleUser::firstOrCreate([
+        //         'role_id' => 2,
+        //         'user_id' => $user->id
+        //     ]);
+        //     echo "Se editó al usuario: ".$user->id.' <br>';
+        // }
+        // $users = User::whereRoleId(1)->select('id')->cursor();
+        // foreach ($users as $user) {
+        //     RoleUser::firstOrCreate([
+        //         'role_id' => 1,
+        //         'user_id' => $user->id
+        //     ]);
+        //     echo "Se editó al usuario: ".$user->id.' <br>';
+        // }
+    }
+
     public function store(Request $request){
         $input = $request->input();
         $email = $request->email;
@@ -86,7 +116,7 @@ class UserController extends Controller
         $user->is_validated = $is_validated;
         $user->lastname = $request->paterno.' '.$request->materno;
         $user->password = bcrypt($request->password);
-        $user->role_id = Role::whereName(config('constants.roles.doctor'))->first()->id;
+        $user->role_id = Role::whereName(config('constants.roles.student'))->first()->id;
         $ascription = null;
         $dateTime = \Carbon\Carbon::now()->toDateTimeString();
         $user->last_access = $dateTime;
@@ -133,15 +163,27 @@ class UserController extends Controller
         }
         $company = str_slug($request->company);
         if($ascription = Ascription::whereSlug($company)->first() == null) { // Ascription already exists
-            $ascription = Ascription::create(['slug' => $company, 'name' => $request->company]);
+            $ascription = Ascription::create(['slug' => $company, 'name' => $request->company, 'description' => "Aquí puede poner una descripción de su plataforma"]);
         }
-        $users = 
-
-        
-
-        dd($request);
-        // Validar email y Nombre de la empresa
-        // Si ya está la empresa ingresada, hacer administrador al usuario
+        User::create(['email' => $request->email]);
+        $invitation = Invite::create(array_merge( $request->input(), 
+        ['ascription_id' => $ascription->id]));
+        $course = $invitation->createDemoCourse();
+        $users = $invitation->createUsers();
+        // error_log(print_r(compact('course', 'users', 'ascription'), true));
+        $adminName = $request->name;
+        $adminEmail = $request->email;
+        $password = config('constants.default_password');
+        $route = route('show.pharmacy.landing.page', $ascription->slug);
+        Mail::to($adminEmail)
+        ->send(new WelcomeWisioLMS(compact('adminName', 'route', 'users', 'adminEmail', 'password')));
+        Auth::attempt([
+            'email' => $adminEmail,
+            'password' => $password
+        ]);
+        return redirect('/');
+        return view('email.welcome-wisio');
+        // return view('email.welcome-wisio', compact('doctor_name', 'route'));
     }
 
     public function requestVerifyProfessionalLicense(Request $request){

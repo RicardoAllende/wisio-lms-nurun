@@ -8,7 +8,7 @@ Cursos para médicos
 @stop
 
 @section('metadata')
-  <meta name="description" content="Academia es una plataforma de Sanofi dedicada a brindar educación médica continua en línea, todos nuestros cursos están avalados. ¡Conócenos!">
+  <meta name="description" content="WisioLMS">
   <meta name="keywords" content="Sanofi, capacitación, cursos.">
 @endsection
 
@@ -49,7 +49,7 @@ Cursos para médicos
                       <span class="categoria-academia">{{ $course->category->name }}</span>
                       <div class="iconcourse"><img style="max-width: 100% !important;" src="{{ $course->category->getMainImgUrl() }}" class="responsive-img"></div>
                       <h4 class="titulo-academia2"> {{ $course->name }}</h4>
-                      <div class="modulos">{{ $course->modules->count() }} módulos</div>
+                      <div class="modulos">{{ $course->modules()->count() }} módulos</div>
                       <div class="leer-masmodulos_50">
                         <a onclick="gtag('event','Clics',{'event_category':'Home_Doctor','event_label':'VerMas_{{ $course->slug }}'});"
                         href="{{ route('student.show.course', [$ascription->slug,$course->slug]) }}">Ver más</a>

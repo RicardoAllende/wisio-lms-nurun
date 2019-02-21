@@ -95,7 +95,7 @@ Registro
         </div>
 
     </div>
-    {{--  <div class="row">
+    <div class="row">
       <div class="col s12 l5 offset-l2 center">
             @if(isset($ascription))
                 <input type="hidden" name="seccion" value="{{ $ascription->slug }}">
@@ -107,7 +107,7 @@ Registro
 
         {!! Form::close() !!}
       </div>
-    </div>  --}}
+    </div>
 
 
 <a class="btnAcademiaFloat waves-effect waves-light " id="moreData" onclick="scrollWin();"><i class="material-icons">arrow_drop_down</i></a>
@@ -118,8 +118,6 @@ Registro
 @stop
 
 @section('extrajs')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js.map"></script>
 <!--<script src="/js/password_length.js"></script>-->
 <script src="/js/alertify.min.js"></script>
 <script>
@@ -129,146 +127,9 @@ $('#formOtraInstitucion').hide();
 $('#tomadorDeDecisiones').hide();
 
 $(document).ready(function() {
-  $('select').material_select();
-  $("form input:radio").change(function() {
-    switch($(this).data('value')){
-      case 'privada':
-        $('#tomadorsi').prop('checked',false);
-        $('#tomadorNo').prop('checked',false);
-        $('#optcenaprece').prop('checked', false);
-        $('#optOtraInstitucion').prop('checked', false);
-        $('#seccionPublica').hide();
-        $('#seccionMixta').hide();
-        $('#institution').val('');
-        $('#tomadorDeDecisiones').hide();
-        $('.tomadorConsulta').removeAttr("required");
-        // $('.tomadorConsulta2').removeAttr("required");
-        $('.optcenaprece').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        
-      break;
-      case 'publica':
-        $('#tomadorsi').prop('checked',false);
-        $('#tomadorNo').prop('checked',false);
-        $('#optcenaprece').prop('checked', false);
-        $('#optOtraInstitucion').prop('checked', false);
-        $('#seccionPublica').show();
-        $('#seccionMixta').hide();
-        $('#formOtraInstitucion').hide();
-        $('#institution').val('');
-        $('#tomadorDeDecisiones').show();
-        
-        // $('.tomadorConsulta2').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        $('.tomadorConsulta').prop('required',true);
-        $('.optcenaprece').prop('required',true);
-
-      break;
-      case 'mixta':
-        $('#tomadorsi').prop('checked',false);
-        $('#tomadorNo').prop('checked',false);
-        $('#optcenaprece').prop('checked', false);
-        $('#optOtraInstitucion').prop('checked', false);
-        $('#seccionPublica').hide();
-        $('#seccionMixta').show();
-        $('#institution').val('');
-        $('#formOtraInstitucion').hide();
-        $('#tomadorDeDecisiones').show();
-        $('.tomadorConsulta').prop('required',true);
-        $('.optcenaprece').attr('checked', false);
-        
-        $('.tomadorConsulta').removeAttr("required");
-        $('.optcenaprece').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        // $('.tomadorConsulta2').prop('required',true);
-
-      break;
-    }
-  });
-
-  $("form input:radio").click(function() {
-    switch($(this).data('value')){
-      case 'privada':
-        $('#seccionPublica').hide();
-        $('#seccionMixta').hide();
-        $('#institution').val('');
-        $('#tomadorDeDecisiones').hide();
-        $('.tomadorConsulta').removeAttr("required");
-        // $('.tomadorConsulta2').removeAttr("required");
-        $('.optcenaprece').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        
-      break;
-      case 'publica':
-        $('#seccionPublica').show();
-        $('#seccionMixta').hide();
-        $('#formOtraInstitucion').hide();
-        $('#institution').val('');
-        $('#tomadorDeDecisiones').show();
-        
-        // $('.tomadorConsulta2').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        $('.tomadorConsulta').prop('required',true);
-        $('.optcenaprece').prop('required',true);
-
-      break;
-      case 'mixta':
-        $('#seccionPublica').hide();
-        $('#seccionMixta').show();
-        $('#institution').val('');
-        $('#formOtraInstitucion').hide();
-        // $('#tomadorDeDecisiones').show();
-        $('.tomadorConsulta').prop('required',true);
-
-        
-        $('.tomadorConsulta').removeAttr("required");
-        $('.optcenaprece').removeAttr("required");
-        $('#institucion').removeAttr("required");
-        // $('.tomadorConsulta2').prop('required',true);
-
-      break;
-    }
-  });
-
-  $('input[type=radio][name=optcenaprece]').change(function() {
-    if (this.value == '1') { // Especificación
-      $('#formOtraInstitucion').show();
-      $('#institution').val('');
-    }else{
-      $('#formOtraInstitucion').hide();
-      $('#institution').val('Cenaprece');
-    }
-  });
-
+    $('select').material_select();
 });
 
-var strength = {
-    0: "Muy débil",
-    1: "Débil",
-    2: "Poco Débil",
-    3: "Fuerte",
-    4: "Muy Fuerte"
-};
-var password = document.getElementById('passwd');
-var meter = document.getElementById('password-strength-meter');
-var text = document.getElementById('password-strength-text');
-
-if(password){
-    password.addEventListener('input', function() {
-        var val = password.value;
-        var result = zxcvbn(val);
-
-        // Update the password strength meter
-        meter.value = result.score;
-
-        // Update the text indicator
-        if (val !== "") {
-            text.innerHTML = strength[result.score];
-        } else {
-            text.innerHTML = "";
-        }
-    });
-}
 function scrollWin() {
 
   if($(document).height() > ($(window).height() + $(window).scrollTop() + 200)){

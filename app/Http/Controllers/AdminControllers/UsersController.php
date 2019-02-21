@@ -199,7 +199,7 @@ class UsersController extends Controller
     }
 
     public function showReportAllUsers(){
-        // $role = Role::where('name', config('constants.roles.doctor') )->pluck('id'); // doctors
+        // $role = Role::where('name', config('constants.roles.student') )->pluck('id'); // doctors
         // $users = User::whereIn('role_id', $role)->paginate(15);
         return view('Users/report-all');
     }

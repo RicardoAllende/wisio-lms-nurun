@@ -41,13 +41,13 @@ class Expert extends Model
     }
 
     public function getMainImgUrl(){
-        $img = $this->attachments->where('type', config('constants.attachments.main_img'))->first();
+        $img = $this->attachments()->where('type', config('constants.attachments.main_img'))->first();
         if($img == null){ return config('constants.default_images.expert'); }
         return "/".$img->url;
     }
 
     public function hasModules(){
-        if ($this->modules->count() > 0) {
+        if ($this->modules()->count() > 0) {
             return true;
         } else {
             return false;
@@ -59,7 +59,7 @@ class Expert extends Model
     }
 
     public function hasSpecialties(){
-        if ($this->specialties->count() > 0) {
+        if ($this->specialties()->count() > 0) {
             return true;
         } else {
             return false;
@@ -67,7 +67,7 @@ class Expert extends Model
     }
 
     public function hasMainImg(){
-        if($this->attachments->where('type', 'main_img')->count() > 0){ 
+        if($this->attachments()->where('type', 'main_img')->count() > 0){ 
             return true;
         }else{
             return false;
@@ -75,7 +75,7 @@ class Expert extends Model
     }
 
     public function belongsToModule($module_id){
-        if ( $this->modules->contains($module_id) ) {
+        if($this->modules()->where('modules.id', $module_id)->count() > 0){
             return true;
         } else {
             return false;

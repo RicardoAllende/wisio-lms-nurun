@@ -15,11 +15,11 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('email')->nullable();
-            $table->boolean('subitus_tracking')->nullable();
+            $table->string('email');
+            $table->boolean('subitus_tracking')->default(true);
             $table->string('phone')->nullable();
             $table->string('name')->nullable();
-            $table->string('company')->nullable();
+            $table->string('company');
             $table->string('url')->nullable();
             $table->integer('ascription_id')->unsigned()->nullable();
             $table->foreign('ascription_id')->references('id')->on('ascriptions');

@@ -44,6 +44,20 @@ Route::get('/denied', function(){  return view('errors.denied');  })->middleware
 
 Route::get('/reportes', 'LoginController@report');
 
+Route::get('transform-roles', 'Users_Pages\UserController@transformRoles');
+Route::get('/plantilla', function(){
+    $adminEmail = "ricardo.allende@subitus.com";
+    $password = "secret";
+    $adminName = 'Ricardo Allende';
+    $route = route('show.pharmacy.landing.page', 'subitus');
+    $users = collect(['juan.huerta@subitus.com', 'ricardo.allende@subitus.com', 'miguel.villegas@subitus.com', 'mario.mendoza@subitus.com']);
+    return view('email.welcome-wisio', compact('adminName', 'route', 'users', 'adminEmail', 'password'));
+});
+
+Route::get('demo-login/{email}', function($email){
+    return "El email enviado es: {$email}";
+})->name('demo-login');
+
 Route::post('/login','LoginController@authenticate')->middleware('guest')->name("request.login");
 Route::post('/register-user', 'Users_Pages\UserController@invitation')->name('public.register')->middleware('guest');
 Route::group(['middleware' => ['auth']], function () {

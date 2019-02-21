@@ -48,8 +48,8 @@
                               <td>{{ $ascription->description }}</td>
                               <td>
                               {{ ($ascription->enabled == 1) ? 'Disponible' : 'No disponible' }}</td>
-                              <td>{{ $ascription->courses->count() }}</td>
-                              <td>{{ $ascription->users->count() }}</td>
+                              <td>{{ $ascription->courses()->count() }}</td>
+                              <td>{{ $ascription->users()->count() }}</td>
                               <td>{{ ($ascription->type()) }}</td>
                               <!--<td>
                                 @if($ascription->hasRelations())
