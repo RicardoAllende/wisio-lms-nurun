@@ -54,6 +54,8 @@ Route::get('/plantilla', function(){
     return view('email.welcome-wisio', compact('adminName', 'route', 'users', 'adminEmail', 'password'));
 });
 
+Route::get('/demo-mail', 'Tests@sendEmail');
+
 Route::get('demo-login/{email}', function($email){
     return "El email enviado es: {$email}";
 })->name('demo-login');
