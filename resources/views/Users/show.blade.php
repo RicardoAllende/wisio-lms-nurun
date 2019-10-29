@@ -5,16 +5,14 @@
   <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary "><i class='fa fa-edit'></i> Editar Usuario</a>
 @endsection
 
-@if($user->hasAscriptions())
-    @section('subtitle')
-        <ol class="breadcrumb">
-            <li class="active">
-                <a href="{{ route('ascriptions.show', $user->ascriptions->first()->id) }}">
-                Adscripción: <strong>{{ $user->ascriptions->first()->name }}<strong></a>
-            </li>
-        </ol>
-    @endsection
-@endif
+@section('subtitle')
+    <ol class="breadcrumb">
+        <li class="active">
+            <a href="{{ route('ascriptions.show', $user->ascription->id) }}">
+            Adscripción: <strong>{{ $user->ascription->name }}<strong></a>
+        </li>
+    </ol>
+@endsection
 
 @section('content')
 
@@ -42,13 +40,11 @@
                             {{ $user->firstname }} {{ $user->lastname }}
                         </h2>
                         <ul class="list-unstyled m-t-md">
-                            @if($user->hasAscriptions())
                             <li>
                                 <span class="fa fa-th-large m-r-xs"></span>
                                 <label>Adscripción:</label>
-                                {{ $user->ascriptions->first()->name }}
+                                {{ $user->ascription->name }}
                             </li>
-                            @endif
                             <li>
                                 <span class="fa fa-envelope m-r-xs"></span>
                                 <label>Email:</label>

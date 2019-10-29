@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_access')->nullable();
             $table->timestamp('last_profile_update')->nullable();
             $table->boolean('enabled')->default(true);
+            // $table->integer('ascription_id')->unsigned();
             $table->rememberToken()->nullable();
             $table->timestamps();
         });

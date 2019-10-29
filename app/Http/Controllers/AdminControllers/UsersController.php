@@ -148,10 +148,10 @@ class UsersController extends Controller
         $user->professional_license = $request->professional_license;
         $user->role_id = $request->role_id;
         $user->save();
-        if($request->filled('ascription_id')){
-            $ascription_id = $request->ascription_id;
-            $user->attachAscription($ascription_id);
-        }
+        // if($request->filled('ascription_id')){
+        //     $ascription_id = $request->ascription_id;
+        //     $user->attachAscription($ascription_id);
+        // }
         return redirect()->route('users.show', $user->id);
     }
 
@@ -229,34 +229,34 @@ class UsersController extends Controller
         return view('users/report', compact('user'));
     }
 
-    public function listUsersToEnrolDiplomado(){
-        $doctorRole = Role::where('name', config('constants.roles.doctor'))->pluck('id');
-        $users = User::whereIn('role_id', $doctorRole)->get();
-        return view('diplomado/list-users-to-enrol', compact('users'));
-    }
+    // public function listUsersToEnrolDiplomado(){
+    //     $doctorRole = Role::where('name', config('constants.roles.doctor'))->pluck('id');
+    //     $users = User::whereIn('role_id', $doctorRole)->get();
+    //     return view('diplomado/list-users-to-enrol', compact('users'));
+    // }
 
-    public function attachUserToDiplomado($ascription_id, $user_id){
-        $ascription = Ascription::find($ascription_id);
-        if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el identificador de la adscripción']); }
-        if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, hubo un error de carga']); }
-        $user = User::find($user_id);
-        if($user == null){ return back()->withErrors(['Error' => 'Error al encontrar al usuario']); }
-        if( ! $user->diplomados->contains($ascription_id)){
-            $user->diplomados()->attach($ascription_id);
-        }
-        $courses = $ascription->courses;
-        foreach($courses as $course){
-            $course->enrolUser($user->id);
-        }
-        return back();
-    }
+    // public function attachUserToDiplomado($ascription_id, $user_id){
+    //     $ascription = Ascription::find($ascription_id);
+    //     if($ascription == null){ return back()->withErrors(['Error' => 'Hubo un error en el identificador de la adscripción']); }
+    //     if( ! $ascription->isDiplomado()){ return back()->withErrors(['Error' => 'Esta adscripción no es un diplomado, hubo un error de carga']); }
+    //     $user = User::find($user_id);
+    //     if($user == null){ return back()->withErrors(['Error' => 'Error al encontrar al usuario']); }
+    //     if( ! $user->diplomados->contains($ascription_id)){
+    //         $user->diplomados()->attach($ascription_id);
+    //     }
+    //     $courses = $ascription->courses;
+    //     foreach($courses as $course){
+    //         $course->enrolUser($user->id);
+    //     }
+    //     return back();
+    // }
 
-    public function detachUserForDiplomado($ascription_id, $user_id){
-        $user = User::find($user_id);
-        if($user ==null) { return back()->withErrors(['Error' => 'Error al buscar usuario']); }
-        $user->ascriptions()->detach($ascription_id);
-        return back();
-    }
+    // public function detachUserForDiplomado($ascription_id, $user_id){
+    //     $user = User::find($user_id);
+    //     if($user ==null) { return back()->withErrors(['Error' => 'Error al buscar usuario']); }
+    //     $user->ascriptions()->detach($ascription_id);
+    //     return back();
+    // }
 
     public function getUsersDataAdmin(){
         return \DataTables::of(User::query())
@@ -271,20 +271,22 @@ class UsersController extends Controller
             return $user->firstname.' '.$user->lastname; 
         })
         ->addColumn('ascription_name', function ($user) {
+            return "Nombre de la adscripción";
+            return $user->ascription->name;
             if($user->hasAscriptions()){
                 return $user->ascription()->name; 
             }
             return "";
         })
-        ->addColumn('diplomados', function ($user) {
-            $names = '';
-            if($user->hasDiplomados()){
-                foreach($user->diplomados as $diploma){
-                    $names .= $diploma->name." ";
-                }
-            }
-            return "";
-        })
+        // ->addColumn('diplomados', function ($user) {
+        //     $names = '';
+        //     if($user->hasDiplomados()){
+        //         foreach($user->diplomados as $diploma){
+        //             $names .= $diploma->name." ";
+        //         }
+        //     }
+        //     return "";
+        // })
         ->addColumn('actions', function ($user) {
             if($user->enabled == 1){
                 return '<a href="'.route('disable.user', $user->id).'" class="btn btn-danger btn-round" >Deshabilitar</a>';
@@ -292,7 +294,7 @@ class UsersController extends Controller
                 return '<a href="'.route('enable.user', $user->id).'" class="btn btn-info btn-round" >Habilitar</a>';
             }            
         })
-        ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name', 'diplomados'])
+        ->rawColumns(['namelink', 'status', 'actions', 'userLink', 'ascription_name', 'full_name'])
         ->make(true);
     }
 

@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function updateInformation(){
         $user = Auth::user();
-        $ascription = $user->ascription();
+        $ascription = $user->ascription;
         return view('Users/update', compact('user', 'ascription'));
     }
 
@@ -42,16 +42,11 @@ class UserController extends Controller
         $dateTime = \Carbon\Carbon::now()->toDateTimeString();
         $user->last_profile_update = $dateTime;
         $user->save();
-        if(session()->has('ascription_slug')){
-            $slug = session('ascription_slug');
-            if(Ascription::whereSlug($slug)->first() != null){
-                return redirect()->route('student.home', $slug)->with('msj', 'Su información ha sido actualizada');
-            }
-        }
-        if($user->hasDifferentAscriptions()){
-            return redirect()->route('student.select.ascription')->with('msj', 'Su información ha sido actualizada');
-        }
-        $ascription = $user->ascription();
+        
+        // if($user->hasDifferentAscriptions()){
+        //     return redirect()->route('student.select.ascription')->with('msj', 'Su información ha sido actualizada');
+        // }
+        $ascription = $user->ascription;
         return redirect()->route('student.home', $ascription->slug)->with('msj', 'Su información ha sido actualizada');
     }
 
@@ -60,11 +55,6 @@ class UserController extends Controller
         $ascriptions = $user->allAscriptions;
         $ascription = $user->allAscriptions->first();
         return view('users_pages/courses/diplomado', compact('ascriptions', 'user', 'ascription'));
-    }
-
-    public function setTemporalAscription($ascription_slug){
-        session(['ascription_slug' => $ascription_slug]);
-        return true;
     }
 
     public function getAllStates(){
